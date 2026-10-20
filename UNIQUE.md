@@ -44,6 +44,21 @@ Every base table has a primary key, which is unique as well.
 | `staff`         | `staff_id`                |
 | `store`         | `store_id`                |
 
+### Primary keys which refer to other tables
+
+In two tables every primary key column is also a foreign key, so each row is unique per pair of the rows it refers to.
+
+| Table           | PK column     | Foreign key                 | Refers to                   | Mapped by                                                       |
+|-----------------|---------------|-----------------------------|-----------------------------|-----------------------------------------------------------------|
+| `film_actor`    | `actor_id`    | `fk_film_actor_actor`       | `actor` (`actor_id`)        | `FilmActorId.actorId`, written through `@MapsId` `FilmActor.actor` |
+| `film_actor`    | `film_id`     | `fk_film_actor_film`        | `film` (`film_id`)          | `FilmActorId.filmId`, written through `@MapsId` `FilmActor.film`   |
+| `film_category` | `film_id`     | `fk_film_category_film`     | `film` (`film_id`)          | `@Id FilmCategory.filmId`; `FilmCategory.film` is read-only       |
+| `film_category` | `category_id` | `fk_film_category_category` | `category` (`category_id`)  | `@Id FilmCategory.categoryId`; `FilmCategory.category` is read-only |
+
+`film_text.film_id` is the odd one: it holds the `film_id` of `film`, one row per film, but the schema declares no
+foreign key for it. The `ins_film`, `upd_film`, and `del_film` triggers on `film` keep the two tables in step instead,
+and `FilmText` maps it as a plain `@Id` with no association.
+
 ## Not unique
 
 These columns may look unique, but the schema does not say so.
@@ -61,7 +76,7 @@ These columns may look unique, but the schema does not say so.
 
 The views have no constraints at all.
 
-## Query
+## Queries
 
 ```sql
 SELECT s.table_name, s.index_name, GROUP_CONCAT(s.column_name ORDER BY s.seq_in_index) AS columns
@@ -70,4 +85,17 @@ WHERE s.table_schema = 'sakila'
   AND s.non_unique = 0
 GROUP BY s.table_name, s.index_name
 ORDER BY s.table_name, s.index_name = 'PRIMARY' DESC, s.index_name;
+```
+
+```sql
+SELECT p.table_name, p.column_name, f.constraint_name, f.referenced_table_name, f.referenced_column_name
+FROM information_schema.key_column_usage p
+         JOIN information_schema.key_column_usage f
+              ON f.table_schema = p.table_schema
+                  AND f.table_name = p.table_name
+                  AND f.column_name = p.column_name
+                  AND f.referenced_table_name IS NOT NULL
+WHERE p.table_schema = 'sakila'
+  AND p.constraint_name = 'PRIMARY'
+ORDER BY p.table_name, p.ordinal_position;
 ```
