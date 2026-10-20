@@ -64,6 +64,23 @@ around that:
 Neither is in place: the generated schema starts empty, and the unit tests which need a store or a staff member are
 skipped (see [The tests](#the-tests)).
 
+The seed this project once carried, as `src/test/resources/META-INF/sakila/load-test.sql`, named by the `sakila-test`
+unit's `jakarta.persistence.sql-load-script-source` beside
+`jakarta.persistence.schema-generation.database.action=drop-and-create`. It ran right after the schema was generated,
+into an empty database, so every generated key is `1`; one statement per line, and no comments, for both providers'
+script readers. The `language` row is no longer needed: `Film_Persister` persists one when there is none.
+
+```sql
+SET REFERENTIAL_INTEGRITY FALSE;
+INSERT INTO country (country) VALUES ('Seedland');
+INSERT INTO city (city, country_id) VALUES ('Seed City', 1);
+INSERT INTO address (address, district, city_id, phone, location) VALUES ('1 Seed Way', 'Seed', 1, '000', X'000000000101000000000000000000F03F0000000000000040');
+INSERT INTO store (manager_staff_id, address_id) VALUES (1, 1);
+INSERT INTO staff (first_name, last_name, address_id, store_id, active, username) VALUES ('Seed', 'Manager', 1, 1, TRUE, 'seed');
+INSERT INTO language (name) VALUES ('English');
+SET REFERENTIAL_INTEGRITY TRUE;
+```
+
 ## Building
 
 Two persistence providers, one profile each; `jakarta-ee-11-hibernate-orm` is active by default.
