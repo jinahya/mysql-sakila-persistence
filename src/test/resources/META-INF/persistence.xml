@@ -29,15 +29,43 @@
     <!--    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
     <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
     <provider>${persistence-unit.provider}</provider>
+    <class>com.github.jinahya.mysql.sakila.persistence.Actor</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.ActorInfo</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Address</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Category</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.City</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Country</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Customer</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.CustomerList</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Film</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Film$RatingConverter</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmActor</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmActorId</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmCategory</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmText</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Inventory</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Language</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Payment</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Rental</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.SalesByFilmCategory</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Staff</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.StaffList</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Store</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>CALLBACK</validation-mode>
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
       <!-- https://www.h2database.com/html/features.html#compatibility -->
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:;MODE=MySQL;DATABASE_TO_LOWER=TRUE"/>
+      <!-- LEGACY, not MySQL: EclipseLink's H2Platform still writes INTEGER IDENTITY, which only LEGACY accepts;
+           https://github.com/eclipse-ee4j/eclipselink/issues/1393 -->
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:;MODE=LEGACY;DATABASE_TO_LOWER=TRUE"/>
       <property name="jakarta.persistence.jdbc.user" value="sa"/>
       <property name="jakarta.persistence.jdbc.password" value="password"/>
+      <!-- //////////////////////////////////////////////////////////////////////////////////////// schema generation -->
+      <!-- the standard property, rather than hibernate.hbm2ddl.auto and eclipselink.ddl-generation, for both providers;
+           the generated schema starts empty -->
+      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////// eclipselink -->
       <!-- https://wiki.eclipse.org/EclipseLink/Examples/JPA/Logging -->
       <!--      <property name="eclipselink.logging.level" value="FINE"/>-->
@@ -46,11 +74,9 @@
       <!--      <property name="eclipselink.weaving" value="true"/>-->
       <!-- https://wiki.eclipse.org/EclipseLink/Examples/JPA/DDL -->
       <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
       <!-- /////////////////////////////////////////////////////////////////////////////////////////////// hibernate -->
       <!--      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>-->
       <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       <property name="hibernate.highlight_sql" value="true"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.use_sql_comment" value="true"/>
@@ -61,13 +87,37 @@
     <!--    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
     <!--    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
     <provider>${persistence-unit.provider}</provider>
+    <class>com.github.jinahya.mysql.sakila.persistence.Actor</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.ActorInfo</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Address</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Category</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.City</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Country</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Customer</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.CustomerList</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Film</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Film$RatingConverter</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmActor</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmActorId</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmCategory</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.FilmText</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Inventory</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Language</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Payment</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Rental</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.SalesByFilmCategory</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Staff</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.StaffList</class>
+    <class>com.github.jinahya.mysql.sakila.persistence.Store</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <validation-mode>CALLBACK</validation-mode>
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <!-- the database from docker-compose.yml; see _docker-compose-up.sh -->
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sakila?characterEncoding=UTF-8"/>
+      <!-- the database from compose.yaml; see _docker_compose_up.sh
+           yearIsDateType=false: Connector/J reads a YEAR column as a java.sql.Date otherwise, which EclipseLink,
+           reading through getObject, cannot convert into Film.releaseYear's Integer -->
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sakila?characterEncoding=UTF-8&amp;yearIsDateType=false"/>
       <property name="jakarta.persistence.jdbc.user" value="root"/>
       <property name="jakarta.persistence.jdbc.password" value="password"/>
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////// eclipselink -->

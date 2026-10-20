@@ -39,7 +39,7 @@ jobs:
     #
     # The sakila-it integration tests are NOT run, and cannot be: maven-failsafe-plugin is declared
     # only inside the `failsafe` profile, so `verify` without -Pfailsafe never reaches an *_IT
-    # class. Those need the MySQL database from docker-compose.yml, with Sakila loaded.
+    # class. Those need the MySQL database from compose.yaml, with Sakila loaded.
     - name: Verify with Maven
       run: mvn -B verify --file pom.xml
 
