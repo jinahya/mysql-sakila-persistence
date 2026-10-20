@@ -1,0 +1,26 @@
+services:
+  mysql-sakila:
+    # lts; https://hub.docker.com/_/mysql
+    image: mysql:9.7
+    container_name: mysql-sakila
+    # the server's defaults already, said out loud. Both .sql files open with SET NAMES utf8mb4, so the client the
+    # entrypoint feeds them to sends 02-sakila-data.sql's UTF-8 as utf8mb4 whatever the container's locale (C) is.
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    ports:
+      - "3306:3306"
+    environment:
+      # the image's locale is C, under which `docker exec ... mysql` mangles the non-ASCII rows of address, city, ...
+      # on the terminal; as sakila-persistence's .docker.run.sh does
+      LANG: C.UTF-8
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      # run once, in name order, against an empty data directory: 01- the schema, 02- the data
+      # https://dev.mysql.com/doc/sakila/en/sakila-installation.html
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-ppassword" ]
+      interval: 2s
+      timeout: 5s
+      retries: 60
