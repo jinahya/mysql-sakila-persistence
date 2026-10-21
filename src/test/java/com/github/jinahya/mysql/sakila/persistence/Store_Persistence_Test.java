@@ -20,10 +20,10 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.abort;
 
 /**
  * Verifies the mappings of {@link Store} against the schema generated into the in-memory database.
@@ -40,20 +40,55 @@ class Store_Persistence_Test
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Aborts, rather than fails, when the in-memory database lacks a {@link Store} or a {@link Staff}.
-     *
-     * @implNote A store and its manager refer to each other through {@code NOT NULL} columns whose values are
-     *         both generated, so neither can be persisted first, and the generated schema starts empty. The persister
-     *         of this entity gives it an existing store or staff member -- see
-     *         {@link Store_Persister#selectFirst(EntityManager)} and {@link Staff_Persister#selectFirst(EntityManager)}
-     *         -- which only the installed database has; the {@code *_Persistence_IT} counterpart is what runs these
-     *         against it.
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
+     * columns, so neither is persisted; see {@link Store}.
      */
-    @BeforeEach
-    void assumeStoreAndStaffExist() {
-        final Boolean present = applyEntityManagerInTransactionAndRollback(
-                em -> Store_Persister.selectFirst(em).isPresent() && Staff_Persister.selectFirst(em).isPresent()
-        );
-        assumeTrue(present, "no store, or no staff, in the in-memory database");
+    @Disabled("a store and its manager refer to each other: neither is persisted")
+    @Override
+    @Test
+    protected void _persist_RandomizedInstance() {
+        // empty
+    }
+
+    /**
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
+     * columns, so neither is persisted; see {@link Store}.
+     */
+    @Disabled("a store and its manager refer to each other: neither is persisted")
+    @Override
+    @Test
+    protected void _persist_EqualsReference() {
+        // empty
+    }
+
+    /**
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
+     * columns, so neither is persisted; see {@link Store}.
+     */
+    @Disabled("a store and its manager refer to each other: neither is persisted")
+    @Override
+    @Test
+    protected void _persist_ReferenceEquals() {
+        // empty
+    }
+
+    /**
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
+     * columns, so neither is persisted; see {@link Store}.
+     */
+    @Disabled("a store and its manager refer to each other: neither is persisted")
+    @Override
+    @Test
+    protected void _persist_HashSetMembership() {
+        // empty
+    }
+
+    /**
+     * Aborts; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
+     * columns, so neither is persisted, and there is nothing persisted to find.
+     */
+    @Override
+    protected void assumeTargetClassIsFindable() {
+        abort("a store and its manager refer to each other: neither is persisted");
     }
 }

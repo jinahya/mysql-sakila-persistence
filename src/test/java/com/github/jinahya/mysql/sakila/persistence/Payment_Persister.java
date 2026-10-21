@@ -33,14 +33,14 @@ import java.util.concurrent.ThreadLocalRandom;
  * {@link Payment#of(Staff, Rental)} and the {@link Payment#of(Staff, Customer)} create.
  * <p>
  * One for a rental is given a newly persisted {@link Rental}, which also gives it the customer of that rental. The
- * staff member is, at random, either the one of that rental or a newly persisted one; nothing ties the two, and about
- * half of the installed payments were taken by a staff member other than the one of their rental.
+ * staff member is, at random, either the one of that rental or any {@link Staff} of the database; nothing ties the
+ * two, and about half of the installed payments were taken by a staff member other than the one of their rental.
  * <p>
- * One without a rental, a payment of outstanding fees, is given a newly persisted {@link Customer}, and, at random,
- * either the first {@link Staff} of the database or a newly persisted one.
+ * One without a rental, a payment of outstanding fees, is given a newly persisted {@link Customer}, and any
+ * {@link Staff} of the database.
  * <p>
- * A new staff member uses up a {@code staff_id}, a {@code TINYINT UNSIGNED}, even when the transaction is rolled back,
- * for MySQL does not give back an {@code AUTO_INCREMENT} value a rolled-back insert used.
+ * No staff member is persisted: a {@link Store} and its manager refer to each other, and neither is persisted; see
+ * {@link Store}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -49,6 +49,18 @@ class Payment_Persister
 
     Payment_Persister() {
         super(Payment.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    private static Staff selectAnyStaff(final EntityManager entityManager) {
+        final var staff = entityManager
+                .createNamedQuery("Staff.selectListOrderByStaffIdAsc", Staff.class)
+                .getResultList();
+        if (staff.isEmpty()) {
+            throw new IllegalStateException("no staff in the database");
+        }
+        return staff.get(ThreadLocalRandom.current().nextInt(staff.size()));
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -63,19 +75,14 @@ class Payment_Persister
             entityInstance.setStaff(
                     ThreadLocalRandom.current().nextBoolean()
                             ? rental.getStaff()
-                            : EntityPersisterUtils.newPersistedInstanceOf(entityManager, Staff.class)
+                            : selectAnyStaff(entityManager)
             );
         } else {
             // a payment without a rental, Payment.of(Staff, Customer); outstanding fees applied to the balance of the
             // customer alone, so the rental_id is NULL
             entityInstance.setCustomer(EntityPersisterUtils.newPersistedInstanceOf(entityManager, Customer.class));
             entityInstance.setRental(null);
-            entityInstance.setStaff(
-                    ThreadLocalRandom.current().nextBoolean()
-                            ? Staff_Persister.selectFirst(entityManager).orElseThrow(() -> new IllegalStateException(
-                            "no staff in the database; see Staff_Persister#selectFirst"))
-                            : EntityPersisterUtils.newPersistedInstanceOf(entityManager, Staff.class)
-            );
+            entityInstance.setStaff(selectAnyStaff(entityManager));
         }
         return super.apply(entityManager, entityInstance);
     }

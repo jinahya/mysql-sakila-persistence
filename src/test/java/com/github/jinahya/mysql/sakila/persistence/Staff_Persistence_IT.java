@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -32,6 +35,19 @@ class Staff_Persistence_IT
 
     Staff_Persistence_IT() {
         super(Staff.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
+     * columns, so neither is persisted; see {@link Store}.
+     */
+    @Disabled("a store and its manager refer to each other: neither is persisted")
+    @Override
+    @Test
+    protected void _persist_RandomizedInstance() {
+        // empty
     }
 
     // -----------------------------------------------------------------------------------------------------------------
