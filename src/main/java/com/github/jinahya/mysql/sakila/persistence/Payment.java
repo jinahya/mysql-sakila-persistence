@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -349,7 +347,6 @@ public class Payment {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
      */
-    @Nonnull
     public Customer getCustomer() {
         return customer;
     }
@@ -361,7 +358,7 @@ public class Payment {
      * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the customer, as the one of the
      *         rental, from outside the package.
      */
-    void setCustomer(@Nonnull final Customer customer) {
+    void setCustomer(final Customer customer) {
         this.customer = customer;
     }
 
@@ -372,7 +369,6 @@ public class Payment {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STAFF} attribute.
      */
-    @Nonnull
     public Staff getStaff() {
         return staff;
     }
@@ -384,7 +380,7 @@ public class Payment {
      * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the staff from outside the
      *         package.
      */
-    void setStaff(@Nonnull final Staff staff) {
+    void setStaff(final Staff staff) {
         this.staff = staff;
     }
 
@@ -395,7 +391,6 @@ public class Payment {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL} attribute.
      */
-    @Nullable
     public Rental getRental() {
         return rental;
     }
@@ -408,7 +403,7 @@ public class Payment {
      *         package. The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it is; the customer of the rental should be the
      *         customer of this payment.
      */
-    void setRental(@Nullable final Rental rental) {
+    void setRental(final Rental rental) {
         this.rental = rental;
     }
 
@@ -419,7 +414,6 @@ public class Payment {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_AMOUNT} attribute.
      */
-    @Nonnull
     public BigDecimal getAmount() {
         return amount;
     }
@@ -429,7 +423,7 @@ public class Payment {
      *
      * @param amount new value for {@value #ATTRIBUTE_NAME_AMOUNT} attribute.
      */
-    public void setAmount(@Nonnull final BigDecimal amount) {
+    public void setAmount(final BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -453,7 +447,6 @@ public class Payment {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -466,7 +459,6 @@ public class Payment {
     private Integer paymentId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -475,7 +467,6 @@ public class Payment {
     private Customer customer;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -484,7 +475,6 @@ public class Payment {
     private Staff staff;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_RENTAL_ID, referencedColumnName = Rental.COLUMN_NAME_RENTAL_ID, nullable = true,
@@ -492,7 +482,6 @@ public class Payment {
     private Rental rental;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_AMOUNT - COLUMN_SCALE_AMOUNT, fraction = COLUMN_SCALE_AMOUNT)
@@ -510,7 +499,6 @@ public class Payment {
     private LocalDateTime paymentDate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = true, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

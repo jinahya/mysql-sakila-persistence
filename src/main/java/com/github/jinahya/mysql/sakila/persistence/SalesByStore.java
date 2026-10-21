@@ -20,7 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMax;
@@ -190,7 +189,6 @@ public class SalesByStore {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    @Nullable
     public String getStore() {
         return store;
     }
@@ -202,7 +200,6 @@ public class SalesByStore {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute.
      */
-    @Nullable
     public String getManager() {
         return manager;
     }
@@ -214,13 +211,11 @@ public class SalesByStore {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute.
      */
-    @Nullable
     public BigDecimal getTotalSales() {
         return totalSales;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_STORE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_STORE, nullable = true, insertable = false, updatable = false,
@@ -228,7 +223,6 @@ public class SalesByStore {
     private String store;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_MANAGER)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_MANAGER, nullable = true, insertable = false, updatable = false,
@@ -236,7 +230,6 @@ public class SalesByStore {
     private String manager;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
     @DecimalMin(COLUMN_MIN_TOTAL_SALES)

@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -439,7 +437,6 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    @Nonnull
     public String getAddress() {
         return address;
     }
@@ -449,7 +446,7 @@ public class Address {
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    public void setAddress(@Nonnull final String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
@@ -460,7 +457,6 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
-    @Nullable
     public String getAddress2() {
         return address2;
     }
@@ -470,7 +466,7 @@ public class Address {
      *
      * @param address2 new value for {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
-    public void setAddress2(@Nullable final String address2) {
+    public void setAddress2(final String address2) {
         this.address2 = address2;
     }
 
@@ -481,7 +477,6 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
      */
-    @Nonnull
     public String getDistrict() {
         return district;
     }
@@ -491,7 +486,7 @@ public class Address {
      *
      * @param district new value for {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
      */
-    public void setDistrict(@Nonnull final String district) {
+    public void setDistrict(final String district) {
         this.district = district;
     }
 
@@ -502,7 +497,6 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
      */
-    @Nonnull
     public City getCity() {
         return city;
     }
@@ -512,7 +506,7 @@ public class Address {
      *
      * @param city new value for {@value #ATTRIBUTE_NAME_CITY} attribute.
      */
-    public void setCity(@Nonnull final City city) {
+    public void setCity(final City city) {
         this.city = city;
     }
 
@@ -523,7 +517,6 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
-    @Nullable
     public String getPostalCode() {
         return postalCode;
     }
@@ -533,7 +526,7 @@ public class Address {
      *
      * @param postalCode new value for {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
-    public void setPostalCode(@Nullable final String postalCode) {
+    public void setPostalCode(final String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -544,7 +537,6 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PHONE} attribute.
      */
-    @Nonnull
     public String getPhone() {
         return phone;
     }
@@ -554,7 +546,7 @@ public class Address {
      *
      * @param phone new value for {@value #ATTRIBUTE_NAME_PHONE} attribute.
      */
-    public void setPhone(@Nonnull final String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -566,7 +558,6 @@ public class Address {
      * @return current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute; the bytes of the geometry in MySQL's
      *         internal format.
      */
-    @Nonnull
     public byte[] getLocation() {
         return location;
     }
@@ -578,16 +569,16 @@ public class Address {
      *                 internal format.
      * @see #newLocation(int, double, double)
      */
-    public void setLocation(@Nonnull final byte[] location) {
+    public void setLocation(final byte[] location) {
         this.location = location;
     }
 
-    <R> @Nullable R getLocationAs(final Function<? super byte[], ? extends R> mapper) {
+    <R> R getLocationAs(final Function<? super byte[], ? extends R> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
         return Optional.ofNullable(getLocation()).map(mapper).orElse(null);
     }
 
-    <T> void setLocationAs(final @Nullable T location, final Function<? super T, ? extends byte[]> mapper) {
+    <T> void setLocationAs(final T location, final Function<? super T, ? extends byte[]> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
         setLocation(Optional.ofNullable(location).map(mapper).orElse(null));
     }
@@ -600,7 +591,6 @@ public class Address {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -613,7 +603,6 @@ public class Address {
     private Integer addressId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_ADDRESS)
     @Basic(optional = false)
@@ -622,7 +611,6 @@ public class Address {
     private String address;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ADDRESS2, nullable = true, insertable = true, updatable = true,
@@ -630,7 +618,6 @@ public class Address {
     private String address2;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_DISTRICT)
     @Basic(optional = false)
@@ -639,7 +626,6 @@ public class Address {
     private String district;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -648,7 +634,6 @@ public class Address {
     private City city;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true, updatable = true,
@@ -656,7 +641,6 @@ public class Address {
     private String postalCode;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_PHONE)
     @Basic(optional = false)
@@ -665,14 +649,12 @@ public class Address {
     private String phone;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_LOCATION, nullable = false, insertable = true, updatable = true)
     private byte[] location;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

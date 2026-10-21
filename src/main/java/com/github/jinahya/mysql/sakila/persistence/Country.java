@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -228,7 +226,6 @@ public class Country {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      */
-    @Nonnull
     public String getCountry() {
         return country;
     }
@@ -238,7 +235,7 @@ public class Country {
      *
      * @param country new value for {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      */
-    public void setCountry(@Nonnull final String country) {
+    public void setCountry(final String country) {
         this.country = country;
     }
 
@@ -252,7 +249,7 @@ public class Country {
      *         {@code null} when the value, or the result, is {@code null}.
      * @see #getCountry()
      */
-    <R> @Nullable R getCountryAs(final Function<? super String, ? extends R> mapper) {
+    <R> R getCountryAs(final Function<? super String, ? extends R> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
         return Optional.ofNullable(getCountry()).map(mapper).orElse(null);
     }
@@ -267,7 +264,7 @@ public class Country {
      * @param <T>     value type parameter
      * @see #setCountry(String)
      */
-    <T> void setCountryAs(final @Nullable T country, final Function<? super T, ? extends String> mapper) {
+    <T> void setCountryAs(final T country, final Function<? super T, ? extends String> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
         setCountry(Optional.ofNullable(country).map(mapper).orElse(null));
     }
@@ -295,7 +292,6 @@ public class Country {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -319,7 +315,6 @@ public class Country {
     private Integer countryId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_COUNTRY)
     @Basic(optional = false)
@@ -328,7 +323,6 @@ public class Country {
     private String country;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

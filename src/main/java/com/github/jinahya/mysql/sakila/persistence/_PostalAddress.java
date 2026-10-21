@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -143,7 +141,6 @@ public class _PostalAddress {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    @Nonnull
     public String getAddress() {
         return address;
     }
@@ -153,7 +150,7 @@ public class _PostalAddress {
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    public void setAddress(@Nonnull final String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
@@ -164,7 +161,6 @@ public class _PostalAddress {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
-    @Nullable
     public String getAddress2() {
         return address2;
     }
@@ -174,7 +170,7 @@ public class _PostalAddress {
      *
      * @param address2 new value for {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
-    public void setAddress2(@Nullable final String address2) {
+    public void setAddress2(final String address2) {
         this.address2 = address2;
     }
 
@@ -185,7 +181,6 @@ public class _PostalAddress {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
      */
-    @Nonnull
     public String getDistrict() {
         return district;
     }
@@ -195,7 +190,7 @@ public class _PostalAddress {
      *
      * @param district new value for {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
      */
-    public void setDistrict(@Nonnull final String district) {
+    public void setDistrict(final String district) {
         this.district = district;
     }
 
@@ -206,7 +201,6 @@ public class _PostalAddress {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
      */
-    @Nonnull
     public City getCity() {
         return city;
     }
@@ -216,7 +210,7 @@ public class _PostalAddress {
      *
      * @param city new value for {@value #ATTRIBUTE_NAME_CITY} attribute.
      */
-    public void setCity(@Nonnull final City city) {
+    public void setCity(final City city) {
         this.city = city;
     }
 
@@ -227,7 +221,6 @@ public class _PostalAddress {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
-    @Nullable
     public String getPostalCode() {
         return postalCode;
     }
@@ -237,12 +230,11 @@ public class _PostalAddress {
      *
      * @param postalCode new value for {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
-    public void setPostalCode(@Nullable final String postalCode) {
+    public void setPostalCode(final String postalCode) {
         this.postalCode = postalCode;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = Address.SIZE_MAX_ADDRESS)
     @Basic(optional = false)
@@ -251,7 +243,6 @@ public class _PostalAddress {
     private String address;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = Address.SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
     @Column(name = Address.COLUMN_NAME_ADDRESS2, nullable = true, insertable = true, updatable = true,
@@ -259,7 +250,6 @@ public class _PostalAddress {
     private String address2;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = Address.SIZE_MAX_DISTRICT)
     @Basic(optional = false)
@@ -268,7 +258,6 @@ public class _PostalAddress {
     private String district;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -277,7 +266,6 @@ public class _PostalAddress {
     private City city;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = Address.SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
     @Column(name = Address.COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true, updatable = true,

@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -65,7 +63,7 @@ public class _Credentials {
      * @param username a value for the {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      * @return a new instance of {@code username}.
      */
-    public static _Credentials of(@Nonnull final String username) {
+    public static _Credentials of(final String username) {
         final var instance = new _Credentials();
         instance.setUsername(username);
         return instance;
@@ -130,7 +128,6 @@ public class _Credentials {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      */
-    @Nonnull
     public String getUsername() {
         return username;
     }
@@ -140,7 +137,7 @@ public class _Credentials {
      *
      * @param username new value for {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      */
-    public void setUsername(@Nonnull final String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -151,7 +148,6 @@ public class _Credentials {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
-    @Nullable
     public String getPassword() {
         return password;
     }
@@ -161,12 +157,11 @@ public class _Credentials {
      *
      * @param password new value for {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
-    public void setPassword(@Nullable final String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = Staff.SIZE_MAX_USERNAME)
     @Basic(optional = false)
@@ -175,7 +170,6 @@ public class _Credentials {
     private String username;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = Staff.SIZE_MAX_PASSWORD)
     @Basic(optional = true)
     @Column(name = Staff.COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,

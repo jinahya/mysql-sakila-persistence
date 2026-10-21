@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMax;
@@ -273,7 +271,6 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FID} attribute.
      */
-    @Nonnull
     public Integer getFid() {
         return fid;
     }
@@ -285,7 +282,6 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    @Nonnull
     public String getTitle() {
         return title;
     }
@@ -297,7 +293,6 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    @Nullable
     public String getDescription() {
         return description;
     }
@@ -309,7 +304,6 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
-    @Nullable
     public String getCategory() {
         return category;
     }
@@ -321,7 +315,6 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PRICE} attribute.
      */
-    @Nonnull
     public BigDecimal getPrice() {
         return price;
     }
@@ -333,7 +326,6 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
-    @Nullable
     public Integer getLength() {
         return length;
     }
@@ -345,7 +337,6 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
-    @Nullable
     public Film.Rating getRating() {
         return rating;
     }
@@ -357,20 +348,17 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTORS} attribute.
      */
-    @Nullable
     public String getActors() {
         return actors;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_FID, nullable = false, insertable = false, updatable = false)
     private Integer fid;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -379,13 +367,11 @@ public class FilmList {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_CATEGORY)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_CATEGORY, nullable = true, insertable = false, updatable = false,
@@ -393,7 +379,6 @@ public class FilmList {
     private String category;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_PRICE - COLUMN_SCALE_PRICE, fraction = COLUMN_SCALE_PRICE)
@@ -405,20 +390,17 @@ public class FilmList {
     private BigDecimal price;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_LENGTH, nullable = true, insertable = false, updatable = false)
     private Integer length;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_RATING)
     private Film.Rating rating;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ACTORS, nullable = true, insertable = false, updatable = false)
     private String actors;

@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -258,7 +256,6 @@ public class Store {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute.
      */
-    @Nonnull
     public Staff getManagerStaff() {
         return managerStaff;
     }
@@ -268,7 +265,7 @@ public class Store {
      *
      * @param managerStaff new value for {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute.
      */
-    public void setManagerStaff(@Nonnull final Staff managerStaff) {
+    public void setManagerStaff(final Staff managerStaff) {
         this.managerStaff = managerStaff;
     }
 
@@ -279,7 +276,6 @@ public class Store {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    @Nonnull
     public Address getAddress() {
         return address;
     }
@@ -289,7 +285,7 @@ public class Store {
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    public void setAddress(@Nonnull final Address address) {
+    public void setAddress(final Address address) {
         this.address = address;
     }
 
@@ -301,7 +297,6 @@ public class Store {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -332,7 +327,6 @@ public class Store {
     private Integer storeId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
@@ -341,7 +335,6 @@ public class Store {
     private Staff managerStaff;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -350,7 +343,6 @@ public class Store {
     private Address address;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

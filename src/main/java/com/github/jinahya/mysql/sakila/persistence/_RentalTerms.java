@@ -20,7 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -79,8 +78,8 @@ public class _RentalTerms {
      * @param replacementCost a value for the {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      * @return a new instance of {@code rentalDuration}, {@code rentalRate}, and {@code replacementCost}.
      */
-    public static _RentalTerms of(@Nonnull final Integer rentalDuration, @Nonnull final BigDecimal rentalRate,
-                                  @Nonnull final BigDecimal replacementCost) {
+    public static _RentalTerms of(final Integer rentalDuration, final BigDecimal rentalRate,
+                                  final BigDecimal replacementCost) {
         final var instance = new _RentalTerms();
         instance.setRentalDuration(rentalDuration);
         instance.setRentalRate(rentalRate);
@@ -145,7 +144,6 @@ public class _RentalTerms {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
      */
-    @Nonnull
     public Integer getRentalDuration() {
         return rentalDuration;
     }
@@ -155,7 +153,7 @@ public class _RentalTerms {
      *
      * @param rentalDuration new value for {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
      */
-    public void setRentalDuration(@Nonnull final Integer rentalDuration) {
+    public void setRentalDuration(final Integer rentalDuration) {
         this.rentalDuration = rentalDuration;
     }
 
@@ -166,7 +164,6 @@ public class _RentalTerms {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
      */
-    @Nonnull
     public BigDecimal getRentalRate() {
         return rentalRate;
     }
@@ -176,7 +173,7 @@ public class _RentalTerms {
      *
      * @param rentalRate new value for {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
      */
-    public void setRentalRate(@Nonnull final BigDecimal rentalRate) {
+    public void setRentalRate(final BigDecimal rentalRate) {
         this.rentalRate = rentalRate;
     }
 
@@ -187,7 +184,6 @@ public class _RentalTerms {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      */
-    @Nonnull
     public BigDecimal getReplacementCost() {
         return replacementCost;
     }
@@ -197,12 +193,11 @@ public class _RentalTerms {
      *
      * @param replacementCost new value for {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      */
-    public void setReplacementCost(@Nonnull final BigDecimal replacementCost) {
+    public void setReplacementCost(final BigDecimal replacementCost) {
         this.replacementCost = replacementCost;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Max(Film.ATTRIBUTE_MAX_RENTAL_DURATION)
     @Min(Film.ATTRIBUTE_MIN_RENTAL_DURATION)
@@ -211,7 +206,6 @@ public class _RentalTerms {
     private Integer rentalDuration;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = Film.COLUMN_PRECISION_RENTAL_RATE - Film.COLUMN_SCALE_RENTAL_RATE,
@@ -224,7 +218,6 @@ public class _RentalTerms {
     private BigDecimal rentalRate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = Film.COLUMN_PRECISION_REPLACEMENT_COST - Film.COLUMN_SCALE_REPLACEMENT_COST,

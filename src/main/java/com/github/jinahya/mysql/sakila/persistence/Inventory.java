@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -273,7 +271,6 @@ public class Inventory {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    @Nonnull
     public Film getFilm() {
         return film;
     }
@@ -284,7 +281,7 @@ public class Inventory {
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    public void setFilm(@Nonnull final Film film) {
+    public void setFilm(final Film film) {
         this.film = film;
         this.filmId = film == null ? null : film.getFilmId();
     }
@@ -309,7 +306,6 @@ public class Inventory {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    @Nonnull
     public Store getStore() {
         return store;
     }
@@ -320,7 +316,7 @@ public class Inventory {
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    public void setStore(@Nonnull final Store store) {
+    public void setStore(final Store store) {
         this.store = store;
         this.storeId = store == null ? null : store.getStoreId();
     }
@@ -333,7 +329,6 @@ public class Inventory {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -359,7 +354,6 @@ public class Inventory {
     @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = false, updatable = false)
     private Integer filmId;
 
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -372,7 +366,6 @@ public class Inventory {
     @Column(name = COLUMN_NAME_STORE_ID, nullable = false, insertable = false, updatable = false)
     private Integer storeId;
 
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -381,7 +374,6 @@ public class Inventory {
     private Store store;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

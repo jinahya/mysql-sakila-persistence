@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -252,7 +250,6 @@ public class ActorInfo {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute.
      */
-    @Nonnull
     public Integer getActorId() {
         return actorId;
     }
@@ -264,7 +261,6 @@ public class ActorInfo {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
-    @Nonnull
     public String getFirstName() {
         return firstName;
     }
@@ -276,7 +272,6 @@ public class ActorInfo {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
-    @Nonnull
     public String getLastName() {
         return lastName;
     }
@@ -288,7 +283,6 @@ public class ActorInfo {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_INFO} attribute.
      */
-    @Nullable
     public String getFilmInfo() {
         return filmInfo;
     }
@@ -305,7 +299,6 @@ public class ActorInfo {
      * @return a map of category names to film titles; {@code null} when the {@value #ATTRIBUTE_NAME_FILM_INFO}
      *         attribute is {@code null}.
      */
-    @Nullable
     public Map<String, List<String>> getFilmInfoMap() {
         return Optional.ofNullable(getFilmInfo())
                 .map(v -> {
@@ -320,7 +313,6 @@ public class ActorInfo {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Id
     // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on an
@@ -330,7 +322,6 @@ public class ActorInfo {
     private Integer actorId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
@@ -339,7 +330,6 @@ public class ActorInfo {
     private String firstName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
@@ -348,7 +338,6 @@ public class ActorInfo {
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_FILM_INFO, nullable = true, insertable = false, updatable = false)
     private String filmInfo;

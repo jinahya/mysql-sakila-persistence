@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -356,7 +354,6 @@ public class Rental {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_INVENTORY} attribute.
      */
-    @Nonnull
     public Inventory getInventory() {
         return inventory;
     }
@@ -366,7 +363,7 @@ public class Rental {
      *
      * @param inventory new value for {@value #ATTRIBUTE_NAME_INVENTORY} attribute.
      */
-    public void setInventory(@Nonnull final Inventory inventory) {
+    public void setInventory(final Inventory inventory) {
         this.inventory = inventory;
     }
 
@@ -377,7 +374,6 @@ public class Rental {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
      */
-    @Nonnull
     public Customer getCustomer() {
         return customer;
     }
@@ -387,7 +383,7 @@ public class Rental {
      *
      * @param customer new value for {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
      */
-    public void setCustomer(@Nonnull final Customer customer) {
+    public void setCustomer(final Customer customer) {
         this.customer = customer;
     }
 
@@ -398,7 +394,6 @@ public class Rental {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while the copy is out.
      */
-    @Nullable
     public LocalDateTime getReturnDate() {
         return returnDate;
     }
@@ -408,7 +403,7 @@ public class Rental {
      *
      * @param returnDate new value for {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      */
-    public void setReturnDate(@Nullable final LocalDateTime returnDate) {
+    public void setReturnDate(final LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 
@@ -419,7 +414,6 @@ public class Rental {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STAFF} attribute.
      */
-    @Nonnull
     public Staff getStaff() {
         return staff;
     }
@@ -429,7 +423,7 @@ public class Rental {
      *
      * @param staff new value for {@value #ATTRIBUTE_NAME_STAFF} attribute.
      */
-    public void setStaff(@Nonnull final Staff staff) {
+    public void setStaff(final Staff staff) {
         this.staff = staff;
     }
 
@@ -441,7 +435,6 @@ public class Rental {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -469,7 +462,6 @@ public class Rental {
     private LocalDateTime rentalDate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -478,7 +470,6 @@ public class Rental {
     private Inventory inventory;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -487,13 +478,11 @@ public class Rental {
     private Customer customer;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
     private LocalDateTime returnDate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -502,7 +491,6 @@ public class Rental {
     private Staff staff;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

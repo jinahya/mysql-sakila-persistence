@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -204,7 +202,6 @@ public class SalesByFilmCategory {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
-    @Nonnull
     public String getCategory() {
         return category;
     }
@@ -216,13 +213,11 @@ public class SalesByFilmCategory {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute.
      */
-    @Nullable
     public BigDecimal getTotalSales() {
         return totalSales;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Id
     @Size(max = SIZE_MAX_CATEGORY)
@@ -234,7 +229,6 @@ public class SalesByFilmCategory {
     private String category;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
     @DecimalMin(COLUMN_MIN_TOTAL_SALES)

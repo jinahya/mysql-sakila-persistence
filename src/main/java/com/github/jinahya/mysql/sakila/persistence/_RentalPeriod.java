@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -65,7 +63,7 @@ public class _RentalPeriod {
      * @param rentalDate a value for the {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
      * @return a new instance of {@code rentalDate}.
      */
-    public static _RentalPeriod of(@Nonnull final LocalDateTime rentalDate) {
+    public static _RentalPeriod of(final LocalDateTime rentalDate) {
         final var instance = new _RentalPeriod();
         instance.setRentalDate(rentalDate);
         return instance;
@@ -126,7 +124,6 @@ public class _RentalPeriod {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
      */
-    @Nonnull
     public LocalDateTime getRentalDate() {
         return rentalDate;
     }
@@ -136,7 +133,7 @@ public class _RentalPeriod {
      *
      * @param rentalDate new value for {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
      */
-    public void setRentalDate(@Nonnull final LocalDateTime rentalDate) {
+    public void setRentalDate(final LocalDateTime rentalDate) {
         this.rentalDate = rentalDate;
     }
 
@@ -147,7 +144,6 @@ public class _RentalPeriod {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while the item is out.
      */
-    @Nullable
     public LocalDateTime getReturnDate() {
         return returnDate;
     }
@@ -157,19 +153,17 @@ public class _RentalPeriod {
      *
      * @param returnDate new value for {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      */
-    public void setReturnDate(@Nullable final LocalDateTime returnDate) {
+    public void setReturnDate(final LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Basic(optional = false)
     @Column(name = Rental.COLUMN_NAME_RENTAL_DATE, nullable = false, insertable = true, updatable = true)
     private LocalDateTime rentalDate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = Rental.COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
     private LocalDateTime returnDate;
