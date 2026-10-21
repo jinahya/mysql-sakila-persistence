@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -248,7 +246,6 @@ public class City {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
      */
-    @Nonnull
     public String getCity() {
         return city;
     }
@@ -258,7 +255,7 @@ public class City {
      *
      * @param city new value for {@value #ATTRIBUTE_NAME_CITY} attribute.
      */
-    public void setCity(@Nonnull final String city) {
+    public void setCity(final String city) {
         this.city = city;
     }
 
@@ -269,7 +266,6 @@ public class City {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      */
-    @Nonnull
     public Country getCountry() {
         return country;
     }
@@ -279,7 +275,7 @@ public class City {
      *
      * @param country new value for {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      */
-    public void setCountry(@Nonnull final Country country) {
+    public void setCountry(final Country country) {
         this.country = country;
     }
 
@@ -291,7 +287,6 @@ public class City {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -313,7 +308,6 @@ public class City {
     private Integer cityId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_CITY)
     @Basic(optional = false)
@@ -321,7 +315,6 @@ public class City {
     private String city;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -330,7 +323,6 @@ public class City {
     private Country country;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

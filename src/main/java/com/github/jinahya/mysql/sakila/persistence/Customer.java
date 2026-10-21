@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -376,7 +374,6 @@ public class Customer {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    @Nonnull
     public Store getStore() {
         return store;
     }
@@ -386,7 +383,7 @@ public class Customer {
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    public void setStore(@Nonnull final Store store) {
+    public void setStore(final Store store) {
         this.store = store;
     }
 
@@ -397,7 +394,6 @@ public class Customer {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
-    @Nonnull
     public String getFirstName() {
         return firstName;
     }
@@ -407,7 +403,7 @@ public class Customer {
      *
      * @param firstName new value for {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
-    public void setFirstName(@Nonnull final String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -418,7 +414,6 @@ public class Customer {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
-    @Nonnull
     public String getLastName() {
         return lastName;
     }
@@ -428,7 +423,7 @@ public class Customer {
      *
      * @param lastName new value for {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
-    public void setLastName(@Nonnull final String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -439,7 +434,6 @@ public class Customer {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
-    @Nullable
     public String getEmail() {
         return email;
     }
@@ -449,7 +443,7 @@ public class Customer {
      *
      * @param email new value for {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
-    public void setEmail(@Nullable final String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -460,7 +454,6 @@ public class Customer {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    @Nonnull
     public Address getAddress() {
         return address;
     }
@@ -470,7 +463,7 @@ public class Customer {
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    public void setAddress(@Nonnull final Address address) {
+    public void setAddress(final Address address) {
         this.address = address;
     }
 
@@ -481,7 +474,6 @@ public class Customer {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
      */
-    @Nonnull
     public Boolean getActive() {
         return active;
     }
@@ -491,7 +483,7 @@ public class Customer {
      *
      * @param active new value for {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
      */
-    public void setActive(@Nonnull final Boolean active) {
+    public void setActive(final Boolean active) {
         this.active = active;
     }
 
@@ -515,7 +507,6 @@ public class Customer {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -546,7 +537,6 @@ public class Customer {
     private Integer customerId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -555,7 +545,6 @@ public class Customer {
     private Store store;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
@@ -564,7 +553,6 @@ public class Customer {
     private String firstName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
@@ -573,7 +561,6 @@ public class Customer {
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
@@ -581,7 +568,6 @@ public class Customer {
     private String email;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -590,7 +576,6 @@ public class Customer {
     private Address address;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_ACTIVE, nullable = false, insertable = true, updatable = true)
@@ -603,7 +588,6 @@ public class Customer {
     private LocalDateTime createDate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = true, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -275,7 +273,6 @@ public class FilmCategory {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    @Nonnull
     public Film getFilm() {
         return film;
     }
@@ -311,7 +308,6 @@ public class FilmCategory {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
-    @Nonnull
     public Category getCategory() {
         return category;
     }
@@ -335,19 +331,16 @@ public class FilmCategory {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Id
     @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = true, updatable = false)
     private Integer filmId;
 
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -360,7 +353,6 @@ public class FilmCategory {
     @Column(name = COLUMN_NAME_CATEGORY_ID, nullable = false, insertable = false, updatable = false)
     private Integer categoryId;
 
-    @Nonnull
     @Valid
     @NotNull
     @Id
@@ -370,7 +362,6 @@ public class FilmCategory {
     private Category category;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

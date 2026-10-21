@@ -20,7 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -62,7 +61,7 @@ public class FilmActorId {
      * @deprecated Nothing uses this, and Jakarta Persistence does not require an embeddable identifier to have one.
      */
     @Deprecated(forRemoval = true)
-    static FilmActorId of(@Nonnull final Integer actorId, @Nonnull final Integer filmId) {
+    static FilmActorId of(final Integer actorId, final Integer filmId) {
         final var instance = new FilmActorId();
         instance.setActorId(actorId);
         instance.setFilmId(filmId);
@@ -123,12 +122,11 @@ public class FilmActorId {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute.
      */
-    @Nonnull
     public Integer getActorId() {
         return actorId;
     }
 
-    void setActorId(@Nonnull final Integer actorId) {
+    void setActorId(final Integer actorId) {
         this.actorId = actorId;
     }
 
@@ -139,12 +137,11 @@ public class FilmActorId {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      */
-    @Nonnull
     public Integer getFilmId() {
         return filmId;
     }
 
-    void setFilmId(@Nonnull final Integer filmId) {
+    void setFilmId(final Integer filmId) {
         this.filmId = filmId;
     }
 

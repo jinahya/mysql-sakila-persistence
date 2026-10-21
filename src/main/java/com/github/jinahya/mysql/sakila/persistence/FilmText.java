@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
@@ -226,7 +224,6 @@ public class FilmText {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      */
-    @Nonnull
     public Integer getFilmId() {
         return filmId;
     }
@@ -236,7 +233,7 @@ public class FilmText {
      *
      * @param filmId new value for {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      */
-    void setFilmId(@Nonnull final Integer filmId) {
+    void setFilmId(final Integer filmId) {
         this.filmId = filmId;
     }
 
@@ -258,7 +255,6 @@ public class FilmText {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    @Nonnull
     public String getTitle() {
         return title;
     }
@@ -268,7 +264,7 @@ public class FilmText {
      *
      * @param title new value for {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    void setTitle(@Nonnull final String title) {
+    void setTitle(final String title) {
         this.title = title;
     }
 
@@ -279,7 +275,6 @@ public class FilmText {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    @Nullable
     public String getDescription() {
         return description;
     }
@@ -289,12 +284,11 @@ public class FilmText {
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    void setDescription(@Nullable final String description) {
+    void setDescription(final String description) {
         this.description = description;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Max(ATTRIBUTE_MAX_FILM_ID)
     @Min(ATTRIBUTE_MIN_FILM_ID)
     @NotNull
@@ -305,7 +299,6 @@ public class FilmText {
     @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = true, updatable = false)
     private Integer filmId;
 
-    @Nonnull
     @Valid
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
@@ -314,7 +307,6 @@ public class FilmText {
     private Film film;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -323,7 +315,6 @@ public class FilmText {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;

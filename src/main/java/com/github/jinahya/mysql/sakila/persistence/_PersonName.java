@@ -20,7 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -47,7 +46,6 @@ import jakarta.validation.constraints.Size;
 @Embeddable
 public record _PersonName(
 
-        @Nonnull
         @NotNull
         @Size(max = _PersonName.SIZE_MAX_FIRST_NAME)
         @Basic(optional = false)
@@ -55,7 +53,6 @@ public record _PersonName(
                 length = _PersonName.COLUMN_LENGTH_FIRST_NAME)
         String firstName,
 
-        @Nonnull
         @NotNull
         @Size(max = _PersonName.SIZE_MAX_LAST_NAME)
         @Basic(optional = false)

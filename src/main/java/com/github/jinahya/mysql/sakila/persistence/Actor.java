@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -249,7 +247,6 @@ public class Actor {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
-    @Nonnull
     public String getFirstName() {
         return firstName;
     }
@@ -259,7 +256,7 @@ public class Actor {
      *
      * @param firstName new value for {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
-    public void setFirstName(@Nonnull final String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -270,7 +267,6 @@ public class Actor {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
-    @Nonnull
     public String getLastName() {
         return lastName;
     }
@@ -280,7 +276,7 @@ public class Actor {
      *
      * @param lastName new value for {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
-    public void setLastName(@Nonnull final String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -292,7 +288,6 @@ public class Actor {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -314,7 +309,6 @@ public class Actor {
     private Integer actorId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
@@ -323,7 +317,6 @@ public class Actor {
     private String firstName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
@@ -332,7 +325,6 @@ public class Actor {
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

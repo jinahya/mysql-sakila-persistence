@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -100,7 +98,7 @@ public class _TitleDescription {
      * @param description a value for the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      * @return a new instance of {@code title} and {@code description}.
      */
-    public static _TitleDescription of(@Nonnull final String title, @Nullable final String description) {
+    public static _TitleDescription of(final String title, final String description) {
         final var instance = new _TitleDescription();
         instance.setTitle(title);
         instance.setDescription(description);
@@ -161,7 +159,6 @@ public class _TitleDescription {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    @Nonnull
     public String getTitle() {
         return title;
     }
@@ -171,7 +168,7 @@ public class _TitleDescription {
      *
      * @param title new value for {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    public void setTitle(@Nonnull final String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -182,7 +179,6 @@ public class _TitleDescription {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    @Nullable
     public String getDescription() {
         return description;
     }
@@ -192,12 +188,11 @@ public class _TitleDescription {
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    public void setDescription(@Nullable final String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -206,7 +201,6 @@ public class _TitleDescription {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;

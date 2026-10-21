@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -339,7 +337,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute.
      */
-    @Nonnull
     public Integer getId() {
         return id;
     }
@@ -351,7 +348,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_NAME} attribute.
      */
-    @Nullable
     public String getName() {
         return name;
     }
@@ -363,7 +359,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    @Nonnull
     public String getAddress() {
         return address;
     }
@@ -375,7 +370,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ZIP_CODE} attribute.
      */
-    @Nullable
     public String getZipCode() {
         return zipCode;
     }
@@ -387,7 +381,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PHONE} attribute.
      */
-    @Nonnull
     public String getPhone() {
         return phone;
     }
@@ -399,7 +392,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
      */
-    @Nonnull
     public String getCity() {
         return city;
     }
@@ -411,7 +403,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      */
-    @Nonnull
     public String getCountry() {
         return country;
     }
@@ -423,7 +414,6 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_NOTES} attribute.
      */
-    @Nonnull
     public String getNotes() {
         return notes;
     }
@@ -435,13 +425,11 @@ public class CustomerList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_SID} attribute.
      */
-    @Nonnull
     public Integer getSid() {
         return sid;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Id
     // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on an
@@ -451,7 +439,6 @@ public class CustomerList {
     private Integer id;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_NAME, nullable = true, insertable = false, updatable = false,
@@ -459,7 +446,6 @@ public class CustomerList {
     private String name;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_ADDRESS)
     @Basic(optional = false)
@@ -468,7 +454,6 @@ public class CustomerList {
     private String address;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_ZIP_CODE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ZIP_CODE_DELIMITED, nullable = true, insertable = false, updatable = false,
@@ -476,7 +461,6 @@ public class CustomerList {
     private String zipCode;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_PHONE)
     @Basic(optional = false)
@@ -485,7 +469,6 @@ public class CustomerList {
     private String phone;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_CITY)
     @Basic(optional = false)
@@ -494,7 +477,6 @@ public class CustomerList {
     private String city;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_COUNTRY)
     @Basic(optional = false)
@@ -503,7 +485,6 @@ public class CustomerList {
     private String country;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_NOTES)
     @Basic(optional = false)
@@ -512,7 +493,6 @@ public class CustomerList {
     private String notes;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_SID, nullable = false, insertable = false, updatable = false)

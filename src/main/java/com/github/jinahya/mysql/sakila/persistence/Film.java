@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -631,7 +629,7 @@ public class Film {
          *         or empty.
          * @throws IllegalArgumentException if {@code columnValue} holds a member no constant represents.
          */
-        public static Set<SpecialFeature> parse(@Nullable final String columnValue) {
+        public static Set<SpecialFeature> parse(final String columnValue) {
             final var parsed = EnumSet.noneOf(SpecialFeature.class);
             if (columnValue == null || columnValue.isEmpty()) {
                 return parsed;
@@ -649,8 +647,7 @@ public class Film {
          * @return the column value of {@code constants}, in the order MySQL itself lists the members; {@code null} when
          *         {@code constants} is empty.
          */
-        @Nullable
-        public static String format(@Nonnull final Collection<SpecialFeature> constants) {
+        public static String format(final Collection<SpecialFeature> constants) {
             Objects.requireNonNull(constants, "constants is null");
             if (constants.isEmpty()) {
                 return null;
@@ -761,7 +758,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    @Nonnull
     public String getTitle() {
         return title;
     }
@@ -771,7 +767,7 @@ public class Film {
      *
      * @param title new value for {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    public void setTitle(@Nonnull final String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -782,7 +778,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    @Nullable
     public String getDescription() {
         return description;
     }
@@ -792,7 +787,7 @@ public class Film {
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    public void setDescription(@Nullable final String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -803,7 +798,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
      */
-    @Nullable
     public Integer getReleaseYear() {
         return releaseYear;
     }
@@ -813,7 +807,7 @@ public class Film {
      *
      * @param releaseYear new value for {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
      */
-    public void setReleaseYear(@Nullable final Integer releaseYear) {
+    public void setReleaseYear(final Integer releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -824,7 +818,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LANGUAGE} attribute.
      */
-    @Nonnull
     public Language getLanguage() {
         return language;
     }
@@ -834,7 +827,7 @@ public class Film {
      *
      * @param language new value for {@value #ATTRIBUTE_NAME_LANGUAGE} attribute.
      */
-    public void setLanguage(@Nonnull final Language language) {
+    public void setLanguage(final Language language) {
         this.language = language;
     }
 
@@ -845,7 +838,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute.
      */
-    @Nullable
     public Language getOriginalLanguage() {
         return originalLanguage;
     }
@@ -855,7 +847,7 @@ public class Film {
      *
      * @param originalLanguage new value for {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute.
      */
-    public void setOriginalLanguage(@Nullable final Language originalLanguage) {
+    public void setOriginalLanguage(final Language originalLanguage) {
         this.originalLanguage = originalLanguage;
     }
 
@@ -866,7 +858,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
      */
-    @Nonnull
     public Integer getRentalDuration() {
         return rentalDuration;
     }
@@ -876,7 +867,7 @@ public class Film {
      *
      * @param rentalDuration new value for {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
      */
-    public void setRentalDuration(@Nonnull final Integer rentalDuration) {
+    public void setRentalDuration(final Integer rentalDuration) {
         this.rentalDuration = rentalDuration;
     }
 
@@ -887,7 +878,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
      */
-    @Nonnull
     public BigDecimal getRentalRate() {
         return rentalRate;
     }
@@ -897,7 +887,7 @@ public class Film {
      *
      * @param rentalRate new value for {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
      */
-    public void setRentalRate(@Nonnull final BigDecimal rentalRate) {
+    public void setRentalRate(final BigDecimal rentalRate) {
         this.rentalRate = rentalRate;
     }
 
@@ -908,7 +898,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
-    @Nullable
     public Integer getLength() {
         return length;
     }
@@ -918,7 +907,7 @@ public class Film {
      *
      * @param length new value for {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
-    public void setLength(@Nullable final Integer length) {
+    public void setLength(final Integer length) {
         this.length = length;
     }
 
@@ -929,7 +918,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      */
-    @Nonnull
     public BigDecimal getReplacementCost() {
         return replacementCost;
     }
@@ -939,7 +927,7 @@ public class Film {
      *
      * @param replacementCost new value for {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      */
-    public void setReplacementCost(@Nonnull final BigDecimal replacementCost) {
+    public void setReplacementCost(final BigDecimal replacementCost) {
         this.replacementCost = replacementCost;
     }
 
@@ -950,7 +938,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
-    @Nullable
     public Rating getRating() {
         return rating;
     }
@@ -960,7 +947,7 @@ public class Film {
      *
      * @param rating new value for {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
-    public void setRating(@Nullable final Rating rating) {
+    public void setRating(final Rating rating) {
         this.rating = rating;
     }
 
@@ -973,7 +960,6 @@ public class Film {
      *         column joined by commas.
      * @see SpecialFeature#parse(String)
      */
-    @Nullable
     public String getSpecialFeatures() {
         return specialFeatures;
     }
@@ -985,7 +971,7 @@ public class Film {
      *                        members of the column joined by commas.
      * @see SpecialFeature#format(Collection)
      */
-    public void setSpecialFeatures(@Nullable final String specialFeatures) {
+    public void setSpecialFeatures(final String specialFeatures) {
         this.specialFeatures = specialFeatures;
     }
 
@@ -997,7 +983,6 @@ public class Film {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -1037,7 +1022,6 @@ public class Film {
     private Integer filmId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -1046,13 +1030,11 @@ public class Film {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Max(ATTRIBUTE_MAX_RELEASE_YEAR)
     @Min(ATTRIBUTE_MIN_RELEASE_YEAR)
     @Basic(optional = true)
@@ -1060,7 +1042,6 @@ public class Film {
     private Integer releaseYear;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -1069,7 +1050,6 @@ public class Film {
     private Language language;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_ORIGINAL_LANGUAGE_ID, referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
@@ -1077,7 +1057,6 @@ public class Film {
     private Language originalLanguage;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Max(ATTRIBUTE_MAX_RENTAL_DURATION)
     @Min(ATTRIBUTE_MIN_RENTAL_DURATION)
@@ -1086,7 +1065,6 @@ public class Film {
     private Integer rentalDuration;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_RENTAL_RATE - COLUMN_SCALE_RENTAL_RATE, fraction = COLUMN_SCALE_RENTAL_RATE)
@@ -1098,7 +1076,6 @@ public class Film {
     private BigDecimal rentalRate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Max(ATTRIBUTE_MAX_LENGTH)
     @Min(ATTRIBUTE_MIN_LENGTH)
     @Basic(optional = true)
@@ -1106,7 +1083,6 @@ public class Film {
     private Integer length;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_REPLACEMENT_COST - COLUMN_SCALE_REPLACEMENT_COST,
@@ -1119,7 +1095,6 @@ public class Film {
     private BigDecimal replacementCost;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Convert(converter = RatingConverter.class)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = true, updatable = true,
@@ -1127,7 +1102,6 @@ public class Film {
     private Rating rating;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_SPECIAL_FEATURES)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_SPECIAL_FEATURES, nullable = true, insertable = true, updatable = true,
@@ -1135,7 +1109,6 @@ public class Film {
     private String specialFeatures;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

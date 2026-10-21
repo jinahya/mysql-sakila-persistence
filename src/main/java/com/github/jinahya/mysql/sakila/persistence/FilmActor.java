@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -271,7 +269,6 @@ public class FilmActor {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTOR} attribute.
      */
-    @Nonnull
     public Actor getActor() {
         return actor;
     }
@@ -283,7 +280,6 @@ public class FilmActor {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    @Nonnull
     public Film getFilm() {
         return film;
     }
@@ -296,7 +292,6 @@ public class FilmActor {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -306,7 +301,6 @@ public class FilmActor {
     private FilmActorId id;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @MapsId(FilmActorId.ATTRIBUTE_NAME_ACTOR_ID)
@@ -316,7 +310,6 @@ public class FilmActor {
     private Actor actor;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @MapsId(FilmActorId.ATTRIBUTE_NAME_FILM_ID)
@@ -326,7 +319,6 @@ public class FilmActor {
     private Film film;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

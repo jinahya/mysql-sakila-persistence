@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -221,7 +219,6 @@ public class Language {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_NAME} attribute.
      */
-    @Nonnull
     public String getName() {
         return name;
     }
@@ -231,7 +228,7 @@ public class Language {
      *
      * @param name new value for {@value #ATTRIBUTE_NAME_NAME} attribute.
      */
-    public void setName(@Nonnull final String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -259,7 +256,6 @@ public class Language {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -281,7 +277,6 @@ public class Language {
     private Integer languageId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = false)
@@ -289,7 +284,6 @@ public class Language {
     private String name;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -389,7 +387,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
-    @Nonnull
     public String getFirstName() {
         return firstName;
     }
@@ -399,7 +396,7 @@ public class Staff {
      *
      * @param firstName new value for {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
-    public void setFirstName(@Nonnull final String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -410,7 +407,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
-    @Nonnull
     public String getLastName() {
         return lastName;
     }
@@ -420,7 +416,7 @@ public class Staff {
      *
      * @param lastName new value for {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
-    public void setLastName(@Nonnull final String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -431,7 +427,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    @Nonnull
     public Address getAddress() {
         return address;
     }
@@ -441,7 +436,7 @@ public class Staff {
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
-    public void setAddress(@Nonnull final Address address) {
+    public void setAddress(final Address address) {
         this.address = address;
     }
 
@@ -452,7 +447,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PICTURE} attribute.
      */
-    @Nullable
     public byte[] getPicture() {
         return picture;
     }
@@ -462,7 +456,7 @@ public class Staff {
      *
      * @param picture new value for {@value #ATTRIBUTE_NAME_PICTURE} attribute.
      */
-    public void setPicture(@Nullable final byte[] picture) {
+    public void setPicture(final byte[] picture) {
         this.picture = picture;
     }
 
@@ -473,7 +467,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
-    @Nullable
     public String getEmail() {
         return email;
     }
@@ -483,7 +476,7 @@ public class Staff {
      *
      * @param email new value for {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
-    public void setEmail(@Nullable final String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -494,7 +487,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    @Nonnull
     public Store getStore() {
         return store;
     }
@@ -504,7 +496,7 @@ public class Staff {
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    public void setStore(@Nonnull final Store store) {
+    public void setStore(final Store store) {
         this.store = store;
     }
 
@@ -515,7 +507,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
      */
-    @Nonnull
     public Boolean getActive() {
         return active;
     }
@@ -525,7 +516,7 @@ public class Staff {
      *
      * @param active new value for {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
      */
-    public void setActive(@Nonnull final Boolean active) {
+    public void setActive(final Boolean active) {
         this.active = active;
     }
 
@@ -536,7 +527,6 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      */
-    @Nonnull
     public String getUsername() {
         return username;
     }
@@ -546,7 +536,7 @@ public class Staff {
      *
      * @param username new value for {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      */
-    public void setUsername(@Nonnull final String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -558,7 +548,6 @@ public class Staff {
      * @return current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute; the installed rows hold a {@code SHA-1}
      *         hash in hexadecimal.
      */
-    @Nullable
     public String getPassword() {
         return password;
     }
@@ -568,7 +557,7 @@ public class Staff {
      *
      * @param password new value for {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
-    public void setPassword(@Nullable final String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -580,7 +569,6 @@ public class Staff {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -593,7 +581,6 @@ public class Staff {
     private Integer staffId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
@@ -602,7 +589,6 @@ public class Staff {
     private String firstName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
@@ -611,7 +597,6 @@ public class Staff {
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -620,7 +605,6 @@ public class Staff {
     private Address address;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_PICTURE)
     @Lob
     @Basic(optional = true, fetch = FetchType.LAZY)
@@ -629,7 +613,6 @@ public class Staff {
     private byte[] picture;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
@@ -637,7 +620,6 @@ public class Staff {
     private String email;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -646,14 +628,12 @@ public class Staff {
     private Store store;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_ACTIVE, nullable = false, insertable = true, updatable = true)
     private Boolean active;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_USERNAME)
     @Basic(optional = false)
@@ -662,7 +642,6 @@ public class Staff {
     private String username;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_PASSWORD)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,
@@ -670,7 +649,6 @@ public class Staff {
     private String password;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)
