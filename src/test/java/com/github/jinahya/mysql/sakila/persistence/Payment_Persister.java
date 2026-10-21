@@ -24,11 +24,18 @@ import com.github.jinahya.persistence.test.util.AbstractEntityPersister;
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
 import jakarta.persistence.EntityManager;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * A persister which persists {@link Payment} instances.
  * <p>
- * Each instance is given a newly persisted {@link Rental}, and the customer and the staff member of that rental, as an
- * installed payment has.
+ * Each instance is given a newly persisted {@link Rental}, which also gives it the customer of that rental, as every
+ * installed payment has. The staff member is, at random, either the one of that rental or a newly persisted one;
+ * nothing ties the two, and about half of the installed payments were taken by a staff member other than the one of
+ * their rental.
+ * <p>
+ * A new staff member uses up a {@code staff_id}, a {@code TINYINT UNSIGNED}, even when the transaction is rolled back,
+ * for MySQL does not give back an {@code AUTO_INCREMENT} value a rolled-back insert used.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -42,9 +49,13 @@ class Payment_Persister extends AbstractEntityPersister<Payment> {
     @Override
     public Payment apply(final EntityManager entityManager, final Payment entityInstance) {
         final var rental = EntityPersisterUtils.newPersistedInstanceOf(entityManager, Rental.class);
-        entityInstance.setRental(rental);
         entityInstance.setCustomer(rental.getCustomer());
-        entityInstance.setStaff(rental.getStaff());
+        entityInstance.setRental(rental);
+        entityInstance.setStaff(
+                ThreadLocalRandom.current().nextBoolean()
+                ? rental.getStaff()
+                : EntityPersisterUtils.newPersistedInstanceOf(entityManager, Staff.class)
+        );
         return super.apply(entityManager, entityInstance);
     }
 }

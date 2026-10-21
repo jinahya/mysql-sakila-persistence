@@ -263,7 +263,7 @@ public class Category {
     @NotNull
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_NAME, nullable = false, length = COLUMN_LENGTH_NAME)
+    @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_NAME)
     private String name;
 
     // -----------------------------------------------------------------------------------------------------------------

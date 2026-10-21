@@ -24,7 +24,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -134,6 +135,16 @@ public class SalesByStore {
     public static final int COLUMN_SCALE_TOTAL_SALES = 2;
 
     /**
+     * The minimum value of the {@value #COLUMN_NAME_TOTAL_SALES} column. The value is {@value}.
+     */
+    public static final String COLUMN_MIN_TOTAL_SALES = "-9999999999999999999999999.99";
+
+    /**
+     * The maximum value of the {@value #COLUMN_NAME_TOTAL_SALES} column. The value is {@value}.
+     */
+    public static final String COLUMN_MAX_TOTAL_SALES = "9999999999999999999999999.99";
+
+    /**
      * The name of the attribute which maps the {@value #COLUMN_NAME_TOTAL_SALES} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_TOTAL_SALES = "totalSales";
@@ -228,7 +239,10 @@ public class SalesByStore {
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
-    @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
+    // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
+    // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
+    @DecimalMin(COLUMN_MIN_TOTAL_SALES)
+    @DecimalMax(COLUMN_MAX_TOTAL_SALES)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_TOTAL_SALES, nullable = true, insertable = false, updatable = false,
             precision = COLUMN_PRECISION_TOTAL_SALES, scale = COLUMN_SCALE_TOTAL_SALES)

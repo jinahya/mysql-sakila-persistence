@@ -316,7 +316,7 @@ public class City {
     @NotNull
     @Size(max = SIZE_MAX_CITY)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_CITY, nullable = false, length = COLUMN_LENGTH_CITY)
+    @Column(name = COLUMN_NAME_CITY, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_CITY)
     private String city;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -324,8 +324,8 @@ public class City {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_COUNTRY_ID, referencedColumnName = Country.COLUMN_NAME_COUNTRY_ID,
-                nullable = false)
+    @JoinColumn(name = COLUMN_NAME_COUNTRY_ID, referencedColumnName = Country.COLUMN_NAME_COUNTRY_ID, nullable = false,
+                insertable = true, updatable = true)
     private Country country;
 
     // -----------------------------------------------------------------------------------------------------------------

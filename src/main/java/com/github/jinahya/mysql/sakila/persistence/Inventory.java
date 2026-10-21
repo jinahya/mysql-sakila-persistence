@@ -143,6 +143,11 @@ public class Inventory {
      */
     public static final String ATTRIBUTE_NAME_FILM = "film";
 
+    /**
+     * The name of the read-only attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is {@value}.
+     */
+    public static final String ATTRIBUTE_NAME_FILM_ID = "filmId";
+
     // -------------------------------------------------------------------------------------------------------- store_id
 
     /**
@@ -154,6 +159,11 @@ public class Inventory {
      * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE = "store";
+
+    /**
+     * The name of the read-only attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is {@value}.
+     */
+    public static final String ATTRIBUTE_NAME_STORE_ID = "storeId";
 
     // ----------------------------------------------------------------------------------------------------- last_update
 
@@ -192,8 +202,8 @@ public class Inventory {
     public final String toString() {
         return super.toString() + '{' +
                "inventoryId=" + inventoryId +
-//               ",film=" + film +
-//               ",store=" + store +
+               ",filmId=" + filmId +
+               ",storeId=" + storeId +
                ",lastUpdate=" + lastUpdate +
                '}';
     }
@@ -204,7 +214,7 @@ public class Inventory {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -223,7 +233,7 @@ public class Inventory {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -236,10 +246,23 @@ public class Inventory {
      * Returns current value of {@value #ATTRIBUTE_NAME_INVENTORY_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_INVENTORY_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getInventoryId() {
         return inventoryId;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------- filmId
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute; {@code null} until the
+     *         {@value #ATTRIBUTE_NAME_FILM} is set, or the instance is read from the database.
+     * @see #setFilm(Film)
+     */
+    public Integer getFilmId() {
+        return filmId;
     }
 
     // ------------------------------------------------------------------------------------------------------------ film
@@ -255,12 +278,27 @@ public class Inventory {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM} attribute with the specified value, along with the
+     * {@value #ATTRIBUTE_NAME_FILM_ID} attribute, which is read-only.
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
     public void setFilm(@Nonnull final Film film) {
         this.film = film;
+        this.filmId = film == null ? null : film.getFilmId();
+    }
+
+    // --------------------------------------------------------------------------------------------------------- storeId
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute; {@code null} until the
+     *         {@value #ATTRIBUTE_NAME_STORE} is set, or the instance is read from the database.
+     * @see #setStore(Store)
+     */
+    public Integer getStoreId() {
+        return storeId;
     }
 
     // ----------------------------------------------------------------------------------------------------------- store
@@ -276,12 +314,14 @@ public class Inventory {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value, along with the
+     * {@value #ATTRIBUTE_NAME_STORE_ID} attribute, which is read-only.
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
     public void setStore(@Nonnull final Store store) {
         this.store = store;
+        this.storeId = store == null ? null : store.getStoreId();
     }
 
     // ------------------------------------------------------------------------------------------------------ lastUpdate
@@ -289,8 +329,8 @@ public class Inventory {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {
@@ -314,19 +354,29 @@ public class Inventory {
     private Integer inventoryId;
 
     // -----------------------------------------------------------------------------------------------------------------
+    // no @NotNull: read-only, null until the instance is read from the database; the film carries the constraint
+    @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = false, updatable = false)
+    private Integer filmId;
+
     @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false,
+                insertable = true, updatable = true)
     private Film film;
 
     // -----------------------------------------------------------------------------------------------------------------
+    // no @NotNull: read-only, null until the instance is read from the database; the store carries the constraint
+    @Column(name = COLUMN_NAME_STORE_ID, nullable = false, insertable = false, updatable = false)
+    private Integer storeId;
+
     @Nonnull
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false,
+                insertable = true, updatable = true)
     private Store store;
 
     // -----------------------------------------------------------------------------------------------------------------

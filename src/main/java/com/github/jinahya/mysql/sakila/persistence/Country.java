@@ -322,7 +322,8 @@ public class Country {
     @NotNull
     @Size(max = SIZE_MAX_COUNTRY)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_COUNTRY, nullable = false, length = COLUMN_LENGTH_COUNTRY)
+    @Column(name = COLUMN_NAME_COUNTRY, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_COUNTRY)
     private String country;
 
     // -----------------------------------------------------------------------------------------------------------------

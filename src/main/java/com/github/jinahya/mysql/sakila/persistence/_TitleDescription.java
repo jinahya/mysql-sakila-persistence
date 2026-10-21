@@ -202,12 +202,13 @@ public class _TitleDescription {
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_TITLE, nullable = false, length = COLUMN_LENGTH_TITLE)
+    @Column(name = COLUMN_NAME_TITLE, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_TITLE)
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true)
+    @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;
 }

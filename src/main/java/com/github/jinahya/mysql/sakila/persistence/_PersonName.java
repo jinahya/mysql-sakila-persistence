@@ -51,7 +51,7 @@ public record _PersonName(
         @NotNull
         @Size(max = _PersonName.SIZE_MAX_FIRST_NAME)
         @Basic(optional = false)
-        @Column(name = _PersonName.COLUMN_NAME_FIRST_NAME, nullable = false,
+        @Column(name = _PersonName.COLUMN_NAME_FIRST_NAME, nullable = false, insertable = true, updatable = true,
                 length = _PersonName.COLUMN_LENGTH_FIRST_NAME)
         String firstName,
 
@@ -59,7 +59,7 @@ public record _PersonName(
         @NotNull
         @Size(max = _PersonName.SIZE_MAX_LAST_NAME)
         @Basic(optional = false)
-        @Column(name = _PersonName.COLUMN_NAME_LAST_NAME, nullable = false,
+        @Column(name = _PersonName.COLUMN_NAME_LAST_NAME, nullable = false, insertable = true, updatable = true,
                 length = _PersonName.COLUMN_LENGTH_LAST_NAME)
         String lastName
 ) {

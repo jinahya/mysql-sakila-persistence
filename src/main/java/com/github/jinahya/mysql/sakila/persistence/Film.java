@@ -38,7 +38,8 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -295,6 +296,16 @@ public class Film {
     public static final int COLUMN_SCALE_RENTAL_RATE = 2;
 
     /**
+     * The minimum value of the {@value #COLUMN_NAME_RENTAL_RATE} column. The value is {@value}.
+     */
+    public static final String COLUMN_MIN_RENTAL_RATE = "-99.99";
+
+    /**
+     * The maximum value of the {@value #COLUMN_NAME_RENTAL_RATE} column. The value is {@value}.
+     */
+    public static final String COLUMN_MAX_RENTAL_RATE = "99.99";
+
+    /**
      * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_RATE} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_RATE = "rentalRate";
@@ -341,6 +352,16 @@ public class Film {
      * The scale of the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is {@value}.
      */
     public static final int COLUMN_SCALE_REPLACEMENT_COST = 2;
+
+    /**
+     * The minimum value of the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is {@value}.
+     */
+    public static final String COLUMN_MIN_REPLACEMENT_COST = "-999.99";
+
+    /**
+     * The maximum value of the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is {@value}.
+     */
+    public static final String COLUMN_MAX_REPLACEMENT_COST = "999.99";
 
     /**
      * The name of the attribute which maps the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is {@value}.
@@ -1020,13 +1041,14 @@ public class Film {
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_TITLE, nullable = false, length = COLUMN_LENGTH_TITLE)
+    @Column(name = COLUMN_NAME_TITLE, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_TITLE)
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true)
+    @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1034,7 +1056,7 @@ public class Film {
     @Max(ATTRIBUTE_MAX_RELEASE_YEAR)
     @Min(ATTRIBUTE_MIN_RELEASE_YEAR)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_RELEASE_YEAR, nullable = true)
+    @Column(name = COLUMN_NAME_RELEASE_YEAR, nullable = true, insertable = true, updatable = true)
     private Integer releaseYear;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1043,7 +1065,7 @@ public class Film {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_LANGUAGE_ID, referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
-                nullable = false)
+                nullable = false, insertable = true, updatable = true)
     private Language language;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1051,7 +1073,7 @@ public class Film {
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_ORIGINAL_LANGUAGE_ID, referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
-                nullable = true)
+                nullable = true, insertable = true, updatable = true)
     private Language originalLanguage;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1060,16 +1082,19 @@ public class Film {
     @Max(ATTRIBUTE_MAX_RENTAL_DURATION)
     @Min(ATTRIBUTE_MIN_RENTAL_DURATION)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_RENTAL_DURATION, nullable = false)
+    @Column(name = COLUMN_NAME_RENTAL_DURATION, nullable = false, insertable = true, updatable = true)
     private Integer rentalDuration;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
-    @Digits(integer = COLUMN_PRECISION_RENTAL_RATE - COLUMN_SCALE_RENTAL_RATE, fraction = COLUMN_SCALE_RENTAL_RATE)
+    // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
+    // @Digits(integer = COLUMN_PRECISION_RENTAL_RATE - COLUMN_SCALE_RENTAL_RATE, fraction = COLUMN_SCALE_RENTAL_RATE)
+    @DecimalMin(COLUMN_MIN_RENTAL_RATE)
+    @DecimalMax(COLUMN_MAX_RENTAL_RATE)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_RENTAL_RATE, nullable = false, precision = COLUMN_PRECISION_RENTAL_RATE,
-            scale = COLUMN_SCALE_RENTAL_RATE)
+    @Column(name = COLUMN_NAME_RENTAL_RATE, nullable = false, insertable = true, updatable = true,
+            precision = COLUMN_PRECISION_RENTAL_RATE, scale = COLUMN_SCALE_RENTAL_RATE)
     private BigDecimal rentalRate;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1077,31 +1102,36 @@ public class Film {
     @Max(ATTRIBUTE_MAX_LENGTH)
     @Min(ATTRIBUTE_MIN_LENGTH)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_LENGTH, nullable = true)
+    @Column(name = COLUMN_NAME_LENGTH, nullable = true, insertable = true, updatable = true)
     private Integer length;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
-    @Digits(integer = COLUMN_PRECISION_REPLACEMENT_COST - COLUMN_SCALE_REPLACEMENT_COST,
-            fraction = COLUMN_SCALE_REPLACEMENT_COST)
+    // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
+    // @Digits(integer = COLUMN_PRECISION_REPLACEMENT_COST - COLUMN_SCALE_REPLACEMENT_COST,
+    //         fraction = COLUMN_SCALE_REPLACEMENT_COST)
+    @DecimalMin(COLUMN_MIN_REPLACEMENT_COST)
+    @DecimalMax(COLUMN_MAX_REPLACEMENT_COST)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_REPLACEMENT_COST, nullable = false, precision = COLUMN_PRECISION_REPLACEMENT_COST,
-            scale = COLUMN_SCALE_REPLACEMENT_COST)
+    @Column(name = COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true, updatable = true,
+            precision = COLUMN_PRECISION_REPLACEMENT_COST, scale = COLUMN_SCALE_REPLACEMENT_COST)
     private BigDecimal replacementCost;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Convert(converter = RatingConverter.class)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_RATING, nullable = true, length = COLUMN_LENGTH_RATING)
+    @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_RATING)
     private Rating rating;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Size(max = SIZE_MAX_SPECIAL_FEATURES)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_SPECIAL_FEATURES, nullable = true, length = COLUMN_LENGTH_SPECIAL_FEATURES)
+    @Column(name = COLUMN_NAME_SPECIAL_FEATURES, nullable = true, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_SPECIAL_FEATURES)
     private String specialFeatures;
 
     // -----------------------------------------------------------------------------------------------------------------

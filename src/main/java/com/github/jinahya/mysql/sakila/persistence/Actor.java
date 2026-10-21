@@ -317,7 +317,8 @@ public class Actor {
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_FIRST_NAME, nullable = false, length = COLUMN_LENGTH_FIRST_NAME)
+    @Column(name = COLUMN_NAME_FIRST_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_FIRST_NAME)
     private String firstName;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -325,7 +326,8 @@ public class Actor {
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_LAST_NAME, nullable = false, length = COLUMN_LENGTH_LAST_NAME)
+    @Column(name = COLUMN_NAME_LAST_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_LAST_NAME)
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------

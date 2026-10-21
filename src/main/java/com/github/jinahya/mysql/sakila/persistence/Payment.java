@@ -34,7 +34,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -162,8 +163,7 @@ public class Payment {
     // ------------------------------------------------------------------------------------------------------- rental_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RENTAL_ID = "rental_id";
 
@@ -175,8 +175,7 @@ public class Payment {
     // ---------------------------------------------------------------------------------------------------------- amount
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_AMOUNT} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_AMOUNT} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_AMOUNT = "amount";
 
@@ -189,6 +188,16 @@ public class Payment {
      * The scale of the {@value #COLUMN_NAME_AMOUNT} column. The value is {@value}.
      */
     public static final int COLUMN_SCALE_AMOUNT = 2;
+
+    /**
+     * The minimum value of the {@value #COLUMN_NAME_AMOUNT} column. The value is {@value}.
+     */
+    public static final String COLUMN_MIN_AMOUNT = "-999.99";
+
+    /**
+     * The maximum value of the {@value #COLUMN_NAME_AMOUNT} column. The value is {@value}.
+     */
+    public static final String COLUMN_MAX_AMOUNT = "999.99";
 
     /**
      * The name of the attribute which maps the {@value #COLUMN_NAME_AMOUNT} column. The value is {@value}.
@@ -221,6 +230,43 @@ public class Payment {
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
+    // ------------------------------------------------------------------------------------------ STATIC FACTORY METHODS
+
+    /**
+     * Returns a new instance of the specified staff for the specified rental.
+     * <p>
+     * The {@value #ATTRIBUTE_NAME_CUSTOMER} of the new instance is the one of the rental. Along with
+     * {@link #of(Rental)}, this is the only way to set the {@value #ATTRIBUTE_NAME_CUSTOMER}, the
+     * {@value #ATTRIBUTE_NAME_STAFF} and the {@value #ATTRIBUTE_NAME_RENTAL} from outside the package; the
+     * {@value #ATTRIBUTE_NAME_AMOUNT} and the {@value #ATTRIBUTE_NAME_PAYMENT_DATE} are set on their own.
+     *
+     * @param staff  a value for the {@value #ATTRIBUTE_NAME_STAFF} attribute.
+     * @param rental a value for the {@value #ATTRIBUTE_NAME_RENTAL} attribute.
+     * @return a new instance of {@code staff} for {@code rental}.
+     * @apiNote The database sets the {@value #COLUMN_NAME_RENTAL_ID} column to {@code NULL} when the rental is deleted;
+     *         a payment is created with a rental, though.
+     */
+    public static Payment of(final Staff staff, final Rental rental) {
+        final var instance = new Payment();
+        instance.setCustomer(rental.getCustomer());
+        instance.setStaff(staff);
+        instance.setRental(rental);
+        return instance;
+    }
+
+    /**
+     * Returns a new instance for the specified rental, taken by the staff of the rental.
+     *
+     * @param rental a value for the {@value #ATTRIBUTE_NAME_RENTAL} attribute.
+     * @return a new instance for {@code rental}.
+     * @apiNote The staff who takes a payment is not always the one who made the rental; use
+     *         {@link #of(Staff, Rental)} for another staff.
+     * @see #of(Staff, Rental)
+     */
+    public static Payment of(final Rental rental) {
+        return of(rental.getStaff(), rental);
+    }
+
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -236,9 +282,6 @@ public class Payment {
     public final String toString() {
         return super.toString() + '{' +
                "paymentId=" + paymentId +
-//               ",customer=" + customer +
-//               ",staff=" + staff +
-//               ",rental=" + rental +
                ",amount=" + amount +
                ",paymentDate=" + paymentDate +
                ",lastUpdate=" + lastUpdate +
@@ -251,7 +294,7 @@ public class Payment {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -270,7 +313,7 @@ public class Payment {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -283,7 +326,7 @@ public class Payment {
      * Returns current value of {@value #ATTRIBUTE_NAME_PAYMENT_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PAYMENT_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getPaymentId() {
         return paymentId;
@@ -305,8 +348,10 @@ public class Payment {
      * Replaces current value of {@value #ATTRIBUTE_NAME_CUSTOMER} attribute with the specified value.
      *
      * @param customer new value for {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the customer, as the one of the
+     *         rental, from outside the package.
      */
-    public void setCustomer(@Nonnull final Customer customer) {
+    void setCustomer(@Nonnull final Customer customer) {
         this.customer = customer;
     }
 
@@ -326,8 +371,10 @@ public class Payment {
      * Replaces current value of {@value #ATTRIBUTE_NAME_STAFF} attribute with the specified value.
      *
      * @param staff new value for {@value #ATTRIBUTE_NAME_STAFF} attribute.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the staff from outside the
+     *         package.
      */
-    public void setStaff(@Nonnull final Staff staff) {
+    void setStaff(@Nonnull final Staff staff) {
         this.staff = staff;
     }
 
@@ -347,8 +394,11 @@ public class Payment {
      * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL} attribute with the specified value.
      *
      * @param rental new value for {@value #ATTRIBUTE_NAME_RENTAL} attribute.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the rental from outside the package.
+     *         The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it is; the customer of the rental should be the customer
+     *         of this payment.
      */
-    public void setRental(@Nullable final Rental rental) {
+    void setRental(@Nullable final Rental rental) {
         this.rental = rental;
     }
 
@@ -378,20 +428,11 @@ public class Payment {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute.
+     * @return current value of {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute; {@code null} until the instance is
+     * read from the database.
      */
-    @Nonnull
     public LocalDateTime getPaymentDate() {
         return paymentDate;
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute with the specified value.
-     *
-     * @param paymentDate new value for {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute.
-     */
-    public void setPaymentDate(@Nonnull final LocalDateTime paymentDate) {
-        this.paymentDate = paymentDate;
     }
 
     // ------------------------------------------------------------------------------------------------------ lastUpdate
@@ -399,8 +440,8 @@ public class Payment {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {
@@ -420,7 +461,7 @@ public class Payment {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID,
-                nullable = false)
+                nullable = false, insertable = true, updatable = false)
     private Customer customer;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -428,30 +469,34 @@ public class Payment {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID, nullable = false,
+                insertable = true, updatable = false)
     private Staff staff;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_RENTAL_ID, referencedColumnName = Rental.COLUMN_NAME_RENTAL_ID, nullable = true)
+    @JoinColumn(name = COLUMN_NAME_RENTAL_ID, referencedColumnName = Rental.COLUMN_NAME_RENTAL_ID, nullable = true,
+                insertable = true, updatable = false)
     private Rental rental;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
-    @Digits(integer = COLUMN_PRECISION_AMOUNT - COLUMN_SCALE_AMOUNT, fraction = COLUMN_SCALE_AMOUNT)
+    // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
+    // @Digits(integer = COLUMN_PRECISION_AMOUNT - COLUMN_SCALE_AMOUNT, fraction = COLUMN_SCALE_AMOUNT)
+    @DecimalMax(COLUMN_MAX_AMOUNT)
+    @DecimalMin(COLUMN_MIN_AMOUNT)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_AMOUNT, nullable = false, precision = COLUMN_PRECISION_AMOUNT,
-            scale = COLUMN_SCALE_AMOUNT)
+    @Column(name = COLUMN_NAME_AMOUNT, nullable = false, insertable = true, updatable = true,
+            precision = COLUMN_PRECISION_AMOUNT, scale = COLUMN_SCALE_AMOUNT)
     private BigDecimal amount;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
-    @NotNull
-    @Basic(optional = false)
-    @Column(name = COLUMN_NAME_PAYMENT_DATE, nullable = false)
+    @Basic
+    @Column(name = COLUMN_NAME_PAYMENT_DATE, nullable = false, insertable = false, updatable = false,
+            columnDefinition = __Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
     private LocalDateTime paymentDate;
 
     // -----------------------------------------------------------------------------------------------------------------

@@ -1,21 +1,3 @@
--- #%L
--- mysql-sakila-persistence
--- %%
--- Copyright (C) 2026 Jinahya, Inc.
--- %%
--- Licensed under the Apache License, Version 2.0 (the "License");
--- you may not use this file except in compliance with the License.
--- You may obtain a copy of the License at
---
---      http://www.apache.org/licenses/LICENSE-2.0
---
--- Unless required by applicable law or agreed to in writing, software
--- distributed under the License is distributed on an "AS IS" BASIS,
--- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
--- See the License for the specific language governing permissions and
--- limitations under the License.
--- #L%
----
 --
 -- Profiling queries on rental, a section per column. Each says what it looks for and what the result should be;
 -- 'no rows' marks a check that passes when nothing comes back.
@@ -96,11 +78,12 @@ SELECT COUNT(*) - COUNT(return_date) AS out_now, COUNT(return_date) AS returned
 FROM rental
 ;
 
--- a copy returned before it was rented.
--- no rows: every return_date is after its rental_date.
+-- a copy returned before it was rented; a null return_date, not returned yet, is left out.
+-- no rows: every return_date, if any, is not before its rental_date.
 SELECT rental_id, rental_date, return_date
 FROM rental
-WHERE return_date < rental_date
+WHERE return_date IS NOT NULL
+  AND return_date < rental_date
 ;
 
 

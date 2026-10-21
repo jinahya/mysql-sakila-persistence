@@ -1,21 +1,3 @@
--- #%L
--- mysql-sakila-persistence
--- %%
--- Copyright (C) 2026 Jinahya, Inc.
--- %%
--- Licensed under the Apache License, Version 2.0 (the "License");
--- you may not use this file except in compliance with the License.
--- You may obtain a copy of the License at
---
---      http://www.apache.org/licenses/LICENSE-2.0
---
--- Unless required by applicable law or agreed to in writing, software
--- distributed under the License is distributed on an "AS IS" BASIS,
--- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
--- See the License for the specific language governing permissions and
--- limitations under the License.
--- #L%
----
 --
 -- Profiling queries on payment, a section per column. Each says what it looks for and what the result should be;
 -- 'no rows' marks a check that passes when nothing comes back.
@@ -78,6 +60,16 @@ GROUP BY staff_id
 ORDER BY staff_id ASC
 ;
 
+-- the staff who took a payment, against the staff who took its rental; nothing ties the two.
+-- 7966 payments taken by the staff of the rental, and 8078 by the other.
+SELECT CASE WHEN p.staff_id = r.staff_id THEN 'same' ELSE 'other' END AS staff,
+       COUNT(*)                                                       AS payments
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+GROUP BY 1
+ORDER BY 1 DESC
+;
+
 
 -- ----------------------------------------------------------------------------------------------------------- rental_id
 -- rental_id is nullable, and has no unique key.
@@ -104,6 +96,15 @@ FROM payment
 WHERE rental_id IS NOT NULL
 GROUP BY rental_id
 HAVING COUNT(*) > 1
+;
+
+-- a payment whose customer_id is not the one of its rental; the database does not check it.
+-- no rows: every payment for a rental is paid by the customer who rented.
+SELECT t.payment_id, t.customer_id, p.rental_id, p.customer_id AS rental_customer_id
+FROM payment t
+         JOIN rental p
+              ON p.rental_id = t.rental_id
+WHERE t.customer_id <> p.customer_id
 ;
 
 
@@ -133,6 +134,14 @@ SELECT p.payment_id, p.payment_date, r.rental_date
 FROM payment p
          JOIN rental r ON r.rental_id = p.rental_id
 WHERE p.payment_date < r.rental_date
+;
+
+-- a payment made after its rental.
+-- no rows: no payment follows its rental either; every payment is made at the moment of its rental.
+SELECT p.payment_id, p.payment_date, r.rental_date
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+WHERE p.payment_date > r.rental_date
 ;
 
 

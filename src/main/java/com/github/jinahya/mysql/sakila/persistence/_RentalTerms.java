@@ -24,7 +24,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -206,26 +207,32 @@ public class _RentalTerms {
     @Max(Film.ATTRIBUTE_MAX_RENTAL_DURATION)
     @Min(Film.ATTRIBUTE_MIN_RENTAL_DURATION)
     @Basic(optional = false)
-    @Column(name = Film.COLUMN_NAME_RENTAL_DURATION, nullable = false)
+    @Column(name = Film.COLUMN_NAME_RENTAL_DURATION, nullable = false, insertable = true, updatable = true)
     private Integer rentalDuration;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
-    @Digits(integer = Film.COLUMN_PRECISION_RENTAL_RATE - Film.COLUMN_SCALE_RENTAL_RATE,
-            fraction = Film.COLUMN_SCALE_RENTAL_RATE)
+    // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
+    // @Digits(integer = Film.COLUMN_PRECISION_RENTAL_RATE - Film.COLUMN_SCALE_RENTAL_RATE,
+    //         fraction = Film.COLUMN_SCALE_RENTAL_RATE)
+    @DecimalMin(Film.COLUMN_MIN_RENTAL_RATE)
+    @DecimalMax(Film.COLUMN_MAX_RENTAL_RATE)
     @Basic(optional = false)
-    @Column(name = Film.COLUMN_NAME_RENTAL_RATE, nullable = false, precision = Film.COLUMN_PRECISION_RENTAL_RATE,
-            scale = Film.COLUMN_SCALE_RENTAL_RATE)
+    @Column(name = Film.COLUMN_NAME_RENTAL_RATE, nullable = false, insertable = true, updatable = true,
+            precision = Film.COLUMN_PRECISION_RENTAL_RATE, scale = Film.COLUMN_SCALE_RENTAL_RATE)
     private BigDecimal rentalRate;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
-    @Digits(integer = Film.COLUMN_PRECISION_REPLACEMENT_COST - Film.COLUMN_SCALE_REPLACEMENT_COST,
-            fraction = Film.COLUMN_SCALE_REPLACEMENT_COST)
+    // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
+    // @Digits(integer = Film.COLUMN_PRECISION_REPLACEMENT_COST - Film.COLUMN_SCALE_REPLACEMENT_COST,
+    //         fraction = Film.COLUMN_SCALE_REPLACEMENT_COST)
+    @DecimalMin(Film.COLUMN_MIN_REPLACEMENT_COST)
+    @DecimalMax(Film.COLUMN_MAX_REPLACEMENT_COST)
     @Basic(optional = false)
-    @Column(name = Film.COLUMN_NAME_REPLACEMENT_COST, nullable = false,
+    @Column(name = Film.COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true, updatable = true,
             precision = Film.COLUMN_PRECISION_REPLACEMENT_COST, scale = Film.COLUMN_SCALE_REPLACEMENT_COST)
     private BigDecimal replacementCost;
 }

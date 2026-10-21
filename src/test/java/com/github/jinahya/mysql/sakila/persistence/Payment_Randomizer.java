@@ -26,17 +26,16 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A randomizer which produces randomized {@link Payment} instances.
  * <p>
- * The {@code paymentId}, which the database generates, the {@code lastUpdate}, which the database fills, and every
- * association are excluded from randomization; {@link Payment_Persister} supplies them. The {@code amount} and the
- * {@code paymentDate} are assigned after the fact, within what their columns hold.
+ * The {@code paymentId}, which the database generates, the {@code paymentDate}, which a trigger sets to
+ * {@code NOW()}, the {@code lastUpdate}, which the database fills, and every association are excluded from
+ * randomization; {@link Payment_Persister} supplies the associations. The {@code amount} is assigned after the fact,
+ * within what its column holds.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -48,6 +47,7 @@ class Payment_Randomizer extends PodamObjectRandomizer<Payment> {
                 Payment.ATTRIBUTE_NAME_CUSTOMER,
                 Payment.ATTRIBUTE_NAME_STAFF,
                 Payment.ATTRIBUTE_NAME_RENTAL,
+                Payment.ATTRIBUTE_NAME_PAYMENT_DATE,
                 Payment.ATTRIBUTE_NAME_LAST_UPDATE
         ));
     }
@@ -73,10 +73,6 @@ class Payment_Randomizer extends PodamObjectRandomizer<Payment> {
         final var instance = super.get();
         final var random = ThreadLocalRandom.current();
         instance.setAmount(BigDecimal.valueOf(random.nextInt(0, 100000), Payment.COLUMN_SCALE_AMOUNT));
-        instance.setPaymentDate(
-                LocalDateTime.now().minusSeconds(random.nextLong(1L, 365L * 24L * 60L * 60L))
-                        .truncatedTo(ChronoUnit.SECONDS)
-        );
         return instance;
     }
 }

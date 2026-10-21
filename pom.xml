@@ -394,16 +394,6 @@
       <testResource>
         <directory>${project.basedir}/src/test/resources</directory>
         <filtering>true</filtering>
-        <includes>
-          <include>META-INF/persistence.xml</include>
-        </includes>
-      </testResource>
-      <testResource>
-        <directory>${project.basedir}/src/test/resources</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>META-INF/persistence.xml</exclude>
-        </excludes>
       </testResource>
     </testResources>
     <pluginManagement>
@@ -558,6 +548,9 @@
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Xlint</arg>
+            <!-- the hibernate processor writes an entity index, entity/index/*, into the generated sources, which
+                 IntelliJ's maven resource builder then fails to copy -->
+            <arg>-Aindex=false</arg>
           </compilerArgs>
         </configuration>
       </plugin>

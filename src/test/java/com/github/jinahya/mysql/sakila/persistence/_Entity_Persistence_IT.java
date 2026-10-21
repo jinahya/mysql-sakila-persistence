@@ -52,9 +52,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * The container is started by weld-testing, with {@link _Entity_Persistence_IT_Producer} as its bean class; a test then
  * gets an entity manager on the MySQL database the Sakila sample was installed into, connecting as {@code root}.
  * <p>
- * These run under the {@code failsafe} profile only, and require the container from {@code compose.yaml} to be
- * up. Generating a schema is disabled for this unit: the tables are the ones Sakila's own schema script created, and
- * the
+ * These run under the {@code failsafe} profile only, and require the container from {@code compose.yaml} to be up.
+ * Generating a schema is disabled for this unit: the tables are the ones Sakila's own schema script created, and the
  * mappings are verified against them rather than the other way round.
  *
  * @param <T> the type of the entity under test.
@@ -67,7 +66,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
         "java:S101", // Class names should comply with a naming convention
         "java:S118"  // Abstract class names should comply with a naming convention
 })
-abstract class _Entity_Persistence_IT<T> extends __Test<T> {
+abstract class _Entity_Persistence_IT<T>
+        extends __Test<T> {
 
     /**
      * Creates a new instance for the specified persistence class.
@@ -83,9 +83,10 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
     /**
      * Aborts, rather than fails, when the persistence unit does not know the {@link #targetClass}.
      *
-     * @implNote A class which is commented out of the persistence unit is not a managed type, and every test here would
-     * fail against it with an unknown-entity error which says nothing about the mapping. Aborting keeps the class
-     * reported as skipped, so listing it in {@code persistence.xml} is all it takes to bring the test back.
+     * @implNote A class which is commented out of the persistence unit is not a managed type, and every test
+     *         here would fail against it with an unknown-entity error which says nothing about the mapping. Aborting
+     *         keeps the class reported as skipped, so listing it in {@code persistence.xml} is all it takes to bring
+     *         the test back.
      */
     @BeforeEach
     protected void assumeTargetClassIsManaged() {
@@ -109,8 +110,8 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
          * Aborts, rather than fails, when {@link #targetClass} does not carry the shape of identifier these tests
          * address.
          *
-         * @implNote The identifier has to be a single attribute, basic or embedded, for the reasons the unit-test
-         * counterpart, {@code _Entity_Persistence_Test.Find_Test}, gives.
+         * @implNote The identifier has to be a single attribute, basic or embedded, for the reasons the
+         *         unit-test counterpart, {@code _Entity_Persistence_Test.Find_Test}, gives.
          */
         @BeforeEach
         void assumeTargetClassIsAddressable() {
@@ -130,8 +131,8 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
          * @param instance the instance whose identifier to read.
          * @return the identifier of the {@code instance}.
          * @implNote Reads the mapped field rather than calling
-         * {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)}, for the reasons the unit-test
-         * counterpart gives.
+         *         {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)}, for the reasons the unit-test
+         *         counterpart gives.
          */
         private Object identifierOf(final T instance) {
             final var entityType = entityManagerFactory.getMetamodel().entity(targetClass);
@@ -152,9 +153,9 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
         /**
          * Verifies that {@code find} reaches a randomly selected row once the persistence context no longer holds it.
          *
-         * @implNote Compared by identifier, not with {@link Object#equals(Object)}, for the reasons the unit-test
-         * counterpart gives. An empty table is not a failure; the test aborts, since the table's content is the
-         * installer's.
+         * @implNote Compared by identifier, not with {@link Object#equals(Object)}, for the reasons the
+         *         unit-test counterpart gives. An empty table is not a failure; the test aborts, since the table's
+         *         content is the installer's.
          */
         @DisplayName("find reaches a randomly selected row once the context is cleared")
         @Test
@@ -182,16 +183,21 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
     /**
      * Persists a new, randomized instance of {@link #targetClass}, through its persister, and flushes it.
      *
-     * @implNote The flush is what makes the {@code INSERT} reach the database at all: a provider may defer it until the
-     * flush or the commit -- one whose identifier is assigned rather than generated, or generated by the {@code INSERT}
-     * itself -- and the transaction is rolled back, so without it nothing would be written, and nothing tested.
+     * @implNote The flush is what makes the {@code INSERT} reach the database at all: a provider may defer it
+     *         until the flush or the commit -- one whose identifier is assigned rather than generated, or generated by
+     *         the {@code INSERT} itself -- and the transaction is rolled back, so without it nothing would be written,
+     *         and nothing tested.
      */
     @Test
     void _persist_RandomizedInstance() {
         applyNewPersistedTargetInstanceAndRollback((em, v) -> {
             em.flush();
+            randomPersisted(em, v);
             return null;
         });
+    }
+
+    void randomPersisted(final EntityManager entityManager, final T entityInstance) {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -200,11 +206,11 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * Selects a random instance of {@link #targetClass}, from the installed schema, and hands it to
      * {@link #randomSelected(Object)}.
      *
-     * @implNote The selection and the callback both run inside a transaction which is rolled back, so the instance
-     * handed over is still managed -- a lazy association read in {@link #randomSelected(Object)} resolves rather than
-     * throwing -- and nothing the callback does reaches the sample data.
-     * @implSpec Selecting from an empty table is not a failure: the table's content is the installer's, not this
-     * test's, so {@link #randomSelected(Object)} is simply not invoked.
+     * @implNote The selection and the callback both run inside a transaction which is rolled back, so the
+     *         instance handed over is still managed -- a lazy association read in {@link #randomSelected(Object)}
+     *         resolves rather than throwing -- and nothing the callback does reaches the sample data.
+     * @implSpec Selecting from an empty table is not a failure: the table's content is the installer's, not
+     *         this test's, so {@link #randomSelected(Object)} is simply not invoked.
      */
     @Test
     void selectRandom() {
@@ -219,7 +225,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      *
      * @param instance the randomly selected instance.
      * @implSpec This class does nothing with it; a subclass overrides this method to assert whatever its entity
-     * promises of a row which is actually in the database.
+     *         promises of a row which is actually in the database.
      */
     void randomSelected(final T instance) {
         // empty; overridden by a subclass which has something to assert
@@ -236,11 +242,12 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * @return the result of the {@code function}.
      * @throws IllegalArgumentException when {@link #targetClass} has no usable randomizer or no usable persister; see
      *                                  {@link EntityPersisterUtils#newPersistedInstanceOf(EntityManager, Class)}.
-     * @apiNote Unlike {@link #selectRandom()}, which reads a row the installer put there, this one writes a row of its
-     * own -- against the physical schema, with whatever constraints and triggers it carries, which is a good part of
-     * what an integration test is for. The rollback is what keeps it from being a change to the sample data.
-     * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is still
-     * managed when the function sees it, and it is gone when the transaction rolls back.
+     * @apiNote Unlike {@link #selectRandom()}, which reads a row the installer put there, this one writes a row
+     *         of its own -- against the physical schema, with whatever constraints and triggers it carries, which is a
+     *         good part of what an integration test is for. The rollback is what keeps it from being a change to the
+     *         sample data.
+     * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is
+     *         still managed when the function sees it, and it is gone when the transaction rolls back.
      */
     <R> R applyNewPersistedTargetInstanceAndRollback(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
@@ -261,11 +268,11 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * @return the result of the {@code function}.
      * @throws IllegalArgumentException when {@link #targetClass} has no usable randomizer or no usable persister; see
      *                                  {@link EntityPersisterUtils#newPersistedInstanceOf(EntityManager, Class)}.
-     * @apiNote The committed row stays in the installed sample data, which the next run of this same test will not
-     * undo. Use it only for a row the test cannot do without, and delete it afterwards; otherwise take the rolled-back
-     * one.
-     * @implNote Randomized values are the ones the persister produced, so a committed row is also a row nothing else in
-     * the schema expects; a foreign key pointing at it later is the caller's problem to clean up.
+     * @apiNote The committed row stays in the installed sample data, which the next run of this same test will
+     *         not undo. Use it only for a row the test cannot do without, and delete it afterwards; otherwise take the
+     *         rolled-back one.
+     * @implNote Randomized values are the ones the persister produced, so a committed row is also a row nothing
+     *         else in the schema expects; a foreign key pointing at it later is the caller's problem to clean up.
      */
     <R> R applyNewPersistedTargetInstanceAndCommit(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
@@ -283,8 +290,8 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * @param function the function to apply the entity manager to.
      * @param <R>      the type of the result.
      * @return the result of the {@code function}.
-     * @implNote The rollback is what keeps one test from being visible to the next, and, here, what keeps the sample
-     * data as the installer left it.
+     * @implNote The rollback is what keeps one test from being visible to the next, and, here, what keeps the
+     *         sample data as the installer left it.
      * @see ___Persistence_TestUtils#applyInTransactionAndRollback(EntityManager, Function)
      */
     <R> R applyEntityManagerInTransactionAndRollback(
@@ -300,7 +307,8 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * @param <R>      the type of the result.
      * @return the result of the {@code function}.
      * @implNote What this writes reaches the installed sample data and stays there, which no test here wants by
-     * accident. Use it only for a row the test cannot do without, and clean it up; otherwise take the rolled-back one.
+     *         accident. Use it only for a row the test cannot do without, and clean it up; otherwise take the
+     *         rolled-back one.
      * @see ___Persistence_TestUtils#applyInTransactionAndCommit(EntityManager, Function)
      */
     <R> R applyEntityManagerInTransactionAndCommit(

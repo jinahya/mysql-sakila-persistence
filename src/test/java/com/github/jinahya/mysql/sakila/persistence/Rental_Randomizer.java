@@ -33,10 +33,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link Rental} instances.
  * <p>
- * The {@code rentalId}, which the database generates, the {@code lastUpdate}, which the database fills, and every
- * association are excluded from randomization; {@link Rental_Persister} supplies the {@code inventory}, the
- * {@code customer} and the {@code staff}. The two dates are assigned after the fact, as a pair: a rental of the past
- * year, returned some days later or not yet.
+ * The {@code rentalId}, which the database generates, the {@code rentalDate}, which a trigger sets to {@code NOW()},
+ * the {@code lastUpdate}, which the database fills, and every association are excluded from randomization;
+ * {@link Rental_Persister} supplies the {@code inventory}, the {@code customer} and the {@code staff}. The
+ * {@code returnDate} is assigned after the fact: some days from now, after the rental the trigger dates, or not yet.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -45,6 +45,7 @@ class Rental_Randomizer extends PodamObjectRandomizer<Rental> {
     Rental_Randomizer() {
         super(Rental.class, List.of(
                 Rental.ATTRIBUTE_NAME_RENTAL_ID,
+                Rental.ATTRIBUTE_NAME_RENTAL_DATE,
                 Rental.ATTRIBUTE_NAME_INVENTORY,
                 Rental.ATTRIBUTE_NAME_CUSTOMER,
                 Rental.ATTRIBUTE_NAME_STAFF,
@@ -73,10 +74,11 @@ class Rental_Randomizer extends PodamObjectRandomizer<Rental> {
     public Rental get() {
         final var instance = super.get();
         final var random = ThreadLocalRandom.current();
-        final var rentalDate = LocalDateTime.now().minusSeconds(random.nextLong(1L, 365L * 24L * 60L * 60L))
-                .truncatedTo(ChronoUnit.SECONDS);
-        instance.setRentalDate(rentalDate);
-        instance.setReturnDate(random.nextBoolean() ? null : rentalDate.plusDays(random.nextLong(0L, 10L)));
+        instance.setReturnDate(
+                random.nextBoolean()
+                ? null
+                : LocalDateTime.now().plusDays(random.nextLong(1L, 10L)).truncatedTo(ChronoUnit.SECONDS)
+        );
         return instance;
     }
 }

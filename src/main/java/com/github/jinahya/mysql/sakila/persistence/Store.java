@@ -336,7 +336,7 @@ public class Store {
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_MANAGER_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
-                nullable = false)
+                nullable = false, insertable = true, updatable = true)
     private Staff managerStaff;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -344,8 +344,8 @@ public class Store {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID,
-                nullable = false)
+    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
+                insertable = true, updatable = true)
     private Address address;
 
     // -----------------------------------------------------------------------------------------------------------------

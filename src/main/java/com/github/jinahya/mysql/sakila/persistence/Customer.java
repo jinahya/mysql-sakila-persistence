@@ -551,7 +551,8 @@ public class Customer {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false,
+                insertable = true, updatable = true)
     private Store store;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -559,7 +560,8 @@ public class Customer {
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_FIRST_NAME, nullable = false, length = COLUMN_LENGTH_FIRST_NAME)
+    @Column(name = COLUMN_NAME_FIRST_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_FIRST_NAME)
     private String firstName;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -567,14 +569,16 @@ public class Customer {
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_LAST_NAME, nullable = false, length = COLUMN_LENGTH_LAST_NAME)
+    @Column(name = COLUMN_NAME_LAST_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_LAST_NAME)
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_EMAIL, nullable = true, length = COLUMN_LENGTH_EMAIL)
+    @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_EMAIL)
     private String email;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -582,20 +586,21 @@ public class Customer {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID,
-                nullable = false)
+    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
+                insertable = true, updatable = true)
     private Address address;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_ACTIVE, nullable = false)
+    @Column(name = COLUMN_NAME_ACTIVE, nullable = false, insertable = true, updatable = true)
     private Boolean active;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Basic
-    @Column(name = COLUMN_NAME_CREATE_DATE, nullable = false, insertable = false, updatable = false)
+    @Column(name = COLUMN_NAME_CREATE_DATE, nullable = false, insertable = false, updatable = false,
+            columnDefinition = __Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
     private LocalDateTime createDate;
 
     // -----------------------------------------------------------------------------------------------------------------

@@ -43,11 +43,30 @@ final class __Constants {
      * tests -- would otherwise have the column without its default, and every {@code INSERT}, which leaves the column
      * out, would fail on its {@code NOT NULL}.
      * <p>
-     * The definition is read only by schema generation; the physical database's own {@code DDL} is what the
-     * integration tests run against. The {@code ON UPDATE} clause is left out because it is MySQL's own, and the
-     * attribute is not updatable anyway. The nullability is left to {@link jakarta.persistence.Column#nullable()}.
+     * The definition is read only by schema generation; the physical database's own {@code DDL} is what the integration
+     * tests run against. The {@code ON UPDATE} clause is left out because it is MySQL's own, and the attribute is not
+     * updatable anyway. The nullability is left to {@link jakarta.persistence.Column#nullable()}.
      */
     static final String COLUMN_DEFINITION_LAST_UPDATE = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP";
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * The column definition of every {@code DATETIME} column which a trigger fills on insert. The value is {@value}.
+     * <p>
+     * The {@code customer_create_date}, {@code payment_date} and {@code rental_date} triggers set
+     * {@code customer.create_date}, {@code payment.payment_date} and {@code rental.rental_date} to {@code NOW()} on
+     * every insert, so the attributes which map them are neither insertable nor updatable. A schema generated from the
+     * mappings -- the in-memory database of the unit tests -- has no such triggers, and every {@code INSERT}, which
+     * leaves the column out, would fail on its {@code NOT NULL}; the default stands in for the trigger.
+     * <p>
+     * The definition is read only by schema generation; the physical database's own {@code DDL} is what the integration
+     * tests run against.
+     */
+    static final String COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP = "DATETIME DEFAULT CURRENT_TIMESTAMP";
+
+    // -----------------------------------------------------------------------------------------------------------------
+    static final int COLUMN_LENGTH_TEXT = 65535;
 
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 

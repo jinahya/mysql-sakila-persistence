@@ -170,13 +170,15 @@ public class _Credentials {
     @NotNull
     @Size(max = Staff.SIZE_MAX_USERNAME)
     @Basic(optional = false)
-    @Column(name = Staff.COLUMN_NAME_USERNAME, nullable = false, length = Staff.COLUMN_LENGTH_USERNAME)
+    @Column(name = Staff.COLUMN_NAME_USERNAME, nullable = false, insertable = true, updatable = true,
+            length = Staff.COLUMN_LENGTH_USERNAME)
     private String username;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Size(max = Staff.SIZE_MAX_PASSWORD)
     @Basic(optional = true)
-    @Column(name = Staff.COLUMN_NAME_PASSWORD, nullable = true, length = Staff.COLUMN_LENGTH_PASSWORD)
+    @Column(name = Staff.COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,
+            length = Staff.COLUMN_LENGTH_PASSWORD)
     private String password;
 }

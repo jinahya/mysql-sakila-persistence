@@ -24,7 +24,8 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -154,6 +155,16 @@ public class FilmList {
      * The scale of the {@value #COLUMN_NAME_PRICE} column. The value is {@value}.
      */
     public static final int COLUMN_SCALE_PRICE = 2;
+
+    /**
+     * The minimum value of the {@value #COLUMN_NAME_PRICE} column. The value is {@value}.
+     */
+    public static final String COLUMN_MIN_PRICE = "-99.99";
+
+    /**
+     * The maximum value of the {@value #COLUMN_NAME_PRICE} column. The value is {@value}.
+     */
+    public static final String COLUMN_MAX_PRICE = "99.99";
 
     /**
      * The name of the attribute which maps the {@value #COLUMN_NAME_PRICE} column. The value is {@value}.
@@ -389,7 +400,10 @@ public class FilmList {
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
-    @Digits(integer = COLUMN_PRECISION_PRICE - COLUMN_SCALE_PRICE, fraction = COLUMN_SCALE_PRICE)
+    // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
+    // @Digits(integer = COLUMN_PRECISION_PRICE - COLUMN_SCALE_PRICE, fraction = COLUMN_SCALE_PRICE)
+    @DecimalMin(COLUMN_MIN_PRICE)
+    @DecimalMax(COLUMN_MAX_PRICE)
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_PRICE, nullable = false, insertable = false, updatable = false,
             precision = COLUMN_PRECISION_PRICE, scale = COLUMN_SCALE_PRICE)

@@ -41,7 +41,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value Rental#TABLE_NAME} table.
@@ -267,10 +266,7 @@ public class Rental {
         return super.toString() + '{' +
                "rentalId=" + rentalId +
                ",rentalDate=" + rentalDate +
-//               ",inventory=" + inventory +
-//               ",customer=" + customer +
                ",returnDate=" + returnDate +
-//               ",staff=" + staff +
                ",lastUpdate=" + lastUpdate +
                '}';
     }
@@ -280,41 +276,33 @@ public class Rental {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the business key, the columns of the table's unique key --
-     * {@value #ATTRIBUTE_NAME_RENTAL_DATE}, and the identifiers of the {@value #ATTRIBUTE_NAME_INVENTORY} and the
-     * {@value #ATTRIBUTE_NAME_CUSTOMER} -- rather than by the generated {@code @Id}, which is {@code null} until the
-     * row is inserted. Every attribute is read through its getter, and of an association only its identifier, so a
-     * lazy proxy, on either side, compares without being initialized.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
+     *         equals nothing but itself. The table's unique key, which includes the
+     *         {@value #ATTRIBUTE_NAME_RENTAL_DATE}, is not used, for the {@value #ATTRIBUTE_NAME_RENTAL_DATE} is set by
+     *         a trigger, and is {@code null} until the instance is read from the database.
      */
     @Override
     public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Rental that)) {
             return false;
         }
-        return Objects.equals(getRentalDate(), that.getRentalDate())
-               && Objects.equals(inventoryIdOf(this), inventoryIdOf(that))
-               && Objects.equals(customerIdOf(this), customerIdOf(that));
+        final var thisId = getRentalId();
+        return thisId != null && thisId.equals(that.getRentalId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over the business key, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hash(getRentalDate(), inventoryIdOf(this), customerIdOf(this));
-    }
-
-    private static Integer inventoryIdOf(final Rental rental) {
-        final var inventory = rental.getInventory();
-        return inventory == null ? null : inventory.getInventoryId();
-    }
-
-    private static Integer customerIdOf(final Rental rental) {
-        final var customer = rental.getCustomer();
-        return customer == null ? null : customer.getCustomerId();
+        return Rental.class.hashCode();
     }
 
     // ------------------------------------------------------------------------------------------------- Bean-Validation
@@ -323,10 +311,10 @@ public class Rental {
      * Checks that the {@value #ATTRIBUTE_NAME_RETURN_DATE}, when there is one, is not before the
      * {@value #ATTRIBUTE_NAME_RENTAL_DATE}.
      *
-     * @return {@code true} when either date is {@code null}, or when the return is not before the rental;
-     * {@code false} otherwise.
+     * @return {@code true} when either date is {@code null}, or when the return is not before the rental; {@code false}
+     *         otherwise.
      * @implNote The database does not check this; a copy cannot come back before it went out, though, and every
-     * installed row agrees.
+     *         installed row agrees.
      */
     @AssertTrue
     protected boolean isReturnDateNotBeforeRentalDate() {
@@ -342,7 +330,7 @@ public class Rental {
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getRentalId() {
         return rentalId;
@@ -353,20 +341,11 @@ public class Rental {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
+     * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
-    @Nonnull
     public LocalDateTime getRentalDate() {
         return rentalDate;
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute with the specified value.
-     *
-     * @param rentalDate new value for {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
-     */
-    public void setRentalDate(@Nonnull final LocalDateTime rentalDate) {
-        this.rentalDate = rentalDate;
     }
 
     // ------------------------------------------------------------------------------------------------------- inventory
@@ -458,8 +437,8 @@ public class Rental {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {
@@ -483,10 +462,9 @@ public class Rental {
     private Integer rentalId;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
-    @NotNull
-    @Basic(optional = false)
-    @Column(name = COLUMN_NAME_RENTAL_DATE, nullable = false)
+    @Basic
+    @Column(name = COLUMN_NAME_RENTAL_DATE, nullable = false, insertable = false, updatable = false,
+            columnDefinition = __Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
     private LocalDateTime rentalDate;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -495,7 +473,7 @@ public class Rental {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_INVENTORY_ID, referencedColumnName = Inventory.COLUMN_NAME_INVENTORY_ID,
-                nullable = false)
+                nullable = false, insertable = true, updatable = true)
     private Inventory inventory;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -504,13 +482,13 @@ public class Rental {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID,
-                nullable = false)
+                nullable = false, insertable = true, updatable = true)
     private Customer customer;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_RETURN_DATE, nullable = true)
+    @Column(name = COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
     private LocalDateTime returnDate;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -518,7 +496,8 @@ public class Rental {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID, nullable = false,
+                insertable = true, updatable = true)
     private Staff staff;
 
     // -----------------------------------------------------------------------------------------------------------------

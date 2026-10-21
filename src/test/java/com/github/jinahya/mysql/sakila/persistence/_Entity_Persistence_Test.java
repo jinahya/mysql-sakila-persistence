@@ -212,6 +212,16 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
+     * Aborts, rather than fails, when instances of {@link #targetClass} are not to be persisted by themselves; called
+     * before each test of {@link Find_Test}, which a subclass cannot override.
+     *
+     * @implSpec The default implementation does nothing.
+     */
+    protected void assumeTargetClassIsFindable() {
+        // empty
+    }
+
+    /**
      * Verifies {@link EntityManager#find(Class, Object) find} against a newly persisted instance of
      * {@link #targetClass}.
      */
@@ -235,6 +245,7 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
          */
         @BeforeEach
         void assumeTargetClassIsPersistableAndAddressable() {
+            assumeTargetClassIsFindable();
             assumeTrue(
                     ObjectRandomizerUtils.newRandomizerInstanceOf(targetClass).isPresent(),
                     () -> targetClass + " has no usable randomizer"

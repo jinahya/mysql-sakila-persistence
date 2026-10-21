@@ -166,12 +166,12 @@ public class _RentalPeriod {
     @Nonnull
     @NotNull
     @Basic(optional = false)
-    @Column(name = Rental.COLUMN_NAME_RENTAL_DATE, nullable = false)
+    @Column(name = Rental.COLUMN_NAME_RENTAL_DATE, nullable = false, insertable = true, updatable = true)
     private LocalDateTime rentalDate;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Basic(optional = true)
-    @Column(name = Rental.COLUMN_NAME_RETURN_DATE, nullable = true)
+    @Column(name = Rental.COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
     private LocalDateTime returnDate;
 }

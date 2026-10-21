@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -36,13 +39,31 @@ class FilmText_Persistence_IT extends _Entity_Persistence_IT<FilmText> {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
+     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete every row of
+     * {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
+     */
+    @Disabled("written by the film table's triggers: nothing else inserts into it")
+    @Override
+    @Test
+    protected void _persist_RandomizedInstance() {
+        // empty
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The title is there.
+     * @implNote The title is there, and the film, a lazy association, resolves to the one of the same
+     *         {@code filmId}, with the same title.
      */
     @Override
     void randomSelected(final FilmText instance) {
         assertThat(instance.getTitle()).as("title of %s", instance).isNotBlank();
+        assertThat(instance.getFilm().getFilmId()).as("film id of the film of %s", instance)
+                .isEqualTo(instance.getFilmId());
+        assertThat(instance.getFilm().getTitle()).as("title of the film of %s", instance)
+                .isEqualTo(instance.getTitle());
     }
 }

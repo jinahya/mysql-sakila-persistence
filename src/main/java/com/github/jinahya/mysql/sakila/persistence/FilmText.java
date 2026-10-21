@@ -24,10 +24,16 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -48,7 +54,9 @@ import jakarta.validation.constraints.Size;
  *}
  * <p>
  * The table declares no foreign key, and nothing but the {@code ins_film}, {@code upd_film} and {@code del_film}
- * triggers on {@value Film#TABLE_NAME} relates a row to a {@link Film}; so this class maps no association either. Its
+ * triggers on {@value Film#TABLE_NAME} relates a row to a {@link Film}. The triggers keep a row for every film, and
+ * none for any other, so the {@value #ATTRIBUTE_NAME_FILM} attribute maps the {@value #COLUMN_NAME_FILM_ID} column
+ * again, read-only, as a required association, which declares no foreign key either. Its
  * {@value #COLUMN_NAME_FILM_ID} is not generated, but assigned.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -115,6 +123,14 @@ public class FilmText {
      * The value is {@value}.
      */
     public static final int ATTRIBUTE_MAX_FILM_ID = 65535;
+
+    // ------------------------------------------------------------------------------------------------------------ film
+
+    /**
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column, as an association to
+     * {@link Film}. The value is {@value}.
+     */
+    public static final String ATTRIBUTE_NAME_FILM = "film";
 
     // ----------------------------------------------------------------------------------------------------------- title
 
@@ -220,8 +236,19 @@ public class FilmText {
      *
      * @param filmId new value for {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      */
-    protected void setFilmId(@Nonnull final Integer filmId) {
+    void setFilmId(@Nonnull final Integer filmId) {
         this.filmId = filmId;
+    }
+
+    // ------------------------------------------------------------------------------------------------------------ film
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
+     */
+    public Film getFilm() {
+        return film;
     }
 
     // ----------------------------------------------------------------------------------------------------------- title
@@ -241,7 +268,7 @@ public class FilmText {
      *
      * @param title new value for {@value #ATTRIBUTE_NAME_TITLE} attribute.
      */
-    public void setTitle(@Nonnull final String title) {
+    void setTitle(@Nonnull final String title) {
         this.title = title;
     }
 
@@ -262,7 +289,7 @@ public class FilmText {
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    public void setDescription(@Nullable final String description) {
+    void setDescription(@Nullable final String description) {
         this.description = description;
     }
 
@@ -272,20 +299,32 @@ public class FilmText {
     @Min(ATTRIBUTE_MIN_FILM_ID)
     @NotNull
     @Id
+    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on an
+    // @Id -- "There should be one non-read-only mapping defined for the primary key field". Nothing writes to this
+    // table anyway; the triggers of the film table do.
     @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = true, updatable = false)
     private Integer filmId;
+
+    @Nonnull
+    @Valid
+    @NotNull
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false,
+                insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Film film;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_TITLE, nullable = false, length = COLUMN_LENGTH_TITLE)
+    @Column(name = COLUMN_NAME_TITLE, nullable = false, insertable = false, updatable = false,
+            length = COLUMN_LENGTH_TITLE)
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true)
+    @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;
 }

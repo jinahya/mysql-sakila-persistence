@@ -598,7 +598,8 @@ public class Staff {
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_FIRST_NAME, nullable = false, length = COLUMN_LENGTH_FIRST_NAME)
+    @Column(name = COLUMN_NAME_FIRST_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_FIRST_NAME)
     private String firstName;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -606,7 +607,8 @@ public class Staff {
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_LAST_NAME, nullable = false, length = COLUMN_LENGTH_LAST_NAME)
+    @Column(name = COLUMN_NAME_LAST_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_LAST_NAME)
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -614,8 +616,8 @@ public class Staff {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID,
-                nullable = false)
+    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
+                insertable = true, updatable = true)
     private Address address;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -623,14 +625,16 @@ public class Staff {
     @Size(max = SIZE_MAX_PICTURE)
     @Lob
     @Basic(optional = true, fetch = FetchType.LAZY)
-    @Column(name = COLUMN_NAME_PICTURE, nullable = true, length = COLUMN_LENGTH_PICTURE)
+    @Column(name = COLUMN_NAME_PICTURE, nullable = true, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_PICTURE)
     private byte[] picture;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_EMAIL, nullable = true, length = COLUMN_LENGTH_EMAIL)
+    @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_EMAIL)
     private String email;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -638,14 +642,15 @@ public class Staff {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false,
+                insertable = true, updatable = true)
     private Store store;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nonnull
     @NotNull
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_ACTIVE, nullable = false)
+    @Column(name = COLUMN_NAME_ACTIVE, nullable = false, insertable = true, updatable = true)
     private Boolean active;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -653,14 +658,16 @@ public class Staff {
     @NotNull
     @Size(max = SIZE_MAX_USERNAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_USERNAME, nullable = false, length = COLUMN_LENGTH_USERNAME)
+    @Column(name = COLUMN_NAME_USERNAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_USERNAME)
     private String username;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Size(max = SIZE_MAX_PASSWORD)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_PASSWORD, nullable = true, length = COLUMN_LENGTH_PASSWORD)
+    @Column(name = COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_PASSWORD)
     private String password;
 
     // -----------------------------------------------------------------------------------------------------------------

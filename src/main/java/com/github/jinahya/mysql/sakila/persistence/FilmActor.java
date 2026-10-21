@@ -309,7 +309,8 @@ public class FilmActor {
     @NotNull
     @MapsId(FilmActorId.ATTRIBUTE_NAME_ACTOR_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ACTOR_ID, referencedColumnName = Actor.COLUMN_NAME_ACTOR_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_ACTOR_ID, referencedColumnName = Actor.COLUMN_NAME_ACTOR_ID, nullable = false,
+                insertable = true, updatable = true)
     private Actor actor;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -318,7 +319,8 @@ public class FilmActor {
     @NotNull
     @MapsId(FilmActorId.ATTRIBUTE_NAME_FILM_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false)
+    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false,
+                insertable = true, updatable = true)
     private Film film;
 
     // -----------------------------------------------------------------------------------------------------------------

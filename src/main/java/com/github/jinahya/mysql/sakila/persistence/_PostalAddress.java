@@ -248,14 +248,16 @@ public class _PostalAddress {
     @NotNull
     @Size(max = Address.SIZE_MAX_ADDRESS)
     @Basic(optional = false)
-    @Column(name = Address.COLUMN_NAME_ADDRESS, nullable = false, length = Address.COLUMN_LENGTH_ADDRESS)
+    @Column(name = Address.COLUMN_NAME_ADDRESS, nullable = false, insertable = true, updatable = true,
+            length = Address.COLUMN_LENGTH_ADDRESS)
     private String address;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Size(max = Address.SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
-    @Column(name = Address.COLUMN_NAME_ADDRESS2, nullable = true, length = Address.COLUMN_LENGTH_ADDRESS2)
+    @Column(name = Address.COLUMN_NAME_ADDRESS2, nullable = true, insertable = true, updatable = true,
+            length = Address.COLUMN_LENGTH_ADDRESS2)
     private String address2;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -263,7 +265,8 @@ public class _PostalAddress {
     @NotNull
     @Size(max = Address.SIZE_MAX_DISTRICT)
     @Basic(optional = false)
-    @Column(name = Address.COLUMN_NAME_DISTRICT, nullable = false, length = Address.COLUMN_LENGTH_DISTRICT)
+    @Column(name = Address.COLUMN_NAME_DISTRICT, nullable = false, insertable = true, updatable = true,
+            length = Address.COLUMN_LENGTH_DISTRICT)
     private String district;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -271,13 +274,15 @@ public class _PostalAddress {
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = Address.COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID, nullable = false)
+    @JoinColumn(name = Address.COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID, nullable = false,
+                insertable = true, updatable = true)
     private City city;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Nullable
     @Size(max = Address.SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
-    @Column(name = Address.COLUMN_NAME_POSTAL_CODE, nullable = true, length = Address.COLUMN_LENGTH_POSTAL_CODE)
+    @Column(name = Address.COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true, updatable = true,
+            length = Address.COLUMN_LENGTH_POSTAL_CODE)
     private String postalCode;
 }
