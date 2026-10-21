@@ -28,7 +28,8 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Address_Test extends _Entity_Test<Address> {
+class Address_Test
+        extends _Entity_Test<Address> {
 
     Address_Test() {
         super(Address.class);
@@ -39,8 +40,8 @@ class Address_Test extends _Entity_Test<Address> {
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Address#equals(Object) equals} compares only the {@code @Id},
-     * because every other attribute is mutable state.
+     * @implNote {@link Address#equals(Object) equals} compares only the {@code @Id}, because every other
+     *         attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Address> equals_verifier_() {

@@ -58,6 +58,7 @@ import java.math.BigDecimal;
  * name-based row mapper, or a {@link jakarta.persistence.ConstructorResult @ConstructorResult}, hands them over.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-film_list.html">The film_list View</a>
  */
 public class FilmList {
 
@@ -69,8 +70,7 @@ public class FilmList {
     // ------------------------------------------------------------------------------------------------------------- FID
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FID} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FID} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_FID = "FID";
 
@@ -82,8 +82,7 @@ public class FilmList {
     // ----------------------------------------------------------------------------------------------------------- title
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_TITLE = "title";
 
@@ -141,8 +140,7 @@ public class FilmList {
     // ----------------------------------------------------------------------------------------------------------- price
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PRICE} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PRICE} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_PRICE = "price";
 
@@ -174,8 +172,7 @@ public class FilmList {
     // ---------------------------------------------------------------------------------------------------------- length
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LENGTH = "length";
 
@@ -187,8 +184,7 @@ public class FilmList {
     // ---------------------------------------------------------------------------------------------------------- rating
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RATING = "rating";
 
@@ -205,8 +201,7 @@ public class FilmList {
     // ---------------------------------------------------------------------------------------------------------- actors
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ACTORS} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ACTORS} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_ACTORS = "actors";
 

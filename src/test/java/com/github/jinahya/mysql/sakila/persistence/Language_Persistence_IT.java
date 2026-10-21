@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Language_Persistence_IT extends _Entity_Persistence_IT<Language> {
+class Language_Persistence_IT
+        extends _Entity_Persistence_IT<Language> {
 
     Language_Persistence_IT() {
         super(Language.class);

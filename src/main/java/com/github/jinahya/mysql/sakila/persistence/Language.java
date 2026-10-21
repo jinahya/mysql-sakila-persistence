@@ -58,6 +58,7 @@ import java.util.Optional;
  * as it reads one back, so a value read from the database never ends with a space.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-language.html">The language Table</a>
  */
 @NamedQuery(name = "Language.selectOneByLanguageId",
             query = """

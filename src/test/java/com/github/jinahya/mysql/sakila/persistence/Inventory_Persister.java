@@ -32,7 +32,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Inventory_Persister extends AbstractEntityPersister<Inventory> {
+class Inventory_Persister
+        extends AbstractEntityPersister<Inventory> {
 
     Inventory_Persister() {
         super(Inventory.class);

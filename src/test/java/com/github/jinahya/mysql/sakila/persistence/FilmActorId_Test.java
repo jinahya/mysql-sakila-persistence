@@ -25,7 +25,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmActorId_Test extends _NonEntity_Test<FilmActorId> {
+class FilmActorId_Test
+        extends _NonEntity_Test<FilmActorId> {
 
     FilmActorId_Test() {
         super(FilmActorId.class);

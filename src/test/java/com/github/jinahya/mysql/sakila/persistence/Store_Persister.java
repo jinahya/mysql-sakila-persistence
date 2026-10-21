@@ -34,7 +34,8 @@ import java.util.Optional;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Store_Persister extends AbstractEntityPersister<Store> {
+class Store_Persister
+        extends AbstractEntityPersister<Store> {
 
     Store_Persister() {
         super(Store.class);
@@ -47,7 +48,7 @@ class Store_Persister extends AbstractEntityPersister<Store> {
      *
      * @param entityManager the entity manager to select with.
      * @return the {@code Store} with the smallest {@code storeId}; {@link Optional#empty() empty} when the database
-     * holds none, as the generated, in-memory one does.
+     *         holds none, as the generated, in-memory one does.
      */
     static Optional<Store> selectFirst(final EntityManager entityManager) {
         return entityManager

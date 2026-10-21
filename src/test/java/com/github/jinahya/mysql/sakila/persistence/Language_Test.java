@@ -28,7 +28,8 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Language_Test extends _Entity_Test<Language> {
+class Language_Test
+        extends _Entity_Test<Language> {
 
     Language_Test() {
         super(Language.class);
@@ -39,8 +40,8 @@ class Language_Test extends _Entity_Test<Language> {
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Language#equals(Object) equals} compares only the {@code @Id},
-     * because every other attribute is mutable state.
+     * @implNote {@link Language#equals(Object) equals} compares only the {@code @Id}, because every other
+     *         attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Language> equals_verifier_() {

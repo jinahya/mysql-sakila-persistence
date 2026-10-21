@@ -32,7 +32,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Rental_Persister extends AbstractEntityPersister<Rental> {
+class Rental_Persister
+        extends AbstractEntityPersister<Rental> {
 
     Rental_Persister() {
         super(Rental.class);

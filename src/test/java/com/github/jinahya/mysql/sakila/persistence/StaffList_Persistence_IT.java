@@ -30,7 +30,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class StaffList_Persistence_IT extends _Entity_Persistence_IT<StaffList> {
+class StaffList_Persistence_IT
+        extends _Entity_Persistence_IT<StaffList> {
 
     StaffList_Persistence_IT() {
         super(StaffList.class);

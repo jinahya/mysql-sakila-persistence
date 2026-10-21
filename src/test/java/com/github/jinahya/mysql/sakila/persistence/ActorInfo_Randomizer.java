@@ -35,7 +35,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class ActorInfo_Randomizer extends PodamObjectRandomizer<ActorInfo> {
+class ActorInfo_Randomizer
+        extends PodamObjectRandomizer<ActorInfo> {
 
     ActorInfo_Randomizer() {
         super(ActorInfo.class, List.of(

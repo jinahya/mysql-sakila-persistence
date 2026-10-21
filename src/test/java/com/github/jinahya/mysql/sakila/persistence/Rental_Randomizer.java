@@ -40,7 +40,8 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Rental_Randomizer extends PodamObjectRandomizer<Rental> {
+class Rental_Randomizer
+        extends PodamObjectRandomizer<Rental> {
 
     Rental_Randomizer() {
         super(Rental.class, List.of(
@@ -76,8 +77,8 @@ class Rental_Randomizer extends PodamObjectRandomizer<Rental> {
         final var random = ThreadLocalRandom.current();
         instance.setReturnDate(
                 random.nextBoolean()
-                ? null
-                : LocalDateTime.now().plusDays(random.nextLong(1L, 10L)).truncatedTo(ChronoUnit.SECONDS)
+                        ? null
+                        : LocalDateTime.now().plusDays(random.nextLong(1L, 10L)).truncatedTo(ChronoUnit.SECONDS)
         );
         return instance;
     }

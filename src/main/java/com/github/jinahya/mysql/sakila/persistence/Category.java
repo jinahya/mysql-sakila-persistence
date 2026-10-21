@@ -15,7 +15,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific category governing permissions and
+ * See the License for the specific language governing permissions and
  * limitations under the License.
  * #L%
  */
@@ -52,6 +52,7 @@ import java.util.List;
  *}
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-category.html">The category Table</a>
  */
 @NamedQuery(name = "Category.selectOneByCategoryId",
             query = """
@@ -170,7 +171,7 @@ public class Category {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -189,7 +190,7 @@ public class Category {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -202,7 +203,7 @@ public class Category {
      * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getCategoryId() {
         return categoryId;
@@ -234,8 +235,8 @@ public class Category {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

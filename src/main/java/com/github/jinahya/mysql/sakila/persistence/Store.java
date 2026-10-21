@@ -72,6 +72,7 @@ import java.util.Objects;
  * {@link Rental}, and left unnamed, for the provider to name.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-store.html">The store Table</a>
  */
 @NamedQuery(name = "Store.selectOneByStoreId",
             query = """
@@ -209,10 +210,10 @@ public class Store {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the business key, the identifier of the {@value #ATTRIBUTE_NAME_MANAGER_STAFF} -- the
-     * table's unique {@value #COLUMN_NAME_MANAGER_STAFF_ID} column -- rather than by the generated {@code @Id},
-     * which is {@code null} until the row is inserted. The association is read through its getter, and only its
-     * identifier, so a lazy proxy, on either side, compares without being initialized.
+     * @implSpec Equality is by the business key, the identifier of the {@value #ATTRIBUTE_NAME_MANAGER_STAFF}
+     *         -- the table's unique {@value #COLUMN_NAME_MANAGER_STAFF_ID} column -- rather than by the generated
+     *         {@code @Id}, which is {@code null} until the row is inserted. The association is read through its getter,
+     *         and only its identifier, so a lazy proxy, on either side, compares without being initialized.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -244,7 +245,7 @@ public class Store {
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getStoreId() {
         return storeId;
@@ -297,8 +298,8 @@ public class Store {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

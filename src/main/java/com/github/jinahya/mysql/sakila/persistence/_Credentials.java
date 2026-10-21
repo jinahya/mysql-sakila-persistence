@@ -31,8 +31,8 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- * An embeddable for mapping the {@value Staff#COLUMN_NAME_USERNAME} column and the
- * {@value Staff#COLUMN_NAME_PASSWORD} column, of the {@value Staff#TABLE_NAME} table.
+ * An embeddable for mapping the {@value Staff#COLUMN_NAME_USERNAME} column and the {@value Staff#COLUMN_NAME_PASSWORD}
+ * column, of the {@value Staff#TABLE_NAME} table.
  * <p>
  * {@snippet lang = "sql":
  * username VARCHAR(16) NOT NULL,
@@ -116,7 +116,7 @@ public class _Credentials {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_USERNAME} and {@value #ATTRIBUTE_NAME_PASSWORD},
-     * consistent with {@link #equals(Object)}.
+     *         consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

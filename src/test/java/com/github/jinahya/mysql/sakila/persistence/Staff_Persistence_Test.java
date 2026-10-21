@@ -30,7 +30,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Staff_Persistence_Test extends _Entity_Persistence_Test<Staff> {
+class Staff_Persistence_Test
+        extends _Entity_Persistence_Test<Staff> {
 
     Staff_Persistence_Test() {
         super(Staff.class);
@@ -41,11 +42,12 @@ class Staff_Persistence_Test extends _Entity_Persistence_Test<Staff> {
     /**
      * Aborts, rather than fails, when the in-memory database lacks a {@link Store} or a {@link Staff}.
      *
-     * @implNote A store and its manager refer to each other through {@code NOT NULL} columns whose values are both
-     * generated, so neither can be persisted first, and the generated schema starts empty. The persister of this
-     * entity gives it an existing store or staff member -- see {@link Store_Persister#selectFirst(EntityManager)} and
-     * {@link Staff_Persister#selectFirst(EntityManager)} -- which only the installed database has; the
-     * {@code *_Persistence_IT} counterpart is what runs these against it.
+     * @implNote A store and its manager refer to each other through {@code NOT NULL} columns whose values are
+     *         both generated, so neither can be persisted first, and the generated schema starts empty. The persister
+     *         of this entity gives it an existing store or staff member -- see
+     *         {@link Store_Persister#selectFirst(EntityManager)} and {@link Staff_Persister#selectFirst(EntityManager)}
+     *         -- which only the installed database has; the {@code *_Persistence_IT} counterpart is what runs these
+     *         against it.
      */
     @BeforeEach
     void assumeStoreAndStaffExist() {

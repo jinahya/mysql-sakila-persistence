@@ -1,3 +1,22 @@
+-- -
+-- #%L
+-- mysql-sakila-persistence
+-- %%
+-- Copyright (C) 2026 Jinahya, Inc.
+-- %%
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+-- 
+--      http://www.apache.org/licenses/LICENSE-2.0
+-- 
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-- #L%
+-- -
 --
 -- Profiling queries on sales_by_film_category, a view, a section per column. Each says what it looks for and what the result should be;
 -- 'no rows' marks a check that passes when nothing comes back.
@@ -40,7 +59,7 @@ FROM sales_by_film_category
 
 -- the sum of total_sales against the sum of payment's amount.
 -- 67406.56 both; no payment is left out, for none lacks its rental.
-SELECT (SELECT SUM(total_sales) FROM sales_by_film_category) AS total_sales,
-       (SELECT SUM(amount) FROM payment)                     AS amount,
+SELECT (SELECT SUM(total_sales) FROM sales_by_film_category)  AS total_sales,
+       (SELECT SUM(amount) FROM payment)                      AS amount,
        (SELECT COUNT(*) FROM payment WHERE rental_id IS NULL) AS payments_without_rental
 ;

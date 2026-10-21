@@ -28,17 +28,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * An embeddable for mapping the {@value #COLUMN_NAME_FIRST_NAME} column and the {@value #COLUMN_NAME_LAST_NAME}
- * column, which the {@value Actor#TABLE_NAME} table, the {@value Customer#TABLE_NAME} table, and the
- * {@value Staff#TABLE_NAME} table declare alike.
+ * An embeddable for mapping the {@value #COLUMN_NAME_FIRST_NAME} column and the {@value #COLUMN_NAME_LAST_NAME} column,
+ * which the {@value Actor#TABLE_NAME} table, the {@value Customer#TABLE_NAME} table, and the {@value Staff#TABLE_NAME}
+ * table declare alike.
  * <p>
  * {@snippet lang = "sql":
  * first_name VARCHAR(45) NOT NULL,
  * last_name VARCHAR(45) NOT NULL,
  *}
  * <p>
- * This is a record, for a name is replaced as a whole; changing either part means a new instance, and the owning
- * entity sees the change only when the new instance is set to it.
+ * This is a record, for a name is replaced as a whole; changing either part means a new instance, and the owning entity
+ * sees the change only when the new instance is set to it.
  *
  * @param firstName a value for the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
  * @param lastName  a value for the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.

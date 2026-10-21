@@ -40,6 +40,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value Payment#TABLE_NAME} table.
@@ -68,6 +69,7 @@ import java.time.LocalDateTime;
  * Unlike most tables of the database, the {@value #COLUMN_NAME_LAST_UPDATE} column of this one is nullable.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-payment.html">The payment Table</a>
  */
 @NamedQuery(name = "Payment.selectOneByPaymentId",
             query = """
@@ -236,17 +238,20 @@ public class Payment {
      * Returns a new instance of the specified staff for the specified rental.
      * <p>
      * The {@value #ATTRIBUTE_NAME_CUSTOMER} of the new instance is the one of the rental. Along with
-     * {@link #of(Rental)}, this is the only way to set the {@value #ATTRIBUTE_NAME_CUSTOMER}, the
+     * {@link #of(Staff, Customer)}, this is the only way to set the {@value #ATTRIBUTE_NAME_CUSTOMER}, the
      * {@value #ATTRIBUTE_NAME_STAFF} and the {@value #ATTRIBUTE_NAME_RENTAL} from outside the package; the
      * {@value #ATTRIBUTE_NAME_AMOUNT} and the {@value #ATTRIBUTE_NAME_PAYMENT_DATE} are set on their own.
      *
      * @param staff  a value for the {@value #ATTRIBUTE_NAME_STAFF} attribute.
      * @param rental a value for the {@value #ATTRIBUTE_NAME_RENTAL} attribute.
      * @return a new instance of {@code staff} for {@code rental}.
-     * @apiNote The database sets the {@value #COLUMN_NAME_RENTAL_ID} column to {@code NULL} when the rental is deleted;
-     *         a payment is created with a rental, though.
+     * @apiNote A payment is processed some time after the rental, by whichever staff member is there; the staff
+     *         of the rental is just one of them, so the staff is always given. The database also sets the
+     *         {@value #COLUMN_NAME_RENTAL_ID} column to {@code NULL} when the rental is deleted.
+     * @see #of(Staff, Customer)
      */
     public static Payment of(final Staff staff, final Rental rental) {
+        Objects.requireNonNull(rental, "rental is null");
         final var instance = new Payment();
         instance.setCustomer(rental.getCustomer());
         instance.setStaff(staff);
@@ -255,16 +260,21 @@ public class Payment {
     }
 
     /**
-     * Returns a new instance for the specified rental, taken by the staff of the rental.
+     * Returns a new instance of the specified staff for the specified customer, without a rental.
+     * <p>
+     * A payment is not always applied to a rental; one of outstanding fees, for example, is applied to the balance of
+     * the customer alone, and its {@value #ATTRIBUTE_NAME_RENTAL} is {@code null}.
      *
-     * @param rental a value for the {@value #ATTRIBUTE_NAME_RENTAL} attribute.
-     * @return a new instance for {@code rental}.
-     * @apiNote The staff who takes a payment is not always the one who made the rental; use
-     *         {@link #of(Staff, Rental)} for another staff.
+     * @param staff    a value for the {@value #ATTRIBUTE_NAME_STAFF} attribute.
+     * @param customer a value for the {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
+     * @return a new instance of {@code staff} for {@code customer}.
      * @see #of(Staff, Rental)
      */
-    public static Payment of(final Rental rental) {
-        return of(rental.getStaff(), rental);
+    public static Payment of(final Staff staff, final Customer customer) {
+        final var instance = new Payment();
+        instance.setCustomer(customer);
+        instance.setStaff(staff);
+        return instance;
     }
 
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
@@ -394,9 +404,9 @@ public class Payment {
      * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL} attribute with the specified value.
      *
      * @param rental new value for {@value #ATTRIBUTE_NAME_RENTAL} attribute.
-     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the rental from outside the package.
-     *         The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it is; the customer of the rental should be the customer
-     *         of this payment.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the rental from outside the
+     *         package. The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it is; the customer of the rental should be the
+     *         customer of this payment.
      */
     void setRental(@Nullable final Rental rental) {
         this.rental = rental;
@@ -428,8 +438,8 @@ public class Payment {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_PAYMENT_DATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     public LocalDateTime getPaymentDate() {
         return paymentDate;

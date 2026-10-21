@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Payment_Persistence_IT extends _Entity_Persistence_IT<Payment> {
+class Payment_Persistence_IT
+        extends _Entity_Persistence_IT<Payment> {
 
     Payment_Persistence_IT() {
         super(Payment.class);
@@ -39,8 +40,8 @@ class Payment_Persistence_IT extends _Entity_Persistence_IT<Payment> {
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The amount is not negative, and the customer and the staff member, lazy associations, resolve; the
-     * rental, when there is one, is of the same customer.
+     * @implNote The amount is not negative, and the customer and the staff member, lazy associations, resolve;
+     *         the rental, when there is one, is of the same customer.
      */
     @Override
     void randomSelected(final Payment instance) {

@@ -30,7 +30,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class CustomerList_Persistence_IT extends _Entity_Persistence_IT<CustomerList> {
+class CustomerList_Persistence_IT
+        extends _Entity_Persistence_IT<CustomerList> {
 
     CustomerList_Persistence_IT() {
         super(CustomerList.class);
@@ -54,7 +55,8 @@ class CustomerList_Persistence_IT extends _Entity_Persistence_IT<CustomerList> {
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The name is there, and the notes are what the view makes of the activeness: {@code "active"}, or empty.
+     * @implNote The name is there, and the notes are what the view makes of the activeness: {@code "active"},
+     *         or empty.
      */
     @Override
     void randomSelected(final CustomerList instance) {

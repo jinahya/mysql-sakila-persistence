@@ -117,7 +117,8 @@
       <!-- the database from compose.yaml; see _docker_compose_up.sh
            yearIsDateType=false: Connector/J reads a YEAR column as a java.sql.Date otherwise, which EclipseLink,
            reading through getObject, cannot convert into Film.releaseYear's Integer -->
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sakila?characterEncoding=UTF-8&amp;yearIsDateType=false"/>
+      <property name="jakarta.persistence.jdbc.url"
+                value="jdbc:mysql://localhost:3306/sakila?characterEncoding=UTF-8&amp;yearIsDateType=false"/>
       <property name="jakarta.persistence.jdbc.user" value="root"/>
       <property name="jakarta.persistence.jdbc.password" value="password"/>
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////// eclipselink -->

@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmActor_Persistence_IT extends _Entity_Persistence_IT<FilmActor> {
+class FilmActor_Persistence_IT
+        extends _Entity_Persistence_IT<FilmActor> {
 
     FilmActor_Persistence_IT() {
         super(FilmActor.class);
@@ -39,8 +40,8 @@ class FilmActor_Persistence_IT extends _Entity_Persistence_IT<FilmActor> {
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The two components of the identifier, which the provider derives, are the identifiers of the actor and
-     * of the film, lazy associations which resolve.
+     * @implNote The two components of the identifier, which the provider derives, are the identifiers of the
+     *         actor and of the film, lazy associations which resolve.
      */
     @Override
     void randomSelected(final FilmActor instance) {

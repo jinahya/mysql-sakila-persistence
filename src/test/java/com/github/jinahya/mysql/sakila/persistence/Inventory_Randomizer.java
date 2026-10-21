@@ -36,7 +36,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Inventory_Randomizer extends PodamObjectRandomizer<Inventory> {
+class Inventory_Randomizer
+        extends PodamObjectRandomizer<Inventory> {
 
     Inventory_Randomizer() {
         super(Inventory.class, List.of(

@@ -114,8 +114,8 @@ public class _RentalTerms {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by all three attributes. The amounts compare by
-     * {@link BigDecimal#equals(Object) BigDecimal.equals}, so {@code 4.99} and {@code 4.990} differ; both come back
-     * from the database at the column's scale.
+     *         {@link BigDecimal#equals(Object) BigDecimal.equals}, so {@code 4.99} and {@code 4.990} differ; both come
+     *         back from the database at the column's scale.
      */
     @Override
     public final boolean equals(final Object obj) {

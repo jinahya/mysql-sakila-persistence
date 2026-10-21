@@ -81,6 +81,84 @@ INSERT INTO language (name) VALUES ('English');
 SET REFERENTIAL_INTEGRITY TRUE;
 ```
 
+## What the data implies
+
+[`src/test/sql`](src/test/sql) holds a profiling script per table and view, a section per column; each query says
+what it looks for and what the installed data gives back.
+
+```shell
+$ docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/payment.sql
+```
+
+Some of what they find is a rule of the schema, and some only a habit of the generated data; the mappings follow the
+former and leave the latter alone.
+
+### A payment, and its rental
+
+`payment.customer_id`, `staff_id` and `payment_date` are `NOT NULL`; `rental_id` is nullable. The foreign keys say
+why:
+
+| constraint            | `ON DELETE`  | `ON UPDATE` |
+|-----------------------|--------------|-------------|
+| `fk_payment_rental`   | `SET NULL`   | `CASCADE`   |
+| `fk_payment_customer` | `RESTRICT`   | `CASCADE`   |
+| `fk_payment_staff`    | `RESTRICT`   | `CASCADE`   |
+
+A customer, or a staff member, cannot be deleted while a payment refers to them; a rental can, and its payments stay,
+with `rental_id` set to `NULL`. A payment keeps its own `customer_id`, rather than reaching the customer through the
+rental, so that it still has one then. In the installed data every payment has a rental, every rental is paid for
+once, and the customer of every payment is the customer of its rental.
+
+So a payment is created with a rental, or, for an outstanding fee, with a customer alone, and `rental_id` otherwise
+goes `NULL` only when the rental is deleted. `Payment.of(staff, rental)`, whose customer is the one of the rental,
+and `Payment.of(staff, customer)`, without a rental, are the only ways to set the customer, the staff and the rental
+from outside the package, so the customer of a payment cannot differ from the one of its rental; `Payment.rental`
+stays optional, for the rows whose rental is gone. The amount is set on its own, and the `payment_date` trigger sets
+the payment date.
+
+### Three dates
+
+For every payment with a rental,
+
+```text
+rental_date = payment_date < return_date        15861 payments
+rental_date = payment_date, not returned (NULL)   183 payments
+```
+
+to the second. Taken literally, a rental is paid for once, up front, at the moment it is made. The amounts say
+otherwise. Compared with the `rental_rate` of the rented film, by how the rental ended -- *in time* when
+`return_date` is within `film.rental_duration` days of `rental_date`, *late* when it is not, and *not returned* when
+`return_date` is `NULL` --
+
+| rental       | payments | `amount` = rate | `amount` > rate | `amount` < rate |
+|--------------|----------|-----------------|-----------------|-----------------|
+| in time      | 8592     | 8592            | 0               | 0               |
+| late         | 7269     | 0               | 7269            | 0               |
+| not returned | 183      | 135             | 24              | 24, all `0.00`  |
+
+Every late return is charged more than the rate -- a late fee, which is known only once the copy is back -- and yet
+the payment is dated at the rental. A copy not returned yet is charged the rate, nothing, or more than the rate, a
+late fee for a return which has not happened. The data was generated with one payment per rental, carrying the
+whole amount and the rental's timestamp; `payment_date = rental_date` is a habit of that generator, not a rule of the
+business, where a late fee, or an outstanding payment without a rental, is paid at or after the return. The mappings
+check none of it: no constraint ties `payment_date` to `rental_date` or `return_date`. `payment.sql` keeps the
+queries, as a description of the installed data.
+
+### The amount
+
+Nothing in the schema changes a payment once it is inserted: the only trigger on `payment` sets `payment_date` before
+an insert, and no routine writes to it. `get_customer_balance` reads payments as a ledger -- the rates of the rentals,
+plus a dollar for every day overdue, less every payment made -- so a late fee would be a payment of its own, not a
+change to an earlier one. Nor does the data show a change: `last_update`, which MySQL sets on every `UPDATE`, falls
+within the twelve minutes of the original load for every payment.
+
+And yet, of a payment, only the amount is left to change. The customer, the staff and the rental are set once, by
+the factories; the trigger sets the payment date; and the `SET NULL` of a deleted rental does not touch
+`last_update` -- a cascaded foreign key action never does. Were the amount fixed too, `last_update` would always be
+the time of the insert. So `Payment.amount` stays updatable, with a public `setAmount`, for now and for no concrete
+reason: the most a change could be is the correction of a mistyped amount, and `last_update` would tell when. Every
+table in the schema has a `last_update`, though, so its presence here may say nothing about the amount.
+
 ## Building
 
 Two persistence providers, one profile each; `jakarta-ee-11-hibernate-orm` is active by default.

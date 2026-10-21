@@ -72,6 +72,7 @@ import java.util.List;
  * {@code inventory_in_stock} function reads it that way.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-rental.html">The rental Table</a>
  */
 @NamedQuery(name = "Rental.selectOneByRentalId",
             query = """

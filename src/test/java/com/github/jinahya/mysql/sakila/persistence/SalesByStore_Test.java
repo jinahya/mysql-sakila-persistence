@@ -27,7 +27,8 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class SalesByStore_Test extends _Entity_Test<SalesByStore> {
+class SalesByStore_Test
+        extends _Entity_Test<SalesByStore> {
 
     SalesByStore_Test() {
         super(SalesByStore.class);

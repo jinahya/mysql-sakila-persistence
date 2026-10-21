@@ -61,6 +61,8 @@ import java.time.LocalDateTime;
  * {@link jakarta.persistence.IdClass @IdClass} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The film_actor
+ *         Table</a>
  * @see FilmActorId
  */
 @NamedQuery(name = "FilmActor.selectOneByActorIdAndFilmId",
@@ -224,8 +226,8 @@ public class FilmActor {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -244,7 +246,7 @@ public class FilmActor {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@link EmbeddedId @EmbeddedId} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@link EmbeddedId @EmbeddedId} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

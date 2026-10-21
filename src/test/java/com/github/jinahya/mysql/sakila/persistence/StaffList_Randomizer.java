@@ -35,7 +35,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class StaffList_Randomizer extends PodamObjectRandomizer<StaffList> {
+class StaffList_Randomizer
+        extends PodamObjectRandomizer<StaffList> {
 
     StaffList_Randomizer() {
         super(StaffList.class, List.of(

@@ -30,7 +30,8 @@ import static org.junit.jupiter.api.Assumptions.abort;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmText_Persistence_Test extends _Entity_Persistence_Test<FilmText> {
+class FilmText_Persistence_Test
+        extends _Entity_Persistence_Test<FilmText> {
 
     FilmText_Persistence_Test() {
         super(FilmText.class);

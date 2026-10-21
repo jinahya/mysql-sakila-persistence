@@ -30,7 +30,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Category_Persister extends AbstractEntityPersister<Category> {
+class Category_Persister
+        extends AbstractEntityPersister<Category> {
 
     Category_Persister() {
         super(Category.class);

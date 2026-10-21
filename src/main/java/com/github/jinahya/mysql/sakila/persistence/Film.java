@@ -91,6 +91,7 @@ import java.util.stream.Collectors;
  * apply only to an {@code INSERT} which leaves the column out, which a provider never does.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film.html">The film Table</a>
  */
 @NamedQuery(name = "Film.selectOneByFilmId",
             query = """
@@ -241,8 +242,8 @@ public class Film {
     // -------------------------------------------------------------------------------------------- original_language_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute maps. The value
-     * is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute maps. The value is
+     * {@value}.
      */
     public static final String COLUMN_NAME_ORIGINAL_LANGUAGE_ID = "original_language_id";
 
@@ -313,8 +314,7 @@ public class Film {
     // ---------------------------------------------------------------------------------------------------------- length
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LENGTH = "length";
 
@@ -338,8 +338,8 @@ public class Film {
     // ------------------------------------------------------------------------------------------------ replacement_cost
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute maps. The value
-     * is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute maps. The value is
+     * {@value}.
      */
     public static final String COLUMN_NAME_REPLACEMENT_COST = "replacement_cost";
 
@@ -371,8 +371,7 @@ public class Film {
     // ---------------------------------------------------------------------------------------------------------- rating
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RATING = "rating";
 
@@ -390,8 +389,8 @@ public class Film {
     // ------------------------------------------------------------------------------------------------ special_features
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute maps. The value
-     * is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute maps. The value is
+     * {@value}.
      */
     public static final String COLUMN_NAME_SPECIAL_FEATURES = "special_features";
 
@@ -519,7 +518,7 @@ public class Film {
          * Returns the value of the {@value Film#COLUMN_NAME_RATING} column which this constant represents.
          *
          * @return the column value of this constant; the constant's {@link Enum#name() name} unless it declares its
-         * own.
+         *         own.
          */
         public String columnValue() {
             if (columnValue != null) {
@@ -539,7 +538,8 @@ public class Film {
      * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
      */
     @Converter(autoApply = false)
-    public static class RatingConverter implements AttributeConverter<Rating, String> {
+    public static class RatingConverter
+            implements AttributeConverter<Rating, String> {
 
         /**
          * Creates a new instance.
@@ -573,8 +573,8 @@ public class Film {
     }
 
     /**
-     * Constants for the members of the {@value #COLUMN_NAME_SPECIAL_FEATURES} column, a {@code SET}, whose value is
-     * any number of its members joined by commas.
+     * Constants for the members of the {@value #COLUMN_NAME_SPECIAL_FEATURES} column, a {@code SET}, whose value is any
+     * number of its members joined by commas.
      */
     public enum SpecialFeature {
 
@@ -628,7 +628,7 @@ public class Film {
          *
          * @param columnValue the column value to parse; may be {@code null} or empty.
          * @return a new set of the constants {@code columnValue} holds; empty when {@code columnValue} is {@code null}
-         * or empty.
+         *         or empty.
          * @throws IllegalArgumentException if {@code columnValue} holds a member no constant represents.
          */
         public static Set<SpecialFeature> parse(@Nullable final String columnValue) {
@@ -646,8 +646,8 @@ public class Film {
          * Formats the specified constants into a value of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column.
          *
          * @param constants the constants to format.
-         * @return the column value of {@code constants}, in the order MySQL itself lists the members; {@code null}
-         * when {@code constants} is empty.
+         * @return the column value of {@code constants}, in the order MySQL itself lists the members; {@code null} when
+         *         {@code constants} is empty.
          */
         @Nullable
         public static String format(@Nonnull final Collection<SpecialFeature> constants) {
@@ -716,7 +716,7 @@ public class Film {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -735,7 +735,7 @@ public class Film {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -748,7 +748,7 @@ public class Film {
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getFilmId() {
         return filmId;
@@ -970,7 +970,7 @@ public class Film {
      * Returns current value of {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute; any number of the members of the
-     * column joined by commas.
+     *         column joined by commas.
      * @see SpecialFeature#parse(String)
      */
     @Nullable
@@ -994,8 +994,8 @@ public class Film {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

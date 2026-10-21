@@ -35,7 +35,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Language_Randomizer extends PodamObjectRandomizer<Language> {
+class Language_Randomizer
+        extends PodamObjectRandomizer<Language> {
 
     Language_Randomizer() {
         super(Language.class, List.of(

@@ -36,7 +36,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Store_Randomizer extends PodamObjectRandomizer<Store> {
+class Store_Randomizer
+        extends PodamObjectRandomizer<Store> {
 
     Store_Randomizer() {
         super(Store.class, List.of(

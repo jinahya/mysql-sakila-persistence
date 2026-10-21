@@ -35,7 +35,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Category_Randomizer extends PodamObjectRandomizer<Category> {
+class Category_Randomizer
+        extends PodamObjectRandomizer<Category> {
 
     Category_Randomizer() {
         super(Category.class, List.of(

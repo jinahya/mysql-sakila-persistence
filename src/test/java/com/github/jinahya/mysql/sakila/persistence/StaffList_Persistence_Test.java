@@ -28,7 +28,8 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class StaffList_Persistence_Test extends _Entity_Persistence_Test<StaffList> {
+class StaffList_Persistence_Test
+        extends _Entity_Persistence_Test<StaffList> {
 
     StaffList_Persistence_Test() {
         super(StaffList.class);
@@ -38,9 +39,8 @@ class StaffList_Persistence_Test extends _Entity_Persistence_Test<StaffList> {
 
     /**
      * Does nothing; {@value StaffList#TABLE_NAME} is a view, so there is nothing to insert a randomized instance into.
-     * The
-     * provider generates a table for it into the in-memory database, which would make this pass for the wrong reason,
-     * and the real object is read-only.
+     * The provider generates a table for it into the in-memory database, which would make this pass for the wrong
+     * reason, and the real object is read-only.
      */
     @Disabled("a view: nothing is inserted into it")
     @Override

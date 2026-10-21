@@ -35,10 +35,9 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- * An embeddable for mapping the {@value Address#COLUMN_NAME_ADDRESS} column, the
- * {@value Address#COLUMN_NAME_ADDRESS2} column, the {@value Address#COLUMN_NAME_DISTRICT} column, the
- * {@value Address#COLUMN_NAME_CITY_ID} column, and the {@value Address#COLUMN_NAME_POSTAL_CODE} column, of the
- * {@value Address#TABLE_NAME} table.
+ * An embeddable for mapping the {@value Address#COLUMN_NAME_ADDRESS} column, the {@value Address#COLUMN_NAME_ADDRESS2}
+ * column, the {@value Address#COLUMN_NAME_DISTRICT} column, the {@value Address#COLUMN_NAME_CITY_ID} column, and the
+ * {@value Address#COLUMN_NAME_POSTAL_CODE} column, of the {@value Address#TABLE_NAME} table.
  * <p>
  * {@snippet lang = "sql":
  * address VARCHAR(50) NOT NULL,
@@ -81,8 +80,7 @@ public class _PostalAddress {
     public static final String ATTRIBUTE_NAME_CITY = "city";
 
     /**
-     * The name of the attribute which maps the {@value Address#COLUMN_NAME_POSTAL_CODE} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value Address#COLUMN_NAME_POSTAL_CODE} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_POSTAL_CODE = "postalCode";
 
@@ -112,8 +110,8 @@ public class _PostalAddress {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by all the basic attributes and by the {@value #ATTRIBUTE_NAME_CITY}, which compares by its
-     * own {@link City#equals(Object) equals}.
+     * @implSpec Equality is by all the basic attributes and by the {@value #ATTRIBUTE_NAME_CITY}, which
+     *         compares by its own {@link City#equals(Object) equals}.
      */
     @Override
     public final boolean equals(final Object obj) {

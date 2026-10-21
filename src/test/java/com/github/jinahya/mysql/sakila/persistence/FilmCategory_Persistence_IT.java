@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmCategory_Persistence_IT extends _Entity_Persistence_IT<FilmCategory> {
+class FilmCategory_Persistence_IT
+        extends _Entity_Persistence_IT<FilmCategory> {
 
     FilmCategory_Persistence_IT() {
         super(FilmCategory.class);
@@ -39,8 +40,8 @@ class FilmCategory_Persistence_IT extends _Entity_Persistence_IT<FilmCategory> {
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The two basic attributes, one written and one read-only, are the identifiers of the film and of the
-     * category, lazy associations which resolve.
+     * @implNote The two basic attributes, one written and one read-only, are the identifiers of the film and of
+     *         the category, lazy associations which resolve.
      */
     @Override
     void randomSelected(final FilmCategory instance) {

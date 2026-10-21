@@ -30,7 +30,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class SalesByFilmCategory_Persistence_IT extends _Entity_Persistence_IT<SalesByFilmCategory> {
+class SalesByFilmCategory_Persistence_IT
+        extends _Entity_Persistence_IT<SalesByFilmCategory> {
 
     SalesByFilmCategory_Persistence_IT() {
         super(SalesByFilmCategory.class);
@@ -39,7 +40,8 @@ class SalesByFilmCategory_Persistence_IT extends _Entity_Persistence_IT<SalesByF
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, which MySQL does not let a row be inserted into.
+     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, which MySQL does not let a row be inserted
+     * into.
      */
     @Disabled("a view: nothing is inserted into it")
     @Override

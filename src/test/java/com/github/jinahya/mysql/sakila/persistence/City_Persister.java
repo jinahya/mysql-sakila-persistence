@@ -32,7 +32,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class City_Persister extends AbstractEntityPersister<City> {
+class City_Persister
+        extends AbstractEntityPersister<City> {
 
     City_Persister() {
         super(City.class);

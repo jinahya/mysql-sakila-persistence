@@ -27,7 +27,8 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmList_Test extends _Entity_Test<FilmList> {
+class FilmList_Test
+        extends _Entity_Test<FilmList> {
 
     FilmList_Test() {
         super(FilmList.class);

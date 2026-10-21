@@ -31,7 +31,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmText_Persister extends AbstractEntityPersister<FilmText> {
+class FilmText_Persister
+        extends AbstractEntityPersister<FilmText> {
 
     FilmText_Persister() {
         super(FilmText.class);
@@ -40,7 +41,7 @@ class FilmText_Persister extends AbstractEntityPersister<FilmText> {
     // -----------------------------------------------------------------------------------------------------------------
     @Override
     public FilmText apply(final EntityManager entityManager, final FilmText entityInstance) {
-        final var max =entityManager.createNamedQuery("FilmText.selectMaxFilmId", Integer.class).getSingleResult();
+        final var max = entityManager.createNamedQuery("FilmText.selectMaxFilmId", Integer.class).getSingleResult();
         entityInstance.setFilmId(max == null ? 1 : max + 1);
         return super.apply(entityManager, entityInstance);
     }

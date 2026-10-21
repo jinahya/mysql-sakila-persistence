@@ -69,6 +69,7 @@ import java.time.LocalDateTime;
  * See {@link Store} for how a staff member and a store refer to each other.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-staff.html">The staff Table</a>
  */
 @NamedQuery(name = "Staff.selectOneByStaffId",
             query = """
@@ -207,8 +208,7 @@ public class Staff {
     // ----------------------------------------------------------------------------------------------------------- email
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_EMAIL} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_EMAIL} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_EMAIL = "email";
 
@@ -242,8 +242,7 @@ public class Staff {
     // ---------------------------------------------------------------------------------------------------------- active
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ACTIVE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ACTIVE} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_ACTIVE = "active";
 
@@ -345,7 +344,7 @@ public class Staff {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -364,7 +363,7 @@ public class Staff {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -377,7 +376,7 @@ public class Staff {
      * Returns current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getStaffId() {
         return staffId;
@@ -557,7 +556,7 @@ public class Staff {
      * Returns current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute; the installed rows hold a {@code SHA-1}
-     * hash in hexadecimal.
+     *         hash in hexadecimal.
      */
     @Nullable
     public String getPassword() {
@@ -578,8 +577,8 @@ public class Staff {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

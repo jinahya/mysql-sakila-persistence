@@ -104,7 +104,9 @@ class _Entity_Persistence_IT_Producer {
          *
          * @see jakarta.enterprise.inject.Instance#select(Class, java.lang.annotation.Annotation...)
          */
-        final class Literal extends AnnotationLiteral<__ItPU> implements __ItPU {
+        final class Literal
+                extends AnnotationLiteral<__ItPU>
+                implements __ItPU {
 
             /**
              * The single instance of this literal; the annotation declares no member, so one is enough.
@@ -149,8 +151,8 @@ class _Entity_Persistence_IT_Producer {
      * Closes the factory this producer produced, when the container destroys it.
      *
      * @param entityManagerFactory the factory to close.
-     * @implNote Guarded by {@link EntityManagerFactory#isOpen()}: a test which closed it itself, which is allowed, must
-     * not make the shutdown fail.
+     * @implNote Guarded by {@link EntityManagerFactory#isOpen()}: a test which closed it itself, which is
+     *         allowed, must not make the shutdown fail.
      */
     protected void disposeEntityManagerFactory(@Disposes @__ItPU final EntityManagerFactory entityManagerFactory) {
         if (entityManagerFactory.isOpen()) {
@@ -167,9 +169,9 @@ class _Entity_Persistence_IT_Producer {
      * @param entityManagerFactory the factory, injected by the {@link __ItPU} qualifier; the parameter of a producer
      *                             method is an injection point.
      * @return a new entity manager.
-     * @implNote {@link Dependent}, not {@link ApplicationScoped}: a persistence context is not something to share. Note
-     * that this leaves the transaction to the caller -- the unit is {@code RESOURCE_LOCAL}, so there is no container
-     * transaction to join.
+     * @implNote {@link Dependent}, not {@link ApplicationScoped}: a persistence context is not something to
+     *         share. Note that this leaves the transaction to the caller -- the unit is {@code RESOURCE_LOCAL}, so
+     *         there is no container transaction to join.
      * @see EntityManagerFactory#createEntityManager()
      */
     @Produces
@@ -183,8 +185,8 @@ class _Entity_Persistence_IT_Producer {
      * Closes an entity manager this producer produced, when the container destroys it.
      *
      * @param entityManager the entity manager to close.
-     * @implNote Guarded by {@link EntityManager#isOpen()}, for the same reason the factory's disposer is: an entity
-     * manager used in a try-with-resources is already closed by the time it is destroyed.
+     * @implNote Guarded by {@link EntityManager#isOpen()}, for the same reason the factory's disposer is: an
+     *         entity manager used in a try-with-resources is already closed by the time it is destroyed.
      */
     protected void disposeEntityManager(@Disposes @__ItPU final EntityManager entityManager) {
         if (entityManager.isOpen()) {

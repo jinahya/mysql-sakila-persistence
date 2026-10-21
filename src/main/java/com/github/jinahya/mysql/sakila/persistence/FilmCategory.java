@@ -38,8 +38,8 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * An entity class for mapping the {@value FilmCategory#TABLE_NAME} table, whose composite primary key is mapped with
- * an {@link IdClass @IdClass}.
+ * An entity class for mapping the {@value FilmCategory#TABLE_NAME} table, whose composite primary key is mapped with an
+ * {@link IdClass @IdClass}.
  * <p>
  * {@snippet lang = "sql":
  * CREATE TABLE film_category (
@@ -65,6 +65,8 @@ import java.time.LocalDateTime;
  * the database, maps its key with an {@link jakarta.persistence.EmbeddedId @EmbeddedId} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
+ *         The film_category Table</a>
  * @see FilmCategoryId
  */
 @NamedQuery(name = "FilmCategory.selectOneByFilmIdAndCategoryId",
@@ -216,9 +218,10 @@ public class FilmCategory {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@value #ATTRIBUTE_NAME_FILM_ID} attribute and the
-     * {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute, the values of the composite key, and only once both are there; an
-     * instance without them equals nothing but itself. The {@value #ATTRIBUTE_NAME_CATEGORY_ID} is there only once the
-     * instance is read from the database, so an instance just persisted equals nothing but itself until then.
+     *         {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute, the values of the composite key, and only once both are
+     *         there; an instance without them equals nothing but itself. The {@value #ATTRIBUTE_NAME_CATEGORY_ID} is
+     *         there only once the instance is read from the database, so an instance just persisted equals nothing but
+     *         itself until then.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -240,8 +243,8 @@ public class FilmCategory {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@value #ATTRIBUTE_NAME_FILM_ID} and the {@value #ATTRIBUTE_NAME_CATEGORY_ID} are set; it is consistent with
-     * {@link #equals(Object)}.
+     *         {@value #ATTRIBUTE_NAME_FILM_ID} and the {@value #ATTRIBUTE_NAME_CATEGORY_ID} are set; it is consistent
+     *         with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -254,12 +257,12 @@ public class FilmCategory {
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
-     * @implNote This method is package-private, not {@code private}, because {@link #equals(Object)} calls it, and the
-     * instance it calls it on -- this one, or the other one -- may be a lazy proxy: a subclass, under Hibernate ORM,
-     * whose own fields are never populated. The proxy can intercept a package-private method, and delegate it to the
-     * loaded instance; it cannot intercept a {@code private} one, which would read the proxy's {@code null} instead.
-     * {@code _Entity_Persistence_Test#_persist_EqualsReference()} and
-     * {@code _Entity_Persistence_Test#_persist_ReferenceEquals()} fail when this method is {@code private}.
+     * @implNote This method is package-private, not {@code private}, because {@link #equals(Object)} calls it,
+     *         and the instance it calls it on -- this one, or the other one -- may be a lazy proxy: a subclass, under
+     *         Hibernate ORM, whose own fields are never populated. The proxy can intercept a package-private method,
+     *         and delegate it to the loaded instance; it cannot intercept a {@code private} one, which would read the
+     *         proxy's {@code null} instead. {@code _Entity_Persistence_Test#_persist_EqualsReference()} and
+     *         {@code _Entity_Persistence_Test#_persist_ReferenceEquals()} fail when this method is {@code private}.
      */
     Integer getFilmId() {
         return filmId;
@@ -294,7 +297,8 @@ public class FilmCategory {
      * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
-     * @implNote This method is package-private, not {@code private}, for the reason {@link #getFilmId()} gives.
+     * @implNote This method is package-private, not {@code private}, for the reason {@link #getFilmId()}
+     *         gives.
      */
     Integer getCategoryId() {
         return categoryId;
@@ -328,8 +332,8 @@ public class FilmCategory {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

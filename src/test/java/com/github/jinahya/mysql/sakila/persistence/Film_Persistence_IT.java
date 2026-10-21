@@ -45,7 +45,8 @@ class Film_Persistence_IT
      *
      * @param entityManager  the entity manager the film was persisted with.
      * @param entityInstance the persisted, and flushed, film.
-     * @implNote The {@link FilmText} has the film's {@code filmId}, and its title and description are the film's.
+     * @implNote The {@link FilmText} has the film's {@code filmId}, and its title and description are the
+     *         film's.
      */
     @Override
     void randomPersisted(final EntityManager entityManager, final Film entityInstance) {
@@ -81,8 +82,8 @@ class Film_Persistence_IT
     /**
      * Verifies that the {@code upd_film} trigger updates the {@link FilmText} of an updated film.
      *
-     * @implNote The {@link FilmText} is read only after the update is flushed, so it comes from the database, not from
-     *         the persistence context.
+     * @implNote The {@link FilmText} is read only after the update is flushed, so it comes from the database,
+     *         not from the persistence context.
      */
     @Test
     void _update_FilmTextUpdated() {

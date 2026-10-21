@@ -1,3 +1,22 @@
+-- -
+-- #%L
+-- mysql-sakila-persistence
+-- %%
+-- Copyright (C) 2026 Jinahya, Inc.
+-- %%
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+-- 
+--      http://www.apache.org/licenses/LICENSE-2.0
+-- 
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-- #L%
+-- -
 --
 -- Profiling queries on nicer_but_slower_film_list, a view, a section per column. Each says what it looks for and what the result should be;
 -- 'no rows' marks a check that passes when nothing comes back.
@@ -124,8 +143,8 @@ WHERE v.actors_ <> c.actors_
 
 -- the view writes each actor's names with the first letter in upper case, and the rest in lower case.
 -- 997 rows differ, case-sensitively, from film_list, and none does once both are in upper case; the other 3 are NULL.
-SELECT SUM(CAST(n.actors AS BINARY) <> CAST(f.actors AS BINARY))                AS differ,
-       SUM(CAST(UPPER(n.actors) AS BINARY) <> CAST(f.actors AS BINARY))         AS differ_in_upper_case
+SELECT SUM(CAST(n.actors AS BINARY) <> CAST(f.actors AS BINARY))        AS differ,
+       SUM(CAST(UPPER(n.actors) AS BINARY) <> CAST(f.actors AS BINARY)) AS differ_in_upper_case
 FROM nicer_but_slower_film_list n
          JOIN film_list f ON f.FID = n.FID
 ;

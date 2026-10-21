@@ -1,3 +1,22 @@
+-- -
+-- #%L
+-- mysql-sakila-persistence
+-- %%
+-- Copyright (C) 2026 Jinahya, Inc.
+-- %%
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+-- 
+--      http://www.apache.org/licenses/LICENSE-2.0
+-- 
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-- #L%
+-- -
 --
 -- Profiling queries on payment, a section per column. Each says what it looks for and what the result should be;
 -- 'no rows' marks a check that passes when nothing comes back.
@@ -142,6 +161,29 @@ SELECT p.payment_id, p.payment_date, r.rental_date
 FROM payment p
          JOIN rental r ON r.rental_id = p.rental_id
 WHERE p.payment_date > r.rental_date
+;
+
+-- a payment made at or after the return of its rental; a rental not returned yet is left out.
+-- no rows: every payment precedes the return.
+SELECT p.payment_id, p.payment_date, r.return_date
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+WHERE r.return_date IS NOT NULL
+  AND p.payment_date >= r.return_date
+;
+
+-- the three dates of a payment with a rental; a payment without a rental, outstanding, is left out.
+-- rental_date = payment_date < return_date for 15861, and rental_date = payment_date, not returned, for 183.
+SELECT CASE
+           WHEN r.return_date IS NULL THEN 'rental_date = payment_date, not returned'
+           WHEN p.payment_date = r.rental_date AND r.return_date > p.payment_date
+               THEN 'rental_date = payment_date < return_date'
+           ELSE 'other'
+           END  AS dates,
+       COUNT(*) AS payments
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+GROUP BY dates
 ;
 
 

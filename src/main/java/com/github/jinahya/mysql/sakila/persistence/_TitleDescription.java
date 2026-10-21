@@ -43,9 +43,9 @@ import java.util.Objects;
  * description TEXT,
  *}
  * <p>
- * The lengths of the {@value #COLUMN_NAME_TITLE} column differ. The mapping here takes the
- * {@value FilmText#TABLE_NAME} table's {@value #COLUMN_LENGTH_TITLE}, and an embedding {@link Film} would override it
- * with an {@link jakarta.persistence.AttributeOverride @AttributeOverride}. The override reaches the column only; the
+ * The lengths of the {@value #COLUMN_NAME_TITLE} column differ. The mapping here takes the {@value FilmText#TABLE_NAME}
+ * table's {@value #COLUMN_LENGTH_TITLE}, and an embedding {@link Film} would override it with an
+ * {@link jakarta.persistence.AttributeOverride @AttributeOverride}. The override reaches the column only; the
  * {@link Size @Size} here stays at {@value #SIZE_MAX_TITLE}, so the shorter limit has to be checked elsewhere.
  * <p>
  * This is a class, not a record, for either part is edited on its own.
@@ -58,8 +58,7 @@ public class _TitleDescription {
     // ----------------------------------------------------------------------------------------------------------- title
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_TITLE = "title";
 
@@ -148,7 +147,7 @@ public class _TitleDescription {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_TITLE} and {@value #ATTRIBUTE_NAME_DESCRIPTION},
-     * consistent with {@link #equals(Object)}.
+     *         consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

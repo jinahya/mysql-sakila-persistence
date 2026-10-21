@@ -35,7 +35,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class CustomerList_Randomizer extends PodamObjectRandomizer<CustomerList> {
+class CustomerList_Randomizer
+        extends PodamObjectRandomizer<CustomerList> {
 
     CustomerList_Randomizer() {
         super(CustomerList.class, List.of(

@@ -36,7 +36,8 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class NicerButSlowerFilmList_Randomizer extends PodamObjectRandomizer<NicerButSlowerFilmList> {
+class NicerButSlowerFilmList_Randomizer
+        extends PodamObjectRandomizer<NicerButSlowerFilmList> {
 
     NicerButSlowerFilmList_Randomizer() {
         super(NicerButSlowerFilmList.class, List.of(

@@ -34,10 +34,9 @@ import java.util.Objects;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmActor
- * @see <a
- *         href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
- *         .2#composite-primary-keys">2.4.1.
- *         Composite primary keys</a> (Jakarta Persistence 3.2 Specification Document)
+ * @see <a href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
+ *         .2#composite-primary-keys">2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2 Specification
+ *         Document)
  */
 @Embeddable
 public class FilmActorId {
@@ -150,7 +149,8 @@ public class FilmActorId {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // no @NotNull: FilmActor derives this, through @MapsId, from FilmActor.actor, which carries the constraint. When the
+    // no @NotNull: FilmActor derives this, through @MapsId, from FilmActor.actor, which carries the constraint. When
+    // the
     // provider derives it, relative to the PrePersist validation, is the provider's to say: Hibernate ORM derives it
     // first, EclipseLink validates first. The column stays NOT NULL.
     @Basic(optional = false)

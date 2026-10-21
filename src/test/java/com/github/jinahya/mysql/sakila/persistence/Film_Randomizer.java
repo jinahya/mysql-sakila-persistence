@@ -39,7 +39,8 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Film_Randomizer extends PodamObjectRandomizer<Film> {
+class Film_Randomizer
+        extends PodamObjectRandomizer<Film> {
 
     Film_Randomizer() {
         super(Film.class, List.of(

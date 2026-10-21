@@ -28,16 +28,17 @@ import java.util.Objects;
  * {@link jakarta.persistence.IdClass @IdClass} of {@link FilmCategory}.
  * <p>
  * The attributes are named as the {@link jakarta.persistence.Id @Id} attributes of {@link FilmCategory} are, which is
- * what the specification requires of an id class. The {@value #ATTRIBUTE_NAME_FILM_ID} attribute is typed as the
- * basic {@link jakarta.persistence.Id @Id} attribute is, and the {@value #ATTRIBUTE_NAME_CATEGORY} attribute, which
+ * what the specification requires of an id class. The {@value #ATTRIBUTE_NAME_FILM_ID} attribute is typed as the basic
+ * {@link jakarta.persistence.Id @Id} attribute is, and the {@value #ATTRIBUTE_NAME_CATEGORY} attribute, which
  * corresponds to an {@link jakarta.persistence.Id @Id} association, is typed as the primary key of {@link Category}
  * is.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmCategory
  * @see <a
- * href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2#composite-primary-keys">2.4.1.
- * Composite primary keys</a> (Jakarta Persistence 3.2 Specification Document)
+ *         href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
+ *         .2#composite-primary-keys">2.4.1.
+ *         Composite primary keys</a> (Jakarta Persistence 3.2 Specification Document)
  */
 public class FilmCategoryId {
 
@@ -113,7 +114,7 @@ public class FilmCategoryId {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_FILM_ID} and {@value #ATTRIBUTE_NAME_CATEGORY},
-     * consistent with {@link #equals(Object)}.
+     *         consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

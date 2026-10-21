@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Rental_Persistence_IT extends _Entity_Persistence_IT<Rental> {
+class Rental_Persistence_IT
+        extends _Entity_Persistence_IT<Rental> {
 
     Rental_Persistence_IT() {
         super(Rental.class);
@@ -39,8 +40,8 @@ class Rental_Persistence_IT extends _Entity_Persistence_IT<Rental> {
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The return date, when there is one, is not before the rental date, and the inventory, the customer, and
-     * the staff member, lazy associations, resolve.
+     * @implNote The return date, when there is one, is not before the rental date, and the inventory, the
+     *         customer, and the staff member, lazy associations, resolve.
      */
     @Override
     void randomSelected(final Rental instance) {

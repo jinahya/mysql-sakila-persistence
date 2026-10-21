@@ -26,7 +26,6 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.metamodel.Attribute;
 import jakarta.persistence.metamodel.ManagedType;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -74,7 +73,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
         "java:S101", // Class names should comply with a naming convention
         "java:S118"  // Abstract class names should comply with a naming convention
 })
-abstract class _Entity_Persistence_Test<T> extends __Test<T> {
+abstract class _Entity_Persistence_Test<T>
+        extends __Test<T> {
 
     /**
      * The prefix of the constants {@link #_SameValue_ATTRIBUTE_NAME_()} checks. The value is {@value}.
@@ -91,8 +91,8 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      *
      * @param attributeName the attribute name to convert; {@code countryIsoCode}, say.
      * @return the converted name; {@code COUNTRY_ISO_CODE} for the example above.
-     * @implNote An underscore goes wherever a lower-case letter or a digit is followed by an upper-case one, which is
-     * the boundary the constants in this project are spelled with.
+     * @implNote An underscore goes wherever a lower-case letter or a digit is followed by an upper-case one,
+     *         which is the boundary the constants in this project are spelled with.
      */
     private static String toUpperSnakeCase(final String attributeName) {
         return attributeName.replaceAll("(?<=[a-z0-9])(?=[A-Z])", "_").toUpperCase(Locale.ROOT);
@@ -141,12 +141,12 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * constant exists finds that constant holding the attribute's name, and every such constant names a managed
      * attribute of the type.
      *
-     * @implNote The first direction runs from the attribute to the constant, so an attribute with no constant is
-     * skipped; whether every attribute ought to have one is a different question. The second runs from the constant
-     * to the attribute, so a constant holding a name the provider does not manage the type by -- one left behind by
-     * a renamed field, or one naming an attribute of some other class -- fails. A path into an embedded attribute is
-     * not an attribute name; it is declared as an {@code ATTRIBUTE_PATH_*} constant and checked by
-     * {@link #_Resolvable_ATTRIBUTE_PATH_()}.
+     * @implNote The first direction runs from the attribute to the constant, so an attribute with no constant
+     *         is skipped; whether every attribute ought to have one is a different question. The second runs from the
+     *         constant to the attribute, so a constant holding a name the provider does not manage the type by -- one
+     *         left behind by a renamed field, or one naming an attribute of some other class -- fails. A path into an
+     *         embedded attribute is not an attribute name; it is declared as an {@code ATTRIBUTE_PATH_*} constant and
+     *         checked by {@link #_Resolvable_ATTRIBUTE_PATH_()}.
      */
     @DisplayName("every ATTRIBUTE_NAME_* constant names a managed attribute, and vice versa")
     @Test
@@ -195,9 +195,10 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
     /**
      * Aborts, rather than fails, when the persistence unit does not know the {@link #targetClass}.
      *
-     * @implNote A class which is not listed in the persistence unit is not a managed type, and every test here would
-     * fail against it with an unknown-entity error which says nothing about the mapping. Aborting keeps the class
-     * reported as skipped, so listing it in {@code persistence.xml} is all it takes to bring the test back.
+     * @implNote A class which is not listed in the persistence unit is not a managed type, and every test here
+     *         would fail against it with an unknown-entity error which says nothing about the mapping. Aborting keeps
+     *         the class reported as skipped, so listing it in {@code persistence.xml} is all it takes to bring the test
+     *         back.
      */
     @BeforeEach
     protected void assumeTargetClassIsManaged() {
@@ -233,15 +234,16 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
          * carry the shape of identifier these tests address.
          *
          * @implNote Not every entity has a randomizer and a persister -- a view has no use for one -- and
-         * {@link #applyNewPersistedEntityInstanceAndRollback(BiFunction)} throws for those, with a message about the
-         * missing class rather than about {@code find}. This is the same forgiveness
-         * {@link #_persist_RandomizedInstance()} shows, said out loud so the tests are reported as skipped.
-         * <p>
-         * The identifier has to be a single attribute, basic or an {@link jakarta.persistence.EmbeddedId EmbeddedId}.
-         * An {@link jakarta.persistence.IdClass IdClass} is left out because assembling one generically is more than
-         * this base class knows how to do. An embedded identifier whose components are derived through
-         * {@link jakarta.persistence.MapsId @MapsId} -- {@code FilmActor}'s -- is filled, under both providers, as the
-         * instance is persisted, so it is there to hand {@code find} once the instance is flushed.
+         *         {@link #applyNewPersistedEntityInstanceAndRollback(BiFunction)} throws for those, with a message
+         *         about the missing class rather than about {@code find}. This is the same forgiveness
+         *         {@link #_persist_RandomizedInstance()} shows, said out loud so the tests are reported as skipped.
+         *         <p>
+         *         The identifier has to be a single attribute, basic or an
+         *         {@link jakarta.persistence.EmbeddedId EmbeddedId}. An {@link jakarta.persistence.IdClass IdClass} is
+         *         left out because assembling one generically is more than this base class knows how to do. An embedded
+         *         identifier whose components are derived through {@link jakarta.persistence.MapsId @MapsId} --
+         *         {@code FilmActor}'s -- is filled, under both providers, as the instance is persisted, so it is there
+         *         to hand {@code find} once the instance is flushed.
          */
         @BeforeEach
         void assumeTargetClassIsPersistableAndAddressable() {
@@ -266,14 +268,14 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
          *
          * @param instance the instance whose identifier to read.
          * @return the identifier of the {@code instance}.
-         * @implNote {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)} is the API for this, and is
-         * not what this uses. EclipseLink answers it by instantiating the identifier class through
-         * {@link Class#getConstructor(Class[])}, which sees public constructors only, and the identifier classes here
-         * declare the no-arg constructor {@code protected} -- which is what the specification asks of an embeddable.
-         * Reading the mapped field instead keeps this test off that difference, and off the question of which provider
-         * is right.
-         * @implSpec An entity which maps its identifier by property rather than by field aborts rather than fails; none
-         * here does.
+         * @implNote {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)} is the API for this,
+         *         and is not what this uses. EclipseLink answers it by instantiating the identifier class through
+         *         {@link Class#getConstructor(Class[])}, which sees public constructors only, and the identifier
+         *         classes here declare the no-arg constructor {@code protected} -- which is what the specification asks
+         *         of an embeddable. Reading the mapped field instead keeps this test off that difference, and off the
+         *         question of which provider is right.
+         * @implSpec An entity which maps its identifier by property rather than by field aborts rather than
+         *         fails; none here does.
          */
         private Object identifierOf(final T instance) {
             final var entityType = entityManagerFactory.getMetamodel().entity(targetClass);
@@ -294,9 +296,9 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
         /**
          * Verifies that {@code find} answers the very instance just persisted, while it is still managed.
          *
-         * @implNote The flush is what makes the identifier readable at all: Hibernate writes a row whose identifier
-         * comes from an {@code IDENTITY} column as {@code persist} is called, and EclipseLink does not, so without it
-         * the identifier is still {@code null} under one provider and not the other.
+         * @implNote The flush is what makes the identifier readable at all: Hibernate writes a row whose
+         *         identifier comes from an {@code IDENTITY} column as {@code persist} is called, and EclipseLink does
+         *         not, so without it the identifier is still {@code null} under one provider and not the other.
          */
         @DisplayName("find returns the very instance just persisted")
         @Test
@@ -314,13 +316,13 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
         /**
          * Verifies that {@code find} still reaches the persisted row once the persistence context no longer holds it.
          *
-         * @implNote What comes back is compared by identifier, not with {@link Object#equals(Object)}. An entity here
-         * is free to base its equality on an association -- and
-         * the reloaded instance holds proxies for those, which do not compare equal to the instances the randomizer
-         * built. That is a property of the entity, not a fault in {@code find}, and asserting the identifier is what
-         * this test can promise of every entity alike.
-         * @implSpec {@link EntityManager#clear() clear} drops what is still pending, so the flush above it is not
-         * decoration: without it the row is never written and {@code find} answers {@code null}.
+         * @implNote What comes back is compared by identifier, not with {@link Object#equals(Object)}. An
+         *         entity here is free to base its equality on an association -- and the reloaded instance holds proxies
+         *         for those, which do not compare equal to the instances the randomizer built. That is a property of
+         *         the entity, not a fault in {@code find}, and asserting the identifier is what this test can promise
+         *         of every entity alike.
+         * @implSpec {@link EntityManager#clear() clear} drops what is still pending, so the flush above it is
+         *         not decoration: without it the row is never written and {@code find} answers {@code null}.
          */
         @DisplayName("find reaches the persisted row once the context is cleared")
         @Test
@@ -347,9 +349,10 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
     /**
      * Verifies that a randomized instance of {@link #targetClass} can be persisted and flushed.
      *
-     * @implNote The work happens in a transaction which is always rolled back, so the row never survives the test.
-     * Absence is forgiven at both steps: a {@link #targetClass} with no registered randomizer, or none with a
-     * registered persister, leaves the chain empty and the test passes without having persisted anything.
+     * @implNote The work happens in a transaction which is always rolled back, so the row never survives the
+     *         test. Absence is forgiven at both steps: a {@link #targetClass} with no registered randomizer, or none
+     *         with a registered persister, leaves the chain empty and the test passes without having persisted
+     *         anything.
      */
     @Test
     protected void _persist_RandomizedInstance() {
@@ -371,11 +374,12 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * Verifies that a newly persisted instance of {@link #targetClass} equals, and hashes the same as, the reference to
      * its row, taken once the instance is detached.
      *
-     * @implNote The context is cleared so that {@link EntityManager#getReference(Object) getReference} does not answer
-     * the managed instance itself; what comes back is a lazy proxy, under a provider which makes one. The reference is
-     * taken from the detached instance, so no identifier has to be assembled, which keeps an
-     * {@link jakarta.persistence.IdClass IdClass} in reach. Absence is forgiven as {@link #_persist_RandomizedInstance()}
-     * forgives it, but said out loud, so the test is reported as skipped.
+     * @implNote The context is cleared so that {@link EntityManager#getReference(Object) getReference} does not
+     *         answer the managed instance itself; what comes back is a lazy proxy, under a provider which makes one.
+     *         The reference is taken from the detached instance, so no identifier has to be assembled, which keeps an
+     *         {@link jakarta.persistence.IdClass IdClass} in reach. Absence is forgiven as
+     *         {@link #_persist_RandomizedInstance()} forgives it, but said out loud, so the test is reported as
+     *         skipped.
      */
     @DisplayName("persisted.equals(getReference(persisted))")
     @Test
@@ -399,8 +403,8 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * Verifies that the reference to the row of a newly persisted instance of {@link #targetClass}, taken once the
      * instance is detached, equals the instance.
      *
-     * @implNote This is the other direction of {@link #_persist_EqualsReference()}; here {@code equals} runs on the
-     * reference itself.
+     * @implNote This is the other direction of {@link #_persist_EqualsReference()}; here {@code equals} runs on
+     *         the reference itself.
      */
     @DisplayName("getReference(persisted).equals(persisted)")
     @Test
@@ -422,11 +426,12 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * is still found there once it is flushed, and that the instance {@code merge} answers for it, detached, and the
      * reference to its row, are found there too.
      *
-     * @implNote The flush is where an identifier from an {@code IDENTITY} column is assigned under EclipseLink, so an
-     * {@code equals}/{@code hashCode} which followed the identifier would lose the instance there; Hibernate ORM assigns
-     * it as {@code persist} is called, earlier than the instance reaches this test. {@code merge} stands in for
-     * {@code find}, which would need the identifier, and {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier}
-     * does not assemble an id class under EclipseLink; see {@code Find_Test}.
+     * @implNote The flush is where an identifier from an {@code IDENTITY} column is assigned under EclipseLink,
+     *         so an {@code equals}/{@code hashCode} which followed the identifier would lose the instance there;
+     *         Hibernate ORM assigns it as {@code persist} is called, earlier than the instance reaches this test.
+     *         {@code merge} stands in for {@code find}, which would need the identifier, and
+     *         {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier} does not assemble an id class under
+     *         EclipseLink; see {@code Find_Test}.
      */
     @DisplayName("a HashSet still contains the persisted instance across flush, merge, and getReference")
     @Test
@@ -479,8 +484,8 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * @return the result of the {@code function}.
      * @throws IllegalArgumentException when {@link #targetClass} has no usable randomizer or no usable persister; see
      *                                  {@link EntityPersisterUtils#newPersistedInstanceOf(EntityManager, Class)}.
-     * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is still
-     * managed when the function sees it, and it is gone when the transaction rolls back.
+     * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is
+     *         still managed when the function sees it, and it is gone when the transaction rolls back.
      */
     protected <R> R applyNewPersistedEntityInstanceAndRollback(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
@@ -501,8 +506,8 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * @return the result of the {@code function}.
      * @throws IllegalArgumentException when {@link #targetClass} has no usable randomizer or no usable persister; see
      *                                  {@link EntityPersisterUtils#newPersistedInstanceOf(EntityManager, Class)}.
-     * @implNote The persisted row outlives the call, on a database which is thrown away with the container; a test
-     * which only needs the instance for the length of the {@code function} wants the rolled-back one.
+     * @implNote The persisted row outlives the call, on a database which is thrown away with the container; a
+     *         test which only needs the instance for the length of the {@code function} wants the rolled-back one.
      */
     protected <R> R applyNewPersistedEntityInstanceAndCommit(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
@@ -522,8 +527,8 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * @param function the function to apply the entity manager to.
      * @param <R>      the type of the result.
      * @return the result of the {@code function}.
-     * @implNote The rollback is what keeps one test from being visible to the next, on a schema which is recreated per
-     * container anyway.
+     * @implNote The rollback is what keeps one test from being visible to the next, on a schema which is
+     *         recreated per container anyway.
      * @see ___Persistence_TestUtils#applyInTransactionAndRollback(EntityManager, Function)
      */
     protected <R> R applyEntityManagerInTransactionAndRollback(
@@ -538,9 +543,9 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
      * @param function the function to apply the entity manager to.
      * @param <R>      the type of the result.
      * @return the result of the {@code function}.
-     * @implNote What this writes survives the transaction, but not the container: the schema is generated per container
-     * and the in-memory database goes with it. Still the exception -- a test whose writes nothing later has to read
-     * wants the rolled-back one.
+     * @implNote What this writes survives the transaction, but not the container: the schema is generated per
+     *         container and the in-memory database goes with it. Still the exception -- a test whose writes nothing
+     *         later has to read wants the rolled-back one.
      * @see ___Persistence_TestUtils#applyInTransactionAndCommit(EntityManager, Function)
      */
     protected <R> R applyEntityManagerInTransactionAndCommit(

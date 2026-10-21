@@ -32,7 +32,8 @@ import java.util.Optional;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Language_Persister extends AbstractEntityPersister<Language> {
+class Language_Persister
+        extends AbstractEntityPersister<Language> {
 
     Language_Persister() {
         super(Language.class);
@@ -45,7 +46,7 @@ class Language_Persister extends AbstractEntityPersister<Language> {
      *
      * @param entityManager the entity manager to select with.
      * @return the {@code Language} with the smallest {@code languageId}; {@link Optional#empty() empty} when the
-     * database holds none, as the generated, in-memory one does.
+     *         database holds none, as the generated, in-memory one does.
      */
     static Optional<Language> selectFirst(final EntityManager entityManager) {
         return entityManager

@@ -61,6 +61,8 @@ import java.math.BigDecimal;
  * {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html">
+ *         The sales_by_film_category View</a>
  */
 @NamedQuery(name = "SalesByFilmCategory.selectOneByCategory",
             query = """
@@ -169,7 +171,7 @@ public class SalesByFilmCategory {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -188,7 +190,7 @@ public class SalesByFilmCategory {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

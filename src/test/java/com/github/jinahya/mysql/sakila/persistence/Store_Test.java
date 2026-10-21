@@ -28,7 +28,8 @@ import org.junit.platform.commons.util.ReflectionUtils;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Store_Test extends _Entity_Test<Store> {
+class Store_Test
+        extends _Entity_Test<Store> {
 
     Store_Test() {
         super(Store.class);
@@ -40,8 +41,8 @@ class Store_Test extends _Entity_Test<Store> {
      * {@inheritDoc}
      *
      * @implNote {@link Store#equals(Object) equals} compares the business key -- the identifier of the
-     * {@value Store#ATTRIBUTE_NAME_MANAGER_STAFF}, which the table declares unique -- rather than the surrogate
-     * {@value Store#ATTRIBUTE_NAME_STORE_ID}, which is null until the row is inserted.
+     *         {@value Store#ATTRIBUTE_NAME_MANAGER_STAFF}, which the table declares unique -- rather than the surrogate
+     *         {@value Store#ATTRIBUTE_NAME_STORE_ID}, which is null until the row is inserted.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Store> equals_verifier_() {
@@ -64,7 +65,7 @@ class Store_Test extends _Entity_Test<Store> {
      * @param <E>         entity type parameter.
      * @return a new instance of {@code entityClass}.
      * @implNote The equality reads the identifier of an association, which a generated id assigns and no setter
-     * writes; EqualsVerifier would otherwise stand in a mock, whose getter it cannot call.
+     *         writes; EqualsVerifier would otherwise stand in a mock, whose getter it cannot call.
      */
     private static <E> E newInstanceWithId(final Class<E> entityClass, final String idName, final Integer id) {
         final var instance = ReflectionUtils.newInstance(entityClass);

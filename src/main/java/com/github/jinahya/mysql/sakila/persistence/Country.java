@@ -57,6 +57,7 @@ import java.util.function.Function;
  *}
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-country.html">The country Table</a>
  */
 @NamedQuery(name = "Country.selectOneByCountryId",
             query = """

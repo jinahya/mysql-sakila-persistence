@@ -2,5 +2,28 @@
  * Defines entities for the {@code sakila} database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure.html">Sakila Structure</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables.html">Tables</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views.html">Views</a>
  */
 package com.github.jinahya.mysql.sakila.persistence;
+
+/*-
+ * #%L
+ * mysql-sakila-persistence
+ * %%
+ * Copyright (C) 2026 Jinahya, Inc.
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */

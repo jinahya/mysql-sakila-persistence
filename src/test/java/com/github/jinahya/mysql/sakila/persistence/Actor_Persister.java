@@ -30,7 +30,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Actor_Persister extends AbstractEntityPersister<Actor> {
+class Actor_Persister
+        extends AbstractEntityPersister<Actor> {
 
     Actor_Persister() {
         super(Actor.class);

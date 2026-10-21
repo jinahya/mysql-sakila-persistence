@@ -28,7 +28,8 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Rental_Test extends _Entity_Test<Rental> {
+class Rental_Test
+        extends _Entity_Test<Rental> {
 
     Rental_Test() {
         super(Rental.class);
@@ -40,8 +41,8 @@ class Rental_Test extends _Entity_Test<Rental> {
      * {@inheritDoc}
      *
      * @implNote {@link Rental#equals(Object) equals} compares only the {@code @Id}, because the
-     * {@value Rental#ATTRIBUTE_NAME_RENTAL_DATE} of the table's unique key is set by a trigger, and every other
-     * attribute is mutable state.
+     *         {@value Rental#ATTRIBUTE_NAME_RENTAL_DATE} of the table's unique key is set by a trigger, and every other
+     *         attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Rental> equals_verifier_() {

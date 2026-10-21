@@ -34,7 +34,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmCategory_Test extends _Entity_Test<FilmCategory> {
+class FilmCategory_Test
+        extends _Entity_Test<FilmCategory> {
 
     FilmCategory_Test() {
         super(FilmCategory.class);
@@ -76,14 +77,16 @@ class FilmCategory_Test extends _Entity_Test<FilmCategory> {
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link FilmCategory#equals(Object) equals} compares only the two values of the composite key, the
-     * {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}; the latter
-     * is not an {@code @Id} attribute but the read-only mirror of the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY},
-     * the {@code @Id} association, so the key is a mix of {@code @Id} and non-{@code @Id} fields.
-     * <p>
-     * The {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is declared non-null to the verifier, though it is
-     * {@code null} until the instance is read from the database: an instance without the whole key equals nothing but
-     * itself, so a {@code null} there hides the field from the verifier's check of which fields equality uses.
+     * @implNote {@link FilmCategory#equals(Object) equals} compares only the two values of the composite key,
+     *         the {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and the
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}; the latter is not an {@code @Id} attribute but the
+     *         read-only mirror of the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}, the {@code @Id} association, so
+     *         the key is a mix of {@code @Id} and non-{@code @Id} fields.
+     *         <p>
+     *         The {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is declared non-null to the verifier, though it is
+     *         {@code null} until the instance is read from the database: an instance without the whole key equals
+     *         nothing but itself, so a {@code null} there hides the field from the verifier's check of which fields
+     *         equality uses.
      */
     @Override
     public SingleTypeEqualsVerifierApi<FilmCategory> equals_verifier_() {

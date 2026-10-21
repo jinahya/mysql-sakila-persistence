@@ -37,7 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmCategory_Persistence_Test extends _Entity_Persistence_Test<FilmCategory> {
+class FilmCategory_Persistence_Test
+        extends _Entity_Persistence_Test<FilmCategory> {
 
     FilmCategory_Persistence_Test() {
         super(FilmCategory.class);
@@ -49,7 +50,7 @@ class FilmCategory_Persistence_Test extends _Entity_Persistence_Test<FilmCategor
      * {@inheritDoc}
      *
      * @implNote Compares the instance read back from the database, which has its
-     * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}, with the reference to its row.
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}, with the reference to its row.
      */
     @DisplayName("loaded.equals(getReference(loaded))")
     @Test
@@ -73,7 +74,7 @@ class FilmCategory_Persistence_Test extends _Entity_Persistence_Test<FilmCategor
      * {@inheritDoc}
      *
      * @implNote Compares the reference to the row with the instance read back from the database, which has its
-     * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}.
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}.
      */
     @DisplayName("getReference(loaded).equals(loaded)")
     @Test
@@ -94,7 +95,7 @@ class FilmCategory_Persistence_Test extends _Entity_Persistence_Test<FilmCategor
      * {@inheritDoc}
      *
      * @implNote Puts the instance read back from the database, which has its
-     * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}, in the set.
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}, in the set.
      */
     @DisplayName("a HashSet still contains the loaded instance across merge and getReference")
     @Test

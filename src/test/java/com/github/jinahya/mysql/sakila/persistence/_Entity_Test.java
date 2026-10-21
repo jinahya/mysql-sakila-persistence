@@ -33,7 +33,9 @@ package com.github.jinahya.mysql.sakila.persistence;
         "java:S101", // Class names should comply with a naming convention
         "java:S118"  // Abstract class names should comply with a naming convention
 })
-abstract class _Entity_Test<T> extends __Test<T> implements __Object_Test<T> {
+abstract class _Entity_Test<T>
+        extends __Test<T>
+        implements __Object_Test<T> {
 
     /**
      * Creates a new instance for the specified target class.

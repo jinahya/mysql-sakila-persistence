@@ -32,7 +32,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Address_Persister extends AbstractEntityPersister<Address> {
+class Address_Persister
+        extends AbstractEntityPersister<Address> {
 
     Address_Persister() {
         super(Address.class);

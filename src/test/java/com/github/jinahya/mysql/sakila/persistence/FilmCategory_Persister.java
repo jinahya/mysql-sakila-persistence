@@ -33,7 +33,8 @@ import jakarta.persistence.EntityManager;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmCategory_Persister extends AbstractEntityPersister<FilmCategory> {
+class FilmCategory_Persister
+        extends AbstractEntityPersister<FilmCategory> {
 
     FilmCategory_Persister() {
         super(FilmCategory.class);

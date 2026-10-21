@@ -31,7 +31,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-
 /**
  * An entity class for mapping the {@value CustomerList#TABLE_NAME} view.
  * <p>
@@ -52,6 +51,8 @@ import jakarta.validation.constraints.Size;
  * {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-customer_list.html">
+ *         The customer_list View</a>
  */
 @NamedQuery(name = "CustomerList.selectOneById",
             query = """
@@ -89,8 +90,7 @@ public class CustomerList {
     // -------------------------------------------------------------------------------------------------------------- ID
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_ID = "ID";
 
@@ -102,8 +102,7 @@ public class CustomerList {
     // ------------------------------------------------------------------------------------------------------------ name
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_NAME = "name";
 
@@ -125,8 +124,7 @@ public class CustomerList {
     // --------------------------------------------------------------------------------------------------------- address
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS = "address";
 
@@ -179,8 +177,7 @@ public class CustomerList {
     // ----------------------------------------------------------------------------------------------------------- phone
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_PHONE = "phone";
 
@@ -202,8 +199,7 @@ public class CustomerList {
     // ------------------------------------------------------------------------------------------------------------ city
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_CITY = "city";
 
@@ -225,8 +221,7 @@ public class CustomerList {
     // --------------------------------------------------------------------------------------------------------- country
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_COUNTRY = "country";
 
@@ -248,8 +243,7 @@ public class CustomerList {
     // ----------------------------------------------------------------------------------------------------------- notes
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_NOTES} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_NOTES} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_NOTES = "notes";
 
@@ -271,8 +265,7 @@ public class CustomerList {
     // ------------------------------------------------------------------------------------------------------------- SID
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_SID} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_SID} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_SID = "SID";
 
@@ -313,7 +306,7 @@ public class CustomerList {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -332,7 +325,7 @@ public class CustomerList {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

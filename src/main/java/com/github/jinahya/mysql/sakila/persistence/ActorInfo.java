@@ -77,6 +77,7 @@ import java.util.regex.Pattern;
  * {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-actor_info.html">The actor_info View</a>
  */
 @NamedQuery(name = "ActorInfo.selectOneByActorId",
             query = """

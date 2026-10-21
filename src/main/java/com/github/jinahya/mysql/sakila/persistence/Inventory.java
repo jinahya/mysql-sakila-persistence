@@ -62,6 +62,7 @@ import java.util.List;
  * A row is one copy of a film at a store; a store may hold any number of copies of a film.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-inventory.html">The inventory Table</a>
  */
 @NamedQuery(name = "Inventory.selectOneByInventoryId",
             query = """

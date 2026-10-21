@@ -20,13 +20,11 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -62,6 +60,8 @@ import java.math.BigDecimal;
  * name-based row mapper, or a {@link jakarta.persistence.ConstructorResult @ConstructorResult}, hands them over.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_store.html">
+ *         The sales_by_store View</a>
  */
 public class SalesByStore {
 
@@ -73,8 +73,7 @@ public class SalesByStore {
     // ----------------------------------------------------------------------------------------------------------- store
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_STORE = "store";
 
@@ -96,8 +95,7 @@ public class SalesByStore {
     // --------------------------------------------------------------------------------------------------------- manager
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_MANAGER} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_MANAGER} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_MANAGER = "manager";
 

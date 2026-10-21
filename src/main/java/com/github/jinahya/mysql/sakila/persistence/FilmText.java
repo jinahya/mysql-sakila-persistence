@@ -39,7 +39,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-
 /**
  * An entity class for mapping the {@value FilmText#TABLE_NAME} table.
  * <p>
@@ -56,10 +55,11 @@ import jakarta.validation.constraints.Size;
  * The table declares no foreign key, and nothing but the {@code ins_film}, {@code upd_film} and {@code del_film}
  * triggers on {@value Film#TABLE_NAME} relates a row to a {@link Film}. The triggers keep a row for every film, and
  * none for any other, so the {@value #ATTRIBUTE_NAME_FILM} attribute maps the {@value #COLUMN_NAME_FILM_ID} column
- * again, read-only, as a required association, which declares no foreign key either. Its
- * {@value #COLUMN_NAME_FILM_ID} is not generated, but assigned.
+ * again, read-only, as a required association, which declares no foreign key either. Its {@value #COLUMN_NAME_FILM_ID}
+ * is not generated, but assigned.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_text.html">The film_text Table</a>
  */
 @NamedQuery(name = "FilmText.selectOneByFilmId",
             query = """
@@ -127,8 +127,8 @@ public class FilmText {
     // ------------------------------------------------------------------------------------------------------------ film
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column, as an association to
-     * {@link Film}. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column, as an association to {@link Film}.
+     * The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM = "film";
 
@@ -193,7 +193,7 @@ public class FilmText {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -212,7 +212,7 @@ public class FilmText {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

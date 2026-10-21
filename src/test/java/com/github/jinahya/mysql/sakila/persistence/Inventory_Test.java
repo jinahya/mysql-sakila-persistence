@@ -28,7 +28,8 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Inventory_Test extends _Entity_Test<Inventory> {
+class Inventory_Test
+        extends _Entity_Test<Inventory> {
 
     Inventory_Test() {
         super(Inventory.class);
@@ -39,8 +40,8 @@ class Inventory_Test extends _Entity_Test<Inventory> {
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Inventory#equals(Object) equals} compares only the {@code @Id},
-     * because every other attribute is mutable state.
+     * @implNote {@link Inventory#equals(Object) equals} compares only the {@code @Id}, because every other
+     *         attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Inventory> equals_verifier_() {

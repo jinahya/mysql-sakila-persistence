@@ -25,7 +25,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Country_Persistence_Test extends _Entity_Persistence_Test<Country> {
+class Country_Persistence_Test
+        extends _Entity_Persistence_Test<Country> {
 
     Country_Persistence_Test() {
         super(Country.class);

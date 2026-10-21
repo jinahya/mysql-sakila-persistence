@@ -48,14 +48,12 @@ import java.util.Objects;
 public class _RentalPeriod {
 
     /**
-     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RENTAL_DATE} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RENTAL_DATE} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_DATE = "rentalDate";
 
     /**
-     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RETURN_DATE} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RETURN_DATE} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RETURN_DATE = "returnDate";
 
@@ -97,7 +95,8 @@ public class _RentalPeriod {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_RENTAL_DATE} and {@value #ATTRIBUTE_NAME_RETURN_DATE}.
+     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_RENTAL_DATE} and
+     *         {@value #ATTRIBUTE_NAME_RETURN_DATE}.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -112,8 +111,8 @@ public class _RentalPeriod {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_RENTAL_DATE} and {@value #ATTRIBUTE_NAME_RETURN_DATE},
-     * consistent with {@link #equals(Object)}.
+     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_RENTAL_DATE} and
+     *         {@value #ATTRIBUTE_NAME_RETURN_DATE}, consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {

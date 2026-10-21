@@ -683,6 +683,11 @@
         <version>2.7.1</version>
         <configuration>
           <licenseName>apache_v2</licenseName>
+          <!-- the default sql style opens and closes the header with three dashes, which MySQL does not take for a
+               comment; the mysql style does it with a dash after a comment marker -->
+          <extraExtensions>
+            <sql>mysql</sql>
+          </extraExtensions>
           <excludes>
             <exclude>**/*.json</exclude>
           </excludes>

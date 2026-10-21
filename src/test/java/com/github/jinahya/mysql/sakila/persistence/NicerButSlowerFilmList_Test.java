@@ -27,7 +27,8 @@ import org.junit.jupiter.api.Test;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class NicerButSlowerFilmList_Test extends _Entity_Test<NicerButSlowerFilmList> {
+class NicerButSlowerFilmList_Test
+        extends _Entity_Test<NicerButSlowerFilmList> {
 
     NicerButSlowerFilmList_Test() {
         super(NicerButSlowerFilmList.class);
@@ -36,8 +37,8 @@ class NicerButSlowerFilmList_Test extends _Entity_Test<NicerButSlowerFilmList> {
     // ------------------------------------------------------------------------------------------------- equals/hashCode
 
     /**
-     * Does nothing; {@link NicerButSlowerFilmList} declares no {@code equals(Object)}, so there is no value equality
-     * to verify.
+     * Does nothing; {@link NicerButSlowerFilmList} declares no {@code equals(Object)}, so there is no value equality to
+     * verify.
      */
     @Override
     @Test

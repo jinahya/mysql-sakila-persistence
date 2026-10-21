@@ -37,7 +37,8 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Staff_Randomizer extends PodamObjectRandomizer<Staff> {
+class Staff_Randomizer
+        extends PodamObjectRandomizer<Staff> {
 
     Staff_Randomizer() {
         super(Staff.class, List.of(

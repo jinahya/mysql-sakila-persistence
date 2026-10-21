@@ -31,12 +31,13 @@ import java.util.List;
  * A randomizer which produces randomized {@link FilmText} instances.
  * <p>
  * The {@code filmId} is excluded from randomization; {@link FilmText_Persister} assigns one which no row holds yet. The
- * {@code title} and the {@code description}, which the triggers of the {@value Film#TABLE_NAME} table write, and
- * which are neither insertable nor updatable, are excluded too.
+ * {@code title} and the {@code description}, which the triggers of the {@value Film#TABLE_NAME} table write, and which
+ * are neither insertable nor updatable, are excluded too.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FilmText_Randomizer extends PodamObjectRandomizer<FilmText> {
+class FilmText_Randomizer
+        extends PodamObjectRandomizer<FilmText> {
 
     FilmText_Randomizer() {
         super(FilmText.class, List.of(

@@ -27,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Customer_Persistence_IT extends _Entity_Persistence_IT<Customer> {
+class Customer_Persistence_IT
+        extends _Entity_Persistence_IT<Customer> {
 
     Customer_Persistence_IT() {
         super(Customer.class);
@@ -39,8 +40,8 @@ class Customer_Persistence_IT extends _Entity_Persistence_IT<Customer> {
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote Both names, the activeness, and the creation date are there, and the store and the address, lazy
-     * associations, resolve.
+     * @implNote Both names, the activeness, and the creation date are there, and the store and the address,
+     *         lazy associations, resolve.
      */
     @Override
     void randomSelected(final Customer instance) {

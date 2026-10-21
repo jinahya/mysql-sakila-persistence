@@ -38,7 +38,8 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Address_Randomizer extends PodamObjectRandomizer<Address> {
+class Address_Randomizer
+        extends PodamObjectRandomizer<Address> {
 
     Address_Randomizer() {
         super(Address.class, List.of(

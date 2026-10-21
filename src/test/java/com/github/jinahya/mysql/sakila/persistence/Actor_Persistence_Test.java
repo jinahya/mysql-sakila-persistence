@@ -25,7 +25,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class Actor_Persistence_Test extends _Entity_Persistence_Test<Actor> {
+class Actor_Persistence_Test
+        extends _Entity_Persistence_Test<Actor> {
 
     Actor_Persistence_Test() {
         super(Actor.class);
