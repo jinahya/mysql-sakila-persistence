@@ -45,6 +45,8 @@ class Address_Test extends _Entity_Test<Address> {
     @Override
     public SingleTypeEqualsVerifierApi<Address> equals_verifier_() {
         return super.equals_verifier_()
-                .suppress(Warning.SURROGATE_KEY);
+                .suppress(Warning.SURROGATE_KEY,
+                          Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
+                          Warning.STRICT_HASHCODE);
     }
 }

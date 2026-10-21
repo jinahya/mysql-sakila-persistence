@@ -85,7 +85,7 @@ public class _RentalPeriod {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "rentalDate=" + rentalDate +
                ",returnDate=" + returnDate +

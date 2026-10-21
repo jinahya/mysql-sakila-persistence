@@ -26,7 +26,6 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.metamodel.ManagedType;
-import jakarta.persistence.metamodel.Type;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -110,8 +109,8 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
          * Aborts, rather than fails, when {@link #targetClass} does not carry the shape of identifier these tests
          * address.
          *
-         * @implNote The identifier has to be a single basic attribute, for the reasons the unit-test counterpart,
-         * {@code _Entity_Persistence_Test.Find_Test}, gives.
+         * @implNote The identifier has to be a single attribute, basic or embedded, for the reasons the unit-test
+         * counterpart, {@code _Entity_Persistence_Test.Find_Test}, gives.
          */
         @BeforeEach
         void assumeTargetClassIsAddressable() {
@@ -122,10 +121,6 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
             assumeTrue(
                     entityType.get().hasSingleIdAttribute(),
                     () -> targetClass + " is mapped with an id class"
-            );
-            assumeTrue(
-                    entityType.get().getIdType().getPersistenceType() == Type.PersistenceType.BASIC,
-                    () -> targetClass + " is mapped with an embedded identifier"
             );
         }
 

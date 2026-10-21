@@ -32,13 +32,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * An entity class for mapping the {@value FilmActor#TABLE_NAME} table, whose composite primary key is mapped with an
@@ -58,9 +55,9 @@ import java.util.Optional;
  * )
  *}
  * <p>
- * Both components of the key are foreign keys, so both are derived: each association is
- * {@link MapsId @MapsId} to its component of the {@value #ATTRIBUTE_NAME_ID}, and it is the association which writes
- * the column. {@link FilmCategory}, the other link table of the database, maps its key with an
+ * Both components of the key are foreign keys, so both are derived: each association is {@link MapsId @MapsId} to its
+ * component of the {@value #ATTRIBUTE_NAME_ID}, and it is the association which writes the column.
+ * {@link FilmCategory}, the other link table of the database, maps its key with an
  * {@link jakarta.persistence.IdClass @IdClass} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -155,13 +152,13 @@ public class FilmActor {
     public static final String ATTRIBUTE_PATH_ID_FILM_ID = "id.filmId";
 
     /**
-     * The name of the {@link ManyToOne @ManyToOne} association which maps the {@value #COLUMN_NAME_FILM_ID} column.
-     * The association is {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute. The value is
+     * The name of the {@link ManyToOne @ManyToOne} association which maps the {@value #COLUMN_NAME_FILM_ID} column. The
+     * association is {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute. The value is
      * {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM = "film";
 
-    // ------------------------------------------------------------------------------------------- actor_id / film_id
+    // ---------------------------------------------------------------------------------------------- actor_id / film_id
 
     /**
      * The name of the attribute which maps both the {@value #COLUMN_NAME_ACTOR_ID} and the
@@ -182,6 +179,27 @@ public class FilmActor {
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
+    // ------------------------------------------------------------------------------------------ STATIC FACTORY METHODS
+
+    /**
+     * Returns a new instance which links the specified actor and the specified film.
+     * <p>
+     * This is the only way to set the {@value #ATTRIBUTE_NAME_ACTOR} and the {@value #ATTRIBUTE_NAME_FILM} from outside
+     * the package. Both associations are {@link MapsId @MapsId} to the {@value #ATTRIBUTE_NAME_ID}, so changing either
+     * of them would change the primary key; to link another actor, or another film, remove the instance and persist a
+     * new one.
+     *
+     * @param actor a value for the {@value #ATTRIBUTE_NAME_ACTOR} attribute.
+     * @param film  a value for the {@value #ATTRIBUTE_NAME_FILM} attribute.
+     * @return a new instance of {@code actor} and {@code film}.
+     */
+    public static FilmActor of(final Actor actor, final Film film) {
+        final var instance = new FilmActor();
+        instance.actor = actor;
+        instance.film = film;
+        return instance;
+    }
+
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -194,11 +212,9 @@ public class FilmActor {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "id=" + id +
-//               ",actor=" + actor +
-//               ",film=" + film +
                ",lastUpdate=" + lastUpdate +
                '}';
     }
@@ -208,25 +224,31 @@ public class FilmActor {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone.
+     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone, and only once it is assigned; an instance without one
+     * equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof FilmActor that)) {
             return false;
         }
-        return Objects.equals(getId(), that.getId());
+        final var thisId = getId();
+        return thisId != null && thisId.equals(that.getId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over the {@link EmbeddedId @EmbeddedId}, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
+     * {@link EmbeddedId @EmbeddedId} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hashCode(getId());
+        return FilmActor.class.hashCode();
     }
 
     // -------------------------------------------------------------------------------------------------------------- id
@@ -238,64 +260,6 @@ public class FilmActor {
      */
     public FilmActorId getId() {
         return id;
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ID} attribute with the specified value.
-     *
-     * @param id new value for {@value #ATTRIBUTE_NAME_ID} attribute.
-     */
-    protected void setId(final FilmActorId id) {
-        this.id = id;
-    }
-
-    /**
-     * Returns current value of {@value #ATTRIBUTE_PATH_ID_ACTOR_ID} attribute.
-     *
-     * @return current value of {@value #ATTRIBUTE_PATH_ID_ACTOR_ID} attribute; {@code null} when the
-     * {@value #ATTRIBUTE_NAME_ID} attribute is {@code null}.
-     */
-    @Transient
-    public Integer getActorId() {
-        return Optional.ofNullable(getId()).map(FilmActorId::getActorId).orElse(null);
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_PATH_ID_ACTOR_ID} attribute with the specified value, creating the
-     * {@value #ATTRIBUTE_NAME_ID} attribute first when it is {@code null}.
-     *
-     * @param actorId new value for {@value #ATTRIBUTE_PATH_ID_ACTOR_ID} attribute.
-     */
-    protected void setActorId(final Integer actorId) {
-        idOrNew().setActorId(actorId);
-    }
-
-    /**
-     * Returns current value of {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute.
-     *
-     * @return current value of {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute; {@code null} when the
-     * {@value #ATTRIBUTE_NAME_ID} attribute is {@code null}.
-     */
-    @Transient
-    public Integer getFilmId() {
-        return Optional.ofNullable(getId()).map(FilmActorId::getFilmId).orElse(null);
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute with the specified value, creating the
-     * {@value #ATTRIBUTE_NAME_ID} attribute first when it is {@code null}.
-     *
-     * @param filmId new value for {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute.
-     */
-    protected void setFilmId(final Integer filmId) {
-        idOrNew().setFilmId(filmId);
-    }
-
-    private FilmActorId idOrNew() {
-        if (getId() == null) {
-            setId(new FilmActorId());
-        }
-        return getId();
     }
 
     // ----------------------------------------------------------------------------------------------------------- actor
@@ -310,17 +274,6 @@ public class FilmActor {
         return actor;
     }
 
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ACTOR} attribute with the specified value, along with the
-     * {@value #ATTRIBUTE_PATH_ID_ACTOR_ID} attribute.
-     *
-     * @param actor new value for {@value #ATTRIBUTE_NAME_ACTOR} attribute.
-     */
-    public void setActor(@Nonnull final Actor actor) {
-        this.actor = actor;
-        setActorId(Optional.ofNullable(this.actor).map(Actor::getActorId).orElse(null));
-    }
-
     // ------------------------------------------------------------------------------------------------------------ film
 
     /**
@@ -333,24 +286,13 @@ public class FilmActor {
         return film;
     }
 
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM} attribute with the specified value, along with the
-     * {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute.
-     *
-     * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
-     */
-    public void setFilm(@Nonnull final Film film) {
-        this.film = film;
-        setFilmId(Optional.ofNullable(this.film).map(Film::getFilmId).orElse(null));
-    }
-
     // ------------------------------------------------------------------------------------------------------ lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

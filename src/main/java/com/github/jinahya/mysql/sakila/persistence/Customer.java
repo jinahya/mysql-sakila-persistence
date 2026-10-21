@@ -40,7 +40,6 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value Customer#TABLE_NAME} table.
@@ -306,7 +305,7 @@ public class Customer {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "customerId=" + customerId +
 //               ",store=" + store +
@@ -325,25 +324,31 @@ public class Customer {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
+     * equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Customer that)) {
             return false;
         }
-        return Objects.equals(getCustomerId(), that.getCustomerId());
+        final var thisId = getCustomerId();
+        return thisId != null && thisId.equals(that.getCustomerId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over the {@code @Id}, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
+     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hashCode(getCustomerId());
+        return Customer.class.hashCode();
     }
 
     // ------------------------------------------------------------------------------------------------------ customerId

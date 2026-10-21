@@ -247,7 +247,7 @@ public class NicerButSlowerFilmList {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "fid=" + fid +
                ",title=" + title +

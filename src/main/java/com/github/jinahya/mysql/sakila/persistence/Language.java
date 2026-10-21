@@ -38,7 +38,6 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value Language#TABLE_NAME} table.
@@ -159,7 +158,7 @@ public class Language {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "languageId=" + languageId +
                ",name=" + name +
@@ -172,25 +171,31 @@ public class Language {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
+     * equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Language that)) {
             return false;
         }
-        return Objects.equals(getLanguageId(), that.getLanguageId());
+        final var thisId = getLanguageId();
+        return thisId != null && thisId.equals(that.getLanguageId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over the {@code @Id}, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
+     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hashCode(getLanguageId());
+        return Language.class.hashCode();
     }
 
     // ------------------------------------------------------------------------------------------------------ languageId

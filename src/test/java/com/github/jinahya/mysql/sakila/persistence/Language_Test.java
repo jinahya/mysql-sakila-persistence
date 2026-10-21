@@ -45,6 +45,8 @@ class Language_Test extends _Entity_Test<Language> {
     @Override
     public SingleTypeEqualsVerifierApi<Language> equals_verifier_() {
         return super.equals_verifier_()
-                .suppress(Warning.SURROGATE_KEY);
+                .suppress(Warning.SURROGATE_KEY,
+                          Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
+                          Warning.STRICT_HASHCODE);
     }
 }

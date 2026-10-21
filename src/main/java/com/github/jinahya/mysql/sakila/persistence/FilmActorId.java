@@ -35,15 +35,15 @@ import java.util.Objects;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmActor
  * @see <a
- * href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2#composite-primary-keys">2.4.1.
- * Composite primary keys</a> (Jakarta Persistence 3.2 Specification Document)
+ *         href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
+ *         .2#composite-primary-keys">2.4.1.
+ *         Composite primary keys</a> (Jakarta Persistence 3.2 Specification Document)
  */
 @Embeddable
 public class FilmActorId {
 
     /**
-     * The name of the attribute which maps the {@value FilmActor#COLUMN_NAME_ACTOR_ID} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value FilmActor#COLUMN_NAME_ACTOR_ID} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ACTOR_ID = "actorId";
 
@@ -60,8 +60,10 @@ public class FilmActorId {
      * @param actorId a value for the {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute.
      * @param filmId  a value for the {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      * @return a new instance of {@code actorId} and {@code filmId}.
+     * @deprecated Nothing uses this, and Jakarta Persistence does not require an embeddable identifier to have one.
      */
-    public static FilmActorId of(@Nonnull final Integer actorId, @Nonnull final Integer filmId) {
+    @Deprecated(forRemoval = true)
+    static FilmActorId of(@Nonnull final Integer actorId, @Nonnull final Integer filmId) {
         final var instance = new FilmActorId();
         instance.setActorId(actorId);
         instance.setFilmId(filmId);
@@ -80,7 +82,7 @@ public class FilmActorId {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "actorId=" + actorId +
                ",filmId=" + filmId +
@@ -108,7 +110,7 @@ public class FilmActorId {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_ACTOR_ID} and {@value #ATTRIBUTE_NAME_FILM_ID},
-     * consistent with {@link #equals(Object)}.
+     *         consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -148,15 +150,14 @@ public class FilmActorId {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
-    // no @NotNull: FilmActor maps this through @MapsId, so the provider fills it at flush -- later than the prePersist
-    // at which EclipseLink validates. The column stays NOT NULL.
+    // no @NotNull: FilmActor derives this, through @MapsId, from FilmActor.actor, which carries the constraint. When the
+    // provider derives it, relative to the PrePersist validation, is the provider's to say: Hibernate ORM derives it
+    // first, EclipseLink validates first. The column stays NOT NULL.
     @Basic(optional = false)
     @Column(name = FilmActor.COLUMN_NAME_ACTOR_ID, nullable = false, insertable = true, updatable = false)
     private Integer actorId;
 
-    @Nonnull
-    // no @NotNull: FilmActor maps this through @MapsId as well
+    // no @NotNull: FilmActor derives this, through @MapsId, from FilmActor.film, as above
     @Basic(optional = false)
     @Column(name = FilmActor.COLUMN_NAME_FILM_ID, nullable = false, insertable = true, updatable = false)
     private Integer filmId;

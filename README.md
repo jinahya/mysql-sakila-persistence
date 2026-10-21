@@ -94,6 +94,35 @@ $ ./_mvn_jakarta_ee_11_verify_notests_hibernate_orm.sh    # no database needed
 $ ./_mvn_jakarta_ee_11_verify_notests_eclipselink.sh
 ```
 
+## The providers
+
+What one provider does and the other does not, as far as these mappings and tests run into it.
+
+### Hibernate ORM
+
+- `getReference`, and a lazy to-one association, give a proxy: a generated subclass of the entity
+  (`FilmCategory$HibernateProxy`), whose own fields are never populated. It intercepts every method which is neither
+  `private` nor `final`, loads the row, and delegates; the `final` `equals` and `hashCode` it does not intercept, so
+  whatever those read off a proxy, they read through a getter which is not `private`. That is why
+  `FilmCategory.getFilmId()` and `getCategoryId()` are package-private: made `private`, they answer the proxy's `null`,
+  and `persisted.equals(reference)` and `reference.equals(persisted)` both come out `false`, with no exception.
+  `_Entity_Persistence_Test#_persist_EqualsReference` and `#_persist_ReferenceEquals` check both directions, against a
+  real proxy, for every entity with a randomizer and a persister; no bytecode enhancement is configured, which would
+  change this.
+- An identifier from an `IDENTITY` column is written, and readable, as `persist` is called.
+
+### EclipseLink
+
+- No subclass proxies. With weaving off, `eclipselink.woven=false`, the default here, the two tests above pass even
+  with `FilmCategory`'s getters `private`; the package-private ones are for Hibernate ORM.
+- An identifier from an `IDENTITY` column is readable only once the instance is flushed.
+- `PrePersist` validation runs before an identifier derived through `@MapsId` is filled; Hibernate ORM derives it
+  first. So `FilmActor.id`, and the components of `FilmActorId`, carry no `@Valid` or `@NotNull`: under EclipseLink
+  they would fail as `null` every time. The constraints are on `FilmActor.actor` and `film`, from which the identifier
+  is derived.
+- `PersistenceUnitUtil.getIdentifier` instantiates an id class through its public constructors only, and the id
+  classes here declare the no-arg constructor `protected`, so `Find_Test` reads the identifier field instead.
+
 ## The mappings
 
 Package `com.github.jinahya.mysql.sakila.persistence`, one class per table or view, each standalone (no shared entity
@@ -110,6 +139,9 @@ A view is an entity only when its definition makes a column unique: `film_list` 
 `sales_by_store` groups by a store id it does not select, so those three are plain read-only classes, with a public
 constructor taking every column in the view's order. Equality is by the primary key, or by the business key where the
 table declares one (`Rental`, `Store`); every `UNIQUE` key is declared, unnamed, on `@Table`.
+
+`FilmActor.of(actor, film)` sets the two associations and nothing else; both providers fill the `@EmbeddedId` from
+them, through `@MapsId`, as the instance is persisted, so the identifier is never set by hand.
 
 Notes on the column types Jakarta Persistence has no type for:
 

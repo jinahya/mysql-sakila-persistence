@@ -195,7 +195,7 @@ public class Store {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "storeId=" + storeId +
 //               ",managerStaff=" + managerStaff +

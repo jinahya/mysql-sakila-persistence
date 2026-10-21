@@ -28,7 +28,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.metamodel.Attribute;
 import jakarta.persistence.metamodel.ManagedType;
-import jakarta.persistence.metamodel.Type;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
@@ -42,6 +41,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -227,14 +227,11 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
          * missing class rather than about {@code find}. This is the same forgiveness
          * {@link #_persist_RandomizedInstance()} shows, said out loud so the tests are reported as skipped.
          * <p>
-         * The identifier has to be a single basic attribute. An {@link jakarta.persistence.IdClass IdClass} is left out
-         * because assembling one generically is more than this base class knows how to do. An
-         * {@link jakarta.persistence.EmbeddedId EmbeddedId} is left out because an entity may derive a component of it
-         * through {@link jakarta.persistence.MapsId @MapsId} -- {@code FilmActor} does -- and the two
-         * providers disagree about that component: Hibernate copies the association's identifier into the embedded one
-         * as it flushes, EclipseLink writes the column but leaves the component of the managed instance {@code null},
-         * so there is no identifier to hand {@code find} which is right under both. The row itself is written correctly
-         * either way, and {@link #_persist_RandomizedInstance()} is what covers that.
+         * The identifier has to be a single attribute, basic or an {@link jakarta.persistence.EmbeddedId EmbeddedId}.
+         * An {@link jakarta.persistence.IdClass IdClass} is left out because assembling one generically is more than
+         * this base class knows how to do. An embedded identifier whose components are derived through
+         * {@link jakarta.persistence.MapsId @MapsId} -- {@code FilmActor}'s -- is filled, under both providers, as the
+         * instance is persisted, so it is there to hand {@code find} once the instance is flushed.
          */
         @BeforeEach
         void assumeTargetClassIsPersistableAndAddressable() {
@@ -250,10 +247,6 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
             assumeTrue(
                     entityType.hasSingleIdAttribute(),
                     () -> targetClass + " is mapped with an id class"
-            );
-            assumeTrue(
-                    entityType.getIdType().getPersistenceType() == Type.PersistenceType.BASIC,
-                    () -> targetClass + " is mapped with an embedded identifier"
             );
         }
 
@@ -361,6 +354,107 @@ abstract class _Entity_Persistence_Test<T> extends __Test<T> {
                             });
                 });
         log.debug("persisted: {}", persisted);
+    }
+
+    /**
+     * Verifies that a newly persisted instance of {@link #targetClass} equals, and hashes the same as, the reference to
+     * its row, taken once the instance is detached.
+     *
+     * @implNote The context is cleared so that {@link EntityManager#getReference(Object) getReference} does not answer
+     * the managed instance itself; what comes back is a lazy proxy, under a provider which makes one. The reference is
+     * taken from the detached instance, so no identifier has to be assembled, which keeps an
+     * {@link jakarta.persistence.IdClass IdClass} in reach. Absence is forgiven as {@link #_persist_RandomizedInstance()}
+     * forgives it, but said out loud, so the test is reported as skipped.
+     */
+    @DisplayName("persisted.equals(getReference(persisted))")
+    @Test
+    protected void _persist_EqualsReference() {
+        assumeRandomizableAndPersistable();
+        applyNewPersistedEntityInstanceAndRollback((em, v) -> {
+            em.flush();
+            em.clear();
+            final var reference = em.getReference(v);
+            assertThat(v.equals(reference))
+                    .as("persisted.equals(reference); reference: %s", reference.getClass())
+                    .isTrue();
+            assertThat(v.hashCode())
+                    .as("persisted.hashCode() == reference.hashCode(); reference: %s", reference.getClass())
+                    .isEqualTo(reference.hashCode());
+            return reference;
+        });
+    }
+
+    /**
+     * Verifies that the reference to the row of a newly persisted instance of {@link #targetClass}, taken once the
+     * instance is detached, equals the instance.
+     *
+     * @implNote This is the other direction of {@link #_persist_EqualsReference()}; here {@code equals} runs on the
+     * reference itself.
+     */
+    @DisplayName("getReference(persisted).equals(persisted)")
+    @Test
+    protected void _persist_ReferenceEquals() {
+        assumeRandomizableAndPersistable();
+        applyNewPersistedEntityInstanceAndRollback((em, v) -> {
+            em.flush();
+            em.clear();
+            final var reference = em.getReference(v);
+            assertThat(reference.equals(v))
+                    .as("reference.equals(persisted); reference: %s", reference.getClass())
+                    .isTrue();
+            return reference;
+        });
+    }
+
+    /**
+     * Verifies that a newly persisted instance of {@link #targetClass}, put in a {@link HashSet} before it is flushed,
+     * is still found there once it is flushed, and that the instance {@code merge} answers for it, detached, and the
+     * reference to its row, are found there too.
+     *
+     * @implNote The flush is where an identifier from an {@code IDENTITY} column is assigned under EclipseLink, so an
+     * {@code equals}/{@code hashCode} which followed the identifier would lose the instance there; Hibernate ORM assigns
+     * it as {@code persist} is called, earlier than the instance reaches this test. {@code merge} stands in for
+     * {@code find}, which would need the identifier, and {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier}
+     * does not assemble an id class under EclipseLink; see {@code Find_Test}.
+     */
+    @DisplayName("a HashSet still contains the persisted instance across flush, merge, and getReference")
+    @Test
+    protected void _persist_HashSetMembership() {
+        assumeRandomizableAndPersistable();
+        applyNewPersistedEntityInstanceAndRollback((em, v) -> {
+            final var set = new HashSet<T>();
+            set.add(v);
+            em.flush();
+            assertThat(set)
+                    .as("the set, after the flush, of the persisted %s", targetClass.getSimpleName())
+                    .contains(v);
+            em.clear();
+            final var merged = em.merge(v);
+            assertThat(set)
+                    .as("the set, of the %s merged into a cleared context", targetClass.getSimpleName())
+                    .contains(merged);
+            em.clear();
+            final var reference = em.getReference(v);
+            assertThat(set)
+                    .as("the set, of the reference to the %s; reference: %s", targetClass.getSimpleName(),
+                        reference.getClass())
+                    .contains(reference);
+            return set;
+        });
+    }
+
+    /**
+     * Aborts, rather than fails, when {@link #targetClass} has no usable randomizer or no usable persister.
+     */
+    private void assumeRandomizableAndPersistable() {
+        assumeTrue(
+                ObjectRandomizerUtils.newRandomizerInstanceOf(targetClass).isPresent(),
+                () -> targetClass + " has no usable randomizer"
+        );
+        assumeTrue(
+                EntityPersisterUtils.newPersisterInstanceOf(targetClass).isPresent(),
+                () -> targetClass + " has no usable persister"
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------------------
