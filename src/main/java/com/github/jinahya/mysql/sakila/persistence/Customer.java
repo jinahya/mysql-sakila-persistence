@@ -35,6 +35,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -434,6 +435,7 @@ public class Customer {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
+    @Nullable
     public String getEmail() {
         return email;
     }
@@ -443,7 +445,7 @@ public class Customer {
      *
      * @param email new value for {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
-    public void setEmail(final String email) {
+    public void setEmail(@Nullable final String email) {
         this.email = email;
     }
 
@@ -507,6 +509,7 @@ public class Customer {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
+    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -561,6 +564,7 @@ public class Customer {
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
@@ -588,6 +592,7 @@ public class Customer {
     private LocalDateTime createDate;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = true, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

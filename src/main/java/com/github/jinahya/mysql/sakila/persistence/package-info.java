@@ -6,7 +6,10 @@
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables.html">Tables</a>
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views.html">Views</a>
  */
+@NullMarked
 package com.github.jinahya.mysql.sakila.persistence;
+
+import org.jspecify.annotations.NullMarked;
 
 /*-
  * #%L

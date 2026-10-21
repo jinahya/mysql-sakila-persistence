@@ -39,7 +39,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -242,31 +241,29 @@ public class Country {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute, mapped with the specified function.
      *
-     * @param mapper the function which maps current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute; applied only
-     *               when the value is not {@code null}.
+     * @param mapper the function which maps current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      * @param <R>    result type parameter
-     * @return the result of the {@code mapper} applied to current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute;
-     *         {@code null} when the value, or the result, is {@code null}.
+     * @return the result of the {@code mapper} applied to current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      * @see #getCountry()
      */
     <R> R getCountryAs(final Function<? super String, ? extends R> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
-        return Optional.ofNullable(getCountry()).map(mapper).orElse(null);
+        return mapper.apply(getCountry());
     }
 
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified value, mapped with the
      * specified function.
      *
-     * @param country the value to map; {@code null} sets {@code null}.
+     * @param country the value to map.
      * @param mapper  the function which maps the {@code country} to a new value for {@value #ATTRIBUTE_NAME_COUNTRY}
-     *                attribute; applied only when the {@code country} is not {@code null}.
+     *                attribute.
      * @param <T>     value type parameter
      * @see #setCountry(String)
      */
     <T> void setCountryAs(final T country, final Function<? super T, ? extends String> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
-        setCountry(Optional.ofNullable(country).map(mapper).orElse(null));
+        setCountry(mapper.apply(country));
     }
 
     /**

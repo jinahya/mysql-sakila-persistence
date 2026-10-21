@@ -26,6 +26,7 @@ import jakarta.persistence.metamodel.Attribute;
 import jakarta.persistence.metamodel.EntityType;
 import jakarta.persistence.metamodel.ManagedType;
 import jakarta.persistence.metamodel.SingularAttribute;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -66,7 +67,7 @@ final class ___Persistence_TestUtils {
      *         transaction back throws an {@link IllegalStateException} which would mask whatever the resultFunction
      *         did.
      */
-    public static <R> R applyInTransaction(
+    public static <R extends @Nullable Object> R applyInTransaction(
             final EntityManager entityManager,
             final Function<? super EntityManager, ? extends R> resultFunction,
             final Consumer<? super EntityTransaction> transactionConsumer) {
@@ -94,7 +95,7 @@ final class ___Persistence_TestUtils {
      *         database, what keeps the sample data as the installer left it. It happens whether the
      *         {@code resultFunction} returned or threw, so a failing test leaves no more behind than a passing one.
      */
-    public static <R> R applyInTransactionAndRollback(
+    public static <R extends @Nullable Object> R applyInTransactionAndRollback(
             final EntityManager entityManager,
             final Function<? super EntityManager, ? extends R> resultFunction) {
         return applyInTransaction(entityManager, resultFunction, t -> {
@@ -119,7 +120,7 @@ final class ___Persistence_TestUtils {
      *         consumer runs in a {@code finally}, which cannot tell a return from a throw, and committing a transaction
      *         whose resultFunction threw is the one thing this must not do.
      */
-    public static <R> R applyInTransactionAndCommit(
+    public static <R extends @Nullable Object> R applyInTransactionAndCommit(
             final EntityManager entityManager,
             final Function<? super EntityManager, ? extends R> resultFunction) {
         Objects.requireNonNull(entityManager, "entityManager is null");
@@ -230,7 +231,7 @@ final class ___Persistence_TestUtils {
             current = attribute instanceof SingularAttribute<?, ?> singular
                       && singular.getType() instanceof ManagedType<?> next ? next : null;
         }
-        return attribute;
+        return Objects.requireNonNull(attribute, "attribute is null"); // the split gives one segment at least
     }
 
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS

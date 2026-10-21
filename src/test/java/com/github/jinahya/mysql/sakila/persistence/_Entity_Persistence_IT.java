@@ -31,6 +31,7 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -160,7 +161,7 @@ abstract class _Entity_Persistence_IT<T>
         @DisplayName("find reaches a randomly selected row once the context is cleared")
         @Test
         void __() {
-            applyEntityManagerInTransactionAndRollback(em -> {
+            _Entity_Persistence_IT.this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
                 final var selected = ___Persistence_TestUtils.selectRandom(em, targetClass);
                 assumeTrue(selected.isPresent(), () -> "no row of " + targetClass + " is installed");
                 final var identifier = identifierOf(selected.get());
@@ -214,7 +215,7 @@ abstract class _Entity_Persistence_IT<T>
      */
     @Test
     void selectRandom() {
-        applyEntityManagerInTransactionAndRollback(em -> {
+        this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
             ___Persistence_TestUtils.selectRandom(em, targetClass).ifPresent(this::randomSelected);
             return null;
         });
@@ -249,7 +250,7 @@ abstract class _Entity_Persistence_IT<T>
      * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is
      *         still managed when the function sees it, and it is gone when the transaction rolls back.
      */
-    <R> R applyNewPersistedTargetInstanceAndRollback(
+    <R extends @Nullable Object> R applyNewPersistedTargetInstanceAndRollback(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndRollback(em -> {
@@ -274,7 +275,7 @@ abstract class _Entity_Persistence_IT<T>
      * @implNote Randomized values are the ones the persister produced, so a committed row is also a row nothing
      *         else in the schema expects; a foreign key pointing at it later is the caller's problem to clean up.
      */
-    <R> R applyNewPersistedTargetInstanceAndCommit(
+    <R extends @Nullable Object> R applyNewPersistedTargetInstanceAndCommit(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndCommit(em -> {
@@ -294,7 +295,7 @@ abstract class _Entity_Persistence_IT<T>
      *         sample data as the installer left it.
      * @see ___Persistence_TestUtils#applyInTransactionAndRollback(EntityManager, Function)
      */
-    <R> R applyEntityManagerInTransactionAndRollback(
+    <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
             final Function<? super EntityManager, ? extends R> function) {
         return ___Persistence_TestUtils.applyInTransactionAndRollback(entityManager, function);
     }
@@ -311,7 +312,7 @@ abstract class _Entity_Persistence_IT<T>
      *         rolled-back one.
      * @see ___Persistence_TestUtils#applyInTransactionAndCommit(EntityManager, Function)
      */
-    <R> R applyEntityManagerInTransactionAndCommit(
+    <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
             final Function<? super EntityManager, ? extends R> function) {
         return ___Persistence_TestUtils.applyInTransactionAndCommit(entityManager, function);
     }

@@ -21,8 +21,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -46,20 +44,20 @@ final class __Utils {
         private static final Map<String, Locale> COUNTRY_LOCALES = new ConcurrentHashMap<>();
 
         private static final Map<String, Locale> COUNTRY_LOCALES_CUSTOM =
-                Collections.unmodifiableMap(new HashMap<String, Locale>() {{
-                    // the sakila's names which the JDK spells differently; the JDK's own spelling follows each
-                    put("Congo, The Democratic Republic of the", new Locale("", "CD")); // Congo - Kinshasa
-                    put("Czech Republic", new Locale("", "CZ")); // Czechia
-                    put("Holy See (Vatican City State)", new Locale("", "VA")); // Vatican City
-                    put("Hong Kong", new Locale("", "HK")); // Hong Kong SAR China
-                    put("Kazakstan", new Locale("", "KZ")); // Kazakhstan
-                    put("Myanmar", new Locale("", "MM")); // Myanmar (Burma)
-                    put("Russian Federation", new Locale("", "RU")); // Russia
-                    put("Saint Vincent and the Grenadines", new Locale("", "VC")); // St. Vincent & Grenadines
-                    put("Turkey", new Locale("", "TR")); // Türkiye
-                    put("Virgin Islands, U.S.", new Locale("", "VI")); // U.S. Virgin Islands
-                    // Yugoslavia, YU, is no longer an ISO 3166 country
-                }});
+                Map.ofEntries(
+                        // the sakila's names which the JDK spells differently; the JDK's own spelling follows each
+                        Map.entry("Congo, The Democratic Republic of the", new Locale("", "CD")), // Congo - Kinshasa
+                        Map.entry("Czech Republic", new Locale("", "CZ")), // Czechia
+                        Map.entry("Holy See (Vatican City State)", new Locale("", "VA")), // Vatican City
+                        Map.entry("Hong Kong", new Locale("", "HK")), // Hong Kong SAR China
+                        Map.entry("Kazakstan", new Locale("", "KZ")), // Kazakhstan
+                        Map.entry("Myanmar", new Locale("", "MM")), // Myanmar (Burma)
+                        Map.entry("Russian Federation", new Locale("", "RU")), // Russia
+                        Map.entry("Saint Vincent and the Grenadines", new Locale("", "VC")), // St. Vincent & Grenadines
+                        Map.entry("Turkey", new Locale("", "TR")), // Türkiye
+                        Map.entry("Virgin Islands, U.S.", new Locale("", "VI")) // U.S. Virgin Islands
+                        // Yugoslavia, YU, is no longer an ISO 3166 country
+                );
 
         static Locale of(final String displayCountryInEnglish) {
             Objects.requireNonNull(displayCountryInEnglish, "displayCountryInEnglish is null");

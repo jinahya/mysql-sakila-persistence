@@ -24,6 +24,7 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -144,6 +145,7 @@ public class _RentalPeriod {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while the item is out.
      */
+    @Nullable
     public LocalDateTime getReturnDate() {
         return returnDate;
     }
@@ -153,7 +155,7 @@ public class _RentalPeriod {
      *
      * @param returnDate new value for {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      */
-    public void setReturnDate(final LocalDateTime returnDate) {
+    public void setReturnDate(@Nullable final LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 
@@ -164,6 +166,7 @@ public class _RentalPeriod {
     private LocalDateTime rentalDate;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic(optional = true)
     @Column(name = Rental.COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
     private LocalDateTime returnDate;

@@ -24,6 +24,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -45,13 +46,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @EnableAutoWeld
 class FilmList_IT {
 
-    private static Integer integerOf(final Object value) {
+    private static @Nullable Integer integerOf(final @Nullable Object value) {
         return value == null ? null : ((Number) value).intValue();
     }
 
     private static FilmList newInstanceOf(final Object[] row) {
         return new FilmList(
-                integerOf(row[0]),
+                ((Number) row[0]).intValue(),
                 (String) row[1],
                 (String) row[2],
                 (String) row[3],

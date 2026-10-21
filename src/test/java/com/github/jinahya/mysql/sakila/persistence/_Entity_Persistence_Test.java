@@ -33,6 +33,7 @@ import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -487,7 +488,7 @@ abstract class _Entity_Persistence_Test<T>
      * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is
      *         still managed when the function sees it, and it is gone when the transaction rolls back.
      */
-    protected <R> R applyNewPersistedEntityInstanceAndRollback(
+    protected <R extends @Nullable Object> R applyNewPersistedEntityInstanceAndRollback(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndRollback(em -> {
@@ -509,7 +510,7 @@ abstract class _Entity_Persistence_Test<T>
      * @implNote The persisted row outlives the call, on a database which is thrown away with the container; a
      *         test which only needs the instance for the length of the {@code function} wants the rolled-back one.
      */
-    protected <R> R applyNewPersistedEntityInstanceAndCommit(
+    protected <R extends @Nullable Object> R applyNewPersistedEntityInstanceAndCommit(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndCommit(em -> {
@@ -531,7 +532,7 @@ abstract class _Entity_Persistence_Test<T>
      *         recreated per container anyway.
      * @see ___Persistence_TestUtils#applyInTransactionAndRollback(EntityManager, Function)
      */
-    protected <R> R applyEntityManagerInTransactionAndRollback(
+    protected <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
             final Function<? super EntityManager, ? extends R> function) {
         return ___Persistence_TestUtils.applyInTransactionAndRollback(entityManager, function);
     }
@@ -548,7 +549,7 @@ abstract class _Entity_Persistence_Test<T>
      *         later has to read wants the rolled-back one.
      * @see ___Persistence_TestUtils#applyInTransactionAndCommit(EntityManager, Function)
      */
-    protected <R> R applyEntityManagerInTransactionAndCommit(
+    protected <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
             final Function<? super EntityManager, ? extends R> function) {
         return ___Persistence_TestUtils.applyInTransactionAndCommit(entityManager, function);
     }

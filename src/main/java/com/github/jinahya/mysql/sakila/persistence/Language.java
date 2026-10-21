@@ -38,7 +38,6 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 /**
  * An entity class for mapping the {@value Language#TABLE_NAME} table.
@@ -236,8 +235,7 @@ public class Language {
      * Replaces current value of {@value #ATTRIBUTE_NAME_NAME} attribute with the display name of the specified locale,
      * in {@link Locale#ENGLISH English}.
      *
-     * @param locale the locale whose display name, in {@link Locale#ENGLISH English}, is set; {@code null} sets
-     *               {@code null}.
+     * @param locale the locale whose display name, in {@link Locale#ENGLISH English}, is set.
      * @apiNote The display name of a locale with a country, or a variant, may be longer than
      *         {@value #SIZE_MAX_NAME} characters; {@link Locale#US}, for one, is {@code "English (United States)"}.
      * @see Locale#getDisplayName(Locale)
@@ -245,7 +243,7 @@ public class Language {
      */
     @Transient
     public void setNameFrom(final Locale locale) {
-        setName(Optional.ofNullable(locale).map(v -> v.getDisplayName(Locale.ENGLISH)).orElse(null));
+        setName(locale.getDisplayName(Locale.ENGLISH));
     }
 
     // ------------------------------------------------------------------------------------------------------ lastUpdate
