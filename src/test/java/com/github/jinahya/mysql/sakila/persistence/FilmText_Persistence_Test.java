@@ -23,8 +23,6 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assumptions.abort;
-
 /**
  * Verifies the mappings of {@link FilmText} against the schema generated into the in-memory database.
  *
@@ -46,7 +44,7 @@ class FilmText_Persistence_Test
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    protected void _persist_RandomizedInstance() {
+    void _persist_RandomizedInstance() {
         // empty
     }
 
@@ -57,7 +55,7 @@ class FilmText_Persistence_Test
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    protected void _persist_EqualsReference() {
+    void _persist_EqualsReference() {
         // empty
     }
 
@@ -68,7 +66,7 @@ class FilmText_Persistence_Test
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    protected void _persist_ReferenceEquals() {
+    void _persist_ReferenceEquals() {
         // empty
     }
 
@@ -79,16 +77,7 @@ class FilmText_Persistence_Test
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    protected void _persist_HashSetMembership() {
+    void _persist_HashSetMembership() {
         // empty
-    }
-
-    /**
-     * Aborts; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete every row of
-     * {@value FilmText#TABLE_NAME}, so nothing else inserts into it, and there is nothing persisted to find.
-     */
-    @Override
-    protected void assumeTargetClassIsFindable() {
-        abort("written by the film table's triggers: nothing else inserts into it");
     }
 }

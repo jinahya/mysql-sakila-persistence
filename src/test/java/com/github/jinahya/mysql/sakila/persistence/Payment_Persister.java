@@ -33,8 +33,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * {@link Payment#of(Staff, Rental)} and the {@link Payment#of(Staff, Customer)} create.
  * <p>
  * One for a rental is given a newly persisted {@link Rental}, which also gives it the customer of that rental. The
- * staff member is, at random, either the one of that rental or any {@link Staff} of the database; nothing ties the
- * two, and about half of the installed payments were taken by a staff member other than the one of their rental.
+ * staff member is, at random, either the one of that rental or any {@link Staff} of the database; nothing ties the two,
+ * and about half of the installed payments were taken by a staff member other than the one of their rental.
  * <p>
  * One without a rental, a payment of outstanding fees, is given a newly persisted {@link Customer}, and any
  * {@link Staff} of the database.

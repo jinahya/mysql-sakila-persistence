@@ -55,7 +55,7 @@ class FilmCategory_Persistence_Test
     @DisplayName("loaded.equals(getReference(loaded))")
     @Test
     @Override
-    protected void _persist_EqualsReference() {
+    void _persist_EqualsReference() {
         applyNewPersistedEntityInstanceAndRollback((em, v) -> {
             final var loaded = flushClearAndLoad(em, v);
             em.clear();
@@ -79,7 +79,7 @@ class FilmCategory_Persistence_Test
     @DisplayName("getReference(loaded).equals(loaded)")
     @Test
     @Override
-    protected void _persist_ReferenceEquals() {
+    void _persist_ReferenceEquals() {
         applyNewPersistedEntityInstanceAndRollback((em, v) -> {
             final var loaded = flushClearAndLoad(em, v);
             em.clear();
@@ -100,7 +100,7 @@ class FilmCategory_Persistence_Test
     @DisplayName("a HashSet still contains the loaded instance across merge and getReference")
     @Test
     @Override
-    protected void _persist_HashSetMembership() {
+    void _persist_HashSetMembership() {
         applyNewPersistedEntityInstanceAndRollback((em, v) -> {
             final var loaded = flushClearAndLoad(em, v);
             final var set = new HashSet<FilmCategory>();

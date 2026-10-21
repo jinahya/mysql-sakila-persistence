@@ -20,11 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.persistence.EntityManager;
-import org.junit.jupiter.api.BeforeEach;
-
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
-
 /**
  * Verifies the mappings of {@link Rental} against the schema generated into the in-memory database.
  *
@@ -40,20 +35,38 @@ class Rental_Persistence_Test
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Aborts, rather than fails, when the in-memory database lacks a {@link Store} or a {@link Staff}.
-     *
-     * @implNote A store and its manager refer to each other through {@code NOT NULL} columns whose values are
-     *         both generated, so neither can be persisted first, and the generated schema starts empty. The persister
-     *         of this entity gives it an existing store or staff member -- see
-     *         {@link Store_Persister#selectFirst(EntityManager)} and {@link Staff_Persister#selectFirst(EntityManager)}
-     *         -- which only the installed database has; the {@code *_Persistence_IT} counterpart is what runs these
-     *         against it.
+     * Not a test here; the persister of {@link Rental} takes an existing {@link Store} or {@link Staff}, which the
+     * in-memory database never has, for neither is persisted; see {@link Store}.
      */
-    @BeforeEach
-    void assumeStoreAndStaffExist() {
-        final Boolean present = applyEntityManagerInTransactionAndRollback(
-                em -> Store_Persister.selectFirst(em).isPresent() && Staff_Persister.selectFirst(em).isPresent()
-        );
-        assumeTrue(present, "no store, or no staff, in the in-memory database");
+    @Override
+    void _persist_RandomizedInstance() {
+        // empty
+    }
+
+    /**
+     * Not a test here; the persister of {@link Rental} takes an existing {@link Store} or {@link Staff}, which the
+     * in-memory database never has, for neither is persisted; see {@link Store}.
+     */
+    @Override
+    void _persist_EqualsReference() {
+        // empty
+    }
+
+    /**
+     * Not a test here; the persister of {@link Rental} takes an existing {@link Store} or {@link Staff}, which the
+     * in-memory database never has, for neither is persisted; see {@link Store}.
+     */
+    @Override
+    void _persist_ReferenceEquals() {
+        // empty
+    }
+
+    /**
+     * Not a test here; the persister of {@link Rental} takes an existing {@link Store} or {@link Staff}, which the
+     * in-memory database never has, for neither is persisted; see {@link Store}.
+     */
+    @Override
+    void _persist_HashSetMembership() {
+        // empty
     }
 }

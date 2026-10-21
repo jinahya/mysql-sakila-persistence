@@ -40,8 +40,8 @@ class BetterStoreStaff_Test
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link BetterStoreStaff#equals(Object) equals} compares only the {@code @Id}, because every other
-     *         attribute is mutable state.
+     * @implNote {@link BetterStoreStaff#equals(Object) equals} compares only the {@code @Id}, because every
+     *         other attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<BetterStoreStaff> equals_verifier_() {

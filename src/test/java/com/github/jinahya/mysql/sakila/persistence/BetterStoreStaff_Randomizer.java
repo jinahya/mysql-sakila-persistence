@@ -31,8 +31,8 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link BetterStoreStaff} instances.
  * <p>
- * The {@code id}, which the database generates, and the {@code store} and {@code staff} associations are excluded
- * from randomization; {@link BetterStoreStaff_Persister} supplies both associations. The {@code manager} is, at random,
+ * The {@code id}, which the database generates, and the {@code store} and {@code staff} associations are excluded from
+ * randomization; {@link BetterStoreStaff_Persister} supplies both associations. The {@code manager} is, at random,
  * {@link Boolean#TRUE} or {@code null}, never {@link Boolean#FALSE}, as the table's check constraint has it.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;

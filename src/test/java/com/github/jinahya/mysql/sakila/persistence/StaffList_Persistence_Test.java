@@ -45,7 +45,31 @@ class StaffList_Persistence_Test
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    protected void _persist_RandomizedInstance() {
+    void _persist_RandomizedInstance() {
+        // empty
+    }
+
+    /**
+     * Not a test here; {@value StaffList#TABLE_NAME} is a view, so there is nothing to persist.
+     */
+    @Override
+    void _persist_EqualsReference() {
+        // empty
+    }
+
+    /**
+     * Not a test here; {@value StaffList#TABLE_NAME} is a view, so there is nothing to persist.
+     */
+    @Override
+    void _persist_ReferenceEquals() {
+        // empty
+    }
+
+    /**
+     * Not a test here; {@value StaffList#TABLE_NAME} is a view, so there is nothing to persist.
+     */
+    @Override
+    void _persist_HashSetMembership() {
         // empty
     }
 }

@@ -37,6 +37,17 @@ class FilmCategory_Persistence_IT
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
+     * Not a test here; {@link FilmCategory} is mapped with an {@link jakarta.persistence.IdClass IdClass}, which the
+     * generic test does not assemble.
+     */
+    @Override
+    void find_RandomlySelected_ContextCleared() {
+        // empty
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}

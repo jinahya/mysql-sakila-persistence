@@ -25,16 +25,13 @@ import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.metamodel.ManagedType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.jboss.weld.junit5.auto.AddBeanClasses;
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.jspecify.annotations.Nullable;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -82,100 +79,55 @@ abstract class _Entity_Persistence_IT<T>
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Aborts, rather than fails, when the persistence unit does not know the {@link #targetClass}.
+     * Verifies that {@code find} reaches a randomly selected row once the persistence context no longer holds it.
      *
-     * @implNote A class which is commented out of the persistence unit is not a managed type, and every test
-     *         here would fail against it with an unknown-entity error which says nothing about the mapping. Aborting
-     *         keeps the class reported as skipped, so listing it in {@code persistence.xml} is all it takes to bring
-     *         the test back.
+     * @implNote Compared by identifier, not with {@link Object#equals(Object)}: an entity here is free to base
+     *         its equality on an association, and the reloaded instance holds proxies for those, which need not compare
+     *         equal to the ones first selected. An empty table is not a failure; the test aborts, since the table's
+     *         content is the installer's.
+     * @implSpec The identifier has to be a single attribute, basic or an
+     *         {@link jakarta.persistence.EmbeddedId EmbeddedId}; a subclass whose entity is mapped with an
+     *         {@link jakarta.persistence.IdClass IdClass} overrides this method, without {@link Test @Test}.
      */
-    @BeforeEach
-    protected void assumeTargetClassIsManaged() {
-        assumeTrue(
-                entityManagerFactory.getMetamodel().getManagedTypes().stream()
-                        .map(ManagedType::getJavaType)
-                        .anyMatch(c -> c == targetClass),
-                () -> targetClass + " is not a managed type of the persistence unit"
-        );
+    @DisplayName("find reaches a randomly selected row once the context is cleared")
+    @Test
+    void find_RandomlySelected_ContextCleared() {
+        this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
+            final var selected = ___Persistence_TestUtils.selectRandom(em, targetClass);
+            assumeTrue(selected.isPresent(), () -> "no row of " + targetClass + " is installed");
+            final var identifier = identifierOf(selected.get());
+            em.clear();
+            final var found = em.find(targetClass, identifier);
+            assertThat(found)
+                    .as("the %s found by its identifier, from the database", targetClass.getSimpleName())
+                    .isNotNull()
+                    .isNotSameAs(selected.get());
+            assertThat(identifierOf(found))
+                    .as("the identifier of the %s found", targetClass.getSimpleName())
+                    .isEqualTo(identifier);
+            return null;
+        });
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
     /**
-     * Verifies {@link EntityManager#find(Class, Object) find} against a row the installer put in the database.
+     * Returns the identifier of the specified instance, read from the field the metamodel says maps it.
+     *
+     * @param instance the instance whose identifier to read.
+     * @return the identifier of the {@code instance}.
+     * @implNote Reads the mapped field rather than calling
+     *         {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)}, which EclipseLink answers by
+     *         instantiating the identifier class through {@link Class#getConstructor(Class[])}; that sees public
+     *         constructors only, and the identifier classes here declare the no-arg constructor {@code protected}, as
+     *         the specification asks of an embeddable. Every entity here maps its identifier by field.
      */
-    @Nested
-    class Find_Test {
-
-        /**
-         * Aborts, rather than fails, when {@link #targetClass} does not carry the shape of identifier these tests
-         * address.
-         *
-         * @implNote The identifier has to be a single attribute, basic or embedded, for the reasons the
-         *         unit-test counterpart, {@code _Entity_Persistence_Test.Find_Test}, gives.
-         */
-        @BeforeEach
-        void assumeTargetClassIsAddressable() {
-            final var entityType = entityManagerFactory.getMetamodel().getEntities().stream()
-                    .filter(t -> t.getJavaType() == targetClass)
-                    .findFirst();
-            assumeTrue(entityType.isPresent(), () -> targetClass + " is not an entity");
-            assumeTrue(
-                    entityType.get().hasSingleIdAttribute(),
-                    () -> targetClass + " is mapped with an id class"
-            );
-        }
-
-        /**
-         * Returns the identifier of the specified instance, read from the field the metamodel says maps it.
-         *
-         * @param instance the instance whose identifier to read.
-         * @return the identifier of the {@code instance}.
-         * @implNote Reads the mapped field rather than calling
-         *         {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)}, for the reasons the unit-test
-         *         counterpart gives.
-         */
-        private Object identifierOf(final T instance) {
-            final var entityType = entityManagerFactory.getMetamodel().entity(targetClass);
-            final var member = entityType.getId(entityType.getIdType().getJavaType()).getJavaMember();
-            assumeTrue(
-                    member instanceof Field,
-                    () -> targetClass + " maps its identifier by property, not by field"
-            );
-            final var field = (Field) member;
-            field.setAccessible(true);
-            try {
-                return field.get(instance);
-            } catch (final IllegalAccessException iae) {
-                throw new AssertionError("failed to read " + field, iae);
-            }
-        }
-
-        /**
-         * Verifies that {@code find} reaches a randomly selected row once the persistence context no longer holds it.
-         *
-         * @implNote Compared by identifier, not with {@link Object#equals(Object)}, for the reasons the
-         *         unit-test counterpart gives. An empty table is not a failure; the test aborts, since the table's
-         *         content is the installer's.
-         */
-        @DisplayName("find reaches a randomly selected row once the context is cleared")
-        @Test
-        void __() {
-            _Entity_Persistence_IT.this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
-                final var selected = ___Persistence_TestUtils.selectRandom(em, targetClass);
-                assumeTrue(selected.isPresent(), () -> "no row of " + targetClass + " is installed");
-                final var identifier = identifierOf(selected.get());
-                em.clear();
-                final var found = em.find(targetClass, identifier);
-                assertThat(found)
-                        .as("the %s found by its identifier, from the database", targetClass.getSimpleName())
-                        .isNotNull()
-                        .isNotSameAs(selected.get());
-                assertThat(identifierOf(found))
-                        .as("the identifier of the %s found", targetClass.getSimpleName())
-                        .isEqualTo(identifier);
-                return null;
-            });
+    private Object identifierOf(final T instance) {
+        final var entityType = entityManagerFactory.getMetamodel().entity(targetClass);
+        final var field = (Field) entityType.getId(entityType.getIdType().getJavaType()).getJavaMember();
+        field.setAccessible(true);
+        try {
+            return field.get(instance);
+        } catch (final IllegalAccessException iae) {
+            throw new AssertionError("failed to read " + field, iae);
         }
     }
 

@@ -23,8 +23,6 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assumptions.abort;
-
 /**
  * Verifies the mappings of {@link Store} against the schema generated into the in-memory database.
  *
@@ -46,7 +44,7 @@ class Store_Persistence_Test
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    protected void _persist_RandomizedInstance() {
+    void _persist_RandomizedInstance() {
         // empty
     }
 
@@ -57,7 +55,7 @@ class Store_Persistence_Test
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    protected void _persist_EqualsReference() {
+    void _persist_EqualsReference() {
         // empty
     }
 
@@ -68,7 +66,7 @@ class Store_Persistence_Test
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    protected void _persist_ReferenceEquals() {
+    void _persist_ReferenceEquals() {
         // empty
     }
 
@@ -79,16 +77,7 @@ class Store_Persistence_Test
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    protected void _persist_HashSetMembership() {
+    void _persist_HashSetMembership() {
         // empty
-    }
-
-    /**
-     * Aborts; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
-     * columns, so neither is persisted, and there is nothing persisted to find.
-     */
-    @Override
-    protected void assumeTargetClassIsFindable() {
-        abort("a store and its manager refer to each other: neither is persisted");
     }
 }

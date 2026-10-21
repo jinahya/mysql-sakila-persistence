@@ -57,14 +57,14 @@ import org.jspecify.annotations.Nullable;
  * )
  *}
  * <p>
- * A row links a {@link BetterStaff} to the {@link BetterStore} they work at, and flags the manager of the store.
- * The {@value #COLUMN_NAME_STAFF_ID} column is unique, so a staff member works at one store at most; the
- * {@value #COLUMN_NAME_MANAGER} column is {@code TRUE}, for the manager, or {@code NULL}, never {@code FALSE}, so
- * the unique key of it and the {@value #COLUMN_NAME_STORE_ID} column, whose {@code NULL}s do not collide, allows one
+ * A row links a {@link BetterStaff} to the {@link BetterStore} they work at, and flags the manager of the store. The
+ * {@value #COLUMN_NAME_STAFF_ID} column is unique, so a staff member works at one store at most; the
+ * {@value #COLUMN_NAME_MANAGER} column is {@code TRUE}, for the manager, or {@code NULL}, never {@code FALSE}, so the
+ * unique key of it and the {@value #COLUMN_NAME_STORE_ID} column, whose {@code NULL}s do not collide, allows one
  * manager per store. The manager works at the store they manage, for the flag is on the row which says so.
  * <p>
- * What the table does not enforce is that every store has a manager, and that every staff member works at a store.
- * The table is created by {@code 99-better-store-staff.sql}, which runs after the installer's scripts.
+ * What the table does not enforce is that every store has a manager, and that every staff member works at a store. The
+ * table is created by {@code 99-better-store-staff.sql}, which runs after the installer's scripts.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -251,8 +251,8 @@ public class BetterStoreStaff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value; a transfer, when
-     * the instance is already persisted.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value; a transfer, when the
+     * instance is already persisted.
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
@@ -285,8 +285,8 @@ public class BetterStoreStaff {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the
-     *         store, {@code null} otherwise.
+     * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the store,
+     *         {@code null} otherwise.
      */
     @Nullable
     public Boolean getManager() {
