@@ -36,6 +36,7 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -394,6 +395,7 @@ public class Rental {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while the copy is out.
      */
+    @Nullable
     public LocalDateTime getReturnDate() {
         return returnDate;
     }
@@ -403,7 +405,7 @@ public class Rental {
      *
      * @param returnDate new value for {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      */
-    public void setReturnDate(final LocalDateTime returnDate) {
+    public void setReturnDate(@Nullable final LocalDateTime returnDate) {
         this.returnDate = returnDate;
     }
 
@@ -478,6 +480,7 @@ public class Rental {
     private Customer customer;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
     private LocalDateTime returnDate;

@@ -30,6 +30,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 
@@ -213,6 +214,7 @@ public class SalesByFilmCategory {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute.
      */
+    @Nullable
     public BigDecimal getTotalSales() {
         return totalSales;
     }
@@ -229,6 +231,7 @@ public class SalesByFilmCategory {
     private String category;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
     @DecimalMin(COLUMN_MIN_TOTAL_SALES)

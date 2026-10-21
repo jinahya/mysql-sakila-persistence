@@ -26,6 +26,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 
@@ -213,6 +214,9 @@ public class FilmList {
     /**
      * Creates a new instance.
      */
+    @SuppressWarnings({
+            "NullAway.Init" // a row mapper sets the fields
+    })
     protected FilmList() {
         super();
     }
@@ -231,12 +235,12 @@ public class FilmList {
      */
     public FilmList(final Integer fid,
                     final String title,
-                    final String description,
-                    final String category,
+                    final @Nullable String description,
+                    final @Nullable String category,
                     final BigDecimal price,
-                    final Integer length,
-                    final Film.Rating rating,
-                    final String actors) {
+                    final @Nullable Integer length,
+                    final Film.@Nullable Rating rating,
+                    final @Nullable String actors) {
         super();
         this.fid = fid;
         this.title = title;
@@ -293,6 +297,7 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
+    @Nullable
     public String getDescription() {
         return description;
     }
@@ -304,6 +309,7 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
+    @Nullable
     public String getCategory() {
         return category;
     }
@@ -326,6 +332,7 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
+    @Nullable
     public Integer getLength() {
         return length;
     }
@@ -337,7 +344,7 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
-    public Film.Rating getRating() {
+    public Film.@Nullable Rating getRating() {
         return rating;
     }
 
@@ -348,6 +355,7 @@ public class FilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTORS} attribute.
      */
+    @Nullable
     public String getActors() {
         return actors;
     }
@@ -367,11 +375,13 @@ public class FilmList {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_CATEGORY)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_CATEGORY, nullable = true, insertable = false, updatable = false,
@@ -390,6 +400,7 @@ public class FilmList {
     private BigDecimal price;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_LENGTH, nullable = true, insertable = false, updatable = false)
     private Integer length;
@@ -398,9 +409,10 @@ public class FilmList {
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_RATING)
-    private Film.Rating rating;
+    private Film.@Nullable Rating rating;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ACTORS, nullable = true, insertable = false, updatable = false)
     private String actors;

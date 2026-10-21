@@ -36,6 +36,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An entity class for mapping the {@value FilmText#TABLE_NAME} table.
@@ -275,6 +276,7 @@ public class FilmText {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
+    @Nullable
     public String getDescription() {
         return description;
     }
@@ -284,7 +286,7 @@ public class FilmText {
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    void setDescription(final String description) {
+    void setDescription(@Nullable final String description) {
         this.description = description;
     }
 
@@ -315,6 +317,7 @@ public class FilmText {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;

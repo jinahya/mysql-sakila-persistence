@@ -28,6 +28,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -283,6 +284,7 @@ public class ActorInfo {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_INFO} attribute.
      */
+    @Nullable
     public String getFilmInfo() {
         return filmInfo;
     }
@@ -299,6 +301,7 @@ public class ActorInfo {
      * @return a map of category names to film titles; {@code null} when the {@value #ATTRIBUTE_NAME_FILM_INFO}
      *         attribute is {@code null}.
      */
+    @Nullable
     public Map<String, List<String>> getFilmInfoMap() {
         return Optional.ofNullable(getFilmInfo())
                 .map(v -> {
@@ -338,6 +341,7 @@ public class ActorInfo {
     private String lastName;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_FILM_INFO, nullable = true, insertable = false, updatable = false)
     private String filmInfo;

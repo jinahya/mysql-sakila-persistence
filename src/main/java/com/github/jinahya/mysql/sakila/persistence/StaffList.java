@@ -28,6 +28,7 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An entity class for mapping the {@value StaffList#TABLE_NAME} view.
@@ -324,6 +325,7 @@ public class StaffList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_NAME} attribute.
      */
+    @Nullable
     public String getName() {
         return name;
     }
@@ -346,6 +348,7 @@ public class StaffList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ZIP_CODE} attribute.
      */
+    @Nullable
     public String getZipCode() {
         return zipCode;
     }
@@ -404,6 +407,7 @@ public class StaffList {
     private Integer id;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_NAME, nullable = true, insertable = false, updatable = false,
@@ -419,6 +423,7 @@ public class StaffList {
     private String address;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_ZIP_CODE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ZIP_CODE_DELIMITED, nullable = true, insertable = false, updatable = false,

@@ -34,13 +34,13 @@ import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -457,6 +457,7 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
+    @Nullable
     public String getAddress2() {
         return address2;
     }
@@ -466,7 +467,7 @@ public class Address {
      *
      * @param address2 new value for {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
-    public void setAddress2(final String address2) {
+    public void setAddress2(@Nullable final String address2) {
         this.address2 = address2;
     }
 
@@ -517,6 +518,7 @@ public class Address {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
+    @Nullable
     public String getPostalCode() {
         return postalCode;
     }
@@ -526,7 +528,7 @@ public class Address {
      *
      * @param postalCode new value for {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
-    public void setPostalCode(final String postalCode) {
+    public void setPostalCode(@Nullable final String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -575,12 +577,12 @@ public class Address {
 
     <R> R getLocationAs(final Function<? super byte[], ? extends R> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
-        return Optional.ofNullable(getLocation()).map(mapper).orElse(null);
+        return mapper.apply(getLocation());
     }
 
     <T> void setLocationAs(final T location, final Function<? super T, ? extends byte[]> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
-        setLocation(Optional.ofNullable(location).map(mapper).orElse(null));
+        setLocation(mapper.apply(location));
     }
 
     // ------------------------------------------------------------------------------------------------------ lastUpdate
@@ -611,6 +613,7 @@ public class Address {
     private String address;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ADDRESS2, nullable = true, insertable = true, updatable = true,
@@ -634,6 +637,7 @@ public class Address {
     private City city;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true, updatable = true,

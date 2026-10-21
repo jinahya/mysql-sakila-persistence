@@ -35,6 +35,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDateTime;
 
@@ -447,7 +448,7 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PICTURE} attribute.
      */
-    public byte[] getPicture() {
+    public byte @Nullable [] getPicture() {
         return picture;
     }
 
@@ -456,7 +457,7 @@ public class Staff {
      *
      * @param picture new value for {@value #ATTRIBUTE_NAME_PICTURE} attribute.
      */
-    public void setPicture(final byte[] picture) {
+    public void setPicture(final byte @Nullable [] picture) {
         this.picture = picture;
     }
 
@@ -467,6 +468,7 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
+    @Nullable
     public String getEmail() {
         return email;
     }
@@ -476,7 +478,7 @@ public class Staff {
      *
      * @param email new value for {@value #ATTRIBUTE_NAME_EMAIL} attribute.
      */
-    public void setEmail(final String email) {
+    public void setEmail(@Nullable final String email) {
         this.email = email;
     }
 
@@ -548,6 +550,7 @@ public class Staff {
      * @return current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute; the installed rows hold a {@code SHA-1}
      *         hash in hexadecimal.
      */
+    @Nullable
     public String getPassword() {
         return password;
     }
@@ -557,7 +560,7 @@ public class Staff {
      *
      * @param password new value for {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
-    public void setPassword(final String password) {
+    public void setPassword(@Nullable final String password) {
         this.password = password;
     }
 
@@ -610,9 +613,10 @@ public class Staff {
     @Basic(optional = true, fetch = FetchType.LAZY)
     @Column(name = COLUMN_NAME_PICTURE, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_PICTURE)
-    private byte[] picture;
+    private byte @Nullable [] picture;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
@@ -642,6 +646,7 @@ public class Staff {
     private String username;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Nullable
     @Size(max = SIZE_MAX_PASSWORD)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,
