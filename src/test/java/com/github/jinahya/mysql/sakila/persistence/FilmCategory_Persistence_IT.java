@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link FilmCategory} against the installed {@code sakila} database.
  *
@@ -29,5 +31,24 @@ class FilmCategory_Persistence_IT extends _Entity_Persistence_IT<FilmCategory> {
 
     FilmCategory_Persistence_IT() {
         super(FilmCategory.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The two basic attributes, one written and one read-only, are the identifiers of the film and of the
+     * category, lazy associations which resolve.
+     */
+    @Override
+    protected void randomSelected(final FilmCategory instance) {
+        assertThat(instance.getFilmId())
+                .as("film id of %s", instance)
+                .isEqualTo(instance.getFilm().getFilmId());
+        assertThat(instance.getCategoryId())
+                .as("category id of %s", instance)
+                .isEqualTo(instance.getCategory().getCategoryId());
     }
 }

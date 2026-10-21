@@ -32,12 +32,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
  * An entity class for mapping the {@value Language#TABLE_NAME} table.
@@ -172,7 +175,7 @@ public class Language {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -191,7 +194,7 @@ public class Language {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -204,7 +207,7 @@ public class Language {
      * Returns current value of {@value #ATTRIBUTE_NAME_LANGUAGE_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LANGUAGE_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getLanguageId() {
         return languageId;
@@ -231,13 +234,29 @@ public class Language {
         this.name = name;
     }
 
+    /**
+     * Replaces current value of {@value #ATTRIBUTE_NAME_NAME} attribute with the display name of the specified locale,
+     * in {@link Locale#ENGLISH English}.
+     *
+     * @param locale the locale whose display name, in {@link Locale#ENGLISH English}, is set; {@code null} sets
+     *               {@code null}.
+     * @apiNote The display name of a locale with a country, or a variant, may be longer than
+     *         {@value #SIZE_MAX_NAME} characters; {@link Locale#US}, for one, is {@code "English (United States)"}.
+     * @see Locale#getDisplayName(Locale)
+     * @see #setName(String)
+     */
+    @Transient
+    public void setNameFrom(final Locale locale) {
+        setName(Optional.ofNullable(locale).map(v -> v.getDisplayName(Locale.ENGLISH)).orElse(null));
+    }
+
     // ------------------------------------------------------------------------------------------------------ lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

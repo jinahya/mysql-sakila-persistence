@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link Payment} against the installed {@code sakila} database.
  *
@@ -29,5 +31,27 @@ class Payment_Persistence_IT extends _Entity_Persistence_IT<Payment> {
 
     Payment_Persistence_IT() {
         super(Payment.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The amount is not negative, and the customer and the staff member, lazy associations, resolve; the
+     * rental, when there is one, is of the same customer.
+     */
+    @Override
+    protected void randomSelected(final Payment instance) {
+        assertThat(instance.getAmount()).as("amount of %s", instance).isNotNegative();
+        assertThat(instance.getStaff().getUsername()).as("username of the staff of %s", instance).isNotBlank();
+        final var customerId = instance.getCustomer().getCustomerId();
+        final var rental = instance.getRental();
+        if (rental != null) {
+            assertThat(rental.getCustomer().getCustomerId())
+                    .as("customer id of the rental of %s", instance)
+                    .isEqualTo(customerId);
+        }
     }
 }

@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-
 import java.util.Objects;
 
 /**
@@ -63,11 +61,13 @@ public class FilmCategoryId {
      * @param filmId   a value for the {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      * @param category a value for the {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      * @return a new instance of {@code filmId} and {@code category}.
+     * @deprecated Nothing uses this, and Jakarta Persistence does not require an id class to have one.
      */
-    public static FilmCategoryId of(@Nonnull final Integer filmId, @Nonnull final Integer category) {
+    @Deprecated(forRemoval = true)
+    public static FilmCategoryId of(final Integer filmId, final Integer category) {
         final var instance = new FilmCategoryId();
-        instance.setFilmId(filmId);
-        instance.setCategory(category);
+        instance.filmId = filmId;
+        instance.category = category;
         return instance;
     }
 
@@ -127,13 +127,8 @@ public class FilmCategoryId {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      */
-    @Nonnull
     public Integer getFilmId() {
         return filmId;
-    }
-
-    void setFilmId(@Nonnull final Integer filmId) {
-        this.filmId = filmId;
     }
 
     // -------------------------------------------------------------------------------------------------------- category
@@ -143,13 +138,8 @@ public class FilmCategoryId {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
-    @Nonnull
     public Integer getCategory() {
         return category;
-    }
-
-    void setCategory(@Nonnull final Integer category) {
-        this.category = category;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

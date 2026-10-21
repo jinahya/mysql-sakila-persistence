@@ -52,21 +52,21 @@ class FilmCategory_Test extends _Entity_Test<FilmCategory> {
         /**
          * Verifies that {@link FilmCategory#of(Film, Category) of} returns an instance whose
          * {@value FilmCategory#ATTRIBUTE_NAME_FILM} and {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} are the very
-         * instances it was given, and whose {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and
-         * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} are their identifiers.
+         * instances it was given, and whose {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} is the identifier of the film;
+         * the read-only {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is left {@code null}, to be read from the
+         * database.
          */
         @Test
         void __() {
             final var film = Mockito.mock(Film.class);
             Mockito.when(film.getFilmId()).thenReturn(1);
             final var category = Mockito.mock(Category.class);
-            Mockito.when(category.getCategoryId()).thenReturn(2);
             final var instance = FilmCategory.of(film, category);
             assertThat(instance).isNotNull().satisfies(v -> {
                 assertThat(v.getFilm()).isSameAs(film);
                 assertThat(v.getCategory()).isSameAs(category);
                 assertThat(v.getFilmId()).isEqualTo(1);
-                assertThat(v.getCategoryId()).isEqualTo(2);
+                assertThat(v.getCategoryId()).isNull();
             });
         }
     }
@@ -80,6 +80,10 @@ class FilmCategory_Test extends _Entity_Test<FilmCategory> {
      * {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}; the latter
      * is not an {@code @Id} attribute but the read-only mirror of the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY},
      * the {@code @Id} association, so the key is a mix of {@code @Id} and non-{@code @Id} fields.
+     * <p>
+     * The {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is declared non-null to the verifier, though it is
+     * {@code null} until the instance is read from the database: an instance without the whole key equals nothing but
+     * itself, so a {@code null} there hides the field from the verifier's check of which fields equality uses.
      */
     @Override
     public SingleTypeEqualsVerifierApi<FilmCategory> equals_verifier_() {
@@ -89,6 +93,7 @@ class FilmCategory_Test extends _Entity_Test<FilmCategory> {
                           Warning.STRICT_HASHCODE)
                 .withIgnoredFields(FilmCategory.ATTRIBUTE_NAME_FILM,
                                    FilmCategory.ATTRIBUTE_NAME_CATEGORY,
-                                   FilmCategory.ATTRIBUTE_NAME_LAST_UPDATE);
+                                   FilmCategory.ATTRIBUTE_NAME_LAST_UPDATE)
+                .withNonnullFields(FilmCategory.ATTRIBUTE_NAME_CATEGORY_ID);
     }
 }

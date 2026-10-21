@@ -32,12 +32,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
  * An entity class for mapping the {@value Country#TABLE_NAME} table.
@@ -177,7 +180,7 @@ public class Country {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -196,7 +199,7 @@ public class Country {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -209,7 +212,7 @@ public class Country {
      * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_COUNTRY_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getCountryId() {
         return countryId;
@@ -236,13 +239,28 @@ public class Country {
         this.country = country;
     }
 
+    /**
+     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the display name of the country of the
+     * specified locale, in {@link Locale#ENGLISH English}.
+     *
+     * @param locale the locale whose display country, in {@link Locale#ENGLISH English}, is set; {@code null} sets
+     *               {@code null}.
+     * @apiNote A locale without a country, {@link Locale#ENGLISH}, for one, sets an empty string.
+     * @see Locale#getDisplayCountry(Locale)
+     * @see #setCountry(String)
+     */
+    @Transient
+    public void setCountryFrom(final Locale locale) {
+        setCountry(Optional.ofNullable(locale).map(v -> v.getDisplayCountry(Locale.ENGLISH)).orElse(null));
+    }
+
     // ------------------------------------------------------------------------------------------------------ lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

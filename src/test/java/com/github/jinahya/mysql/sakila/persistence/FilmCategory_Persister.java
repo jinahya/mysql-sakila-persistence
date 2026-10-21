@@ -27,8 +27,9 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link FilmCategory} instances.
  * <p>
- * Each instance is given a newly persisted {@link Film} and a newly persisted {@link Category} first; the two
- * {@code @Id} attributes are copied from them, so they are flushed first, for their identifiers to be assigned.
+ * A newly persisted {@link Film} and a newly persisted {@link Category} are flushed first, for their identifiers to be
+ * assigned, and what is persisted is {@link FilmCategory#of(Film, Category) FilmCategory.of} the two; the instance
+ * given is not used, for {@code of} is the only way to set either association.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -44,8 +45,6 @@ class FilmCategory_Persister extends AbstractEntityPersister<FilmCategory> {
         final var film = EntityPersisterUtils.newPersistedInstanceOf(entityManager, Film.class);
         final var category = EntityPersisterUtils.newPersistedInstanceOf(entityManager, Category.class);
         entityManager.flush();
-        entityInstance.setFilm(film);
-        entityInstance.setCategory(category);
-        return super.apply(entityManager, entityInstance);
+        return super.apply(entityManager, FilmCategory.of(film, category));
     }
 }

@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link FilmText} against the installed {@code sakila} database.
  *
@@ -29,5 +31,18 @@ class FilmText_Persistence_IT extends _Entity_Persistence_IT<FilmText> {
 
     FilmText_Persistence_IT() {
         super(FilmText.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The title is there.
+     */
+    @Override
+    protected void randomSelected(final FilmText instance) {
+        assertThat(instance.getTitle()).as("title of %s", instance).isNotBlank();
     }
 }

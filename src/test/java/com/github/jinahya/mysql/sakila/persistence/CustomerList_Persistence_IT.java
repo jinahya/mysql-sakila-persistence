@@ -23,6 +23,8 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link CustomerList} against the installed {@code sakila} database.
  *
@@ -44,5 +46,19 @@ class CustomerList_Persistence_IT extends _Entity_Persistence_IT<CustomerList> {
     @Test
     protected void _persist_RandomizedInstance() {
         // empty
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The name is there, and the notes are what the view makes of the activeness: {@code "active"}, or empty.
+     */
+    @Override
+    protected void randomSelected(final CustomerList instance) {
+        assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
+        assertThat(instance.getNotes()).as("notes of %s", instance).isIn("active", "");
     }
 }
