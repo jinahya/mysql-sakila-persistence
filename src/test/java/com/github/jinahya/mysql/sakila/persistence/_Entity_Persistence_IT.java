@@ -72,7 +72,7 @@ abstract class _Entity_Persistence_IT<T>
      *
      * @param targetClass the class of the entity under test.
      */
-    protected _Entity_Persistence_IT(final Class<T> targetClass) {
+    _Entity_Persistence_IT(final Class<T> targetClass) {
         super(targetClass);
     }
 
@@ -277,7 +277,7 @@ abstract class _Entity_Persistence_IT<T>
     @__ItPU
     @Inject
     @Accessors(fluent = true)
-    @Getter(AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PACKAGE)
     private EntityManager entityManager;
 
     /**
@@ -286,7 +286,7 @@ abstract class _Entity_Persistence_IT<T>
     @__ItPU
     @Inject
     @Accessors(fluent = true)
-    @Getter(AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PACKAGE)
     private EntityManagerFactory entityManagerFactory;
 
     /**
@@ -295,6 +295,6 @@ abstract class _Entity_Persistence_IT<T>
     @__ItPU
     @Inject
     @Accessors(fluent = true)
-    @Getter(AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PACKAGE)
     private Instance<EntityManager> entityManagers;
 }

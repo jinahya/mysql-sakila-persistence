@@ -46,7 +46,7 @@ class Staff_Persistence_IT
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    protected void _persist_RandomizedInstance() {
+    void _persist_RandomizedInstance() {
         // empty
     }
 

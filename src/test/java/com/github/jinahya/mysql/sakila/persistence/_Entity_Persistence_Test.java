@@ -99,7 +99,7 @@ abstract class _Entity_Persistence_Test<T>
      *
      * @param targetClass the class of the entity under test.
      */
-    protected _Entity_Persistence_Test(final Class<T> targetClass) {
+    _Entity_Persistence_Test(final Class<T> targetClass) {
         super(targetClass);
     }
 
@@ -146,7 +146,7 @@ abstract class _Entity_Persistence_Test<T>
      */
     @DisplayName("every ATTRIBUTE_NAME_* constant names a managed attribute, and vice versa")
     @Test
-    protected void _SameValue_ATTRIBUTE_NAME_() {
+    void _SameValue_ATTRIBUTE_NAME_() {
         final var managedType = entityManagerFactory.getMetamodel().managedType(targetClass);
         final var constants = constantsPrefixed(ATTRIBUTE_NAME_CONSTANT_PREFIX);
         for (final var attribute : managedType.getAttributes()) {
@@ -174,7 +174,7 @@ abstract class _Entity_Persistence_Test<T>
      */
     @DisplayName("every ATTRIBUTE_PATH_* constant resolves through the metamodel")
     @Test
-    protected void _Resolvable_ATTRIBUTE_PATH_() {
+    void _Resolvable_ATTRIBUTE_PATH_() {
         final var managedType = entityManagerFactory.getMetamodel().managedType(targetClass);
         constantsPrefixed(ATTRIBUTE_PATH_CONSTANT_PREFIX).forEach((constantName, path) -> {
             assertThat(path)
@@ -377,7 +377,7 @@ abstract class _Entity_Persistence_Test<T>
     @__TestPU
     @Inject
     @Accessors(fluent = true)
-    @Getter(AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PACKAGE)
     private EntityManager entityManager;
 
     /**
@@ -386,7 +386,7 @@ abstract class _Entity_Persistence_Test<T>
     @__TestPU
     @Inject
     @Accessors(fluent = true)
-    @Getter(AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PACKAGE)
     private EntityManagerFactory entityManagerFactory;
 
     /**
@@ -395,6 +395,6 @@ abstract class _Entity_Persistence_Test<T>
     @__TestPU
     @Inject
     @Accessors(fluent = true)
-    @Getter(AccessLevel.PROTECTED)
+    @Getter(AccessLevel.PACKAGE)
     private Instance<EntityManager> entityManagers;
 }

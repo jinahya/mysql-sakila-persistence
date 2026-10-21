@@ -46,7 +46,7 @@ abstract class __Test<T> {
      *
      * @param targetClass the class to test.
      */
-    protected __Test(final Class<T> targetClass) {
+    __Test(final Class<T> targetClass) {
         super();
         this.targetClass = Objects.requireNonNull(targetClass, "targetClass is null");
     }
@@ -87,5 +87,5 @@ abstract class __Test<T> {
     /**
      * The class which this test targets.
      */
-    protected final Class<T> targetClass;
+    final Class<T> targetClass;
 }

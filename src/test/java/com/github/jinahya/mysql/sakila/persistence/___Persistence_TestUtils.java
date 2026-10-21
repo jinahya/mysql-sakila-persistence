@@ -67,7 +67,7 @@ final class ___Persistence_TestUtils {
      *         transaction back throws an {@link IllegalStateException} which would mask whatever the resultFunction
      *         did.
      */
-    public static <R extends @Nullable Object> R applyInTransaction(
+    static <R extends @Nullable Object> R applyInTransaction(
             final EntityManager entityManager,
             final Function<? super EntityManager, ? extends R> resultFunction,
             final Consumer<? super EntityTransaction> transactionConsumer) {
@@ -95,7 +95,7 @@ final class ___Persistence_TestUtils {
      *         database, what keeps the sample data as the installer left it. It happens whether the
      *         {@code resultFunction} returned or threw, so a failing test leaves no more behind than a passing one.
      */
-    public static <R extends @Nullable Object> R applyInTransactionAndRollback(
+    static <R extends @Nullable Object> R applyInTransactionAndRollback(
             final EntityManager entityManager,
             final Function<? super EntityManager, ? extends R> resultFunction) {
         return applyInTransaction(entityManager, resultFunction, t -> {
@@ -120,7 +120,7 @@ final class ___Persistence_TestUtils {
      *         consumer runs in a {@code finally}, which cannot tell a return from a throw, and committing a transaction
      *         whose resultFunction threw is the one thing this must not do.
      */
-    public static <R extends @Nullable Object> R applyInTransactionAndCommit(
+    static <R extends @Nullable Object> R applyInTransactionAndCommit(
             final EntityManager entityManager,
             final Function<? super EntityManager, ? extends R> resultFunction) {
         Objects.requireNonNull(entityManager, "entityManager is null");
@@ -157,7 +157,7 @@ final class ___Persistence_TestUtils {
      *         one row holding a number. It neither returns {@code null} nor throws
      *         {@link jakarta.persistence.NoResultException}, hence no guard against either.
      */
-    public static long count(final EntityManager entityManager, final EntityType<?> entityClass) {
+    static long count(final EntityManager entityManager, final EntityType<?> entityClass) {
         Objects.requireNonNull(entityManager, "entityManager is null");
         Objects.requireNonNull(entityClass, "entityClass is null");
         return entityManager
@@ -177,7 +177,7 @@ final class ___Persistence_TestUtils {
      *         {@link jakarta.persistence.Embeddable @Embeddable} has no table of its own, so it resolves to nothing and
      *         there is nothing to select a random one from.
      */
-    public static <T> Optional<T> selectRandom(final EntityManager entityManager, final Class<T> entityClass) {
+    static <T> Optional<T> selectRandom(final EntityManager entityManager, final Class<T> entityClass) {
         Objects.requireNonNull(entityManager, "entityManager is null");
         Objects.requireNonNull(entityClass, "entityClass is null");
         final var entityType = entityManager.getMetamodel().getEntities().stream()
@@ -215,7 +215,7 @@ final class ___Persistence_TestUtils {
      * @throws IllegalArgumentException if a segment names no attribute of the type it is resolved against, or if a
      *                                  segment but the last names an attribute whose type is not a managed type.
      */
-    public static Attribute<?, ?> resolveAttributePath(final ManagedType<?> managedType, final String attributePath) {
+    static Attribute<?, ?> resolveAttributePath(final ManagedType<?> managedType, final String attributePath) {
         Objects.requireNonNull(managedType, "managedType is null");
         Objects.requireNonNull(attributePath, "attributePath is null");
         final var segments = attributePath.split("\\.", -1);

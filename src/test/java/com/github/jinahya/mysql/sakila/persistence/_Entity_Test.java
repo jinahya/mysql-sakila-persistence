@@ -42,7 +42,7 @@ abstract class _Entity_Test<T>
      *
      * @param targetClass the class to test.
      */
-    protected _Entity_Test(final Class<T> targetClass) {
+    _Entity_Test(final Class<T> targetClass) {
         super(targetClass);
     }
 }

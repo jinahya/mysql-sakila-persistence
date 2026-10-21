@@ -46,7 +46,7 @@ class FilmText_Persistence_IT
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    protected void _persist_RandomizedInstance() {
+    void _persist_RandomizedInstance() {
         // empty
     }
 

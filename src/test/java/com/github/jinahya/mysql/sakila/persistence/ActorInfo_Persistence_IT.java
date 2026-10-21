@@ -45,7 +45,7 @@ class ActorInfo_Persistence_IT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    protected void _persist_RandomizedInstance() {
+    void _persist_RandomizedInstance() {
         // empty
     }
 

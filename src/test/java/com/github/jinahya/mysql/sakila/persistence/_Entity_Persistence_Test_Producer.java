@@ -97,7 +97,7 @@ class _Entity_Persistence_Test_Producer {
     @Qualifier
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER, ElementType.TYPE})
-    public @interface __TestPU {
+    @interface __TestPU {
 
         /**
          * An {@link AnnotationLiteral} of {@link __TestPU}, for selecting a bean programmatically.
@@ -111,7 +111,7 @@ class _Entity_Persistence_Test_Producer {
             /**
              * The single instance of this literal; the annotation declares no member, so one is enough.
              */
-            public static final Literal INSTANCE = new Literal();
+            static final Literal INSTANCE = new Literal();
 
             private static final long serialVersionUID = 1L;
 
@@ -141,7 +141,7 @@ class _Entity_Persistence_Test_Producer {
     @Produces
     @__TestPU
     @ApplicationScoped
-    protected EntityManagerFactory produceEntityManagerFactory() {
+    EntityManagerFactory produceEntityManagerFactory() {
         final var persistenceUnitName = PERSISTENCE_UNIT_NAME;
         logger.log(System.Logger.Level.DEBUG, "creating a factory of {0}", persistenceUnitName);
         return Persistence.createEntityManagerFactory(persistenceUnitName);
@@ -154,7 +154,7 @@ class _Entity_Persistence_Test_Producer {
      * @implNote Guarded by {@link EntityManagerFactory#isOpen()}: a test which closed it itself, which is
      *         allowed, must not make the shutdown fail.
      */
-    protected void disposeEntityManagerFactory(@Disposes @__TestPU final EntityManagerFactory entityManagerFactory) {
+    void disposeEntityManagerFactory(@Disposes @__TestPU final EntityManagerFactory entityManagerFactory) {
         if (entityManagerFactory.isOpen()) {
             logger.log(System.Logger.Level.DEBUG, "closing {0}", entityManagerFactory);
             entityManagerFactory.close();
@@ -177,7 +177,7 @@ class _Entity_Persistence_Test_Producer {
     @Produces
     @__TestPU
     @Dependent
-    protected EntityManager produceEntityManager(@__TestPU final EntityManagerFactory entityManagerFactory) {
+    EntityManager produceEntityManager(@__TestPU final EntityManagerFactory entityManagerFactory) {
         return entityManagerFactory.createEntityManager();
     }
 
@@ -188,7 +188,7 @@ class _Entity_Persistence_Test_Producer {
      * @implNote Guarded by {@link EntityManager#isOpen()}, for the same reason the factory's disposer is: an
      *         entity manager used in a try-with-resources is already closed by the time it is destroyed.
      */
-    protected void disposeEntityManager(@Disposes @__TestPU final EntityManager entityManager) {
+    void disposeEntityManager(@Disposes @__TestPU final EntityManager entityManager) {
         if (entityManager.isOpen()) {
             entityManager.close();
         }

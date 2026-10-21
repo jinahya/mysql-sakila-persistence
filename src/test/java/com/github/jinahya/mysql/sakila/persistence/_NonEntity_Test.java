@@ -40,7 +40,7 @@ abstract class _NonEntity_Test<T>
      *
      * @param targetClass the value class to test.
      */
-    protected _NonEntity_Test(final Class<T> targetClass) {
+    _NonEntity_Test(final Class<T> targetClass) {
         super(targetClass);
     }
 }
