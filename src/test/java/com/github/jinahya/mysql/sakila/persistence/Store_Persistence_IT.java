@@ -42,7 +42,7 @@ class Store_Persistence_IT extends _Entity_Persistence_IT<Store> {
      * @implNote The manager, a lazy association, works at the store, and the address, another, resolves.
      */
     @Override
-    protected void randomSelected(final Store instance) {
+    void randomSelected(final Store instance) {
         assertThat(instance.getManagerStaff().getStore().getStoreId())
                 .as("store id of the manager of %s", instance)
                 .isEqualTo(instance.getStoreId());

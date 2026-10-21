@@ -57,7 +57,7 @@ class ActorInfo_Persistence_IT extends _Entity_Persistence_IT<ActorInfo> {
      * @implNote Both names are there.
      */
     @Override
-    protected void randomSelected(final ActorInfo instance) {
+    void randomSelected(final ActorInfo instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
     }

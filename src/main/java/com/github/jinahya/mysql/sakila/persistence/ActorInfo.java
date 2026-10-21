@@ -31,6 +31,12 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * An entity class for mapping the {@value ActorInfo#TABLE_NAME} view.
@@ -177,6 +183,14 @@ public class ActorInfo {
      */
     public static final String ATTRIBUTE_NAME_FILM_INFO = "filmInfo";
 
+    private static final String REGEXP_FILM_INFO = "(?:^|; )([^:;]+): ([^;]*)";
+
+    /**
+     * A pattern matches each {@code <category>: <title>, <title>, ...} entry of the {@value #COLUMN_NAME_FILM_INFO}
+     * column; the entries are separated by {@code "; "}.
+     */
+    private static final Pattern PATTERN_FILM_INFO = Pattern.compile(REGEXP_FILM_INFO);
+
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -204,7 +218,7 @@ public class ActorInfo {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -223,7 +237,7 @@ public class ActorInfo {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -276,6 +290,32 @@ public class ActorInfo {
     @Nullable
     public String getFilmInfo() {
         return filmInfo;
+    }
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_INFO} attribute parsed as a map of category names to film
+     * titles.
+     * <p>
+     * The {@value #COLUMN_NAME_FILM_INFO} column has the form of
+     * {@snippet :
+     * Action: TITLE1, TITLE2; Animation: TITLE3; ...
+     *} The map keeps the order of the categories, and each list keeps the order of the titles.
+     *
+     * @return a map of category names to film titles; {@code null} when the {@value #ATTRIBUTE_NAME_FILM_INFO}
+     *         attribute is {@code null}.
+     */
+    @Nullable
+    public Map<String, List<String>> getFilmInfoMap() {
+        return Optional.ofNullable(getFilmInfo())
+                .map(v -> {
+                    final var map = new LinkedHashMap<String, List<String>>();
+                    final var matcher = PATTERN_FILM_INFO.matcher(v);
+                    while (matcher.find()) {
+                        map.put(matcher.group(1), List.of(matcher.group(2).split(", ")));
+                    }
+                    return Collections.unmodifiableMap(map);
+                })
+                .orElse(null);
     }
 
     // -----------------------------------------------------------------------------------------------------------------

@@ -42,7 +42,7 @@ class City_Persistence_IT extends _Entity_Persistence_IT<City> {
      * @implNote The name is there, and the country, a lazy association, resolves.
      */
     @Override
-    protected void randomSelected(final City instance) {
+    void randomSelected(final City instance) {
         assertThat(instance.getCity()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getCountry().getCountry()).as("name of the country of %s", instance).isNotBlank();
     }

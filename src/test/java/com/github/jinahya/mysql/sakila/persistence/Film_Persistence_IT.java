@@ -45,7 +45,7 @@ class Film_Persistence_IT extends _Entity_Persistence_IT<Film> {
      * and that the language, a lazy association, resolves.
      */
     @Override
-    protected void randomSelected(final Film instance) {
+    void randomSelected(final Film instance) {
         assertThatCode(() -> Film.SpecialFeature.parse(instance.getSpecialFeatures()))
                 .as("special features of %s", instance)
                 .doesNotThrowAnyException();

@@ -43,7 +43,7 @@ class Payment_Persistence_IT extends _Entity_Persistence_IT<Payment> {
      * rental, when there is one, is of the same customer.
      */
     @Override
-    protected void randomSelected(final Payment instance) {
+    void randomSelected(final Payment instance) {
         assertThat(instance.getAmount()).as("amount of %s", instance).isNotNegative();
         assertThat(instance.getStaff().getUsername()).as("username of the staff of %s", instance).isNotBlank();
         final var customerId = instance.getCustomer().getCustomerId();

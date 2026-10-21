@@ -25,18 +25,14 @@ import uk.co.jemos.podam.api.ClassInfoStrategy;
 import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A randomizer which produces randomized {@link Customer} instances.
  * <p>
- * The {@code customerId}, which the database generates, the {@code lastUpdate}, which the database fills, and every
- * association are excluded from randomization; {@link Customer_Persister} supplies the {@code store} and the
- * {@code address}. The {@code createDate} is set to a moment of the past year, to the second, which a {@code DATETIME}
- * column holds as it is.
+ * The {@code customerId}, which the database generates, the {@code createDate}, which a trigger sets, the
+ * {@code lastUpdate}, which the database fills, and every association are excluded from randomization;
+ * {@link Customer_Persister} supplies the {@code store} and the {@code address}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -47,6 +43,7 @@ class Customer_Randomizer extends PodamObjectRandomizer<Customer> {
                 Customer.ATTRIBUTE_NAME_CUSTOMER_ID,
                 Customer.ATTRIBUTE_NAME_STORE,
                 Customer.ATTRIBUTE_NAME_ADDRESS,
+                Customer.ATTRIBUTE_NAME_CREATE_DATE,
                 Customer.ATTRIBUTE_NAME_LAST_UPDATE,
                 Customer.ATTRIBUTE_NAME_RENTALS,
                 Customer.ATTRIBUTE_NAME_PAYMENTS
@@ -67,16 +64,5 @@ class Customer_Randomizer extends PodamObjectRandomizer<Customer> {
     @Override
     protected PodamFactory getPodamFactory() {
         return super.getPodamFactory();
-    }
-
-    @Override
-    public Customer get() {
-        final var instance = super.get();
-        final var random = ThreadLocalRandom.current();
-        instance.setCreateDate(
-                LocalDateTime.now().minusSeconds(random.nextLong(1L, 365L * 24L * 60L * 60L))
-                        .truncatedTo(ChronoUnit.SECONDS)
-        );
-        return instance;
     }
 }

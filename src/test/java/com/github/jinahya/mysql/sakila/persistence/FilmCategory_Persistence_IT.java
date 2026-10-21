@@ -43,7 +43,7 @@ class FilmCategory_Persistence_IT extends _Entity_Persistence_IT<FilmCategory> {
      * category, lazy associations which resolve.
      */
     @Override
-    protected void randomSelected(final FilmCategory instance) {
+    void randomSelected(final FilmCategory instance) {
         assertThat(instance.getFilmId())
                 .as("film id of %s", instance)
                 .isEqualTo(instance.getFilm().getFilmId());

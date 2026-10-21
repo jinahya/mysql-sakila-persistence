@@ -42,7 +42,7 @@ class Category_Persistence_IT extends _Entity_Persistence_IT<Category> {
      * @implNote The name is there, and so is the {@code last_update} the database fills.
      */
     @Override
-    protected void randomSelected(final Category instance) {
+    void randomSelected(final Category instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
     }

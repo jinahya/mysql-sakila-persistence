@@ -57,7 +57,7 @@ class CustomerList_Persistence_IT extends _Entity_Persistence_IT<CustomerList> {
      * @implNote The name is there, and the notes are what the view makes of the activeness: {@code "active"}, or empty.
      */
     @Override
-    protected void randomSelected(final CustomerList instance) {
+    void randomSelected(final CustomerList instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getNotes()).as("notes of %s", instance).isIn("active", "");
     }

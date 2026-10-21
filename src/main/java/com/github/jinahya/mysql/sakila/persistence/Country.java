@@ -40,7 +40,9 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * An entity class for mapping the {@value Country#TABLE_NAME} table.
@@ -240,6 +242,36 @@ public class Country {
     }
 
     /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute, mapped with the specified function.
+     *
+     * @param mapper the function which maps current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute; applied only
+     *               when the value is not {@code null}.
+     * @param <R>    result type parameter
+     * @return the result of the {@code mapper} applied to current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute;
+     *         {@code null} when the value, or the result, is {@code null}.
+     * @see #getCountry()
+     */
+    <R> @Nullable R getCountryAs(final Function<? super String, ? extends R> mapper) {
+        Objects.requireNonNull(mapper, "mapper is null");
+        return Optional.ofNullable(getCountry()).map(mapper).orElse(null);
+    }
+
+    /**
+     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified value, mapped with the
+     * specified function.
+     *
+     * @param country the value to map; {@code null} sets {@code null}.
+     * @param mapper  the function which maps the {@code country} to a new value for {@value #ATTRIBUTE_NAME_COUNTRY}
+     *                attribute; applied only when the {@code country} is not {@code null}.
+     * @param <T>     value type parameter
+     * @see #setCountry(String)
+     */
+    <T> void setCountryAs(final @Nullable T country, final Function<? super T, ? extends String> mapper) {
+        Objects.requireNonNull(mapper, "mapper is null");
+        setCountry(Optional.ofNullable(country).map(mapper).orElse(null));
+    }
+
+    /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the display name of the country of the
      * specified locale, in {@link Locale#ENGLISH English}.
      *
@@ -250,8 +282,8 @@ public class Country {
      * @see #setCountry(String)
      */
     @Transient
-    public void setCountryFrom(final Locale locale) {
-        setCountry(Optional.ofNullable(locale).map(v -> v.getDisplayCountry(Locale.ENGLISH)).orElse(null));
+    void setCountryFrom(final Locale locale) {
+        setCountryAs(locale, v -> v.getDisplayCountry(Locale.ENGLISH));
     }
 
     // ------------------------------------------------------------------------------------------------------ lastUpdate

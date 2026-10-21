@@ -57,7 +57,7 @@ class SalesByFilmCategory_Persistence_IT extends _Entity_Persistence_IT<SalesByF
      * @implNote The category is there, and its total is not negative.
      */
     @Override
-    protected void randomSelected(final SalesByFilmCategory instance) {
+    void randomSelected(final SalesByFilmCategory instance) {
         assertThat(instance.getCategory()).as("category of %s", instance).isNotBlank();
         assertThat(instance.getTotalSales()).as("total sales of %s", instance).isNotNegative();
     }

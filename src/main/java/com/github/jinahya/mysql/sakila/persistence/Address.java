@@ -41,6 +41,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * An entity class for mapping the {@value Address#TABLE_NAME} table.
@@ -70,8 +73,8 @@ import java.util.Arrays;
  * builds the bytes of a point.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats.html#gis-internal-format">Internal Geometry
- * Storage Format</a>
+ * @see <a href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats.html#gis-internal-format">Internal
+ *         Geometry Storage Format</a>
  */
 @NamedQuery(name = "Address.selectOneByAddressId",
             query = """
@@ -246,8 +249,7 @@ public class Address {
     // ----------------------------------------------------------------------------------------------------------- phone
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_PHONE = "phone";
 
@@ -289,6 +291,40 @@ public class Address {
      * of geometry type, and eight for each of the two coordinates. The value is {@value}.
      */
     public static final int LOCATION_POINT_BYTES = Integer.BYTES + Byte.BYTES + Integer.BYTES + (Double.BYTES << 1);
+
+    /**
+     * The smallest value of the first coordinate, the longitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
+     * {@value}.
+     *
+     * @apiNote With the {@code SRID} {@value #COLUMN_SRID_LOCATION}, MySQL gives the coordinates no geographic
+     *         meaning; this range, like the other three, is what the application means, not a constraint the column or
+     *         the installed data keeps. Six of the installed points have one coordinate far out of it.
+     */
+    public static final double LOCATION_X_MIN = -180.0d;
+
+    /**
+     * The largest value of the first coordinate, the longitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
+     * {@value}.
+     *
+     * @see #LOCATION_X_MIN
+     */
+    public static final double LOCATION_X_MAX = 180.0d;
+
+    /**
+     * The smallest value of the second coordinate, the latitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
+     * {@value}.
+     *
+     * @see #LOCATION_X_MIN
+     */
+    public static final double LOCATION_Y_MIN = -90.0d;
+
+    /**
+     * The largest value of the second coordinate, the latitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
+     * {@value}.
+     *
+     * @see #LOCATION_X_MIN
+     */
+    public static final double LOCATION_Y_MAX = 90.0d;
 
     // ----------------------------------------------------------------------------------------------------- last_update
 
@@ -344,7 +380,6 @@ public class Address {
                ",address=" + address +
                ",address2=" + address2 +
                ",district=" + district +
-//               ",city=" + city +
                ",postalCode=" + postalCode +
                ",phone=" + phone +
                ",location=" + Arrays.toString(location) +
@@ -358,7 +393,7 @@ public class Address {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     * equals nothing but itself.
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -377,7 +412,7 @@ public class Address {
      *
      * @return {@inheritDoc}
      * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -390,7 +425,7 @@ public class Address {
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS_ID} attribute; {@code null} until the instance is
-     * persisted.
+     *         persisted.
      */
     public Integer getAddressId() {
         return addressId;
@@ -528,7 +563,7 @@ public class Address {
      * Returns current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute; the bytes of the geometry in MySQL's
-     * internal format.
+     *         internal format.
      */
     @Nonnull
     public byte[] getLocation() {
@@ -546,13 +581,23 @@ public class Address {
         this.location = location;
     }
 
+    <R> @Nullable R getLocationAs(final Function<? super byte[], ? extends R> mapper) {
+        Objects.requireNonNull(mapper, "mapper is null");
+        return Optional.ofNullable(getLocation()).map(mapper).orElse(null);
+    }
+
+    <T> void setLocationAs(final @Nullable T location, final Function<? super T, ? extends byte[]> mapper) {
+        Objects.requireNonNull(mapper, "mapper is null");
+        setLocation(Optional.ofNullable(location).map(mapper).orElse(null));
+    }
+
     // ------------------------------------------------------------------------------------------------------ lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is
-     * read from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
+     *         from the database.
      */
     @Nullable
     public LocalDateTime getLastUpdate() {

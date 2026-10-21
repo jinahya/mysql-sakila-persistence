@@ -31,9 +31,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link Address} instances.
  * <p>
- * The {@code addressId}, which the database generates, the {@code lastUpdate}, which the database fills, and the
- * {@code city} association are excluded from randomization; {@link Address_Persister} supplies the {@code city}. The
- * {@code location} is replaced with a point, for MySQL rejects bytes which are not a geometry.
+ * The {@code addressId}, which the database generates, the {@code lastUpdate}, which the database fills, the
+ * {@code city} association, and the {@code location} are excluded from randomization; {@link Address_Persister}
+ * supplies the {@code city}, and {@link #get()} sets the {@code location} with a point, for MySQL rejects bytes which
+ * are not a geometry.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -43,6 +44,7 @@ class Address_Randomizer extends PodamObjectRandomizer<Address> {
         super(Address.class, List.of(
                 Address.ATTRIBUTE_NAME_ADDRESS_ID,
                 Address.ATTRIBUTE_NAME_CITY,
+                Address.ATTRIBUTE_NAME_LOCATION,
                 Address.ATTRIBUTE_NAME_LAST_UPDATE
         ));
     }
@@ -69,8 +71,8 @@ class Address_Randomizer extends PodamObjectRandomizer<Address> {
         final var random = ThreadLocalRandom.current();
         instance.setLocation(Address.newLocation(
                 Address.COLUMN_SRID_LOCATION,
-                random.nextDouble(-180.0d, 180.0d),
-                random.nextDouble(-90.0d, 90.0d)
+                random.nextDouble(Address.LOCATION_X_MIN, Address.LOCATION_X_MAX),
+                random.nextDouble(Address.LOCATION_Y_MIN, Address.LOCATION_Y_MAX)
         ));
         return instance;
     }

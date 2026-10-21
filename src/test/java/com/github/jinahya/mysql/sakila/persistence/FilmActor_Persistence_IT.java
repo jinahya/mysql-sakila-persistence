@@ -43,7 +43,7 @@ class FilmActor_Persistence_IT extends _Entity_Persistence_IT<FilmActor> {
      * of the film, lazy associations which resolve.
      */
     @Override
-    protected void randomSelected(final FilmActor instance) {
+    void randomSelected(final FilmActor instance) {
         assertThat(instance.getId().getActorId())
                 .as("actor id of the id of %s", instance)
                 .isEqualTo(instance.getActor().getActorId());

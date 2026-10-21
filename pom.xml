@@ -129,6 +129,9 @@
     <!-- https://eclipse.dev/eclipselink/releases/index.html -->
     <!-- https://central.sonatype.com/artifact/org.eclipse.persistence/org.eclipse.persistence.jpa/versions -->
     <version.org.eclipse.persistence>5.0.2</version.org.eclipse.persistence>
+    <!-- https://github.com/GeoLatte/geolatte-geom -->
+    <!-- https://central.sonatype.com/artifact/org.geolatte/geolatte-geom/versions -->
+    <version.org.geolatte>1.12</version.org.geolatte>
     <!-- https://docs.jboss.org/hibernate/validator/9.1/reference/en-US/html_single/#validator-gettingstarted-uel -->
     <!-- hibernate-validator: 9 / expressly: 6 -->
     <!-- https://central.sonatype.com/artifact/org.glassfish.expressly/expressly/versions -->
@@ -205,6 +208,11 @@
         <groupId>org.eclipse.persistence</groupId>
         <artifactId>org.eclipse.persistence.jpa</artifactId>
         <version>${version.org.eclipse.persistence}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.geolatte</groupId>
+        <artifactId>geolatte-geom</artifactId>
+        <version>${version.org.geolatte}</version>
       </dependency>
       <dependency>
         <groupId>org.glassfish.expressly</groupId>
@@ -337,6 +345,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.geolatte</groupId>
+      <artifactId>geolatte-geom</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.glassfish.expressly</groupId>
       <artifactId>expressly</artifactId>
       <scope>test</scope>
@@ -381,6 +394,16 @@
       <testResource>
         <directory>${project.basedir}/src/test/resources</directory>
         <filtering>true</filtering>
+        <includes>
+          <include>META-INF/persistence.xml</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>META-INF/persistence.xml</exclude>
+        </excludes>
       </testResource>
     </testResources>
     <pluginManagement>

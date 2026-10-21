@@ -57,7 +57,7 @@ class StaffList_Persistence_IT extends _Entity_Persistence_IT<StaffList> {
      * @implNote The name is there.
      */
     @Override
-    protected void randomSelected(final StaffList instance) {
+    void randomSelected(final StaffList instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
     }
 }

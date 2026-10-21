@@ -43,7 +43,7 @@ class Customer_Persistence_IT extends _Entity_Persistence_IT<Customer> {
      * associations, resolve.
      */
     @Override
-    protected void randomSelected(final Customer instance) {
+    void randomSelected(final Customer instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getActive()).as("activeness of %s", instance).isNotNull();

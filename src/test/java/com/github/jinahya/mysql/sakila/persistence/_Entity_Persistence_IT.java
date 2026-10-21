@@ -187,7 +187,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * itself -- and the transaction is rolled back, so without it nothing would be written, and nothing tested.
      */
     @Test
-    protected void _persist_RandomizedInstance() {
+    void _persist_RandomizedInstance() {
         applyNewPersistedTargetInstanceAndRollback((em, v) -> {
             em.flush();
             return null;
@@ -207,7 +207,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * test's, so {@link #randomSelected(Object)} is simply not invoked.
      */
     @Test
-    protected void selectRandom() {
+    void selectRandom() {
         applyEntityManagerInTransactionAndRollback(em -> {
             ___Persistence_TestUtils.selectRandom(em, targetClass).ifPresent(this::randomSelected);
             return null;
@@ -221,7 +221,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * @implSpec This class does nothing with it; a subclass overrides this method to assert whatever its entity
      * promises of a row which is actually in the database.
      */
-    protected void randomSelected(final T instance) {
+    void randomSelected(final T instance) {
         // empty; overridden by a subclass which has something to assert
     }
 
@@ -242,7 +242,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is still
      * managed when the function sees it, and it is gone when the transaction rolls back.
      */
-    protected <R> R applyNewPersistedTargetInstanceAndRollback(
+    <R> R applyNewPersistedTargetInstanceAndRollback(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndRollback(em -> {
@@ -267,7 +267,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * @implNote Randomized values are the ones the persister produced, so a committed row is also a row nothing else in
      * the schema expects; a foreign key pointing at it later is the caller's problem to clean up.
      */
-    protected <R> R applyNewPersistedTargetInstanceAndCommit(
+    <R> R applyNewPersistedTargetInstanceAndCommit(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndCommit(em -> {
@@ -287,7 +287,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * data as the installer left it.
      * @see ___Persistence_TestUtils#applyInTransactionAndRollback(EntityManager, Function)
      */
-    protected <R> R applyEntityManagerInTransactionAndRollback(
+    <R> R applyEntityManagerInTransactionAndRollback(
             final Function<? super EntityManager, ? extends R> function) {
         return ___Persistence_TestUtils.applyInTransactionAndRollback(entityManager, function);
     }
@@ -303,7 +303,7 @@ abstract class _Entity_Persistence_IT<T> extends __Test<T> {
      * accident. Use it only for a row the test cannot do without, and clean it up; otherwise take the rolled-back one.
      * @see ___Persistence_TestUtils#applyInTransactionAndCommit(EntityManager, Function)
      */
-    protected <R> R applyEntityManagerInTransactionAndCommit(
+    <R> R applyEntityManagerInTransactionAndCommit(
             final Function<? super EntityManager, ? extends R> function) {
         return ___Persistence_TestUtils.applyInTransactionAndCommit(entityManager, function);
     }

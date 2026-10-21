@@ -43,7 +43,7 @@ class Rental_Persistence_IT extends _Entity_Persistence_IT<Rental> {
      * the staff member, lazy associations, resolve.
      */
     @Override
-    protected void randomSelected(final Rental instance) {
+    void randomSelected(final Rental instance) {
         assertThat(instance.isReturnDateNotBeforeRentalDate()).as("return date of %s", instance).isTrue();
         assertThat(instance.getInventory().getLastUpdate()).as("last update of the inventory of %s", instance)
                 .isNotNull();

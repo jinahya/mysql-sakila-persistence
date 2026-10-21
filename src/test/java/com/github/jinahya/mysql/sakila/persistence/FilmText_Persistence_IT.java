@@ -42,7 +42,7 @@ class FilmText_Persistence_IT extends _Entity_Persistence_IT<FilmText> {
      * @implNote The title is there.
      */
     @Override
-    protected void randomSelected(final FilmText instance) {
+    void randomSelected(final FilmText instance) {
         assertThat(instance.getTitle()).as("title of %s", instance).isNotBlank();
     }
 }

@@ -67,6 +67,13 @@ import java.util.List;
  *}
  * <p>
  * Unlike most tables of the database, the {@value #COLUMN_NAME_LAST_UPDATE} column of this one is nullable.
+ * <p>
+ * The {@value #COLUMN_NAME_CREATE_DATE} column is set, on every insert, by a trigger, which replaces whatever value is
+ * given with {@code NOW()}; so this class maps it read-only.
+ * {@snippet lang = "sql":
+ * CREATE TRIGGER customer_create_date BEFORE INSERT ON customer
+ *   FOR EACH ROW SET NEW.create_date = NOW()
+ *}
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -494,20 +501,11 @@ public class Customer {
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute.
+     * @return current value of {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute; {@code null} until the instance is
+     * read from the database.
      */
-    @Nonnull
     public LocalDateTime getCreateDate() {
         return createDate;
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute with the specified value.
-     *
-     * @param createDate new value for {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute.
-     */
-    public void setCreateDate(@Nonnull final LocalDateTime createDate) {
-        this.createDate = createDate;
     }
 
     // ------------------------------------------------------------------------------------------------------ lastUpdate
@@ -596,10 +594,8 @@ public class Customer {
     private Boolean active;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
-    @NotNull
-    @Basic(optional = false)
-    @Column(name = COLUMN_NAME_CREATE_DATE, nullable = false)
+    @Basic
+    @Column(name = COLUMN_NAME_CREATE_DATE, nullable = false, insertable = false, updatable = false)
     private LocalDateTime createDate;
 
     // -----------------------------------------------------------------------------------------------------------------
