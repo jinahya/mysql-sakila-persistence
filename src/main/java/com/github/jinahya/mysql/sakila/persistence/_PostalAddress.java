@@ -98,7 +98,7 @@ public class _PostalAddress {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "address=" + address +
                ",address2=" + address2 +

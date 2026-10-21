@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link Rental} against the installed {@code sakila} database.
  *
@@ -29,5 +31,23 @@ class Rental_Persistence_IT extends _Entity_Persistence_IT<Rental> {
 
     Rental_Persistence_IT() {
         super(Rental.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The return date, when there is one, is not before the rental date, and the inventory, the customer, and
+     * the staff member, lazy associations, resolve.
+     */
+    @Override
+    protected void randomSelected(final Rental instance) {
+        assertThat(instance.isReturnDateNotBeforeRentalDate()).as("return date of %s", instance).isTrue();
+        assertThat(instance.getInventory().getLastUpdate()).as("last update of the inventory of %s", instance)
+                .isNotNull();
+        assertThat(instance.getCustomer().getLastName()).as("last name of the customer of %s", instance).isNotBlank();
+        assertThat(instance.getStaff().getUsername()).as("username of the staff of %s", instance).isNotBlank();
     }
 }

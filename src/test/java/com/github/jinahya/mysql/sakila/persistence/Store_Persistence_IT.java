@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link Store} against the installed {@code sakila} database.
  *
@@ -29,5 +31,21 @@ class Store_Persistence_IT extends _Entity_Persistence_IT<Store> {
 
     Store_Persistence_IT() {
         super(Store.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The manager, a lazy association, works at the store, and the address, another, resolves.
+     */
+    @Override
+    protected void randomSelected(final Store instance) {
+        assertThat(instance.getManagerStaff().getStore().getStoreId())
+                .as("store id of the manager of %s", instance)
+                .isEqualTo(instance.getStoreId());
+        assertThat(instance.getAddress().getLastUpdate()).as("last update of the address of %s", instance).isNotNull();
     }
 }

@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link FilmActor} against the installed {@code sakila} database.
  *
@@ -29,5 +31,24 @@ class FilmActor_Persistence_IT extends _Entity_Persistence_IT<FilmActor> {
 
     FilmActor_Persistence_IT() {
         super(FilmActor.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The two components of the identifier, which the provider derives, are the identifiers of the actor and
+     * of the film, lazy associations which resolve.
+     */
+    @Override
+    protected void randomSelected(final FilmActor instance) {
+        assertThat(instance.getId().getActorId())
+                .as("actor id of the id of %s", instance)
+                .isEqualTo(instance.getActor().getActorId());
+        assertThat(instance.getId().getFilmId())
+                .as("film id of the id of %s", instance)
+                .isEqualTo(instance.getFilm().getFilmId());
     }
 }

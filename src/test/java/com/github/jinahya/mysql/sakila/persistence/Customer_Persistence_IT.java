@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link Customer} against the installed {@code sakila} database.
  *
@@ -29,5 +31,24 @@ class Customer_Persistence_IT extends _Entity_Persistence_IT<Customer> {
 
     Customer_Persistence_IT() {
         super(Customer.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote Both names, the activeness, and the creation date are there, and the store and the address, lazy
+     * associations, resolve.
+     */
+    @Override
+    protected void randomSelected(final Customer instance) {
+        assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
+        assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
+        assertThat(instance.getActive()).as("activeness of %s", instance).isNotNull();
+        assertThat(instance.getCreateDate()).as("create date of %s", instance).isNotNull();
+        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s", instance).isNotNull();
+        assertThat(instance.getAddress().getLastUpdate()).as("last update of the address of %s", instance).isNotNull();
     }
 }

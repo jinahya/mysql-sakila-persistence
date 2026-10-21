@@ -120,7 +120,7 @@ public class _TitleDescription {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "title=" + title +
                ",description=" + description +

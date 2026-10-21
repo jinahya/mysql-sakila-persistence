@@ -38,7 +38,6 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value Actor#TABLE_NAME} table.
@@ -189,7 +188,7 @@ public class Actor {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "actorId=" + actorId +
                ",firstName=" + firstName +
@@ -203,25 +202,31 @@ public class Actor {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
+     * equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Actor that)) {
             return false;
         }
-        return Objects.equals(getActorId(), that.getActorId());
+        final var thisId = getActorId();
+        return thisId != null && thisId.equals(that.getActorId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over the {@code @Id}, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
+     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hashCode(getActorId());
+        return Actor.class.hashCode();
     }
 
     // --------------------------------------------------------------------------------------------------------- actorId

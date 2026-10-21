@@ -41,7 +41,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value Address#TABLE_NAME} table.
@@ -339,7 +338,7 @@ public class Address {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "addressId=" + addressId +
                ",address=" + address +
@@ -358,25 +357,31 @@ public class Address {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
+     * equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof Address that)) {
             return false;
         }
-        return Objects.equals(getAddressId(), that.getAddressId());
+        final var thisId = getAddressId();
+        return thisId != null && thisId.equals(that.getAddressId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over the {@code @Id}, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
+     * {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hashCode(getAddressId());
+        return Address.class.hashCode();
     }
 
     // ------------------------------------------------------------------------------------------------------- addressId

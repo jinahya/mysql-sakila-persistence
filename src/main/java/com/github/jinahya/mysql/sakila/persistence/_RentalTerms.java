@@ -99,7 +99,7 @@ public class _RentalTerms {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "rentalDuration=" + rentalDuration +
                ",rentalRate=" + rentalRate +

@@ -36,7 +36,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value FilmCategory#TABLE_NAME} table, whose composite primary key is mapped with
@@ -55,10 +54,15 @@ import java.util.Objects;
  * )
  *}
  * <p>
- * Each column is mapped twice: once by a basic {@link Id @Id} attribute, which writes it, and once by a read-only
- * {@link ManyToOne @ManyToOne} association. {@link #setFilm(Film)} and {@link #setCategory(Category)} keep the two in
- * step. {@link FilmActor}, the other link table of the database, maps its key with an
- * {@link jakarta.persistence.EmbeddedId @EmbeddedId} instead.
+ * Each column of the key is mapped twice, by a basic attribute and by a {@link ManyToOne @ManyToOne} association, and
+ * the two columns show the two ways of doing it. For the {@value #COLUMN_NAME_FILM_ID} column, the basic attribute is
+ * the {@link Id @Id}, which writes it, and the association is read-only. For the {@value #COLUMN_NAME_CATEGORY_ID}
+ * column, the association itself is the {@link Id @Id}, which writes it (a derived identity), and the basic attribute
+ * is read-only. So {@link #setFilm(Film)} sets the {@value #ATTRIBUTE_NAME_FILM_ID} along with the film, for nothing
+ * else writes its column, and {@link #setCategory(Category)} sets the category alone; the
+ * {@value #ATTRIBUTE_NAME_CATEGORY_ID} is only ever read from the database. {@link #equals(Object)} and
+ * {@link #toString()} read the two basic attributes, never the associations. {@link FilmActor}, the other link table of
+ * the database, maps its key with an {@link jakarta.persistence.EmbeddedId @EmbeddedId} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmCategoryId
@@ -120,8 +124,8 @@ public class FilmCategory {
     public static final String COLUMN_NAME_FILM_ID = "film_id";
 
     /**
-     * The name of the {@link Id @Id} attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is
-     * {@value}.
+     * The name of the {@link Id @Id} attribute which maps, and writes, the {@value #COLUMN_NAME_FILM_ID} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM_ID = "filmId";
 
@@ -140,14 +144,14 @@ public class FilmCategory {
     public static final String COLUMN_NAME_CATEGORY_ID = "category_id";
 
     /**
-     * The name of the {@link Id @Id} attribute which maps the {@value #COLUMN_NAME_CATEGORY_ID} column. The value is
+     * The name of the read-only attribute which maps the {@value #COLUMN_NAME_CATEGORY_ID} column. The value is
      * {@value}.
      */
     public static final String ATTRIBUTE_NAME_CATEGORY_ID = "categoryId";
 
     /**
-     * The name of the read-only association which also maps the {@value #COLUMN_NAME_CATEGORY_ID} column. The value
-     * is {@value}.
+     * The name of the {@link Id @Id} association which also maps, and writes, the {@value #COLUMN_NAME_CATEGORY_ID}
+     * column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_CATEGORY = "category";
 
@@ -164,6 +168,28 @@ public class FilmCategory {
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
+    // ------------------------------------------------------------------------------------------ STATIC FACTORY METHODS
+
+    /**
+     * Returns a new instance which links the specified film and the specified category.
+     * <p>
+     * This is the only way to set the {@value #ATTRIBUTE_NAME_FILM} and the {@value #ATTRIBUTE_NAME_CATEGORY} from
+     * outside the package. The {@value #ATTRIBUTE_NAME_FILM_ID} and the {@value #ATTRIBUTE_NAME_CATEGORY_ID} are taken
+     * from the specified film and category, so both should already have their identifiers, and changing either
+     * association would change the primary key; to link another film, or another category, remove the instance and
+     * persist a new one.
+     *
+     * @param film     a value for the {@value #ATTRIBUTE_NAME_FILM} attribute.
+     * @param category a value for the {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
+     * @return a new instance of {@code film} and {@code category}.
+     */
+    public static FilmCategory of(final Film film, final Category category) {
+        final var instance = new FilmCategory();
+        instance.setFilm(film);
+        instance.setCategory(category);
+        return instance;
+    }
+
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -176,12 +202,10 @@ public class FilmCategory {
     // ------------------------------------------------------------------------------------------------ java.lang.Object
 
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "filmId=" + filmId +
                ",categoryId=" + categoryId +
-//               ",film=" + film +
-//               ",category=" + category +
                ",lastUpdate=" + lastUpdate +
                '}';
     }
@@ -191,26 +215,37 @@ public class FilmCategory {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by both {@link Id @Id} attributes.
+     * @implSpec Equality is by the {@value #ATTRIBUTE_NAME_FILM_ID} attribute and the
+     * {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute, the values of the composite key, and only once both are there; an
+     * instance without them equals nothing but itself. The {@value #ATTRIBUTE_NAME_CATEGORY_ID} is there only once the
+     * instance is read from the database, so an instance just persisted equals nothing but itself until then.
      */
     @Override
     public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (!(obj instanceof FilmCategory that)) {
             return false;
         }
-        return Objects.equals(getFilmId(), that.getFilmId())
-               && Objects.equals(getCategoryId(), that.getCategoryId());
+        final var thisFilmId = getFilmId();
+        final var thisCategoryId = getCategoryId();
+        return thisFilmId != null && thisCategoryId != null
+               && thisFilmId.equals(that.getFilmId())
+               && thisCategoryId.equals(that.getCategoryId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over both {@link Id @Id} attributes, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
+     * {@value #ATTRIBUTE_NAME_FILM_ID} and the {@value #ATTRIBUTE_NAME_CATEGORY_ID} are set; it is consistent with
+     * {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hash(getFilmId(), getCategoryId());
+        return FilmCategory.class.hashCode();
     }
 
     // ---------------------------------------------------------------------------------------------------------- filmId
@@ -219,19 +254,15 @@ public class FilmCategory {
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
+     * @implNote This method is package-private, not {@code private}, because {@link #equals(Object)} calls it, and the
+     * instance it calls it on -- this one, or the other one -- may be a lazy proxy: a subclass, under Hibernate ORM,
+     * whose own fields are never populated. The proxy can intercept a package-private method, and delegate it to the
+     * loaded instance; it cannot intercept a {@code private} one, which would read the proxy's {@code null} instead.
+     * {@code _Entity_Persistence_Test#_persist_EqualsReference()} and
+     * {@code _Entity_Persistence_Test#_persist_ReferenceEquals()} fail when this method is {@code private}.
      */
-    @Nonnull
-    public Integer getFilmId() {
+    Integer getFilmId() {
         return filmId;
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute with the specified value.
-     *
-     * @param filmId new value for {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
-     */
-    protected void setFilmId(@Nonnull final Integer filmId) {
-        this.filmId = filmId;
     }
 
     // ------------------------------------------------------------------------------------------------------------ film
@@ -252,9 +283,9 @@ public class FilmCategory {
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    public void setFilm(@Nonnull final Film film) {
+    void setFilm(final Film film) {
         this.film = film;
-        setFilmId(film == null ? null : film.getFilmId());
+        this.filmId = film == null ? null : film.getFilmId();
     }
 
     // ------------------------------------------------------------------------------------------------------ categoryId
@@ -263,19 +294,10 @@ public class FilmCategory {
      * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
+     * @implNote This method is package-private, not {@code private}, for the reason {@link #getFilmId()} gives.
      */
-    @Nonnull
-    public Integer getCategoryId() {
+    Integer getCategoryId() {
         return categoryId;
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute with the specified value.
-     *
-     * @param categoryId new value for {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
-     */
-    protected void setCategoryId(@Nonnull final Integer categoryId) {
-        this.categoryId = categoryId;
     }
 
     // -------------------------------------------------------------------------------------------------------- category
@@ -291,14 +313,14 @@ public class FilmCategory {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute with the specified value, along with the
-     * {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute, which is what writes the column.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute, which is what writes the column, with the
+     * specified value. The read-only {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute is not touched; it is read from the
+     * database.
      *
      * @param category new value for {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
-    public void setCategory(@Nonnull final Category category) {
+    void setCategory(final Category category) {
         this.category = category;
-        setCategoryId(category == null ? null : category.getCategoryId());
     }
 
     // ------------------------------------------------------------------------------------------------------ lastUpdate
@@ -330,18 +352,17 @@ public class FilmCategory {
     private Film film;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nonnull
-    @NotNull
-    @Id
-    @Column(name = COLUMN_NAME_CATEGORY_ID, nullable = false, insertable = true, updatable = false)
+    // no @NotNull: read-only, null until the instance is read from the database; the category carries the constraint
+    @Column(name = COLUMN_NAME_CATEGORY_ID, nullable = false, insertable = false, updatable = false)
     private Integer categoryId;
 
     @Nonnull
     @Valid
     @NotNull
+    @Id
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CATEGORY_ID, referencedColumnName = Category.COLUMN_NAME_CATEGORY_ID,
-                nullable = false, insertable = false, updatable = false)
+                nullable = false, insertable = true, updatable = false)
     private Category category;
 
     // -----------------------------------------------------------------------------------------------------------------

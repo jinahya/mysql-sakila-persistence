@@ -23,6 +23,8 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link StaffList} against the installed {@code sakila} database.
  *
@@ -44,5 +46,18 @@ class StaffList_Persistence_IT extends _Entity_Persistence_IT<StaffList> {
     @Test
     protected void _persist_RandomizedInstance() {
         // empty
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The name is there.
+     */
+    @Override
+    protected void randomSelected(final StaffList instance) {
+        assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
     }
 }

@@ -23,37 +23,40 @@ Each key is also the business key of its entity:
 
 ## Primary keys
 
-Every base table has a primary key, which is unique as well.
+Every base table has a primary key, which is unique as well. The last column counts the primary key columns which
+are also foreign keys.
 
-| Table           | Columns                   |
-|-----------------|---------------------------|
-| `actor`         | `actor_id`                |
-| `address`       | `address_id`              |
-| `category`      | `category_id`             |
-| `city`          | `city_id`                 |
-| `country`       | `country_id`              |
-| `customer`      | `customer_id`             |
-| `film`          | `film_id`                 |
-| `film_actor`    | `actor_id`, `film_id`     |
-| `film_category` | `film_id`, `category_id`  |
-| `film_text`     | `film_id`                 |
-| `inventory`     | `inventory_id`            |
-| `language`      | `language_id`             |
-| `payment`       | `payment_id`              |
-| `rental`        | `rental_id`               |
-| `staff`         | `staff_id`                |
-| `store`         | `store_id`                |
+| Table           | Columns                   | Foreign key columns |
+|-----------------|---------------------------|---------------------|
+| `actor`         | `actor_id`                | 0 of 1              |
+| `address`       | `address_id`              | 0 of 1              |
+| `category`      | `category_id`             | 0 of 1              |
+| `city`          | `city_id`                 | 0 of 1              |
+| `country`       | `country_id`              | 0 of 1              |
+| `customer`      | `customer_id`             | 0 of 1              |
+| `film`          | `film_id`                 | 0 of 1              |
+| `film_actor`    | `actor_id`, `film_id`     | 2 of 2              |
+| `film_category` | `film_id`, `category_id`  | 2 of 2              |
+| `film_text`     | `film_id`                 | 0 of 1              |
+| `inventory`     | `inventory_id`            | 0 of 1              |
+| `language`      | `language_id`             | 0 of 1              |
+| `payment`       | `payment_id`              | 0 of 1              |
+| `rental`        | `rental_id`               | 0 of 1              |
+| `staff`         | `staff_id`                | 0 of 1              |
+| `store`         | `store_id`                | 0 of 1              |
 
 ### Primary keys which refer to other tables
 
-In two tables every primary key column is also a foreign key, so each row is unique per pair of the rows it refers to.
+A primary key refers to other tables when some, or all, of its columns are also foreign keys; the entity's identity
+then includes the identity of another entity. Two tables have one, and in both of them it is all of the columns, so
+each row is unique per pair of the rows it refers to. No table has a primary key only partly made of foreign keys.
 
 | Table           | PK column     | Foreign key                 | Refers to                   | Mapped by                                                       |
 |-----------------|---------------|-----------------------------|-----------------------------|-----------------------------------------------------------------|
 | `film_actor`    | `actor_id`    | `fk_film_actor_actor`       | `actor` (`actor_id`)        | `FilmActorId.actorId`, written through `@MapsId` `FilmActor.actor` |
 | `film_actor`    | `film_id`     | `fk_film_actor_film`        | `film` (`film_id`)          | `FilmActorId.filmId`, written through `@MapsId` `FilmActor.film`   |
 | `film_category` | `film_id`     | `fk_film_category_film`     | `film` (`film_id`)          | `@Id FilmCategory.filmId`; `FilmCategory.film` is read-only       |
-| `film_category` | `category_id` | `fk_film_category_category` | `category` (`category_id`)  | `@Id FilmCategory.categoryId`; `FilmCategory.category` is read-only |
+| `film_category` | `category_id` | `fk_film_category_category` | `category` (`category_id`)  | `@Id` `FilmCategory.category` (a derived identity); `FilmCategory.categoryId` is read-only |
 
 `film_text.film_id` is the odd one: it holds the `film_id` of `film`, one row per film, but the schema declares no
 foreign key for it. The `ins_film`, `upd_film`, and `del_film` triggers on `film` keep the two tables in step instead,

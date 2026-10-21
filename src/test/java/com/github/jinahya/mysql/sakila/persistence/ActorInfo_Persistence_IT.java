@@ -23,6 +23,8 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link ActorInfo} against the installed {@code sakila} database.
  *
@@ -44,5 +46,19 @@ class ActorInfo_Persistence_IT extends _Entity_Persistence_IT<ActorInfo> {
     @Test
     protected void _persist_RandomizedInstance() {
         // empty
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote Both names are there.
+     */
+    @Override
+    protected void randomSelected(final ActorInfo instance) {
+        assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
+        assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
     }
 }

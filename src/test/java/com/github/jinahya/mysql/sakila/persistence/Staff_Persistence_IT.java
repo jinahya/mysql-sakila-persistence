@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link Staff} against the installed {@code sakila} database.
  *
@@ -29,5 +31,21 @@ class Staff_Persistence_IT extends _Entity_Persistence_IT<Staff> {
 
     Staff_Persistence_IT() {
         super(Staff.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote Both names and the username are there, and the store, a lazy association, resolves.
+     */
+    @Override
+    protected void randomSelected(final Staff instance) {
+        assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
+        assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
+        assertThat(instance.getUsername()).as("username of %s", instance).isNotBlank();
+        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s", instance).isNotNull();
     }
 }

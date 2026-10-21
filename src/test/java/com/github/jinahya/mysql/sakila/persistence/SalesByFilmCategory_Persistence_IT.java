@@ -23,6 +23,8 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link SalesByFilmCategory} against the installed {@code sakila} database.
  *
@@ -44,5 +46,19 @@ class SalesByFilmCategory_Persistence_IT extends _Entity_Persistence_IT<SalesByF
     @Test
     protected void _persist_RandomizedInstance() {
         // empty
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The category is there, and its total is not negative.
+     */
+    @Override
+    protected void randomSelected(final SalesByFilmCategory instance) {
+        assertThat(instance.getCategory()).as("category of %s", instance).isNotBlank();
+        assertThat(instance.getTotalSales()).as("total sales of %s", instance).isNotNegative();
     }
 }

@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link City} against the installed {@code sakila} database.
  *
@@ -29,5 +31,19 @@ class City_Persistence_IT extends _Entity_Persistence_IT<City> {
 
     City_Persistence_IT() {
         super(City.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The name is there, and the country, a lazy association, resolves.
+     */
+    @Override
+    protected void randomSelected(final City instance) {
+        assertThat(instance.getCity()).as("name of %s", instance).isNotBlank();
+        assertThat(instance.getCountry().getCountry()).as("name of the country of %s", instance).isNotBlank();
     }
 }

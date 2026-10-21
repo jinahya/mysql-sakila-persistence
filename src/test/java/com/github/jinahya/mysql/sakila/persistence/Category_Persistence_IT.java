@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Verifies the mappings of {@link Category} against the installed {@code sakila} database.
  *
@@ -29,5 +31,19 @@ class Category_Persistence_IT extends _Entity_Persistence_IT<Category> {
 
     Category_Persistence_IT() {
         super(Category.class);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param instance {@inheritDoc}
+     * @implNote The name is there, and so is the {@code last_update} the database fills.
+     */
+    @Override
+    protected void randomSelected(final Category instance) {
+        assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
+        assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
     }
 }

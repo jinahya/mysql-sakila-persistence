@@ -89,7 +89,7 @@ public class _Credentials {
      * @implNote The {@value #ATTRIBUTE_NAME_PASSWORD} is left out.
      */
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "username=" + username +
                '}';

@@ -20,8 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.annotation.Nonnull;
-
 import java.util.Objects;
 
 /**
@@ -29,8 +27,11 @@ import java.util.Objects;
  * {@value FilmCategory#COLUMN_NAME_CATEGORY_ID} column, of the {@value FilmCategory#TABLE_NAME} table; the
  * {@link jakarta.persistence.IdClass @IdClass} of {@link FilmCategory}.
  * <p>
- * The attributes are named, and typed, as the {@link jakarta.persistence.Id @Id} attributes of {@link FilmCategory}
- * are, which is what the specification requires of an id class.
+ * The attributes are named as the {@link jakarta.persistence.Id @Id} attributes of {@link FilmCategory} are, which is
+ * what the specification requires of an id class. The {@value #ATTRIBUTE_NAME_FILM_ID} attribute is typed as the
+ * basic {@link jakarta.persistence.Id @Id} attribute is, and the {@value #ATTRIBUTE_NAME_CATEGORY} attribute, which
+ * corresponds to an {@link jakarta.persistence.Id @Id} association, is typed as the primary key of {@link Category}
+ * is.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmCategory
@@ -47,24 +48,26 @@ public class FilmCategoryId {
     public static final String ATTRIBUTE_NAME_FILM_ID = FilmCategory.ATTRIBUTE_NAME_FILM_ID;
 
     /**
-     * The name of the attribute which corresponds to the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} attribute of
+     * The name of the attribute which corresponds to the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute of
      * {@link FilmCategory}. The value is {@value}.
      */
-    public static final String ATTRIBUTE_NAME_CATEGORY_ID = FilmCategory.ATTRIBUTE_NAME_CATEGORY_ID;
+    public static final String ATTRIBUTE_NAME_CATEGORY = FilmCategory.ATTRIBUTE_NAME_CATEGORY;
 
     // ------------------------------------------------------------------------------------------ STATIC_FACTORY_METHODS
 
     /**
      * Returns a new instance of the specified values.
      *
-     * @param filmId     a value for the {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
-     * @param categoryId a value for the {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
-     * @return a new instance of {@code filmId} and {@code categoryId}.
+     * @param filmId   a value for the {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
+     * @param category a value for the {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
+     * @return a new instance of {@code filmId} and {@code category}.
+     * @deprecated Nothing uses this, and Jakarta Persistence does not require an id class to have one.
      */
-    public static FilmCategoryId of(@Nonnull final Integer filmId, @Nonnull final Integer categoryId) {
+    @Deprecated(forRemoval = true)
+    public static FilmCategoryId of(final Integer filmId, final Integer category) {
         final var instance = new FilmCategoryId();
-        instance.setFilmId(filmId);
-        instance.setCategoryId(categoryId);
+        instance.filmId = filmId;
+        instance.category = category;
         return instance;
     }
 
@@ -81,12 +84,11 @@ public class FilmCategoryId {
     }
 
     // ------------------------------------------------------------------------------------------------ java.lang.Object
-
     @Override
-    public String toString() {
+    public final String toString() {
         return super.toString() + '{' +
                "filmId=" + filmId +
-               ",categoryId=" + categoryId +
+               ",category=" + category +
                '}';
     }
 
@@ -95,7 +97,7 @@ public class FilmCategoryId {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_FILM_ID} and {@value #ATTRIBUTE_NAME_CATEGORY_ID}.
+     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_FILM_ID} and {@value #ATTRIBUTE_NAME_CATEGORY}.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -103,19 +105,19 @@ public class FilmCategoryId {
             return false;
         }
         return Objects.equals(filmId, that.filmId)
-               && Objects.equals(categoryId, that.categoryId);
+               && Objects.equals(category, that.category);
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_FILM_ID} and {@value #ATTRIBUTE_NAME_CATEGORY_ID},
+     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_FILM_ID} and {@value #ATTRIBUTE_NAME_CATEGORY},
      * consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return Objects.hash(filmId, categoryId);
+        return Objects.hash(filmId, category);
     }
 
     // ---------------------------------------------------------------------------------------------------------- filmId
@@ -125,33 +127,23 @@ public class FilmCategoryId {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      */
-    @Nonnull
     public Integer getFilmId() {
         return filmId;
     }
 
-    void setFilmId(@Nonnull final Integer filmId) {
-        this.filmId = filmId;
-    }
-
-    // ------------------------------------------------------------------------------------------------------ categoryId
+    // -------------------------------------------------------------------------------------------------------- category
 
     /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
+     * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute, the primary key of a {@link Category}.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
+     * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
-    @Nonnull
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    void setCategoryId(@Nonnull final Integer categoryId) {
-        this.categoryId = categoryId;
+    public Integer getCategory() {
+        return category;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     private Integer filmId;
 
-    private Integer categoryId;
+    private Integer category;
 }
