@@ -226,19 +226,12 @@ public class BetterStore {
                 // works at this store already
                 return;
             }
-            // works at another store; move their row out of that store's employments and into this one's. the orphan
-            // removal of that store's employments removes the row, and the cascade of this one's persists it again
-            employment.getStore().getEmployments().remove(employment);
-            employment.setStore(this);
-            // not as a manager here, even when they managed that store, which is left without one
-            employment.setManager(null);
-            employments.add(employment);
-            return;
+            // works at another store; fire them there first. the store is part of the row's id, which does not change,
+            // so they are hired here with a new row
+            employment.getStore().removeStaff(staff);
         }
         // hire them with a new row, which the cascade persists along with this store
-        final var created = new BetterEmployment();
-        created.setStore(this);
-        created.setStaff(staff);
+        final var created = BetterEmployment.of(this, staff);
         staff.setEmployment(created);
         employments.add(created);
     }

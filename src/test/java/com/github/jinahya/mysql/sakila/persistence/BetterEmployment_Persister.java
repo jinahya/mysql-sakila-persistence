@@ -45,9 +45,9 @@ class BetterEmployment_Persister
     public BetterEmployment apply(final EntityManager entityManager, final BetterEmployment entityInstance) {
         final var store = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStore.class);
         final var staff = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStaff.class);
-        entityManager.flush(); // EclipseLink assigns an IDENTITY value only at the flush; the setters copy it
-        entityInstance.setStore(store);
-        entityInstance.setStaff(staff);
-        return super.apply(entityManager, entityInstance);
+        entityManager.flush(); // EclipseLink assigns an IDENTITY value only at the flush; of(store, staff) copies them
+        final var instance = BetterEmployment.of(store, staff);
+        instance.setManager(entityInstance.getManager());
+        return super.apply(entityManager, instance);
     }
 }

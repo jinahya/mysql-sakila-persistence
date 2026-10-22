@@ -33,21 +33,17 @@
 <!-- better_employment -->
 <g id="node3" class="node">
 <title>better_employment</title>
-<polygon fill="#1f4e79" stroke="none" points="0,-88 0,-110 111.25,-110 111.25,-88 0,-88"/>
-<polygon fill="none" stroke="black" points="0,-88 0,-110 111.25,-110 111.25,-88 0,-88"/>
-<text xml:space="preserve" text-anchor="start" x="5" y="-95.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="11.00" fill="white">better_employment</text>
-<polygon fill="none" stroke="black" points="0,-66 0,-88 68.75,-88 68.75,-66 0,-66"/>
-<text xml:space="preserve" text-anchor="start" x="5" y="-73.55" font-family="Helvetica,sans-Serif" text-decoration="underline" font-size="11.00">id</text>
-<polygon fill="none" stroke="black" points="68.75,-66 68.75,-88 111.25,-88 111.25,-66 68.75,-66"/>
-<text xml:space="preserve" text-anchor="start" x="73.75" y="-74.38" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#555555">PK</text>
-<polygon fill="none" stroke="black" points="0,-44 0,-66 68.75,-66 68.75,-44 0,-44"/>
-<text xml:space="preserve" text-anchor="start" x="5" y="-52" font-family="Helvetica,sans-Serif" font-size="11.00">store_id</text>
-<polygon fill="none" stroke="black" points="68.75,-44 68.75,-66 111.25,-66 111.25,-44 68.75,-44"/>
-<text xml:space="preserve" text-anchor="start" x="73.75" y="-52.38" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#555555">FK</text>
-<polygon fill="none" stroke="black" points="0,-22 0,-44 68.75,-44 68.75,-22 0,-22"/>
-<text xml:space="preserve" text-anchor="start" x="5" y="-30" font-family="Helvetica,sans-Serif" font-size="11.00">staff_id</text>
-<polygon fill="none" stroke="black" points="68.75,-22 68.75,-44 111.25,-44 111.25,-22 68.75,-22"/>
-<text xml:space="preserve" text-anchor="start" x="73.75" y="-30.38" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="#1f4e79" stroke="none" points="0,-66 0,-88 111.25,-88 111.25,-66 0,-66"/>
+<polygon fill="none" stroke="black" points="0,-66 0,-88 111.25,-88 111.25,-66 0,-66"/>
+<text xml:space="preserve" text-anchor="start" x="5" y="-73.55" font-family="Helvetica,sans-Serif" font-weight="bold" font-size="11.00" fill="white">better_employment</text>
+<polygon fill="none" stroke="black" points="0,-44 0,-66 62,-66 62,-44 0,-44"/>
+<text xml:space="preserve" text-anchor="start" x="5" y="-51.55" font-family="Helvetica,sans-Serif" text-decoration="underline" font-size="11.00">store_id</text>
+<polygon fill="none" stroke="black" points="62,-44 62,-66 111.25,-66 111.25,-44 62,-44"/>
+<text xml:space="preserve" text-anchor="start" x="67" y="-52.38" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#555555">PK,FK</text>
+<polygon fill="none" stroke="black" points="0,-22 0,-44 62,-44 62,-22 0,-22"/>
+<text xml:space="preserve" text-anchor="start" x="5" y="-29.55" font-family="Helvetica,sans-Serif" text-decoration="underline" font-size="11.00">staff_id</text>
+<polygon fill="none" stroke="black" points="62,-22 62,-44 111.25,-44 111.25,-22 62,-22"/>
+<text xml:space="preserve" text-anchor="start" x="67" y="-30.38" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#555555">PK,FK</text>
 </g>
 <!-- better_employment&#45;&gt;better_store -->
 <g id="edge1" class="edge">
@@ -63,14 +59,13 @@
 <!-- better_employment&#45;&gt;better_staff -->
 <g id="edge2" class="edge">
 <title>better_employment:staff_id_e&#45;&gt;better_staff:id_w</title>
-<path fill="none" stroke="#8a8a8a" d="M122.15,-31.27C135.01,-26.82 140.22,-15.05 154.38,-11.83"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" points="112.67,-36.83 111.41,-28.92 112.99,-28.67 114.25,-36.58 112.67,-36.83"/>
-<polyline fill="none" stroke="#8a8a8a" points="111.25,-33 115.2,-32.37"/>
-<ellipse fill="none" stroke="#8a8a8a" cx="118.86" cy="-31.79" rx="3.2" ry="3.2"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" points="160.91,-7.11 161.75,-15.06 160.16,-15.23 159.31,-7.28 160.91,-7.11"/>
+<path fill="none" stroke="#8a8a8a" d="M126.5,-29.37C136.41,-24.09 141.94,-14.64 154.41,-11.82"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" points="119.36,-31.07 110.74,-29.42 115.14,-32.07 111.9,-32.84 111.9,-32.84 111.9,-32.84 115.14,-32.07 112.41,-36.42 119.36,-31.07"/>
+<ellipse fill="none" stroke="#8a8a8a" cx="124.14" cy="-29.93" rx="3.2" ry="3.2"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" points="160.91,-7.11 161.75,-15.06 160.16,-15.23 159.32,-7.28 160.91,-7.11"/>
 <polyline fill="none" stroke="#8a8a8a" points="162.12,-11 158.15,-11.42"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" points="156.93,-7.53 157.78,-15.49 156.19,-15.66 155.34,-7.7 156.93,-7.53"/>
-<polyline fill="none" stroke="#8a8a8a" points="158.15,-11.42 154.17,-11.85"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" points="156.93,-7.53 157.77,-15.48 156.18,-15.65 155.34,-7.7 156.93,-7.53"/>
+<polyline fill="none" stroke="#8a8a8a" points="158.15,-11.42 154.17,-11.84"/>
 </g>
 </g>
 </svg>

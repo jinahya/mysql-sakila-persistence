@@ -28,10 +28,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An entity class for mapping the {@value BetterStaff#TABLE_NAME} table.
@@ -112,15 +115,15 @@ public class BetterStaff {
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
-    // ------------------------------------------------------------------------------------------------------ employment
+    // ----------------------------------------------------------------------------------------------------- employments
 
     /**
-     * The name of the attribute which maps the {@link BetterEmployment employment} of this staff member. The value is
+     * The name of the attribute which maps the {@link BetterEmployment employments} of this staff member. The value is
      * {@value}.
      *
      * @see BetterEmployment#ATTRIBUTE_NAME_STAFF
      */
-    public static final String ATTRIBUTE_NAME_EMPLOYMENT = "employment";
+    public static final String ATTRIBUTE_NAME_EMPLOYMENTS = "employments";
 
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
@@ -204,13 +207,17 @@ public class BetterStaff {
         this.name = name;
     }
 
-    // ------------------------------------------------------------------------------------------------------ employment
+    // ----------------------------------------------------------------------------------------------------- employments
+    // one at most, by the rule of BetterStore.addStaff; the table allows more
     BetterEmployment getEmployment() {
-        return employment;
+        return employments.isEmpty() ? null : employments.get(0);
     }
 
     void setEmployment(final BetterEmployment employment) {
-        this.employment = employment;
+        employments.clear();
+        if (employment != null) {
+            employments.add(employment);
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -228,6 +235,6 @@ public class BetterStaff {
     private String name;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @OneToOne(mappedBy = BetterEmployment.ATTRIBUTE_NAME_STAFF, fetch = FetchType.LAZY)
-    private BetterEmployment employment;
+    @OneToMany(mappedBy = BetterEmployment.ATTRIBUTE_NAME_STAFF, fetch = FetchType.LAZY)
+    private List<BetterEmployment> employments = new ArrayList<>();
 }

@@ -20,6 +20,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import nl.jqno.equalsverifier.Warning;
 import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
 
 /**
@@ -36,16 +37,11 @@ class BetterEmployment_Test
 
     // ------------------------------------------------------------------------------------------------- equals/hashCode
 
-    /**
-     * {@inheritDoc}
-     *
-     * @implNote {@link BetterEmployment#equals(Object) equals} compares the business key -- the read-only
-     *         {@value BetterEmployment#ATTRIBUTE_NAME_STAFF_ID}, which is never updated -- rather than the surrogate
-     *         {@code @Id}, which is null until the row is inserted.
-     */
     @Override
     public SingleTypeEqualsVerifierApi<BetterEmployment> equalsVerifier() {
         return super.equalsVerifier()
-                .withOnlyTheseFields(BetterEmployment.ATTRIBUTE_NAME_STAFF_ID);
+                .suppress(Warning.SURROGATE_KEY,
+                          Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
+                          Warning.STRICT_HASHCODE);
     }
 }
