@@ -45,14 +45,18 @@ class City_Exercises_01_Basic_PersistenceIT {
         @ParameterizedTest
         @ValueSource(strings = {"Q", "X", "Z"})
         void __QueryLanguage(final String letter) {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c
-                                                                                      FROM City c
-                                                                                      WHERE c.city LIKE :pattern
-                                                                                      ORDER BY c.city""",
-                                                                              City.class)
-                    .setParameter("pattern", letter + "%")
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c
+                                            FROM City c
+                                            WHERE c.city LIKE :pattern
+                                            ORDER BY c.city""",
+                                    City.class
+                            )
+                            .setParameter("pattern", letter + "%")
+                            .getResultList()
+            );
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).allSatisfy(c -> assertThat(c.getCity()).startsWith(letter));
         }

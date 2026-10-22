@@ -43,11 +43,15 @@ class Country_Exercises_01_Basic_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                       SELECT COUNT(c)
-                                                                                       FROM Country c""",
-                                                                               Long.class)
-                    .getSingleResult());
+            final var value = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT COUNT(c)
+                                            FROM Country c""",
+                                    Long.class
+                            )
+                            .getSingleResult()
+            );
             log.debug("{}", value);
             assertThat(value).isEqualTo(109L);
         }
@@ -59,8 +63,7 @@ class Country_Exercises_01_Basic_PersistenceIT {
                 final var cq = cb.createQuery(Long.class);
                 final var c = cq.from(Country.class);
                 cq.select(cb.count(c));
-                return em.createQuery(cq)
-                        .getSingleResult();
+                return em.createQuery(cq).getSingleResult();
             });
             log.debug("{}", value);
             assertThat(value).isEqualTo(109L);

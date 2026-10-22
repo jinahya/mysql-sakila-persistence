@@ -49,14 +49,18 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         @ParameterizedTest
         @ValueSource(strings = {"Canada", "Japan", "Brazil"})
         void __QueryLanguage(final String country) {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c
-                                                                                      FROM City c
-                                                                                      WHERE c.country.country = :country
-                                                                                      ORDER BY c.city""",
-                                                                              City.class)
-                    .setParameter("country", country)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c
+                                            FROM City c
+                                            WHERE c.country.country = :country
+                                            ORDER BY c.city""",
+                                    City.class
+                            )
+                            .setParameter("country", country)
+                            .getResultList()
+            );
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isNotEmpty();
         }
@@ -87,15 +91,19 @@ class City_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT co.country, COUNT(c)
-                                                                                      FROM City c
-                                                                                               JOIN c.country co
-                                                                                      GROUP BY co.countryId, co.country
-                                                                                      ORDER BY COUNT(c) DESC, co.country""",
-                                                                              Object[].class)
-                    .setMaxResults(5)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT co.country, COUNT(c)
+                                            FROM City c
+                                                     JOIN c.country co
+                                            GROUP BY co.countryId, co.country
+                                            ORDER BY COUNT(c) DESC, co.country""",
+                                    Object[].class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
                     .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
@@ -139,12 +147,16 @@ class City_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                       SELECT COUNT(c)
-                                                                                       FROM City c
-                                                                                       WHERE c.addresses IS EMPTY""",
-                                                                               Long.class)
-                    .getSingleResult());
+            final var value = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT COUNT(c)
+                                            FROM City c
+                                            WHERE c.addresses IS EMPTY""",
+                                    Long.class
+                            )
+                            .getSingleResult()
+            );
             log.debug("{}", value);
             assertThat(value).isEqualTo(1L);
         }
@@ -155,10 +167,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Long.class);
                 final var c = cq.from(City.class);
-                cq.select(cb.count(c))
-                        .where(cb.isEmpty(c.get(City_.addresses)));
-                return em.createQuery(cq)
-                        .getSingleResult();
+                cq.select(cb.count(c)).where(cb.isEmpty(c.get(City_.addresses)));
+                return em.createQuery(cq).getSingleResult();
             });
             log.debug("{}", value);
             assertThat(value).isEqualTo(1L);

@@ -46,14 +46,18 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.name, COUNT(fc)
-                                                                                      FROM Category c
-                                                                                               JOIN c.filmCategories fc
-                                                                                      GROUP BY c.categoryId, c.name
-                                                                                      ORDER BY COUNT(fc) DESC, c.name""",
-                                                                              Object[].class)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c.name, COUNT(fc)
+                                            FROM Category c
+                                                     JOIN c.filmCategories fc
+                                            GROUP BY c.categoryId, c.name
+                                            ORDER BY COUNT(fc) DESC, c.name""",
+                                    Object[].class
+                            )
+                            .getResultList()
+            );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).hasSize(16);
             assertThat(list)
@@ -88,16 +92,20 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.name, ROUND(AVG(f.length), 2)
-                                                                                      FROM Category c
-                                                                                               JOIN c.filmCategories fc
-                                                                                               JOIN fc.film f
-                                                                                      GROUP BY c.categoryId, c.name
-                                                                                      ORDER BY AVG(f.length) DESC""",
-                                                                              Object[].class)
-                    .setMaxResults(1)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c.name, ROUND(AVG(f.length), 2)
+                                            FROM Category c
+                                                     JOIN c.filmCategories fc
+                                                     JOIN fc.film f
+                                            GROUP BY c.categoryId, c.name
+                                            ORDER BY AVG(f.length) DESC""",
+                                    Object[].class
+                            )
+                            .setMaxResults(1)
+                            .getResultList()
+            );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
                     .extracting(r -> r[0], r -> ((Number) r[1]).doubleValue())
@@ -133,12 +141,16 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c
-                                                                                      FROM Category c
-                                                                                      WHERE c.filmCategories IS EMPTY""",
-                                                                              Category.class)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c
+                                            FROM Category c
+                                            WHERE c.filmCategories IS EMPTY""",
+                                    Category.class
+                            )
+                            .getResultList()
+            );
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();
         }

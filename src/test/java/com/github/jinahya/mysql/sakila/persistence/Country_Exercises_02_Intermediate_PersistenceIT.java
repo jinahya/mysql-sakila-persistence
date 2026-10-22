@@ -46,12 +46,16 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c
-                                                                                      FROM Country c
-                                                                                      WHERE c.cities IS EMPTY""",
-                                                                              Country.class)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c
+                                            FROM Country c
+                                            WHERE c.cities IS EMPTY""",
+                                    Country.class
+                            )
+                            .getResultList()
+            );
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();
         }
