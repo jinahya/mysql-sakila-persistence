@@ -142,12 +142,6 @@
     <!-- https://hibernate.org/validator/releases/ -->
     <!-- https://central.sonatype.com/artifact/org.hibernate.validator/hibernate-validator/versions -->
     <version.org.hibernate.validator>9.1.5.Final</version.org.hibernate.validator>
-    <!-- https://central.sonatype.com/artifact/org.jspecify/jspecify/versions -->
-    <version.org.jspecify>1.0.1</version.org.jspecify>
-    <!-- https://central.sonatype.com/artifact/com.google.errorprone/error_prone_core/versions -->
-    <version.com.google.errorprone>2.50.0</version.com.google.errorprone>
-    <!-- https://central.sonatype.com/artifact/com.uber.nullaway/nullaway/versions -->
-    <version.com.uber.nullaway>0.14.2</version.com.uber.nullaway>
     <!-- https://central.sonatype.com/artifact/org.junit/junit-bom/versions -->
     <version.org.junit>5.14.4</version.org.junit>
     <!-- https://central.sonatype.com/artifact/org.mockito/mockito-junit-jupiter/versions -->
@@ -231,11 +225,6 @@
         <artifactId>hibernate-validator-test-utils</artifactId>
         <version>${version.org.hibernate.validator}</version>
       </dependency>
-      <dependency>
-        <groupId>org.jspecify</groupId>
-        <artifactId>jspecify</artifactId>
-        <version>${version.org.jspecify}</version>
-      </dependency>
       <dependency><!-- https://search.maven.org/artifact/org.junit/junit-bom -->
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
@@ -283,11 +272,6 @@
     <dependency>
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jspecify</groupId>
-      <artifactId>jspecify</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -522,24 +506,9 @@
               <artifactId>${metamodel.generator.artifactId}</artifactId>
               <version>${metamodel.generator.version}</version>
             </path>
-            <path><!-- javac plugins, not processors; the processor path is where javac looks them up -->
-              <groupId>com.google.errorprone</groupId>
-              <artifactId>error_prone_core</artifactId>
-              <version>${version.com.google.errorprone}</version>
-            </path>
-            <path>
-              <groupId>com.uber.nullaway</groupId>
-              <artifactId>nullaway</artifactId>
-              <version>${version.com.uber.nullaway}</version>
-            </path>
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Xlint</arg>
-            <!-- Error Prone with NullAway, checking the @NullMarked packages against their JSpecify annotations;
-                 javac reaches into its own internals for it, which .mvn/jvm.config opens up -->
-            <arg>-XDcompilePolicy=simple</arg>
-            <arg>--should-stop=ifError=FLOW</arg>
-            <arg>-Xplugin:ErrorProne -XepDisableWarningsInGeneratedCode -Xep:NullAway:ERROR -XepOpt:NullAway:OnlyNullMarked=true -XepOpt:NullAway:JSpecifyMode=true -XepOpt:NullAway:ExternalInitAnnotations=jakarta.persistence.Entity,jakarta.persistence.Embeddable,jakarta.persistence.MappedSuperclass -XepExcludedPaths:.*/target/generated-(test-)?sources/.*</arg>
             <!-- the hibernate processor writes an entity index, entity/index/*, into the generated sources, which
                  IntelliJ's maven resource builder then fails to copy -->
             <arg>-Aindex=false</arg>

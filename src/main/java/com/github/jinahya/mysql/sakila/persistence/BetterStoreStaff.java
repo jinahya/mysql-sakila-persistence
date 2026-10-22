@@ -24,18 +24,17 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
-import org.jspecify.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value BetterStoreStaff#TABLE_NAME} table.
@@ -121,24 +120,13 @@ import org.jspecify.annotations.Nullable;
                )
        }
 )
-public class BetterStoreStaff {
+public class BetterStoreStaff
+        extends Better {
 
     /**
      * The name of the database table to which this entity class maps. The value is {@value}.
      */
     public static final String TABLE_NAME = "better_store_staff";
-
-    // -------------------------------------------------------------------------------------------------------------- id
-
-    /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
-     */
-    public static final String COLUMN_NAME_ID = "id";
-
-    /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is {@value}.
-     */
-    public static final String ATTRIBUTE_NAME_ID = "id";
 
     // -------------------------------------------------------------------------------------------------------- store_id
 
@@ -152,6 +140,12 @@ public class BetterStoreStaff {
      */
     public static final String ATTRIBUTE_NAME_STORE = "store";
 
+    /**
+     * The name of the read-only attribute which also maps the {@value #COLUMN_NAME_STORE_ID} column. The value is
+     * {@value}.
+     */
+    public static final String ATTRIBUTE_NAME_STORE_ID = "storeId";
+
     // -------------------------------------------------------------------------------------------------------- staff_id
 
     /**
@@ -163,6 +157,12 @@ public class BetterStoreStaff {
      * The name of the attribute which maps the {@value #COLUMN_NAME_STAFF_ID} column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_STAFF = "staff";
+
+    /**
+     * The name of the read-only attribute which also maps the {@value #COLUMN_NAME_STAFF_ID} column. The value is
+     * {@value}.
+     */
+    public static final String ATTRIBUTE_NAME_STAFF_ID = "staffId";
 
     // --------------------------------------------------------------------------------------------------------- manager
 
@@ -191,8 +191,7 @@ public class BetterStoreStaff {
     @Override
     public final String toString() {
         return super.toString() + '{' +
-               "id=" + id +
-               ",manager=" + manager +
+               "manager=" + manager +
                '}';
     }
 
@@ -201,8 +200,11 @@ public class BetterStoreStaff {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the business key, the unique {@value #COLUMN_NAME_STAFF_ID} column, rather than
+     *         by the generated {@code @Id}. The column is never updated, so the key does not change under a
+     *         {@link java.util.HashSet}; the {@value #COLUMN_NAME_STORE_ID} column is, so it is no part of the key. It
+     *         is read through its read-only getter, which a lazy proxy answers, rather than off the field, which a
+     *         proxy leaves unset.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -212,31 +214,30 @@ public class BetterStoreStaff {
         if (!(obj instanceof BetterStoreStaff that)) {
             return false;
         }
-        final var thisId = getId();
-        return thisId != null && thisId.equals(that.getId());
+        return Objects.equals(getStaffId(), that.getStaffId());
     }
 
     /**
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is over the business key, consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
-        return BetterStoreStaff.class.hashCode();
+        return Objects.hashCode(getStaffId());
     }
 
-    // -------------------------------------------------------------------------------------------------------------- id
+    // --------------------------------------------------------------------------------------------------------- storeId
 
     /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
+     * Returns current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the instance is persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute; {@code null} until a persisted store is
+     *         set, or the instance is loaded from the database.
      */
-    public Long getId() {
-        return id;
+    Long getStoreId() {
+        return storeId;
     }
 
     // ----------------------------------------------------------------------------------------------------------- store
@@ -251,13 +252,29 @@ public class BetterStoreStaff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value; a transfer, when the
-     * instance is already persisted.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value.
+     * <p>
+     * A transfer, when the instance is already persisted. The identifier of the {@code store} is copied to the
+     * read-only {@value #ATTRIBUTE_NAME_STORE_ID}, so the store has to be persisted first, and, under a provider which
+     * assigns an {@code IDENTITY} value only at the flush, flushed.
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
     public void setStore(final BetterStore store) {
         this.store = store;
+        this.storeId = this.store == null ? null : this.store.getId();
+    }
+
+    // --------------------------------------------------------------------------------------------------------- staffId
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute; {@code null} until a persisted staff member
+     *         is set, or the instance is loaded from the database.
+     */
+    Long getStaffId() {
+        return staffId;
     }
 
     // ----------------------------------------------------------------------------------------------------------- staff
@@ -275,9 +292,13 @@ public class BetterStoreStaff {
      * Replaces current value of {@value #ATTRIBUTE_NAME_STAFF} attribute with the specified value.
      *
      * @param staff new value for {@value #ATTRIBUTE_NAME_STAFF} attribute.
+     * @implNote The identifier of the {@code staff} is copied to the read-only {@value #ATTRIBUTE_NAME_STAFF_ID}, so
+     *         the staff member has to be persisted first, and, under a provider which assigns an {@code IDENTITY}
+     *         value only at the flush, flushed.
      */
     public void setStaff(final BetterStaff staff) {
         this.staff = staff;
+        this.staffId = this.staff == null ? null : this.staff.getId();
     }
 
     // --------------------------------------------------------------------------------------------------------- manager
@@ -288,7 +309,6 @@ public class BetterStoreStaff {
      * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the store,
      *         {@code null} otherwise.
      */
-    @Nullable
     public Boolean getManager() {
         return manager;
     }
@@ -299,18 +319,14 @@ public class BetterStoreStaff {
      * @param manager new value for {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the
      *                store, {@code null} otherwise; never {@code FALSE}.
      */
-    public void setManager(@Nullable final Boolean manager) {
+    public void setManager(final Boolean manager) {
         this.manager = manager;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = COLUMN_NAME_ID, nullable = false, insertable = true, updatable = false)
-    private Long id;
+    @Column(name = COLUMN_NAME_STORE_ID, nullable = false, insertable = false, updatable = false)
+    private Long storeId;
 
-    // -----------------------------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -319,15 +335,17 @@ public class BetterStoreStaff {
     private BetterStore store;
 
     // -----------------------------------------------------------------------------------------------------------------
+    @Column(name = COLUMN_NAME_STAFF_ID, nullable = false, insertable = false, updatable = false)
+    private Long staffId;
+
     @Valid
     @NotNull
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = BetterStaff.COLUMN_NAME_ID, nullable = false,
                 insertable = true, updatable = false)
     private BetterStaff staff;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @AssertTrue // TRUE or NULL, never FALSE, as the table's check constraint has it
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_MANAGER, nullable = true, insertable = true, updatable = true)

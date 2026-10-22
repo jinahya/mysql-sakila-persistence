@@ -43,8 +43,11 @@ class BetterStoreStaff_Persister
     // -----------------------------------------------------------------------------------------------------------------
     @Override
     public BetterStoreStaff apply(final EntityManager entityManager, final BetterStoreStaff entityInstance) {
-        entityInstance.setStore(EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStore.class));
-        entityInstance.setStaff(EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStaff.class));
+        final var store = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStore.class);
+        final var staff = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStaff.class);
+        entityManager.flush(); // EclipseLink assigns an IDENTITY value only at the flush; the setters copy it
+        entityInstance.setStore(store);
+        entityInstance.setStaff(staff);
         return super.apply(entityManager, entityInstance);
     }
 }

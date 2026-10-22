@@ -27,7 +27,6 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.metamodel.Attribute;
 import jakarta.persistence.metamodel.ManagedType;
 import jakarta.persistence.metamodel.SingularAttribute;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -60,7 +59,7 @@ final class __Persistence_TestUtils {
      *         connects to the database -- and each call opens a new one.
      * @see Persistence#createEntityManagerFactory(String)
      */
-    static <R extends @Nullable Object> R applyEntityManagerFactory(
+    static <R> R applyEntityManagerFactory(
             final String persistenceUnitName,
             final Function<? super EntityManagerFactory, ? extends R> function) {
         Objects.requireNonNull(persistenceUnitName, "persistenceUnitName is null");
@@ -82,7 +81,7 @@ final class __Persistence_TestUtils {
      * @see #applyEntityManagerFactory(String, Function)
      * @see EntityManagerFactory#createEntityManager()
      */
-    static <R extends @Nullable Object> R applyEntityManager(
+    static <R> R applyEntityManager(
             final String persistenceUnitName,
             final Function<? super EntityManager, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
@@ -111,7 +110,7 @@ final class __Persistence_TestUtils {
      *         {@link IllegalStateException} which would mask whatever the function did.
      * @see #applyEntityManager(String, Function)
      */
-    static <R extends @Nullable Object> R applyEntityManagerInTransaction(
+    static <R> R applyEntityManagerInTransaction(
             final String persistenceUnitName,
             final Function<? super EntityManager, ? extends R> function,
             final Consumer<? super EntityTransaction> consumer) {
@@ -141,7 +140,7 @@ final class __Persistence_TestUtils {
      *         {@code function} which ended the transaction itself leaves nothing to roll back.
      * @see #applyEntityManagerInTransaction(String, Function, Consumer)
      */
-    static <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
+    static <R> R applyEntityManagerInTransactionAndRollback(
             final String persistenceUnitName,
             final Function<? super EntityManager, ? extends R> function) {
         return applyEntityManagerInTransaction(persistenceUnitName, function, t -> {
@@ -167,7 +166,7 @@ final class __Persistence_TestUtils {
      *         transaction whose function threw is the one thing this must not do.
      * @see #applyEntityManager(String, Function)
      */
-    static <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
+    static <R> R applyEntityManagerInTransactionAndCommit(
             final String persistenceUnitName,
             final Function<? super EntityManager, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");

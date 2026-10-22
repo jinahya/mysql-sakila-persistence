@@ -35,7 +35,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
-import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -392,7 +391,6 @@ public class Payment {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RENTAL} attribute.
      */
-    @Nullable
     public Rental getRental() {
         return rental;
     }
@@ -405,7 +403,7 @@ public class Payment {
      *         package. The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it is; the customer of the rental should be the
      *         customer of this payment.
      */
-    void setRental(@Nullable final Rental rental) {
+    void setRental(final Rental rental) {
         this.rental = rental;
     }
 
@@ -449,7 +447,6 @@ public class Payment {
      * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
      *         from the database.
      */
-    @Nullable
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -478,7 +475,6 @@ public class Payment {
     private Staff staff;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_RENTAL_ID, referencedColumnName = Rental.COLUMN_NAME_RENTAL_ID, nullable = true,
@@ -503,7 +499,6 @@ public class Payment {
     private LocalDateTime paymentDate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = true, insertable = false, updatable = false,
             columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)

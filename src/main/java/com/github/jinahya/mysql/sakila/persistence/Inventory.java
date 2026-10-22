@@ -281,9 +281,6 @@ public class Inventory {
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    @SuppressWarnings({
-            "NullAway" // a new instance's getter, before the provider sets the field, gives null
-    })
     public void setFilm(final Film film) {
         this.film = film;
         this.filmId = film == null ? null : film.getFilmId();
@@ -319,9 +316,6 @@ public class Inventory {
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    @SuppressWarnings({
-            "NullAway" // a new instance's getter, before the provider sets the field, gives null
-    })
     public void setStore(final Store store) {
         this.store = store;
         this.storeId = store == null ? null : store.getStoreId();

@@ -42,7 +42,6 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -503,7 +502,7 @@ public class Film {
         }
 
         // -------------------------------------------------------------------------------------------------------------
-        Rating(final @Nullable String columnValue) {
+        Rating(final String columnValue) {
             this.columnValue = columnValue;
         }
 
@@ -527,7 +526,7 @@ public class Film {
         }
 
         // -------------------------------------------------------------------------------------------------------------
-        private final @Nullable String columnValue;
+        private final String columnValue;
     }
 
     /**
@@ -548,7 +547,7 @@ public class Film {
         }
 
         @Override
-        public @Nullable String convertToDatabaseColumn(final @Nullable Rating attribute) {
+        public String convertToDatabaseColumn(final Rating attribute) {
             if (attribute == null) {
                 return null;
             }
@@ -563,7 +562,7 @@ public class Film {
          * @throws IllegalArgumentException if {@code dbData} is the column value of no {@link Rating} constant.
          */
         @Override
-        public @Nullable Rating convertToEntityAttribute(final @Nullable String dbData) {
+        public Rating convertToEntityAttribute(final String dbData) {
             if (dbData == null) {
                 return null;
             }
@@ -630,7 +629,7 @@ public class Film {
          *         or empty.
          * @throws IllegalArgumentException if {@code columnValue} holds a member no constant represents.
          */
-        public static Set<SpecialFeature> parse(@Nullable final String columnValue) {
+        public static Set<SpecialFeature> parse(final String columnValue) {
             final var parsed = EnumSet.noneOf(SpecialFeature.class);
             if (columnValue == null || columnValue.isEmpty()) {
                 return parsed;
@@ -648,7 +647,6 @@ public class Film {
          * @return the column value of {@code constants}, in the order MySQL itself lists the members; {@code null} when
          *         {@code constants} is empty.
          */
-        @Nullable
         public static String format(final Collection<SpecialFeature> constants) {
             Objects.requireNonNull(constants, "constants is null");
             if (constants.isEmpty()) {
@@ -780,7 +778,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    @Nullable
     public String getDescription() {
         return description;
     }
@@ -790,7 +787,7 @@ public class Film {
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    public void setDescription(@Nullable final String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -801,7 +798,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
      */
-    @Nullable
     public Integer getReleaseYear() {
         return releaseYear;
     }
@@ -811,7 +807,7 @@ public class Film {
      *
      * @param releaseYear new value for {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
      */
-    public void setReleaseYear(@Nullable final Integer releaseYear) {
+    public void setReleaseYear(final Integer releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -842,7 +838,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute.
      */
-    @Nullable
     public Language getOriginalLanguage() {
         return originalLanguage;
     }
@@ -852,7 +847,7 @@ public class Film {
      *
      * @param originalLanguage new value for {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute.
      */
-    public void setOriginalLanguage(@Nullable final Language originalLanguage) {
+    public void setOriginalLanguage(final Language originalLanguage) {
         this.originalLanguage = originalLanguage;
     }
 
@@ -903,7 +898,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
-    @Nullable
     public Integer getLength() {
         return length;
     }
@@ -913,7 +907,7 @@ public class Film {
      *
      * @param length new value for {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
-    public void setLength(@Nullable final Integer length) {
+    public void setLength(final Integer length) {
         this.length = length;
     }
 
@@ -944,7 +938,6 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
-    @Nullable
     public Rating getRating() {
         return rating;
     }
@@ -954,7 +947,7 @@ public class Film {
      *
      * @param rating new value for {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
-    public void setRating(@Nullable final Rating rating) {
+    public void setRating(final Rating rating) {
         this.rating = rating;
     }
 
@@ -967,7 +960,6 @@ public class Film {
      *         column joined by commas.
      * @see SpecialFeature#parse(String)
      */
-    @Nullable
     public String getSpecialFeatures() {
         return specialFeatures;
     }
@@ -979,7 +971,7 @@ public class Film {
      *                        members of the column joined by commas.
      * @see SpecialFeature#format(Collection)
      */
-    public void setSpecialFeatures(@Nullable final String specialFeatures) {
+    public void setSpecialFeatures(final String specialFeatures) {
         this.specialFeatures = specialFeatures;
     }
 
@@ -1038,13 +1030,11 @@ public class Film {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Max(ATTRIBUTE_MAX_RELEASE_YEAR)
     @Min(ATTRIBUTE_MIN_RELEASE_YEAR)
     @Basic(optional = true)
@@ -1060,7 +1050,6 @@ public class Film {
     private Language language;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_ORIGINAL_LANGUAGE_ID, referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
@@ -1087,7 +1076,6 @@ public class Film {
     private BigDecimal rentalRate;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Max(ATTRIBUTE_MAX_LENGTH)
     @Min(ATTRIBUTE_MIN_LENGTH)
     @Basic(optional = true)
@@ -1107,7 +1095,6 @@ public class Film {
     private BigDecimal replacementCost;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Convert(converter = RatingConverter.class)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = true, updatable = true,
@@ -1115,7 +1102,6 @@ public class Film {
     private Rating rating;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_SPECIAL_FEATURES)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_SPECIAL_FEATURES, nullable = true, insertable = true, updatable = true,

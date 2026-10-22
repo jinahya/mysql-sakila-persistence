@@ -21,15 +21,19 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An entity class for mapping the {@value BetterStore#TABLE_NAME} table.
@@ -69,24 +73,13 @@ import jakarta.validation.constraints.Size;
 )
 @Entity
 @Table(name = BetterStore.TABLE_NAME)
-public class BetterStore {
+public class BetterStore
+        extends Better {
 
     /**
      * The name of the database table to which this entity class maps. The value is {@value}.
      */
     public static final String TABLE_NAME = "better_store";
-
-    // -------------------------------------------------------------------------------------------------------------- id
-
-    /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
-     */
-    public static final String COLUMN_NAME_ID = "id";
-
-    /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is {@value}.
-     */
-    public static final String ATTRIBUTE_NAME_ID = "id";
 
     // ------------------------------------------------------------------------------------------------------------ name
 
@@ -110,6 +103,16 @@ public class BetterStore {
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
+    // ---------------------------------------------------------------------------------------------------------- staffs
+
+    /**
+     * The name of the attribute which maps the {@link BetterStoreStaff store-staffs} of this store. The value is
+     * {@value}.
+     *
+     * @see BetterStoreStaff#ATTRIBUTE_NAME_STORE
+     */
+    public static final String ATTRIBUTE_NAME_STORE_STAFFS = "storeStaffs";
+
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -124,8 +127,7 @@ public class BetterStore {
     @Override
     public final String toString() {
         return super.toString() + '{' +
-               "id=" + id +
-               ",name=" + name +
+               "name=" + name +
                '}';
     }
 
@@ -134,19 +136,15 @@ public class BetterStore {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equal only to another {@code BetterStore}, and then as {@link Better#equals(Object)} has it: by
+     *         the {@code @Id} alone, and only once it is assigned.
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof BetterStore that)) {
+        if (!(obj instanceof BetterStore)) {
             return false;
         }
-        final var thisId = getId();
-        return thisId != null && thisId.equals(that.getId());
+        return super.equals(obj);
     }
 
     /**
@@ -159,17 +157,6 @@ public class BetterStore {
     @Override
     public final int hashCode() {
         return BetterStore.class.hashCode();
-    }
-
-    // -------------------------------------------------------------------------------------------------------------- id
-
-    /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
-     *
-     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the instance is persisted.
-     */
-    public Long getId() {
-        return id;
     }
 
     // ------------------------------------------------------------------------------------------------------------ name
@@ -192,12 +179,74 @@ public class BetterStore {
         this.name = name;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = COLUMN_NAME_ID, nullable = false, insertable = true, updatable = false)
-    private Long id;
+    // ---------------------------------------------------------------------------------------------------------- staffs
+    List<BetterStoreStaff> getStoreStaffs() {
+        return storeStaffs;
+    }
+
+    void setStoreStaffs(final List<BetterStoreStaff> staffs) {
+        this.storeStaffs = staffs;
+    }
+
+    public void addStaff(final BetterStaff staff) {
+        // the row which links the staff to their store; null when they work at none
+        final var storeStaff = staff.getStoreStaff();
+        if (storeStaff != null) {
+            if (equals(storeStaff.getStore())) {
+                // works at this store already
+                return;
+            }
+            // works at another store; fire them there first
+            storeStaff.getStore().removeStaff(staff);
+        }
+        // hire them with a new row, which the cascade persists along with this store
+        final var created = new BetterStoreStaff();
+        created.setStore(this);
+        created.setStaff(staff);
+        staff.setStoreStaff(created);
+        storeStaffs.add(created);
+    }
+
+    public void removeStaff(final BetterStaff staff) {
+        // the row which links the staff to their store; null when they work at none
+        final var storeStaff = staff.getStoreStaff();
+        if (storeStaff == null || !equals(storeStaff.getStore())) {
+            // works at no store, or at another
+            return;
+        }
+        // fire them; out of this store's staffs, the orphan removal deletes the row
+        final var removed = storeStaffs.remove(storeStaff);
+        staff.setStoreStaff(null);
+    }
+
+    /**
+     * Returns the manager of this store.
+     *
+     * @return the staff member whose {@link BetterStoreStaff} row of this store is flagged as the manager's;
+     *         {@code null} when the store has no manager, or is not yet loaded from the database.
+     */
+    public BetterStaff getManager() {
+        if (storeStaffs == null) {
+            return null;
+        }
+        return storeStaffs.stream()
+                .filter(v -> Boolean.TRUE.equals(v.getManager()))
+                .map(BetterStoreStaff::getStaff)
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void setManager(final BetterStaff staff) {
+        // unflag the current manager's row, if any; first, before a transferred row could add a second flag
+        final var manager = getManager();
+        if (manager != null) {
+            manager.getStoreStaff().setManager(null);
+        }
+        // hire them, from another store or from none
+        addStaff(staff);
+        // flag the new manager's row
+        staff.getStoreStaff().setManager(Boolean.TRUE);
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
     @NotNull
@@ -205,4 +254,11 @@ public class BetterStore {
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_NAME)
     private String name;
+
+    // -----------------------------------------------------------------------------------------------------------------
+    @OneToMany(mappedBy = BetterStoreStaff.ATTRIBUTE_NAME_STORE, fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    private List<@Valid @NotNull BetterStoreStaff> storeStaffs = new ArrayList<>();
+
+    // -----------------------------------------------------------------------------------------------------------------
 }

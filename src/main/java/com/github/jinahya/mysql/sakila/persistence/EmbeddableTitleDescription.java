@@ -25,7 +25,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -99,7 +98,7 @@ public class EmbeddableTitleDescription {
      * @param description a value for the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      * @return a new instance of {@code title} and {@code description}.
      */
-    public static EmbeddableTitleDescription of(final String title, @Nullable final String description) {
+    public static EmbeddableTitleDescription of(final String title, final String description) {
         final var instance = new EmbeddableTitleDescription();
         instance.setTitle(title);
         instance.setDescription(description);
@@ -180,7 +179,6 @@ public class EmbeddableTitleDescription {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    @Nullable
     public String getDescription() {
         return description;
     }
@@ -190,7 +188,7 @@ public class EmbeddableTitleDescription {
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    public void setDescription(@Nullable final String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -203,7 +201,6 @@ public class EmbeddableTitleDescription {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;

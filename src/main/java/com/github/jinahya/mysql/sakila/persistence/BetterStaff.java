@@ -23,10 +23,9 @@ package com.github.jinahya.mysql.sakila.persistence;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -69,24 +68,13 @@ import jakarta.validation.constraints.Size;
 )
 @Entity
 @Table(name = BetterStaff.TABLE_NAME)
-public class BetterStaff {
+public class BetterStaff
+        extends Better {
 
     /**
      * The name of the database table to which this entity class maps. The value is {@value}.
      */
     public static final String TABLE_NAME = "better_staff";
-
-    // -------------------------------------------------------------------------------------------------------------- id
-
-    /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
-     */
-    public static final String COLUMN_NAME_ID = "id";
-
-    /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is {@value}.
-     */
-    public static final String ATTRIBUTE_NAME_ID = "id";
 
     // ------------------------------------------------------------------------------------------------------------ name
 
@@ -110,6 +98,16 @@ public class BetterStaff {
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
+    // ----------------------------------------------------------------------------------------------------- storeStaff
+
+    /**
+     * The name of the attribute which maps the {@link BetterStoreStaff store-staff} of this staff member. The value is
+     * {@value}.
+     *
+     * @see BetterStoreStaff#ATTRIBUTE_NAME_STAFF
+     */
+    public static final String ATTRIBUTE_NAME_STORE_STAFF = "storeStaff";
+
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -124,8 +122,7 @@ public class BetterStaff {
     @Override
     public final String toString() {
         return super.toString() + '{' +
-               "id=" + id +
-               ",name=" + name +
+               "name=" + name +
                '}';
     }
 
@@ -134,19 +131,15 @@ public class BetterStaff {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equal only to another {@code BetterStaff}, and then as {@link Better#equals(Object)} has it: by the
+     *         {@code @Id} alone, and only once it is assigned.
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof BetterStaff that)) {
+        if (!(obj instanceof BetterStaff)) {
             return false;
         }
-        final var thisId = getId();
-        return thisId != null && thisId.equals(that.getId());
+        return super.equals(obj);
     }
 
     /**
@@ -159,17 +152,6 @@ public class BetterStaff {
     @Override
     public final int hashCode() {
         return BetterStaff.class.hashCode();
-    }
-
-    // -------------------------------------------------------------------------------------------------------------- id
-
-    /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
-     *
-     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the instance is persisted.
-     */
-    public Long getId() {
-        return id;
     }
 
     // ------------------------------------------------------------------------------------------------------------ name
@@ -192,12 +174,14 @@ public class BetterStaff {
         this.name = name;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = COLUMN_NAME_ID, nullable = false, insertable = true, updatable = false)
-    private Long id;
+    // ----------------------------------------------------------------------------------------------------- storeStaff
+    BetterStoreStaff getStoreStaff() {
+        return storeStaff;
+    }
+
+    void setStoreStaff(final BetterStoreStaff storeStaff) {
+        this.storeStaff = storeStaff;
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
     @NotNull
@@ -205,4 +189,8 @@ public class BetterStaff {
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_NAME)
     private String name;
+
+    // -----------------------------------------------------------------------------------------------------------------
+    @OneToOne(mappedBy = BetterStoreStaff.ATTRIBUTE_NAME_STAFF, fetch = FetchType.LAZY)
+    private BetterStoreStaff storeStaff;
 }

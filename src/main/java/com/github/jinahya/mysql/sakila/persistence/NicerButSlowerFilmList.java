@@ -26,7 +26,6 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 
@@ -215,9 +214,6 @@ public class NicerButSlowerFilmList {
     /**
      * Creates a new instance.
      */
-    @SuppressWarnings({
-            "NullAway.Init" // a row mapper sets the fields
-    })
     protected NicerButSlowerFilmList() {
         super();
     }
@@ -236,12 +232,12 @@ public class NicerButSlowerFilmList {
      */
     public NicerButSlowerFilmList(final Integer fid,
                                   final String title,
-                                  final @Nullable String description,
-                                  final @Nullable String category,
+                                  final String description,
+                                  final String category,
                                   final BigDecimal price,
-                                  final @Nullable Integer length,
-                                  final Film.@Nullable Rating rating,
-                                  final @Nullable String actors) {
+                                  final Integer length,
+                                  final Film.Rating rating,
+                                  final String actors) {
         super();
         this.fid = fid;
         this.title = title;
@@ -298,7 +294,6 @@ public class NicerButSlowerFilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
-    @Nullable
     public String getDescription() {
         return description;
     }
@@ -310,7 +305,6 @@ public class NicerButSlowerFilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
-    @Nullable
     public String getCategory() {
         return category;
     }
@@ -333,7 +327,6 @@ public class NicerButSlowerFilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
-    @Nullable
     public Integer getLength() {
         return length;
     }
@@ -345,7 +338,7 @@ public class NicerButSlowerFilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
-    public Film.@Nullable Rating getRating() {
+    public Film.Rating getRating() {
         return rating;
     }
 
@@ -356,7 +349,6 @@ public class NicerButSlowerFilmList {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ACTORS} attribute.
      */
-    @Nullable
     public String getActors() {
         return actors;
     }
@@ -376,13 +368,11 @@ public class NicerButSlowerFilmList {
     private String title;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_CATEGORY)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_CATEGORY, nullable = true, insertable = false, updatable = false,
@@ -401,7 +391,6 @@ public class NicerButSlowerFilmList {
     private BigDecimal price;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_LENGTH, nullable = true, insertable = false, updatable = false)
     private Integer length;
@@ -410,10 +399,9 @@ public class NicerButSlowerFilmList {
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_RATING)
-    private Film.@Nullable Rating rating;
+    private Film.Rating rating;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ACTORS, nullable = true, insertable = false, updatable = false)
     private String actors;

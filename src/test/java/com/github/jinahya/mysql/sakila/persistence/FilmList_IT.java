@@ -20,7 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class FilmList_IT {
 
-    private static @Nullable Integer integerOf(final @Nullable Object value) {
+    private static Integer integerOf(final Object value) {
         return value == null ? null : ((Number) value).intValue();
     }
 
