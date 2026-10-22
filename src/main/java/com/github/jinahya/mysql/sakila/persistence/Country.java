@@ -54,7 +54,8 @@ import java.util.function.Function;
  *}
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-country.html">The country Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-country.html">The
+ *         country Table</a>
  */
 @NamedQuery(name = "Country.selectOneByCountryId",
             query = """
@@ -96,24 +97,25 @@ public class Country {
      */
     public static final String TABLE_NAME = "country";
 
-    // ------------------------------------------------------------------------------------------------------ country_id
+    // ---------------------------------------------------------------------------------- country_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_COUNTRY_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_COUNTRY_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_COUNTRY_ID = "country_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_COUNTRY_ID = "countryId";
 
-    // --------------------------------------------------------------------------------------------------------- country
+    // ------------------------------------------------------------------------------------- country
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_COUNTRY = "country";
 
@@ -123,7 +125,8 @@ public class Country {
     public static final int COLUMN_LENGTH_COUNTRY = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_COUNTRY = "country";
 
@@ -132,29 +135,31 @@ public class Country {
      */
     public static final int SIZE_MAX_COUNTRY = COLUMN_LENGTH_COUNTRY;
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ---------------------------------------------------------------------------------------------------------- cities
+    // -------------------------------------------------------------------------------------- cities
 
     /**
-     * The name of the attribute which maps the {@link City cities} of this country. The value is {@value}.
+     * The name of the attribute which maps the {@link City cities} of this country. The value is
+     * {@value}.
      *
      * @see City#ATTRIBUTE_NAME_COUNTRY
      */
     public static final String ATTRIBUTE_NAME_CITIES = "cities";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -163,7 +168,7 @@ public class Country {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -179,8 +184,8 @@ public class Country {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -198,27 +203,28 @@ public class Country {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Country.class.hashCode();
     }
 
-    // ------------------------------------------------------------------------------------------------------- countryId
+    // ----------------------------------------------------------------------------------- countryId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_COUNTRY_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_COUNTRY_ID} attribute; {@code null} until
+     *         the instance is persisted.
      */
     public Integer getCountryId() {
         return countryId;
     }
 
-    // --------------------------------------------------------------------------------------------------------- country
+    // ------------------------------------------------------------------------------------- country
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
@@ -230,7 +236,8 @@ public class Country {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified
+     * value.
      *
      * @param country new value for {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      */
@@ -239,11 +246,14 @@ public class Country {
     }
 
     /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute, mapped with the specified function.
+     * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute, mapped with the
+     * specified function.
      *
-     * @param mapper the function which maps current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
+     * @param mapper the function which maps current value of {@value #ATTRIBUTE_NAME_COUNTRY}
+     *               attribute.
      * @param <R>    result type parameter
-     * @return the result of the {@code mapper} applied to current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
+     * @return the result of the {@code mapper} applied to current value of
+     *         {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      * @see #getCountry()
      */
     <R> R getCountryAs(final Function<? super String, ? extends R> mapper) {
@@ -252,12 +262,12 @@ public class Country {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified value, mapped with the
-     * specified function.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified
+     * value, mapped with the specified function.
      *
      * @param country the value to map.
-     * @param mapper  the function which maps the {@code country} to a new value for {@value #ATTRIBUTE_NAME_COUNTRY}
-     *                attribute.
+     * @param mapper  the function which maps the {@code country} to a new value for
+     *                {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      * @param <T>     value type parameter
      * @see #setCountry(String)
      */
@@ -267,12 +277,13 @@ public class Country {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the display name of the country of the
-     * specified locale, in {@link Locale#ENGLISH English}.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the display name of
+     * the country of the specified locale, in {@link Locale#ENGLISH English}.
      *
-     * @param locale the locale whose display country, in {@link Locale#ENGLISH English}, is set; {@code null} sets
-     *               {@code null}.
-     * @apiNote A locale without a country, {@link Locale#ENGLISH}, for one, sets an empty string.
+     * @param locale the locale whose display country, in {@link Locale#ENGLISH English}, is set;
+     *               {@code null} sets {@code null}.
+     * @apiNote A locale without a country, {@link Locale#ENGLISH}, for one, sets an empty
+     *         string.
      * @see Locale#getDisplayCountry(Locale)
      * @see #setCountry(String)
      */
@@ -281,19 +292,19 @@ public class Country {
         setCountryAs(locale, v -> v.getDisplayCountry(Locale.ENGLISH));
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- cities
+    // -------------------------------------------------------------------------------------- cities
     List<City> getCities() {
         return cities;
     }
@@ -302,16 +313,18 @@ public class Country {
         this.cities = cities;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on a
-    // @GeneratedValue @Id -- it treats the mapping as read-only and fails descriptor initialisation.
+    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects
+    // insertable=false on a
+    // @GeneratedValue @Id -- it treats the mapping as read-only and fails descriptor
+    // initialisation.
     @Column(name = COLUMN_NAME_COUNTRY_ID, nullable = false, insertable = true, updatable = false)
     private Integer countryId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_COUNTRY)
     @Basic(optional = false)
@@ -319,13 +332,13 @@ public class Country {
             length = COLUMN_LENGTH_COUNTRY)
     private String country;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = City.ATTRIBUTE_NAME_COUNTRY, fetch = FetchType.LAZY)
     private List<@Valid @NotNull City> cities;
 }

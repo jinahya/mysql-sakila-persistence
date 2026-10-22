@@ -34,13 +34,14 @@ class Actor_Persistence_IT
         super(Actor.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote Both names are there, and so is the {@code last_update} the database fills.
+     * @implNote Both names are there, and so is the {@code last_update} the database
+     *         fills.
      */
     @Override
     void randomTargetInstanceSelected(final Actor instance) {

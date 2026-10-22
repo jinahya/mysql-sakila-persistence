@@ -52,15 +52,17 @@ import java.math.BigDecimal;
  * ORDER BY total_sales DESC
  *}
  * <p>
- * The view groups by {@code c.name}, so the {@value #COLUMN_NAME_CATEGORY} column identifies a row. Total sales add up
- * to more than the sum of the payments, because a film may belong to more than one category.
+ * The view groups by {@code c.name}, so the {@value #COLUMN_NAME_CATEGORY} column identifies a row.
+ * Total sales add up to more than the sum of the payments, because a film may belong to more than
+ * one category.
  * <p>
- * Every column is mapped read-only; only the identifier stays insertable, which EclipseLink requires of an
- * {@link Id @Id}.
+ * Every column is mapped read-only; only the identifier stays insertable, which EclipseLink
+ * requires of an {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html">
- *         The sales_by_film_category View</a>
+ * @see <a href="https://dev.mysql
+ *         .com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html"> The
+ *         sales_by_film_category View</a>
  */
 @NamedQuery(name = "SalesByFilmCategory.selectOneByCategory",
             query = """
@@ -88,11 +90,11 @@ public class SalesByFilmCategory {
      */
     public static final String TABLE_NAME = "sales_by_film_category";
 
-    // -------------------------------------------------------------------------------------------------------- category
+    // ------------------------------------------------------------------------------------ category
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CATEGORY} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CATEGORY} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_CATEGORY = "category";
 
@@ -102,7 +104,8 @@ public class SalesByFilmCategory {
     public static final int COLUMN_LENGTH_CATEGORY = 25;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CATEGORY} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CATEGORY} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_CATEGORY = "category";
 
@@ -111,11 +114,11 @@ public class SalesByFilmCategory {
      */
     public static final int SIZE_MAX_CATEGORY = COLUMN_LENGTH_CATEGORY;
 
-    // ----------------------------------------------------------------------------------------------------- total_sales
+    // --------------------------------------------------------------------------------- total_sales
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_TOTAL_SALES = "total_sales";
 
@@ -140,11 +143,12 @@ public class SalesByFilmCategory {
     public static final String COLUMN_MAX_TOTAL_SALES = "9999999999999999999999999.99";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_TOTAL_SALES} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_TOTAL_SALES} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_TOTAL_SALES = "totalSales";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -153,7 +157,7 @@ public class SalesByFilmCategory {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -168,8 +172,8 @@ public class SalesByFilmCategory {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -187,15 +191,16 @@ public class SalesByFilmCategory {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return SalesByFilmCategory.class.hashCode();
     }
 
-    // -------------------------------------------------------------------------------------------------------- category
+    // ------------------------------------------------------------------------------------ category
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
@@ -206,7 +211,7 @@ public class SalesByFilmCategory {
         return category;
     }
 
-    // ------------------------------------------------------------------------------------------------------ totalSales
+    // ---------------------------------------------------------------------------------- totalSales
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute.
@@ -217,20 +222,23 @@ public class SalesByFilmCategory {
         return totalSales;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Id
     @Size(max = SIZE_MAX_CATEGORY)
-    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on an
-    // @Id -- "There should be one non-read-only mapping defined for the primary key field". Nothing writes to a
+    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects
+    // insertable=false on an
+    // @Id -- "There should be one non-read-only mapping defined for the primary key field".
+    // Nothing writes to a
     // view anyway.
     @Column(name = COLUMN_NAME_CATEGORY, nullable = false, insertable = true, updatable = false,
             length = COLUMN_LENGTH_CATEGORY)
     private String category;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
-    // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
+    // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction =
+    // COLUMN_SCALE_TOTAL_SALES)
     @DecimalMin(COLUMN_MIN_TOTAL_SALES)
     @DecimalMax(COLUMN_MAX_TOTAL_SALES)
     @Basic(optional = true)

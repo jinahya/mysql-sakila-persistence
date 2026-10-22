@@ -40,11 +40,14 @@ public final class BetterStorePersistenceUtils {
     public static void setManager(final EntityManager entityManager, final BetterStore store,
                                   final BetterStaff staff) {
         // the staff, unless null, has to work at the store
-        if (staff != null && (staff.getEmployment() == null || !store.equals(staff.getEmployment().getStore()))) {
+        if (staff != null &&
+            (staff.getEmployment() == null || !store.equals(staff.getEmployment().getStore()))) {
             throw new IllegalArgumentException("not a staff of " + store + ": " + staff);
         }
-        // unflag the current manager's row, if any, and write it before the new manager's row is flagged; otherwise
-        // the unique key of (manager, store_id) could see two managers of the store, depending on the order the
+        // unflag the current manager's row, if any, and write it before the new manager's row is
+        // flagged; otherwise
+        // the unique key of (manager, store_id) could see two managers of the store, depending
+        // on the order the
         // provider writes the two rows in
         final var manager = store.getManager();
         if (manager != null) {
@@ -59,7 +62,7 @@ public final class BetterStorePersistenceUtils {
         staff.getEmployment().setManager(Boolean.TRUE);
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
     private BetterStorePersistenceUtils() {
         throw new AssertionError("instantiation is not allowed");
     }

@@ -34,10 +34,11 @@ class FilmList_Test
         super(FilmList.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
-     * Does nothing; {@link FilmList} declares no {@code equals(Object)}, so there is no value equality to verify.
+     * Does nothing; {@link FilmList} declares no {@code equals(Object)}, so there is no value
+     * equality to verify.
      */
     @Override
     @Test

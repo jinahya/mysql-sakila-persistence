@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link Actor} instances.
  * <p>
- * The {@code actorId}, which the database generates, the {@code lastUpdate}, which the database fills, and the
- * {@code filmActors} association are excluded from randomization.
+ * The {@code actorId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and the {@code filmActors} association are excluded from randomization.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -46,7 +46,7 @@ class Actor_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

@@ -37,11 +37,11 @@ class Staff_Persistence_IT
         super(Staff.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
-     * columns, so neither is persisted; see {@link Store}.
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through
+     * {@code NOT NULL} columns, so neither is persisted; see {@link Store}.
      */
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
@@ -50,19 +50,21 @@ class Staff_Persistence_IT
         // empty
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote Both names and the username are there, and the store, a lazy association, resolves.
+     * @implNote Both names and the username are there, and the store, a lazy association,
+     *         resolves.
      */
     @Override
     void randomTargetInstanceSelected(final Staff instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getUsername()).as("username of %s", instance).isNotBlank();
-        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s", instance).isNotNull();
+        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s",
+                                                           instance).isNotNull();
     }
 }

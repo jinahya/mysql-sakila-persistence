@@ -50,7 +50,8 @@ import java.util.List;
  *}
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-category.html">The category Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-category.html">The
+ *         category Table</a>
  */
 @NamedQuery(name = "Category.selectOneByCategoryId",
             query = """
@@ -85,23 +86,25 @@ public class Category {
      */
     public static final String TABLE_NAME = "category";
 
-    // ----------------------------------------------------------------------------------------------------- category_id
+    // --------------------------------------------------------------------------------- category_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_CATEGORY_ID = "category_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CATEGORY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CATEGORY_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_CATEGORY_ID = "categoryId";
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_NAME = "name";
 
@@ -111,7 +114,8 @@ public class Category {
     public static final int COLUMN_LENGTH_NAME = 25;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_NAME = "name";
 
@@ -120,30 +124,31 @@ public class Category {
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ------------------------------------------------------------------------------------------------- filmCategories
+    // ------------------------------------------------------------------------------ filmCategories
 
     /**
-     * The name of the attribute which maps the {@link FilmCategory film-categories} of this category. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@link FilmCategory film-categories} of this
+     * category. The value is {@value}.
      *
      * @see FilmCategory#ATTRIBUTE_NAME_CATEGORY
      */
     public static final String ATTRIBUTE_NAME_FILM_CATEGORIES = "filmCategories";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -152,7 +157,7 @@ public class Category {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -168,8 +173,8 @@ public class Category {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -187,27 +192,28 @@ public class Category {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Category.class.hashCode();
     }
 
-    // ------------------------------------------------------------------------------------------------------ categoryId
+    // ---------------------------------------------------------------------------------- categoryId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute; {@code null} until
+     *         the instance is persisted.
      */
     public Integer getCategoryId() {
         return categoryId;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_NAME} attribute.
@@ -227,19 +233,19 @@ public class Category {
         this.name = name;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // ------------------------------------------------------------------------------------------------- filmCategories
+    // ------------------------------------------------------------------------------ filmCategories
     List<FilmCategory> getFilmCategories() {
         return filmCategories;
     }
@@ -248,27 +254,28 @@ public class Category {
         this.filmCategories = filmCategories;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_CATEGORY_ID, nullable = false, insertable = true, updatable = false)
     private Integer categoryId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_NAME)
+    @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_NAME)
     private String name;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = FilmCategory.ATTRIBUTE_NAME_CATEGORY, fetch = FetchType.LAZY)
     private List<@Valid @NotNull FilmCategory> filmCategories;
 }

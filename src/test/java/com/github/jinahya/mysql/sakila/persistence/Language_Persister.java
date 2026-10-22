@@ -39,14 +39,15 @@ class Language_Persister
         super(Language.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * Selects the {@link Language} with the smallest {@code languageId} in the database.
      *
      * @param entityManager the entity manager to select with.
-     * @return the {@code Language} with the smallest {@code languageId}; {@link Optional#empty() empty} when the
-     *         database holds none, as the generated, in-memory one does.
+     * @return the {@code Language} with the smallest {@code languageId};
+     *         {@link Optional#empty() empty} when the database holds none, as the generated,
+     *         in-memory one does.
      */
     static Optional<Language> selectFirst(final EntityManager entityManager) {
         return entityManager
@@ -56,7 +57,7 @@ class Language_Persister
                 .findFirst();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Language apply(final EntityManager entityManager, final Language entityInstance) {
         return super.apply(entityManager, entityInstance);

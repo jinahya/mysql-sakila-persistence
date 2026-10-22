@@ -73,7 +73,8 @@ class Film_StaticTest {
         @ParameterizedTest
         void converter_RoundTrips_(final Film.Rating rating) {
             final var converter = new Film.RatingConverter();
-            assertThat(converter.convertToEntityAttribute(converter.convertToDatabaseColumn(rating)))
+            assertThat(
+                    converter.convertToEntityAttribute(converter.convertToDatabaseColumn(rating)))
                     .isSameAs(rating);
             assertThat(converter.convertToDatabaseColumn(null)).isNull();
             assertThat(converter.convertToEntityAttribute(null)).isNull();
@@ -91,7 +92,8 @@ class Film_StaticTest {
         void columnValues_AreTheSetMembers() {
             assertThat(EnumSet.allOf(Film.SpecialFeature.class))
                     .extracting(Film.SpecialFeature::columnValue)
-                    .containsExactly("Trailers", "Commentaries", "Deleted Scenes", "Behind the Scenes");
+                    .containsExactly("Trailers", "Commentaries", "Deleted Scenes",
+                                     "Behind the Scenes");
         }
 
         @DisplayName("parse(null) and parse(\"\") are empty")
@@ -105,7 +107,8 @@ class Film_StaticTest {
         @Test
         void parse_() {
             assertThat(Film.SpecialFeature.parse("Deleted Scenes,Behind the Scenes"))
-                    .containsExactly(Film.SpecialFeature.DELETED_SCENES, Film.SpecialFeature.BEHIND_THE_SCENES);
+                    .containsExactly(Film.SpecialFeature.DELETED_SCENES,
+                                     Film.SpecialFeature.BEHIND_THE_SCENES);
         }
 
         @DisplayName("parse throws for a member which is not one")

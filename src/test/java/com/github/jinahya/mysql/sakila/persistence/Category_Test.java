@@ -35,13 +35,13 @@ class Category_Test
         super(Category.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Category#equals(Object) equals} compares only the {@code @Id}, because every other
-     *         attribute is mutable state.
+     * @implNote {@link Category#equals(Object) equals} compares only the {@code @Id},
+     *         because every other attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Category> equalsVerifier() {

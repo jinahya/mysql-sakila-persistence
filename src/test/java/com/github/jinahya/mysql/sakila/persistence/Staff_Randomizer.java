@@ -31,9 +31,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link Staff} instances.
  * <p>
- * The {@code staffId}, which the database generates, the {@code lastUpdate}, which the database fills, and the
- * {@code address} and {@code store} associations are excluded from randomization; {@link Staff_Persister} supplies both
- * associations. The {@code picture} is replaced with a few random bytes, rather than as many as the column holds.
+ * The {@code staffId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and the {@code address} and {@code store} associations are excluded from randomization;
+ * {@link Staff_Persister} supplies both associations. The {@code picture} is replaced with a few
+ * random bytes, rather than as many as the column holds.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -49,7 +50,7 @@ class Staff_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

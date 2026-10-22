@@ -27,8 +27,10 @@ import jakarta.persistence.Embeddable;
 import java.util.Objects;
 
 /**
- * The composite primary key class of {@link BetterEmployment}, an {@link jakarta.persistence.EmbeddedId EmbeddedId} of
- * the {@value BetterEmployment#COLUMN_NAME_STORE_ID} and {@value BetterEmployment#COLUMN_NAME_STAFF_ID} columns.
+ * The composite primary key class of {@link BetterEmployment}, an
+ * {@link jakarta.persistence.EmbeddedId EmbeddedId} of the
+ * {@value BetterEmployment#COLUMN_NAME_STORE_ID} and {@value BetterEmployment#COLUMN_NAME_STAFF_ID}
+ * columns.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -36,18 +38,18 @@ import java.util.Objects;
 public class BetterEmploymentId {
 
     /**
-     * The name of the attribute which maps the {@value BetterEmployment#COLUMN_NAME_STORE_ID} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value BetterEmployment#COLUMN_NAME_STORE_ID}
+     * column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE_ID = "storeId";
 
     /**
-     * The name of the attribute which maps the {@value BetterEmployment#COLUMN_NAME_STAFF_ID} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value BetterEmployment#COLUMN_NAME_STAFF_ID}
+     * column. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_STAFF_ID = "staffId";
 
-    // ------------------------------------------------------------------------------------------ STATIC_FACTORY_METHODS
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
 
     static BetterEmploymentId of(final Long storeId, final Long staffId) {
         final var instance = new BetterEmploymentId();
@@ -56,19 +58,20 @@ public class BetterEmploymentId {
         return instance;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
      * <p>
-     * The constructor is {@code public}, rather than {@code protected}, because the specification requires a primary
-     * key class to have a public no-arg constructor (Jakarta Persistence 3.2, §2.4).
+     * The constructor is {@code public}, rather than {@code protected}, because the specification
+     * requires a primary key class to have a public no-arg constructor (Jakarta Persistence 3.2,
+     * §2.4).
      */
     public BetterEmploymentId() {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -92,7 +95,7 @@ public class BetterEmploymentId {
         return Objects.hash(storeId, staffId);
     }
 
-    // --------------------------------------------------------------------------------------------------------- storeId
+    // ------------------------------------------------------------------------------------- storeId
 
     public Long getStoreId() {
         return storeId;
@@ -102,7 +105,7 @@ public class BetterEmploymentId {
         this.storeId = storeId;
     }
 
-    // --------------------------------------------------------------------------------------------------------- staffId
+    // ------------------------------------------------------------------------------------- staffId
 
     public Long getStaffId() {
         return staffId;
@@ -112,15 +115,19 @@ public class BetterEmploymentId {
         this.staffId = staffId;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // no @NotNull: BetterEmployment derives this, through @MapsId, from BetterEmployment.store, which carries the
+    // ---------------------------------------------------------------------------------------------
+    // no @NotNull: BetterEmployment derives this, through @MapsId, from BetterEmployment.store,
+    // which carries the
     // constraint; EclipseLink validates before it derives it
     @Basic(optional = false)
-    @Column(name = BetterEmployment.COLUMN_NAME_STORE_ID, nullable = false, insertable = true, updatable = false)
+    @Column(name = BetterEmployment.COLUMN_NAME_STORE_ID, nullable = false, insertable = true,
+            updatable = false)
     private Long storeId;
 
-    // no @NotNull: BetterEmployment derives this, through @MapsId, from BetterEmployment.staff, as above
+    // no @NotNull: BetterEmployment derives this, through @MapsId, from BetterEmployment.staff,
+    // as above
     @Basic(optional = false)
-    @Column(name = BetterEmployment.COLUMN_NAME_STAFF_ID, nullable = false, insertable = true, updatable = false)
+    @Column(name = BetterEmployment.COLUMN_NAME_STAFF_ID, nullable = false, insertable = true,
+            updatable = false)
     private Long staffId;
 }

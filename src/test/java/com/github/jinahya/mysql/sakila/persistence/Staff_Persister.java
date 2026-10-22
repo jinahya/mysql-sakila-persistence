@@ -29,9 +29,10 @@ import java.util.Optional;
 /**
  * A persister which persists {@link Staff} instances.
  * <p>
- * Each instance is given a newly persisted {@link Address}, and the first {@link Store} of the database. A store cannot
- * be persisted without a manager who already works at a store -- see {@link Store} -- and {@code store_id} is a
- * {@code TINYINT UNSIGNED} besides, so an existing one is what a staff member can be given.
+ * Each instance is given a newly persisted {@link Address}, and the first {@link Store} of the
+ * database. A store cannot be persisted without a manager who already works at a store -- see
+ * {@link Store} -- and {@code store_id} is a {@code TINYINT UNSIGNED} besides, so an existing one
+ * is what a staff member can be given.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -42,14 +43,14 @@ class Staff_Persister
         super(Staff.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * Selects the {@link Staff} with the smallest {@code staffId} in the database.
      *
      * @param entityManager the entity manager to select with.
-     * @return the {@code Staff} with the smallest {@code staffId}; {@link Optional#empty() empty} when the database
-     *         holds none, as the generated, in-memory one does.
+     * @return the {@code Staff} with the smallest {@code staffId}; {@link Optional#empty() empty}
+     *         when the database holds none, as the generated, in-memory one does.
      */
     static Optional<Staff> selectFirst(final EntityManager entityManager) {
         return entityManager
@@ -59,12 +60,14 @@ class Staff_Persister
                 .findFirst();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Staff apply(final EntityManager entityManager, final Staff entityInstance) {
-        entityInstance.setAddress(EntityPersisterUtils.newPersistedInstanceOf(entityManager, Address.class));
+        entityInstance.setAddress(
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, Address.class));
         entityInstance.setStore(Store_Persister.selectFirst(entityManager).orElseThrow(
-                () -> new IllegalStateException("no store in the database; see Store_Persister#selectFirst")));
+                () -> new IllegalStateException(
+                        "no store in the database; see Store_Persister#selectFirst")));
         return super.apply(entityManager, entityInstance);
     }
 }

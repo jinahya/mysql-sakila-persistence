@@ -35,13 +35,13 @@ class Actor_Test
         super(Actor.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Actor#equals(Object) equals} compares only the {@code @Id}, because every other
-     *         attribute is mutable state.
+     * @implNote {@link Actor#equals(Object) equals} compares only the {@code @Id}, because
+     *         every other attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Actor> equalsVerifier() {

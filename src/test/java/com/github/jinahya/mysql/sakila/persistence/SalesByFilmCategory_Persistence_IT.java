@@ -26,7 +26,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Verifies the mappings of {@link SalesByFilmCategory} against the installed {@code sakila} database.
+ * Verifies the mappings of {@link SalesByFilmCategory} against the installed {@code sakila}
+ * database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -37,11 +38,11 @@ class SalesByFilmCategory_Persistence_IT
         super(SalesByFilmCategory.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, which MySQL does not let a row be inserted
-     * into.
+     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, which MySQL does not let a
+     * row be inserted into.
      */
     @Disabled("a view: nothing is inserted into it")
     @Override
@@ -50,7 +51,7 @@ class SalesByFilmCategory_Persistence_IT
         // empty
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}

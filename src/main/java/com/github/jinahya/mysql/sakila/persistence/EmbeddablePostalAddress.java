@@ -33,9 +33,10 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- * An embeddable for mapping the {@value Address#COLUMN_NAME_ADDRESS} column, the {@value Address#COLUMN_NAME_ADDRESS2}
- * column, the {@value Address#COLUMN_NAME_DISTRICT} column, the {@value Address#COLUMN_NAME_CITY_ID} column, and the
- * {@value Address#COLUMN_NAME_POSTAL_CODE} column, of the {@value Address#TABLE_NAME} table.
+ * An embeddable for mapping the {@value Address#COLUMN_NAME_ADDRESS} column, the
+ * {@value Address#COLUMN_NAME_ADDRESS2} column, the {@value Address#COLUMN_NAME_DISTRICT} column,
+ * the {@value Address#COLUMN_NAME_CITY_ID} column, and the {@value Address#COLUMN_NAME_POSTAL_CODE}
+ * column, of the {@value Address#TABLE_NAME} table.
  * <p>
  * {@snippet lang = "sql":
  * address VARCHAR(50) NOT NULL,
@@ -45,12 +46,12 @@ import java.util.Objects;
  * postal_code VARCHAR(10) DEFAULT NULL,
  *}
  * <p>
- * The {@value #ATTRIBUTE_NAME_CITY} attribute is an association; an embeddable may hold one, and its owner is the
- * embedding entity. The {@value Address#COLUMN_NAME_PHONE} column and the {@value Address#COLUMN_NAME_LOCATION} column
- * are not parts of a postal address, and stay out.
+ * The {@value #ATTRIBUTE_NAME_CITY} attribute is an association; an embeddable may hold one, and
+ * its owner is the embedding entity. The {@value Address#COLUMN_NAME_PHONE} column and the
+ * {@value Address#COLUMN_NAME_LOCATION} column are not parts of a postal address, and stay out.
  * <p>
- * This is a class, not a record, for a part is corrected on its own; fixing the {@value #ATTRIBUTE_NAME_POSTAL_CODE}
- * leaves the street lines as they are.
+ * This is a class, not a record, for a part is corrected on its own; fixing the
+ * {@value #ATTRIBUTE_NAME_POSTAL_CODE} leaves the street lines as they are.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -58,31 +59,36 @@ import java.util.Objects;
 public class EmbeddablePostalAddress {
 
     /**
-     * The name of the attribute which maps the {@value Address#COLUMN_NAME_ADDRESS} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Address#COLUMN_NAME_ADDRESS} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS = "address";
 
     /**
-     * The name of the attribute which maps the {@value Address#COLUMN_NAME_ADDRESS2} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Address#COLUMN_NAME_ADDRESS2} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS2 = "address2";
 
     /**
-     * The name of the attribute which maps the {@value Address#COLUMN_NAME_DISTRICT} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Address#COLUMN_NAME_DISTRICT} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_DISTRICT = "district";
 
     /**
-     * The name of the attribute which maps the {@value Address#COLUMN_NAME_CITY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Address#COLUMN_NAME_CITY_ID} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_CITY = "city";
 
     /**
-     * The name of the attribute which maps the {@value Address#COLUMN_NAME_POSTAL_CODE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Address#COLUMN_NAME_POSTAL_CODE} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_POSTAL_CODE = "postalCode";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -91,7 +97,7 @@ public class EmbeddablePostalAddress {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -108,8 +114,9 @@ public class EmbeddablePostalAddress {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by all the basic attributes and by the {@value #ATTRIBUTE_NAME_CITY}, which
-     *         compares by its own {@link City#equals(Object) equals}.
+     * @implSpec Equality is by all the basic attributes and by the
+     *         {@value #ATTRIBUTE_NAME_CITY}, which compares by its own
+     *         {@link City#equals(Object) equals}.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -134,7 +141,7 @@ public class EmbeddablePostalAddress {
         return Objects.hash(address, address2, district, city, postalCode);
     }
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
@@ -146,7 +153,8 @@ public class EmbeddablePostalAddress {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified
+     * value.
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
@@ -154,7 +162,7 @@ public class EmbeddablePostalAddress {
         this.address = address;
     }
 
-    // -------------------------------------------------------------------------------------------------------- address2
+    // ------------------------------------------------------------------------------------ address2
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
@@ -166,7 +174,8 @@ public class EmbeddablePostalAddress {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute with the specified
+     * value.
      *
      * @param address2 new value for {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
@@ -174,7 +183,7 @@ public class EmbeddablePostalAddress {
         this.address2 = address2;
     }
 
-    // -------------------------------------------------------------------------------------------------------- district
+    // ------------------------------------------------------------------------------------ district
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
@@ -186,7 +195,8 @@ public class EmbeddablePostalAddress {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute with the specified
+     * value.
      *
      * @param district new value for {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
      */
@@ -194,7 +204,7 @@ public class EmbeddablePostalAddress {
         this.district = district;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ city
+    // ---------------------------------------------------------------------------------------- city
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
@@ -214,7 +224,7 @@ public class EmbeddablePostalAddress {
         this.city = city;
     }
 
-    // ------------------------------------------------------------------------------------------------------ postalCode
+    // ---------------------------------------------------------------------------------- postalCode
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
@@ -226,7 +236,8 @@ public class EmbeddablePostalAddress {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute with the specified
+     * value.
      *
      * @param postalCode new value for {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
@@ -234,41 +245,41 @@ public class EmbeddablePostalAddress {
         this.postalCode = postalCode;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = Address.SIZE_MAX_ADDRESS)
     @Basic(optional = false)
-    @Column(name = Address.COLUMN_NAME_ADDRESS, nullable = false, insertable = true, updatable = true,
-            length = Address.COLUMN_LENGTH_ADDRESS)
+    @Column(name = Address.COLUMN_NAME_ADDRESS, nullable = false, insertable = true,
+            updatable = true, length = Address.COLUMN_LENGTH_ADDRESS)
     private String address;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = Address.SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
-    @Column(name = Address.COLUMN_NAME_ADDRESS2, nullable = true, insertable = true, updatable = true,
-            length = Address.COLUMN_LENGTH_ADDRESS2)
+    @Column(name = Address.COLUMN_NAME_ADDRESS2, nullable = true, insertable = true,
+            updatable = true, length = Address.COLUMN_LENGTH_ADDRESS2)
     private String address2;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = Address.SIZE_MAX_DISTRICT)
     @Basic(optional = false)
-    @Column(name = Address.COLUMN_NAME_DISTRICT, nullable = false, insertable = true, updatable = true,
-            length = Address.COLUMN_LENGTH_DISTRICT)
+    @Column(name = Address.COLUMN_NAME_DISTRICT, nullable = false, insertable = true,
+            updatable = true, length = Address.COLUMN_LENGTH_DISTRICT)
     private String district;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = Address.COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID, nullable = false,
-                insertable = true, updatable = true)
+    @JoinColumn(name = Address.COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID,
+                nullable = false, insertable = true, updatable = true)
     private City city;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = Address.SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
-    @Column(name = Address.COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true, updatable = true,
-            length = Address.COLUMN_LENGTH_POSTAL_CODE)
+    @Column(name = Address.COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true,
+            updatable = true, length = Address.COLUMN_LENGTH_POSTAL_CODE)
     private String postalCode;
 }

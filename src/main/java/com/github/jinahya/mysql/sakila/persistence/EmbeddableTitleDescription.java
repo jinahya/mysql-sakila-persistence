@@ -29,8 +29,9 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- * An embeddable for mapping the {@value #COLUMN_NAME_TITLE} column and the {@value #COLUMN_NAME_DESCRIPTION} column,
- * which the {@value Film#TABLE_NAME} table and the {@value FilmText#TABLE_NAME} table both declare.
+ * An embeddable for mapping the {@value #COLUMN_NAME_TITLE} column and the
+ * {@value #COLUMN_NAME_DESCRIPTION} column, which the {@value Film#TABLE_NAME} table and the
+ * {@value FilmText#TABLE_NAME} table both declare.
  * <p>
  * {@snippet lang = "sql":
  * -- film
@@ -41,10 +42,11 @@ import java.util.Objects;
  * description TEXT,
  *}
  * <p>
- * The lengths of the {@value #COLUMN_NAME_TITLE} column differ. The mapping here takes the {@value FilmText#TABLE_NAME}
- * table's {@value #COLUMN_LENGTH_TITLE}, and an embedding {@link Film} would override it with an
- * {@link jakarta.persistence.AttributeOverride @AttributeOverride}. The override reaches the column only; the
- * {@link Size @Size} here stays at {@value #SIZE_MAX_TITLE}, so the shorter limit has to be checked elsewhere.
+ * The lengths of the {@value #COLUMN_NAME_TITLE} column differ. The mapping here takes the
+ * {@value FilmText#TABLE_NAME} table's {@value #COLUMN_LENGTH_TITLE}, and an embedding {@link Film}
+ * would override it with an {@link jakarta.persistence.AttributeOverride @AttributeOverride}. The
+ * override reaches the column only; the {@link Size @Size} here stays at {@value #SIZE_MAX_TITLE},
+ * so the shorter limit has to be checked elsewhere.
  * <p>
  * This is a class, not a record, for either part is edited on its own.
  *
@@ -53,21 +55,23 @@ import java.util.Objects;
 @Embeddable
 public class EmbeddableTitleDescription {
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_TITLE = "title";
 
     /**
-     * The length of the {@value #COLUMN_NAME_TITLE} column, as the {@value FilmText#TABLE_NAME} table declares. The
-     * value is {@value}.
+     * The length of the {@value #COLUMN_NAME_TITLE} column, as the {@value FilmText#TABLE_NAME}
+     * table declares. The value is {@value}.
      */
     public static final int COLUMN_LENGTH_TITLE = FilmText.COLUMN_LENGTH_TITLE;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_TITLE = "title";
 
@@ -76,20 +80,21 @@ public class EmbeddableTitleDescription {
      */
     public static final int SIZE_MAX_TITLE = COLUMN_LENGTH_TITLE;
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_DESCRIPTION = "description";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_DESCRIPTION = "description";
 
-    // ------------------------------------------------------------------------------------------ STATIC_FACTORY_METHODS
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
 
     /**
      * Returns a new instance of the specified values.
@@ -105,7 +110,7 @@ public class EmbeddableTitleDescription {
         return instance;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -114,7 +119,7 @@ public class EmbeddableTitleDescription {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -129,7 +134,8 @@ public class EmbeddableTitleDescription {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_TITLE} and {@value #ATTRIBUTE_NAME_DESCRIPTION}.
+     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_TITLE} and
+     *         {@value #ATTRIBUTE_NAME_DESCRIPTION}.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -144,15 +150,15 @@ public class EmbeddableTitleDescription {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_TITLE} and {@value #ATTRIBUTE_NAME_DESCRIPTION},
-     *         consistent with {@link #equals(Object)}.
+     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_TITLE} and
+     *         {@value #ATTRIBUTE_NAME_DESCRIPTION}, consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Objects.hash(title, description);
     }
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
@@ -172,7 +178,7 @@ public class EmbeddableTitleDescription {
         this.title = title;
     }
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
@@ -184,7 +190,8 @@ public class EmbeddableTitleDescription {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute with the specified
+     * value.
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
@@ -192,7 +199,7 @@ public class EmbeddableTitleDescription {
         this.description = description;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -200,7 +207,7 @@ public class EmbeddableTitleDescription {
             length = COLUMN_LENGTH_TITLE)
     private String title;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;

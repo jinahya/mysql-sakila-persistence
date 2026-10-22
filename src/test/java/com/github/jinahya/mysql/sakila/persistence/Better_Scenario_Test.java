@@ -53,12 +53,14 @@ class Better_Scenario_Test {
             // add the staff to store1
             store1.addStaff(staff);
             assertThat(staff.getEmployment().getStore()).isSameAs(store1);
-            assertThat(store1.getEmployments()).extracting(BetterEmployment::getStaff).containsExactly(staff);
+            assertThat(store1.getEmployments()).extracting(BetterEmployment::getStaff)
+                    .containsExactly(staff);
             // and then to store2
             store2.addStaff(staff);
             assertThat(staff.getEmployment().getStore()).isSameAs(store2);
             assertThat(store1.getEmployments()).isEmpty();
-            assertThat(store2.getEmployments()).extracting(BetterEmployment::getStaff).containsExactly(staff);
+            assertThat(store2.getEmployments()).extracting(BetterEmployment::getStaff)
+                    .containsExactly(staff);
         }
     }
 

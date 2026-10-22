@@ -33,8 +33,8 @@ import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * An abstract base class for testing a value class -- an id class, an embeddable, a mapped JSON document -- which has
- * no identity of its own, and so no persistence test either.
+ * An abstract base class for testing a value class -- an id class, an embeddable, a mapped JSON
+ * document -- which has no identity of its own, and so no persistence test either.
  * <p>
  * Its checks are the ones a class has to pass on its own: a usable {@code toString()}, an
  * {@code equals}/{@code hashCode} pair, and property accessors which round-trip.
@@ -58,7 +58,7 @@ abstract class _NonEntity_Test<T> {
         this.targetClass = Objects.requireNonNull(targetClass, "targetClass is null");
     }
 
-    // -------------------------------------------------------------------------------------------------------- toString
+    // ------------------------------------------------------------------------------------ toString
 
     /**
      * Verifies that {@code toString()} of a new instance of {@link #targetClass} is not blank.
@@ -71,14 +71,15 @@ abstract class _NonEntity_Test<T> {
     }
 
     /**
-     * Verifies that {@code toString()} of a new randomized instance of {@link #targetClass} is not blank.
+     * Verifies that {@code toString()} of a new randomized instance of {@link #targetClass} is not
+     * blank.
      */
     @Test
     void toString_NotBlank_NewRandomizedInstance() {
         assertThat(newRandomizedTargetInstance().toString()).isNotBlank();
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * Returns an equals-verifier for {@link #targetClass}, which subclasses may further configure.
@@ -90,8 +91,8 @@ abstract class _NonEntity_Test<T> {
     }
 
     /**
-     * Verifies the {@code equals}/{@code hashCode} contract of {@link #targetClass}, using the verifier which
-     * {@link #equals_verifier_()} returns.
+     * Verifies the {@code equals}/{@code hashCode} contract of {@link #targetClass}, using the
+     * verifier which {@link #equals_verifier_()} returns.
      */
     @Test
     void equals_verify_() {
@@ -99,11 +100,11 @@ abstract class _NonEntity_Test<T> {
         verifier.verify();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Verifies that every non-{@link Transient @Transient} read/write property of {@link #targetClass} accepts what its
-     * own reader returns.
+     * Verifies that every non-{@link Transient @Transient} read/write property of
+     * {@link #targetClass} accepts what its own reader returns.
      *
      * @throws IntrospectionException when {@link #targetClass} cannot be introspected.
      * @see __Object_TestUtils#assertPropertyAccessorsDoNotThrow(Class, Object)
@@ -113,7 +114,7 @@ abstract class _NonEntity_Test<T> {
         __Object_TestUtils.assertPropertyAccessorsDoNotThrow(targetClass, newTargetInstance());
     }
 
-    // ----------------------------------------------------------------------------------------------------- targetClass
+    // --------------------------------------------------------------------------------- targetClass
 
     /**
      * Returns a new, uninitialized instance of {@link #targetClass}.
@@ -135,7 +136,7 @@ abstract class _NonEntity_Test<T> {
                 .orElseThrow(() -> new IllegalStateException("no randomizer for " + targetClass));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * The class which this test targets.

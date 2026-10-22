@@ -26,8 +26,8 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link FilmText} instances.
  * <p>
- * Each instance is given a {@code filmId} one greater than the greatest one any row holds, so that it collides with
- * none.
+ * Each instance is given a {@code filmId} one greater than the greatest one any row holds, so that
+ * it collides with none.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -38,10 +38,11 @@ class FilmText_Persister
         super(FilmText.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public FilmText apply(final EntityManager entityManager, final FilmText entityInstance) {
-        final var max = entityManager.createNamedQuery("FilmText.selectMaxFilmId", Integer.class).getSingleResult();
+        final var max = entityManager.createNamedQuery("FilmText.selectMaxFilmId", Integer.class)
+                .getSingleResult();
         entityInstance.setFilmId(max == null ? 1 : max + 1);
         return super.apply(entityManager, entityInstance);
     }

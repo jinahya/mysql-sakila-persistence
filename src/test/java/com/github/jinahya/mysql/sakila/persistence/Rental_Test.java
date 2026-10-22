@@ -35,14 +35,14 @@ class Rental_Test
         super(Rental.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Rental#equals(Object) equals} compares only the {@code @Id}, because the
-     *         {@value Rental#ATTRIBUTE_NAME_RENTAL_DATE} of the table's unique key is set by a trigger, and every other
-     *         attribute is mutable state.
+     * @implNote {@link Rental#equals(Object) equals} compares only the {@code @Id}, because
+     *         the {@value Rental#ATTRIBUTE_NAME_RENTAL_DATE} of the table's unique key is set by a
+     *         trigger, and every other attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Rental> equalsVerifier() {

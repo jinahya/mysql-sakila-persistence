@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link City} instances.
  * <p>
- * The {@code cityId}, which the database generates, the {@code lastUpdate}, which the database fills, and the
- * {@code country} and {@code addresses} associations are excluded from randomization; {@link City_Persister} supplies
- * the {@code country}.
+ * The {@code cityId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and the {@code country} and {@code addresses} associations are excluded from
+ * randomization; {@link City_Persister} supplies the {@code country}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -48,7 +48,7 @@ class City_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

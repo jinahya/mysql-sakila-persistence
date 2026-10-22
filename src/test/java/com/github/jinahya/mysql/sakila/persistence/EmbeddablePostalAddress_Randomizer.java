@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link EmbeddablePostalAddress} instances.
  * <p>
- * The {@code city} association is excluded from randomization; a persister gives it an existing, or a newly persisted,
- * city.
+ * The {@code city} association is excluded from randomization; a persister gives it an existing, or
+ * a newly persisted, city.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -44,7 +44,7 @@ class EmbeddablePostalAddress_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

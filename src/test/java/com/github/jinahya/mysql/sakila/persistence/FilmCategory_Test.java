@@ -41,7 +41,7 @@ class FilmCategory_Test
         super(FilmCategory.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * Tests {@link FilmCategory#of(Film, Category)}.
@@ -52,10 +52,11 @@ class FilmCategory_Test
 
         /**
          * Verifies that {@link FilmCategory#of(Film, Category) of} returns an instance whose
-         * {@value FilmCategory#ATTRIBUTE_NAME_FILM} and {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} are the very
-         * instances it was given, and whose {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} is the identifier of the film;
-         * the read-only {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is left {@code null}, to be read from the
-         * database.
+         * {@value FilmCategory#ATTRIBUTE_NAME_FILM} and
+         * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} are the very instances it was given, and
+         * whose {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} is the identifier of the film; the
+         * read-only {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is left {@code null}, to be
+         * read from the database.
          */
         @Test
         void __() {
@@ -72,21 +73,22 @@ class FilmCategory_Test
         }
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link FilmCategory#equals(Object) equals} compares only the two values of the composite key,
-     *         the {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and the
-     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}; the latter is not an {@code @Id} attribute but the
-     *         read-only mirror of the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}, the {@code @Id} association, so
-     *         the key is a mix of {@code @Id} and non-{@code @Id} fields.
+     * @implNote {@link FilmCategory#equals(Object) equals} compares only the two values of
+     *         the composite key, the {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and the
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}; the latter is not an {@code @Id}
+     *         attribute but the read-only mirror of the
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}, the {@code @Id} association, so the
+     *         key is a mix of {@code @Id} and non-{@code @Id} fields.
      *         <p>
-     *         The {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is declared non-null to the verifier, though it is
-     *         {@code null} until the instance is read from the database: an instance without the whole key equals
-     *         nothing but itself, so a {@code null} there hides the field from the verifier's check of which fields
-     *         equality uses.
+     *         The {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is declared non-null to the
+     *         verifier, though it is {@code null} until the instance is read from the database: an
+     *         instance without the whole key equals nothing but itself, so a {@code null} there
+     *         hides the field from the verifier's check of which fields equality uses.
      */
     @Override
     public SingleTypeEqualsVerifierApi<FilmCategory> equalsVerifier() {

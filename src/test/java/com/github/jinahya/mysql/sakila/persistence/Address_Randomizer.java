@@ -31,10 +31,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link Address} instances.
  * <p>
- * The {@code addressId}, which the database generates, the {@code lastUpdate}, which the database fills, the
- * {@code city} association, and the {@code location} are excluded from randomization; {@link Address_Persister}
- * supplies the {@code city}, and {@link #get()} sets the {@code location} with a point, for MySQL rejects bytes which
- * are not a geometry.
+ * The {@code addressId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, the {@code city} association, and the {@code location} are excluded from randomization;
+ * {@link Address_Persister} supplies the {@code city}, and {@link #get()} sets the {@code location}
+ * with a point, for MySQL rejects bytes which are not a geometry.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -50,7 +50,7 @@ class Address_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

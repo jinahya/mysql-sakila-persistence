@@ -29,8 +29,9 @@ import java.util.Optional;
 /**
  * A persister which persists {@link Store} instances.
  * <p>
- * Each instance is given a newly persisted {@link Address}, and a newly persisted {@link Staff} as its manager, who
- * works at the first store of the database; the manager has to be a new one, for {@code manager_staff_id} is unique.
+ * Each instance is given a newly persisted {@link Address}, and a newly persisted {@link Staff} as
+ * its manager, who works at the first store of the database; the manager has to be a new one, for
+ * {@code manager_staff_id} is unique.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -41,14 +42,14 @@ class Store_Persister
         super(Store.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * Selects the {@link Store} with the smallest {@code storeId} in the database.
      *
      * @param entityManager the entity manager to select with.
-     * @return the {@code Store} with the smallest {@code storeId}; {@link Optional#empty() empty} when the database
-     *         holds none, as the generated, in-memory one does.
+     * @return the {@code Store} with the smallest {@code storeId}; {@link Optional#empty() empty}
+     *         when the database holds none, as the generated, in-memory one does.
      */
     static Optional<Store> selectFirst(final EntityManager entityManager) {
         return entityManager
@@ -58,11 +59,13 @@ class Store_Persister
                 .findFirst();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Store apply(final EntityManager entityManager, final Store entityInstance) {
-        entityInstance.setAddress(EntityPersisterUtils.newPersistedInstanceOf(entityManager, Address.class));
-        entityInstance.setManagerStaff(EntityPersisterUtils.newPersistedInstanceOf(entityManager, Staff.class));
+        entityInstance.setAddress(
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, Address.class));
+        entityInstance.setManagerStaff(
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, Staff.class));
         return super.apply(entityManager, entityInstance);
     }
 }

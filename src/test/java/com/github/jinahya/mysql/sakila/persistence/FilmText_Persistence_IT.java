@@ -37,11 +37,11 @@ class FilmText_Persistence_IT
         super(FilmText.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete every row of
-     * {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
+     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete
+     * every row of {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
      */
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
@@ -50,14 +50,14 @@ class FilmText_Persistence_IT
         // empty
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The title is there, and the film, a lazy association, resolves to the one of the same
-     *         {@code filmId}, with the same title.
+     * @implNote The title is there, and the film, a lazy association, resolves to the one
+     *         of the same {@code filmId}, with the same title.
      */
     @Override
     void randomTargetInstanceSelected(final FilmText instance) {

@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link Category} instances.
  * <p>
- * The {@code categoryId}, which the database generates, the {@code lastUpdate}, which the database fills, and the
- * {@code filmCategories} association are excluded from randomization.
+ * The {@code categoryId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and the {@code filmCategories} association are excluded from randomization.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -46,7 +46,7 @@ class Category_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

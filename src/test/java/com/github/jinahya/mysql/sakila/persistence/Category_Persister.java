@@ -37,7 +37,7 @@ class Category_Persister
         super(Category.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Category apply(final EntityManager entityManager, final Category entityInstance) {
         return super.apply(entityManager, entityInstance);

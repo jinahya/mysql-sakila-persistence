@@ -37,8 +37,9 @@ import java.util.Objects;
  * return_date DATETIME DEFAULT NULL,
  *}
  * <p>
- * This is a class, not a record, for a rental starts with the {@value #ATTRIBUTE_NAME_RENTAL_DATE} alone, and the
- * {@value #ATTRIBUTE_NAME_RETURN_DATE} is set later, on its own, when the item comes back.
+ * This is a class, not a record, for a rental starts with the {@value #ATTRIBUTE_NAME_RENTAL_DATE}
+ * alone, and the {@value #ATTRIBUTE_NAME_RETURN_DATE} is set later, on its own, when the item comes
+ * back.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -46,16 +47,18 @@ import java.util.Objects;
 public class EmbeddableRentalPeriod {
 
     /**
-     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RENTAL_DATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RENTAL_DATE} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_DATE = "rentalDate";
 
     /**
-     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RETURN_DATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RETURN_DATE} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RETURN_DATE = "returnDate";
 
-    // ------------------------------------------------------------------------------------------ STATIC_FACTORY_METHODS
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
 
     /**
      * Returns a new instance of the specified rental date, with no return date.
@@ -69,7 +72,7 @@ public class EmbeddableRentalPeriod {
         return instance;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -78,7 +81,7 @@ public class EmbeddableRentalPeriod {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -117,7 +120,7 @@ public class EmbeddableRentalPeriod {
         return Objects.hash(rentalDate, returnDate);
     }
 
-    // ------------------------------------------------------------------------------------------------------ rentalDate
+    // ---------------------------------------------------------------------------------- rentalDate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
@@ -129,7 +132,8 @@ public class EmbeddableRentalPeriod {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute with the specified
+     * value.
      *
      * @param rentalDate new value for {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
      */
@@ -137,19 +141,21 @@ public class EmbeddableRentalPeriod {
         this.rentalDate = rentalDate;
     }
 
-    // ------------------------------------------------------------------------------------------------------ returnDate
+    // ---------------------------------------------------------------------------------- returnDate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while the item is out.
+     * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while
+     *         the item is out.
      */
     public LocalDateTime getReturnDate() {
         return returnDate;
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute with the specified
+     * value.
      *
      * @param returnDate new value for {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      */
@@ -157,14 +163,16 @@ public class EmbeddableRentalPeriod {
         this.returnDate = returnDate;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Basic(optional = false)
-    @Column(name = Rental.COLUMN_NAME_RENTAL_DATE, nullable = false, insertable = true, updatable = true)
+    @Column(name = Rental.COLUMN_NAME_RENTAL_DATE, nullable = false, insertable = true,
+            updatable = true)
     private LocalDateTime rentalDate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
-    @Column(name = Rental.COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
+    @Column(name = Rental.COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true,
+            updatable = true)
     private LocalDateTime returnDate;
 }

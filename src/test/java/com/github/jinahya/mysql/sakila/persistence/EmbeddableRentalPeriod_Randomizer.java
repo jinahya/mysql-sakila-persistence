@@ -33,8 +33,9 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link EmbeddableRentalPeriod} instances.
  * <p>
- * Both dates are excluded from randomization and set by {@link #get()}: the rental date to now, and the return date to
- * either {@code null}, for a copy not returned yet, or a few days after the rental date.
+ * Both dates are excluded from randomization and set by {@link #get()}: the rental date to now, and
+ * the return date to either {@code null}, for a copy not returned yet, or a few days after the
+ * rental date.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -48,7 +49,7 @@ class EmbeddableRentalPeriod_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();
@@ -70,7 +71,8 @@ class EmbeddableRentalPeriod_Randomizer
         final var random = ThreadLocalRandom.current();
         final var rentalDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         instance.setRentalDate(rentalDate);
-        instance.setReturnDate(random.nextBoolean() ? null : rentalDate.plusDays(random.nextLong(1L, 10L)));
+        instance.setReturnDate(
+                random.nextBoolean() ? null : rentalDate.plusDays(random.nextLong(1L, 10L)));
         return instance;
     }
 }

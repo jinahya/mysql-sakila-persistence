@@ -32,8 +32,8 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link EmbeddableRentalTerms} instances.
  * <p>
- * Nothing is excluded from randomization; {@link #get()} then puts every value within the range, and at the scale, its
- * column allows, as {@link Film_Randomizer} does for the same columns.
+ * Nothing is excluded from randomization; {@link #get()} then puts every value within the range,
+ * and at the scale, its column allows, as {@link Film_Randomizer} does for the same columns.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -46,7 +46,7 @@ class EmbeddableRentalTerms_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();
@@ -67,8 +67,10 @@ class EmbeddableRentalTerms_Randomizer
         final var instance = super.get();
         final var random = ThreadLocalRandom.current();
         instance.setRentalDuration(
-                random.nextInt(Film.ATTRIBUTE_MIN_RENTAL_DURATION, Film.ATTRIBUTE_MAX_RENTAL_DURATION + 1));
-        instance.setRentalRate(BigDecimal.valueOf(random.nextInt(0, 10000), Film.COLUMN_SCALE_RENTAL_RATE));
+                random.nextInt(Film.ATTRIBUTE_MIN_RENTAL_DURATION,
+                               Film.ATTRIBUTE_MAX_RENTAL_DURATION + 1));
+        instance.setRentalRate(
+                BigDecimal.valueOf(random.nextInt(0, 10000), Film.COLUMN_SCALE_RENTAL_RATE));
         instance.setReplacementCost(
                 BigDecimal.valueOf(random.nextInt(0, 100000), Film.COLUMN_SCALE_REPLACEMENT_COST));
         return instance;

@@ -37,7 +37,7 @@ class BetterStaff_Persister
         super(BetterStaff.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public BetterStaff apply(final EntityManager entityManager, final BetterStaff entityInstance) {
         return super.apply(entityManager, entityInstance);

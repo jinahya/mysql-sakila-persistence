@@ -24,7 +24,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Verifies the mappings of {@link SalesByFilmCategory} against the schema generated into the in-memory database.
+ * Verifies the mappings of {@link SalesByFilmCategory} against the schema generated into the
+ * in-memory database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -35,12 +36,12 @@ class SalesByFilmCategory_Persistence_Test
         super(SalesByFilmCategory.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to insert a randomized
-     * instance into. The provider generates a table for it into the in-memory database, which would make this pass for
-     * the wrong reason, and the real object is read-only.
+     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
+     * insert a randomized instance into. The provider generates a table for it into the in-memory
+     * database, which would make this pass for the wrong reason, and the real object is read-only.
      */
     @Disabled("a view: nothing is inserted into it")
     @Override
@@ -50,7 +51,8 @@ class SalesByFilmCategory_Persistence_Test
     }
 
     /**
-     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to persist.
+     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
+     * persist.
      */
     @Override
     void _persist_EqualsReference() {
@@ -58,7 +60,8 @@ class SalesByFilmCategory_Persistence_Test
     }
 
     /**
-     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to persist.
+     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
+     * persist.
      */
     @Override
     void _persist_ReferenceEquals() {
@@ -66,7 +69,8 @@ class SalesByFilmCategory_Persistence_Test
     }
 
     /**
-     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to persist.
+     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
+     * persist.
      */
     @Override
     void _persist_HashSetMembership() {

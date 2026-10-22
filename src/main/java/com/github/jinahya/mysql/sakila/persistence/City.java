@@ -56,7 +56,8 @@ import java.util.List;
  *}
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-city.html">The city Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-city.html">The city
+ *         Table</a>
  */
 @NamedQuery(name = "City.selectOneByCityId",
             query = """
@@ -104,23 +105,25 @@ public class City {
      */
     public static final String TABLE_NAME = "city";
 
-    // --------------------------------------------------------------------------------------------------------- city_id
+    // ------------------------------------------------------------------------------------- city_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CITY_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CITY_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_CITY_ID = "city_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_CITY_ID = "cityId";
 
-    // ------------------------------------------------------------------------------------------------------------ city
+    // ---------------------------------------------------------------------------------------- city
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_CITY = "city";
 
@@ -130,7 +133,8 @@ public class City {
     public static final int COLUMN_LENGTH_CITY = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_CITY = "city";
 
@@ -139,42 +143,45 @@ public class City {
      */
     public static final int SIZE_MAX_CITY = COLUMN_LENGTH_CITY;
 
-    // ------------------------------------------------------------------------------------------------------ country_id
+    // ---------------------------------------------------------------------------------- country_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_COUNTRY_ID = "country_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_COUNTRY = "country";
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ------------------------------------------------------------------------------------------------------- addresses
+    // ----------------------------------------------------------------------------------- addresses
 
     /**
-     * The name of the attribute which maps the {@link Address addresses} of this city. The value is {@value}.
+     * The name of the attribute which maps the {@link Address addresses} of this city. The value is
+     * {@value}.
      *
      * @see Address#ATTRIBUTE_NAME_CITY
      */
     public static final String ATTRIBUTE_NAME_ADDRESSES = "addresses";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -183,7 +190,7 @@ public class City {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -200,8 +207,8 @@ public class City {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -219,27 +226,28 @@ public class City {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return City.class.hashCode();
     }
 
-    // ---------------------------------------------------------------------------------------------------------- cityId
+    // -------------------------------------------------------------------------------------- cityId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CITY_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_CITY_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_CITY_ID} attribute; {@code null} until the
+     *         instance is persisted.
      */
     public Integer getCityId() {
         return cityId;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ city
+    // ---------------------------------------------------------------------------------------- city
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
@@ -259,7 +267,7 @@ public class City {
         this.city = city;
     }
 
-    // --------------------------------------------------------------------------------------------------------- country
+    // ------------------------------------------------------------------------------------- country
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
@@ -271,7 +279,8 @@ public class City {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute with the specified
+     * value.
      *
      * @param country new value for {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
      */
@@ -279,19 +288,19 @@ public class City {
         this.country = country;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // ------------------------------------------------------------------------------------------------------- addresses
+    // ----------------------------------------------------------------------------------- addresses
     List<Address> getAddresses() {
         return addresses;
     }
@@ -300,35 +309,37 @@ public class City {
         this.addresses = addresses;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_CITY_ID, nullable = false, insertable = true, updatable = false)
     private Integer cityId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_CITY)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_CITY, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_CITY)
+    @Column(name = COLUMN_NAME_CITY, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_CITY)
     private String city;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_COUNTRY_ID, referencedColumnName = Country.COLUMN_NAME_COUNTRY_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_COUNTRY_ID,
+                referencedColumnName = Country.COLUMN_NAME_COUNTRY_ID, nullable = false,
                 insertable = true, updatable = true)
     private Country country;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = Address.ATTRIBUTE_NAME_CITY, fetch = FetchType.LAZY)
     private List<@Valid @NotNull Address> addresses;
 }

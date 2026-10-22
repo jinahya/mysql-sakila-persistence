@@ -41,7 +41,7 @@ class FilmActor_Test
         super(FilmActor.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * Tests {@link FilmActor#of(Actor, Film)}.
@@ -52,8 +52,8 @@ class FilmActor_Test
 
         /**
          * Verifies that {@link FilmActor#of(Actor, Film) of} returns an instance whose
-         * {@value FilmActor#ATTRIBUTE_NAME_ACTOR} and {@value FilmActor#ATTRIBUTE_NAME_FILM} are the very instances it
-         * was given.
+         * {@value FilmActor#ATTRIBUTE_NAME_ACTOR} and {@value FilmActor#ATTRIBUTE_NAME_FILM} are
+         * the very instances it was given.
          */
         @Test
         void __() {
@@ -67,14 +67,14 @@ class FilmActor_Test
         }
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link FilmActor#equals(Object) equals} compares only the {@code @EmbeddedId}, the composite
-     *         key, because every other attribute is mutable state; hence the {@link Warning#SURROGATE_KEY} is
-     *         suppressed.
+     * @implNote {@link FilmActor#equals(Object) equals} compares only the
+     *         {@code @EmbeddedId}, the composite key, because every other attribute is mutable
+     *         state; hence the {@link Warning#SURROGATE_KEY} is suppressed.
      */
     @Override
     public SingleTypeEqualsVerifierApi<FilmActor> equalsVerifier() {

@@ -37,7 +37,7 @@ class BetterStore_Persister
         super(BetterStore.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public BetterStore apply(final EntityManager entityManager, final BetterStore entityInstance) {
         return super.apply(entityManager, entityInstance);

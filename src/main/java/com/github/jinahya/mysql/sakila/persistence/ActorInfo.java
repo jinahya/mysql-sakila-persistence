@@ -69,13 +69,15 @@ import java.util.regex.Pattern;
  * GROUP BY a.actor_id, a.first_name, a.last_name
  *}
  * <p>
- * The view has a row per {@link Actor}, so the {@value #COLUMN_NAME_ACTOR_ID} column identifies a row.
+ * The view has a row per {@link Actor}, so the {@value #COLUMN_NAME_ACTOR_ID} column identifies a
+ * row.
  * <p>
- * Every column is mapped read-only; only the identifier stays insertable, which EclipseLink requires of an
- * {@link Id @Id}.
+ * Every column is mapped read-only; only the identifier stays insertable, which EclipseLink
+ * requires of an {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-actor_info.html">The actor_info View</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-actor_info.html">The
+ *         actor_info View</a>
  */
 @NamedQuery(name = "ActorInfo.selectOneByActorId",
             query = """
@@ -110,24 +112,25 @@ public class ActorInfo {
      */
     public static final String TABLE_NAME = "actor_info";
 
-    // -------------------------------------------------------------------------------------------------------- actor_id
+    // ------------------------------------------------------------------------------------ actor_id
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_ACTOR_ID = "actor_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTOR_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTOR_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ACTOR_ID = "actorId";
 
-    // ------------------------------------------------------------------------------------------------------ first_name
+    // ---------------------------------------------------------------------------------- first_name
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_FIRST_NAME = "first_name";
 
@@ -137,20 +140,22 @@ public class ActorInfo {
     public static final int COLUMN_LENGTH_FIRST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FIRST_NAME = "firstName";
 
     /**
-     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is {@value}.
+     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is
+     * {@value}.
      */
     public static final int SIZE_MAX_FIRST_NAME = COLUMN_LENGTH_FIRST_NAME;
 
-    // ------------------------------------------------------------------------------------------------------- last_name
+    // ----------------------------------------------------------------------------------- last_name
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_NAME = "last_name";
 
@@ -160,7 +165,8 @@ public class ActorInfo {
     public static final int COLUMN_LENGTH_LAST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_NAME = "lastName";
 
@@ -169,28 +175,29 @@ public class ActorInfo {
      */
     public static final int SIZE_MAX_LAST_NAME = COLUMN_LENGTH_LAST_NAME;
 
-    // ------------------------------------------------------------------------------------------------------- film_info
+    // ----------------------------------------------------------------------------------- film_info
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FILM_INFO} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FILM_INFO} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_FILM_INFO = "film_info";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_INFO} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_INFO} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM_INFO = "filmInfo";
 
     private static final String REGEXP_FILM_INFO = "(?:^|; )([^:;]+): ([^;]*)";
 
     /**
-     * A pattern matches each {@code <category>: <title>, <title>, ...} entry of the {@value #COLUMN_NAME_FILM_INFO}
-     * column; the entries are separated by {@code "; "}.
+     * A pattern matches each {@code <category>: <title>, <title>, ...} entry of the
+     * {@value #COLUMN_NAME_FILM_INFO} column; the entries are separated by {@code "; "}.
      */
     private static final Pattern PATTERN_FILM_INFO = Pattern.compile(REGEXP_FILM_INFO);
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -199,7 +206,7 @@ public class ActorInfo {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -216,8 +223,8 @@ public class ActorInfo {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -235,15 +242,16 @@ public class ActorInfo {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return ActorInfo.class.hashCode();
     }
 
-    // --------------------------------------------------------------------------------------------------------- actorId
+    // ------------------------------------------------------------------------------------- actorId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute.
@@ -254,7 +262,7 @@ public class ActorInfo {
         return actorId;
     }
 
-    // ------------------------------------------------------------------------------------------------------- firstName
+    // ----------------------------------------------------------------------------------- firstName
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
@@ -265,7 +273,7 @@ public class ActorInfo {
         return firstName;
     }
 
-    // -------------------------------------------------------------------------------------------------------- lastName
+    // ------------------------------------------------------------------------------------ lastName
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
@@ -276,7 +284,7 @@ public class ActorInfo {
         return lastName;
     }
 
-    // -------------------------------------------------------------------------------------------------------- filmInfo
+    // ------------------------------------------------------------------------------------ filmInfo
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM_INFO} attribute.
@@ -288,16 +296,16 @@ public class ActorInfo {
     }
 
     /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_INFO} attribute parsed as a map of category names to film
-     * titles.
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_INFO} attribute parsed as a map of
+     * category names to film titles.
      * <p>
      * The {@value #COLUMN_NAME_FILM_INFO} column has the form of
      * {@snippet :
      * Action: TITLE1, TITLE2; Animation: TITLE3; ...
      *} The map keeps the order of the categories, and each list keeps the order of the titles.
      *
-     * @return a map of category names to film titles; {@code null} when the {@value #ATTRIBUTE_NAME_FILM_INFO}
-     *         attribute is {@code null}.
+     * @return a map of category names to film titles; {@code null} when the
+     *         {@value #ATTRIBUTE_NAME_FILM_INFO} attribute is {@code null}.
      */
     public Map<String, List<String>> getFilmInfoMap() {
         return Optional.ofNullable(getFilmInfo())
@@ -312,16 +320,18 @@ public class ActorInfo {
                 .orElse(null);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Id
-    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on an
-    // @Id -- "There should be one non-read-only mapping defined for the primary key field". Nothing writes to a
+    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects
+    // insertable=false on an
+    // @Id -- "There should be one non-read-only mapping defined for the primary key field".
+    // Nothing writes to a
     // view anyway.
     @Column(name = COLUMN_NAME_ACTOR_ID, nullable = false, insertable = true, updatable = false)
     private Integer actorId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
@@ -329,7 +339,7 @@ public class ActorInfo {
             length = COLUMN_LENGTH_FIRST_NAME)
     private String firstName;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
@@ -337,7 +347,7 @@ public class ActorInfo {
             length = COLUMN_LENGTH_LAST_NAME)
     private String lastName;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_FILM_INFO, nullable = true, insertable = false, updatable = false)
     private String filmInfo;

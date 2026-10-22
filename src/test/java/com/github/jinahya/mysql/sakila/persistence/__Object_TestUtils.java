@@ -39,8 +39,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 final class __Object_TestUtils {
 
     /**
-     * Asserts that every non-{@link Transient @Transient} read/write property of the specified class accepts, on the
-     * specified instance, what its own reader returns.
+     * Asserts that every non-{@link Transient @Transient} read/write property of the specified
+     * class accepts, on the specified instance, what its own reader returns.
      *
      * @param targetClass the class whose properties are checked.
      * @param instance    the instance to read from and write to.
@@ -63,12 +63,13 @@ final class __Object_TestUtils {
             reader.setAccessible(true);
             writer.setAccessible(true);
             assertThatCode(() -> writer.invoke(instance, reader.invoke(instance)))
-                    .as("%s.%s(%s())", targetClass.getSimpleName(), writer.getName(), reader.getName())
+                    .as("%s.%s(%s())", targetClass.getSimpleName(), writer.getName(),
+                        reader.getName())
                     .doesNotThrowAnyException();
         }
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
     private __Object_TestUtils() {
         throw new AssertionError("instantiation is not allowed");
     }

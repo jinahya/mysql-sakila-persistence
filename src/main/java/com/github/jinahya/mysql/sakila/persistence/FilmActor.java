@@ -36,8 +36,8 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * An entity class for mapping the {@value FilmActor#TABLE_NAME} table, whose composite primary key is mapped with an
- * {@link EmbeddedId @EmbeddedId}.
+ * An entity class for mapping the {@value FilmActor#TABLE_NAME} table, whose composite primary key
+ * is mapped with an {@link EmbeddedId @EmbeddedId}.
  * <p>
  * {@snippet lang = "sql":
  * CREATE TABLE film_actor (
@@ -53,14 +53,15 @@ import java.time.LocalDateTime;
  * )
  *}
  * <p>
- * Both components of the key are foreign keys, so both are derived: each association is {@link MapsId @MapsId} to its
- * component of the {@value #ATTRIBUTE_NAME_ID}, and it is the association which writes the column.
- * {@link FilmCategory}, the other link table of the database, maps its key with an
- * {@link jakarta.persistence.IdClass @IdClass} instead.
+ * Both components of the key are foreign keys, so both are derived: each association is
+ * {@link MapsId @MapsId} to its component of the {@value #ATTRIBUTE_NAME_ID}, and it is the
+ * association which writes the column. {@link FilmCategory}, the other link table of the database,
+ * maps its key with an {@link jakarta.persistence.IdClass @IdClass} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The film_actor
- *         Table</a>
+ * @see <a
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The
+ *         film_actor Table</a>
  * @see FilmActorId
  */
 @NamedQuery(name = "FilmActor.selectOneByActorIdAndFilmId",
@@ -116,78 +117,82 @@ public class FilmActor {
      */
     public static final String TABLE_NAME = "film_actor";
 
-    // -------------------------------------------------------------------------------------------------------- actor_id
+    // ------------------------------------------------------------------------------------ actor_id
 
     /**
-     * The name of the table column to which the {@value FilmActorId#ATTRIBUTE_NAME_ACTOR_ID} attribute of
-     * {@link FilmActorId} maps. The value is {@value}.
+     * The name of the table column to which the {@value FilmActorId#ATTRIBUTE_NAME_ACTOR_ID}
+     * attribute of {@link FilmActorId} maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_ACTOR_ID = "actor_id";
 
     /**
-     * The path of the attribute which maps the {@value #COLUMN_NAME_ACTOR_ID} column -- a path into the
-     * {@link EmbeddedId @EmbeddedId}, which is where the column actually lives. The value is {@value}.
+     * The path of the attribute which maps the {@value #COLUMN_NAME_ACTOR_ID} column -- a path into
+     * the {@link EmbeddedId @EmbeddedId}, which is where the column actually lives. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_PATH_ID_ACTOR_ID = "id.actorId";
 
     /**
-     * The name of the {@link ManyToOne @ManyToOne} association which maps the {@value #COLUMN_NAME_ACTOR_ID} column.
-     * The association is {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_ACTOR_ID} attribute. The value is
-     * {@value}.
+     * The name of the {@link ManyToOne @ManyToOne} association which maps the
+     * {@value #COLUMN_NAME_ACTOR_ID} column. The association is {@link MapsId @MapsId} to the
+     * {@value #ATTRIBUTE_PATH_ID_ACTOR_ID} attribute. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ACTOR = "actor";
 
-    // --------------------------------------------------------------------------------------------------------- film_id
+    // ------------------------------------------------------------------------------------- film_id
 
     /**
-     * The name of the table column to which the {@value FilmActorId#ATTRIBUTE_NAME_FILM_ID} attribute of
-     * {@link FilmActorId} maps. The value is {@value}.
+     * The name of the table column to which the {@value FilmActorId#ATTRIBUTE_NAME_FILM_ID}
+     * attribute of {@link FilmActorId} maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_FILM_ID = "film_id";
 
     /**
-     * The path of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column -- a path into the
-     * {@link EmbeddedId @EmbeddedId}. The value is {@value}.
+     * The path of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column -- a path into
+     * the {@link EmbeddedId @EmbeddedId}. The value is {@value}.
      */
     public static final String ATTRIBUTE_PATH_ID_FILM_ID = "id.filmId";
 
     /**
-     * The name of the {@link ManyToOne @ManyToOne} association which maps the {@value #COLUMN_NAME_FILM_ID} column. The
-     * association is {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute. The value is
-     * {@value}.
+     * The name of the {@link ManyToOne @ManyToOne} association which maps the
+     * {@value #COLUMN_NAME_FILM_ID} column. The association is {@link MapsId @MapsId} to the
+     * {@value #ATTRIBUTE_PATH_ID_FILM_ID} attribute. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM = "film";
 
-    // ---------------------------------------------------------------------------------------------- actor_id / film_id
+    // -------------------------------------------------------------------------- actor_id / film_id
 
     /**
      * The name of the attribute which maps both the {@value #COLUMN_NAME_ACTOR_ID} and the
-     * {@value #COLUMN_NAME_FILM_ID} columns, as an {@link EmbeddedId @EmbeddedId}. The value is {@value}.
+     * {@value #COLUMN_NAME_FILM_ID} columns, as an {@link EmbeddedId @EmbeddedId}. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ID = "id";
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ------------------------------------------------------------------------------------------ STATIC FACTORY METHODS
+    // ---------------------------------------------------------------------- STATIC FACTORY METHODS
 
     /**
      * Returns a new instance which links the specified actor and the specified film.
      * <p>
-     * This is the only way to set the {@value #ATTRIBUTE_NAME_ACTOR} and the {@value #ATTRIBUTE_NAME_FILM} from outside
-     * the package. Both associations are {@link MapsId @MapsId} to the {@value #ATTRIBUTE_NAME_ID}, so changing either
-     * of them would change the primary key; to link another actor, or another film, remove the instance and persist a
-     * new one.
+     * This is the only way to set the {@value #ATTRIBUTE_NAME_ACTOR} and the
+     * {@value #ATTRIBUTE_NAME_FILM} from outside the package. Both associations are
+     * {@link MapsId @MapsId} to the {@value #ATTRIBUTE_NAME_ID}, so changing either of them would
+     * change the primary key; to link another actor, or another film, remove the instance and
+     * persist a new one.
      *
      * @param actor a value for the {@value #ATTRIBUTE_NAME_ACTOR} attribute.
      * @param film  a value for the {@value #ATTRIBUTE_NAME_FILM} attribute.
@@ -200,7 +205,7 @@ public class FilmActor {
         return instance;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -209,7 +214,7 @@ public class FilmActor {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -224,8 +229,8 @@ public class FilmActor {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone, and only once it is assigned; an
-     *         instance without one equals nothing but itself.
+     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone, and only once it
+     *         is assigned; an instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -243,15 +248,16 @@ public class FilmActor {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@link EmbeddedId @EmbeddedId} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@link EmbeddedId @EmbeddedId} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return FilmActor.class.hashCode();
     }
 
-    // -------------------------------------------------------------------------------------------------------------- id
+    // ------------------------------------------------------------------------------------------ id
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
@@ -262,7 +268,7 @@ public class FilmActor {
         return id;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- actor
+    // --------------------------------------------------------------------------------------- actor
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ACTOR} attribute.
@@ -273,7 +279,7 @@ public class FilmActor {
         return actor;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ film
+    // ---------------------------------------------------------------------------------------- film
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
@@ -284,41 +290,41 @@ public class FilmActor {
         return film;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @EmbeddedId
     private FilmActorId id;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @MapsId(FilmActorId.ATTRIBUTE_NAME_ACTOR_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ACTOR_ID, referencedColumnName = Actor.COLUMN_NAME_ACTOR_ID, nullable = false,
-                insertable = true, updatable = true)
+    @JoinColumn(name = COLUMN_NAME_ACTOR_ID, referencedColumnName = Actor.COLUMN_NAME_ACTOR_ID,
+                nullable = false, insertable = true, updatable = true)
     private Actor actor;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @MapsId(FilmActorId.ATTRIBUTE_NAME_FILM_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false,
-                insertable = true, updatable = true)
+    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
+                nullable = false, insertable = true, updatable = true)
     private Film film;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)

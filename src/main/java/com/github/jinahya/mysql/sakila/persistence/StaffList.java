@@ -35,21 +35,25 @@ import jakarta.validation.constraints.Size;
  * {@snippet lang = "sql":
  * CREATE VIEW staff_list
  * AS
- * SELECT s.staff_id AS ID, CONCAT(s.first_name, _utf8mb4' ', s.last_name) AS name, a.address AS address,
+ * SELECT s.staff_id AS ID, CONCAT(s.first_name, _utf8mb4' ', s.last_name) AS name, a.address AS
+ * address,
  *     a.postal_code AS `zip code`, a.phone AS phone, city.city AS city, country.country AS country,
  *     s.store_id AS SID
- * FROM staff AS s JOIN address AS a ON s.address_id = a.address_id JOIN city ON a.city_id = city.city_id
+ * FROM staff AS s JOIN address AS a ON s.address_id = a.address_id JOIN city ON a.city_id = city
+ * .city_id
  *     JOIN country ON city.country_id = country.country_id
  *}
  * <p>
- * The view has a row per {@link Staff}, so the {@value #COLUMN_NAME_ID} column identifies a row. The
- * {@value #COLUMN_NAME_ZIP_CODE} column has a space in its name, so it is mapped as a delimited identifier.
+ * The view has a row per {@link Staff}, so the {@value #COLUMN_NAME_ID} column identifies a row.
+ * The {@value #COLUMN_NAME_ZIP_CODE} column has a space in its name, so it is mapped as a delimited
+ * identifier.
  * <p>
- * Every column is mapped read-only; only the identifier stays insertable, which EclipseLink requires of an
- * {@link Id @Id}.
+ * Every column is mapped read-only; only the identifier stays insertable, which EclipseLink
+ * requires of an {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-staff-list.html">The staff_list View</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-staff-list.html">The
+ *         staff_list View</a>
  */
 @NamedQuery(name = "StaffList.selectOneById",
             query = """
@@ -84,22 +88,25 @@ public class StaffList {
      */
     public static final String TABLE_NAME = "staff_list";
 
-    // -------------------------------------------------------------------------------------------------------------- ID
+    // ------------------------------------------------------------------------------------------ ID
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_ID = "ID";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ID = "id";
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_NAME = "name";
 
@@ -109,7 +116,8 @@ public class StaffList {
     public static final int COLUMN_LENGTH_NAME = 91;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_NAME = "name";
 
@@ -118,10 +126,11 @@ public class StaffList {
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS = "address";
 
@@ -131,7 +140,8 @@ public class StaffList {
     public static final int COLUMN_LENGTH_ADDRESS = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS = "address";
 
@@ -140,19 +150,20 @@ public class StaffList {
      */
     public static final int SIZE_MAX_ADDRESS = COLUMN_LENGTH_ADDRESS;
 
-    // -------------------------------------------------------------------------------------------------------- zip_code
+    // ------------------------------------------------------------------------------------ zip_code
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ZIP_CODE} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ZIP_CODE} attribute maps.
+     * The value is {@value}.
      * <p>
-     * The name has a space in it, so the mappings use it delimited, as {@value #COLUMN_NAME_ZIP_CODE_DELIMITED}.
+     * The name has a space in it, so the mappings use it delimited, as
+     * {@value #COLUMN_NAME_ZIP_CODE_DELIMITED}.
      */
     public static final String COLUMN_NAME_ZIP_CODE = "zip code";
 
     /**
-     * The delimited form of the {@value #COLUMN_NAME_ZIP_CODE} column name, which the mapping uses. The value is
-     * {@value}.
+     * The delimited form of the {@value #COLUMN_NAME_ZIP_CODE} column name, which the mapping uses.
+     * The value is {@value}.
      */
     static final String COLUMN_NAME_ZIP_CODE_DELIMITED = "\"zip code\"";
 
@@ -162,7 +173,8 @@ public class StaffList {
     public static final int COLUMN_LENGTH_ZIP_CODE = 10;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ZIP_CODE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ZIP_CODE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ZIP_CODE = "zipCode";
 
@@ -171,10 +183,11 @@ public class StaffList {
      */
     public static final int SIZE_MAX_ZIP_CODE = COLUMN_LENGTH_ZIP_CODE;
 
-    // ----------------------------------------------------------------------------------------------------------- phone
+    // --------------------------------------------------------------------------------------- phone
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_PHONE = "phone";
 
@@ -184,7 +197,8 @@ public class StaffList {
     public static final int COLUMN_LENGTH_PHONE = 20;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_PHONE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_PHONE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_PHONE = "phone";
 
@@ -193,10 +207,11 @@ public class StaffList {
      */
     public static final int SIZE_MAX_PHONE = COLUMN_LENGTH_PHONE;
 
-    // ------------------------------------------------------------------------------------------------------------ city
+    // ---------------------------------------------------------------------------------------- city
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_CITY = "city";
 
@@ -206,7 +221,8 @@ public class StaffList {
     public static final int COLUMN_LENGTH_CITY = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_CITY = "city";
 
@@ -215,10 +231,11 @@ public class StaffList {
      */
     public static final int SIZE_MAX_CITY = COLUMN_LENGTH_CITY;
 
-    // --------------------------------------------------------------------------------------------------------- country
+    // ------------------------------------------------------------------------------------- country
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_COUNTRY} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_COUNTRY = "country";
 
@@ -228,7 +245,8 @@ public class StaffList {
     public static final int COLUMN_LENGTH_COUNTRY = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_COUNTRY} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_COUNTRY = "country";
 
@@ -237,19 +255,21 @@ public class StaffList {
      */
     public static final int SIZE_MAX_COUNTRY = COLUMN_LENGTH_COUNTRY;
 
-    // ------------------------------------------------------------------------------------------------------------- SID
+    // ----------------------------------------------------------------------------------------- SID
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_SID} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_SID} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_SID = "SID";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_SID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_SID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_SID = "sid";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -258,7 +278,7 @@ public class StaffList {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -279,8 +299,8 @@ public class StaffList {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -298,15 +318,16 @@ public class StaffList {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return StaffList.class.hashCode();
     }
 
-    // -------------------------------------------------------------------------------------------------------------- id
+    // ------------------------------------------------------------------------------------------ id
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
@@ -317,7 +338,7 @@ public class StaffList {
         return id;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_NAME} attribute.
@@ -328,7 +349,7 @@ public class StaffList {
         return name;
     }
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
@@ -339,7 +360,7 @@ public class StaffList {
         return address;
     }
 
-    // --------------------------------------------------------------------------------------------------------- zipCode
+    // ------------------------------------------------------------------------------------- zipCode
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ZIP_CODE} attribute.
@@ -350,7 +371,7 @@ public class StaffList {
         return zipCode;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- phone
+    // --------------------------------------------------------------------------------------- phone
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PHONE} attribute.
@@ -361,7 +382,7 @@ public class StaffList {
         return phone;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ city
+    // ---------------------------------------------------------------------------------------- city
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
@@ -372,7 +393,7 @@ public class StaffList {
         return city;
     }
 
-    // --------------------------------------------------------------------------------------------------------- country
+    // ------------------------------------------------------------------------------------- country
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
@@ -383,7 +404,7 @@ public class StaffList {
         return country;
     }
 
-    // ------------------------------------------------------------------------------------------------------------- sid
+    // ----------------------------------------------------------------------------------------- sid
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_SID} attribute.
@@ -394,23 +415,25 @@ public class StaffList {
         return sid;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Id
-    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on an
-    // @Id -- "There should be one non-read-only mapping defined for the primary key field". Nothing writes to a
+    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects
+    // insertable=false on an
+    // @Id -- "There should be one non-read-only mapping defined for the primary key field".
+    // Nothing writes to a
     // view anyway.
     @Column(name = COLUMN_NAME_ID, nullable = false, insertable = true, updatable = false)
     private Integer id;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_NAME, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_NAME)
     private String name;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_ADDRESS)
     @Basic(optional = false)
@@ -418,14 +441,14 @@ public class StaffList {
             length = COLUMN_LENGTH_ADDRESS)
     private String address;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_ZIP_CODE)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_ZIP_CODE_DELIMITED, nullable = true, insertable = false, updatable = false,
-            length = COLUMN_LENGTH_ZIP_CODE)
+    @Column(name = COLUMN_NAME_ZIP_CODE_DELIMITED, nullable = true, insertable = false,
+            updatable = false, length = COLUMN_LENGTH_ZIP_CODE)
     private String zipCode;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_PHONE)
     @Basic(optional = false)
@@ -433,7 +456,7 @@ public class StaffList {
             length = COLUMN_LENGTH_PHONE)
     private String phone;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_CITY)
     @Basic(optional = false)
@@ -441,7 +464,7 @@ public class StaffList {
             length = COLUMN_LENGTH_CITY)
     private String city;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_COUNTRY)
     @Basic(optional = false)
@@ -449,7 +472,7 @@ public class StaffList {
             length = COLUMN_LENGTH_COUNTRY)
     private String country;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_SID, nullable = false, insertable = false, updatable = false)

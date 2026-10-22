@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link StaffList} instances.
  * <p>
- * Nothing is excluded from randomization; the class maps a view, so an instance is only ever used without a persistence
- * context, and has no persister.
+ * Nothing is excluded from randomization; the class maps a view, so an instance is only ever used
+ * without a persistence context, and has no persister.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -44,7 +44,7 @@ class StaffList_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

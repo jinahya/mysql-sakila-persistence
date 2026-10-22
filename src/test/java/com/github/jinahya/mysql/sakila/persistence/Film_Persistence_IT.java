@@ -38,34 +38,37 @@ class Film_Persistence_IT
         super(Film.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Verifies that the {@code ins_film} trigger inserted a {@link FilmText} for the persisted film.
+     * Verifies that the {@code ins_film} trigger inserted a {@link FilmText} for the persisted
+     * film.
      *
      * @param entityManager  the entity manager the film was persisted with.
      * @param entityInstance the persisted, and flushed, film.
-     * @implNote The {@link FilmText} has the film's {@code filmId}, and its title and description are the
-     *         film's.
+     * @implNote The {@link FilmText} has the film's {@code filmId}, and its title and
+     *         description are the film's.
      */
     @Override
     void targetInstancePersisted(final EntityManager entityManager, final Film entityInstance) {
         final var filmText = entityManager.find(FilmText.class, entityInstance.getFilmId());
         assertThat(filmText).as("film text of %s", entityInstance).isNotNull();
-        assertThat(filmText.getTitle()).as("title of %s", filmText).isEqualTo(entityInstance.getTitle());
+        assertThat(filmText.getTitle()).as("title of %s", filmText)
+                .isEqualTo(entityInstance.getTitle());
         assertThat(filmText.getDescription()).as("description of %s", filmText)
                 .isEqualTo(entityInstance.getDescription());
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote Reading the instance at all already proves that {@link Film.RatingConverter} knows the
-     *         installed rating; this also checks that the installed special features are members
-     *         {@link Film.SpecialFeature} knows, and that the language, a lazy association, resolves.
+     * @implNote Reading the instance at all already proves that
+     *         {@link Film.RatingConverter} knows the installed rating; this also checks that the
+     *         installed special features are members {@link Film.SpecialFeature} knows, and that
+     *         the language, a lazy association, resolves.
      */
     @Override
     void randomTargetInstanceSelected(final Film instance) {
@@ -77,13 +80,13 @@ class Film_Persistence_IT
                 .isNotBlank();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * Verifies that the {@code upd_film} trigger updates the {@link FilmText} of an updated film.
      *
-     * @implNote The {@link FilmText} is read only after the update is flushed, so it comes from the database,
-     *         not from the persistence context.
+     * @implNote The {@link FilmText} is read only after the update is flushed, so it comes
+     *         from the database, not from the persistence context.
      */
     @Test
     void _update_FilmTextUpdated() {
@@ -95,7 +98,8 @@ class Film_Persistence_IT
             final var filmText = em.find(FilmText.class, v.getFilmId());
             assertThat(filmText).as("film text of %s", v).isNotNull();
             assertThat(filmText.getTitle()).as("title of %s", filmText).isEqualTo(v.getTitle());
-            assertThat(filmText.getDescription()).as("description of %s", filmText).isEqualTo(v.getDescription());
+            assertThat(filmText.getDescription()).as("description of %s", filmText)
+                    .isEqualTo(v.getDescription());
             return null;
         });
     }
@@ -110,7 +114,8 @@ class Film_Persistence_IT
             final var filmId = v.getFilmId();
             em.remove(v);
             em.flush();
-            assertThat(em.find(FilmText.class, filmId)).as("film text of the deleted film %s", filmId).isNull();
+            assertThat(em.find(FilmText.class, filmId)).as("film text of the deleted film %s",
+                                                           filmId).isNull();
             return null;
         });
     }

@@ -64,15 +64,16 @@ import java.util.function.Function;
  * )
  *}
  * <p>
- * The {@value #COLUMN_NAME_LOCATION} column, a {@code GEOMETRY}, has no type of its own in Jakarta Persistence; it is
- * mapped as the bytes MySQL stores it in -- a four-byte, little-endian {@code SRID} followed by the geometry's
- * well-known binary ({@code WKB}) -- which is also what MySQL accepts back. {@link #newLocation(int, double, double)}
- * builds the bytes of a point.
+ * The {@value #COLUMN_NAME_LOCATION} column, a {@code GEOMETRY}, has no type of its own in Jakarta
+ * Persistence; it is mapped as the bytes MySQL stores it in -- a four-byte, little-endian
+ * {@code SRID} followed by the geometry's well-known binary ({@code WKB}) -- which is also what
+ * MySQL accepts back. {@link #newLocation(int, double, double)} builds the bytes of a point.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-address.html">The address Table</a>
- * @see <a href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats.html#gis-internal-format">Internal
- *         Geometry Storage Format</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-address.html">The
+ *         address Table</a>
+ * @see <a href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats
+ *         .html#gis-internal-format">Internal Geometry Storage Format</a>
  */
 @NamedQuery(name = "Address.selectOneByAddressId",
             query = """
@@ -127,24 +128,25 @@ public class Address {
      */
     public static final String TABLE_NAME = "address";
 
-    // ------------------------------------------------------------------------------------------------------ address_id
+    // ---------------------------------------------------------------------------------- address_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS_ID = "address_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS_ID = "addressId";
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS = "address";
 
@@ -154,7 +156,8 @@ public class Address {
     public static final int COLUMN_LENGTH_ADDRESS = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS = "address";
 
@@ -163,11 +166,11 @@ public class Address {
      */
     public static final int SIZE_MAX_ADDRESS = COLUMN_LENGTH_ADDRESS;
 
-    // -------------------------------------------------------------------------------------------------------- address2
+    // ------------------------------------------------------------------------------------ address2
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS2} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS2} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS2 = "address2";
 
@@ -177,7 +180,8 @@ public class Address {
     public static final int COLUMN_LENGTH_ADDRESS2 = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS2} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS2} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS2 = "address2";
 
@@ -186,11 +190,11 @@ public class Address {
      */
     public static final int SIZE_MAX_ADDRESS2 = COLUMN_LENGTH_ADDRESS2;
 
-    // -------------------------------------------------------------------------------------------------------- district
+    // ------------------------------------------------------------------------------------ district
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DISTRICT} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DISTRICT} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_DISTRICT = "district";
 
@@ -200,7 +204,8 @@ public class Address {
     public static final int COLUMN_LENGTH_DISTRICT = 20;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_DISTRICT} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_DISTRICT} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_DISTRICT = "district";
 
@@ -209,23 +214,25 @@ public class Address {
      */
     public static final int SIZE_MAX_DISTRICT = COLUMN_LENGTH_DISTRICT;
 
-    // --------------------------------------------------------------------------------------------------------- city_id
+    // ------------------------------------------------------------------------------------- city_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CITY} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_CITY_ID = "city_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CITY_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_CITY = "city";
 
-    // ----------------------------------------------------------------------------------------------------- postal_code
+    // --------------------------------------------------------------------------------- postal_code
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_POSTAL_CODE = "postal_code";
 
@@ -235,19 +242,22 @@ public class Address {
     public static final int COLUMN_LENGTH_POSTAL_CODE = 10;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_POSTAL_CODE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_POSTAL_CODE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_POSTAL_CODE = "postalCode";
 
     /**
-     * The maximum size of the {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute. The value is {@value}.
+     * The maximum size of the {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute. The value is
+     * {@value}.
      */
     public static final int SIZE_MAX_POSTAL_CODE = COLUMN_LENGTH_POSTAL_CODE;
 
-    // ----------------------------------------------------------------------------------------------------------- phone
+    // --------------------------------------------------------------------------------------- phone
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PHONE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_PHONE = "phone";
 
@@ -257,7 +267,8 @@ public class Address {
     public static final int COLUMN_LENGTH_PHONE = 20;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_PHONE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_PHONE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_PHONE = "phone";
 
@@ -266,82 +277,88 @@ public class Address {
      */
     public static final int SIZE_MAX_PHONE = COLUMN_LENGTH_PHONE;
 
-    // -------------------------------------------------------------------------------------------------------- location
+    // ------------------------------------------------------------------------------------ location
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LOCATION} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LOCATION} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_LOCATION = "location";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LOCATION} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LOCATION} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_LOCATION = "location";
 
     /**
-     * The spatial reference system identifier of the {@value #COLUMN_NAME_LOCATION} column. The value is {@value}.
+     * The spatial reference system identifier of the {@value #COLUMN_NAME_LOCATION} column. The
+     * value is {@value}.
      */
     public static final int COLUMN_SRID_LOCATION = 0;
 
     /**
-     * The number of bytes of a point in MySQL's internal geometry format; four of {@code SRID}, one of byte order, four
-     * of geometry type, and eight for each of the two coordinates. The value is {@value}.
+     * The number of bytes of a point in MySQL's internal geometry format; four of {@code SRID}, one
+     * of byte order, four of geometry type, and eight for each of the two coordinates. The value is
+     * {@value}.
      */
-    public static final int LOCATION_POINT_BYTES = Integer.BYTES + Byte.BYTES + Integer.BYTES + (Double.BYTES << 1);
+    public static final int LOCATION_POINT_BYTES =
+            Integer.BYTES + Byte.BYTES + Integer.BYTES + (Double.BYTES << 1);
 
     /**
-     * The smallest value of the first coordinate, the longitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
-     * {@value}.
+     * The smallest value of the first coordinate, the longitude, of a
+     * {@value #ATTRIBUTE_NAME_LOCATION}. The value is {@value}.
      *
-     * @apiNote With the {@code SRID} {@value #COLUMN_SRID_LOCATION}, MySQL gives the coordinates no geographic
-     *         meaning; this range, like the other three, is what the application means, not a constraint the column or
-     *         the installed data keeps. Six of the installed points have one coordinate far out of it.
+     * @apiNote With the {@code SRID} {@value #COLUMN_SRID_LOCATION}, MySQL gives the
+     *         coordinates no geographic meaning; this range, like the other three, is what the
+     *         application means, not a constraint the column or the installed data keeps. Six of
+     *         the installed points have one coordinate far out of it.
      */
     public static final double LOCATION_X_MIN = -180.0d;
 
     /**
-     * The largest value of the first coordinate, the longitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
-     * {@value}.
+     * The largest value of the first coordinate, the longitude, of a
+     * {@value #ATTRIBUTE_NAME_LOCATION}. The value is {@value}.
      *
      * @see #LOCATION_X_MIN
      */
     public static final double LOCATION_X_MAX = 180.0d;
 
     /**
-     * The smallest value of the second coordinate, the latitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
-     * {@value}.
+     * The smallest value of the second coordinate, the latitude, of a
+     * {@value #ATTRIBUTE_NAME_LOCATION}. The value is {@value}.
      *
      * @see #LOCATION_X_MIN
      */
     public static final double LOCATION_Y_MIN = -90.0d;
 
     /**
-     * The largest value of the second coordinate, the latitude, of a {@value #ATTRIBUTE_NAME_LOCATION}. The value is
-     * {@value}.
+     * The largest value of the second coordinate, the latitude, of a
+     * {@value #ATTRIBUTE_NAME_LOCATION}. The value is {@value}.
      *
      * @see #LOCATION_X_MIN
      */
     public static final double LOCATION_Y_MAX = 90.0d;
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // -------------------------------------------------------------------------------------------------- STATIC_METHODS
+    // ------------------------------------------------------------------------------ STATIC_METHODS
 
     /**
-     * Returns the bytes, in MySQL's internal geometry format, of a point of the specified spatial reference system at
-     * the specified coordinates.
+     * Returns the bytes, in MySQL's internal geometry format, of a point of the specified spatial
+     * reference system at the specified coordinates.
      *
      * @param srid the spatial reference system identifier; {@value #COLUMN_SRID_LOCATION} for the
      *             {@value #COLUMN_NAME_LOCATION} column.
@@ -360,7 +377,7 @@ public class Address {
                 .array();
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -369,7 +386,7 @@ public class Address {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -390,8 +407,8 @@ public class Address {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -409,27 +426,28 @@ public class Address {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Address.class.hashCode();
     }
 
-    // ------------------------------------------------------------------------------------------------------- addressId
+    // ----------------------------------------------------------------------------------- addressId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS_ID} attribute; {@code null} until
+     *         the instance is persisted.
      */
     public Integer getAddressId() {
         return addressId;
     }
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
@@ -441,7 +459,8 @@ public class Address {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified
+     * value.
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
@@ -449,7 +468,7 @@ public class Address {
         this.address = address;
     }
 
-    // -------------------------------------------------------------------------------------------------------- address2
+    // ------------------------------------------------------------------------------------ address2
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
@@ -461,7 +480,8 @@ public class Address {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute with the specified
+     * value.
      *
      * @param address2 new value for {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
@@ -469,7 +489,7 @@ public class Address {
         this.address2 = address2;
     }
 
-    // -------------------------------------------------------------------------------------------------------- district
+    // ------------------------------------------------------------------------------------ district
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
@@ -481,7 +501,8 @@ public class Address {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_DISTRICT} attribute with the specified
+     * value.
      *
      * @param district new value for {@value #ATTRIBUTE_NAME_DISTRICT} attribute.
      */
@@ -489,7 +510,7 @@ public class Address {
         this.district = district;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ city
+    // ---------------------------------------------------------------------------------------- city
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CITY} attribute.
@@ -509,7 +530,7 @@ public class Address {
         this.city = city;
     }
 
-    // ------------------------------------------------------------------------------------------------------ postalCode
+    // ---------------------------------------------------------------------------------- postalCode
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
@@ -521,7 +542,8 @@ public class Address {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute with the specified
+     * value.
      *
      * @param postalCode new value for {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
@@ -529,7 +551,7 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- phone
+    // --------------------------------------------------------------------------------------- phone
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PHONE} attribute.
@@ -549,23 +571,24 @@ public class Address {
         this.phone = phone;
     }
 
-    // -------------------------------------------------------------------------------------------------------- location
+    // ------------------------------------------------------------------------------------ location
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute; the bytes of the geometry in MySQL's
-     *         internal format.
+     * @return current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute; the bytes of the
+     *         geometry in MySQL's internal format.
      */
     public byte[] getLocation() {
         return location;
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute with the specified
+     * value.
      *
-     * @param location new value for {@value #ATTRIBUTE_NAME_LOCATION} attribute; the bytes of a geometry in MySQL's
-     *                 internal format.
+     * @param location new value for {@value #ATTRIBUTE_NAME_LOCATION} attribute; the bytes of a
+     *                 geometry in MySQL's internal format.
      * @see #newLocation(int, double, double)
      */
     public void setLocation(final byte[] location) {
@@ -582,26 +605,26 @@ public class Address {
         setLocation(mapper.apply(location));
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_ADDRESS_ID, nullable = false, insertable = true, updatable = false)
     private Integer addressId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_ADDRESS)
     @Basic(optional = false)
@@ -609,14 +632,14 @@ public class Address {
             length = COLUMN_LENGTH_ADDRESS)
     private String address;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ADDRESS2, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_ADDRESS2)
     private String address2;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_DISTRICT)
     @Basic(optional = false)
@@ -624,22 +647,22 @@ public class Address {
             length = COLUMN_LENGTH_DISTRICT)
     private String district;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID, nullable = false,
-                insertable = true, updatable = true)
+    @JoinColumn(name = COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID,
+                nullable = false, insertable = true, updatable = true)
     private City city;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_POSTAL_CODE)
     private String postalCode;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_PHONE)
     @Basic(optional = false)
@@ -647,13 +670,13 @@ public class Address {
             length = COLUMN_LENGTH_PHONE)
     private String phone;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_LOCATION, nullable = false, insertable = true, updatable = true)
     private byte[] location;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)

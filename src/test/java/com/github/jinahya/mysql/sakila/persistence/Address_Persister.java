@@ -27,8 +27,8 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link Address} instances.
  * <p>
- * Each instance is given a newly persisted {@link City} first, so that its {@code city}, which is not nullable, refers
- * to a row which is already in the database.
+ * Each instance is given a newly persisted {@link City} first, so that its {@code city}, which is
+ * not nullable, refers to a row which is already in the database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -39,10 +39,11 @@ class Address_Persister
         super(Address.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Address apply(final EntityManager entityManager, final Address entityInstance) {
-        entityInstance.setCity(EntityPersisterUtils.newPersistedInstanceOf(entityManager, City.class));
+        entityInstance.setCity(
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, City.class));
         return super.apply(entityManager, entityInstance);
     }
 }

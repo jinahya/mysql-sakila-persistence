@@ -34,7 +34,7 @@ class Inventory_Persistence_IT
         super(Inventory.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -44,7 +44,9 @@ class Inventory_Persistence_IT
      */
     @Override
     void randomTargetInstanceSelected(final Inventory instance) {
-        assertThat(instance.getFilm().getTitle()).as("title of the film of %s", instance).isNotBlank();
-        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s", instance).isNotNull();
+        assertThat(instance.getFilm().getTitle()).as("title of the film of %s", instance)
+                .isNotBlank();
+        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s",
+                                                           instance).isNotNull();
     }
 }

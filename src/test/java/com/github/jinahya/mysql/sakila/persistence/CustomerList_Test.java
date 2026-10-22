@@ -35,13 +35,13 @@ class CustomerList_Test
         super(CustomerList.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link CustomerList#equals(Object) equals} compares only the {@code @Id}, because every other
-     *         attribute is mutable state.
+     * @implNote {@link CustomerList#equals(Object) equals} compares only the {@code @Id},
+     *         because every other attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<CustomerList> equalsVerifier() {

@@ -27,9 +27,10 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link FilmActor} instances.
  * <p>
- * A newly persisted {@link Actor} and a newly persisted {@link Film} are flushed first, for their identifiers to be
- * assigned, and what is persisted is {@link FilmActor#of(Actor, Film) FilmActor.of} the two, whose {@code id} is
- * derived from them; the instance given is not used, for {@code of} is the only way to set either association.
+ * A newly persisted {@link Actor} and a newly persisted {@link Film} are flushed first, for their
+ * identifiers to be assigned, and what is persisted is
+ * {@link FilmActor#of(Actor, Film) FilmActor.of} the two, whose {@code id} is derived from them;
+ * the instance given is not used, for {@code of} is the only way to set either association.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -40,7 +41,7 @@ class FilmActor_Persister
         super(FilmActor.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public FilmActor apply(final EntityManager entityManager, final FilmActor entityInstance) {
         final var actor = EntityPersisterUtils.newPersistedInstanceOf(entityManager, Actor.class);

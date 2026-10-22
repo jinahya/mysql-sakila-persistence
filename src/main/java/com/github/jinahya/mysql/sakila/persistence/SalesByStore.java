@@ -50,13 +50,15 @@ import java.math.BigDecimal;
  * ORDER BY cy.country, c.city
  *}
  * <p>
- * No column identifies a row of this view. It groups by {@code s.store_id}, which it does not select; the
- * {@value #COLUMN_NAME_STORE} column is only the city and the country of the store, which two stores may share, and the
- * {@value #COLUMN_NAME_MANAGER} is only the name of one. So this is not an {@link jakarta.persistence.Entity @Entity}:
- * the columns it projects are written out here, and every one of them is read-only.
+ * No column identifies a row of this view. It groups by {@code s.store_id}, which it does not
+ * select; the {@value #COLUMN_NAME_STORE} column is only the city and the country of the store,
+ * which two stores may share, and the {@value #COLUMN_NAME_MANAGER} is only the name of one. So
+ * this is not an {@link jakarta.persistence.Entity @Entity}: the columns it projects are written
+ * out here, and every one of them is read-only.
  * <p>
- * The public constructor takes every attribute in the order the view selects its columns, which is the order a
- * name-based row mapper, or a {@link jakarta.persistence.ConstructorResult @ConstructorResult}, hands them over.
+ * The public constructor takes every attribute in the order the view selects its columns, which is
+ * the order a name-based row mapper, or a
+ * {@link jakarta.persistence.ConstructorResult @ConstructorResult}, hands them over.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_store.html">
@@ -69,10 +71,11 @@ public class SalesByStore {
      */
     public static final String TABLE_NAME = "sales_by_store";
 
-    // ----------------------------------------------------------------------------------------------------------- store
+    // --------------------------------------------------------------------------------------- store
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_STORE = "store";
 
@@ -82,7 +85,8 @@ public class SalesByStore {
     public static final int COLUMN_LENGTH_STORE = 101;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE = "store";
 
@@ -91,10 +95,11 @@ public class SalesByStore {
      */
     public static final int SIZE_MAX_STORE = COLUMN_LENGTH_STORE;
 
-    // --------------------------------------------------------------------------------------------------------- manager
+    // ------------------------------------------------------------------------------------- manager
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_MANAGER} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_MANAGER} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_MANAGER = "manager";
 
@@ -104,7 +109,8 @@ public class SalesByStore {
     public static final int COLUMN_LENGTH_MANAGER = 91;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_MANAGER} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_MANAGER} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_MANAGER = "manager";
 
@@ -113,11 +119,11 @@ public class SalesByStore {
      */
     public static final int SIZE_MAX_MANAGER = COLUMN_LENGTH_MANAGER;
 
-    // ----------------------------------------------------------------------------------------------------- total_sales
+    // --------------------------------------------------------------------------------- total_sales
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_TOTAL_SALES = "total_sales";
 
@@ -142,11 +148,12 @@ public class SalesByStore {
     public static final String COLUMN_MAX_TOTAL_SALES = "9999999999999999999999999.99";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_TOTAL_SALES} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_TOTAL_SALES} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_TOTAL_SALES = "totalSales";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -171,7 +178,7 @@ public class SalesByStore {
         this.totalSales = totalSales;
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -182,7 +189,7 @@ public class SalesByStore {
                '}';
     }
 
-    // ----------------------------------------------------------------------------------------------------------- store
+    // --------------------------------------------------------------------------------------- store
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
@@ -193,7 +200,7 @@ public class SalesByStore {
         return store;
     }
 
-    // --------------------------------------------------------------------------------------------------------- manager
+    // ------------------------------------------------------------------------------------- manager
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute.
@@ -204,7 +211,7 @@ public class SalesByStore {
         return manager;
     }
 
-    // ------------------------------------------------------------------------------------------------------ totalSales
+    // ---------------------------------------------------------------------------------- totalSales
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute.
@@ -215,23 +222,24 @@ public class SalesByStore {
         return totalSales;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_STORE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_STORE, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_STORE)
     private String store;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_MANAGER)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_MANAGER, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_MANAGER)
     private String manager;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
-    // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
+    // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction =
+    // COLUMN_SCALE_TOTAL_SALES)
     @DecimalMin(COLUMN_MIN_TOTAL_SALES)
     @DecimalMax(COLUMN_MAX_TOTAL_SALES)
     @Basic(optional = true)

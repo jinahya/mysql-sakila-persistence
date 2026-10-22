@@ -1,0 +1,39 @@
+-- -
+-- #%L
+-- mysql-sakila-persistence
+-- %%
+-- Copyright (C) 2026 Jinahya, Inc.
+-- %%
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+-- 
+--      http://www.apache.org/licenses/LICENSE-2.0
+-- 
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-- #L%
+-- -
+--
+-- Exercises at the intermediate level on payment: a join, a GROUP BY with HAVING, a subquery, or a NOT EXISTS. Each
+-- poses a question, answers it, and shows what the installed data gives back.
+--
+-- Run the file as a whole:
+--   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/payment_exercises_02_intermediate.sql
+--
+
+
+-- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- the largest payment, and how many payments are that large.
+-- +---------+----------+
+-- | largest | payments |
+-- +---------+----------+
+-- |   11.99 |       10 |
+-- +---------+----------+
+SELECT MAX(amount) AS largest,
+       (SELECT COUNT(*) FROM payment WHERE amount = (SELECT MAX(amount) FROM payment)) AS payments
+FROM payment
+;

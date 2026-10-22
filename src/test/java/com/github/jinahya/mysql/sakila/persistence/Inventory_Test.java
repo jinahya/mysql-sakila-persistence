@@ -35,13 +35,13 @@ class Inventory_Test
         super(Inventory.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Inventory#equals(Object) equals} compares only the {@code @Id}, because every other
-     *         attribute is mutable state.
+     * @implNote {@link Inventory#equals(Object) equals} compares only the {@code @Id},
+     *         because every other attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Inventory> equalsVerifier() {

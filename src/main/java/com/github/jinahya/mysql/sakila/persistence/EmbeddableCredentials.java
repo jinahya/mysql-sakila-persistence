@@ -29,16 +29,16 @@ import jakarta.validation.constraints.Size;
 import java.util.Objects;
 
 /**
- * An embeddable for mapping the {@value Staff#COLUMN_NAME_USERNAME} column and the {@value Staff#COLUMN_NAME_PASSWORD}
- * column, of the {@value Staff#TABLE_NAME} table.
+ * An embeddable for mapping the {@value Staff#COLUMN_NAME_USERNAME} column and the
+ * {@value Staff#COLUMN_NAME_PASSWORD} column, of the {@value Staff#TABLE_NAME} table.
  * <p>
  * {@snippet lang = "sql":
  * username VARCHAR(16) NOT NULL,
  * password VARCHAR(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
  *}
  * <p>
- * This is a class, not a record, for the {@value #ATTRIBUTE_NAME_PASSWORD} changes on its own, far more often than the
- * {@value #ATTRIBUTE_NAME_USERNAME} does.
+ * This is a class, not a record, for the {@value #ATTRIBUTE_NAME_PASSWORD} changes on its own, far
+ * more often than the {@value #ATTRIBUTE_NAME_USERNAME} does.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -46,16 +46,18 @@ import java.util.Objects;
 public class EmbeddableCredentials {
 
     /**
-     * The name of the attribute which maps the {@value Staff#COLUMN_NAME_USERNAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Staff#COLUMN_NAME_USERNAME} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_USERNAME = "username";
 
     /**
-     * The name of the attribute which maps the {@value Staff#COLUMN_NAME_PASSWORD} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Staff#COLUMN_NAME_PASSWORD} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_PASSWORD = "password";
 
-    // ------------------------------------------------------------------------------------------ STATIC_FACTORY_METHODS
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
 
     /**
      * Returns a new instance of the specified username, with no password.
@@ -69,7 +71,7 @@ public class EmbeddableCredentials {
         return instance;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -78,7 +80,7 @@ public class EmbeddableCredentials {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     /**
      * {@inheritDoc}
@@ -98,7 +100,8 @@ public class EmbeddableCredentials {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_USERNAME} and {@value #ATTRIBUTE_NAME_PASSWORD}.
+     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_USERNAME} and
+     *         {@value #ATTRIBUTE_NAME_PASSWORD}.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -113,15 +116,15 @@ public class EmbeddableCredentials {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_USERNAME} and {@value #ATTRIBUTE_NAME_PASSWORD},
-     *         consistent with {@link #equals(Object)}.
+     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_USERNAME} and
+     *         {@value #ATTRIBUTE_NAME_PASSWORD}, consistent with {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Objects.hash(username, password);
     }
 
-    // -------------------------------------------------------------------------------------------------------- username
+    // ------------------------------------------------------------------------------------ username
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute.
@@ -133,7 +136,8 @@ public class EmbeddableCredentials {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute with the specified
+     * value.
      *
      * @param username new value for {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      */
@@ -141,7 +145,7 @@ public class EmbeddableCredentials {
         this.username = username;
     }
 
-    // -------------------------------------------------------------------------------------------------------- password
+    // ------------------------------------------------------------------------------------ password
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
@@ -153,7 +157,8 @@ public class EmbeddableCredentials {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute with the specified
+     * value.
      *
      * @param password new value for {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
@@ -161,15 +166,15 @@ public class EmbeddableCredentials {
         this.password = password;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = Staff.SIZE_MAX_USERNAME)
     @Basic(optional = false)
-    @Column(name = Staff.COLUMN_NAME_USERNAME, nullable = false, insertable = true, updatable = true,
-            length = Staff.COLUMN_LENGTH_USERNAME)
+    @Column(name = Staff.COLUMN_NAME_USERNAME, nullable = false, insertable = true,
+            updatable = true, length = Staff.COLUMN_LENGTH_USERNAME)
     private String username;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = Staff.SIZE_MAX_PASSWORD)
     @Basic(optional = true)
     @Column(name = Staff.COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,

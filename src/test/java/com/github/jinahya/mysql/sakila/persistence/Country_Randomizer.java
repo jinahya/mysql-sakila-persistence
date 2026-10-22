@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link Country} instances.
  * <p>
- * The {@code countryId}, which the database generates, the {@code lastUpdate}, which the database fills, and the
- * {@code cities} association are excluded from randomization.
+ * The {@code countryId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and the {@code cities} association are excluded from randomization.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -46,7 +46,7 @@ class Country_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

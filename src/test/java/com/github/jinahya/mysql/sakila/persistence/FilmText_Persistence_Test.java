@@ -24,7 +24,8 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Verifies the mappings of {@link FilmText} against the schema generated into the in-memory database.
+ * Verifies the mappings of {@link FilmText} against the schema generated into the in-memory
+ * database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -35,11 +36,11 @@ class FilmText_Persistence_Test
         super(FilmText.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete every row of
-     * {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
+     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete
+     * every row of {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
      */
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
@@ -49,8 +50,8 @@ class FilmText_Persistence_Test
     }
 
     /**
-     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete every row of
-     * {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
+     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete
+     * every row of {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
      */
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
@@ -60,8 +61,8 @@ class FilmText_Persistence_Test
     }
 
     /**
-     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete every row of
-     * {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
+     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete
+     * every row of {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
      */
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
@@ -71,8 +72,8 @@ class FilmText_Persistence_Test
     }
 
     /**
-     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete every row of
-     * {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
+     * Does nothing; the triggers of the {@value Film#TABLE_NAME} table insert, update, and delete
+     * every row of {@value FilmText#TABLE_NAME}, so nothing else inserts into it.
      */
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override

@@ -27,8 +27,8 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link Inventory} instances.
  * <p>
- * Each instance is given a newly persisted {@link Film}, and the first {@link Store} of the database; see
- * {@link Staff_Persister} for why the store is not a new one.
+ * Each instance is given a newly persisted {@link Film}, and the first {@link Store} of the
+ * database; see {@link Staff_Persister} for why the store is not a new one.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -39,12 +39,14 @@ class Inventory_Persister
         super(Inventory.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Inventory apply(final EntityManager entityManager, final Inventory entityInstance) {
-        entityInstance.setFilm(EntityPersisterUtils.newPersistedInstanceOf(entityManager, Film.class));
+        entityInstance.setFilm(
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, Film.class));
         entityInstance.setStore(Store_Persister.selectFirst(entityManager).orElseThrow(
-                () -> new IllegalStateException("no store in the database; see Store_Persister#selectFirst")));
+                () -> new IllegalStateException(
+                        "no store in the database; see Store_Persister#selectFirst")));
         return super.apply(entityManager, entityInstance);
     }
 }

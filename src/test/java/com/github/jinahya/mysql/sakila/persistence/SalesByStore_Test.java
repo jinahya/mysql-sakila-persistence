@@ -34,10 +34,11 @@ class SalesByStore_Test
         super(SalesByStore.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
-     * Does nothing; {@link SalesByStore} declares no {@code equals(Object)}, so there is no value equality to verify.
+     * Does nothing; {@link SalesByStore} declares no {@code equals(Object)}, so there is no value
+     * equality to verify.
      */
     @Override
     @Test

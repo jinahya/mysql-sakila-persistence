@@ -63,13 +63,15 @@
       <!-- https://www.h2database.com/html/features.html#compatibility -->
       <!-- LEGACY, not MySQL: EclipseLink's H2Platform still writes INTEGER IDENTITY, which only LEGACY accepts;
            https://github.com/eclipse-ee4j/eclipselink/issues/1393 -->
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:;MODE=LEGACY;DATABASE_TO_LOWER=TRUE"/>
+      <property name="jakarta.persistence.jdbc.url"
+                value="jdbc:h2:mem:;MODE=LEGACY;DATABASE_TO_LOWER=TRUE"/>
       <property name="jakarta.persistence.jdbc.user" value="sa"/>
       <property name="jakarta.persistence.jdbc.password" value="password"/>
       <!-- //////////////////////////////////////////////////////////////////////////////////////// schema generation -->
       <!-- the standard property, rather than hibernate.hbm2ddl.auto and eclipselink.ddl-generation, for both providers;
            the generated schema starts empty -->
-      <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="jakarta.persistence.schema-generation.database.action"
+                value="drop-and-create"/>
       <!-- ///////////////////////////////////////////////////////////////////////////////////////////// eclipselink -->
       <!-- https://wiki.eclipse.org/EclipseLink/Examples/JPA/Logging -->
       <!--      <property name="eclipselink.logging.level" value="FINE"/>-->
@@ -77,7 +79,8 @@
       <property name="eclipselink.logging.parameters" value="true"/>
       <!--      <property name="eclipselink.weaving" value="true"/>-->
       <!-- https://wiki.eclipse.org/EclipseLink/Examples/JPA/DDL -->
-      <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.H2Platform"/>
+      <property name="eclipselink.target-database"
+                value="org.eclipse.persistence.platform.database.H2Platform"/>
       <!-- /////////////////////////////////////////////////////////////////////////////////////////////// hibernate -->
       <!--      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>-->
       <property name="hibernate.format_sql" value="true"/>
@@ -137,7 +140,8 @@
       <property name="eclipselink.logging.parameters" value="true"/>
       <!--      <property name="eclipselink.weaving" value="true"/>-->
       <!-- https://wiki.eclipse.org/EclipseLink/Examples/JPA/DDL -->
-      <property name="eclipselink.target-database" value="org.eclipse.persistence.platform.database.MySQLPlatform"/>
+      <property name="eclipselink.target-database"
+                value="org.eclipse.persistence.platform.database.MySQLPlatform"/>
       <!-- /////////////////////////////////////////////////////////////////////////////////////////////// hibernate -->
       <!--      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>-->
       <property name="hibernate.format_sql" value="true"/>

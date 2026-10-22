@@ -23,8 +23,8 @@ package com.github.jinahya.mysql.sakila.persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Verifies the mappings of {@link BetterEmployment} against the installed {@code sakila} database, with
- * {@code 88-better-employment.sql} applied.
+ * Verifies the mappings of {@link BetterEmployment} against the installed {@code sakila} database,
+ * with {@code 88-better-employment.sql} applied.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -35,14 +35,14 @@ class BetterEmployment_Persistence_IT
         super(BetterEmployment.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The store and the staff member, lazy associations, resolve, and the manager flag is
-     *         {@code TRUE} or {@code null}, never {@code FALSE}.
+     * @implNote The store and the staff member, lazy associations, resolve, and the manager
+     *         flag is {@code TRUE} or {@code null}, never {@code FALSE}.
      */
     @Override
     void randomTargetInstanceSelected(final BetterEmployment instance) {

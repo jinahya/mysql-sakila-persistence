@@ -51,11 +51,13 @@ import java.util.Locale;
  * )
  *}
  * <p>
- * The {@value #COLUMN_NAME_NAME} column is a {@code CHAR}, which MySQL pads with spaces as it stores a value and trims
- * as it reads one back, so a value read from the database never ends with a space.
+ * The {@value #COLUMN_NAME_NAME} column is a {@code CHAR}, which MySQL pads with spaces as it
+ * stores a value and trims as it reads one back, so a value read from the database never ends with
+ * a space.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-language.html">The language Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-language.html">The
+ *         language Table</a>
  */
 @NamedQuery(name = "Language.selectOneByLanguageId",
             query = """
@@ -90,23 +92,25 @@ public class Language {
      */
     public static final String TABLE_NAME = "language";
 
-    // ----------------------------------------------------------------------------------------------------- language_id
+    // --------------------------------------------------------------------------------- language_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LANGUAGE_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LANGUAGE_ID} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LANGUAGE_ID = "language_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LANGUAGE_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LANGUAGE_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LANGUAGE_ID = "languageId";
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_NAME = "name";
 
@@ -116,7 +120,8 @@ public class Language {
     public static final int COLUMN_LENGTH_NAME = 20;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_NAME = "name";
 
@@ -125,29 +130,31 @@ public class Language {
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ----------------------------------------------------------------------------------------------------------- films
+    // --------------------------------------------------------------------------------------- films
 
     /**
-     * The name of the attribute which maps the {@link Film films} in this language. The value is {@value}.
+     * The name of the attribute which maps the {@link Film films} in this language. The value is
+     * {@value}.
      *
      * @see Film#ATTRIBUTE_NAME_LANGUAGE
      */
     public static final String ATTRIBUTE_NAME_FILMS = "films";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -156,7 +163,7 @@ public class Language {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -172,8 +179,8 @@ public class Language {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -191,27 +198,28 @@ public class Language {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Language.class.hashCode();
     }
 
-    // ------------------------------------------------------------------------------------------------------ languageId
+    // ---------------------------------------------------------------------------------- languageId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LANGUAGE_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LANGUAGE_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_LANGUAGE_ID} attribute; {@code null} until
+     *         the instance is persisted.
      */
     public Integer getLanguageId() {
         return languageId;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_NAME} attribute.
@@ -232,12 +240,13 @@ public class Language {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_NAME} attribute with the display name of the specified locale,
-     * in {@link Locale#ENGLISH English}.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_NAME} attribute with the display name of
+     * the specified locale, in {@link Locale#ENGLISH English}.
      *
      * @param locale the locale whose display name, in {@link Locale#ENGLISH English}, is set.
-     * @apiNote The display name of a locale with a country, or a variant, may be longer than
-     *         {@value #SIZE_MAX_NAME} characters; {@link Locale#US}, for one, is {@code "English (United States)"}.
+     * @apiNote The display name of a locale with a country, or a variant, may be longer
+     *         than {@value #SIZE_MAX_NAME} characters; {@link Locale#US}, for one, is
+     *         {@code "English (United States)"}.
      * @see Locale#getDisplayName(Locale)
      * @see #setName(String)
      */
@@ -246,19 +255,19 @@ public class Language {
         setName(locale.getDisplayName(Locale.ENGLISH));
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- films
+    // --------------------------------------------------------------------------------------- films
     List<Film> getFilms() {
         return films;
     }
@@ -267,27 +276,28 @@ public class Language {
         this.films = films;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_LANGUAGE_ID, nullable = false, insertable = true, updatable = false)
     private Integer languageId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_NAME)
+    @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_NAME)
     private String name;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = Film.ATTRIBUTE_NAME_LANGUAGE, fetch = FetchType.LAZY)
     private List<@Valid @NotNull Film> films;
 }

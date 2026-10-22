@@ -33,9 +33,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link Film} instances.
  * <p>
- * The {@code filmId}, which the database generates, the {@code lastUpdate}, which the database fills, and the
- * associations are excluded from randomization; {@link Film_Persister} supplies the {@code language}. The numeric
- * attributes and the {@code specialFeatures} are assigned after the fact, within what their columns hold.
+ * The {@code filmId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and the associations are excluded from randomization; {@link Film_Persister} supplies the
+ * {@code language}. The numeric attributes and the {@code specialFeatures} are assigned after the
+ * fact, within what their columns hold.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -54,7 +55,7 @@ class Film_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();
@@ -75,11 +76,15 @@ class Film_Randomizer
         final var instance = super.get();
         final var random = ThreadLocalRandom.current();
         instance.setReleaseYear(
-                random.nextInt(Film.ATTRIBUTE_MIN_RELEASE_YEAR, Film.ATTRIBUTE_MAX_RELEASE_YEAR + 1));
+                random.nextInt(Film.ATTRIBUTE_MIN_RELEASE_YEAR,
+                               Film.ATTRIBUTE_MAX_RELEASE_YEAR + 1));
         instance.setRentalDuration(
-                random.nextInt(Film.ATTRIBUTE_MIN_RENTAL_DURATION, Film.ATTRIBUTE_MAX_RENTAL_DURATION + 1));
-        instance.setRentalRate(BigDecimal.valueOf(random.nextInt(0, 10000), Film.COLUMN_SCALE_RENTAL_RATE));
-        instance.setLength(random.nextInt(Film.ATTRIBUTE_MIN_LENGTH, Film.ATTRIBUTE_MAX_LENGTH + 1));
+                random.nextInt(Film.ATTRIBUTE_MIN_RENTAL_DURATION,
+                               Film.ATTRIBUTE_MAX_RENTAL_DURATION + 1));
+        instance.setRentalRate(
+                BigDecimal.valueOf(random.nextInt(0, 10000), Film.COLUMN_SCALE_RENTAL_RATE));
+        instance.setLength(
+                random.nextInt(Film.ATTRIBUTE_MIN_LENGTH, Film.ATTRIBUTE_MAX_LENGTH + 1));
         instance.setReplacementCost(
                 BigDecimal.valueOf(random.nextInt(0, 100000), Film.COLUMN_SCALE_REPLACEMENT_COST));
         // any subset of the members; the empty one is formatted as null, which the column allows

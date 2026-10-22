@@ -27,8 +27,9 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link Rental} instances.
  * <p>
- * Each instance is given a newly persisted {@link Inventory} and a newly persisted {@link Customer}, and the first
- * {@link Staff} of the database, whose {@code staff_id} is a {@code TINYINT UNSIGNED}; see {@link Film_Persister}.
+ * Each instance is given a newly persisted {@link Inventory} and a newly persisted
+ * {@link Customer}, and the first {@link Staff} of the database, whose {@code staff_id} is a
+ * {@code TINYINT UNSIGNED}; see {@link Film_Persister}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -39,13 +40,16 @@ class Rental_Persister
         super(Rental.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Rental apply(final EntityManager entityManager, final Rental entityInstance) {
-        entityInstance.setInventory(EntityPersisterUtils.newPersistedInstanceOf(entityManager, Inventory.class));
-        entityInstance.setCustomer(EntityPersisterUtils.newPersistedInstanceOf(entityManager, Customer.class));
+        entityInstance.setInventory(
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, Inventory.class));
+        entityInstance.setCustomer(
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, Customer.class));
         entityInstance.setStaff(Staff_Persister.selectFirst(entityManager).orElseThrow(
-                () -> new IllegalStateException("no staff in the database; see Staff_Persister#selectFirst")));
+                () -> new IllegalStateException(
+                        "no staff in the database; see Staff_Persister#selectFirst")));
         return super.apply(entityManager, entityInstance);
     }
 }
