@@ -21,13 +21,20 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 /**
- * A class which does nothing, and which cannot be instantiated.
+ * Utilities shared across the {@code sakila} database's classes.
+ * <p>
+ * Only what is shared goes here; what belongs to a single entity stays in that entity.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-public final class __NoOp {
+@SuppressWarnings({
+        "java:S101" // Class names should comply with a naming convention
+})
+final class _Utils {
 
-    private __NoOp() {
+    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+
+    private _Utils() {
         throw new AssertionError("instantiation is not allowed");
     }
 }

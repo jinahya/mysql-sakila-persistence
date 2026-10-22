@@ -495,12 +495,12 @@ public class Payment {
     // -----------------------------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_PAYMENT_DATE, nullable = false, insertable = false, updatable = false,
-            columnDefinition = __Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
+            columnDefinition = _Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
     private LocalDateTime paymentDate;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = true, insertable = false, updatable = false,
-            columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)
+            columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 }

@@ -458,7 +458,7 @@ public class Rental {
     // -----------------------------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_RENTAL_DATE, nullable = false, insertable = false, updatable = false,
-            columnDefinition = __Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
+            columnDefinition = _Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
     private LocalDateTime rentalDate;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -493,7 +493,7 @@ public class Rental {
     // -----------------------------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
-            columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)
+            columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
     // -----------------------------------------------------------------------------------------------------------------

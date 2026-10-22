@@ -447,7 +447,7 @@ public class Staff {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PICTURE} attribute.
      */
-    public byte [] getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
@@ -456,7 +456,7 @@ public class Staff {
      *
      * @param picture new value for {@value #ATTRIBUTE_NAME_PICTURE} attribute.
      */
-    public void setPicture(final byte [] picture) {
+    public void setPicture(final byte[] picture) {
         this.picture = picture;
     }
 
@@ -610,7 +610,7 @@ public class Staff {
     @Basic(optional = true, fetch = FetchType.LAZY)
     @Column(name = COLUMN_NAME_PICTURE, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_PICTURE)
-    private byte [] picture;
+    private byte[] picture;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_EMAIL)
@@ -651,6 +651,6 @@ public class Staff {
     // -----------------------------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
-            columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)
+            columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 }

@@ -30,7 +30,7 @@ package com.github.jinahya.mysql.sakila.persistence;
 @SuppressWarnings({
         "java:S101" // Class names should comply with a naming convention
 })
-final class __Constants {
+final class _Constants {
 
     // ----------------------------------------------------------------------------------------------------- last_update
 
@@ -70,7 +70,7 @@ final class __Constants {
 
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
-    private __Constants() {
+    private _Constants() {
         throw new AssertionError("instantiation is not allowed");
     }
 }
