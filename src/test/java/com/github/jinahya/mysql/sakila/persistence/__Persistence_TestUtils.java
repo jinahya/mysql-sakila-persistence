@@ -70,6 +70,15 @@ final class __Persistence_TestUtils {
         }
     }
 
+    static <R> R applyEntityManager(
+            final EntityManagerFactory entityManagerFactory,
+            final Function<? super EntityManager, ? extends R> function) {
+        Objects.requireNonNull(function, "function is null");
+        try (var entityManager = entityManagerFactory.createEntityManager()) {
+            return function.apply(entityManager);
+        }
+    }
+
     /**
      * Applies a new entity manager, of a new factory of the persistence unit of the specified name,
      * to the specified function, and closes both.
@@ -82,9 +91,8 @@ final class __Persistence_TestUtils {
      * @see #applyEntityManagerFactory(String, Function)
      * @see EntityManagerFactory#createEntityManager()
      */
-    static <R> R applyEntityManager(
-            final String persistenceUnitName,
-            final Function<? super EntityManager, ? extends R> function) {
+    static <R> R applyEntityManager(final String persistenceUnitName,
+                                    final Function<? super EntityManager, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerFactory(persistenceUnitName, emf -> {
             try (var entityManager = emf.createEntityManager()) {

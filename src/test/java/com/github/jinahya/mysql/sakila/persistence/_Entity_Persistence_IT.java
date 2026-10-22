@@ -59,6 +59,8 @@ abstract class _Entity_Persistence_IT<T> {
      */
     static final String PERSISTENCE_UNIT_NAME = "sakila-it";
 
+    // ---------------------------------------------------------------------------------------------
+
     /**
      * Creates a new instance for the specified persistence class.
      *
