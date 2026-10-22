@@ -25,24 +25,24 @@ import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
 import jakarta.persistence.EntityManager;
 
 /**
- * A persister which persists {@link BetterStoreStaff} instances.
+ * A persister which persists {@link BetterEmployment} instances.
  * <p>
  * Each instance is given a newly persisted {@link BetterStore} and a newly persisted {@link BetterStaff}; the store
- * being a new one, the {@code manager} which {@link BetterStoreStaff_Randomizer} gave it, {@link Boolean#TRUE} or
+ * being a new one, the {@code manager} which {@link BetterEmployment_Randomizer} gave it, {@link Boolean#TRUE} or
  * {@code null}, collides with no other manager of it.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class BetterStoreStaff_Persister
-        extends AbstractEntityPersister<BetterStoreStaff> {
+class BetterEmployment_Persister
+        extends AbstractEntityPersister<BetterEmployment> {
 
-    BetterStoreStaff_Persister() {
-        super(BetterStoreStaff.class);
+    BetterEmployment_Persister() {
+        super(BetterEmployment.class);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     @Override
-    public BetterStoreStaff apply(final EntityManager entityManager, final BetterStoreStaff entityInstance) {
+    public BetterEmployment apply(final EntityManager entityManager, final BetterEmployment entityInstance) {
         final var store = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStore.class);
         final var staff = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStaff.class);
         entityManager.flush(); // EclipseLink assigns an IDENTITY value only at the flush; the setters copy it

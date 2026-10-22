@@ -21,14 +21,14 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 /**
- * Verifies the mappings of {@link BetterStoreStaff} against the schema generated into the in-memory database.
+ * Verifies the mappings of {@link BetterEmployment} against the schema generated into the in-memory database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class BetterStoreStaff_Persistence_Test
-        extends _Entity_Persistence_Test<BetterStoreStaff> {
+class BetterEmployment_Persistence_Test
+        extends _Entity_Persistence_Test<BetterEmployment> {
 
-    BetterStoreStaff_Persistence_Test() {
-        super(BetterStoreStaff.class);
+    BetterEmployment_Persistence_Test() {
+        super(BetterEmployment.class);
     }
 }

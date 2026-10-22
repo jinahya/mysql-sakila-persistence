@@ -24,6 +24,9 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
@@ -37,21 +40,21 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- * An entity class for mapping the {@value BetterStoreStaff#TABLE_NAME} table.
+ * An entity class for mapping the {@value BetterEmployment#TABLE_NAME} table.
  * <p>
  * {@snippet lang = "sql":
- * CREATE TABLE better_store_staff (
+ * CREATE TABLE better_employment (
  *   id BIGINT NOT NULL AUTO_INCREMENT,
  *   store_id BIGINT NOT NULL,
  *   staff_id BIGINT NOT NULL,
  *   manager BOOLEAN NULL DEFAULT NULL,
  *   PRIMARY KEY (id),
- *   UNIQUE KEY uk_better_store_staff_staff (staff_id),
- *   UNIQUE KEY uk_better_store_staff_manager (manager, store_id),
- *   CONSTRAINT ck_better_store_staff_manager CHECK (manager IS NULL OR manager = TRUE),
- *   CONSTRAINT fk_better_store_staff_store FOREIGN KEY (store_id) REFERENCES better_store (id)
+ *   UNIQUE KEY uk_better_employment_staff (staff_id),
+ *   UNIQUE KEY uk_better_employment_manager (manager, store_id),
+ *   CONSTRAINT ck_better_employment_manager CHECK (manager IS NULL OR manager = TRUE),
+ *   CONSTRAINT fk_better_employment_store FOREIGN KEY (store_id) REFERENCES better_store (id)
  *       ON DELETE RESTRICT ON UPDATE CASCADE,
- *   CONSTRAINT fk_better_store_staff_staff FOREIGN KEY (staff_id) REFERENCES better_staff (id)
+ *   CONSTRAINT fk_better_employment_staff FOREIGN KEY (staff_id) REFERENCES better_staff (id)
  *       ON DELETE RESTRICT ON UPDATE CASCADE
  * )
  *}
@@ -63,70 +66,81 @@ import java.util.Objects;
  * manager per store. The manager works at the store they manage, for the flag is on the row which says so.
  * <p>
  * What the table does not enforce is that every store has a manager, and that every staff member works at a store. The
- * table is created by {@code 88-better-store-staff.sql}, which runs after the installer's scripts.
+ * table is created by {@code 88-better-employment.sql}, which runs after the installer's scripts.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-@NamedQuery(name = "BetterStoreStaff.selectOneById",
+@NamedQuery(name = "BetterEmployment.selectOneById",
             query = """
                     SELECT e
-                    FROM BetterStoreStaff e
+                    FROM BetterEmployment e
                     WHERE e.id = :id"""
 )
-@NamedQuery(name = "BetterStoreStaff.selectListOrderByIdAsc",
+@NamedQuery(name = "BetterEmployment.selectListOrderByIdAsc",
             query = """
                     SELECT e
-                    FROM BetterStoreStaff e
+                    FROM BetterEmployment e
                     ORDER BY e.id ASC"""
 )
-@NamedQuery(name = "BetterStoreStaff.selectOneByStaff",
+@NamedQuery(name = "BetterEmployment.selectOneByStaff",
             query = """
                     SELECT e
-                    FROM BetterStoreStaff e
+                    FROM BetterEmployment e
                     WHERE e.staff = :staff"""
 )
-@NamedQuery(name = "BetterStoreStaff.selectListByStoreOrderByIdAsc",
+@NamedQuery(name = "BetterEmployment.selectListByStoreOrderByIdAsc",
             query = """
                     SELECT e
-                    FROM BetterStoreStaff e
+                    FROM BetterEmployment e
                     WHERE e.store = :store
                     ORDER BY e.id ASC"""
 )
-@NamedQuery(name = "BetterStoreStaff.selectOneManagerByStore",
+@NamedQuery(name = "BetterEmployment.selectOneManagerByStore",
             query = """
                     SELECT e
-                    FROM BetterStoreStaff e
+                    FROM BetterEmployment e
                     WHERE e.store = :store
                       AND e.manager = TRUE"""
 )
-@NamedQuery(name = "BetterStoreStaff.countAll",
+@NamedQuery(name = "BetterEmployment.countAll",
             query = """
                     SELECT COUNT(e)
-                    FROM BetterStoreStaff e"""
+                    FROM BetterEmployment e"""
 )
 @Entity
-@Table(name = BetterStoreStaff.TABLE_NAME,
+@Table(name = BetterEmployment.TABLE_NAME,
        uniqueConstraints = {
                @UniqueConstraint(
                        columnNames = {
-                               BetterStoreStaff.COLUMN_NAME_STAFF_ID
+                               BetterEmployment.COLUMN_NAME_STAFF_ID
                        }
                ),
                @UniqueConstraint(
                        columnNames = {
-                               BetterStoreStaff.COLUMN_NAME_MANAGER,
-                               BetterStoreStaff.COLUMN_NAME_STORE_ID
+                               BetterEmployment.COLUMN_NAME_MANAGER,
+                               BetterEmployment.COLUMN_NAME_STORE_ID
                        }
                )
        }
 )
-public class BetterStoreStaff
-        extends Better {
+public class BetterEmployment {
 
     /**
      * The name of the database table to which this entity class maps. The value is {@value}.
      */
-    public static final String TABLE_NAME = "better_store_staff";
+    public static final String TABLE_NAME = "better_employment";
+
+    // -------------------------------------------------------------------------------------------------------------- id
+
+    /**
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
+     */
+    public static final String COLUMN_NAME_ID = "id";
+
+    /**
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is {@value}.
+     */
+    public static final String ATTRIBUTE_NAME_ID = "id";
 
     // -------------------------------------------------------------------------------------------------------- store_id
 
@@ -182,7 +196,7 @@ public class BetterStoreStaff
     /**
      * Creates a new instance.
      */
-    protected BetterStoreStaff() {
+    protected BetterEmployment() {
         super();
     }
 
@@ -191,7 +205,8 @@ public class BetterStoreStaff
     @Override
     public final String toString() {
         return super.toString() + '{' +
-               "manager=" + manager +
+               "id=" + id +
+               ",manager=" + manager +
                '}';
     }
 
@@ -211,7 +226,7 @@ public class BetterStoreStaff
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof BetterStoreStaff that)) {
+        if (!(obj instanceof BetterEmployment that)) {
             return false;
         }
         return Objects.equals(getStaffId(), that.getStaffId());
@@ -226,6 +241,17 @@ public class BetterStoreStaff
     @Override
     public final int hashCode() {
         return Objects.hashCode(getStaffId());
+    }
+
+    // -------------------------------------------------------------------------------------------------------------- id
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the instance is persisted.
+     */
+    public Long getId() {
+        return id;
     }
 
     // --------------------------------------------------------------------------------------------------------- storeId
@@ -322,6 +348,13 @@ public class BetterStoreStaff
     public void setManager(final Boolean manager) {
         this.manager = manager;
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = COLUMN_NAME_ID, nullable = false, insertable = true, updatable = false)
+    private Long id;
 
     // -----------------------------------------------------------------------------------------------------------------
     @Column(name = COLUMN_NAME_STORE_ID, nullable = false, insertable = false, updatable = false)

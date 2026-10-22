@@ -23,15 +23,15 @@ package com.github.jinahya.mysql.sakila.persistence;
 import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
 
 /**
- * A class for testing the {@link BetterStoreStaff} entity class.
+ * A class for testing the {@link BetterEmployment} entity class.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class BetterStoreStaff_Test
-        extends _Entity_Test<BetterStoreStaff> {
+class BetterEmployment_Test
+        extends _Entity_Test<BetterEmployment> {
 
-    BetterStoreStaff_Test() {
-        super(BetterStoreStaff.class);
+    BetterEmployment_Test() {
+        super(BetterEmployment.class);
     }
 
     // ------------------------------------------------------------------------------------------------- equals/hashCode
@@ -39,13 +39,13 @@ class BetterStoreStaff_Test
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link BetterStoreStaff#equals(Object) equals} compares the business key -- the read-only
-     *         {@value BetterStoreStaff#ATTRIBUTE_NAME_STAFF_ID}, which is never updated -- rather than the surrogate
+     * @implNote {@link BetterEmployment#equals(Object) equals} compares the business key -- the read-only
+     *         {@value BetterEmployment#ATTRIBUTE_NAME_STAFF_ID}, which is never updated -- rather than the surrogate
      *         {@code @Id}, which is null until the row is inserted.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<BetterStoreStaff> equalsVerifier() {
+    public SingleTypeEqualsVerifierApi<BetterEmployment> equalsVerifier() {
         return super.equalsVerifier()
-                .withOnlyTheseFields(BetterStoreStaff.ATTRIBUTE_NAME_STAFF_ID);
+                .withOnlyTheseFields(BetterEmployment.ATTRIBUTE_NAME_STAFF_ID);
     }
 }

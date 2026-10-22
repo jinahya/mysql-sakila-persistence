@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Scenarios of the {@link Better} entities, against the schema generated into the in-memory database.
+ * Scenarios of the {@code better_*} entities, against the schema generated into the in-memory database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -56,13 +56,47 @@ class Better_Scenario_Persistence_Test {
                         em.flush();
                         // read the staff's row back from the database
                         em.clear();
-                        final var storeStaff = em
-                                .createNamedQuery("BetterStoreStaff.selectOneByStaff", BetterStoreStaff.class)
+                        final var employment = em
+                                .createNamedQuery("BetterEmployment.selectOneByStaff", BetterEmployment.class)
                                 .setParameter("staff", em.find(BetterStaff.class, staff.getId()))
                                 .getSingleResult();
-                        assertThat(storeStaff.getStore().getId())
-                                .as("store id of %s", storeStaff)
+                        assertThat(employment.getStore().getId())
+                                .as("store id of %s", employment)
                                 .isEqualTo(store2.getId());
+                        return null;
+                    });
+        }
+    }
+
+    @DisplayName("setManager(staff1), and then setManager(staff2)")
+    @Nested
+    class SetManagerStaff1ThenStaff2Test {
+
+        @DisplayName("replaces staff1 with staff2 as the manager")
+        @Test
+        void _setManager_Staff1ThenStaff2() {
+            __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
+                    _Entity_Persistence_Test.PERSISTENCE_UNIT_NAME, em -> {
+                        // one store, and two staff of it
+                        final var store = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
+                        final var staff1 = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
+                        final var staff2 = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
+                        em.flush(); // EclipseLink assigns an IDENTITY value only at the flush; setStaff copies it
+                        store.addStaff(staff1);
+                        store.addStaff(staff2);
+                        em.flush();
+                        // set staff1 as the manager
+                        BetterStorePersistenceUtils.setManager(em, store, staff1);
+                        em.flush();
+                        // and then staff2
+                        BetterStorePersistenceUtils.setManager(em, store, staff2);
+                        em.flush();
+                        // read the store's manager back from the database
+                        em.clear();
+                        final var found = em.find(BetterStore.class, store.getId());
+                        assertThat(found.getManager().getId())
+                                .as("staff id of the manager of %s", found)
+                                .isEqualTo(staff2.getId());
                         return null;
                     });
         }

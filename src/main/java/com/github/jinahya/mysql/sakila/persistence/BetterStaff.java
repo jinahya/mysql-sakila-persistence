@@ -24,6 +24,9 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -42,12 +45,12 @@ import jakarta.validation.constraints.Size;
  *}
  * <p>
  * A staff member who refers to nothing. Unlike a {@link Staff}, it names no store; the store they work at, if any, is
- * the {@link BetterStoreStaff} row of them, so a store and a staff member can each be persisted first, without the
- * cycle of {@code store} and {@code staff}. The table is created by {@code 88-better-store-staff.sql}, which runs after
+ * the {@link BetterEmployment} row of them, so a store and a staff member can each be persisted first, without the
+ * cycle of {@code store} and {@code staff}. The table is created by {@code 88-better-employment.sql}, which runs after
  * the installer's scripts.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see BetterStoreStaff
+ * @see BetterEmployment
  */
 @NamedQuery(name = "BetterStaff.selectOneById",
             query = """
@@ -68,13 +71,24 @@ import jakarta.validation.constraints.Size;
 )
 @Entity
 @Table(name = BetterStaff.TABLE_NAME)
-public class BetterStaff
-        extends Better {
+public class BetterStaff {
 
     /**
      * The name of the database table to which this entity class maps. The value is {@value}.
      */
     public static final String TABLE_NAME = "better_staff";
+
+    // -------------------------------------------------------------------------------------------------------------- id
+
+    /**
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
+     */
+    public static final String COLUMN_NAME_ID = "id";
+
+    /**
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is {@value}.
+     */
+    public static final String ATTRIBUTE_NAME_ID = "id";
 
     // ------------------------------------------------------------------------------------------------------------ name
 
@@ -98,15 +112,15 @@ public class BetterStaff
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
-    // ----------------------------------------------------------------------------------------------------- storeStaff
+    // ------------------------------------------------------------------------------------------------------ employment
 
     /**
-     * The name of the attribute which maps the {@link BetterStoreStaff store-staff} of this staff member. The value is
+     * The name of the attribute which maps the {@link BetterEmployment employment} of this staff member. The value is
      * {@value}.
      *
-     * @see BetterStoreStaff#ATTRIBUTE_NAME_STAFF
+     * @see BetterEmployment#ATTRIBUTE_NAME_STAFF
      */
-    public static final String ATTRIBUTE_NAME_STORE_STAFF = "storeStaff";
+    public static final String ATTRIBUTE_NAME_EMPLOYMENT = "employment";
 
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
@@ -122,7 +136,8 @@ public class BetterStaff
     @Override
     public final String toString() {
         return super.toString() + '{' +
-               "name=" + name +
+               "id=" + id +
+               ",name=" + name +
                '}';
     }
 
@@ -131,15 +146,19 @@ public class BetterStaff
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equal only to another {@code BetterStaff}, and then as {@link Better#equals(Object)} has it: by the
-     *         {@code @Id} alone, and only once it is assigned.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
+     *         equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (!(obj instanceof BetterStaff)) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof BetterStaff that)) {
             return false;
         }
-        return super.equals(obj);
+        final var thisId = getId();
+        return thisId != null && thisId.equals(that.getId());
     }
 
     /**
@@ -152,6 +171,17 @@ public class BetterStaff
     @Override
     public final int hashCode() {
         return BetterStaff.class.hashCode();
+    }
+
+    // -------------------------------------------------------------------------------------------------------------- id
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the instance is persisted.
+     */
+    public Long getId() {
+        return id;
     }
 
     // ------------------------------------------------------------------------------------------------------------ name
@@ -174,14 +204,21 @@ public class BetterStaff
         this.name = name;
     }
 
-    // ----------------------------------------------------------------------------------------------------- storeStaff
-    BetterStoreStaff getStoreStaff() {
-        return storeStaff;
+    // ------------------------------------------------------------------------------------------------------ employment
+    BetterEmployment getEmployment() {
+        return employment;
     }
 
-    void setStoreStaff(final BetterStoreStaff storeStaff) {
-        this.storeStaff = storeStaff;
+    void setEmployment(final BetterEmployment employment) {
+        this.employment = employment;
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = COLUMN_NAME_ID, nullable = false, insertable = true, updatable = false)
+    private Long id;
 
     // -----------------------------------------------------------------------------------------------------------------
     @NotNull
@@ -191,6 +228,6 @@ public class BetterStaff
     private String name;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @OneToOne(mappedBy = BetterStoreStaff.ATTRIBUTE_NAME_STAFF, fetch = FetchType.LAZY)
-    private BetterStoreStaff storeStaff;
+    @OneToOne(mappedBy = BetterEmployment.ATTRIBUTE_NAME_STAFF, fetch = FetchType.LAZY)
+    private BetterEmployment employment;
 }

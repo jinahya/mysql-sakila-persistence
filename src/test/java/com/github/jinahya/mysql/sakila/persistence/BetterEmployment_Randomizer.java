@@ -29,23 +29,23 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * A randomizer which produces randomized {@link BetterStoreStaff} instances.
+ * A randomizer which produces randomized {@link BetterEmployment} instances.
  * <p>
  * The {@code id}, which the database generates, and the {@code store} and {@code staff} associations are excluded from
- * randomization; {@link BetterStoreStaff_Persister} supplies both associations. The {@code manager} is, at random,
+ * randomization; {@link BetterEmployment_Persister} supplies both associations. The {@code manager} is, at random,
  * {@link Boolean#TRUE} or {@code null}, never {@link Boolean#FALSE}, as the table's check constraint has it.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class BetterStoreStaff_Randomizer
-        extends PodamObjectRandomizer<BetterStoreStaff> {
+class BetterEmployment_Randomizer
+        extends PodamObjectRandomizer<BetterEmployment> {
 
-    BetterStoreStaff_Randomizer() {
-        super(BetterStoreStaff.class, List.of(
-                BetterStoreStaff.ATTRIBUTE_NAME_ID,
-                BetterStoreStaff.ATTRIBUTE_NAME_STORE,
-                BetterStoreStaff.ATTRIBUTE_NAME_STAFF,
-                BetterStoreStaff.ATTRIBUTE_NAME_MANAGER
+    BetterEmployment_Randomizer() {
+        super(BetterEmployment.class, List.of(
+                BetterEmployment.ATTRIBUTE_NAME_ID,
+                BetterEmployment.ATTRIBUTE_NAME_STORE,
+                BetterEmployment.ATTRIBUTE_NAME_STAFF,
+                BetterEmployment.ATTRIBUTE_NAME_MANAGER
         ));
     }
 
@@ -66,7 +66,7 @@ class BetterStoreStaff_Randomizer
     }
 
     @Override
-    public BetterStoreStaff get() {
+    public BetterEmployment get() {
         final var instance = super.get();
         instance.setManager(ThreadLocalRandom.current().nextBoolean() ? Boolean.TRUE : null);
         return instance;
