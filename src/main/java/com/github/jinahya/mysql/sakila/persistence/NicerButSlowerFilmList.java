@@ -35,10 +35,12 @@ import java.math.BigDecimal;
  * {@snippet lang = "sql":
  * CREATE VIEW nicer_but_slower_film_list
  * AS
- * SELECT film.film_id AS FID, film.title AS title, film.description AS description, category.name AS category,
+ * SELECT film.film_id AS FID, film.title AS title, film.description AS description, category
+ * .name AS category,
  *     film.rental_rate AS price, film.length AS length, film.rating AS rating,
  *     GROUP_CONCAT(CONCAT(CONCAT(UCASE(SUBSTR(actor.first_name,1,1)),
- *     LCASE(SUBSTR(actor.first_name,2,LENGTH(actor.first_name))),_utf8mb4' ',CONCAT(UCASE(SUBSTR(actor.last_name,1,1)),
+ *     LCASE(SUBSTR(actor.first_name,2,LENGTH(actor.first_name))),_utf8mb4' ',CONCAT(UCASE(SUBSTR
+ *     (actor.last_name,1,1)),
  *     LCASE(SUBSTR(actor.last_name,2,LENGTH(actor.last_name)))))) SEPARATOR ', ') AS actors
  * FROM film LEFT JOIN film_category ON film_category.film_id = film.film_id
  * LEFT JOIN category ON category.category_id = film_category.category_id LEFT
@@ -47,16 +49,18 @@ import java.math.BigDecimal;
  * GROUP BY film.film_id, category.name
  *}
  * <p>
- * The view is {@link FilmList}, with the names of the actors capitalized. No column, and no combination of columns,
- * identifies a row of it, for the reasons {@link FilmList} gives. So this is not an
- * {@link jakarta.persistence.Entity @Entity}: the columns it projects are written out here, and every one of them is
- * read-only.
+ * The view is {@link FilmList}, with the names of the actors capitalized. No column, and no
+ * combination of columns, identifies a row of it, for the reasons {@link FilmList} gives. So this
+ * is not an {@link jakarta.persistence.Entity @Entity}: the columns it projects are written out
+ * here, and every one of them is read-only.
  * <p>
- * The public constructor takes every attribute in the order the view selects its columns, which is the order a
- * name-based row mapper, or a {@link jakarta.persistence.ConstructorResult @ConstructorResult}, hands them over.
+ * The public constructor takes every attribute in the order the view selects its columns, which is
+ * the order a name-based row mapper, or a
+ * {@link jakarta.persistence.ConstructorResult @ConstructorResult}, hands them over.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-nicer_film_list.html">
+ * @see <a
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-nicer_film_list.html">
  *         The nicer_but_slower_film_list View</a>
  */
 public class NicerButSlowerFilmList {
@@ -66,22 +70,25 @@ public class NicerButSlowerFilmList {
      */
     public static final String TABLE_NAME = "nicer_but_slower_film_list";
 
-    // ------------------------------------------------------------------------------------------------------------- FID
+    // ----------------------------------------------------------------------------------------- FID
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FID} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_FID} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_FID = "FID";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_FID = "fid";
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_TITLE = "title";
 
@@ -91,7 +98,8 @@ public class NicerButSlowerFilmList {
     public static final int COLUMN_LENGTH_TITLE = 128;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_TITLE = "title";
 
@@ -100,24 +108,25 @@ public class NicerButSlowerFilmList {
      */
     public static final int SIZE_MAX_TITLE = COLUMN_LENGTH_TITLE;
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_DESCRIPTION = "description";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_DESCRIPTION = "description";
 
-    // -------------------------------------------------------------------------------------------------------- category
+    // ------------------------------------------------------------------------------------ category
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CATEGORY} attribute maps. The value is
-     * {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_CATEGORY} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_CATEGORY = "category";
 
@@ -127,7 +136,8 @@ public class NicerButSlowerFilmList {
     public static final int COLUMN_LENGTH_CATEGORY = 25;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CATEGORY} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CATEGORY} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_CATEGORY = "category";
 
@@ -136,10 +146,11 @@ public class NicerButSlowerFilmList {
      */
     public static final int SIZE_MAX_CATEGORY = COLUMN_LENGTH_CATEGORY;
 
-    // ----------------------------------------------------------------------------------------------------------- price
+    // --------------------------------------------------------------------------------------- price
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PRICE} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_PRICE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_PRICE = "price";
 
@@ -164,26 +175,30 @@ public class NicerButSlowerFilmList {
     public static final String COLUMN_MAX_PRICE = "99.99";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_PRICE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_PRICE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_PRICE = "price";
 
-    // ---------------------------------------------------------------------------------------------------------- length
+    // -------------------------------------------------------------------------------------- length
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_LENGTH = "length";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LENGTH} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LENGTH} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_LENGTH = "length";
 
-    // ---------------------------------------------------------------------------------------------------------- rating
+    // -------------------------------------------------------------------------------------- rating
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_RATING = "rating";
 
@@ -193,23 +208,26 @@ public class NicerButSlowerFilmList {
     public static final int COLUMN_LENGTH_RATING = 5;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RATING} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RATING} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_RATING = "rating";
 
-    // ---------------------------------------------------------------------------------------------------------- actors
+    // -------------------------------------------------------------------------------------- actors
 
     /**
-     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ACTORS} attribute maps. The value is {@value}.
+     * The name of the view column to which the {@value #ATTRIBUTE_NAME_ACTORS} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_ACTORS = "actors";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTORS} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTORS} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ACTORS = "actors";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -249,7 +267,7 @@ public class NicerButSlowerFilmList {
         this.actors = actors;
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -265,7 +283,7 @@ public class NicerButSlowerFilmList {
                '}';
     }
 
-    // ------------------------------------------------------------------------------------------------------------- fid
+    // ----------------------------------------------------------------------------------------- fid
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FID} attribute.
@@ -276,7 +294,7 @@ public class NicerButSlowerFilmList {
         return fid;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
@@ -287,7 +305,7 @@ public class NicerButSlowerFilmList {
         return title;
     }
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
@@ -298,7 +316,7 @@ public class NicerButSlowerFilmList {
         return description;
     }
 
-    // -------------------------------------------------------------------------------------------------------- category
+    // ------------------------------------------------------------------------------------ category
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
@@ -309,7 +327,7 @@ public class NicerButSlowerFilmList {
         return category;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- price
+    // --------------------------------------------------------------------------------------- price
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PRICE} attribute.
@@ -320,7 +338,7 @@ public class NicerButSlowerFilmList {
         return price;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- length
+    // -------------------------------------------------------------------------------------- length
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute.
@@ -331,7 +349,7 @@ public class NicerButSlowerFilmList {
         return length;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- rating
+    // -------------------------------------------------------------------------------------- rating
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RATING} attribute.
@@ -342,7 +360,7 @@ public class NicerButSlowerFilmList {
         return rating;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- actors
+    // -------------------------------------------------------------------------------------- actors
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ACTORS} attribute.
@@ -353,13 +371,13 @@ public class NicerButSlowerFilmList {
         return actors;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_FID, nullable = false, insertable = false, updatable = false)
     private Integer fid;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -367,19 +385,19 @@ public class NicerButSlowerFilmList {
             length = COLUMN_LENGTH_TITLE)
     private String title;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_CATEGORY)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_CATEGORY, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_CATEGORY)
     private String category;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_PRICE - COLUMN_SCALE_PRICE, fraction = COLUMN_SCALE_PRICE)
@@ -390,18 +408,18 @@ public class NicerButSlowerFilmList {
             precision = COLUMN_PRECISION_PRICE, scale = COLUMN_SCALE_PRICE)
     private BigDecimal price;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_LENGTH, nullable = true, insertable = false, updatable = false)
     private Integer length;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = false, updatable = false,
             length = COLUMN_LENGTH_RATING)
     private Film.Rating rating;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ACTORS, nullable = true, insertable = false, updatable = false)
     private String actors;

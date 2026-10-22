@@ -74,7 +74,9 @@ WHERE NOT (n.title <=> f.title
 -- --------------------------------------------------------------------------------------------------------- description
 -- description is nullable; how many are NULL, and the shortest and the longest.
 -- none is NULL; 70 and 130 characters.
-SELECT SUM(description IS NULL), MIN(CHAR_LENGTH(description)), MAX(CHAR_LENGTH(description))
+SELECT SUM(description IS NULL),
+       MIN(CHAR_LENGTH(description)),
+       MAX(CHAR_LENGTH(description))
 FROM nicer_but_slower_film_list
 ;
 

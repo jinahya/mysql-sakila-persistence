@@ -34,7 +34,7 @@ class City_Persistence_IT
         super(City.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -45,6 +45,7 @@ class City_Persistence_IT
     @Override
     void randomTargetInstanceSelected(final City instance) {
         assertThat(instance.getCity()).as("name of %s", instance).isNotBlank();
-        assertThat(instance.getCountry().getCountry()).as("name of the country of %s", instance).isNotBlank();
+        assertThat(instance.getCountry().getCountry()).as("name of the country of %s", instance)
+                .isNotBlank();
     }
 }

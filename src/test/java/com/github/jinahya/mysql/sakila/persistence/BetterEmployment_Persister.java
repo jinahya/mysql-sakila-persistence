@@ -27,9 +27,10 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link BetterEmployment} instances.
  * <p>
- * Each instance is given a newly persisted {@link BetterStore} and a newly persisted {@link BetterStaff}; the store
- * being a new one, the {@code manager} which {@link BetterEmployment_Randomizer} gave it, {@link Boolean#TRUE} or
- * {@code null}, collides with no other manager of it.
+ * Each instance is given a newly persisted {@link BetterStore} and a newly persisted
+ * {@link BetterStaff}; the store being a new one, the {@code manager} which
+ * {@link BetterEmployment_Randomizer} gave it, {@link Boolean#TRUE} or {@code null}, collides with
+ * no other manager of it.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -40,12 +41,16 @@ class BetterEmployment_Persister
         super(BetterEmployment.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
-    public BetterEmployment apply(final EntityManager entityManager, final BetterEmployment entityInstance) {
-        final var store = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStore.class);
-        final var staff = EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStaff.class);
-        entityManager.flush(); // EclipseLink assigns an IDENTITY value only at the flush; of(store, staff) copies them
+    public BetterEmployment apply(final EntityManager entityManager,
+                                  final BetterEmployment entityInstance) {
+        final var store =
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStore.class);
+        final var staff =
+                EntityPersisterUtils.newPersistedInstanceOf(entityManager, BetterStaff.class);
+        entityManager.flush(); // EclipseLink assigns an IDENTITY value only at the flush; of
+        // (store, staff) copies them
         final var instance = BetterEmployment.of(store, staff);
         instance.setManager(entityInstance.getManager());
         return super.apply(entityManager, instance);

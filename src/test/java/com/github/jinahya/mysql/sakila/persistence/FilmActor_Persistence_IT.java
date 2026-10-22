@@ -34,14 +34,14 @@ class FilmActor_Persistence_IT
         super(FilmActor.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The two components of the identifier, which the provider derives, are the identifiers of the
-     *         actor and of the film, lazy associations which resolve.
+     * @implNote The two components of the identifier, which the provider derives, are the
+     *         identifiers of the actor and of the film, lazy associations which resolve.
      */
     @Override
     void randomTargetInstanceSelected(final FilmActor instance) {

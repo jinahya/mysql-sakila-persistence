@@ -31,8 +31,8 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link EmbeddablePersonName} instances.
  * <p>
- * The class is a record, which PODAM cannot populate after construction, so {@link #get()} constructs one itself, with
- * a random first name and last name, each no longer than its column.
+ * The class is a record, which PODAM cannot populate after construction, so {@link #get()}
+ * constructs one itself, with a random first name and last name, each no longer than its column.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -45,7 +45,7 @@ class EmbeddablePersonName_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

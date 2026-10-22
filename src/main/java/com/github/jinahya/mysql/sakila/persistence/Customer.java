@@ -64,17 +64,19 @@ import java.util.List;
  * )
  *}
  * <p>
- * Unlike most tables of the database, the {@value #COLUMN_NAME_LAST_UPDATE} column of this one is nullable.
+ * Unlike most tables of the database, the {@value #COLUMN_NAME_LAST_UPDATE} column of this one is
+ * nullable.
  * <p>
- * The {@value #COLUMN_NAME_CREATE_DATE} column is set, on every insert, by a trigger, which replaces whatever value is
- * given with {@code NOW()}; so this class maps it read-only.
+ * The {@value #COLUMN_NAME_CREATE_DATE} column is set, on every insert, by a trigger, which
+ * replaces whatever value is given with {@code NOW()}; so this class maps it read-only.
  * {@snippet lang = "sql":
  * CREATE TRIGGER customer_create_date BEFORE INSERT ON customer
  *   FOR EACH ROW SET NEW.create_date = NOW()
  *}
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-customer.html">The customer Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-customer.html">The
+ *         customer Table</a>
  */
 @NamedQuery(name = "Customer.selectOneByCustomerId",
             query = """
@@ -135,36 +137,39 @@ public class Customer {
      */
     public static final String TABLE_NAME = "customer";
 
-    // ----------------------------------------------------------------------------------------------------- customer_id
+    // --------------------------------------------------------------------------------- customer_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CUSTOMER_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CUSTOMER_ID} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_CUSTOMER_ID = "customer_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CUSTOMER_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CUSTOMER_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_CUSTOMER_ID = "customerId";
 
-    // -------------------------------------------------------------------------------------------------------- store_id
+    // ------------------------------------------------------------------------------------ store_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_STORE_ID = "store_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE = "store";
 
-    // ------------------------------------------------------------------------------------------------------ first_name
+    // ---------------------------------------------------------------------------------- first_name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_FIRST_NAME = "first_name";
 
@@ -174,20 +179,22 @@ public class Customer {
     public static final int COLUMN_LENGTH_FIRST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FIRST_NAME = "firstName";
 
     /**
-     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is {@value}.
+     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is
+     * {@value}.
      */
     public static final int SIZE_MAX_FIRST_NAME = COLUMN_LENGTH_FIRST_NAME;
 
-    // ------------------------------------------------------------------------------------------------------- last_name
+    // ----------------------------------------------------------------------------------- last_name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_NAME = "last_name";
 
@@ -197,7 +204,8 @@ public class Customer {
     public static final int COLUMN_LENGTH_LAST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_NAME = "lastName";
 
@@ -206,10 +214,11 @@ public class Customer {
      */
     public static final int SIZE_MAX_LAST_NAME = COLUMN_LENGTH_LAST_NAME;
 
-    // ----------------------------------------------------------------------------------------------------------- email
+    // --------------------------------------------------------------------------------------- email
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_EMAIL} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_EMAIL} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_EMAIL = "email";
 
@@ -219,7 +228,8 @@ public class Customer {
     public static final int COLUMN_LENGTH_EMAIL = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_EMAIL} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_EMAIL} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_EMAIL = "email";
 
@@ -228,76 +238,83 @@ public class Customer {
      */
     public static final int SIZE_MAX_EMAIL = COLUMN_LENGTH_EMAIL;
 
-    // ------------------------------------------------------------------------------------------------------ address_id
+    // ---------------------------------------------------------------------------------- address_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS_ID = "address_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS = "address";
 
-    // ---------------------------------------------------------------------------------------------------------- active
+    // -------------------------------------------------------------------------------------- active
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ACTIVE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ACTIVE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_ACTIVE = "active";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTIVE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTIVE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ACTIVE = "active";
 
-    // ----------------------------------------------------------------------------------------------------- create_date
+    // --------------------------------------------------------------------------------- create_date
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_CREATE_DATE = "create_date";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CREATE_DATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CREATE_DATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_CREATE_DATE = "createDate";
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // --------------------------------------------------------------------------------------------------------- rentals
+    // ------------------------------------------------------------------------------------- rentals
 
     /**
-     * The name of the attribute which maps the {@link Rental rentals} of this customer. The value is {@value}.
+     * The name of the attribute which maps the {@link Rental rentals} of this customer. The value
+     * is {@value}.
      *
      * @see Rental#ATTRIBUTE_NAME_CUSTOMER
      */
     public static final String ATTRIBUTE_NAME_RENTALS = "rentals";
 
-    // -------------------------------------------------------------------------------------------------------- payments
+    // ------------------------------------------------------------------------------------ payments
 
     /**
-     * The name of the attribute which maps the {@link Payment payments} of this customer. The value is {@value}.
+     * The name of the attribute which maps the {@link Payment payments} of this customer. The value
+     * is {@value}.
      *
      * @see Payment#ATTRIBUTE_NAME_CUSTOMER
      */
     public static final String ATTRIBUTE_NAME_PAYMENTS = "payments";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -306,7 +323,7 @@ public class Customer {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -328,8 +345,8 @@ public class Customer {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -347,27 +364,28 @@ public class Customer {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Customer.class.hashCode();
     }
 
-    // ------------------------------------------------------------------------------------------------------ customerId
+    // ---------------------------------------------------------------------------------- customerId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CUSTOMER_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_CUSTOMER_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_CUSTOMER_ID} attribute; {@code null} until
+     *         the instance is persisted.
      */
     public Integer getCustomerId() {
         return customerId;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- store
+    // --------------------------------------------------------------------------------------- store
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
@@ -387,7 +405,7 @@ public class Customer {
         this.store = store;
     }
 
-    // ------------------------------------------------------------------------------------------------------- firstName
+    // ----------------------------------------------------------------------------------- firstName
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
@@ -399,7 +417,8 @@ public class Customer {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute with the specified
+     * value.
      *
      * @param firstName new value for {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
@@ -407,7 +426,7 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    // -------------------------------------------------------------------------------------------------------- lastName
+    // ------------------------------------------------------------------------------------ lastName
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
@@ -419,7 +438,8 @@ public class Customer {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute with the specified
+     * value.
      *
      * @param lastName new value for {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
@@ -427,7 +447,7 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- email
+    // --------------------------------------------------------------------------------------- email
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_EMAIL} attribute.
@@ -447,7 +467,7 @@ public class Customer {
         this.email = email;
     }
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
@@ -459,7 +479,8 @@ public class Customer {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified
+     * value.
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
@@ -467,7 +488,7 @@ public class Customer {
         this.address = address;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- active
+    // -------------------------------------------------------------------------------------- active
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
@@ -479,7 +500,8 @@ public class Customer {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute with the specified
+     * value.
      *
      * @param active new value for {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
      */
@@ -487,31 +509,31 @@ public class Customer {
         this.active = active;
     }
 
-    // ------------------------------------------------------------------------------------------------------ createDate
+    // ---------------------------------------------------------------------------------- createDate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_CREATE_DATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // --------------------------------------------------------------------------------------------------------- rentals
+    // ------------------------------------------------------------------------------------- rentals
     List<Rental> getRentals() {
         return rentals;
     }
@@ -520,7 +542,7 @@ public class Customer {
         this.rentals = rentals;
     }
 
-    // -------------------------------------------------------------------------------------------------------- payments
+    // ------------------------------------------------------------------------------------ payments
     List<Payment> getPayments() {
         return payments;
     }
@@ -529,22 +551,23 @@ public class Customer {
         this.payments = payments;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_CUSTOMER_ID, nullable = false, insertable = true, updatable = false)
     private Integer customerId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID,
+                nullable = false,
                 insertable = true, updatable = true)
     private Store store;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
@@ -552,7 +575,7 @@ public class Customer {
             length = COLUMN_LENGTH_FIRST_NAME)
     private String firstName;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
@@ -560,40 +583,41 @@ public class Customer {
             length = COLUMN_LENGTH_LAST_NAME)
     private String lastName;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_EMAIL)
     private String email;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID,
+                referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
                 insertable = true, updatable = true)
     private Address address;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_ACTIVE, nullable = false, insertable = true, updatable = true)
     private Boolean active;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_CREATE_DATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
     private LocalDateTime createDate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = true, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = Rental.ATTRIBUTE_NAME_CUSTOMER, fetch = FetchType.LAZY)
     private List<@Valid @NotNull Rental> rentals;
 

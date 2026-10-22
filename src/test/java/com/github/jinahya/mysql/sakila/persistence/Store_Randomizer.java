@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link Store} instances.
  * <p>
- * The {@code storeId}, which the database generates, the {@code lastUpdate}, which the database fills, and every
- * association are excluded from randomization; {@link Store_Persister} supplies the {@code managerStaff} and the
- * {@code address}.
+ * The {@code storeId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and every association are excluded from randomization; {@link Store_Persister} supplies
+ * the {@code managerStaff} and the {@code address}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -50,7 +50,7 @@ class Store_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

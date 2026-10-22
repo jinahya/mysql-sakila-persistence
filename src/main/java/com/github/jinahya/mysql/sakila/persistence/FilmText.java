@@ -50,14 +50,16 @@ import jakarta.validation.constraints.Size;
  * )
  *}
  * <p>
- * The table declares no foreign key, and nothing but the {@code ins_film}, {@code upd_film} and {@code del_film}
- * triggers on {@value Film#TABLE_NAME} relates a row to a {@link Film}. The triggers keep a row for every film, and
- * none for any other, so the {@value #ATTRIBUTE_NAME_FILM} attribute maps the {@value #COLUMN_NAME_FILM_ID} column
- * again, read-only, as a required association, which declares no foreign key either. Its {@value #COLUMN_NAME_FILM_ID}
- * is not generated, but assigned.
+ * The table declares no foreign key, and nothing but the {@code ins_film}, {@code upd_film} and
+ * {@code del_film} triggers on {@value Film#TABLE_NAME} relates a row to a {@link Film}. The
+ * triggers keep a row for every film, and none for any other, so the {@value #ATTRIBUTE_NAME_FILM}
+ * attribute maps the {@value #COLUMN_NAME_FILM_ID} column again, read-only, as a required
+ * association, which declares no foreign key either. Its {@value #COLUMN_NAME_FILM_ID} is not
+ * generated, but assigned.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_text.html">The film_text Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_text.html">The
+ *         film_text Table</a>
  */
 @NamedQuery(name = "FilmText.selectOneByFilmId",
             query = """
@@ -97,43 +99,45 @@ public class FilmText {
      */
     public static final String TABLE_NAME = "film_text";
 
-    // --------------------------------------------------------------------------------------------------------- film_id
+    // ------------------------------------------------------------------------------------- film_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FILM_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FILM_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_FILM_ID = "film_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM_ID = "filmId";
 
     /**
-     * The minimum value of the {@value #ATTRIBUTE_NAME_FILM_ID} attribute; the column is a {@code SMALLINT UNSIGNED}.
-     * The value is {@value}.
+     * The minimum value of the {@value #ATTRIBUTE_NAME_FILM_ID} attribute; the column is a
+     * {@code SMALLINT UNSIGNED}. The value is {@value}.
      */
     public static final int ATTRIBUTE_MIN_FILM_ID = 0;
 
     /**
-     * The maximum value of the {@value #ATTRIBUTE_NAME_FILM_ID} attribute; the column is a {@code SMALLINT UNSIGNED}.
-     * The value is {@value}.
+     * The maximum value of the {@value #ATTRIBUTE_NAME_FILM_ID} attribute; the column is a
+     * {@code SMALLINT UNSIGNED}. The value is {@value}.
      */
     public static final int ATTRIBUTE_MAX_FILM_ID = 65535;
 
-    // ------------------------------------------------------------------------------------------------------------ film
+    // ---------------------------------------------------------------------------------------- film
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column, as an association to {@link Film}.
-     * The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column, as an
+     * association to {@link Film}. The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM = "film";
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_TITLE = "title";
 
@@ -143,7 +147,8 @@ public class FilmText {
     public static final int COLUMN_LENGTH_TITLE = 255;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_TITLE = "title";
 
@@ -152,20 +157,21 @@ public class FilmText {
      */
     public static final int SIZE_MAX_TITLE = COLUMN_LENGTH_TITLE;
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_DESCRIPTION = "description";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_DESCRIPTION = "description";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -174,7 +180,7 @@ public class FilmText {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -190,8 +196,8 @@ public class FilmText {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -209,15 +215,16 @@ public class FilmText {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return FilmText.class.hashCode();
     }
 
-    // ---------------------------------------------------------------------------------------------------------- filmId
+    // -------------------------------------------------------------------------------------- filmId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
@@ -229,7 +236,8 @@ public class FilmText {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute with the specified
+     * value.
      *
      * @param filmId new value for {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      */
@@ -237,7 +245,7 @@ public class FilmText {
         this.filmId = filmId;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ film
+    // ---------------------------------------------------------------------------------------- film
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
@@ -248,7 +256,7 @@ public class FilmText {
         return film;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
@@ -268,7 +276,7 @@ public class FilmText {
         this.title = title;
     }
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
@@ -280,7 +288,8 @@ public class FilmText {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute with the specified
+     * value.
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
@@ -288,13 +297,15 @@ public class FilmText {
         this.description = description;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Max(ATTRIBUTE_MAX_FILM_ID)
     @Min(ATTRIBUTE_MIN_FILM_ID)
     @NotNull
     @Id
-    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects insertable=false on an
-    // @Id -- "There should be one non-read-only mapping defined for the primary key field". Nothing writes to this
+    // insertable=true is the JPA default; it is spelled out because EclipseLink rejects
+    // insertable=false on an
+    // @Id -- "There should be one non-read-only mapping defined for the primary key field".
+    // Nothing writes to this
     // table anyway; the triggers of the film table do.
     @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = true, updatable = false)
     private Integer filmId;
@@ -302,11 +313,13 @@ public class FilmText {
     @Valid
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false,
-                insertable = false, updatable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
+                nullable = false,
+                insertable = false, updatable = false,
+                foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Film film;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -314,7 +327,7 @@ public class FilmText {
             length = COLUMN_LENGTH_TITLE)
     private String title;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = false, updatable = false)
     private String description;

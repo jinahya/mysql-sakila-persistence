@@ -35,7 +35,7 @@ class BetterEmployment_Test
         super(BetterEmployment.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     @Override
     public SingleTypeEqualsVerifierApi<BetterEmployment> equalsVerifier() {

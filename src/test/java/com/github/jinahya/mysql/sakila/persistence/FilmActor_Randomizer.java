@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link FilmActor} instances.
  * <p>
- * The {@code id}, the {@code actor} and the {@code film} are excluded from randomization; {@link FilmActor_Persister}
- * supplies the two associations, from which the {@code id} is derived. The {@code lastUpdate}, which the database
- * fills, is excluded as well.
+ * The {@code id}, the {@code actor} and the {@code film} are excluded from randomization;
+ * {@link FilmActor_Persister} supplies the two associations, from which the {@code id} is derived.
+ * The {@code lastUpdate}, which the database fills, is excluded as well.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -48,7 +48,7 @@ class FilmActor_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

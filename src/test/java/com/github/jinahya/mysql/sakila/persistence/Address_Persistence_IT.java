@@ -43,18 +43,20 @@ class Address_Persistence_IT
         super(Address.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote Every installed location is a point of {@code SRID} {@value Address#COLUMN_SRID_LOCATION}, in
-     *         the internal format {@link Address#newLocation(int, double, double)} writes, which is decoded with
-     *         {@link Wkb.Dialect#MYSQL_WKB}. The {@code SRID} is read from the first four bytes, for the decoder takes
-     *         {@code 0} for an undefined reference system, whose {@code SRID} is {@code -1}. The coordinates are not
-     *         checked: 597 of the 603 installed points are a longitude and a latitude, but the other six have one
-     *         coordinate in the hundreds of millions.
+     * @implNote Every installed location is a point of {@code SRID}
+     *         {@value Address#COLUMN_SRID_LOCATION}, in the internal format
+     *         {@link Address#newLocation(int, double, double)} writes, which is decoded with
+     *         {@link Wkb.Dialect#MYSQL_WKB}. The {@code SRID} is read from the first four bytes,
+     *         for the decoder takes {@code 0} for an undefined reference system, whose {@code SRID}
+     *         is {@code -1}. The coordinates are not checked: 597 of the 603 installed points are a
+     *         longitude and a latitude, but the other six have one coordinate in the hundreds of
+     *         millions.
      */
     @Override
     void randomTargetInstanceSelected(final Address instance) {
@@ -63,7 +65,8 @@ class Address_Persistence_IT
             assertThat(location)
                     .as("location of %s", instance)
                     .hasSize(Address.LOCATION_POINT_BYTES);
-            final var srid = instance.getLocationAs(v -> ByteBuffer.wrap(v).order(ByteOrder.LITTLE_ENDIAN).getInt());
+            final var srid = instance.getLocationAs(
+                    v -> ByteBuffer.wrap(v).order(ByteOrder.LITTLE_ENDIAN).getInt());
             assertThat(srid)
                     .as("SRID of the location of %s", instance)
                     .isEqualTo(Address.COLUMN_SRID_LOCATION);

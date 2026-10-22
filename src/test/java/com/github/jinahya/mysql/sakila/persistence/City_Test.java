@@ -35,13 +35,13 @@ class City_Test
         super(City.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link City#equals(Object) equals} compares only the {@code @Id}, because every other attribute
-     *         is mutable state.
+     * @implNote {@link City#equals(Object) equals} compares only the {@code @Id}, because
+     *         every other attribute is mutable state.
      */
     @Override
     public SingleTypeEqualsVerifierApi<City> equalsVerifier() {

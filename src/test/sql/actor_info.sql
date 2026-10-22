@@ -86,7 +86,10 @@ WHERE CAST(v.first_name AS BINARY) <> CAST(a.first_name AS BINARY)
 -- ----------------------------------------------------------------------------------------------------------- film_info
 -- film_info is nullable, a GROUP_CONCAT of '<category>: <title>, ...' joined with '; '; how many rows have none.
 -- none is NULL or empty, for every actor plays in at least one film; 292 to 830 characters.
-SELECT SUM(film_info IS NULL), SUM(film_info = ''), MIN(CHAR_LENGTH(film_info)), MAX(CHAR_LENGTH(film_info))
+SELECT SUM(film_info IS NULL),
+       SUM(film_info = ''),
+       MIN(CHAR_LENGTH(film_info)),
+       MAX(CHAR_LENGTH(film_info))
 FROM actor_info
 ;
 
@@ -100,7 +103,8 @@ WHERE CHAR_LENGTH(film_info) >= @@group_concat_max_len
 -- a film_info whose number of categories is not that of the actor's films.
 -- no rows: film_info has a part per category.
 SELECT v.actor_id, v.categories, c.categories
-FROM (SELECT actor_id, CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ';', '')) + 1 AS categories
+FROM (SELECT actor_id,
+             CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ';', '')) + 1 AS categories
       FROM actor_info) v
          JOIN (SELECT fa.actor_id, COUNT(DISTINCT fc.category_id) AS categories
                FROM film_actor fa

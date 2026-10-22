@@ -32,10 +32,10 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link Payment} instances.
  * <p>
- * The {@code paymentId}, which the database generates, the {@code paymentDate}, which a trigger sets to {@code NOW()},
- * the {@code lastUpdate}, which the database fills, and every association are excluded from randomization;
- * {@link Payment_Persister} supplies the associations. The {@code amount} is assigned after the fact, within what its
- * column holds.
+ * The {@code paymentId}, which the database generates, the {@code paymentDate}, which a trigger
+ * sets to {@code NOW()}, the {@code lastUpdate}, which the database fills, and every association
+ * are excluded from randomization; {@link Payment_Persister} supplies the associations. The
+ * {@code amount} is assigned after the fact, within what its column holds.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -53,7 +53,7 @@ class Payment_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();
@@ -73,7 +73,8 @@ class Payment_Randomizer
     public Payment get() {
         final var instance = super.get();
         final var random = ThreadLocalRandom.current();
-        instance.setAmount(BigDecimal.valueOf(random.nextInt(0, 100000), Payment.COLUMN_SCALE_AMOUNT));
+        instance.setAmount(
+                BigDecimal.valueOf(random.nextInt(0, 100000), Payment.COLUMN_SCALE_AMOUNT));
         return instance;
     }
 }

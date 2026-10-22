@@ -31,8 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Reads the installed {@value FilmList#TABLE_NAME} view into {@link FilmList} instances.
  * <p>
- * {@link FilmList} is not an entity, so there is no persistence test to extend; every row is read with a native query,
- * and handed to the public constructor in the order the view selects its columns.
+ * {@link FilmList} is not an entity, so there is no persistence test to extend; every row is read
+ * with a native query, and handed to the public constructor in the order the view selects its
+ * columns.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -55,7 +56,7 @@ class FilmList_IT {
         );
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     @DisplayName("every installed row reads into a FilmList")
     @Test

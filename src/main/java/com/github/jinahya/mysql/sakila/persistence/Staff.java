@@ -67,7 +67,8 @@ import java.time.LocalDateTime;
  * See {@link Store} for how a staff member and a store refer to each other.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-staff.html">The staff Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-staff.html">The
+ *         staff Table</a>
  */
 @NamedQuery(name = "Staff.selectOneByStaffId",
             query = """
@@ -108,24 +109,25 @@ public class Staff {
      */
     public static final String TABLE_NAME = "staff";
 
-    // -------------------------------------------------------------------------------------------------------- staff_id
+    // ------------------------------------------------------------------------------------ staff_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STAFF_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STAFF_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_STAFF_ID = "staff_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STAFF_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STAFF_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_STAFF_ID = "staffId";
 
-    // ------------------------------------------------------------------------------------------------------ first_name
+    // ---------------------------------------------------------------------------------- first_name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_FIRST_NAME = "first_name";
 
@@ -135,20 +137,22 @@ public class Staff {
     public static final int COLUMN_LENGTH_FIRST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FIRST_NAME = "firstName";
 
     /**
-     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is {@value}.
+     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is
+     * {@value}.
      */
     public static final int SIZE_MAX_FIRST_NAME = COLUMN_LENGTH_FIRST_NAME;
 
-    // ------------------------------------------------------------------------------------------------------- last_name
+    // ----------------------------------------------------------------------------------- last_name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_NAME = "last_name";
 
@@ -158,7 +162,8 @@ public class Staff {
     public static final int COLUMN_LENGTH_LAST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_NAME = "lastName";
 
@@ -167,34 +172,37 @@ public class Staff {
      */
     public static final int SIZE_MAX_LAST_NAME = COLUMN_LENGTH_LAST_NAME;
 
-    // ------------------------------------------------------------------------------------------------------ address_id
+    // ---------------------------------------------------------------------------------- address_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS_ID = "address_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS = "address";
 
-    // --------------------------------------------------------------------------------------------------------- picture
+    // ------------------------------------------------------------------------------------- picture
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PICTURE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PICTURE} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_PICTURE = "picture";
 
     /**
-     * The length of the {@value #COLUMN_NAME_PICTURE} column; the largest {@code BLOB}. The value is {@value}.
+     * The length of the {@value #COLUMN_NAME_PICTURE} column; the largest {@code BLOB}. The value
+     * is {@value}.
      */
     public static final int COLUMN_LENGTH_PICTURE = 65535;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_PICTURE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_PICTURE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_PICTURE = "picture";
 
@@ -203,10 +211,11 @@ public class Staff {
      */
     public static final int SIZE_MAX_PICTURE = COLUMN_LENGTH_PICTURE;
 
-    // ----------------------------------------------------------------------------------------------------------- email
+    // --------------------------------------------------------------------------------------- email
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_EMAIL} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_EMAIL} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_EMAIL = "email";
 
@@ -216,7 +225,8 @@ public class Staff {
     public static final int COLUMN_LENGTH_EMAIL = 50;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_EMAIL} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_EMAIL} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_EMAIL = "email";
 
@@ -225,35 +235,39 @@ public class Staff {
      */
     public static final int SIZE_MAX_EMAIL = COLUMN_LENGTH_EMAIL;
 
-    // -------------------------------------------------------------------------------------------------------- store_id
+    // ------------------------------------------------------------------------------------ store_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_STORE_ID = "store_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE = "store";
 
-    // ---------------------------------------------------------------------------------------------------------- active
+    // -------------------------------------------------------------------------------------- active
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ACTIVE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ACTIVE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_ACTIVE = "active";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTIVE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ACTIVE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ACTIVE = "active";
 
-    // -------------------------------------------------------------------------------------------------------- username
+    // ------------------------------------------------------------------------------------ username
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_USERNAME} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_USERNAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_USERNAME = "username";
 
@@ -263,7 +277,8 @@ public class Staff {
     public static final int COLUMN_LENGTH_USERNAME = 16;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_USERNAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_USERNAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_USERNAME = "username";
 
@@ -272,11 +287,11 @@ public class Staff {
      */
     public static final int SIZE_MAX_USERNAME = COLUMN_LENGTH_USERNAME;
 
-    // -------------------------------------------------------------------------------------------------------- password
+    // ------------------------------------------------------------------------------------ password
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PASSWORD} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_PASSWORD} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_PASSWORD = "password";
 
@@ -286,7 +301,8 @@ public class Staff {
     public static final int COLUMN_LENGTH_PASSWORD = 40;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_PASSWORD} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_PASSWORD} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_PASSWORD = "password";
 
@@ -295,20 +311,21 @@ public class Staff {
      */
     public static final int SIZE_MAX_PASSWORD = COLUMN_LENGTH_PASSWORD;
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -317,7 +334,7 @@ public class Staff {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -341,8 +358,8 @@ public class Staff {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -360,27 +377,28 @@ public class Staff {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Staff.class.hashCode();
     }
 
-    // --------------------------------------------------------------------------------------------------------- staffId
+    // ------------------------------------------------------------------------------------- staffId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute; {@code null} until the
+     *         instance is persisted.
      */
     public Integer getStaffId() {
         return staffId;
     }
 
-    // ------------------------------------------------------------------------------------------------------- firstName
+    // ----------------------------------------------------------------------------------- firstName
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
@@ -392,7 +410,8 @@ public class Staff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute with the specified
+     * value.
      *
      * @param firstName new value for {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
      */
@@ -400,7 +419,7 @@ public class Staff {
         this.firstName = firstName;
     }
 
-    // -------------------------------------------------------------------------------------------------------- lastName
+    // ------------------------------------------------------------------------------------ lastName
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
@@ -412,7 +431,8 @@ public class Staff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_LAST_NAME} attribute with the specified
+     * value.
      *
      * @param lastName new value for {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
      */
@@ -420,7 +440,7 @@ public class Staff {
         this.lastName = lastName;
     }
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
@@ -432,7 +452,8 @@ public class Staff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified
+     * value.
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
@@ -440,7 +461,7 @@ public class Staff {
         this.address = address;
     }
 
-    // --------------------------------------------------------------------------------------------------------- picture
+    // ------------------------------------------------------------------------------------- picture
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PICTURE} attribute.
@@ -452,7 +473,8 @@ public class Staff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_PICTURE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_PICTURE} attribute with the specified
+     * value.
      *
      * @param picture new value for {@value #ATTRIBUTE_NAME_PICTURE} attribute.
      */
@@ -460,7 +482,7 @@ public class Staff {
         this.picture = picture;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- email
+    // --------------------------------------------------------------------------------------- email
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_EMAIL} attribute.
@@ -480,7 +502,7 @@ public class Staff {
         this.email = email;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- store
+    // --------------------------------------------------------------------------------------- store
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
@@ -500,7 +522,7 @@ public class Staff {
         this.store = store;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- active
+    // -------------------------------------------------------------------------------------- active
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
@@ -512,7 +534,8 @@ public class Staff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ACTIVE} attribute with the specified
+     * value.
      *
      * @param active new value for {@value #ATTRIBUTE_NAME_ACTIVE} attribute.
      */
@@ -520,7 +543,7 @@ public class Staff {
         this.active = active;
     }
 
-    // -------------------------------------------------------------------------------------------------------- username
+    // ------------------------------------------------------------------------------------ username
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute.
@@ -532,7 +555,8 @@ public class Staff {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_USERNAME} attribute with the specified
+     * value.
      *
      * @param username new value for {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      */
@@ -540,20 +564,21 @@ public class Staff {
         this.username = username;
     }
 
-    // -------------------------------------------------------------------------------------------------------- password
+    // ------------------------------------------------------------------------------------ password
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute; the installed rows hold a {@code SHA-1}
-     *         hash in hexadecimal.
+     * @return current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute; the installed rows hold
+     *         a {@code SHA-1} hash in hexadecimal.
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute with the specified
+     * value.
      *
      * @param password new value for {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
@@ -561,26 +586,26 @@ public class Staff {
         this.password = password;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_STAFF_ID, nullable = false, insertable = true, updatable = false)
     private Integer staffId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_FIRST_NAME)
     @Basic(optional = false)
@@ -588,7 +613,7 @@ public class Staff {
             length = COLUMN_LENGTH_FIRST_NAME)
     private String firstName;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_LAST_NAME)
     @Basic(optional = false)
@@ -596,15 +621,16 @@ public class Staff {
             length = COLUMN_LENGTH_LAST_NAME)
     private String lastName;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID,
+                referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
                 insertable = true, updatable = true)
     private Address address;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_PICTURE)
     @Lob
     @Basic(optional = true, fetch = FetchType.LAZY)
@@ -612,28 +638,29 @@ public class Staff {
             length = COLUMN_LENGTH_PICTURE)
     private byte[] picture;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_EMAIL)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_EMAIL, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_EMAIL)
     private String email;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID,
+                nullable = false,
                 insertable = true, updatable = true)
     private Store store;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_ACTIVE, nullable = false, insertable = true, updatable = true)
     private Boolean active;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_USERNAME)
     @Basic(optional = false)
@@ -641,14 +668,14 @@ public class Staff {
             length = COLUMN_LENGTH_USERNAME)
     private String username;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_PASSWORD)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_PASSWORD)
     private String password;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)

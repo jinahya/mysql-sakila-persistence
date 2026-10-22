@@ -70,7 +70,8 @@ import java.util.List;
  * {@code inventory_in_stock} function reads it that way.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-rental.html">The rental Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-rental.html">The
+ *         rental Table</a>
  */
 @NamedQuery(name = "Rental.selectOneByRentalId",
             query = """
@@ -150,106 +151,115 @@ public class Rental {
      */
     public static final String TABLE_NAME = "rental";
 
-    // ------------------------------------------------------------------------------------------------------- rental_id
+    // ----------------------------------------------------------------------------------- rental_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_RENTAL_ID = "rental_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_ID = "rentalId";
 
-    // ----------------------------------------------------------------------------------------------------- rental_date
+    // --------------------------------------------------------------------------------- rental_date
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RENTAL_DATE = "rental_date";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_DATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_DATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_DATE = "rentalDate";
 
-    // ---------------------------------------------------------------------------------------------------- inventory_id
+    // -------------------------------------------------------------------------------- inventory_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_INVENTORY} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_INVENTORY} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_INVENTORY_ID = "inventory_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_INVENTORY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_INVENTORY_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_INVENTORY = "inventory";
 
-    // ----------------------------------------------------------------------------------------------------- customer_id
+    // --------------------------------------------------------------------------------- customer_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CUSTOMER} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_CUSTOMER} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_CUSTOMER_ID = "customer_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_CUSTOMER_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_CUSTOMER_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_CUSTOMER = "customer";
 
-    // ----------------------------------------------------------------------------------------------------- return_date
+    // --------------------------------------------------------------------------------- return_date
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RETURN_DATE = "return_date";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RETURN_DATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RETURN_DATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RETURN_DATE = "returnDate";
 
-    // -------------------------------------------------------------------------------------------------------- staff_id
+    // ------------------------------------------------------------------------------------ staff_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STAFF} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STAFF} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_STAFF_ID = "staff_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STAFF_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STAFF_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_STAFF = "staff";
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // -------------------------------------------------------------------------------------------------------- payments
+    // ------------------------------------------------------------------------------------ payments
 
     /**
-     * The name of the attribute which maps the {@link Payment payments} of this rental. The value is {@value}.
+     * The name of the attribute which maps the {@link Payment payments} of this rental. The value
+     * is {@value}.
      *
      * @see Payment#ATTRIBUTE_NAME_RENTAL
      */
     public static final String ATTRIBUTE_NAME_PAYMENTS = "payments";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -258,7 +268,7 @@ public class Rental {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -275,10 +285,11 @@ public class Rental {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself. The table's unique key, which includes the
-     *         {@value #ATTRIBUTE_NAME_RENTAL_DATE}, is not used, for the {@value #ATTRIBUTE_NAME_RENTAL_DATE} is set by
-     *         a trigger, and is {@code null} until the instance is read from the database.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself. The table's unique key, which
+     *         includes the {@value #ATTRIBUTE_NAME_RENTAL_DATE}, is not used, for the
+     *         {@value #ATTRIBUTE_NAME_RENTAL_DATE} is set by a trigger, and is {@code null} until
+     *         the instance is read from the database.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -296,24 +307,25 @@ public class Rental {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Rental.class.hashCode();
     }
 
-    // ------------------------------------------------------------------------------------------------- Bean-Validation
+    // ----------------------------------------------------------------------------- Bean-Validation
 
     /**
      * Checks that the {@value #ATTRIBUTE_NAME_RETURN_DATE}, when there is one, is not before the
      * {@value #ATTRIBUTE_NAME_RENTAL_DATE}.
      *
-     * @return {@code true} when either date is {@code null}, or when the return is not before the rental; {@code false}
-     *         otherwise.
-     * @implNote The database does not check this; a copy cannot come back before it went out, though, and every
-     *         installed row agrees.
+     * @return {@code true} when either date is {@code null}, or when the return is not before the
+     *         rental; {@code false} otherwise.
+     * @implNote The database does not check this; a copy cannot come back before it went
+     *         out, though, and every installed row agrees.
      */
     @AssertTrue
     protected boolean isReturnDateNotBeforeRentalDate() {
@@ -323,31 +335,31 @@ public class Rental {
         return !returnDate.isBefore(rentalDate);
     }
 
-    // -------------------------------------------------------------------------------------------------------- rentalId
+    // ------------------------------------------------------------------------------------ rentalId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_ID} attribute; {@code null} until the
+     *         instance is persisted.
      */
     public Integer getRentalId() {
         return rentalId;
     }
 
-    // ------------------------------------------------------------------------------------------------------ rentalDate
+    // ---------------------------------------------------------------------------------- rentalDate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getRentalDate() {
         return rentalDate;
     }
 
-    // ------------------------------------------------------------------------------------------------------- inventory
+    // ----------------------------------------------------------------------------------- inventory
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_INVENTORY} attribute.
@@ -359,7 +371,8 @@ public class Rental {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_INVENTORY} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_INVENTORY} attribute with the specified
+     * value.
      *
      * @param inventory new value for {@value #ATTRIBUTE_NAME_INVENTORY} attribute.
      */
@@ -367,7 +380,7 @@ public class Rental {
         this.inventory = inventory;
     }
 
-    // -------------------------------------------------------------------------------------------------------- customer
+    // ------------------------------------------------------------------------------------ customer
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
@@ -379,7 +392,8 @@ public class Rental {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_CUSTOMER} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_CUSTOMER} attribute with the specified
+     * value.
      *
      * @param customer new value for {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
      */
@@ -387,19 +401,21 @@ public class Rental {
         this.customer = customer;
     }
 
-    // ------------------------------------------------------------------------------------------------------ returnDate
+    // ---------------------------------------------------------------------------------- returnDate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while the copy is out.
+     * @return current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute; {@code null} while
+     *         the copy is out.
      */
     public LocalDateTime getReturnDate() {
         return returnDate;
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute with the specified
+     * value.
      *
      * @param returnDate new value for {@value #ATTRIBUTE_NAME_RETURN_DATE} attribute.
      */
@@ -407,7 +423,7 @@ public class Rental {
         this.returnDate = returnDate;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- staff
+    // --------------------------------------------------------------------------------------- staff
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STAFF} attribute.
@@ -427,19 +443,19 @@ public class Rental {
         this.staff = staff;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // -------------------------------------------------------------------------------------------------------- payments
+    // ------------------------------------------------------------------------------------ payments
     List<Payment> getPayments() {
         return payments;
     }
@@ -448,55 +464,58 @@ public class Rental {
         this.payments = payments;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_RENTAL_ID, nullable = false, insertable = true, updatable = false)
     private Integer rentalId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_RENTAL_DATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_DATETIME_CURRENT_TIMESTAMP)
     private LocalDateTime rentalDate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_INVENTORY_ID, referencedColumnName = Inventory.COLUMN_NAME_INVENTORY_ID,
+    @JoinColumn(name = COLUMN_NAME_INVENTORY_ID,
+                referencedColumnName = Inventory.COLUMN_NAME_INVENTORY_ID,
                 nullable = false, insertable = true, updatable = true)
     private Inventory inventory;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID, referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID,
+    @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID,
+                referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID,
                 nullable = false, insertable = true, updatable = true)
     private Customer customer;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RETURN_DATE, nullable = true, insertable = true, updatable = true)
     private LocalDateTime returnDate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
+                nullable = false,
                 insertable = true, updatable = true)
     private Staff staff;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = Payment.ATTRIBUTE_NAME_RENTAL, fetch = FetchType.LAZY)
     private List<@Valid @NotNull Payment> payments;
 }

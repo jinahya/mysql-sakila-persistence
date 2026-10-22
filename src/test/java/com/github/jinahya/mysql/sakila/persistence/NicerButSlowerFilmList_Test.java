@@ -34,11 +34,11 @@ class NicerButSlowerFilmList_Test
         super(NicerButSlowerFilmList.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
-     * Does nothing; {@link NicerButSlowerFilmList} declares no {@code equals(Object)}, so there is no value equality to
-     * verify.
+     * Does nothing; {@link NicerButSlowerFilmList} declares no {@code equals(Object)}, so there is
+     * no value equality to verify.
      */
     @Override
     @Test

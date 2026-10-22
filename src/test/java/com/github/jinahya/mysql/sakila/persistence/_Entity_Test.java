@@ -33,11 +33,12 @@ import java.util.Objects;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * An abstract base class for testing, without a persistence context, a class which maps a table or a view.
+ * An abstract base class for testing, without a persistence context, a class which maps a table or
+ * a view.
  * <p>
- * Its checks are, for now, the ones {@link _NonEntity_Test} runs too -- a usable {@code toString()}, an
- * {@code equals}/{@code hashCode} pair, and property accessors which round-trip; checks only such a class has to pass
- * go here.
+ * Its checks are, for now, the ones {@link _NonEntity_Test} runs too -- a usable
+ * {@code toString()}, an {@code equals}/{@code hashCode} pair, and property accessors which
+ * round-trip; checks only such a class has to pass go here.
  *
  * @param <T> the type of the class.
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -58,7 +59,7 @@ abstract class _Entity_Test<T> {
         this.targetClass = Objects.requireNonNull(targetClass, "targetClass is null");
     }
 
-    // -------------------------------------------------------------------------------------------------------- toString
+    // ------------------------------------------------------------------------------------ toString
 
     /**
      * Verifies that {@code toString()} of a new instance of {@link #targetClass} is not blank.
@@ -71,14 +72,15 @@ abstract class _Entity_Test<T> {
     }
 
     /**
-     * Verifies that {@code toString()} of a new randomized instance of {@link #targetClass} is not blank.
+     * Verifies that {@code toString()} of a new randomized instance of {@link #targetClass} is not
+     * blank.
      */
     @Test
     void toString_NotBlank_NewRandomizedInstance() {
         assertThat(newRandomizedTargetInstance().toString()).isNotBlank();
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * Returns an equals-verifier for {@link #targetClass}, which subclasses may further configure.
@@ -90,8 +92,8 @@ abstract class _Entity_Test<T> {
     }
 
     /**
-     * Verifies the {@code equals}/{@code hashCode} contract of {@link #targetClass}, using the verifier which
-     * {@link #equalsVerifier()} returns.
+     * Verifies the {@code equals}/{@code hashCode} contract of {@link #targetClass}, using the
+     * verifier which {@link #equalsVerifier()} returns.
      */
     @Test
     void equals_verify_() {
@@ -99,11 +101,11 @@ abstract class _Entity_Test<T> {
         verifier.verify();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Verifies that every non-{@link Transient @Transient} read/write property of {@link #targetClass} accepts what its
-     * own reader returns.
+     * Verifies that every non-{@link Transient @Transient} read/write property of
+     * {@link #targetClass} accepts what its own reader returns.
      *
      * @throws IntrospectionException when {@link #targetClass} cannot be introspected.
      * @see __Object_TestUtils#assertPropertyAccessorsDoNotThrow(Class, Object)
@@ -113,7 +115,7 @@ abstract class _Entity_Test<T> {
         __Object_TestUtils.assertPropertyAccessorsDoNotThrow(targetClass, newTargetInstance());
     }
 
-    // ----------------------------------------------------------------------------------------------------- targetClass
+    // --------------------------------------------------------------------------------- targetClass
 
     /**
      * Returns a new, uninitialized instance of {@link #targetClass}.
@@ -135,7 +137,7 @@ abstract class _Entity_Test<T> {
                 .orElseThrow(() -> new IllegalStateException("no randomizer for " + targetClass));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * The class which this test targets.

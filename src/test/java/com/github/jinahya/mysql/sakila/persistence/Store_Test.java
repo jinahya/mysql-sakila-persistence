@@ -35,14 +35,15 @@ class Store_Test
         super(Store.class);
     }
 
-    // ------------------------------------------------------------------------------------------------- equals/hashCode
+    // ----------------------------------------------------------------------------- equals/hashCode
 
     /**
      * {@inheritDoc}
      *
-     * @implNote {@link Store#equals(Object) equals} compares the business key -- the identifier of the
-     *         {@value Store#ATTRIBUTE_NAME_MANAGER_STAFF}, which the table declares unique -- rather than the surrogate
-     *         {@value Store#ATTRIBUTE_NAME_STORE_ID}, which is null until the row is inserted.
+     * @implNote {@link Store#equals(Object) equals} compares the business key -- the
+     *         identifier of the {@value Store#ATTRIBUTE_NAME_MANAGER_STAFF}, which the table
+     *         declares unique -- rather than the surrogate {@value Store#ATTRIBUTE_NAME_STORE_ID},
+     *         which is null until the row is inserted.
      */
     @Override
     public SingleTypeEqualsVerifierApi<Store> equalsVerifier() {
@@ -53,28 +54,31 @@ class Store_Test
                 .withOnlyTheseFields(Store.ATTRIBUTE_NAME_MANAGER_STAFF);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Returns a new instance of the specified entity class whose identifier field, of the specified name, holds the
-     * specified value.
+     * Returns a new instance of the specified entity class whose identifier field, of the specified
+     * name, holds the specified value.
      *
      * @param entityClass the entity class to instantiate.
      * @param idName      the name of the identifier field.
      * @param id          the identifier.
      * @param <E>         entity type parameter.
      * @return a new instance of {@code entityClass}.
-     * @implNote The equality reads the identifier of an association, which a generated id assigns and no setter
-     *         writes; EqualsVerifier would otherwise stand in a mock, whose getter it cannot call.
+     * @implNote The equality reads the identifier of an association, which a generated id
+     *         assigns and no setter writes; EqualsVerifier would otherwise stand in a mock, whose
+     *         getter it cannot call.
      */
-    private static <E> E newInstanceWithId(final Class<E> entityClass, final String idName, final Integer id) {
+    private static <E> E newInstanceWithId(final Class<E> entityClass, final String idName,
+                                           final Integer id) {
         final var instance = ReflectionUtils.newInstance(entityClass);
         try {
             final var field = entityClass.getDeclaredField(idName);
             field.setAccessible(true);
             field.set(instance, id);
         } catch (final ReflectiveOperationException roe) {
-            throw new AssertionError("failed to set " + entityClass.getSimpleName() + "." + idName, roe);
+            throw new AssertionError("failed to set " + entityClass.getSimpleName() + "." + idName,
+                                     roe);
         }
         return instance;
     }

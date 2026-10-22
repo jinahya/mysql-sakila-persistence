@@ -37,10 +37,11 @@ class CustomerList_Persistence_IT
         super(CustomerList.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; {@value CustomerList#TABLE_NAME} is a view, which MySQL does not let a row be inserted into.
+     * Does nothing; {@value CustomerList#TABLE_NAME} is a view, which MySQL does not let a row be
+     * inserted into.
      */
     @Disabled("a view: nothing is inserted into it")
     @Override
@@ -49,14 +50,14 @@ class CustomerList_Persistence_IT
         // empty
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The name is there, and the notes are what the view makes of the activeness: {@code "active"},
-     *         or empty.
+     * @implNote The name is there, and the notes are what the view makes of the activeness:
+     *         {@code "active"}, or empty.
      */
     @Override
     void randomTargetInstanceSelected(final CustomerList instance) {

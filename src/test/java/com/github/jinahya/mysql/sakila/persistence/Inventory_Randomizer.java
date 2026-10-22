@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link Inventory} instances.
  * <p>
- * The {@code inventoryId}, which the database generates, the {@code lastUpdate}, which the database fills, and every
- * association are excluded from randomization; {@link Inventory_Persister} supplies the {@code film} and the
- * {@code store}.
+ * The {@code inventoryId}, which the database generates, the {@code lastUpdate}, which the database
+ * fills, and every association are excluded from randomization; {@link Inventory_Persister}
+ * supplies the {@code film} and the {@code store}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -49,7 +49,7 @@ class Inventory_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

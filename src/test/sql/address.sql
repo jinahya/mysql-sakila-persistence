@@ -169,7 +169,10 @@ WHERE table_schema = DATABASE()
 
 -- the smallest and the largest of each coordinate; SRID 0 gives them no geographic meaning.
 -- x from -719213205 to 766456911, y from -37.7833313 to 489535594.
-SELECT MIN(ST_X(location)), MAX(ST_X(location)), MIN(ST_Y(location)), MAX(ST_Y(location))
+SELECT MIN(ST_X(location)),
+       MAX(ST_X(location)),
+       MIN(ST_Y(location)),
+       MAX(ST_Y(location))
 FROM address
 ;
 

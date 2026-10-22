@@ -35,11 +35,11 @@ class Store_Persistence_Test
         super(Store.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
-     * columns, so neither is persisted; see {@link Store}.
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through
+     * {@code NOT NULL} columns, so neither is persisted; see {@link Store}.
      */
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
@@ -49,8 +49,8 @@ class Store_Persistence_Test
     }
 
     /**
-     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
-     * columns, so neither is persisted; see {@link Store}.
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through
+     * {@code NOT NULL} columns, so neither is persisted; see {@link Store}.
      */
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
@@ -60,8 +60,8 @@ class Store_Persistence_Test
     }
 
     /**
-     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
-     * columns, so neither is persisted; see {@link Store}.
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through
+     * {@code NOT NULL} columns, so neither is persisted; see {@link Store}.
      */
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
@@ -71,8 +71,8 @@ class Store_Persistence_Test
     }
 
     /**
-     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through {@code NOT NULL}
-     * columns, so neither is persisted; see {@link Store}.
+     * Does nothing; a {@link Store} and its manager, a {@link Staff}, refer to each other through
+     * {@code NOT NULL} columns, so neither is persisted; see {@link Store}.
      */
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override

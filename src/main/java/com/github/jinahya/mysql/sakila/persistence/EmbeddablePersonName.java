@@ -27,17 +27,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * An embeddable for mapping the {@value #COLUMN_NAME_FIRST_NAME} column and the {@value #COLUMN_NAME_LAST_NAME} column,
- * which the {@value Actor#TABLE_NAME} table, the {@value Customer#TABLE_NAME} table, and the {@value Staff#TABLE_NAME}
- * table declare alike.
+ * An embeddable for mapping the {@value #COLUMN_NAME_FIRST_NAME} column and the
+ * {@value #COLUMN_NAME_LAST_NAME} column, which the {@value Actor#TABLE_NAME} table, the
+ * {@value Customer#TABLE_NAME} table, and the {@value Staff#TABLE_NAME} table declare alike.
  * <p>
  * {@snippet lang = "sql":
  * first_name VARCHAR(45) NOT NULL,
  * last_name VARCHAR(45) NOT NULL,
  *}
  * <p>
- * This is a record, for a name is replaced as a whole; changing either part means a new instance, and the owning entity
- * sees the change only when the new instance is set to it.
+ * This is a record, for a name is replaced as a whole; changing either part means a new instance,
+ * and the owning entity sees the change only when the new instance is set to it.
  *
  * @param firstName a value for the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute.
  * @param lastName  a value for the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute.
@@ -49,23 +49,25 @@ public record EmbeddablePersonName(
         @NotNull
         @Size(max = EmbeddablePersonName.SIZE_MAX_FIRST_NAME)
         @Basic(optional = false)
-        @Column(name = EmbeddablePersonName.COLUMN_NAME_FIRST_NAME, nullable = false, insertable = true,
+        @Column(name = EmbeddablePersonName.COLUMN_NAME_FIRST_NAME, nullable = false,
+                insertable = true,
                 updatable = true, length = EmbeddablePersonName.COLUMN_LENGTH_FIRST_NAME)
         String firstName,
 
         @NotNull
         @Size(max = EmbeddablePersonName.SIZE_MAX_LAST_NAME)
         @Basic(optional = false)
-        @Column(name = EmbeddablePersonName.COLUMN_NAME_LAST_NAME, nullable = false, insertable = true,
+        @Column(name = EmbeddablePersonName.COLUMN_NAME_LAST_NAME, nullable = false,
+                insertable = true,
                 updatable = true, length = EmbeddablePersonName.COLUMN_LENGTH_LAST_NAME)
         String lastName
 ) {
 
-    // ------------------------------------------------------------------------------------------------------ first_name
+    // ---------------------------------------------------------------------------------- first_name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_FIRST_NAME = "first_name";
 
@@ -75,20 +77,22 @@ public record EmbeddablePersonName(
     public static final int COLUMN_LENGTH_FIRST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FIRST_NAME} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FIRST_NAME = "firstName";
 
     /**
-     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is {@value}.
+     * The maximum size of the {@value #ATTRIBUTE_NAME_FIRST_NAME} attribute. The value is
+     * {@value}.
      */
     public static final int SIZE_MAX_FIRST_NAME = COLUMN_LENGTH_FIRST_NAME;
 
-    // ------------------------------------------------------------------------------------------------------- last_name
+    // ----------------------------------------------------------------------------------- last_name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_NAME} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_NAME = "last_name";
 
@@ -98,7 +102,8 @@ public record EmbeddablePersonName(
     public static final int COLUMN_LENGTH_LAST_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_NAME = "lastName";
 

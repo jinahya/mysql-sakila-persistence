@@ -37,10 +37,11 @@ class StaffList_Persistence_IT
         super(StaffList.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; {@value StaffList#TABLE_NAME} is a view, which MySQL does not let a row be inserted into.
+     * Does nothing; {@value StaffList#TABLE_NAME} is a view, which MySQL does not let a row be
+     * inserted into.
      */
     @Disabled("a view: nothing is inserted into it")
     @Override
@@ -49,7 +50,7 @@ class StaffList_Persistence_IT
         // empty
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}

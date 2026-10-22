@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link FilmCategory} instances.
  * <p>
- * Every attribute but the {@code lastUpdate}, which the database fills, is a component of the key; all of them are
- * excluded from randomization, and {@link FilmCategory_Persister} supplies the two associations, which set the key with
- * them.
+ * Every attribute but the {@code lastUpdate}, which the database fills, is a component of the key;
+ * all of them are excluded from randomization, and {@link FilmCategory_Persister} supplies the two
+ * associations, which set the key with them.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -49,7 +49,7 @@ class FilmCategory_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

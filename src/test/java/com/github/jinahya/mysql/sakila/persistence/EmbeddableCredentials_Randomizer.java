@@ -30,7 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link EmbeddableCredentials} instances.
  * <p>
- * Nothing is excluded from randomization: the class holds only the two columns of a staff member's credentials.
+ * Nothing is excluded from randomization: the class holds only the two columns of a staff member's
+ * credentials.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -43,7 +44,7 @@ class EmbeddableCredentials_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

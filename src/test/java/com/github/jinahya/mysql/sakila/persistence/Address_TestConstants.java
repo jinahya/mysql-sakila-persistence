@@ -27,7 +27,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 final class Address_TestConstants {
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     private Address_TestConstants() {
         throw new AssertionError("instantiation is not allowed");

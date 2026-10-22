@@ -28,7 +28,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Scenarios of the {@code better_*} entities, against the schema generated into the in-memory database.
+ * Scenarios of the {@code better_*} entities, against the schema generated into the in-memory
+ * database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -44,10 +45,14 @@ class Better_Scenario_Persistence_Test {
             __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
                     _Entity_Persistence_Test.PERSISTENCE_UNIT_NAME, em -> {
                         // one staff, and two stores
-                        final var staff = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
-                        final var store1 = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
-                        final var store2 = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
-                        em.flush(); // EclipseLink assigns an IDENTITY value only at the flush; setStaff copies it
+                        final var staff =
+                                EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
+                        final var store1 =
+                                EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
+                        final var store2 =
+                                EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
+                        em.flush(); // EclipseLink assigns an IDENTITY value only at the flush;
+                        // setStaff copies it
                         // add the staff to store1
                         store1.addStaff(staff);
                         em.flush();
@@ -57,7 +62,8 @@ class Better_Scenario_Persistence_Test {
                         // read the staff's row back from the database
                         em.clear();
                         final var employment = em
-                                .createNamedQuery("BetterEmployment.selectOneByStaff", BetterEmployment.class)
+                                .createNamedQuery("BetterEmployment.selectOneByStaff",
+                                                  BetterEmployment.class)
                                 .setParameter("staff", em.find(BetterStaff.class, staff.getId()))
                                 .getSingleResult();
                         assertThat(employment.getStore().getId())
@@ -78,10 +84,14 @@ class Better_Scenario_Persistence_Test {
             __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
                     _Entity_Persistence_Test.PERSISTENCE_UNIT_NAME, em -> {
                         // one store, and two staff of it
-                        final var store = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
-                        final var staff1 = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
-                        final var staff2 = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
-                        em.flush(); // EclipseLink assigns an IDENTITY value only at the flush; setStaff copies it
+                        final var store =
+                                EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
+                        final var staff1 =
+                                EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
+                        final var staff2 =
+                                EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
+                        em.flush(); // EclipseLink assigns an IDENTITY value only at the flush;
+                        // setStaff copies it
                         store.addStaff(staff1);
                         store.addStaff(staff2);
                         em.flush();

@@ -60,17 +60,20 @@ import java.util.Objects;
  * )
  *}
  * <p>
- * A store and its staff refer to each other, and neither column is nullable: a {@link Staff} works at a store, and a
- * store is managed by a {@link Staff}. Neither row can therefore be the first one, and the installed data is loaded
- * with {@code FOREIGN_KEY_CHECKS} off. Through Jakarta Persistence alone, a new store can only be given a manager who
- * already works at some other store.
+ * A store and its staff refer to each other, and neither column is nullable: a {@link Staff} works
+ * at a store, and a store is managed by a {@link Staff}. Neither row can therefore be the first
+ * one, and the installed data is loaded with {@code FOREIGN_KEY_CHECKS} off. Through Jakarta
+ * Persistence alone, a new store can only be given a manager who already works at some other
+ * store.
  * <p>
- * The {@value #COLUMN_NAME_MANAGER_STAFF_ID} column is unique, so the {@value #ATTRIBUTE_NAME_MANAGER_STAFF}
- * association is a {@link OneToOne @OneToOne}. The unique key is declared on the table, as {@code rental}'s is on
- * {@link Rental}, and left unnamed, for the provider to name.
+ * The {@value #COLUMN_NAME_MANAGER_STAFF_ID} column is unique, so the
+ * {@value #ATTRIBUTE_NAME_MANAGER_STAFF} association is a {@link OneToOne @OneToOne}. The unique
+ * key is declared on the table, as {@code rental}'s is on {@link Rental}, and left unnamed, for the
+ * provider to name.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-store.html">The store Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-store.html">The
+ *         store Table</a>
  */
 @NamedQuery(name = "Store.selectOneByStoreId",
             query = """
@@ -112,77 +115,83 @@ public class Store {
      */
     public static final String TABLE_NAME = "store";
 
-    // -------------------------------------------------------------------------------------------------------- store_id
+    // ------------------------------------------------------------------------------------ store_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_STORE_ID = "store_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE_ID = "storeId";
 
-    // ------------------------------------------------------------------------------------------------ manager_staff_id
+    // ---------------------------------------------------------------------------- manager_staff_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_MANAGER_STAFF_ID = "manager_staff_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_MANAGER_STAFF_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_MANAGER_STAFF_ID} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_MANAGER_STAFF = "managerStaff";
 
-    // ------------------------------------------------------------------------------------------------------ address_id
+    // ---------------------------------------------------------------------------------- address_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ADDRESS} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_ADDRESS_ID = "address_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ADDRESS_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ADDRESS = "address";
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ------------------------------------------------------------------------------------------------------- customers
+    // ----------------------------------------------------------------------------------- customers
 
     /**
-     * The name of the attribute which maps the {@link Customer customers} of this store. The value is {@value}.
+     * The name of the attribute which maps the {@link Customer customers} of this store. The value
+     * is {@value}.
      *
      * @see Customer#ATTRIBUTE_NAME_STORE
      */
     public static final String ATTRIBUTE_NAME_CUSTOMERS = "customers";
 
-    // ----------------------------------------------------------------------------------------------------- inventories
+    // --------------------------------------------------------------------------------- inventories
 
     /**
-     * The name of the attribute which maps the {@link Inventory inventories} of this store. The value is {@value}.
+     * The name of the attribute which maps the {@link Inventory inventories} of this store. The
+     * value is {@value}.
      *
      * @see Inventory#ATTRIBUTE_NAME_STORE
      */
     public static final String ATTRIBUTE_NAME_INVENTORIES = "inventories";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -191,7 +200,7 @@ public class Store {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -208,10 +217,12 @@ public class Store {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the business key, the identifier of the {@value #ATTRIBUTE_NAME_MANAGER_STAFF}
-     *         -- the table's unique {@value #COLUMN_NAME_MANAGER_STAFF_ID} column -- rather than by the generated
-     *         {@code @Id}, which is {@code null} until the row is inserted. The association is read through its getter,
-     *         and only its identifier, so a lazy proxy, on either side, compares without being initialized.
+     * @implSpec Equality is by the business key, the identifier of the
+     *         {@value #ATTRIBUTE_NAME_MANAGER_STAFF} -- the table's unique
+     *         {@value #COLUMN_NAME_MANAGER_STAFF_ID} column -- rather than by the generated
+     *         {@code @Id}, which is {@code null} until the row is inserted. The association is read
+     *         through its getter, and only its identifier, so a lazy proxy, on either side,
+     *         compares without being initialized.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -225,7 +236,8 @@ public class Store {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over the business key, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is over the business key, consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -237,19 +249,19 @@ public class Store {
         return managerStaff == null ? null : managerStaff.getStaffId();
     }
 
-    // --------------------------------------------------------------------------------------------------------- storeId
+    // ------------------------------------------------------------------------------------- storeId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute; {@code null} until the
+     *         instance is persisted.
      */
     public Integer getStoreId() {
         return storeId;
     }
 
-    // ---------------------------------------------------------------------------------------------------- managerStaff
+    // -------------------------------------------------------------------------------- managerStaff
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute.
@@ -261,7 +273,8 @@ public class Store {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute with the specified
+     * value.
      *
      * @param managerStaff new value for {@value #ATTRIBUTE_NAME_MANAGER_STAFF} attribute.
      */
@@ -269,7 +282,7 @@ public class Store {
         this.managerStaff = managerStaff;
     }
 
-    // --------------------------------------------------------------------------------------------------------- address
+    // ------------------------------------------------------------------------------------- address
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
@@ -281,7 +294,8 @@ public class Store {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified
+     * value.
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
@@ -289,19 +303,19 @@ public class Store {
         this.address = address;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // ------------------------------------------------------------------------------------------------------- customers
+    // ----------------------------------------------------------------------------------- customers
     List<Customer> getCustomers() {
         return customers;
     }
@@ -310,7 +324,7 @@ public class Store {
         this.customers = customers;
     }
 
-    // ----------------------------------------------------------------------------------------------------- inventories
+    // --------------------------------------------------------------------------------- inventories
     List<Inventory> getInventories() {
         return inventories;
     }
@@ -319,36 +333,38 @@ public class Store {
         this.inventories = inventories;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_STORE_ID, nullable = false, insertable = true, updatable = false)
     private Integer storeId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_MANAGER_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
+    @JoinColumn(name = COLUMN_NAME_MANAGER_STAFF_ID,
+                referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
                 nullable = false, insertable = true, updatable = true)
     private Staff managerStaff;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID, referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_ADDRESS_ID,
+                referencedColumnName = Address.COLUMN_NAME_ADDRESS_ID, nullable = false,
                 insertable = true, updatable = true)
     private Address address;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = Customer.ATTRIBUTE_NAME_STORE, fetch = FetchType.LAZY)
     private List<@Valid @NotNull Customer> customers;
 

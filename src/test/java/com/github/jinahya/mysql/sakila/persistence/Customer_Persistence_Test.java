@@ -21,7 +21,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 /**
- * Verifies the mappings of {@link Customer} against the schema generated into the in-memory database.
+ * Verifies the mappings of {@link Customer} against the schema generated into the in-memory
+ * database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -32,11 +33,12 @@ class Customer_Persistence_Test
         super(Customer.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or {@link Staff}, which the
-     * in-memory database never has, for neither is persisted; see {@link Store}.
+     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * {@link Staff}, which the in-memory database never has, for neither is persisted; see
+     * {@link Store}.
      */
     @Override
     void _persist_RandomizedInstance() {
@@ -44,8 +46,9 @@ class Customer_Persistence_Test
     }
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or {@link Staff}, which the
-     * in-memory database never has, for neither is persisted; see {@link Store}.
+     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * {@link Staff}, which the in-memory database never has, for neither is persisted; see
+     * {@link Store}.
      */
     @Override
     void _persist_EqualsReference() {
@@ -53,8 +56,9 @@ class Customer_Persistence_Test
     }
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or {@link Staff}, which the
-     * in-memory database never has, for neither is persisted; see {@link Store}.
+     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * {@link Staff}, which the in-memory database never has, for neither is persisted; see
+     * {@link Store}.
      */
     @Override
     void _persist_ReferenceEquals() {
@@ -62,8 +66,9 @@ class Customer_Persistence_Test
     }
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or {@link Staff}, which the
-     * in-memory database never has, for neither is persisted; see {@link Store}.
+     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * {@link Staff}, which the in-memory database never has, for neither is persisted; see
+     * {@link Store}.
      */
     @Override
     void _persist_HashSetMembership() {

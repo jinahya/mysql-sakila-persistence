@@ -49,10 +49,10 @@ import java.util.List;
  * )
  *}
  * <p>
- * A store which refers to nothing. Unlike a {@link Store}, it names no manager; its staff, and its manager among them,
- * are the {@link BetterEmployment} rows of it, so a store and a staff member can each be persisted first, without the
- * cycle of {@code store} and {@code staff}. The table is created by {@code 88-better-employment.sql}, which runs after
- * the installer's scripts.
+ * A store which refers to nothing. Unlike a {@link Store}, it names no manager; its staff, and its
+ * manager among them, are the {@link BetterEmployment} rows of it, so a store and a staff member
+ * can each be persisted first, without the cycle of {@code store} and {@code staff}. The table is
+ * created by {@code 88-better-employment.sql}, which runs after the installer's scripts.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see BetterEmployment
@@ -83,22 +83,25 @@ public class BetterStore {
      */
     public static final String TABLE_NAME = "better_store";
 
-    // -------------------------------------------------------------------------------------------------------------- id
+    // ------------------------------------------------------------------------------------------ id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ID} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_ID = "id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ID = "id";
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_NAME} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_NAME = "name";
 
@@ -108,7 +111,8 @@ public class BetterStore {
     public static final int COLUMN_LENGTH_NAME = 45;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_NAME} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_NAME = "name";
 
@@ -117,17 +121,17 @@ public class BetterStore {
      */
     public static final int SIZE_MAX_NAME = COLUMN_LENGTH_NAME;
 
-    // ---------------------------------------------------------------------------------------------------------- staffs
+    // -------------------------------------------------------------------------------------- staffs
 
     /**
-     * The name of the attribute which maps the {@link BetterEmployment employments} of this store. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@link BetterEmployment employments} of this store.
+     * The value is {@value}.
      *
      * @see BetterEmployment#ATTRIBUTE_NAME_STORE
      */
     public static final String ATTRIBUTE_NAME_EMPLOYMENTS = "employments";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -136,7 +140,7 @@ public class BetterStore {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -151,8 +155,8 @@ public class BetterStore {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -170,26 +174,28 @@ public class BetterStore {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return BetterStore.class.hashCode();
     }
 
-    // -------------------------------------------------------------------------------------------------------------- id
+    // ------------------------------------------------------------------------------------------ id
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the instance is persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the
+     *         instance is persisted.
      */
     public Long getId() {
         return id;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ name
+    // ---------------------------------------------------------------------------------------- name
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_NAME} attribute.
@@ -209,7 +215,7 @@ public class BetterStore {
         this.name = name;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- staffs
+    // -------------------------------------------------------------------------------------- staffs
     List<BetterEmployment> getEmployments() {
         return employments;
     }
@@ -226,7 +232,8 @@ public class BetterStore {
                 // works at this store already
                 return;
             }
-            // works at another store; fire them there first. the store is part of the row's id, which does not change,
+            // works at another store; fire them there first. the store is part of the row's id,
+            // which does not change,
             // so they are hired here with a new row
             employment.getStore().removeStaff(staff);
         }
@@ -251,8 +258,9 @@ public class BetterStore {
     /**
      * Returns the manager of this store.
      *
-     * @return the staff member whose {@link BetterEmployment} row of this store is flagged as the manager's;
-     *         {@code null} when the store has no manager, or is not yet loaded from the database.
+     * @return the staff member whose {@link BetterEmployment} row of this store is flagged as the
+     *         manager's; {@code null} when the store has no manager, or is not yet loaded from the
+     *         database.
      */
     public BetterStaff getManager() {
         return employments.stream()
@@ -262,24 +270,26 @@ public class BetterStore {
                 .orElse(null);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_ID, nullable = false, insertable = true, updatable = false)
     private Long id;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_NAME)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true, length = COLUMN_LENGTH_NAME)
+    @Column(name = COLUMN_NAME_NAME, nullable = false, insertable = true, updatable = true,
+            length = COLUMN_LENGTH_NAME)
     private String name;
 
-    // -----------------------------------------------------------------------------------------------------------------
-    @OneToMany(mappedBy = BetterEmployment.ATTRIBUTE_NAME_STORE, fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+    // ---------------------------------------------------------------------------------------------
+    @OneToMany(mappedBy = BetterEmployment.ATTRIBUTE_NAME_STORE, fetch = FetchType.LAZY,
+               cascade = CascadeType.ALL,
                orphanRemoval = true)
     private List<@Valid @NotNull BetterEmployment> employments = new ArrayList<>();
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 }

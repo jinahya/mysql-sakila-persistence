@@ -27,10 +27,11 @@ import jakarta.persistence.EntityManager;
 /**
  * A persister which persists {@link Film} instances.
  * <p>
- * Each instance is given the first {@link Language} of the database, rather than a new one, because {@code language_id}
- * is a {@code TINYINT UNSIGNED}: MySQL does not give back an {@code AUTO_INCREMENT} value a rolled-back insert used, so
- * a new language for every film would exhaust the column within a few runs. A new one is persisted only when the
- * database has none, as the generated, in-memory one does. The {@code originalLanguage} is left {@code null}, which the
+ * Each instance is given the first {@link Language} of the database, rather than a new one, because
+ * {@code language_id} is a {@code TINYINT UNSIGNED}: MySQL does not give back an
+ * {@code AUTO_INCREMENT} value a rolled-back insert used, so a new language for every film would
+ * exhaust the column within a few runs. A new one is persisted only when the database has none, as
+ * the generated, in-memory one does. The {@code originalLanguage} is left {@code null}, which the
  * column allows.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -42,7 +43,7 @@ class Film_Persister
         super(Film.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Film apply(final EntityManager entityManager, final Film entityInstance) {
         entityInstance.setLanguage(Language_Persister.selectFirst(entityManager).orElseGet(

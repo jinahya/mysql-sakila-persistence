@@ -40,8 +40,10 @@ class Address_StaticTest {
     @Test
     void newLocation_SameAsMysql_() {
         // SELECT HEX(ST_GeomFromText('POINT(1 2)', 0));
-        final var expected = HexFormat.of().parseHex("000000000101000000000000000000F03F0000000000000040");
-        assertThat(Address.newLocation(Address.COLUMN_SRID_LOCATION, 1.0d, 2.0d)).isEqualTo(expected);
+        final var expected =
+                HexFormat.of().parseHex("000000000101000000000000000000F03F0000000000000040");
+        assertThat(Address.newLocation(Address.COLUMN_SRID_LOCATION, 1.0d, 2.0d)).isEqualTo(
+                expected);
     }
 
     @DisplayName("newLocation puts the SRID and the coordinates where MySQL reads them")

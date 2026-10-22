@@ -53,14 +53,16 @@ import jakarta.validation.constraints.NotNull;
  * )
  *}
  * <p>
- * A row links a {@link BetterStaff} to the {@link BetterStore} they work at, and flags the manager of the store. The
- * primary key is the two foreign keys, as an {@link EmbeddedId @EmbeddedId}; each association is {@link MapsId @MapsId}
- * to its component of the {@value #ATTRIBUTE_NAME_ID}. The {@value #COLUMN_NAME_MANAGER} column is {@code TRUE}, for
- * the manager, or {@code NULL}, never {@code FALSE}, so the unique key of it and the {@value #COLUMN_NAME_STORE_ID}
- * column, whose {@code NULL}s do not collide, allows one manager per store.
+ * A row links a {@link BetterStaff} to the {@link BetterStore} they work at, and flags the manager
+ * of the store. The primary key is the two foreign keys, as an {@link EmbeddedId @EmbeddedId}; each
+ * association is {@link MapsId @MapsId} to its component of the {@value #ATTRIBUTE_NAME_ID}. The
+ * {@value #COLUMN_NAME_MANAGER} column is {@code TRUE}, for the manager, or {@code NULL}, never
+ * {@code FALSE}, so the unique key of it and the {@value #COLUMN_NAME_STORE_ID} column, whose
+ * {@code NULL}s do not collide, allows one manager per store.
  * <p>
- * That a staff member works at one store at most is a rule of {@link BetterStore#addStaff(BetterStaff)}, not of the
- * table. The table is created by {@code 88-better-employment.sql}, which runs after the installer's scripts.
+ * That a staff member works at one store at most is a rule of
+ * {@link BetterStore#addStaff(BetterStaff)}, not of the table. The table is created by
+ * {@code 88-better-employment.sql}, which runs after the installer's scripts.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -119,10 +121,11 @@ public class BetterEmployment {
      */
     public static final String TABLE_NAME = "better_employment";
 
-    // -------------------------------------------------------------------------------------------------------- store_id
+    // ------------------------------------------------------------------------------------ store_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_STORE_ID = "store_id";
 
@@ -133,15 +136,17 @@ public class BetterEmployment {
     public static final String ATTRIBUTE_PATH_ID_STORE_ID = "id.storeId";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The association is
-     * {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_STORE_ID} attribute. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The
+     * association is {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_STORE_ID} attribute.
+     * The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE = "store";
 
-    // -------------------------------------------------------------------------------------------------------- staff_id
+    // ------------------------------------------------------------------------------------ staff_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STAFF} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STAFF} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_STAFF_ID = "staff_id";
 
@@ -152,33 +157,36 @@ public class BetterEmployment {
     public static final String ATTRIBUTE_PATH_ID_STAFF_ID = "id.staffId";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STAFF_ID} column. The association is
-     * {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_STAFF_ID} attribute. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STAFF_ID} column. The
+     * association is {@link MapsId @MapsId} to the {@value #ATTRIBUTE_PATH_ID_STAFF_ID} attribute.
+     * The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_STAFF = "staff";
 
-    // -------------------------------------------------------------------------------------------------------------- id
+    // ------------------------------------------------------------------------------------------ id
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} and {@value #COLUMN_NAME_STAFF_ID}
-     * columns, as an {@link EmbeddedId @EmbeddedId}. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} and
+     * {@value #COLUMN_NAME_STAFF_ID} columns, as an {@link EmbeddedId @EmbeddedId}. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_ID = "id";
 
-    // --------------------------------------------------------------------------------------------------------- manager
+    // ------------------------------------------------------------------------------------- manager
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_MANAGER} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_MANAGER} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_MANAGER = "manager";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_MANAGER} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_MANAGER} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_MANAGER = "manager";
 
-    // ------------------------------------------------------------------------------------------ STATIC FACTORY METHODS
+    // ---------------------------------------------------------------------- STATIC FACTORY METHODS
 
     /**
      * Returns a new instance which links the specified staff to the specified store.
@@ -195,7 +203,7 @@ public class BetterEmployment {
         return instance;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -204,7 +212,7 @@ public class BetterEmployment {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -219,8 +227,8 @@ public class BetterEmployment {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone, and only once it is assigned; an
-     *         instance without one equals nothing but itself.
+     * @implSpec Equality is by the {@link EmbeddedId @EmbeddedId} alone, and only once it
+     *         is assigned; an instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -238,15 +246,16 @@ public class BetterEmployment {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@link EmbeddedId @EmbeddedId} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@link EmbeddedId @EmbeddedId} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return BetterEmployment.class.hashCode();
     }
 
-    // -------------------------------------------------------------------------------------------------------------- id
+    // ------------------------------------------------------------------------------------------ id
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
@@ -257,7 +266,7 @@ public class BetterEmployment {
         return id;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- store
+    // --------------------------------------------------------------------------------------- store
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
@@ -268,7 +277,7 @@ public class BetterEmployment {
         return store;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- staff
+    // --------------------------------------------------------------------------------------- staff
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STAFF} attribute.
@@ -279,51 +288,54 @@ public class BetterEmployment {
         return staff;
     }
 
-    // --------------------------------------------------------------------------------------------------------- manager
+    // ------------------------------------------------------------------------------------- manager
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the store,
-     *         {@code null} otherwise.
+     * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the
+     *         manager of the store, {@code null} otherwise.
      */
     public Boolean getManager() {
         return manager;
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute with the specified
+     * value.
      *
-     * @param manager new value for {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the
-     *                store, {@code null} otherwise; never {@code FALSE}.
+     * @param manager new value for {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the
+     *                manager of the store, {@code null} otherwise; never {@code FALSE}.
      */
     public void setManager(final Boolean manager) {
         this.manager = manager;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @EmbeddedId
     private BetterEmploymentId id;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @MapsId(BetterEmploymentId.ATTRIBUTE_NAME_STORE_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = BetterStore.COLUMN_NAME_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = BetterStore.COLUMN_NAME_ID,
+                nullable = false,
                 insertable = true, updatable = false)
     private BetterStore store;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @MapsId(BetterEmploymentId.ATTRIBUTE_NAME_STAFF_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = BetterStaff.COLUMN_NAME_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = BetterStaff.COLUMN_NAME_ID,
+                nullable = false,
                 insertable = true, updatable = false)
     private BetterStaff staff;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @AssertTrue // TRUE or NULL, never FALSE, as the table's check constraint has it
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_MANAGER, nullable = true, insertable = true, updatable = true)

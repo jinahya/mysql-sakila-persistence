@@ -30,7 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link EmbeddableTitleDescription} instances.
  * <p>
- * Nothing is excluded from randomization: the class holds only the two columns of a film's title and description.
+ * Nothing is excluded from randomization: the class holds only the two columns of a film's title
+ * and description.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -43,7 +44,7 @@ class EmbeddableTitleDescription_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

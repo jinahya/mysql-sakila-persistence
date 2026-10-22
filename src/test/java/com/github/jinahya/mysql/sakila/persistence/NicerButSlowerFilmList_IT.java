@@ -29,10 +29,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Reads the installed {@value NicerButSlowerFilmList#TABLE_NAME} view into {@link NicerButSlowerFilmList} instances.
+ * Reads the installed {@value NicerButSlowerFilmList#TABLE_NAME} view into
+ * {@link NicerButSlowerFilmList} instances.
  * <p>
- * {@link NicerButSlowerFilmList} is not an entity, so there is no persistence test to extend; every row is read with a
- * native query, and handed to the public constructor in the order the view selects its columns.
+ * {@link NicerButSlowerFilmList} is not an entity, so there is no persistence test to extend; every
+ * row is read with a native query, and handed to the public constructor in the order the view
+ * selects its columns.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -55,7 +57,7 @@ class NicerButSlowerFilmList_IT {
         );
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     @DisplayName("every installed row reads into a NicerButSlowerFilmList")
     @Test

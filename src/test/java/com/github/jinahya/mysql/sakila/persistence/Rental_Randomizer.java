@@ -33,10 +33,11 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link Rental} instances.
  * <p>
- * The {@code rentalId}, which the database generates, the {@code rentalDate}, which a trigger sets to {@code NOW()},
- * the {@code lastUpdate}, which the database fills, and every association are excluded from randomization;
- * {@link Rental_Persister} supplies the {@code inventory}, the {@code customer} and the {@code staff}. The
- * {@code returnDate} is assigned after the fact: some days from now, after the rental the trigger dates, or not yet.
+ * The {@code rentalId}, which the database generates, the {@code rentalDate}, which a trigger sets
+ * to {@code NOW()}, the {@code lastUpdate}, which the database fills, and every association are
+ * excluded from randomization; {@link Rental_Persister} supplies the {@code inventory}, the
+ * {@code customer} and the {@code staff}. The {@code returnDate} is assigned after the fact: some
+ * days from now, after the rental the trigger dates, or not yet.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -55,7 +56,7 @@ class Rental_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();
@@ -78,7 +79,8 @@ class Rental_Randomizer
         instance.setReturnDate(
                 random.nextBoolean()
                         ? null
-                        : LocalDateTime.now().plusDays(random.nextLong(1L, 10L)).truncatedTo(ChronoUnit.SECONDS)
+                        : LocalDateTime.now().plusDays(random.nextLong(1L, 10L))
+                        .truncatedTo(ChronoUnit.SECONDS)
         );
         return instance;
     }

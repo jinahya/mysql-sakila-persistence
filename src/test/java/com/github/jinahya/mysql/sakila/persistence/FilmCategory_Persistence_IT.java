@@ -34,25 +34,25 @@ class FilmCategory_Persistence_IT
         super(FilmCategory.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Not a test here; {@link FilmCategory} is mapped with an {@link jakarta.persistence.IdClass IdClass}, which the
-     * generic test does not assemble.
+     * Not a test here; {@link FilmCategory} is mapped with an
+     * {@link jakarta.persistence.IdClass IdClass}, which the generic test does not assemble.
      */
     @Override
     void find_RandomlySelected_ContextCleared() {
         // empty
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote The two basic attributes, one written and one read-only, are the identifiers of the film and of
-     *         the category, lazy associations which resolve.
+     * @implNote The two basic attributes, one written and one read-only, are the
+     *         identifiers of the film and of the category, lazy associations which resolve.
      */
     @Override
     void randomTargetInstanceSelected(final FilmCategory instance) {

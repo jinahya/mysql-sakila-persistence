@@ -34,14 +34,14 @@ class Customer_Persistence_IT
         super(Customer.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
      *
      * @param instance {@inheritDoc}
-     * @implNote Both names, the activeness, and the creation date are there, and the store and the address,
-     *         lazy associations, resolve.
+     * @implNote Both names, the activeness, and the creation date are there, and the store
+     *         and the address, lazy associations, resolve.
      */
     @Override
     void randomTargetInstanceSelected(final Customer instance) {
@@ -49,7 +49,9 @@ class Customer_Persistence_IT
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getActive()).as("activeness of %s", instance).isNotNull();
         assertThat(instance.getCreateDate()).as("create date of %s", instance).isNotNull();
-        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s", instance).isNotNull();
-        assertThat(instance.getAddress().getLastUpdate()).as("last update of the address of %s", instance).isNotNull();
+        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s",
+                                                           instance).isNotNull();
+        assertThat(instance.getAddress().getLastUpdate()).as("last update of the address of %s",
+                                                             instance).isNotNull();
     }
 }

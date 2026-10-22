@@ -29,11 +29,13 @@ import java.util.HashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Verifies the mappings of {@link FilmCategory} against the schema generated into the in-memory database.
+ * Verifies the mappings of {@link FilmCategory} against the schema generated into the in-memory
+ * database.
  * <p>
- * The equality tests of the base class are overridden to compare an instance read back from the database, rather than
- * the one just persisted: the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}, which equality reads, is read-only, so
- * the instance just persisted has none, and equals nothing but itself, until it is read back.
+ * The equality tests of the base class are overridden to compare an instance read back from the
+ * database, rather than the one just persisted: the
+ * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}, which equality reads, is read-only, so the
+ * instance just persisted has none, and equals nothing but itself, until it is read back.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -44,7 +46,7 @@ class FilmCategory_Persistence_Test
         super(FilmCategory.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}
@@ -64,7 +66,8 @@ class FilmCategory_Persistence_Test
                     .as("loaded.equals(reference); reference: %s", reference.getClass())
                     .isTrue();
             assertThat(loaded.hashCode())
-                    .as("loaded.hashCode() == reference.hashCode(); reference: %s", reference.getClass())
+                    .as("loaded.hashCode() == reference.hashCode(); reference: %s",
+                        reference.getClass())
                     .isEqualTo(reference.hashCode());
             return reference;
         });
@@ -73,8 +76,8 @@ class FilmCategory_Persistence_Test
     /**
      * {@inheritDoc}
      *
-     * @implNote Compares the reference to the row with the instance read back from the database, which has its
-     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}.
+     * @implNote Compares the reference to the row with the instance read back from the
+     *         database, which has its {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID}.
      */
     @DisplayName("getReference(loaded).equals(loaded)")
     @Test
@@ -120,7 +123,8 @@ class FilmCategory_Persistence_Test
     }
 
     /**
-     * Flushes the specified instance, just persisted, clears the context, and reads the instance's row back.
+     * Flushes the specified instance, just persisted, clears the context, and reads the instance's
+     * row back.
      *
      * @param em the entity manager.
      * @param v  the instance just persisted.
@@ -129,7 +133,8 @@ class FilmCategory_Persistence_Test
     private static FilmCategory flushClearAndLoad(final EntityManager em, final FilmCategory v) {
         em.flush();
         em.clear();
-        return em.createNamedQuery("FilmCategory.selectOneByFilmIdAndCategoryId", FilmCategory.class)
+        return em.createNamedQuery("FilmCategory.selectOneByFilmIdAndCategoryId",
+                                   FilmCategory.class)
                 .setParameter("filmId", v.getFilmId())
                 .setParameter("categoryId", v.getCategory().getCategoryId())
                 .getSingleResult();

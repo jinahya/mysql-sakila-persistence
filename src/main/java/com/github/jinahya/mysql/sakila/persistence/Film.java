@@ -69,7 +69,8 @@ import java.util.stream.Collectors;
  *   length SMALLINT UNSIGNED DEFAULT NULL,
  *   replacement_cost DECIMAL(5,2) NOT NULL DEFAULT 19.99,
  *   rating ENUM('G','PG','PG-13','R','NC-17') DEFAULT 'G',
- *   special_features SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') DEFAULT NULL,
+ *   special_features SET('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') DEFAULT
+ *   NULL,
  *   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
  *   PRIMARY KEY  (film_id),
  *   KEY idx_title (title),
@@ -77,19 +78,23 @@ import java.util.stream.Collectors;
  *   KEY idx_fk_original_language_id (original_language_id),
  *   CONSTRAINT fk_film_language FOREIGN KEY (language_id) REFERENCES language (language_id)
  *       ON DELETE RESTRICT ON UPDATE CASCADE,
- *   CONSTRAINT fk_film_language_original FOREIGN KEY (original_language_id) REFERENCES language (language_id)
+ *   CONSTRAINT fk_film_language_original FOREIGN KEY (original_language_id) REFERENCES language
+ *   (language_id)
  *       ON DELETE RESTRICT ON UPDATE CASCADE
  * )
  *}
  * <p>
- * The {@code ins_film}, {@code upd_film} and {@code del_film} triggers of the installed database keep
- * {@value FilmText#TABLE_NAME} in step with this table; persisting a film also inserts its {@link FilmText}.
+ * The {@code ins_film}, {@code upd_film} and {@code del_film} triggers of the installed database
+ * keep {@value FilmText#TABLE_NAME} in step with this table; persisting a film also inserts its
+ * {@link FilmText}.
  * <p>
- * Every column with a {@code DEFAULT} is written with whatever the instance holds, {@code null} included; the defaults
- * apply only to an {@code INSERT} which leaves the column out, which a provider never does.
+ * Every column with a {@code DEFAULT} is written with whatever the instance holds, {@code null}
+ * included; the defaults apply only to an {@code INSERT} which leaves the column out, which a
+ * provider never does.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film.html">The film Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film.html">The film
+ *         Table</a>
  */
 @NamedQuery(name = "Film.selectOneByFilmId",
             query = """
@@ -151,23 +156,25 @@ public class Film {
      */
     public static final String TABLE_NAME = "film";
 
-    // --------------------------------------------------------------------------------------------------------- film_id
+    // ------------------------------------------------------------------------------------- film_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FILM_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FILM_ID} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_FILM_ID = "film_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM_ID = "filmId";
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_TITLE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_TITLE = "title";
 
@@ -177,7 +184,8 @@ public class Film {
     public static final int COLUMN_LENGTH_TITLE = 128;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_TITLE} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_TITLE = "title";
 
@@ -186,81 +194,85 @@ public class Film {
      */
     public static final int SIZE_MAX_TITLE = COLUMN_LENGTH_TITLE;
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_DESCRIPTION = "description";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_DESCRIPTION} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_DESCRIPTION = "description";
 
-    // ---------------------------------------------------------------------------------------------------- release_year
+    // -------------------------------------------------------------------------------- release_year
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RELEASE_YEAR = "release_year";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RELEASE_YEAR} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RELEASE_YEAR} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RELEASE_YEAR = "releaseYear";
 
     /**
-     * The minimum value of the {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute; the smallest year a {@code YEAR} column
-     * holds. The value is {@value}.
+     * The minimum value of the {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute; the smallest year a
+     * {@code YEAR} column holds. The value is {@value}.
      */
     public static final int ATTRIBUTE_MIN_RELEASE_YEAR = 1901;
 
     /**
-     * The maximum value of the {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute; the largest year a {@code YEAR} column
-     * holds. The value is {@value}.
+     * The maximum value of the {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute; the largest year a
+     * {@code YEAR} column holds. The value is {@value}.
      */
     public static final int ATTRIBUTE_MAX_RELEASE_YEAR = 2155;
 
-    // ----------------------------------------------------------------------------------------------------- language_id
+    // --------------------------------------------------------------------------------- language_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LANGUAGE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LANGUAGE} attribute maps.
+     * The value is {@value}.
      */
     public static final String COLUMN_NAME_LANGUAGE_ID = "language_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LANGUAGE_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LANGUAGE_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LANGUAGE = "language";
 
-    // -------------------------------------------------------------------------------------------- original_language_id
+    // ------------------------------------------------------------------------ original_language_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE}
+     * attribute maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_ORIGINAL_LANGUAGE_ID = "original_language_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_ORIGINAL_LANGUAGE_ID} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_ORIGINAL_LANGUAGE_ID} column.
+     * The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_ORIGINAL_LANGUAGE = "originalLanguage";
 
-    // ------------------------------------------------------------------------------------------------- rental_duration
+    // ----------------------------------------------------------------------------- rental_duration
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RENTAL_DURATION = "rental_duration";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_DURATION} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_DURATION} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_DURATION = "rentalDuration";
 
@@ -276,11 +288,11 @@ public class Film {
      */
     public static final int ATTRIBUTE_MAX_RENTAL_DURATION = 255;
 
-    // ----------------------------------------------------------------------------------------------------- rental_rate
+    // --------------------------------------------------------------------------------- rental_rate
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_RENTAL_RATE = "rental_rate";
 
@@ -305,39 +317,42 @@ public class Film {
     public static final String COLUMN_MAX_RENTAL_RATE = "99.99";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_RATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RENTAL_RATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_RATE = "rentalRate";
 
-    // ---------------------------------------------------------------------------------------------------------- length
+    // -------------------------------------------------------------------------------------- length
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LENGTH} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_LENGTH = "length";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LENGTH} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LENGTH} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_LENGTH = "length";
 
     /**
-     * The minimum value of the {@value #ATTRIBUTE_NAME_LENGTH} attribute; the column is a {@code SMALLINT UNSIGNED}.
-     * The value is {@value}.
+     * The minimum value of the {@value #ATTRIBUTE_NAME_LENGTH} attribute; the column is a
+     * {@code SMALLINT UNSIGNED}. The value is {@value}.
      */
     public static final int ATTRIBUTE_MIN_LENGTH = 0;
 
     /**
-     * The maximum value of the {@value #ATTRIBUTE_NAME_LENGTH} attribute; the column is a {@code SMALLINT UNSIGNED}.
-     * The value is {@value}.
+     * The maximum value of the {@value #ATTRIBUTE_NAME_LENGTH} attribute; the column is a
+     * {@code SMALLINT UNSIGNED}. The value is {@value}.
      */
     public static final int ATTRIBUTE_MAX_LENGTH = 65535;
 
-    // ------------------------------------------------------------------------------------------------ replacement_cost
+    // ---------------------------------------------------------------------------- replacement_cost
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_REPLACEMENT_COST = "replacement_cost";
 
@@ -352,104 +367,115 @@ public class Film {
     public static final int COLUMN_SCALE_REPLACEMENT_COST = 2;
 
     /**
-     * The minimum value of the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is {@value}.
+     * The minimum value of the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is
+     * {@value}.
      */
     public static final String COLUMN_MIN_REPLACEMENT_COST = "-999.99";
 
     /**
-     * The maximum value of the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is {@value}.
+     * The maximum value of the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is
+     * {@value}.
      */
     public static final String COLUMN_MAX_REPLACEMENT_COST = "999.99";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_REPLACEMENT_COST} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_REPLACEMENT_COST = "replacementCost";
 
-    // ---------------------------------------------------------------------------------------------------------- rating
+    // -------------------------------------------------------------------------------------- rating
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_RATING} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_RATING = "rating";
 
     /**
-     * The length of the longest value of the {@value #COLUMN_NAME_RATING} column, an {@code ENUM}; used only by schema
-     * generation. The value is {@value}.
+     * The length of the longest value of the {@value #COLUMN_NAME_RATING} column, an {@code ENUM};
+     * used only by schema generation. The value is {@value}.
      */
     public static final int COLUMN_LENGTH_RATING = 5;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_RATING} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_RATING} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_RATING = "rating";
 
-    // ------------------------------------------------------------------------------------------------ special_features
+    // ---------------------------------------------------------------------------- special_features
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_SPECIAL_FEATURES = "special_features";
 
     /**
-     * The length of the longest value of the {@value #COLUMN_NAME_SPECIAL_FEATURES} column, a {@code SET} -- every
-     * member, joined by commas; used only by schema generation. The value is {@value}.
+     * The length of the longest value of the {@value #COLUMN_NAME_SPECIAL_FEATURES} column, a
+     * {@code SET} -- every member, joined by commas; used only by schema generation. The value is
+     * {@value}.
      */
     public static final int COLUMN_LENGTH_SPECIAL_FEATURES = 54;
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_SPECIAL_FEATURES} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_SPECIAL_FEATURES} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_SPECIAL_FEATURES = "specialFeatures";
 
     /**
-     * The maximum size of the {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute. The value is {@value}.
+     * The maximum size of the {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute. The value is
+     * {@value}.
      */
     public static final int SIZE_MAX_SPECIAL_FEATURES = COLUMN_LENGTH_SPECIAL_FEATURES;
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // ------------------------------------------------------------------------------------------------------ filmActors
+    // ---------------------------------------------------------------------------------- filmActors
 
     /**
-     * The name of the attribute which maps the {@link FilmActor film-actors} of this film. The value is {@value}.
+     * The name of the attribute which maps the {@link FilmActor film-actors} of this film. The
+     * value is {@value}.
      *
      * @see FilmActor#ATTRIBUTE_NAME_FILM
      */
     public static final String ATTRIBUTE_NAME_FILM_ACTORS = "filmActors";
 
-    // -------------------------------------------------------------------------------------------------- filmCategories
+    // ------------------------------------------------------------------------------ filmCategories
 
     /**
-     * The name of the attribute which maps the {@link FilmCategory film-categories} of this film. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@link FilmCategory film-categories} of this film.
+     * The value is {@value}.
      *
      * @see FilmCategory#ATTRIBUTE_NAME_FILM
      */
     public static final String ATTRIBUTE_NAME_FILM_CATEGORIES = "filmCategories";
 
-    // ----------------------------------------------------------------------------------------------------- inventories
+    // --------------------------------------------------------------------------------- inventories
 
     /**
-     * The name of the attribute which maps the {@link Inventory inventories} of this film. The value is {@value}.
+     * The name of the attribute which maps the {@link Inventory inventories} of this film. The
+     * value is {@value}.
      *
      * @see Inventory#ATTRIBUTE_NAME_FILM
      */
     public static final String ATTRIBUTE_NAME_INVENTORIES = "inventories";
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * Constants for the values of the {@value #COLUMN_NAME_RATING} column.
@@ -483,14 +509,15 @@ public class Film {
          */
         NC_17("NC-17");
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
 
         /**
          * Returns the constant whose {@link #columnValue() column value} is the specified value.
          *
          * @param columnValue the column value to match.
          * @return the constant whose column value is {@code columnValue}.
-         * @throws IllegalArgumentException if no constant has {@code columnValue} as its column value.
+         * @throws IllegalArgumentException if no constant has {@code columnValue} as its column
+         *                                  value.
          */
         public static Rating valueOfColumnValue(final String columnValue) {
             for (final var value : values()) {
@@ -501,7 +528,7 @@ public class Film {
             throw new IllegalArgumentException("no rating for '" + columnValue + "'");
         }
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
         Rating(final String columnValue) {
             this.columnValue = columnValue;
         }
@@ -510,13 +537,14 @@ public class Film {
             this(null);
         }
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
 
         /**
-         * Returns the value of the {@value Film#COLUMN_NAME_RATING} column which this constant represents.
+         * Returns the value of the {@value Film#COLUMN_NAME_RATING} column which this constant
+         * represents.
          *
-         * @return the column value of this constant; the constant's {@link Enum#name() name} unless it declares its
-         *         own.
+         * @return the column value of this constant; the constant's {@link Enum#name() name} unless
+         *         it declares its own.
          */
         public String columnValue() {
             if (columnValue != null) {
@@ -525,13 +553,13 @@ public class Film {
             return name();
         }
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
         private final String columnValue;
     }
 
     /**
-     * A converter between {@link Rating} and the {@value #COLUMN_NAME_RATING} column, by {@link Rating#columnValue()}
-     * rather than {@link Enum#name()}.
+     * A converter between {@link Rating} and the {@value #COLUMN_NAME_RATING} column, by
+     * {@link Rating#columnValue()} rather than {@link Enum#name()}.
      *
      * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
      */
@@ -559,7 +587,8 @@ public class Film {
          *
          * @param dbData {@inheritDoc}
          * @return {@inheritDoc}
-         * @throws IllegalArgumentException if {@code dbData} is the column value of no {@link Rating} constant.
+         * @throws IllegalArgumentException if {@code dbData} is the column value of no
+         *                                  {@link Rating} constant.
          */
         @Override
         public Rating convertToEntityAttribute(final String dbData) {
@@ -571,8 +600,8 @@ public class Film {
     }
 
     /**
-     * Constants for the members of the {@value #COLUMN_NAME_SPECIAL_FEATURES} column, a {@code SET}, whose value is any
-     * number of its members joined by commas.
+     * Constants for the members of the {@value #COLUMN_NAME_SPECIAL_FEATURES} column, a
+     * {@code SET}, whose value is any number of its members joined by commas.
      */
     public enum SpecialFeature {
 
@@ -596,11 +625,11 @@ public class Film {
          */
         BEHIND_THE_SCENES("Behind the Scenes");
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
 
         /**
-         * The separator of the members in a value of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column. The value
-         * is {@value}.
+         * The separator of the members in a value of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES}
+         * column. The value is {@value}.
          */
         public static final String SEPARATOR = ",";
 
@@ -609,7 +638,8 @@ public class Film {
          *
          * @param columnValue the column value to match.
          * @return the constant whose column value is {@code columnValue}.
-         * @throws IllegalArgumentException if no constant has {@code columnValue} as its column value.
+         * @throws IllegalArgumentException if no constant has {@code columnValue} as its column
+         *                                  value.
          */
         public static SpecialFeature valueOfColumnValue(final String columnValue) {
             for (final var value : values()) {
@@ -621,13 +651,14 @@ public class Film {
         }
 
         /**
-         * Parses the specified value of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column into the set of the
-         * constants it holds.
+         * Parses the specified value of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column into
+         * the set of the constants it holds.
          *
          * @param columnValue the column value to parse; may be {@code null} or empty.
-         * @return a new set of the constants {@code columnValue} holds; empty when {@code columnValue} is {@code null}
-         *         or empty.
-         * @throws IllegalArgumentException if {@code columnValue} holds a member no constant represents.
+         * @return a new set of the constants {@code columnValue} holds; empty when
+         *         {@code columnValue} is {@code null} or empty.
+         * @throws IllegalArgumentException if {@code columnValue} holds a member no constant
+         *                                  represents.
          */
         public static Set<SpecialFeature> parse(final String columnValue) {
             final var parsed = EnumSet.noneOf(SpecialFeature.class);
@@ -641,11 +672,12 @@ public class Film {
         }
 
         /**
-         * Formats the specified constants into a value of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column.
+         * Formats the specified constants into a value of the
+         * {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column.
          *
          * @param constants the constants to format.
-         * @return the column value of {@code constants}, in the order MySQL itself lists the members; {@code null} when
-         *         {@code constants} is empty.
+         * @return the column value of {@code constants}, in the order MySQL itself lists the
+         *         members; {@code null} when {@code constants} is empty.
          */
         public static String format(final Collection<SpecialFeature> constants) {
             Objects.requireNonNull(constants, "constants is null");
@@ -657,15 +689,16 @@ public class Film {
                     .collect(Collectors.joining(SEPARATOR));
         }
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
         SpecialFeature(final String columnValue) {
             this.columnValue = Objects.requireNonNull(columnValue, "columnValue is null");
         }
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
 
         /**
-         * Returns the member of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column which this constant represents.
+         * Returns the member of the {@value Film#COLUMN_NAME_SPECIAL_FEATURES} column which this
+         * constant represents.
          *
          * @return the column value of this constant.
          */
@@ -673,11 +706,11 @@ public class Film {
             return columnValue;
         }
 
-        // -------------------------------------------------------------------------------------------------------------
+        // -----------------------------------------------------------------------------------------
         private final String columnValue;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -686,7 +719,7 @@ public class Film {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -712,8 +745,8 @@ public class Film {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -731,27 +764,28 @@ public class Film {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Film.class.hashCode();
     }
 
-    // ---------------------------------------------------------------------------------------------------------- filmId
+    // -------------------------------------------------------------------------------------- filmId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute; {@code null} until the
+     *         instance is persisted.
      */
     public Integer getFilmId() {
         return filmId;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- title
+    // --------------------------------------------------------------------------------------- title
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_TITLE} attribute.
@@ -771,7 +805,7 @@ public class Film {
         this.title = title;
     }
 
-    // ----------------------------------------------------------------------------------------------------- description
+    // --------------------------------------------------------------------------------- description
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
@@ -783,7 +817,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute with the specified
+     * value.
      *
      * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      */
@@ -791,7 +826,7 @@ public class Film {
         this.description = description;
     }
 
-    // ----------------------------------------------------------------------------------------------------- releaseYear
+    // --------------------------------------------------------------------------------- releaseYear
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
@@ -803,7 +838,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute with the specified
+     * value.
      *
      * @param releaseYear new value for {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
      */
@@ -811,7 +847,7 @@ public class Film {
         this.releaseYear = releaseYear;
     }
 
-    // -------------------------------------------------------------------------------------------------------- language
+    // ------------------------------------------------------------------------------------ language
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LANGUAGE} attribute.
@@ -823,7 +859,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_LANGUAGE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_LANGUAGE} attribute with the specified
+     * value.
      *
      * @param language new value for {@value #ATTRIBUTE_NAME_LANGUAGE} attribute.
      */
@@ -831,7 +868,7 @@ public class Film {
         this.language = language;
     }
 
-    // ------------------------------------------------------------------------------------------------ originalLanguage
+    // ---------------------------------------------------------------------------- originalLanguage
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute.
@@ -843,7 +880,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute with the
+     * specified value.
      *
      * @param originalLanguage new value for {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute.
      */
@@ -851,7 +889,7 @@ public class Film {
         this.originalLanguage = originalLanguage;
     }
 
-    // -------------------------------------------------------------------------------------------------- rentalDuration
+    // ------------------------------------------------------------------------------ rentalDuration
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
@@ -863,7 +901,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute with the
+     * specified value.
      *
      * @param rentalDuration new value for {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
      */
@@ -871,7 +910,7 @@ public class Film {
         this.rentalDuration = rentalDuration;
     }
 
-    // ------------------------------------------------------------------------------------------------------ rentalRate
+    // ---------------------------------------------------------------------------------- rentalRate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
@@ -883,7 +922,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute with the specified
+     * value.
      *
      * @param rentalRate new value for {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
      */
@@ -891,7 +931,7 @@ public class Film {
         this.rentalRate = rentalRate;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- length
+    // -------------------------------------------------------------------------------------- length
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute.
@@ -903,7 +943,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_LENGTH} attribute with the specified
+     * value.
      *
      * @param length new value for {@value #ATTRIBUTE_NAME_LENGTH} attribute.
      */
@@ -911,7 +952,7 @@ public class Film {
         this.length = length;
     }
 
-    // ------------------------------------------------------------------------------------------------- replacementCost
+    // ----------------------------------------------------------------------------- replacementCost
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
@@ -923,7 +964,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute with the
+     * specified value.
      *
      * @param replacementCost new value for {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      */
@@ -931,7 +973,7 @@ public class Film {
         this.replacementCost = replacementCost;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- rating
+    // -------------------------------------------------------------------------------------- rating
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RATING} attribute.
@@ -943,7 +985,8 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RATING} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RATING} attribute with the specified
+     * value.
      *
      * @param rating new value for {@value #ATTRIBUTE_NAME_RATING} attribute.
      */
@@ -951,13 +994,13 @@ public class Film {
         this.rating = rating;
     }
 
-    // ------------------------------------------------------------------------------------------------- specialFeatures
+    // ----------------------------------------------------------------------------- specialFeatures
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute; any number of the members of the
-     *         column joined by commas.
+     * @return current value of {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute; any number of
+     *         the members of the column joined by commas.
      * @see SpecialFeature#parse(String)
      */
     public String getSpecialFeatures() {
@@ -965,29 +1008,30 @@ public class Film {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute with the
+     * specified value.
      *
-     * @param specialFeatures new value for {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute; any number of the
-     *                        members of the column joined by commas.
+     * @param specialFeatures new value for {@value #ATTRIBUTE_NAME_SPECIAL_FEATURES} attribute; any
+     *                        number of the members of the column joined by commas.
      * @see SpecialFeature#format(Collection)
      */
     public void setSpecialFeatures(final String specialFeatures) {
         this.specialFeatures = specialFeatures;
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // ------------------------------------------------------------------------------------------------------ filmActors
+    // ---------------------------------------------------------------------------------- filmActors
     List<FilmActor> getFilmActors() {
         return filmActors;
     }
@@ -996,7 +1040,7 @@ public class Film {
         this.filmActors = filmActors;
     }
 
-    // -------------------------------------------------------------------------------------------------- filmCategories
+    // ------------------------------------------------------------------------------ filmCategories
     List<FilmCategory> getFilmCategories() {
         return filmCategories;
     }
@@ -1005,7 +1049,7 @@ public class Film {
         this.filmCategories = filmCategories;
     }
 
-    // ----------------------------------------------------------------------------------------------------- inventories
+    // --------------------------------------------------------------------------------- inventories
     List<Inventory> getInventories() {
         return inventories;
     }
@@ -1014,14 +1058,14 @@ public class Film {
         this.inventories = inventories;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = true, updatable = false)
     private Integer filmId;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Size(max = SIZE_MAX_TITLE)
     @Basic(optional = false)
@@ -1029,45 +1073,49 @@ public class Film {
             length = COLUMN_LENGTH_TITLE)
     private String title;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_DESCRIPTION, nullable = true, insertable = true, updatable = true)
     private String description;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Max(ATTRIBUTE_MAX_RELEASE_YEAR)
     @Min(ATTRIBUTE_MIN_RELEASE_YEAR)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RELEASE_YEAR, nullable = true, insertable = true, updatable = true)
     private Integer releaseYear;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_LANGUAGE_ID, referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
+    @JoinColumn(name = COLUMN_NAME_LANGUAGE_ID,
+                referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
                 nullable = false, insertable = true, updatable = true)
     private Language language;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_ORIGINAL_LANGUAGE_ID, referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
+    @JoinColumn(name = COLUMN_NAME_ORIGINAL_LANGUAGE_ID,
+                referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
                 nullable = true, insertable = true, updatable = true)
     private Language originalLanguage;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Max(ATTRIBUTE_MAX_RENTAL_DURATION)
     @Min(ATTRIBUTE_MIN_RENTAL_DURATION)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_RENTAL_DURATION, nullable = false, insertable = true, updatable = true)
+    @Column(name = COLUMN_NAME_RENTAL_DURATION, nullable = false, insertable = true,
+            updatable = true)
     private Integer rentalDuration;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
-    // @Digits(integer = COLUMN_PRECISION_RENTAL_RATE - COLUMN_SCALE_RENTAL_RATE, fraction = COLUMN_SCALE_RENTAL_RATE)
+    // @Digits(integer = COLUMN_PRECISION_RENTAL_RATE - COLUMN_SCALE_RENTAL_RATE, fraction =
+    // COLUMN_SCALE_RENTAL_RATE)
     @DecimalMin(COLUMN_MIN_RENTAL_RATE)
     @DecimalMax(COLUMN_MAX_RENTAL_RATE)
     @Basic(optional = false)
@@ -1075,14 +1123,14 @@ public class Film {
             precision = COLUMN_PRECISION_RENTAL_RATE, scale = COLUMN_SCALE_RENTAL_RATE)
     private BigDecimal rentalRate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Max(ATTRIBUTE_MAX_LENGTH)
     @Min(ATTRIBUTE_MIN_LENGTH)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_LENGTH, nullable = true, insertable = true, updatable = true)
     private Integer length;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_REPLACEMENT_COST - COLUMN_SCALE_REPLACEMENT_COST,
@@ -1090,31 +1138,33 @@ public class Film {
     @DecimalMin(COLUMN_MIN_REPLACEMENT_COST)
     @DecimalMax(COLUMN_MAX_REPLACEMENT_COST)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true, updatable = true,
+    @Column(name = COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true,
+            updatable = true,
             precision = COLUMN_PRECISION_REPLACEMENT_COST, scale = COLUMN_SCALE_REPLACEMENT_COST)
     private BigDecimal replacementCost;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Convert(converter = RatingConverter.class)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_RATING)
     private Rating rating;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_SPECIAL_FEATURES)
     @Basic(optional = true)
-    @Column(name = COLUMN_NAME_SPECIAL_FEATURES, nullable = true, insertable = true, updatable = true,
+    @Column(name = COLUMN_NAME_SPECIAL_FEATURES, nullable = true, insertable = true,
+            updatable = true,
             length = COLUMN_LENGTH_SPECIAL_FEATURES)
     private String specialFeatures;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = FilmActor.ATTRIBUTE_NAME_FILM, fetch = FetchType.LAZY)
     private List<@Valid @NotNull FilmActor> filmActors;
 

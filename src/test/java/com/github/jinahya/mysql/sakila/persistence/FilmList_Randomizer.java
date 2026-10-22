@@ -30,9 +30,9 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link FilmList} instances.
  * <p>
- * Nothing is excluded from randomization. The class declares no setter, so PODAM, which populates an instance through
- * its setters, leaves every attribute {@code null}; an instance is only ever read from the database, and the class has
- * no persister.
+ * Nothing is excluded from randomization. The class declares no setter, so PODAM, which populates
+ * an instance through its setters, leaves every attribute {@code null}; an instance is only ever
+ * read from the database, and the class has no persister.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -45,7 +45,7 @@ class FilmList_Randomizer
         ));
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     protected DataProviderStrategy getDataProviderStrategy() {
         return super.getDataProviderStrategy();

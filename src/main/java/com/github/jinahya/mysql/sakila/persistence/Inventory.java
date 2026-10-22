@@ -60,7 +60,8 @@ import java.util.List;
  * A row is one copy of a film at a store; a store may hold any number of copies of a film.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-inventory.html">The inventory Table</a>
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-inventory.html">The
+ *         inventory Table</a>
  */
 @NamedQuery(name = "Inventory.selectOneByInventoryId",
             query = """
@@ -117,76 +118,85 @@ public class Inventory {
      */
     public static final String TABLE_NAME = "inventory";
 
-    // ---------------------------------------------------------------------------------------------------- inventory_id
+    // -------------------------------------------------------------------------------- inventory_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_INVENTORY_ID} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_INVENTORY_ID} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_INVENTORY_ID = "inventory_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_INVENTORY_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_INVENTORY_ID} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_INVENTORY_ID = "inventoryId";
 
-    // --------------------------------------------------------------------------------------------------------- film_id
+    // ------------------------------------------------------------------------------------- film_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FILM} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_FILM} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_FILM_ID = "film_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM = "film";
 
     /**
-     * The name of the read-only attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The value is {@value}.
+     * The name of the read-only attribute which maps the {@value #COLUMN_NAME_FILM_ID} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM_ID = "filmId";
 
-    // -------------------------------------------------------------------------------------------------------- store_id
+    // ------------------------------------------------------------------------------------ store_id
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The value is {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_STORE} attribute maps. The
+     * value is {@value}.
      */
     public static final String COLUMN_NAME_STORE_ID = "store_id";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is
+     * {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE = "store";
 
     /**
-     * The name of the read-only attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The value is {@value}.
+     * The name of the read-only attribute which maps the {@value #COLUMN_NAME_STORE_ID} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_STORE_ID = "storeId";
 
-    // ----------------------------------------------------------------------------------------------------- last_update
+    // --------------------------------------------------------------------------------- last_update
 
     /**
-     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute maps. The value is
-     * {@value}.
+     * The name of the table column to which the {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute
+     * maps. The value is {@value}.
      */
     public static final String COLUMN_NAME_LAST_UPDATE = "last_update";
 
     /**
-     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value #COLUMN_NAME_LAST_UPDATE} column. The value
+     * is {@value}.
      */
     public static final String ATTRIBUTE_NAME_LAST_UPDATE = "lastUpdate";
 
-    // --------------------------------------------------------------------------------------------------------- rentals
+    // ------------------------------------------------------------------------------------- rentals
 
     /**
-     * The name of the attribute which maps the {@link Rental rentals} of this inventory. The value is {@value}.
+     * The name of the attribute which maps the {@link Rental rentals} of this inventory. The value
+     * is {@value}.
      *
      * @see Rental#ATTRIBUTE_NAME_INVENTORY
      */
     public static final String ATTRIBUTE_NAME_RENTALS = "rentals";
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -195,7 +205,7 @@ public class Inventory {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -212,8 +222,8 @@ public class Inventory {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an instance without one
-     *         equals nothing but itself.
+     * @implSpec Equality is by the {@code @Id} alone, and only once it is assigned; an
+     *         instance without one equals nothing but itself.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -231,27 +241,28 @@ public class Inventory {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is that of the class, the same for every instance, so that it does not change as the
-     *         {@code @Id} is assigned; it is consistent with {@link #equals(Object)}.
+     * @implSpec The hash is that of the class, the same for every instance, so that it does
+     *         not change as the {@code @Id} is assigned; it is consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Inventory.class.hashCode();
     }
 
-    // ----------------------------------------------------------------------------------------------------- inventoryId
+    // --------------------------------------------------------------------------------- inventoryId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_INVENTORY_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_INVENTORY_ID} attribute; {@code null} until the instance is
-     *         persisted.
+     * @return current value of {@value #ATTRIBUTE_NAME_INVENTORY_ID} attribute; {@code null} until
+     *         the instance is persisted.
      */
     public Integer getInventoryId() {
         return inventoryId;
     }
 
-    // ---------------------------------------------------------------------------------------------------------- filmId
+    // -------------------------------------------------------------------------------------- filmId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
@@ -264,7 +275,7 @@ public class Inventory {
         return filmId;
     }
 
-    // ------------------------------------------------------------------------------------------------------------ film
+    // ---------------------------------------------------------------------------------------- film
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_FILM} attribute.
@@ -276,8 +287,8 @@ public class Inventory {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM} attribute with the specified value, along with the
-     * {@value #ATTRIBUTE_NAME_FILM_ID} attribute, which is read-only.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_FILM} attribute with the specified value,
+     * along with the {@value #ATTRIBUTE_NAME_FILM_ID} attribute, which is read-only.
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
@@ -286,7 +297,7 @@ public class Inventory {
         this.filmId = film == null ? null : film.getFilmId();
     }
 
-    // --------------------------------------------------------------------------------------------------------- storeId
+    // ------------------------------------------------------------------------------------- storeId
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute.
@@ -299,7 +310,7 @@ public class Inventory {
         return storeId;
     }
 
-    // ----------------------------------------------------------------------------------------------------------- store
+    // --------------------------------------------------------------------------------------- store
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
@@ -311,8 +322,8 @@ public class Inventory {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value, along with the
-     * {@value #ATTRIBUTE_NAME_STORE_ID} attribute, which is read-only.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value,
+     * along with the {@value #ATTRIBUTE_NAME_STORE_ID} attribute, which is read-only.
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
@@ -321,19 +332,19 @@ public class Inventory {
         this.storeId = store == null ? null : store.getStoreId();
     }
 
-    // ------------------------------------------------------------------------------------------------------ lastUpdate
+    // ---------------------------------------------------------------------------------- lastUpdate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until the instance is read
-     *         from the database.
+     * @return current value of {@value #ATTRIBUTE_NAME_LAST_UPDATE} attribute; {@code null} until
+     *         the instance is read from the database.
      */
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    // --------------------------------------------------------------------------------------------------------- rentals
+    // ------------------------------------------------------------------------------------- rentals
     List<Rental> getRentals() {
         return rentals;
     }
@@ -342,44 +353,48 @@ public class Inventory {
         this.rentals = rentals;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_NAME_INVENTORY_ID, nullable = false, insertable = true, updatable = false)
     private Integer inventoryId;
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // no @NotNull: read-only, null until the instance is read from the database; the film carries the constraint
+    // ---------------------------------------------------------------------------------------------
+    // no @NotNull: read-only, null until the instance is read from the database; the film
+    // carries the constraint
     @Column(name = COLUMN_NAME_FILM_ID, nullable = false, insertable = false, updatable = false)
     private Integer filmId;
 
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
+                nullable = false,
                 insertable = true, updatable = true)
     private Film film;
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // no @NotNull: read-only, null until the instance is read from the database; the store carries the constraint
+    // ---------------------------------------------------------------------------------------------
+    // no @NotNull: read-only, null until the instance is read from the database; the store
+    // carries the constraint
     @Column(name = COLUMN_NAME_STORE_ID, nullable = false, insertable = false, updatable = false)
     private Integer storeId;
 
     @Valid
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID, nullable = false,
+    @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID,
+                nullable = false,
                 insertable = true, updatable = true)
     private Store store;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
             columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = Rental.ATTRIBUTE_NAME_INVENTORY, fetch = FetchType.LAZY)
     private List<@Valid @NotNull Rental> rentals;
 }

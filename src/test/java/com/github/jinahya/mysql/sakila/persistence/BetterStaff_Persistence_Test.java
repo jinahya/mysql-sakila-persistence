@@ -21,7 +21,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 /**
- * Verifies the mappings of {@link BetterStaff} against the schema generated into the in-memory database.
+ * Verifies the mappings of {@link BetterStaff} against the schema generated into the in-memory
+ * database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */

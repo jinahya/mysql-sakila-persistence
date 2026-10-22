@@ -37,10 +37,11 @@ class ActorInfo_Persistence_IT
         super(ActorInfo.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
-     * Does nothing; {@value ActorInfo#TABLE_NAME} is a view, which MySQL does not let a row be inserted into.
+     * Does nothing; {@value ActorInfo#TABLE_NAME} is a view, which MySQL does not let a row be
+     * inserted into.
      */
     @Disabled("a view: nothing is inserted into it")
     @Override
@@ -49,7 +50,7 @@ class ActorInfo_Persistence_IT
         // empty
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     /**
      * {@inheritDoc}

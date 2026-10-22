@@ -31,8 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Reads the installed {@value SalesByStore#TABLE_NAME} view into {@link SalesByStore} instances.
  * <p>
- * {@link SalesByStore} is not an entity, so there is no persistence test to extend; every row is read with a native
- * query, and handed to the public constructor in the order the view selects its columns.
+ * {@link SalesByStore} is not an entity, so there is no persistence test to extend; every row is
+ * read with a native query, and handed to the public constructor in the order the view selects its
+ * columns.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -42,7 +43,7 @@ class SalesByStore_IT {
         return new SalesByStore((String) row[0], (String) row[1], (BigDecimal) row[2]);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
     @DisplayName("every installed row reads into a SalesByStore")
     @Test
@@ -50,7 +51,8 @@ class SalesByStore_IT {
         @SuppressWarnings("unchecked")
         final List<Object[]> rows = __Persistence_TestUtils.applyEntityManager(
                 _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
-                        "SELECT " + SalesByStore.COLUMN_NAME_STORE + ", " + SalesByStore.COLUMN_NAME_MANAGER
+                        "SELECT " + SalesByStore.COLUMN_NAME_STORE + ", " +
+                        SalesByStore.COLUMN_NAME_MANAGER
                         + ", " + SalesByStore.COLUMN_NAME_TOTAL_SALES
                         + " FROM " + SalesByStore.TABLE_NAME
                 ).getResultList());

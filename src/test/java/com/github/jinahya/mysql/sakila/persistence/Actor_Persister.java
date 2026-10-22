@@ -37,7 +37,7 @@ class Actor_Persister
         super(Actor.class);
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @Override
     public Actor apply(final EntityManager entityManager, final Actor entityInstance) {
         return super.apply(entityManager, entityInstance);

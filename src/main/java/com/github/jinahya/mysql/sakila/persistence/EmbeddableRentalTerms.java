@@ -34,8 +34,8 @@ import java.util.Objects;
 
 /**
  * An embeddable for mapping the {@value Film#COLUMN_NAME_RENTAL_DURATION} column, the
- * {@value Film#COLUMN_NAME_RENTAL_RATE} column, and the {@value Film#COLUMN_NAME_REPLACEMENT_COST} column, of the
- * {@value Film#TABLE_NAME} table.
+ * {@value Film#COLUMN_NAME_RENTAL_RATE} column, and the {@value Film#COLUMN_NAME_REPLACEMENT_COST}
+ * column, of the {@value Film#TABLE_NAME} table.
  * <p>
  * {@snippet lang = "sql":
  * rental_duration TINYINT UNSIGNED NOT NULL DEFAULT 3,
@@ -43,8 +43,8 @@ import java.util.Objects;
  * replacement_cost DECIMAL(5,2) NOT NULL DEFAULT 19.99,
  *}
  * <p>
- * This is a class, not a record, for each term is revised on its own; a new rental rate leaves the duration and the
- * replacement cost as they are.
+ * This is a class, not a record, for each term is revised on its own; a new rental rate leaves the
+ * duration and the replacement cost as they are.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -52,23 +52,24 @@ import java.util.Objects;
 public class EmbeddableRentalTerms {
 
     /**
-     * The name of the attribute which maps the {@value Film#COLUMN_NAME_RENTAL_DURATION} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value Film#COLUMN_NAME_RENTAL_DURATION} column.
+     * The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_DURATION = "rentalDuration";
 
     /**
-     * The name of the attribute which maps the {@value Film#COLUMN_NAME_RENTAL_RATE} column. The value is {@value}.
+     * The name of the attribute which maps the {@value Film#COLUMN_NAME_RENTAL_RATE} column. The
+     * value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_RENTAL_RATE = "rentalRate";
 
     /**
-     * The name of the attribute which maps the {@value Film#COLUMN_NAME_REPLACEMENT_COST} column. The value is
-     * {@value}.
+     * The name of the attribute which maps the {@value Film#COLUMN_NAME_REPLACEMENT_COST} column.
+     * The value is {@value}.
      */
     public static final String ATTRIBUTE_NAME_REPLACEMENT_COST = "replacementCost";
 
-    // ------------------------------------------------------------------------------------------ STATIC_FACTORY_METHODS
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
 
     /**
      * Returns a new instance of the specified values.
@@ -76,9 +77,11 @@ public class EmbeddableRentalTerms {
      * @param rentalDuration  a value for the {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
      * @param rentalRate      a value for the {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
      * @param replacementCost a value for the {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
-     * @return a new instance of {@code rentalDuration}, {@code rentalRate}, and {@code replacementCost}.
+     * @return a new instance of {@code rentalDuration}, {@code rentalRate}, and
+     *         {@code replacementCost}.
      */
-    public static EmbeddableRentalTerms of(final Integer rentalDuration, final BigDecimal rentalRate,
+    public static EmbeddableRentalTerms of(final Integer rentalDuration,
+                                           final BigDecimal rentalRate,
                                            final BigDecimal replacementCost) {
         final var instance = new EmbeddableRentalTerms();
         instance.setRentalDuration(rentalDuration);
@@ -87,7 +90,7 @@ public class EmbeddableRentalTerms {
         return instance;
     }
 
-    // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
+    // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
      * Creates a new instance.
@@ -96,7 +99,7 @@ public class EmbeddableRentalTerms {
         super();
     }
 
-    // ------------------------------------------------------------------------------------------------ java.lang.Object
+    // ---------------------------------------------------------------------------- java.lang.Object
 
     @Override
     public final String toString() {
@@ -113,8 +116,8 @@ public class EmbeddableRentalTerms {
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
      * @implSpec Equality is by all three attributes. The amounts compare by
-     *         {@link BigDecimal#equals(Object) BigDecimal.equals}, so {@code 4.99} and {@code 4.990} differ; both come
-     *         back from the database at the column's scale.
+     *         {@link BigDecimal#equals(Object) BigDecimal.equals}, so {@code 4.99} and
+     *         {@code 4.990} differ; both come back from the database at the column's scale.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -130,14 +133,15 @@ public class EmbeddableRentalTerms {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over all three attributes, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is over all three attributes, consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
         return Objects.hash(rentalDuration, rentalRate, replacementCost);
     }
 
-    // -------------------------------------------------------------------------------------------------- rentalDuration
+    // ------------------------------------------------------------------------------ rentalDuration
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
@@ -149,7 +153,8 @@ public class EmbeddableRentalTerms {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute with the
+     * specified value.
      *
      * @param rentalDuration new value for {@value #ATTRIBUTE_NAME_RENTAL_DURATION} attribute.
      */
@@ -157,7 +162,7 @@ public class EmbeddableRentalTerms {
         this.rentalDuration = rentalDuration;
     }
 
-    // ------------------------------------------------------------------------------------------------------ rentalRate
+    // ---------------------------------------------------------------------------------- rentalRate
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
@@ -169,7 +174,8 @@ public class EmbeddableRentalTerms {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute with the specified
+     * value.
      *
      * @param rentalRate new value for {@value #ATTRIBUTE_NAME_RENTAL_RATE} attribute.
      */
@@ -177,7 +183,7 @@ public class EmbeddableRentalTerms {
         this.rentalRate = rentalRate;
     }
 
-    // ------------------------------------------------------------------------------------------------- replacementCost
+    // ----------------------------------------------------------------------------- replacementCost
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
@@ -189,7 +195,8 @@ public class EmbeddableRentalTerms {
     }
 
     /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute with the specified value.
+     * Replaces current value of {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute with the
+     * specified value.
      *
      * @param replacementCost new value for {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      */
@@ -197,15 +204,16 @@ public class EmbeddableRentalTerms {
         this.replacementCost = replacementCost;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     @Max(Film.ATTRIBUTE_MAX_RENTAL_DURATION)
     @Min(Film.ATTRIBUTE_MIN_RENTAL_DURATION)
     @Basic(optional = false)
-    @Column(name = Film.COLUMN_NAME_RENTAL_DURATION, nullable = false, insertable = true, updatable = true)
+    @Column(name = Film.COLUMN_NAME_RENTAL_DURATION, nullable = false, insertable = true,
+            updatable = true)
     private Integer rentalDuration;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = Film.COLUMN_PRECISION_RENTAL_RATE - Film.COLUMN_SCALE_RENTAL_RATE,
@@ -213,19 +221,23 @@ public class EmbeddableRentalTerms {
     @DecimalMin(Film.COLUMN_MIN_RENTAL_RATE)
     @DecimalMax(Film.COLUMN_MAX_RENTAL_RATE)
     @Basic(optional = false)
-    @Column(name = Film.COLUMN_NAME_RENTAL_RATE, nullable = false, insertable = true, updatable = true,
+    @Column(name = Film.COLUMN_NAME_RENTAL_RATE, nullable = false, insertable = true,
+            updatable = true,
             precision = Film.COLUMN_PRECISION_RENTAL_RATE, scale = Film.COLUMN_SCALE_RENTAL_RATE)
     private BigDecimal rentalRate;
 
-    // -----------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     @NotNull
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
-    // @Digits(integer = Film.COLUMN_PRECISION_REPLACEMENT_COST - Film.COLUMN_SCALE_REPLACEMENT_COST,
+    // @Digits(integer = Film.COLUMN_PRECISION_REPLACEMENT_COST - Film
+    // .COLUMN_SCALE_REPLACEMENT_COST,
     //         fraction = Film.COLUMN_SCALE_REPLACEMENT_COST)
     @DecimalMin(Film.COLUMN_MIN_REPLACEMENT_COST)
     @DecimalMax(Film.COLUMN_MAX_REPLACEMENT_COST)
     @Basic(optional = false)
-    @Column(name = Film.COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true, updatable = true,
-            precision = Film.COLUMN_PRECISION_REPLACEMENT_COST, scale = Film.COLUMN_SCALE_REPLACEMENT_COST)
+    @Column(name = Film.COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true,
+            updatable = true,
+            precision = Film.COLUMN_PRECISION_REPLACEMENT_COST,
+            scale = Film.COLUMN_SCALE_REPLACEMENT_COST)
     private BigDecimal replacementCost;
 }
