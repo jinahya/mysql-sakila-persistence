@@ -33,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code
- * src/test/sql/sales_by_film_category_exercises_02_intermediate.sql}, against the installed {@code
- * sakila} database; a nested class per exercise, which answers it with JPQL and with the Criteria
- * API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of
+ * {@code src/test/sql/sales_by_film_category_exercises_02_intermediate.sql}, against the installed
+ * {@code sakila} database; a nested class per exercise, which answers it with JPQL and with the
+ * Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -51,11 +51,14 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> List.<Object[]>of(new Object[]{
-                    em.createQuery("SELECT SUM(s.totalSales) FROM SalesByFilmCategory s", BigDecimal.class).getSingleResult(),
-                    em.createQuery("SELECT SUM(p.amount) FROM Payment p", BigDecimal.class).getSingleResult()}));
+                    em.createQuery("SELECT SUM(s.totalSales) FROM SalesByFilmCategory s",
+                                   BigDecimal.class).getSingleResult(),
+                    em.createQuery("SELECT SUM(p.amount) FROM Payment p",
+                                   BigDecimal.class).getSingleResult()}));
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(), r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple("67406.56", "67406.56"));
         }
@@ -71,11 +74,13 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
                 final var p = all.from(Payment.class);
                 all.select(cb.sum(p.get(Payment_.amount)));
                 return List.<Object[]>of(new Object[]{
-                        em.createQuery(byCategory).getSingleResult(), em.createQuery(all).getSingleResult()});
+                        em.createQuery(byCategory).getSingleResult(), em.createQuery(
+                        all).getSingleResult()});
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(), r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple("67406.56", "67406.56"));
         }

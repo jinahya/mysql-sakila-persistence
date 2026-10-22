@@ -28,7 +28,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -51,10 +50,11 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         @ValueSource(strings = {"Canada", "Japan", "Brazil"})
         void __QueryLanguage(final String country) {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c
-                    FROM City c
-                    WHERE c.country.country = :country
-                    ORDER BY c.city""", City.class)
+                                                                                      SELECT c
+                                                                                      FROM City c
+                                                                                      WHERE c.country.country = :country
+                                                                                      ORDER BY c.city""",
+                                                                              City.class)
                     .setParameter("country", country)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
@@ -69,7 +69,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(City.class);
                 final var c = cq.from(City.class);
                 cq.select(c)
-                        .where(cb.equal(c.get(City_.country).get(Country_.country), cb.parameter(String.class, "country")))
+                        .where(cb.equal(c.get(City_.country).get(Country_.country),
+                                        cb.parameter(String.class, "country")))
                         .orderBy(cb.asc(c.get(City_.city)));
                 return em.createQuery(cq)
                         .setParameter("country", country)
@@ -87,11 +88,12 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT co.country, COUNT(c)
-                    FROM City c
-                             JOIN c.country co
-                    GROUP BY co.countryId, co.country
-                    ORDER BY COUNT(c) DESC, co.country""", Object[].class)
+                                                                                      SELECT co.country, COUNT(c)
+                                                                                      FROM City c
+                                                                                               JOIN c.country co
+                                                                                      GROUP BY co.countryId, co.country
+                                                                                      ORDER BY COUNT(c) DESC, co.country""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -138,9 +140,10 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(c)
-                    FROM City c
-                    WHERE c.addresses IS EMPTY""", Long.class)
+                                                                                       SELECT COUNT(c)
+                                                                                       FROM City c
+                                                                                       WHERE c.addresses IS EMPTY""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(1L);

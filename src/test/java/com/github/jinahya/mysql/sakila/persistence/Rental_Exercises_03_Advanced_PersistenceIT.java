@@ -40,23 +40,26 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class Rental_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: how many rentals came back later than the film's rental duration allows")
+    @DisplayName(
+            "exercise 1: how many rentals came back later than the film's rental duration allows")
     @Nested
     class Exercise1Test {
 
-        // JPQL cannot add a number of days to a date; INTERVAL is MySQL's own; the Criteria API cannot
+        // JPQL cannot add a number of days to a date; INTERVAL is MySQL's own; the Criteria API
+        // cannot
         // add a number of days to a date; INTERVAL is MySQL's own
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT COUNT(*) AS late
-                    FROM rental r
-                             JOIN inventory i ON i.inventory_id = r.inventory_id
-                             JOIN film f ON f.film_id = i.film_id
-                    WHERE r.return_date > r.rental_date + INTERVAL f.rental_duration DAY""")
+                                                                                                      SELECT COUNT(*) AS late
+                                                                                                      FROM rental r
+                                                                                                               JOIN inventory i ON i.inventory_id = r.inventory_id
+                                                                                                               JOIN film f ON f.film_id = i.film_id
+                                                                                                      WHERE r.return_date > r.rental_date + INTERVAL f.rental_duration DAY""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(8121L));
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(8121L));
         }
     }
 }

@@ -66,7 +66,8 @@ import java.time.LocalDateTime;
  * {@link jakarta.persistence.EmbeddedId @EmbeddedId} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
+ * @see <a
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
  *         The film_category Table</a>
  * @see FilmCategoryId
  */

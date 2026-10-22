@@ -26,9 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -49,10 +46,11 @@ class City_Exercises_01_Basic_PersistenceIT {
         @ValueSource(strings = {"Q", "X", "Z"})
         void __QueryLanguage(final String letter) {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c
-                    FROM City c
-                    WHERE c.city LIKE :pattern
-                    ORDER BY c.city""", City.class)
+                                                                                      SELECT c
+                                                                                      FROM City c
+                                                                                      WHERE c.city LIKE :pattern
+                                                                                      ORDER BY c.city""",
+                                                                              City.class)
                     .setParameter("pattern", letter + "%")
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));

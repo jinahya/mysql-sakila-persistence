@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,11 +47,12 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c.name, COUNT(fc)
-                    FROM Category c
-                             JOIN c.filmCategories fc
-                    GROUP BY c.categoryId, c.name
-                    ORDER BY COUNT(fc) DESC, c.name""", Object[].class)
+                                                                                      SELECT c.name, COUNT(fc)
+                                                                                      FROM Category c
+                                                                                               JOIN c.filmCategories fc
+                                                                                      GROUP BY c.categoryId, c.name
+                                                                                      ORDER BY COUNT(fc) DESC, c.name""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).hasSize(16);
@@ -89,12 +89,13 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c.name, ROUND(AVG(f.length), 2)
-                    FROM Category c
-                             JOIN c.filmCategories fc
-                             JOIN fc.film f
-                    GROUP BY c.categoryId, c.name
-                    ORDER BY AVG(f.length) DESC""", Object[].class)
+                                                                                      SELECT c.name, ROUND(AVG(f.length), 2)
+                                                                                      FROM Category c
+                                                                                               JOIN c.filmCategories fc
+                                                                                               JOIN fc.film f
+                                                                                      GROUP BY c.categoryId, c.name
+                                                                                      ORDER BY AVG(f.length) DESC""",
+                                                                              Object[].class)
                     .setMaxResults(1)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -133,9 +134,10 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c
-                    FROM Category c
-                    WHERE c.filmCategories IS EMPTY""", Category.class)
+                                                                                      SELECT c
+                                                                                      FROM Category c
+                                                                                      WHERE c.filmCategories IS EMPTY""",
+                                                                              Category.class)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();

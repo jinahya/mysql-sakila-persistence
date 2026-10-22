@@ -33,5 +33,6 @@
 -- +---------------+----------+
 -- |           599 |      599 |
 -- +---------------+----------+
-SELECT (SELECT COUNT(*) FROM customer_list) AS customer_list, (SELECT COUNT(*) FROM customer) AS customer
+SELECT (SELECT COUNT(*) FROM customer_list) AS customer_list,
+       (SELECT COUNT(*) FROM customer)      AS customer
 ;

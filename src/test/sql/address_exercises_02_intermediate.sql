@@ -41,6 +41,5 @@ SELECT a.address_id, a.address, ci.city, co.country
 FROM address a
          JOIN city ci ON ci.city_id = a.city_id
          JOIN country co ON co.country_id = ci.country_id
-ORDER BY a.address_id
-LIMIT 5
+ORDER BY a.address_id LIMIT 5
 ;

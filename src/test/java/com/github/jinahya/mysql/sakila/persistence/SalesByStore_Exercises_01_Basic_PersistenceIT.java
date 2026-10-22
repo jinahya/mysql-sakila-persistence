@@ -44,15 +44,17 @@ class SalesByStore_Exercises_01_Basic_PersistenceIT {
     @Nested
     class Exercise1Test {
 
-        // the view is not an entity; the SalesByStore class is a plain class, read with a native query
+        // the view is not an entity; the SalesByStore class is a plain class, read with a native
+        // query
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT store, manager, total_sales
-                    FROM sales_by_store""")
+                                                                                                      SELECT store, manager, total_sales
+                                                                                                      FROM sales_by_store""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).extracting(r -> ((Object[]) r)[0]).containsExactly("Woodridge,Australia", "Lethbridge,Canada");
+            assertThat(list).extracting(r -> ((Object[]) r)[0])
+                    .containsExactly("Woodridge,Australia", "Lethbridge,Canada");
         }
     }
 }

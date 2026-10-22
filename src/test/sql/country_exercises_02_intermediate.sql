@@ -51,6 +51,5 @@ FROM country co
          JOIN address a ON a.city_id = ci.city_id
          JOIN customer cu ON cu.address_id = a.address_id
 GROUP BY co.country_id, co.country
-ORDER BY customers DESC, co.country
-LIMIT 5
+ORDER BY customers DESC, co.country LIMIT 5
 ;

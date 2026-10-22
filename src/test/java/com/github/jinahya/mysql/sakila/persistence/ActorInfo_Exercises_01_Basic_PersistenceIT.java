@@ -27,7 +27,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,9 +48,10 @@ class ActorInfo_Exercises_01_Basic_PersistenceIT {
         @ValueSource(ints = {1, 2, 3})
         void __QueryLanguage(final int actorId) {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT i.actorId, i.firstName, i.lastName, LEFT(i.filmInfo, 80)
-                    FROM ActorInfo i
-                    WHERE i.actorId = :actorId""", Object[].class)
+                                                                                      SELECT i.actorId, i.firstName, i.lastName, LEFT(i.filmInfo, 80)
+                                                                                      FROM ActorInfo i
+                                                                                      WHERE i.actorId = :actorId""",
+                                                                              Object[].class)
                     .setParameter("actorId", actorId)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -68,9 +68,11 @@ class ActorInfo_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var i = cq.from(ActorInfo.class);
-                cq.select(cb.array(i.get(ActorInfo_.actorId), i.get(ActorInfo_.firstName), i.get(ActorInfo_.lastName),
-                               cb.left(i.get(ActorInfo_.filmInfo), 80)))
-                        .where(cb.equal(i.get(ActorInfo_.actorId), cb.parameter(Integer.class, "actorId")));
+                cq.select(cb.array(i.get(ActorInfo_.actorId), i.get(ActorInfo_.firstName),
+                                   i.get(ActorInfo_.lastName),
+                                   cb.left(i.get(ActorInfo_.filmInfo), 80)))
+                        .where(cb.equal(i.get(ActorInfo_.actorId),
+                                        cb.parameter(Integer.class, "actorId")));
                 return em.createQuery(cq)
                         .setParameter("actorId", actorId)
                         .getResultList();
@@ -91,9 +93,10 @@ class ActorInfo_Exercises_01_Basic_PersistenceIT {
         @ValueSource(strings = {"Horror", "Action", "Comedy"})
         void __QueryLanguage(final String category) {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(i)
-                    FROM ActorInfo i
-                    WHERE i.filmInfo LIKE :pattern""", Long.class)
+                                                                                       SELECT COUNT(i)
+                                                                                       FROM ActorInfo i
+                                                                                       WHERE i.filmInfo LIKE :pattern""",
+                                                                               Long.class)
                     .setParameter("pattern", "%" + category + ":%")
                     .getSingleResult());
             log.debug("{}", value);
@@ -108,7 +111,8 @@ class ActorInfo_Exercises_01_Basic_PersistenceIT {
                 final var cq = cb.createQuery(Long.class);
                 final var i = cq.from(ActorInfo.class);
                 cq.select(cb.count(i))
-                        .where(cb.like(i.get(ActorInfo_.filmInfo), cb.parameter(String.class, "pattern")));
+                        .where(cb.like(i.get(ActorInfo_.filmInfo),
+                                       cb.parameter(String.class, "pattern")));
                 return em.createQuery(cq)
                         .setParameter("pattern", "%" + category + ":%")
                         .getSingleResult();

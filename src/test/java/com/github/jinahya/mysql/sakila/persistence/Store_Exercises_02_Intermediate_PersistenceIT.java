@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,12 +48,13 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT st.storeId, s.firstName, s.lastName, c.city
-                    FROM Store st
-                             JOIN st.managerStaff s
-                             JOIN st.address a
-                             JOIN a.city c
-                    ORDER BY st.storeId""", Object[].class)
+                                                                                      SELECT st.storeId, s.firstName, s.lastName, c.city
+                                                                                      FROM Store st
+                                                                                               JOIN st.managerStaff s
+                                                                                               JOIN st.address a
+                                                                                               JOIN a.city c
+                                                                                      ORDER BY st.storeId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
@@ -72,7 +72,8 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
                 final var st = cq.from(Store.class);
                 final var s = st.join(Store_.managerStaff);
                 final var c = st.join(Store_.address).join(Address_.city);
-                cq.select(cb.array(st.get(Store_.storeId), s.get(Staff_.firstName), s.get(Staff_.lastName), c.get(City_.city)))
+                cq.select(cb.array(st.get(Store_.storeId), s.get(Staff_.firstName),
+                                   s.get(Staff_.lastName), c.get(City_.city)))
                         .orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
@@ -94,34 +95,39 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> {
-                // eclipselink counts SIZE(st.customers) and SIZE(st.inventories) of one SELECT over their cross product;
+                // eclipselink counts SIZE(st.customers) and SIZE(st.inventories) of one SELECT
+                // over their cross product;
                 // each count is a grouped query
                 final var customers = em.createQuery("""
-                        SELECT c.store.storeId, COUNT(c)
-                        FROM Customer c
-                        GROUP BY c.store.storeId""", Object[].class)
+                                                             SELECT c.store.storeId, COUNT(c)
+                                                             FROM Customer c
+                                                             GROUP BY c.store.storeId""",
+                                                     Object[].class)
                         .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
                 final var copies = em.createQuery("""
-                        SELECT i.storeId, COUNT(i)
-                        FROM Inventory i
-                        GROUP BY i.storeId""", Object[].class)
+                                                          SELECT i.storeId, COUNT(i)
+                                                          FROM Inventory i
+                                                          GROUP BY i.storeId""", Object[].class)
                         .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
                 final var staff = em.createQuery("""
-                        SELECT s.store.storeId, COUNT(s)
-                        FROM Staff s
-                        GROUP BY s.store.storeId""", Object[].class)
+                                                         SELECT s.store.storeId, COUNT(s)
+                                                         FROM Staff s
+                                                         GROUP BY s.store.storeId""",
+                                                 Object[].class)
                         .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
                 return em.createQuery("""
-                                SELECT st.storeId
-                                FROM Store st
-                                ORDER BY st.storeId""", Integer.class)
+                                              SELECT st.storeId
+                                              FROM Store st
+                                              ORDER BY st.storeId""", Integer.class)
                         .getResultStream()
-                        .map(id -> new Object[]{id, customers.get(id), copies.get(id), staff.get(id)})
+                        .map(id -> new Object[]{id, customers.get(id), copies.get(id), staff.get(
+                                id)})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(), r -> ((Number) r[2]).longValue(), r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).longValue(), r -> ((Number) r[3]).longValue())
                     .containsExactly(
                             tuple(1, 326L, 2270L, 1L),
                             tuple(2, 273L, 2311L, 1L));
@@ -131,14 +137,16 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                // eclipselink fails cb.size(st.get(Store_.customers)) with a ClassCastException; each count is a grouped query
+                // eclipselink fails cb.size(st.get(Store_.customers)) with a ClassCastException;
+                // each count is a grouped query
                 final var customers = cb.createQuery(Object[].class);
                 final var c = customers.from(Customer.class);
                 final var customerStoreId = c.get(Customer_.store).get(Store_.storeId);
                 customers.select(cb.array(customerStoreId, cb.count(c))).groupBy(customerStoreId);
                 final var copies = cb.createQuery(Object[].class);
                 final var i = copies.from(Inventory.class);
-                copies.select(cb.array(i.get(Inventory_.storeId), cb.count(i))).groupBy(i.get(Inventory_.storeId));
+                copies.select(cb.array(i.get(Inventory_.storeId), cb.count(i)))
+                        .groupBy(i.get(Inventory_.storeId));
                 final var staff = cb.createQuery(Object[].class);
                 final var s = staff.from(Staff.class);
                 final var staffStoreId = s.get(Staff_.store).get(Store_.storeId);
@@ -153,12 +161,14 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
                 final var st = cq.from(Store.class);
                 cq.select(st.get(Store_.storeId)).orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq).getResultStream()
-                        .map(id -> new Object[]{id, byCustomers.get(id), byCopies.get(id), byStaff.get(id)})
+                        .map(id -> new Object[]{id, byCustomers.get(id), byCopies.get(
+                                id), byStaff.get(id)})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(), r -> ((Number) r[2]).longValue(), r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).longValue(), r -> ((Number) r[3]).longValue())
                     .containsExactly(
                             tuple(1, 326L, 2270L, 1L),
                             tuple(2, 273L, 2311L, 1L));

@@ -57,22 +57,53 @@ ORDER BY table_type, table_name
 -- | country       |       109 |
 -- +---------------+-----------+
 -- ... 16 rows in all.
-SELECT 'actor' AS table_name, COUNT(*) AS row_count FROM actor
-UNION ALL SELECT 'address', COUNT(*) FROM address
-UNION ALL SELECT 'category', COUNT(*) FROM category
-UNION ALL SELECT 'city', COUNT(*) FROM city
-UNION ALL SELECT 'country', COUNT(*) FROM country
-UNION ALL SELECT 'customer', COUNT(*) FROM customer
-UNION ALL SELECT 'film', COUNT(*) FROM film
-UNION ALL SELECT 'film_actor', COUNT(*) FROM film_actor
-UNION ALL SELECT 'film_category', COUNT(*) FROM film_category
-UNION ALL SELECT 'film_text', COUNT(*) FROM film_text
-UNION ALL SELECT 'inventory', COUNT(*) FROM inventory
-UNION ALL SELECT 'language', COUNT(*) FROM language
-UNION ALL SELECT 'payment', COUNT(*) FROM payment
-UNION ALL SELECT 'rental', COUNT(*) FROM rental
-UNION ALL SELECT 'staff', COUNT(*) FROM staff
-UNION ALL SELECT 'store', COUNT(*) FROM store
+SELECT 'actor' AS table_name, COUNT(*) AS row_count
+FROM actor
+UNION ALL
+SELECT 'address', COUNT(*)
+FROM address
+UNION ALL
+SELECT 'category', COUNT(*)
+FROM category
+UNION ALL
+SELECT 'city', COUNT(*)
+FROM city
+UNION ALL
+SELECT 'country', COUNT(*)
+FROM country
+UNION ALL
+SELECT 'customer', COUNT(*)
+FROM customer
+UNION ALL
+SELECT 'film', COUNT(*)
+FROM film
+UNION ALL
+SELECT 'film_actor', COUNT(*)
+FROM film_actor
+UNION ALL
+SELECT 'film_category', COUNT(*)
+FROM film_category
+UNION ALL
+SELECT 'film_text', COUNT(*)
+FROM film_text
+UNION ALL
+SELECT 'inventory', COUNT(*)
+FROM inventory
+UNION ALL
+SELECT 'language', COUNT(*)
+FROM language
+UNION ALL
+SELECT 'payment', COUNT(*)
+FROM payment
+UNION ALL
+SELECT 'rental', COUNT(*)
+FROM rental
+UNION ALL
+SELECT 'staff', COUNT(*)
+FROM staff
+UNION ALL
+SELECT 'store', COUNT(*)
+FROM store
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 3
@@ -112,7 +143,8 @@ WHERE table_schema = 'sakila'
   AND column_name = 'last_update'
   AND table_name IN (SELECT table_name
                      FROM information_schema.tables
-                     WHERE table_schema = 'sakila' AND table_type = 'BASE TABLE')
+                     WHERE table_schema = 'sakila'
+                       AND table_type = 'BASE TABLE')
 ORDER BY table_name
 ;
 

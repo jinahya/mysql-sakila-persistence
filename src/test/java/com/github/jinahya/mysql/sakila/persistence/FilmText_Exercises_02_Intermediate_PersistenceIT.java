@@ -83,13 +83,14 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
         @ValueSource(strings = {"drama", "epic", "documentary"})
         void nativeQuery(final String word) {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT COUNT(*) AS films
-                    FROM film_text
-                    WHERE MATCH(title, description) AGAINST (?1)""")
+                                                                                                      SELECT COUNT(*) AS films
+                                                                                                      FROM film_text
+                                                                                                      WHERE MATCH(title, description) AGAINST (?1)""")
                     .setParameter(1, word)
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(v -> assertThat(((Number) v).longValue()).isNotNegative());
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((Number) v).longValue()).isNotNegative());
         }
     }
 
@@ -100,10 +101,11 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT f.filmId, f.title, ft.title
-                    FROM FilmText ft
-                             JOIN ft.film f
-                    WHERE ft.title <> f.title""", Object[].class)
+                                                                                      SELECT f.filmId, f.title, ft.title
+                                                                                      FROM FilmText ft
+                                                                                               JOIN ft.film f
+                                                                                      WHERE ft.title <> f.title""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).isEmpty();
@@ -116,7 +118,9 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var ft = cq.from(FilmText.class);
                 final var f = ft.join(FilmText_.film);
-                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), ft.get(FilmText_.title)))
+                cq.select(
+                                cb.array(f.get(Film_.filmId), f.get(Film_.title),
+                                         ft.get(FilmText_.title)))
                         .where(cb.notEqual(ft.get(FilmText_.title), f.get(Film_.title)));
                 return em.createQuery(cq)
                         .getResultList();

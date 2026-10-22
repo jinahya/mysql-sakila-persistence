@@ -28,7 +28,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -43,23 +42,29 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Actor_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the last names shared by more than three actors, the most shared first")
+    @DisplayName(
+            "exercise 1: the last names shared by more than three actors, the most shared first")
     @Nested
     class Exercise1Test {
 
         @ParameterizedTest
         @ValueSource(longs = {2, 3, 4})
         void __QueryLanguage(final long count) {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a.lastName, COUNT(a)
-                    FROM Actor a
-                    GROUP BY a.lastName
-                    HAVING COUNT(a) > :count
-                    ORDER BY COUNT(a) DESC, a.lastName""", Object[].class)
-                    .setParameter("count", count)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a.lastName, COUNT(a)
+                                            FROM Actor a
+                                            GROUP BY a.lastName
+                                            HAVING COUNT(a) > :count
+                                            ORDER BY COUNT(a) DESC, a.lastName""",
+                                    Object[].class
+                            )
+                            .setParameter("count", count)
+                            .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list).isNotEmpty().allSatisfy(r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
         }
 
         @ParameterizedTest
@@ -78,7 +83,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list).isNotEmpty().allSatisfy(r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
         }
     }
 
@@ -88,17 +94,23 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a.actorId, a.firstName, a.lastName, COUNT(fa)
-                    FROM Actor a
-                             JOIN a.filmActors fa
-                    GROUP BY a.actorId, a.firstName, a.lastName
-                    ORDER BY COUNT(fa) DESC, a.actorId""", Object[].class)
-                    .setMaxResults(5)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a.actorId, a.firstName, a.lastName, COUNT(fa)
+                                            FROM Actor a
+                                                     JOIN a.filmActors fa
+                                            GROUP BY a.actorId, a.firstName, a.lastName
+                                            ORDER BY COUNT(fa) DESC, a.actorId""",
+                                    Object[].class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", 42L),
                             tuple(102, "WALTER", "TORN", 41L),
@@ -114,8 +126,10 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var a = cq.from(Actor.class);
                 final var fa = a.join(Actor_.filmActors);
-                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName), a.get(Actor_.lastName), cb.count(fa)))
-                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName), a.get(Actor_.lastName))
+                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                   a.get(Actor_.lastName), cb.count(fa)))
+                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                 a.get(Actor_.lastName))
                         .orderBy(cb.desc(cb.count(fa)), cb.asc(a.get(Actor_.actorId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -123,7 +137,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", 42L),
                             tuple(102, "WALTER", "TORN", 41L),
@@ -139,11 +154,16 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a
-                    FROM Actor a
-                    WHERE a.filmActors IS EMPTY""", Actor.class)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a
+                                            FROM Actor a
+                                            WHERE a.filmActors IS EMPTY""",
+                                    Actor.class
+                            )
+                            .getResultList()
+            );
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();
         }

@@ -49,9 +49,10 @@ class Rental_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(r)
-                    FROM Rental r
-                    WHERE r.returnDate IS NULL""", Long.class)
+                                                                                       SELECT COUNT(r)
+                                                                                       FROM Rental r
+                                                                                       WHERE r.returnDate IS NULL""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(183L);
@@ -81,10 +82,11 @@ class Rental_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), COUNT(r)
-                    FROM Rental r
-                    GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)
-                    ORDER BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)""", Object[].class)
+                                                                                      SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), COUNT(r)
+                                                                                      FROM Rental r
+                                                                                      GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)
+                                                                                      ORDER BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)""",
+                                                                              Object[].class)
                     .getResultStream()
                     // year and month, as mysql's DATE_FORMAT(..., '%Y-%m') writes them
                     .map(row -> new Object[]{String.format("%d-%02d", row[0], row[1]), row[2]})
@@ -137,12 +139,13 @@ class Rental_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT ROUND(AVG(DATEDIFF(return_date, rental_date)), 2) AS average_days
-                    FROM rental
-                    WHERE return_date IS NOT NULL""")
+                                                                                                      SELECT ROUND(AVG(DATEDIFF(return_date, rental_date)), 2) AS average_days
+                                                                                                      FROM rental
+                                                                                                      WHERE return_date IS NOT NULL""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(v -> assertThat(((Number) v).doubleValue()).isEqualTo(5.03d));
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((Number) v).doubleValue()).isEqualTo(5.03d));
         }
     }
 
@@ -155,14 +158,15 @@ class Rental_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT DAYNAME(rental_date) AS day, COUNT(*) AS rentals
-                    FROM rental
-                    GROUP BY day
-                    ORDER BY rentals DESC
-                    LIMIT 1""")
+                                                                                                      SELECT DAYNAME(rental_date) AS day, COUNT(*) AS rentals
+                                                                                                      FROM rental
+                                                                                                      GROUP BY day
+                                                                                                      ORDER BY rentals DESC
+                                                                                                      LIMIT 1""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(r -> assertThat((Object[]) r).containsExactly("Tuesday", 2463L));
+            assertThat(list).singleElement()
+                    .satisfies(r -> assertThat((Object[]) r).containsExactly("Tuesday", 2463L));
         }
     }
 }

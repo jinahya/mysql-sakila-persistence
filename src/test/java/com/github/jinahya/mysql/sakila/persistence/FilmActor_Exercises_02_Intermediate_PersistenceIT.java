@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,16 +47,18 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT f.filmId, f.title, COUNT(fa)
-                    FROM Film f
-                             JOIN f.filmActors fa
-                    GROUP BY f.filmId, f.title
-                    ORDER BY COUNT(fa) DESC, f.filmId""", Object[].class)
+                                                                                      SELECT f.filmId, f.title, COUNT(fa)
+                                                                                      FROM Film f
+                                                                                               JOIN f.filmActors fa
+                                                                                      GROUP BY f.filmId, f.title
+                                                                                      ORDER BY COUNT(fa) DESC, f.filmId""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(508, "LAMBS CINCINATTI", 15L),
                             tuple(87, "BOONDOCK BALLROOM", 13L),
@@ -82,7 +83,8 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(508, "LAMBS CINCINATTI", 15L),
                             tuple(87, "BOONDOCK BALLROOM", 13L),
@@ -96,13 +98,15 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
     @Nested
     class Exercise2Test {
 
-        // JPQL has no subquery in the FROM clause; the average is the number of rows over the number
+        // JPQL has no subquery in the FROM clause; the average is the number of rows over the
+        // number
         // of films
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT ROUND(COUNT(fa) * 1.0 / COUNT(DISTINCT fa.film), 2)
-                    FROM FilmActor fa""", Number.class)
+                                                                                       SELECT ROUND(COUNT(fa) * 1.0 / COUNT(DISTINCT fa.film), 2)
+                                                                                       FROM FilmActor fa""",
+                                                                               Number.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value.doubleValue()).isEqualTo(5.48d);
@@ -114,7 +118,8 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Number.class);
                 final var fa = cq.from(FilmActor.class);
-                cq.select(cb.round(cb.quot(cb.prod(cb.count(fa), 1.0), cb.countDistinct(fa.get(FilmActor_.film))), 2));
+                cq.select(cb.round(cb.quot(cb.prod(cb.count(fa), 1.0),
+                                           cb.countDistinct(fa.get(FilmActor_.film))), 2));
                 return em.createQuery(cq)
                         .getSingleResult();
             });

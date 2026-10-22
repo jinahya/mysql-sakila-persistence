@@ -46,18 +46,22 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
     @Nested
     class Exercise1Test {
 
-        // JPQL has no subquery in the SELECT clause; the largest amount and its count are two queries
+        // JPQL has no subquery in the SELECT clause; the largest amount and its count are two
+        // queries
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> List.<Object[]>of(new Object[]{
-                    em.createQuery("SELECT MAX(p.amount) FROM Payment p", BigDecimal.class).getSingleResult(),
+                    em.createQuery("SELECT MAX(p.amount) FROM Payment p",
+                                   BigDecimal.class).getSingleResult(),
                     em.createQuery("""
-                            SELECT COUNT(p)
-                            FROM Payment p
-                            WHERE p.amount = (SELECT MAX(p2.amount) FROM Payment p2)""", Long.class).getSingleResult()}));
+                                           SELECT COUNT(p)
+                                           FROM Payment p
+                                           WHERE p.amount = (SELECT MAX(p2.amount) FROM Payment p2)""",
+                                   Long.class).getSingleResult()}));
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("11.99", 10L));
         }
@@ -76,11 +80,13 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
                 max.select(cb.max(p2.get(Payment_.amount)));
                 count.select(cb.count(p1)).where(cb.equal(p1.get(Payment_.amount), max));
                 return List.<Object[]>of(new Object[]{
-                        em.createQuery(largest).getSingleResult(), em.createQuery(count).getSingleResult()});
+                        em.createQuery(largest).getSingleResult(), em.createQuery(
+                        count).getSingleResult()});
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("11.99", 10L));
         }

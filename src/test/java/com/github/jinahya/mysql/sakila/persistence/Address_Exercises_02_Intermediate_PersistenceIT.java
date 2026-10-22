@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,11 +47,12 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a.addressId, a.address, c.city, co.country
-                    FROM Address a
-                             JOIN a.city c
-                             JOIN c.country co
-                    ORDER BY a.addressId""", Object[].class)
+                                                                                      SELECT a.addressId, a.address, c.city, co.country
+                                                                                      FROM Address a
+                                                                                               JOIN a.city c
+                                                                                               JOIN c.country co
+                                                                                      ORDER BY a.addressId""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -74,7 +74,8 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
                 final var a = cq.from(Address.class);
                 final var c = a.join(Address_.city);
                 final var co = c.join(City_.country);
-                cq.select(cb.array(a.get(Address_.addressId), a.get(Address_.address), c.get(City_.city), co.get(Country_.country)))
+                cq.select(cb.array(a.get(Address_.addressId), a.get(Address_.address),
+                                   c.get(City_.city), co.get(Country_.country)))
                         .orderBy(cb.asc(a.get(Address_.addressId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)

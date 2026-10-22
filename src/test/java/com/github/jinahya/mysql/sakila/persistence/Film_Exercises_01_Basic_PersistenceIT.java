@@ -29,7 +29,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -51,10 +50,11 @@ class Film_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT f.rating, COUNT(f)
-                    FROM Film f
-                    GROUP BY f.rating
-                    ORDER BY f.rating""", Object[].class)
+                                                                                      SELECT f.rating, COUNT(f)
+                                                                                      FROM Film f
+                                                                                      GROUP BY f.rating
+                                                                                      ORDER BY f.rating""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
@@ -99,17 +99,19 @@ class Film_Exercises_01_Basic_PersistenceIT {
         @ValueSource(ints = {170, 180})
         void __QueryLanguage(final int length) {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT f
-                    FROM Film f
-                    WHERE f.length > :length
-                    ORDER BY f.length DESC, f.title""", Film.class)
+                                                                                      SELECT f
+                                                                                      FROM Film f
+                                                                                      WHERE f.length > :length
+                                                                                      ORDER BY f.length DESC, f.title""",
+                                                                              Film.class)
                     .setParameter("length", length)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isNotEmpty().hasSizeLessThanOrEqualTo(5)
                     .allSatisfy(f -> assertThat(f.getLength()).isGreaterThan(length));
-            assertThat(list).extracting(Film::getLength).isSortedAccordingTo(Comparator.reverseOrder());
+            assertThat(list).extracting(Film::getLength)
+                    .isSortedAccordingTo(Comparator.reverseOrder());
         }
 
         @ParameterizedTest
@@ -130,7 +132,8 @@ class Film_Exercises_01_Basic_PersistenceIT {
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isNotEmpty().hasSizeLessThanOrEqualTo(5)
                     .allSatisfy(f -> assertThat(f.getLength()).isGreaterThan(length));
-            assertThat(list).extracting(Film::getLength).isSortedAccordingTo(Comparator.reverseOrder());
+            assertThat(list).extracting(Film::getLength)
+                    .isSortedAccordingTo(Comparator.reverseOrder());
         }
     }
 
@@ -141,10 +144,11 @@ class Film_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT f.rating, ROUND(AVG(f.rentalRate), 2)
-                    FROM Film f
-                    GROUP BY f.rating
-                    ORDER BY f.rating""", Object[].class)
+                                                                                      SELECT f.rating, ROUND(AVG(f.rentalRate), 2)
+                                                                                      FROM Film f
+                                                                                      GROUP BY f.rating
+                                                                                      ORDER BY f.rating""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
@@ -163,7 +167,9 @@ class Film_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var f = cq.from(Film.class);
-                cq.select(cb.array(f.get(Film_.rating), cb.round(cb.avg(f.get(Film_.rentalRate)), 2)))
+                cq.select(
+                                cb.array(f.get(Film_.rating),
+                                         cb.round(cb.avg(f.get(Film_.rentalRate)), 2)))
                         .groupBy(f.get(Film_.rating))
                         .orderBy(cb.asc(f.get(Film_.rating)));
                 return em.createQuery(cq)
@@ -191,9 +197,10 @@ class Film_Exercises_01_Basic_PersistenceIT {
         @ValueSource(strings = {"Behind the Scenes", "Trailers", "Commentaries", "Deleted Scenes"})
         void __QueryLanguage(final String feature) {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(f)
-                    FROM Film f
-                    WHERE f.specialFeatures LIKE :pattern""", Long.class)
+                                                                                       SELECT COUNT(f)
+                                                                                       FROM Film f
+                                                                                       WHERE f.specialFeatures LIKE :pattern""",
+                                                                               Long.class)
                     .setParameter("pattern", "%" + feature + "%")
                     .getSingleResult());
             log.debug("{}", value);
@@ -208,7 +215,8 @@ class Film_Exercises_01_Basic_PersistenceIT {
                 final var cq = cb.createQuery(Long.class);
                 final var f = cq.from(Film.class);
                 cq.select(cb.count(f))
-                        .where(cb.like(f.get(Film_.specialFeatures), cb.parameter(String.class, "pattern")));
+                        .where(cb.like(f.get(Film_.specialFeatures),
+                                       cb.parameter(String.class, "pattern")));
                 return em.createQuery(cq)
                         .setParameter("pattern", "%" + feature + "%")
                         .getSingleResult();

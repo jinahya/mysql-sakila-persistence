@@ -44,6 +44,5 @@ FROM actor a
          JOIN film f ON f.film_id = fa.film_id
 GROUP BY a.actor_id, a.first_name, a.last_name
 HAVING COUNT(DISTINCT f.rating) = (SELECT COUNT(DISTINCT rating) FROM film)
-ORDER BY a.actor_id
-LIMIT 5
+ORDER BY a.actor_id LIMIT 5
 ;

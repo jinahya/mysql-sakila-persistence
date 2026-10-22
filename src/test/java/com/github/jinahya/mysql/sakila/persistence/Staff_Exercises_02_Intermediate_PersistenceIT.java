@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,15 +47,17 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT s.staffId, s.firstName, COUNT(r)
-                    FROM Rental r
-                             JOIN r.staff s
-                    GROUP BY s.staffId, s.firstName
-                    ORDER BY s.staffId""", Object[].class)
+                                                                                      SELECT s.staffId, s.firstName, COUNT(r)
+                                                                                      FROM Rental r
+                                                                                               JOIN r.staff s
+                                                                                      GROUP BY s.staffId, s.firstName
+                                                                                      ORDER BY s.staffId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(1, "Mike", 8040L),
                             tuple(2, "Jon", 8004L));
@@ -77,7 +78,8 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(1, "Mike", 8040L),
                             tuple(2, "Jon", 8004L));
@@ -91,15 +93,17 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT s.staffId, s.firstName, s.lastName, st.storeId
-                    FROM Store st
-                             JOIN st.managerStaff s
-                    WHERE s.store = st
-                    ORDER BY s.staffId""", Object[].class)
+                                                                                      SELECT s.staffId, s.firstName, s.lastName, st.storeId
+                                                                                      FROM Store st
+                                                                                               JOIN st.managerStaff s
+                                                                                      WHERE s.store = st
+                                                                                      ORDER BY s.staffId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((Number) r[3]).intValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).intValue())
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", 1),
                             tuple(2, "Jon", "Stephens", 2));
@@ -112,7 +116,8 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var st = cq.from(Store.class);
                 final var s = st.join(Store_.managerStaff);
-                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName), s.get(Staff_.lastName), st.get(Store_.storeId)))
+                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName),
+                                   s.get(Staff_.lastName), st.get(Store_.storeId)))
                         .where(cb.equal(s.get(Staff_.store), st))
                         .orderBy(cb.asc(s.get(Staff_.staffId)));
                 return em.createQuery(cq)
@@ -120,7 +125,8 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((Number) r[3]).intValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).intValue())
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", 1),
                             tuple(2, "Jon", "Stephens", 2));

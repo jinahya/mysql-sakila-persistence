@@ -31,17 +31,18 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Answers the exercises of {@code
- * src/test/sql/nicer_but_slower_film_list_exercises_03_advanced.sql}, against the installed {@code
- * sakila} database; a nested class per exercise, which answers it with JPQL and with the Criteria
- * API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of
+ * {@code src/test/sql/nicer_but_slower_film_list_exercises_03_advanced.sql}, against the installed
+ * {@code sakila} database; a nested class per exercise, which answers it with JPQL and with the
+ * Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: how many rows differ from film_list, column by column, but for the actors")
+    @DisplayName(
+            "exercise 1: how many rows differ from film_list, column by column, but for the actors")
     @Nested
     class Exercise1Test {
 
@@ -50,14 +51,15 @@ class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT COUNT(*) AS differing
-                    FROM nicer_but_slower_film_list n
-                             JOIN film_list l ON l.FID = n.FID AND l.category = n.category
-                    WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <=> l.price
-                               AND n.length <=> l.length AND n.rating <=> l.rating)""")
+                                                                                                      SELECT COUNT(*) AS differing
+                                                                                                      FROM nicer_but_slower_film_list n
+                                                                                                               JOIN film_list l ON l.FID = n.FID AND l.category = n.category
+                                                                                                      WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <=> l.price
+                                                                                                                 AND n.length <=> l.length AND n.rating <=> l.rating)""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(0L));
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(0L));
         }
     }
 }

@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,10 +47,11 @@ class Inventory_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT i.storeId, COUNT(i)
-                    FROM Inventory i
-                    GROUP BY i.storeId
-                    ORDER BY i.storeId""", Object[].class)
+                                                                                      SELECT i.storeId, COUNT(i)
+                                                                                      FROM Inventory i
+                                                                                      GROUP BY i.storeId
+                                                                                      ORDER BY i.storeId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)

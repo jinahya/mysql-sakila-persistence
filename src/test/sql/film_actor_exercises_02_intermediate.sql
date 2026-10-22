@@ -41,8 +41,7 @@ SELECT f.film_id, f.title, COUNT(*) AS actors
 FROM film f
          JOIN film_actor fa ON fa.film_id = f.film_id
 GROUP BY f.film_id, f.title
-ORDER BY actors DESC, f.film_id
-LIMIT 5
+ORDER BY actors DESC, f.film_id LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 2

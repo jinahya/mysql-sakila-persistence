@@ -40,6 +40,5 @@ SELECT fa1.actor_id AS actor_id1, fa2.actor_id AS actor_id2, COUNT(*) AS films
 FROM film_actor fa1
          JOIN film_actor fa2 ON fa2.film_id = fa1.film_id AND fa2.actor_id > fa1.actor_id
 GROUP BY fa1.actor_id, fa2.actor_id
-ORDER BY films DESC, actor_id1, actor_id2
-LIMIT 3
+ORDER BY films DESC, actor_id1, actor_id2 LIMIT 3
 ;

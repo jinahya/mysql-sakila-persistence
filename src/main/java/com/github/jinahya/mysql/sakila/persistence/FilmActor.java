@@ -59,8 +59,7 @@ import java.time.LocalDateTime;
  * maps its key with an {@link jakarta.persistence.IdClass @IdClass} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a
- *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The
  *         film_actor Table</a>
  * @see FilmActorId
  */

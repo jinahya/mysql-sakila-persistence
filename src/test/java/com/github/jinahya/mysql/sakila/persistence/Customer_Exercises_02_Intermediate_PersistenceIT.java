@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -49,16 +48,18 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c.customerId, c.firstName, c.lastName, SUM(p.amount)
-                    FROM Customer c
-                             JOIN c.payments p
-                    GROUP BY c.customerId, c.firstName, c.lastName
-                    ORDER BY SUM(p.amount) DESC, c.customerId""", Object[].class)
+                                                                                      SELECT c.customerId, c.firstName, c.lastName, SUM(p.amount)
+                                                                                      FROM Customer c
+                                                                                               JOIN c.payments p
+                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      ORDER BY SUM(p.amount) DESC, c.customerId""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((BigDecimal) r[3]).toPlainString())
                     .containsExactly(
                             tuple(526, "KARL", "SEAL", "221.55"),
                             tuple(148, "ELEANOR", "HUNT", "216.54"),
@@ -74,17 +75,21 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Customer.class);
                 final var p = c.join(Customer_.payments);
-                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName), c.get(Customer_.lastName),
-                               cb.sum(p.get(Payment_.amount))))
-                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName), c.get(Customer_.lastName))
-                        .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))), cb.asc(c.get(Customer_.customerId)));
+                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                   c.get(Customer_.lastName),
+                                   cb.sum(p.get(Payment_.amount))))
+                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                 c.get(Customer_.lastName))
+                        .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))),
+                                 cb.asc(c.get(Customer_.customerId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((BigDecimal) r[3]).toPlainString())
                     .containsExactly(
                             tuple(526, "KARL", "SEAL", "221.55"),
                             tuple(148, "ELEANOR", "HUNT", "216.54"),
@@ -101,9 +106,10 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c
-                    FROM Customer c
-                    WHERE c.rentals IS EMPTY""", Customer.class)
+                                                                                      SELECT c
+                                                                                      FROM Customer c
+                                                                                      WHERE c.rentals IS EMPTY""",
+                                                                              Customer.class)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();

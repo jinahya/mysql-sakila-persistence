@@ -25,9 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -47,12 +44,13 @@ class Address_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a
-                    FROM Address a
-                    WHERE NOT EXISTS (SELECT c FROM Customer c WHERE c.address = a)
-                      AND NOT EXISTS (SELECT s FROM Staff s WHERE s.address = a)
-                      AND NOT EXISTS (SELECT s FROM Store s WHERE s.address = a)
-                    ORDER BY a.addressId""", Address.class)
+                                                                                      SELECT a
+                                                                                      FROM Address a
+                                                                                      WHERE NOT EXISTS (SELECT c FROM Customer c WHERE c.address = a)
+                                                                                        AND NOT EXISTS (SELECT s FROM Staff s WHERE s.address = a)
+                                                                                        AND NOT EXISTS (SELECT s FROM Store s WHERE s.address = a)
+                                                                                      ORDER BY a.addressId""",
+                                                                              Address.class)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();
@@ -74,7 +72,8 @@ class Address_Exercises_03_Advanced_PersistenceIT {
                 final var st = stores.from(Store.class);
                 stores.select(st).where(cb.equal(st.get(Store_.address), a));
                 cq.select(a)
-                        .where(cb.not(cb.exists(customers)), cb.not(cb.exists(staffs)), cb.not(cb.exists(stores)))
+                        .where(cb.not(cb.exists(customers)), cb.not(cb.exists(staffs)),
+                               cb.not(cb.exists(stores)))
                         .orderBy(cb.asc(a.get(Address_.addressId)));
                 return em.createQuery(cq)
                         .getResultList();

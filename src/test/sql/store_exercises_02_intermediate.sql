@@ -51,9 +51,9 @@ ORDER BY st.store_id
 -- |        2 |       273 |   2311 |     1 |
 -- +----------+-----------+--------+-------+
 SELECT st.store_id,
-       (SELECT COUNT(*) FROM customer c WHERE c.store_id = st.store_id) AS customers,
+       (SELECT COUNT(*) FROM customer c WHERE c.store_id = st.store_id)  AS customers,
        (SELECT COUNT(*) FROM inventory i WHERE i.store_id = st.store_id) AS copies,
-       (SELECT COUNT(*) FROM staff s WHERE s.store_id = st.store_id) AS staff
+       (SELECT COUNT(*) FROM staff s WHERE s.store_id = st.store_id)     AS staff
 FROM store st
 ORDER BY st.store_id
 ;

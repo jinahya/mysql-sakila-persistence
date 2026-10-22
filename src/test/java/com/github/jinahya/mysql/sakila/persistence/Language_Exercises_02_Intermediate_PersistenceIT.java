@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -49,11 +48,12 @@ class Language_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT l.name, COUNT(f)
-                    FROM Language l
-                             LEFT JOIN l.films f
-                    GROUP BY l.languageId, l.name
-                    ORDER BY l.languageId""", Object[].class)
+                                                                                      SELECT l.name, COUNT(f)
+                                                                                      FROM Language l
+                                                                                               LEFT JOIN l.films f
+                                                                                      GROUP BY l.languageId, l.name
+                                                                                      ORDER BY l.languageId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)

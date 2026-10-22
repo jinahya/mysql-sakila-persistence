@@ -28,7 +28,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -51,14 +50,16 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
         @ValueSource(strings = {"Japan", "Canada", "Brazil"})
         void __QueryLanguage(final String country) {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT l
-                    FROM CustomerList l
-                    WHERE l.country = :country
-                    ORDER BY l.id""", CustomerList.class)
+                                                                                      SELECT l
+                                                                                      FROM CustomerList l
+                                                                                      WHERE l.country = :country
+                                                                                      ORDER BY l.id""",
+                                                                              CustomerList.class)
                     .setParameter("country", country)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
-            assertThat(list).isNotEmpty().allSatisfy(l -> assertThat(l.getCountry()).isEqualTo(country));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(l -> assertThat(l.getCountry()).isEqualTo(country));
             assertThat(list).extracting(CustomerList::getId).isSorted();
         }
 
@@ -70,14 +71,16 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
                 final var cq = cb.createQuery(CustomerList.class);
                 final var l = cq.from(CustomerList.class);
                 cq.select(l)
-                        .where(cb.equal(l.get(CustomerList_.country), cb.parameter(String.class, "country")))
+                        .where(cb.equal(l.get(CustomerList_.country),
+                                        cb.parameter(String.class, "country")))
                         .orderBy(cb.asc(l.get(CustomerList_.id)));
                 return em.createQuery(cq)
                         .setParameter("country", country)
                         .getResultList();
             });
             list.forEach(e -> log.debug("{}", e));
-            assertThat(list).isNotEmpty().allSatisfy(l -> assertThat(l.getCountry()).isEqualTo(country));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(l -> assertThat(l.getCountry()).isEqualTo(country));
             assertThat(list).extracting(CustomerList::getId).isSorted();
         }
     }
@@ -89,10 +92,11 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT l.sid, COUNT(l)
-                    FROM CustomerList l
-                    GROUP BY l.sid
-                    ORDER BY l.sid""", Object[].class)
+                                                                                      SELECT l.sid, COUNT(l)
+                                                                                      FROM CustomerList l
+                                                                                      GROUP BY l.sid
+                                                                                      ORDER BY l.sid""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)

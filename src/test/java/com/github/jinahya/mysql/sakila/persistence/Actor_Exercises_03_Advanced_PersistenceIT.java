@@ -25,9 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -46,14 +43,19 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
 
         @Test
         void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a
-                    FROM Actor a
-                    WHERE (SELECT COUNT(DISTINCT fa.film.rating) FROM FilmActor fa WHERE fa.actor = a)
-                          = (SELECT COUNT(DISTINCT f.rating) FROM Film f)
-                    ORDER BY a.actorId""", Actor.class)
-                    .setMaxResults(5)
-                    .getResultList());
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a
+                                            FROM Actor a
+                                            WHERE (SELECT COUNT(DISTINCT fa.film.rating) FROM FilmActor fa WHERE fa.actor = a)
+                                                  = (SELECT COUNT(DISTINCT f.rating) FROM Film f)
+                                            ORDER BY a.actorId""",
+                                    Actor.class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).extracting(Actor::getActorId).containsExactly(1, 2, 3, 4, 5);
         }
@@ -64,7 +66,8 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Actor.class);
                 final var a = cq.from(Actor.class);
-                // eclipselink gives the first actor five times for groupBy(a) with select(a); the ratings are
+                // eclipselink gives the first actor five times for groupBy(a) with select(a);
+                // the ratings are
                 // counted per actor, by a subquery
                 final var ratingsOfActor = cq.subquery(Long.class);
                 final var fa = ratingsOfActor.from(FilmActor.class);

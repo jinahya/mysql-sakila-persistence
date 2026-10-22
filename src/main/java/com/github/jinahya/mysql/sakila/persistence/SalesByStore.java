@@ -61,7 +61,8 @@ import java.math.BigDecimal;
  * {@link jakarta.persistence.ConstructorResult @ConstructorResult}, hands them over.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_store.html">
+ * @see <a
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_store.html">
  *         The sales_by_store View</a>
  */
 public class SalesByStore {

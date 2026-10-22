@@ -34,7 +34,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Answers the exercises of {@code src/test/sql/sales_by_store_exercises_02_intermediate.sql},
  * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -45,15 +46,18 @@ class SalesByStore_Exercises_02_Intermediate_PersistenceIT {
     @Nested
     class Exercise1Test {
 
-        // the view is not an entity; the SalesByStore class is a plain class, read with a native query
+        // the view is not an entity; the SalesByStore class is a plain class, read with a native
+        // query
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT (SELECT SUM(total_sales) FROM sales_by_store) AS by_store,
-                           (SELECT SUM(amount) FROM payment WHERE rental_id IS NOT NULL) AS with_a_rental""")
+                                                                                                      SELECT (SELECT SUM(total_sales) FROM sales_by_store) AS by_store,
+                                                                                                             (SELECT SUM(amount) FROM payment WHERE rental_id IS NOT NULL) AS with_a_rental""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(r -> assertThat(((BigDecimal) ((Object[]) r)[0])).isEqualByComparingTo((BigDecimal) ((Object[]) r)[1]));
+            assertThat(list).singleElement().satisfies(
+                    r -> assertThat(((BigDecimal) ((Object[]) r)[0])).isEqualByComparingTo(
+                            (BigDecimal) ((Object[]) r)[1]));
         }
     }
 }

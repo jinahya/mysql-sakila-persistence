@@ -41,8 +41,7 @@ SELECT c.customer_id, c.first_name, c.last_name, SUM(p.amount) AS paid
 FROM customer c
          JOIN payment p ON p.customer_id = c.customer_id
 GROUP BY c.customer_id, c.first_name, c.last_name
-ORDER BY paid DESC, c.customer_id
-LIMIT 5
+ORDER BY paid DESC, c.customer_id LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 2

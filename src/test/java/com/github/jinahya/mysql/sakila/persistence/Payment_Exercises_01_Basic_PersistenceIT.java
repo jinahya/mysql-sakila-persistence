@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -50,14 +49,16 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT p.staff.staffId, COUNT(p), SUM(p.amount)
-                    FROM Payment p
-                    GROUP BY p.staff.staffId
-                    ORDER BY p.staff.staffId""", Object[].class)
+                                                                                      SELECT p.staff.staffId, COUNT(p), SUM(p.amount)
+                                                                                      FROM Payment p
+                                                                                      GROUP BY p.staff.staffId
+                                                                                      ORDER BY p.staff.staffId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple(1, 8054L, "33482.50"),
                             tuple(2, 7990L, "33924.06"));
@@ -78,7 +79,8 @@ class Payment_Exercises_01_Basic_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple(1, 8054L, "33482.50"),
                             tuple(2, 7990L, "33924.06"));
@@ -93,17 +95,20 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT EXTRACT(YEAR FROM p.paymentDate), EXTRACT(MONTH FROM p.paymentDate), COUNT(p), SUM(p.amount)
-                    FROM Payment p
-                    GROUP BY EXTRACT(YEAR FROM p.paymentDate), EXTRACT(MONTH FROM p.paymentDate)
-                    ORDER BY EXTRACT(YEAR FROM p.paymentDate), EXTRACT(MONTH FROM p.paymentDate)""", Object[].class)
+                                                                                      SELECT EXTRACT(YEAR FROM p.paymentDate), EXTRACT(MONTH FROM p.paymentDate), COUNT(p), SUM(p.amount)
+                                                                                      FROM Payment p
+                                                                                      GROUP BY EXTRACT(YEAR FROM p.paymentDate), EXTRACT(MONTH FROM p.paymentDate)
+                                                                                      ORDER BY EXTRACT(YEAR FROM p.paymentDate), EXTRACT(MONTH FROM p.paymentDate)""",
+                                                                              Object[].class)
                     .getResultStream()
                     // year and month, as mysql's DATE_FORMAT(..., '%Y-%m') writes them
-                    .map(row -> new Object[]{String.format("%d-%02d", row[0], row[1]), row[2], row[3]})
+                    .map(row -> new Object[]{String.format("%d-%02d", row[0],
+                                                           row[1]), row[2], row[3]})
                     .toList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("2005-05", 1156L, "4823.44"),
                             tuple("2005-06", 2311L, "9629.89"),
@@ -125,12 +130,14 @@ class Payment_Exercises_01_Basic_PersistenceIT {
                         .orderBy(cb.asc(year), cb.asc(month));
                 return em.createQuery(cq).getResultStream()
                         // year and month, as mysql's DATE_FORMAT(..., '%Y-%m') writes them
-                        .map(row -> new Object[]{String.format("%d-%02d", row[0], row[1]), row[2], row[3]})
+                        .map(row -> new Object[]{String.format("%d-%02d", row[0],
+                                                               row[1]), row[2], row[3]})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("2005-05", 1156L, "4823.44"),
                             tuple("2005-06", 2311L, "9629.89"),
@@ -147,9 +154,10 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(p)
-                    FROM Payment p
-                    WHERE p.rental IS NULL""", Long.class)
+                                                                                       SELECT COUNT(p)
+                                                                                       FROM Payment p
+                                                                                       WHERE p.rental IS NULL""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(0L);

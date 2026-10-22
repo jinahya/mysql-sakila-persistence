@@ -33,7 +33,7 @@
 -- +----------+------------+-----------+----------------------------------------------------------------------------------+
 -- |        1 | PENELOPE   | GUINESS   | Animation: ANACONDA CONFESSIONS; Children: LANGUAGE COWBOY; Classics: COLOR PHIL |
 -- +----------+------------+-----------+----------------------------------------------------------------------------------+
-SELECT actor_id, first_name, last_name, LEFT(film_info, 80) AS film_info
+SELECT actor_id, first_name, last_name, LEFT (film_info, 80) AS film_info
 FROM actor_info
 WHERE actor_id = 1
 ;

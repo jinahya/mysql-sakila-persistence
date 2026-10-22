@@ -61,8 +61,7 @@ SELECT co.country, COUNT(*) AS cities
 FROM country co
          JOIN city ci ON ci.country_id = co.country_id
 GROUP BY co.country_id, co.country
-ORDER BY cities DESC, co.country
-LIMIT 5
+ORDER BY cities DESC, co.country LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 3

@@ -52,6 +52,5 @@ WHERE district = 'California'
 SELECT district, COUNT(*) AS addresses
 FROM address
 GROUP BY district
-ORDER BY addresses DESC, district
-LIMIT 5
+ORDER BY addresses DESC, district LIMIT 5
 ;

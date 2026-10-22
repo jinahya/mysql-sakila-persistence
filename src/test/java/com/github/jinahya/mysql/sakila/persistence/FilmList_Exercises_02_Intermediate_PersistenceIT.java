@@ -48,11 +48,13 @@ class FilmList_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT (SELECT COUNT(*) FROM film_list) AS film_list,
-                           (SELECT COUNT(DISTINCT film_id) FROM film_category) AS films_with_a_category""")
+                                                                                                      SELECT (SELECT COUNT(*) FROM film_list) AS film_list,
+                                                                                                             (SELECT COUNT(DISTINCT film_id) FROM film_category) AS films_with_a_category""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(r -> assertThat((Object[]) r).extracting(v -> ((Number) v).longValue()).containsExactly(1000L, 1000L));
+            assertThat(list).singleElement().satisfies(
+                    r -> assertThat((Object[]) r).extracting(v -> ((Number) v).longValue())
+                            .containsExactly(1000L, 1000L));
         }
     }
 }

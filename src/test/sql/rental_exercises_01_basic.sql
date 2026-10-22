@@ -78,5 +78,5 @@ SELECT DAYNAME(rental_date) AS day, COUNT(*) AS rentals
 FROM rental
 GROUP BY day
 ORDER BY rentals DESC
-LIMIT 1
+    LIMIT 1
 ;

@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,9 +47,10 @@ class Film_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(f)
-                    FROM Film f
-                    WHERE f.inventories IS EMPTY""", Long.class)
+                                                                                       SELECT COUNT(f)
+                                                                                       FROM Film f
+                                                                                       WHERE f.inventories IS EMPTY""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(42L);
@@ -79,17 +79,19 @@ class Film_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT f.filmId, f.title, COUNT(r)
-                    FROM Film f
-                             JOIN f.inventories i
-                             JOIN i.rentals r
-                    GROUP BY f.filmId, f.title
-                    ORDER BY COUNT(r) DESC, f.filmId""", Object[].class)
+                                                                                      SELECT f.filmId, f.title, COUNT(r)
+                                                                                      FROM Film f
+                                                                                               JOIN f.inventories i
+                                                                                               JOIN i.rentals r
+                                                                                      GROUP BY f.filmId, f.title
+                                                                                      ORDER BY COUNT(r) DESC, f.filmId""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(103, "BUCKET BROTHERHOOD", 34L),
                             tuple(738, "ROCKETEER MOTHER", 33L),
@@ -114,7 +116,8 @@ class Film_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(103, "BUCKET BROTHERHOOD", 34L),
                             tuple(738, "ROCKETEER MOTHER", 33L),

@@ -25,8 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -46,8 +44,9 @@ class Country_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(c)
-                    FROM Country c""", Long.class)
+                                                                                       SELECT COUNT(c)
+                                                                                       FROM Country c""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(109L);

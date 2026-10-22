@@ -34,7 +34,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Answers the exercises of {@code src/test/sql/nicer_but_slower_film_list_exercises_01_basic.sql},
  * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -51,13 +52,14 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
         @ValueSource(ints = {1, 2, 3})
         void nativeQuery(final int fid) {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT FID, title, actors
-                    FROM nicer_but_slower_film_list
-                    WHERE FID = ?1""")
+                                                                                                      SELECT FID, title, actors
+                                                                                                      FROM nicer_but_slower_film_list
+                                                                                                      WHERE FID = ?1""")
                     .setParameter(1, fid)
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(r -> assertThat(((Number) ((Object[]) r)[0]).intValue()).isEqualTo(fid));
+            assertThat(list).singleElement().satisfies(
+                    r -> assertThat(((Number) ((Object[]) r)[0]).intValue()).isEqualTo(fid));
         }
     }
 }

@@ -57,8 +57,7 @@ ORDER BY rating
 SELECT *
 FROM film
 WHERE length > 180
-ORDER BY length DESC, title
-LIMIT 5
+ORDER BY length DESC, title LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 3

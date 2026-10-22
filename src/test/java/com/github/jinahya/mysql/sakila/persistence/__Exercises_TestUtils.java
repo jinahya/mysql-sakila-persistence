@@ -25,7 +25,8 @@ import jakarta.persistence.EntityManager;
 import java.util.function.Function;
 
 /**
- * Helpers for the {@code *_Exercises_*_PersistenceIT} classes, which answer the exercises of {@code src/test/sql}.
+ * Helpers for the {@code *_Exercises_*_PersistenceIT} classes, which answer the exercises of
+ * {@code src/test/sql}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -35,18 +36,20 @@ import java.util.function.Function;
 final class __Exercises_TestUtils {
 
     /**
-     * Applies the specified function to an entity manager of the installed {@code sakila} database, and returns the
-     * result.
+     * Applies the specified function to an entity manager of the installed {@code sakila} database,
+     * and returns the result.
      *
      * @param function the function to apply.
      * @param <R>      the type of the result.
      * @return the result of the {@code function}.
      */
     static <R> R apply(final Function<? super EntityManager, ? extends R> function) {
-        return __Persistence_TestUtils.applyEntityManager(_Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, function);
+        return __Persistence_TestUtils.applyEntityManager(
+                _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, function);
     }
 
-    // ---------------------------------------------------------------------------------------- CONSTRUCTORS
+    // ----------------------------------------------------------------------------------------
+    // CONSTRUCTORS
     private __Exercises_TestUtils() {
         throw new AssertionError("instantiation is not allowed");
     }

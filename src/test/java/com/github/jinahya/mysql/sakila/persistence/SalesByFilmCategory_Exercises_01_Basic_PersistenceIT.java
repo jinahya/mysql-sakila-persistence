@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -35,7 +34,8 @@ import static org.assertj.core.api.Assertions.tuple;
 /**
  * Answers the exercises of {@code src/test/sql/sales_by_film_category_exercises_01_basic.sql},
  * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -49,9 +49,10 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT s.category, s.totalSales
-                    FROM SalesByFilmCategory s
-                    ORDER BY s.totalSales DESC""", Object[].class)
+                                                                                      SELECT s.category, s.totalSales
+                                                                                      FROM SalesByFilmCategory s
+                                                                                      ORDER BY s.totalSales DESC""",
+                                                                              Object[].class)
                     .setMaxResults(3)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -69,7 +70,8 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var s = cq.from(SalesByFilmCategory.class);
-                cq.select(cb.array(s.get(SalesByFilmCategory_.category), s.get(SalesByFilmCategory_.totalSales)))
+                cq.select(cb.array(s.get(SalesByFilmCategory_.category),
+                                   s.get(SalesByFilmCategory_.totalSales)))
                         .orderBy(cb.desc(s.get(SalesByFilmCategory_.totalSales)));
                 return em.createQuery(cq)
                         .setMaxResults(3)

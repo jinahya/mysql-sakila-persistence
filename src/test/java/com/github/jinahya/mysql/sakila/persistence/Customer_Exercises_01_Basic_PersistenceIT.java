@@ -48,10 +48,11 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c.active, COUNT(c)
-                    FROM Customer c
-                    GROUP BY c.active
-                    ORDER BY c.active""", Object[].class)
+                                                                                      SELECT c.active, COUNT(c)
+                                                                                      FROM Customer c
+                                                                                      GROUP BY c.active
+                                                                                      ORDER BY c.active""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
@@ -89,10 +90,11 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c.store.storeId, COUNT(c)
-                    FROM Customer c
-                    GROUP BY c.store.storeId
-                    ORDER BY c.store.storeId""", Object[].class)
+                                                                                      SELECT c.store.storeId, COUNT(c)
+                                                                                      FROM Customer c
+                                                                                      GROUP BY c.store.storeId
+                                                                                      ORDER BY c.store.storeId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
@@ -129,17 +131,19 @@ class Customer_Exercises_01_Basic_PersistenceIT {
     class Exercise3Test {
 
         // JPQL groups by paths, not by a function of one; SUBSTRING_INDEX has no JPQL counterpart
-        // either; the Criteria API has no SUBSTRING_INDEX, and grouping by a function of a path is not
+        // either; the Criteria API has no SUBSTRING_INDEX, and grouping by a function of a path
+        // is not
         // portable
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT SUBSTRING_INDEX(email, '@', -1) AS domain, COUNT(*) AS customers
-                    FROM customer
-                    GROUP BY domain""")
+                                                                                                      SELECT SUBSTRING_INDEX(email, '@', -1) AS domain, COUNT(*) AS customers
+                                                                                                      FROM customer
+                                                                                                      GROUP BY domain""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(r -> assertThat((Object[]) r).containsExactly("sakilacustomer.org", 599L));
+            assertThat(list).singleElement().satisfies(
+                    r -> assertThat((Object[]) r).containsExactly("sakilacustomer.org", 599L));
         }
     }
 }

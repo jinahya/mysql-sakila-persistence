@@ -36,6 +36,5 @@
 -- | Animation |     4656.30 |
 -- +-----------+-------------+
 SELECT category, total_sales
-FROM sales_by_film_category
-LIMIT 3
+FROM sales_by_film_category LIMIT 3
 ;

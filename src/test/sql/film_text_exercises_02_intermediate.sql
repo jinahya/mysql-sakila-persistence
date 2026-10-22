@@ -45,7 +45,7 @@ SELECT (SELECT COUNT(*) FROM film_text) AS film_text, (SELECT COUNT(*) FROM film
 -- +-------+
 SELECT COUNT(*) AS films
 FROM film_text
-WHERE MATCH(title, description) AGAINST ('drama')
+WHERE MATCH (title, description) AGAINST ('drama')
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 3

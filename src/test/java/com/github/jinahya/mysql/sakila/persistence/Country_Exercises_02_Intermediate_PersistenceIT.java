@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,9 +47,10 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c
-                    FROM Country c
-                    WHERE c.cities IS EMPTY""", Country.class)
+                                                                                      SELECT c
+                                                                                      FROM Country c
+                                                                                      WHERE c.cities IS EMPTY""",
+                                                                              Country.class)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();
@@ -79,13 +79,14 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT co.country, COUNT(cu)
-                    FROM Customer cu
-                             JOIN cu.address a
-                             JOIN a.city c
-                             JOIN c.country co
-                    GROUP BY co.countryId, co.country
-                    ORDER BY COUNT(cu) DESC, co.country""", Object[].class)
+                                                                                      SELECT co.country, COUNT(cu)
+                                                                                      FROM Customer cu
+                                                                                               JOIN cu.address a
+                                                                                               JOIN a.city c
+                                                                                               JOIN c.country co
+                                                                                      GROUP BY co.countryId, co.country
+                                                                                      ORDER BY COUNT(cu) DESC, co.country""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));

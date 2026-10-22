@@ -28,14 +28,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Answers the exercises of {@code src/test/sql/film_category_exercises_02_intermediate.sql},
  * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -50,14 +50,16 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @ValueSource(longs = {0, 1})
         void __QueryLanguage(final long count) {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT fc.filmId, COUNT(fc)
-                    FROM FilmCategory fc
-                    GROUP BY fc.filmId
-                    HAVING COUNT(fc) > :count""", Object[].class)
+                                                                                      SELECT fc.filmId, COUNT(fc)
+                                                                                      FROM FilmCategory fc
+                                                                                      GROUP BY fc.filmId
+                                                                                      HAVING COUNT(fc) > :count""",
+                                                                              Object[].class)
                     .setParameter("count", count)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list).allSatisfy(r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
+            assertThat(list).allSatisfy(
+                    r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
         }
 
         @ParameterizedTest
@@ -75,7 +77,8 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list).allSatisfy(r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
+            assertThat(list).allSatisfy(
+                    r -> assertThat(((Number) r[1]).longValue()).isGreaterThan(count));
         }
     }
 
@@ -86,9 +89,10 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(f)
-                    FROM Film f
-                    WHERE f.filmCategories IS EMPTY""", Long.class)
+                                                                                       SELECT COUNT(f)
+                                                                                       FROM Film f
+                                                                                       WHERE f.filmCategories IS EMPTY""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(0L);

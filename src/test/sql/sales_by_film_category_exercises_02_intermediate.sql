@@ -34,5 +34,5 @@
 -- |    67406.56 |     67406.56 |
 -- +-------------+--------------+
 SELECT (SELECT SUM(total_sales) FROM sales_by_film_category) AS by_category,
-       (SELECT SUM(amount) FROM payment) AS all_payments
+       (SELECT SUM(amount) FROM payment)                     AS all_payments
 ;

@@ -50,13 +50,14 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         @ValueSource(strings = {"Action", "Comedy", "Horror"})
         void nativeQuery(final String category) {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT COUNT(*) AS films
-                    FROM film_list
-                    WHERE category = ?1""")
+                                                                                                      SELECT COUNT(*) AS films
+                                                                                                      FROM film_list
+                                                                                                      WHERE category = ?1""")
                     .setParameter(1, category)
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(v -> assertThat(((Number) v).longValue()).isPositive());
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((Number) v).longValue()).isPositive());
         }
     }
 
@@ -69,13 +70,14 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         @ValueSource(ints = {1, 2, 3})
         void nativeQuery(final int fid) {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT FID, title, actors
-                    FROM film_list
-                    WHERE FID = ?1""")
+                                                                                                      SELECT FID, title, actors
+                                                                                                      FROM film_list
+                                                                                                      WHERE FID = ?1""")
                     .setParameter(1, fid)
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement().satisfies(r -> assertThat(((Number) ((Object[]) r)[0]).intValue()).isEqualTo(fid));
+            assertThat(list).singleElement().satisfies(
+                    r -> assertThat(((Number) ((Object[]) r)[0]).intValue()).isEqualTo(fid));
         }
     }
 }

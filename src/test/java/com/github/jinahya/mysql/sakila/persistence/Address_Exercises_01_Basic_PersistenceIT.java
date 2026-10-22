@@ -28,7 +28,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -51,9 +50,10 @@ class Address_Exercises_01_Basic_PersistenceIT {
         @ValueSource(strings = {"California", "Alberta", "Buenos Aires"})
         void __QueryLanguage(final String district) {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(a)
-                    FROM Address a
-                    WHERE a.district = :district""", Long.class)
+                                                                                       SELECT COUNT(a)
+                                                                                       FROM Address a
+                                                                                       WHERE a.district = :district""",
+                                                                               Long.class)
                     .setParameter("district", district)
                     .getSingleResult());
             log.debug("{}", value);
@@ -68,7 +68,8 @@ class Address_Exercises_01_Basic_PersistenceIT {
                 final var cq = cb.createQuery(Long.class);
                 final var a = cq.from(Address.class);
                 cq.select(cb.count(a))
-                        .where(cb.equal(a.get(Address_.district), cb.parameter(String.class, "district")));
+                        .where(cb.equal(a.get(Address_.district),
+                                        cb.parameter(String.class, "district")));
                 return em.createQuery(cq)
                         .setParameter("district", district)
                         .getSingleResult();
@@ -85,10 +86,11 @@ class Address_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a.district, COUNT(a)
-                    FROM Address a
-                    GROUP BY a.district
-                    ORDER BY COUNT(a) DESC, a.district""", Object[].class)
+                                                                                      SELECT a.district, COUNT(a)
+                                                                                      FROM Address a
+                                                                                      GROUP BY a.district
+                                                                                      ORDER BY COUNT(a) DESC, a.district""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));

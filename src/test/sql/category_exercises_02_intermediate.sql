@@ -57,8 +57,7 @@ FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
          JOIN film f ON f.film_id = fc.film_id
 GROUP BY c.category_id, c.name
-ORDER BY average_length DESC
-LIMIT 1
+ORDER BY average_length DESC LIMIT 1
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 3

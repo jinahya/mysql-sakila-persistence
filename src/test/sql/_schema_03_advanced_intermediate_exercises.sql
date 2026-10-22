@@ -46,14 +46,12 @@ WITH paid AS (SELECT co.country, cu.customer_id, cu.first_name, cu.last_name, SU
                        JOIN country co ON co.country_id = ci.country_id
               GROUP BY co.country, cu.customer_id, cu.first_name, cu.last_name),
      ranked AS (SELECT paid.*,
-                       RANK() OVER (PARTITION BY country ORDER BY total DESC) AS rank_in_country,
-                       SUM(total) OVER (PARTITION BY country) AS country_total
+                       RANK() OVER (PARTITION BY country ORDER BY total DESC) AS rank_in_country, SUM(total) OVER (PARTITION BY country) AS country_total
                 FROM paid)
 SELECT country, customer_id, first_name, last_name, total, country_total
 FROM ranked
 WHERE rank_in_country = 1
-ORDER BY country_total DESC
-LIMIT 5
+ORDER BY country_total DESC LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 2
@@ -74,8 +72,7 @@ FROM customer c
          JOIN film_category fc ON fc.film_id = i.film_id
 GROUP BY c.customer_id, c.first_name, c.last_name
 HAVING COUNT(DISTINCT fc.category_id) = (SELECT COUNT(*) FROM category)
-ORDER BY c.customer_id
-LIMIT 5
+ORDER BY c.customer_id LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 3
@@ -89,10 +86,10 @@ LIMIT 5
 -- | 2005-05-27 | 684.34 |       2042.15 |
 -- | 2005-05-28 | 804.04 |       2846.19 |
 -- +------------+--------+---------------+
-SELECT day, total, SUM(total) OVER (ORDER BY day) AS running_total
-FROM (SELECT DATE(payment_date) AS day, SUM(amount) AS total FROM payment GROUP BY day) t
+SELECT day, total, SUM (total) OVER (ORDER BY day) AS running_total
+FROM (SELECT DATE (payment_date) AS day, SUM (amount) AS total FROM payment GROUP BY day) t
 ORDER BY day
-LIMIT 5
+    LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 4
@@ -107,7 +104,7 @@ LIMIT 5
 -- | 2006-02 |   514.18 |            -23555.96 |
 -- +---------+----------+----------------------+
 SELECT month, total, total - LAG(total) OVER (ORDER BY month) AS change_from_previous
-FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM(amount) AS total FROM payment GROUP BY month) t
+FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM (amount) AS total FROM payment GROUP BY month) t
 ORDER BY month
 ;
 
@@ -124,7 +121,10 @@ ORDER BY month
 -- |        2 |     396 | HANGING DEEP         |      19 |
 -- +----------+---------+----------------------+---------+
 SELECT store_id, film_id, title, rentals
-FROM (SELECT i.store_id, f.film_id, f.title, COUNT(*) AS rentals,
+FROM (SELECT i.store_id,
+             f.film_id,
+             f.title,
+             COUNT(*) AS  rentals,
              ROW_NUMBER() OVER (PARTITION BY i.store_id ORDER BY COUNT(*) DESC, f.film_id) AS n
       FROM rental r
                JOIN inventory i ON i.inventory_id = r.inventory_id
@@ -143,14 +143,16 @@ ORDER BY store_id, n
 -- |      1 |     99 |
 -- |      2 |    100 |
 -- +--------+--------+
-WITH RECURSIVE bacon (actor_id, number) AS (
-    SELECT actor_id, 0 FROM actor WHERE first_name = 'KEVIN' AND last_name = 'BLOOM'
-    UNION DISTINCT
-    SELECT fa2.actor_id, b.number + 1
-    FROM bacon b
-             JOIN film_actor fa1 ON fa1.actor_id = b.actor_id
-             JOIN film_actor fa2 ON fa2.film_id = fa1.film_id
-    WHERE b.number < 2)
+WITH RECURSIVE bacon (actor_id, number) AS (SELECT actor_id, 0
+                                            FROM actor
+                                            WHERE first_name = 'KEVIN'
+                                              AND last_name = 'BLOOM'
+                                            UNION DISTINCT
+SELECT fa2.actor_id, b.number + 1
+FROM bacon b
+         JOIN film_actor fa1 ON fa1.actor_id = b.actor_id
+         JOIN film_actor fa2 ON fa2.film_id = fa1.film_id
+WHERE b.number < 2)
 SELECT number, COUNT(*) AS actors
 FROM (SELECT actor_id, MIN(number) AS number FROM bacon GROUP BY actor_id) t
 WHERE number > 0
@@ -165,6 +167,8 @@ SELECT f.film_id, f.title, COUNT(*) AS copies
 FROM film f
          JOIN inventory i ON i.film_id = f.film_id
 GROUP BY f.film_id, f.title
-HAVING SUM(EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)) = COUNT(*)
+HAVING SUM(EXISTS (SELECT 1
+                   FROM rental r
+                   WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)) = COUNT(*)
 ORDER BY f.film_id
 ;

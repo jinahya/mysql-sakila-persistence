@@ -82,8 +82,7 @@ FROM payment p
          JOIN city ci ON ci.city_id = a.city_id
          JOIN country co ON co.country_id = ci.country_id
 GROUP BY co.country_id, co.country
-ORDER BY total DESC
-LIMIT 5
+ORDER BY total DESC LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 4
@@ -124,8 +123,7 @@ FROM actor a
          JOIN rental r ON r.inventory_id = i.inventory_id
          JOIN payment p ON p.rental_id = r.rental_id
 GROUP BY a.actor_id, a.first_name, a.last_name
-ORDER BY total DESC, a.actor_id
-LIMIT 5
+ORDER BY total DESC, a.actor_id LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 6
@@ -137,7 +135,9 @@ LIMIT 5
 -- +-----------+
 SELECT COUNT(*) AS customers
 FROM customer c
-WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.customer_id = c.customer_id AND r.return_date IS NULL)
+WHERE NOT EXISTS (SELECT 1
+                  FROM rental r
+                  WHERE r.customer_id = c.customer_id AND r.return_date IS NULL)
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 7
@@ -153,7 +153,8 @@ WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.customer_id = c.customer_id AND
 -- +---------+---------+----------+
 SELECT DATE_FORMAT(r.rental_date, '%Y-%m') AS month, COUNT(*) AS rentals, SUM(p.amount) AS total
 FROM rental r
-         LEFT JOIN payment p ON p.rental_id = r.rental_id
+    LEFT JOIN payment p
+ON p.rental_id = r.rental_id
 GROUP BY month
 ORDER BY month
 ;

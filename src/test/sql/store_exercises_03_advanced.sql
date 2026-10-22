@@ -36,9 +36,12 @@
 -- |        2 |   762 |             199 |
 -- +----------+-------+-----------------+
 SELECT st.store_id,
-       COUNT(DISTINCT i.film_id) AS films,
+       COUNT(DISTINCT i.film_id)                  AS films,
        COUNT(DISTINCT CASE
-                          WHEN NOT EXISTS (SELECT 1 FROM inventory o WHERE o.film_id = i.film_id AND o.store_id <> st.store_id)
+                          WHEN NOT EXISTS (SELECT 1
+                                           FROM inventory o
+                                           WHERE o.film_id = i.film_id
+                                             AND o.store_id <> st.store_id)
                               THEN i.film_id END) AS films_only_here
 FROM store st
          JOIN inventory i ON i.store_id = st.store_id

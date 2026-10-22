@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -54,16 +53,18 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT i.storeId, COUNT(p), SUM(p.amount)
-                    FROM Payment p
-                             JOIN p.rental r
-                             JOIN r.inventory i
-                    GROUP BY i.storeId
-                    ORDER BY i.storeId""", Object[].class)
+                                                                                      SELECT i.storeId, COUNT(p), SUM(p.amount)
+                                                                                      FROM Payment p
+                                                                                               JOIN p.rental r
+                                                                                               JOIN r.inventory i
+                                                                                      GROUP BY i.storeId
+                                                                                      ORDER BY i.storeId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple(1, 7923L, "33679.79"),
                             tuple(2, 8121L, "33726.77"));
@@ -76,7 +77,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var p = cq.from(Payment.class);
                 final var i = p.join(Payment_.rental).join(Rental_.inventory);
-                cq.select(cb.array(i.get(Inventory_.storeId), cb.count(p), cb.sum(p.get(Payment_.amount))))
+                cq.select(cb.array(i.get(Inventory_.storeId), cb.count(p),
+                                   cb.sum(p.get(Payment_.amount))))
                         .groupBy(i.get(Inventory_.storeId))
                         .orderBy(cb.asc(i.get(Inventory_.storeId)));
                 return em.createQuery(cq)
@@ -84,7 +86,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple(1, 7923L, "33679.79"),
                             tuple(2, 8121L, "33726.77"));
@@ -98,20 +101,22 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c.name, COUNT(r)
-                    FROM Rental r
-                             JOIN r.inventory i
-                             JOIN i.film f
-                             JOIN f.filmCategories fc
-                             JOIN fc.category c
-                    GROUP BY c.categoryId, c.name
-                    ORDER BY COUNT(r) DESC, c.name""", Object[].class)
+                                                                                      SELECT c.name, COUNT(r)
+                                                                                      FROM Rental r
+                                                                                               JOIN r.inventory i
+                                                                                               JOIN i.film f
+                                                                                               JOIN f.filmCategories fc
+                                                                                               JOIN fc.category c
+                                                                                      GROUP BY c.categoryId, c.name
+                                                                                      ORDER BY COUNT(r) DESC, c.name""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).hasSize(16);
             assertThat(list)
                     .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
-                    .startsWith(tuple("Sports", 1179L), tuple("Animation", 1166L), tuple("Action", 1112L));
+                    .startsWith(tuple("Sports", 1179L), tuple("Animation", 1166L),
+                                tuple("Action", 1112L));
         }
 
         @Test
@@ -120,7 +125,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var r = cq.from(Rental.class);
-                final var c = r.join(Rental_.inventory).join(Inventory_.film).join(Film_.filmCategories).join(FilmCategory_.category);
+                final var c =
+                        r.join(Rental_.inventory).join(Inventory_.film).join(Film_.filmCategories)
+                                .join(FilmCategory_.category);
                 cq.select(cb.array(c.get(Category_.name), cb.count(r)))
                         .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
                         .orderBy(cb.desc(cb.count(r)), cb.asc(c.get(Category_.name)));
@@ -131,7 +138,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
             assertThat(list).hasSize(16);
             assertThat(list)
                     .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
-                    .startsWith(tuple("Sports", 1179L), tuple("Animation", 1166L), tuple("Action", 1112L));
+                    .startsWith(tuple("Sports", 1179L), tuple("Animation", 1166L),
+                                tuple("Action", 1112L));
         }
     }
 
@@ -142,19 +150,21 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT co.country, COUNT(DISTINCT cu), SUM(p.amount)
-                    FROM Payment p
-                             JOIN p.customer cu
-                             JOIN cu.address a
-                             JOIN a.city ci
-                             JOIN ci.country co
-                    GROUP BY co.countryId, co.country
-                    ORDER BY SUM(p.amount) DESC""", Object[].class)
+                                                                                      SELECT co.country, COUNT(DISTINCT cu), SUM(p.amount)
+                                                                                      FROM Payment p
+                                                                                               JOIN p.customer cu
+                                                                                               JOIN cu.address a
+                                                                                               JOIN a.city ci
+                                                                                               JOIN ci.country co
+                                                                                      GROUP BY co.countryId, co.country
+                                                                                      ORDER BY SUM(p.amount) DESC""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("India", 60L, "6628.28"),
                             tuple("China", 53L, "5798.74"),
@@ -171,7 +181,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                 final var p = cq.from(Payment.class);
                 final var cu = p.join(Payment_.customer);
                 final var co = cu.join(Customer_.address).join(Address_.city).join(City_.country);
-                cq.select(cb.array(co.get(Country_.country), cb.countDistinct(cu), cb.sum(p.get(Payment_.amount))))
+                cq.select(cb.array(co.get(Country_.country), cb.countDistinct(cu),
+                                   cb.sum(p.get(Payment_.amount))))
                         .groupBy(co.get(Country_.countryId), co.get(Country_.country))
                         .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))));
                 return em.createQuery(cq)
@@ -180,7 +191,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("India", 60L, "6628.28"),
                             tuple("China", 53L, "5798.74"),
@@ -197,13 +209,14 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT f.rating, ROUND(AVG(p.amount), 2)
-                    FROM Payment p
-                             JOIN p.rental r
-                             JOIN r.inventory i
-                             JOIN i.film f
-                    GROUP BY f.rating
-                    ORDER BY f.rating""", Object[].class)
+                                                                                      SELECT f.rating, ROUND(AVG(p.amount), 2)
+                                                                                      FROM Payment p
+                                                                                               JOIN p.rental r
+                                                                                               JOIN r.inventory i
+                                                                                               JOIN i.film f
+                                                                                      GROUP BY f.rating
+                                                                                      ORDER BY f.rating""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
@@ -223,7 +236,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var p = cq.from(Payment.class);
                 final var f = p.join(Payment_.rental).join(Rental_.inventory).join(Inventory_.film);
-                cq.select(cb.array(f.get(Film_.rating), cb.round(cb.avg(p.get(Payment_.amount)), 2)))
+                cq.select(
+                                cb.array(f.get(Film_.rating),
+                                         cb.round(cb.avg(p.get(Payment_.amount)), 2)))
                         .groupBy(f.get(Film_.rating))
                         .orderBy(cb.asc(f.get(Film_.rating)));
                 return em.createQuery(cq)
@@ -248,20 +263,22 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT a.actorId, a.firstName, a.lastName, SUM(p.amount)
-                    FROM Actor a
-                             JOIN a.filmActors fa
-                             JOIN fa.film f
-                             JOIN f.inventories i
-                             JOIN i.rentals r
-                             JOIN r.payments p
-                    GROUP BY a.actorId, a.firstName, a.lastName
-                    ORDER BY SUM(p.amount) DESC, a.actorId""", Object[].class)
+                                                                                      SELECT a.actorId, a.firstName, a.lastName, SUM(p.amount)
+                                                                                      FROM Actor a
+                                                                                               JOIN a.filmActors fa
+                                                                                               JOIN fa.film f
+                                                                                               JOIN f.inventories i
+                                                                                               JOIN i.rentals r
+                                                                                               JOIN r.payments p
+                                                                                      GROUP BY a.actorId, a.firstName, a.lastName
+                                                                                      ORDER BY SUM(p.amount) DESC, a.actorId""",
+                                                                              Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((BigDecimal) r[3]).toPlainString())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", "3442.49"),
                             tuple(181, "MATTHEW", "CARREY", "2742.19"),
@@ -276,18 +293,24 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var a = cq.from(Actor.class);
-                final var p = a.join(Actor_.filmActors).join(FilmActor_.film).join(Film_.inventories).join(Inventory_.rentals)
-                        .join(Rental_.payments);
-                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName), a.get(Actor_.lastName), cb.sum(p.get(Payment_.amount))))
-                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName), a.get(Actor_.lastName))
-                        .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))), cb.asc(a.get(Actor_.actorId)));
+                final var p =
+                        a.join(Actor_.filmActors).join(FilmActor_.film).join(Film_.inventories)
+                                .join(Inventory_.rentals)
+                                .join(Rental_.payments);
+                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                   a.get(Actor_.lastName), cb.sum(p.get(Payment_.amount))))
+                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                 a.get(Actor_.lastName))
+                        .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))),
+                                 cb.asc(a.get(Actor_.actorId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((BigDecimal) r[3]).toPlainString())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", "3442.49"),
                             tuple(181, "MATTHEW", "CARREY", "2742.19"),
@@ -304,9 +327,10 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(c)
-                    FROM Customer c
-                    WHERE NOT EXISTS (SELECT r FROM Rental r WHERE r.customer = c AND r.returnDate IS NULL)""", Long.class)
+                                                                                       SELECT COUNT(c)
+                                                                                       FROM Customer c
+                                                                                       WHERE NOT EXISTS (SELECT r FROM Rental r WHERE r.customer = c AND r.returnDate IS NULL)""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(440L);
@@ -320,7 +344,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                 final var c = cq.from(Customer.class);
                 final var out = cq.subquery(Rental.class);
                 final var r = out.from(Rental.class);
-                out.select(r).where(cb.equal(r.get(Rental_.customer), c), cb.isNull(r.get(Rental_.returnDate)));
+                out.select(r).where(cb.equal(r.get(Rental_.customer), c),
+                                    cb.isNull(r.get(Rental_.returnDate)));
                 cq.select(cb.count(c))
                         .where(cb.not(cb.exists(out)));
                 return em.createQuery(cq)
@@ -339,18 +364,21 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), COUNT(r), SUM(p.amount)
-                    FROM Rental r
-                             LEFT JOIN r.payments p
-                    GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)
-                    ORDER BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)""", Object[].class)
+                                                                                      SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), COUNT(r), SUM(p.amount)
+                                                                                      FROM Rental r
+                                                                                               LEFT JOIN r.payments p
+                                                                                      GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)
+                                                                                      ORDER BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)""",
+                                                                              Object[].class)
                     .getResultStream()
                     // year and month, as mysql's DATE_FORMAT(..., '%Y-%m') writes them
-                    .map(row -> new Object[]{String.format("%d-%02d", row[0], row[1]), row[2], row[3]})
+                    .map(row -> new Object[]{String.format("%d-%02d", row[0],
+                                                           row[1]), row[2], row[3]})
                     .toList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("2005-05", 1156L, "4823.44"),
                             tuple("2005-06", 2311L, "9629.89"),
@@ -373,12 +401,14 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                         .orderBy(cb.asc(year), cb.asc(month));
                 return em.createQuery(cq).getResultStream()
                         // year and month, as mysql's DATE_FORMAT(..., '%Y-%m') writes them
-                        .map(row -> new Object[]{String.format("%d-%02d", row[0], row[1]), row[2], row[3]})
+                        .map(row -> new Object[]{String.format("%d-%02d", row[0],
+                                                               row[1]), row[2], row[3]})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(), r -> ((BigDecimal) r[2]).toPlainString())
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("2005-05", 1156L, "4823.44"),
                             tuple("2005-06", 2311L, "9629.89"),
@@ -395,11 +425,12 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT COUNT(DISTINCT c)
-                    FROM Customer c
-                             JOIN c.rentals r
-                             JOIN r.inventory i
-                    WHERE i.storeId <> c.store.storeId""", Long.class)
+                                                                                       SELECT COUNT(DISTINCT c)
+                                                                                       FROM Customer c
+                                                                                                JOIN c.rentals r
+                                                                                                JOIN r.inventory i
+                                                                                       WHERE i.storeId <> c.store.storeId""",
+                                                                               Long.class)
                     .getSingleResult());
             log.debug("{}", value);
             assertThat(value).isEqualTo(599L);
@@ -413,7 +444,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
                 final var c = cq.from(Customer.class);
                 final var i = c.join(Customer_.rentals).join(Rental_.inventory);
                 cq.select(cb.countDistinct(c))
-                        .where(cb.notEqual(i.get(Inventory_.storeId), c.get(Customer_.store).get(Store_.storeId)));
+                        .where(cb.notEqual(i.get(Inventory_.storeId),
+                                           c.get(Customer_.store).get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getSingleResult();
             });

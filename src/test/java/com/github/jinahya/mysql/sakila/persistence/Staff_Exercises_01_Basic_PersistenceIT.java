@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,13 +47,15 @@ class Staff_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT s.staffId, s.firstName, s.lastName, s.store.storeId, s.active
-                    FROM Staff s
-                    ORDER BY s.staffId""", Object[].class)
+                                                                                      SELECT s.staffId, s.firstName, s.lastName, s.store.storeId, s.active
+                                                                                      FROM Staff s
+                                                                                      ORDER BY s.staffId""",
+                                                                              Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((Number) r[3]).intValue(), r -> r[4])
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).intValue(), r -> r[4])
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", 1, true),
                             tuple(2, "Jon", "Stephens", 2, true));
@@ -66,15 +67,17 @@ class Staff_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var s = cq.from(Staff.class);
-                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName), s.get(Staff_.lastName),
-                               s.get(Staff_.store).get(Store_.storeId), s.get(Staff_.active)))
+                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName),
+                                   s.get(Staff_.lastName),
+                                   s.get(Staff_.store).get(Store_.storeId), s.get(Staff_.active)))
                         .orderBy(cb.asc(s.get(Staff_.staffId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> ((Number) r[3]).intValue(), r -> r[4])
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).intValue(), r -> r[4])
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", 1, true),
                             tuple(2, "Jon", "Stephens", 2, true));

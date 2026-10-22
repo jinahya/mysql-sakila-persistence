@@ -25,9 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -48,9 +45,10 @@ class StaffList_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT l
-                    FROM StaffList l
-                    ORDER BY l.id""", StaffList.class)
+                                                                                      SELECT l
+                                                                                      FROM StaffList l
+                                                                                      ORDER BY l.id""",
+                                                                              StaffList.class)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).extracting(StaffList::getId, StaffList::getName)

@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -48,17 +47,19 @@ class FilmActor_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT fa1.actor.actorId, fa2.actor.actorId, COUNT(fa1)
-                    FROM FilmActor fa1, FilmActor fa2
-                    WHERE fa2.film = fa1.film
-                      AND fa2.actor.actorId > fa1.actor.actorId
-                    GROUP BY fa1.actor.actorId, fa2.actor.actorId
-                    ORDER BY COUNT(fa1) DESC, fa1.actor.actorId, fa2.actor.actorId""", Object[].class)
+                                                                                      SELECT fa1.actor.actorId, fa2.actor.actorId, COUNT(fa1)
+                                                                                      FROM FilmActor fa1, FilmActor fa2
+                                                                                      WHERE fa2.film = fa1.film
+                                                                                        AND fa2.actor.actorId > fa1.actor.actorId
+                                                                                      GROUP BY fa1.actor.actorId, fa2.actor.actorId
+                                                                                      ORDER BY COUNT(fa1) DESC, fa1.actor.actorId, fa2.actor.actorId""",
+                                                                              Object[].class)
                     .setMaxResults(3)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue(), r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue(),
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(27, 60, 7L),
                             tuple(15, 198, 6L),
@@ -75,7 +76,8 @@ class FilmActor_Exercises_03_Advanced_PersistenceIT {
                 final var actorId1 = fa1.get(FilmActor_.actor).get(Actor_.actorId);
                 final var actorId2 = fa2.get(FilmActor_.actor).get(Actor_.actorId);
                 cq.select(cb.array(actorId1, actorId2, cb.count(fa1)))
-                        .where(cb.equal(fa2.get(FilmActor_.film), fa1.get(FilmActor_.film)), cb.gt(actorId2, actorId1))
+                        .where(cb.equal(fa2.get(FilmActor_.film), fa1.get(FilmActor_.film)),
+                               cb.gt(actorId2, actorId1))
                         .groupBy(actorId1, actorId2)
                         .orderBy(cb.desc(cb.count(fa1)), cb.asc(actorId1), cb.asc(actorId2));
                 return em.createQuery(cq)
@@ -84,7 +86,8 @@ class FilmActor_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue(), r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue(),
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(27, 60, 7L),
                             tuple(15, 198, 6L),

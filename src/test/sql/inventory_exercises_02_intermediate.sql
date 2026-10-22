@@ -41,8 +41,7 @@ SELECT f.film_id, f.title, COUNT(*) AS copies
 FROM film f
          JOIN inventory i ON i.film_id = f.film_id
 GROUP BY f.film_id, f.title
-ORDER BY copies DESC, f.film_id
-LIMIT 5
+ORDER BY copies DESC, f.film_id LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------------- exercise 2

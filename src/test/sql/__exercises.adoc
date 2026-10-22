@@ -2,9 +2,8 @@
 :toc: left
 :toclevels: 3
 
-The exercises on the installed `sakila` database: a section for each table and view, with a section for each
-level, and, at the end, a section for the schema as a whole. Each exercise poses a problem; its answer, and
-what the installed data gives back, are in the `.sql` file, and are checked by an integration test.
+The exercises on the installed `sakila` database: a section for each table and view, with a section for each level, and, at the end, a section for the schema as a whole.
+Each exercise poses a problem; its answer, and what the installed data gives back, are in the `.sql` file, and are checked by an integration test.
 
 Run a file as a whole:
 
@@ -21,8 +20,10 @@ The `actor` table, mapped by `Actor`.
 
 ==== Exercise 1: the actors whose last name is GUINESS
 
-Find every actor whose `last_name` is exactly `GUINESS`. Show the whole rows, ordered by
-`actor_id`. A single table and an equality filter; no join.
+Find every actor whose `last_name` is exactly `GUINESS`.
+Show the whole rows, ordered by
+`actor_id`.
+A single table and an equality filter; no join.
 
 .`actor_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -52,10 +53,11 @@ Answered by `Actor_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: the last names shared by more than three actors, the most shared first
 
-Some last names are shared by several actors. Group the actors by
-`last_name`, count them, and keep only the groups with more than three actors. Show each last name with its count,
-the most shared name first; names with the same count are ordered by the name. The filter is on the groups, not on
-the rows, so it belongs in `HAVING`, not in `WHERE`.
+Some last names are shared by several actors.
+Group the actors by
+`last_name`, count them, and keep only the groups with more than three actors.
+Show each last name with its count, the most shared name first; names with the same count are ordered by the name.
+The filter is on the groups, not on the rows, so it belongs in `HAVING`, not in `WHERE`.
 
 .`actor_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -83,8 +85,9 @@ ORDER BY actors DESC, last_name
 ==== Exercise 2: the five actors who appear in the most films
 
 Count, for each actor, the films they appear in, through the `film_actor`
-link table. Show the five actors with the most films: their `actor_id`, `first_name`, `last_name` and the number of
-films, the most first. Break ties by `actor_id`, so the five are always the same five.
+link table.
+Show the five actors with the most films: their `actor_id`, `first_name`, `last_name` and the number of films, the most first.
+Break ties by `actor_id`, so the five are always the same five.
 
 .`actor_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -114,9 +117,9 @@ LIMIT 5
 
 ==== Exercise 3: the actors who appear in no film
 
-Find the actors who have no row in `film_actor` at all, that is, who
-appear in no film. Show the whole rows. Use a `NOT EXISTS` (or an anti-join); the
-installed data has none, so the answer is empty, and the exercise is about writing the query that proves it.
+Find the actors who have no row in `film_actor` at all, that is, who appear in no film.
+Show the whole rows.
+Use a `NOT EXISTS` (or an anti-join); the installed data has none, so the answer is empty, and the exercise is about writing the query that proves it.
 
 .`actor_exercises_02_intermediate.sql`, exercise 3
 [%collapsible]
@@ -139,11 +142,9 @@ Answered by `Actor_Exercises_02_Intermediate_PersistenceIT`.
 
 ==== Exercise 1: the actors who appear in a film of every rating
 
-Find the actors who have appeared in at least one film of each rating
-(`G`, `PG`, `PG-13`, `R`, `NC-17`). This is a relational division: for each actor, count the distinct ratings of
-their films, and compare that count with the number of distinct ratings over all films, taken by a subquery, so
-the query does not hard-code the five ratings. Show the whole rows of the first five such
-actors by `actor_id`.
+Find the actors who have appeared in at least one film of each rating (`G`, `PG`, `PG-13`, `R`, `NC-17`).
+This is a relational division: for each actor, count the distinct ratings of their films, and compare that count with the number of distinct ratings over all films, taken by a subquery, so the query does not hard-code the five ratings.
+Show the whole rows of the first five such actors by `actor_id`.
 
 .`actor_exercises_03_advanced.sql`, exercise 1
 [%collapsible]
@@ -184,7 +185,8 @@ The `actor_info` view, mapped by `ActorInfo`.
 ==== Exercise 1: the film_info of the actor 1
 
 The `actor_info` view puts, for each actor, all of their films into one
-`film_info` string, grouped by category (`Animation: ...; Comedy: ...`). Show the row of the actor `1`: the
+`film_info` string, grouped by category (`Animation: ...; Comedy: ...`).
+Show the row of the actor `1`: the
 `actor_id`, the `first_name`, the `last_name` and the first 80 characters of `film_info`, which is long.
 
 .`actor_info_exercises_01_basic.sql`, exercise 1
@@ -209,8 +211,8 @@ WHERE actor_id = 1
 ==== Exercise 2: how many actors appear in a Horror film, as film_info says
 
 Count the actors who appear in at least one Horror film, reading only the
-`film_info` string of the view. Each category in that string is written as its name followed by a colon, so a
-pattern on `Horror:` finds the actors, without joining any table.
+`film_info` string of the view.
+Each category in that string is written as its name followed by a colon, so a pattern on `Horror:` finds the actors, without joining any table.
 
 .`actor_info_exercises_01_basic.sql`, exercise 2
 [%collapsible]
@@ -237,9 +239,8 @@ Answered by `ActorInfo_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: whether the view has a row for every actor
 
-Check that the view is complete: count the rows of `actor_info` and
-the rows of `actor`, and show both counts side by side in one row. The two should be equal; an actor without a film
-would still have a row, since the view groups the actors, not the films.
+Check that the view is complete: count the rows of `actor_info` and the rows of `actor`, and show both counts side by side in one row.
+The two should be equal; an actor without a film would still have a row, since the view groups the actors, not the films.
 
 .`actor_info_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -268,8 +269,8 @@ The `address` table, mapped by `Address`.
 
 ==== Exercise 1: how many addresses are in the district of California
 
-Count the addresses whose `district` is `California`. A single table, an
-equality filter and a `COUNT`.
+Count the addresses whose `district` is `California`.
+A single table, an equality filter and a `COUNT`.
 
 .`address_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -292,9 +293,8 @@ WHERE district = 'California'
 
 ==== Exercise 2: the five districts with the most addresses
 
-Group the addresses by `district` and count each group. Show the five
-districts with the most addresses, with their counts, the most first; districts with the same count are ordered by
-name.
+Group the addresses by `district` and count each group.
+Show the five districts with the most addresses, with their counts, the most first; districts with the same count are ordered by name.
 
 .`address_exercises_01_basic.sql`, exercise 2
 [%collapsible]
@@ -327,9 +327,8 @@ Answered by `Address_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: the first five addresses, with their city and country
 
-Show the first five addresses by `address_id`, each with the name of
-its city and the name of that city's country. An address refers to a city (`city_id`), and a city to a country
-(`country_id`), so the query joins three tables in a chain.
+Show the first five addresses by `address_id`, each with the name of its city and the name of that city's country.
+An address refers to a city (`city_id`), and a city to a country (`country_id`), so the query joins three tables in a chain.
 
 .`address_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -363,9 +362,10 @@ Answered by `Address_Exercises_02_Intermediate_PersistenceIT`.
 
 ==== Exercise 1: the addresses no customer, staff member or store has
 
-An address is referred to by a customer, a staff member or a store. Find
-the addresses which none of the three refers to, the whole rows, by `address_id`.
-Three `NOT EXISTS` conditions, each a correlated subquery on a different table. The installed data has none.
+An address is referred to by a customer, a staff member or a store.
+Find the addresses which none of the three refers to, the whole rows, by `address_id`.
+Three `NOT EXISTS` conditions, each a correlated subquery on a different table.
+The installed data has none.
 
 .`address_exercises_03_advanced.sql`, exercise 1
 [%collapsible]
@@ -437,9 +437,8 @@ Answered by `Category_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: how many films each category has, the most first
 
-Count the films of each category through the `film_category` link
-table. Show each category's name and its number of films, the most first; categories with the same count are
-ordered by name.
+Count the films of each category through the `film_category` link table.
+Show each category's name and its number of films, the most first; categories with the same count are ordered by name.
 
 .`category_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -469,9 +468,9 @@ ORDER BY films DESC, c.name
 
 ==== Exercise 2: the category whose films are, on average, the longest
 
-For each category, take the average `length` of its films, and find
-the category whose average is the largest. Show its name and the average, rounded to two decimal places. Order the
-groups by the average and keep only the first.
+For each category, take the average `length` of its films, and find the category whose average is the largest.
+Show its name and the average, rounded to two decimal places.
+Order the groups by the average and keep only the first.
 
 .`category_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -499,7 +498,9 @@ LIMIT 1
 ==== Exercise 3: the categories with no film
 
 Find the categories which have no film: no row in `film_category`
-refers to them. Show the whole rows. The installed data has none.
+refers to them.
+Show the whole rows.
+The installed data has none.
 
 .`category_exercises_02_intermediate.sql`, exercise 3
 [%collapsible]
@@ -526,8 +527,9 @@ The `city` table, mapped by `City`.
 
 ==== Exercise 1: the cities whose name starts with Q
 
-Find the cities whose name starts with the letter `Q`. Show the whole
-rows, ordered by the name. A `LIKE` with a trailing wildcard.
+Find the cities whose name starts with the letter `Q`.
+Show the whole rows, ordered by the name.
+A `LIKE` with a trailing wildcard.
 
 .`city_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -558,7 +560,8 @@ Answered by `City_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: the cities of Canada
 
-Show the cities of Canada, the whole rows, ordered by the name. The country is known only by its name, so join `country` and filter on `country.country`.
+Show the cities of Canada, the whole rows, ordered by the name.
+The country is known only by its name, so join `country` and filter on `country.country`.
 
 .`city_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -589,8 +592,8 @@ ORDER BY ci.city
 
 ==== Exercise 2: the five countries with the most cities
 
-Count the cities of each country. Show the five countries with the most
-cities, with their counts, the most first; countries with the same count are ordered by name.
+Count the cities of each country.
+Show the five countries with the most cities, with their counts, the most first; countries with the same count are ordered by name.
 
 .`city_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -620,7 +623,8 @@ LIMIT 5
 
 ==== Exercise 3: how many cities have no address
 
-Count the cities to which no address refers. An anti-join on
+Count the cities to which no address refers.
+An anti-join on
 `address.city_id`, then a count.
 
 .`city_exercises_02_intermediate.sql`, exercise 3
@@ -678,8 +682,9 @@ Answered by `Country_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: the countries with no city
 
-Find the countries which have no city: no row in `city` refers to
-them. Show the whole rows. The installed data has none.
+Find the countries which have no city: no row in `city` refers to them.
+Show the whole rows.
+The installed data has none.
 
 .`country_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -698,9 +703,9 @@ no rows.
 
 ==== Exercise 2: the five countries with the most customers
 
-Count the customers who live in each country. A customer has an
-address, an address a city, and a city a country, so the query walks four tables. Show the five countries with the
-most customers, with their counts, the most first; ties are ordered by the country's name.
+Count the customers who live in each country.
+A customer has an address, an address a city, and a city a country, so the query walks four tables.
+Show the five countries with the most customers, with their counts, the most first; ties are ordered by the country's name.
 
 .`country_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -766,8 +771,8 @@ ORDER BY active
 
 ==== Exercise 2: how many customers each store has
 
-Count the customers of each store, by the customer's own `store_id`. Show
-each `store_id` with its count, ordered by the store.
+Count the customers of each store, by the customer's own `store_id`.
+Show each `store_id` with its count, ordered by the store.
 
 .`customer_exercises_01_basic.sql`, exercise 2
 [%collapsible]
@@ -792,9 +797,9 @@ ORDER BY store_id
 
 ==== Exercise 3: the domains of the customers' emails
 
-Every customer has an `email`. Take the part after the `@` as the domain,
-group the customers by it, and show each domain with the number of its customers. The group is by an expression,
-not by a column.
+Every customer has an `email`.
+Take the part after the `@` as the domain, group the customers by it, and show each domain with the number of its customers.
+The group is by an expression, not by a column.
 
 .`customer_exercises_01_basic.sql`, exercise 3
 [%collapsible]
@@ -821,8 +826,8 @@ Answered by `Customer_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: the five customers who paid the most
 
-Sum the payments of each customer. Show the five customers who paid
-the most: their `customer_id`, `first_name`, `last_name` and total, the largest first; ties are ordered by
+Sum the payments of each customer.
+Show the five customers who paid the most: their `customer_id`, `first_name`, `last_name` and total, the largest first; ties are ordered by
 `customer_id`.
 
 .`customer_exercises_02_intermediate.sql`, exercise 1
@@ -853,8 +858,9 @@ LIMIT 5
 
 ==== Exercise 2: the customers who never rented
 
-Find the customers who have no rental at all. Show the whole
-rows. The installed data has none.
+Find the customers who have no rental at all.
+Show the whole rows.
+The installed data has none.
 
 .`customer_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -881,9 +887,8 @@ The `customer_list` view, mapped by `CustomerList`.
 
 ==== Exercise 1: the customers in Japan
 
-The `customer_list` view joins each customer with their address, city
-and country, and writes the name as one string. Show the customers who live in Japan, the whole rows of the view, ordered
-by `ID`.
+The `customer_list` view joins each customer with their address, city and country, and writes the name as one string.
+Show the customers who live in Japan, the whole rows of the view, ordered by `ID`.
 
 .`customer_list_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -937,8 +942,9 @@ ORDER BY ID
 
 ==== Exercise 2: how many customers each store has, as the view's SID says
 
-Count the customers of each store, as the view's `SID` column, the
-store's id, says. Show each `SID` with its count, ordered by `SID`. The counts should match those taken from
+Count the customers of each store, as the view's `SID` column, the store's id, says.
+Show each `SID` with its count, ordered by `SID`.
+The counts should match those taken from
 `customer` itself.
 
 .`customer_list_exercises_01_basic.sql`, exercise 2
@@ -969,8 +975,8 @@ Answered by `CustomerList_Exercises_01_Basic_PersistenceIT`.
 ==== Exercise 1: whether the view has a row for every customer
 
 Check that the view is complete: count the rows of
-`customer_list` and the rows of `customer`, and show both counts in one row. The view uses inner joins, so a
-customer whose address chain is broken would be missing.
+`customer_list` and the rows of `customer`, and show both counts in one row.
+The view uses inner joins, so a customer whose address chain is broken would be missing.
 
 .`customer_list_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -999,8 +1005,9 @@ The `film` table, mapped by `Film`.
 
 ==== Exercise 1: how many films each rating has
 
-Count the films of each `rating`. Show each rating with its count, ordered by
-the rating. The rating is an `ENUM`, so its order is the order of the enum's values, not the alphabetical one.
+Count the films of each `rating`.
+Show each rating with its count, ordered by the rating.
+The rating is an `ENUM`, so its order is the order of the enum's values, not the alphabetical one.
 
 .`film_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -1028,9 +1035,8 @@ ORDER BY rating
 
 ==== Exercise 2: the films longer than three hours, the longest first
 
-Find the films whose `length` is more than three hours, that is, more than 180
-minutes. Show the whole rows, the longest first, ties ordered by title, and keep the first
-five.
+Find the films whose `length` is more than three hours, that is, more than 180 minutes.
+Show the whole rows, the longest first, ties ordered by title, and keep the first five.
 
 .`film_exercises_01_basic.sql`, exercise 2
 [%collapsible]
@@ -1059,8 +1065,8 @@ LIMIT 5
 
 ==== Exercise 3: the average rental rate of each rating
 
-Take the average `rental_rate` of the films of each rating. Show each rating
-with the average, rounded to two decimal places, ordered by the rating.
+Take the average `rental_rate` of the films of each rating.
+Show each rating with the average, rounded to two decimal places, ordered by the rating.
 
 .`film_exercises_01_basic.sql`, exercise 3
 [%collapsible]
@@ -1089,7 +1095,8 @@ ORDER BY rating
 ==== Exercise 4: how many films have Behind the Scenes among their special features
 
 `special_features` is a `SET`: one value which holds any of `Trailers`,
-`Commentaries`, `Deleted Scenes` and `Behind the Scenes`. Count the films whose set holds `Behind the Scenes`.
+`Commentaries`, `Deleted Scenes` and `Behind the Scenes`.
+Count the films whose set holds `Behind the Scenes`.
 
 .`film_exercises_01_basic.sql`, exercise 4
 [%collapsible]
@@ -1116,8 +1123,9 @@ Answered by `Film_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: how many films have no copy in the inventory
 
-Count the films which have no copy in `inventory`. They cannot be
-rented. An anti-join on `inventory.film_id`.
+Count the films which have no copy in `inventory`.
+They cannot be rented.
+An anti-join on `inventory.film_id`.
 
 .`film_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -1140,8 +1148,9 @@ WHERE NOT EXISTS (SELECT 1 FROM inventory i WHERE i.film_id = f.film_id)
 
 ==== Exercise 2: the five films rented the most
 
-Count how many times each film was rented. A rental refers to a copy
-(`inventory_id`), and a copy to a film, so the count goes through `inventory`. Show the five films rented the most:
+Count how many times each film was rented.
+A rental refers to a copy (`inventory_id`), and a copy to a film, so the count goes through `inventory`.
+Show the five films rented the most:
 their `film_id`, `title` and number of rentals, the most first; ties are ordered by `film_id`.
 
 .`film_exercises_02_intermediate.sql`, exercise 2
@@ -1181,8 +1190,8 @@ The `film_actor` table, mapped by `FilmActor`.
 
 ==== Exercise 1: the five films with the most actors
 
-Count the actors of each film through `film_actor`. Show the five
-films with the most actors: their `film_id`, `title` and number of actors, the most first; ties are ordered by
+Count the actors of each film through `film_actor`.
+Show the five films with the most actors: their `film_id`, `title` and number of actors, the most first; ties are ordered by
 `film_id`.
 
 .`film_actor_exercises_02_intermediate.sql`, exercise 1
@@ -1213,8 +1222,8 @@ LIMIT 5
 
 ==== Exercise 2: how many actors a film has, on average
 
-Find how many actors a film has, on average, over the films which
-have at least one. Count the actors of each film, then average the counts, rounded to two decimal places.
+Find how many actors a film has, on average, over the films which have at least one.
+Count the actors of each film, then average the counts, rounded to two decimal places.
 
 .`film_actor_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -1240,10 +1249,11 @@ Answered by `FilmActor_Exercises_02_Intermediate_PersistenceIT`.
 
 ==== Exercise 1: the three pairs of actors who appear together the most
 
-Two actors appear together when both are in the same film. Pair every
-`film_actor` row with every other row of the same film, keeping each pair once (the first actor's id smaller than
-the second's), and count the films of each pair. Show the three pairs who appear together the most: both actors'
-ids and the count, the most first; ties are ordered by the ids. A self-join.
+Two actors appear together when both are in the same film.
+Pair every
+`film_actor` row with every other row of the same film, keeping each pair once (the first actor's id smaller than the second's), and count the films of each pair.
+Show the three pairs who appear together the most: both actors' ids and the count, the most first; ties are ordered by the ids.
+A self-join.
 
 .`film_actor_exercises_03_advanced.sql`, exercise 1
 [%collapsible]
@@ -1279,9 +1289,10 @@ The `film_category` table, mapped by `FilmCategory`.
 
 ==== Exercise 1: the films with more than one category
 
-The table allows a film more than one category. Find the films
-which actually have more than one: group `film_category` by `film_id` and keep the groups with more than one row.
-Show each film's id with its count. The installed data has none; every film has exactly one category.
+The table allows a film more than one category.
+Find the films which actually have more than one: group `film_category` by `film_id` and keep the groups with more than one row.
+Show each film's id with its count.
+The installed data has none; every film has exactly one category.
 
 .`film_category_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -1332,8 +1343,8 @@ The `film_list` view, mapped by `FilmList`.
 
 ==== Exercise 1: how many Action films there are
 
-The `film_list` view shows each film with its category, its price and its
-actors. Count the films whose `category` is `Action`.
+The `film_list` view shows each film with its category, its price and its actors.
+Count the films whose `category` is `Action`.
 
 .`film_list_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -1356,8 +1367,7 @@ WHERE category = 'Action'
 
 ==== Exercise 2: the actors of the film 1
 
-Show the view's row for the film `1`: its `FID`, `title` and `actors`,
-the names of all its actors in one comma-separated string.
+Show the view's row for the film `1`: its `FID`, `title` and `actors`, the names of all its actors in one comma-separated string.
 
 .`film_list_exercises_01_basic.sql`, exercise 2
 [%collapsible]
@@ -1384,8 +1394,8 @@ Answered by `FilmList_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: whether the view has a row for every film which has a category
 
-The view joins `film` with `film_category` and `category` by inner
-joins, so it has a row only for a film which has a category. Count the rows of the view, and the distinct films of
+The view joins `film` with `film_category` and `category` by inner joins, so it has a row only for a film which has a category.
+Count the rows of the view, and the distinct films of
 `film_category`, and show both in one row.
 
 .`film_list_exercises_02_intermediate.sql`, exercise 1
@@ -1416,9 +1426,8 @@ The `film_text` table, mapped by `FilmText`.
 
 ==== Exercise 1: whether film_text has a row for every film
 
-`film_text` keeps a copy of each film's title and description, for
-the full-text index; triggers on `film` keep it up to date. Count the rows of `film_text` and of `film`, and show
-both in one row.
+`film_text` keeps a copy of each film's title and description, for the full-text index; triggers on `film` keep it up to date.
+Count the rows of `film_text` and of `film`, and show both in one row.
 
 .`film_text_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -1464,9 +1473,8 @@ WHERE MATCH(title, description) AGAINST ('drama')
 
 ==== Exercise 3: the films whose film_text title differs from their title
 
-Join `film_text` to `film` by the film id, and find the films whose
-two titles are not the same: the `film_id`, the film's `title` and the `film_text` title. The triggers keep them
-the same, so the installed data has none.
+Join `film_text` to `film` by the film id, and find the films whose two titles are not the same: the `film_id`, the film's `title` and the `film_text` title.
+The triggers keep them the same, so the installed data has none.
 
 .`film_text_exercises_02_intermediate.sql`, exercise 3
 [%collapsible]
@@ -1494,7 +1502,8 @@ The `inventory` table, mapped by `Inventory`.
 
 ==== Exercise 1: how many copies each store has
 
-Count the copies, the rows of `inventory`, that each store has. Show each
+Count the copies, the rows of `inventory`, that each store has.
+Show each
 `store_id` with its count, ordered by the store.
 
 .`inventory_exercises_01_basic.sql`, exercise 1
@@ -1524,8 +1533,8 @@ Answered by `Inventory_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: the five films with the most copies
 
-Count the copies of each film. Show the five films with the most
-copies: their `film_id`, `title` and number of copies, the most first; ties are ordered by `film_id`.
+Count the copies of each film.
+Show the five films with the most copies: their `film_id`, `title` and number of copies, the most first; ties are ordered by `film_id`.
 
 .`inventory_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -1555,8 +1564,7 @@ LIMIT 5
 
 ==== Exercise 2: how many copies were never rented
 
-Count the copies which no rental refers to, that is, the copies
-which were never rented.
+Count the copies which no rental refers to, that is, the copies which were never rented.
 
 .`inventory_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -1615,8 +1623,8 @@ ORDER BY language_id
 
 ==== Exercise 2: how many films have an original language
 
-A film has a `language_id` and may have an `original_language_id`. Count
-the films whose `original_language_id` is not `NULL`.
+A film has a `language_id` and may have an `original_language_id`.
+Count the films whose `original_language_id` is not `NULL`.
 
 .`language_exercises_01_basic.sql`, exercise 2
 [%collapsible]
@@ -1643,9 +1651,8 @@ Answered by `Language_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: how many films each language has
 
-Count the films of each language, by `film.language_id`, and show
-every language, even one without a film, with its count, ordered by the language's id. The languages without a
-film must show `0`, so the join is an outer one, and the count is of the films, not of the rows.
+Count the films of each language, by `film.language_id`, and show every language, even one without a film, with its count, ordered by the language's id.
+The languages without a film must show `0`, so the join is an outer one, and the count is of the films, not of the rows.
 
 .`language_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -1683,8 +1690,8 @@ The `nicer_but_slower_film_list` view, mapped by `NicerButSlowerFilmList`.
 
 ==== Exercise 1: the actors of the film 1, as this view writes them
 
-`nicer_but_slower_film_list` is `film_list` with the
-actors' names written with only the first letter of each name in upper case. Show the view's row for the film `1`:
+`nicer_but_slower_film_list` is `film_list` with the actors' names written with only the first letter of each name in upper case.
+Show the view's row for the film `1`:
 its `FID`, `title` and `actors`, and compare them with the same row of `film_list`.
 
 .`nicer_but_slower_film_list_exercises_01_basic.sql`, exercise 1
@@ -1712,10 +1719,11 @@ Answered by `NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: how many rows differ from film_list, column by column, but for the actors
 
-The two views should differ only in how the actors
-are written. Join them row by row, by `FID` and `category`, and count the rows where any other column (`title`,
-`description`, `price`, `length`, `rating`) differs. The columns may be `NULL`, so compare them with the null-safe
-`<=>`, not with `=`. The answer is `0`.
+The two views should differ only in how the actors are written.
+Join them row by row, by `FID` and `category`, and count the rows where any other column (`title`,
+`description`, `price`, `length`, `rating`) differs.
+The columns may be `NULL`, so compare them with the null-safe `<=>`, not with `=`.
+The answer is `0`.
 
 .`nicer_but_slower_film_list_exercises_03_advanced.sql`, exercise 1
 [%collapsible]
@@ -1748,7 +1756,8 @@ The `payment` table, mapped by `Payment`.
 
 ==== Exercise 1: how much each staff member took
 
-Group the payments by the staff member who took them. Show each
+Group the payments by the staff member who took them.
+Show each
 `staff_id` with the number of payments and their sum, ordered by `staff_id`.
 
 .`payment_exercises_01_basic.sql`, exercise 1
@@ -1803,8 +1812,8 @@ ORDER BY month
 
 ==== Exercise 3: how many payments have no rental
 
-`payment.rental_id` may be `NULL`. Count the payments which refer to no
-rental.
+`payment.rental_id` may be `NULL`.
+Count the payments which refer to no rental.
 
 .`payment_exercises_01_basic.sql`, exercise 3
 [%collapsible]
@@ -1831,9 +1840,8 @@ Answered by `Payment_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: the largest payment, and how many payments are that large
 
-Find the largest `amount` of all payments, and count how many
-payments are exactly that large. Show both in one row; the count needs the largest amount, so it compares with a
-subquery.
+Find the largest `amount` of all payments, and count how many payments are exactly that large.
+Show both in one row; the count needs the largest amount, so it compares with a subquery.
 
 .`payment_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -1864,7 +1872,8 @@ The `rental` table, mapped by `Rental`.
 
 ==== Exercise 1: how many rentals are not returned yet
 
-A rental not returned yet has no `return_date`. Count those rentals.
+A rental not returned yet has no `return_date`.
+Count those rentals.
 
 .`rental_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -1887,8 +1896,8 @@ WHERE return_date IS NULL
 
 ==== Exercise 2: how many rentals were made in each month
 
-Group the rentals by the month of `rental_date`, written as `YYYY-MM`. Show
-each month with the number of rentals, ordered by the month.
+Group the rentals by the month of `rental_date`, written as `YYYY-MM`.
+Show each month with the number of rentals, ordered by the month.
 
 .`rental_exercises_01_basic.sql`, exercise 2
 [%collapsible]
@@ -1917,7 +1926,8 @@ ORDER BY month
 ==== Exercise 3: how many days a returned rental lasts, on average
 
 For the returned rentals, take the number of days between `rental_date` and
-`return_date`, and average them, rounded to two decimal places. The rentals not returned are left out.
+`return_date`, and average them, rounded to two decimal places.
+The rentals not returned are left out.
 
 .`rental_exercises_01_basic.sql`, exercise 3
 [%collapsible]
@@ -1941,7 +1951,8 @@ WHERE return_date IS NOT NULL
 ==== Exercise 4: on which day of the week the most rentals were made
 
 Group the rentals by the name of the day of the week of `rental_date`
-(`Monday`, `Tuesday`, ...). Show the day on which the most rentals were made, with its count.
+(`Monday`, `Tuesday`, ...).
+Show the day on which the most rentals were made, with its count.
 
 .`rental_exercises_01_basic.sql`, exercise 4
 [%collapsible]
@@ -1972,8 +1983,8 @@ Answered by `Rental_Exercises_01_Basic_PersistenceIT`.
 
 Each film has a `rental_duration`, the number of days a rental may last.
 Count the rentals which were returned later than that: the `return_date` is after the `rental_date` plus the film's
-`rental_duration` days. The duration is on the film, so the query goes from the rental through the copy to the
-film, and does arithmetic on dates.
+`rental_duration` days.
+The duration is on the film, so the query goes from the rental through the copy to the film, and does arithmetic on dates.
 
 .`rental_exercises_03_advanced.sql`, exercise 1
 [%collapsible]
@@ -2006,8 +2017,8 @@ The `sales_by_film_category` view, mapped by `SalesByFilmCategory`.
 
 ==== Exercise 1: the three categories which sold the most
 
-The `sales_by_film_category` view sums the payments of each
-category. Show the three categories which sold the most, with their `total_sales`, the most first.
+The `sales_by_film_category` view sums the payments of each category.
+Show the three categories which sold the most, with their `total_sales`, the most first.
 
 .`sales_by_film_category_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -2036,9 +2047,8 @@ Answered by `SalesByFilmCategory_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: whether the view's sales add up to every payment
 
-Check the view: sum its `total_sales` over all
-categories, sum the `amount` of all payments, and show both in one row. They are equal only if every payment
-reaches exactly one category, through its rental, copy and film.
+Check the view: sum its `total_sales` over all categories, sum the `amount` of all payments, and show both in one row.
+They are equal only if every payment reaches exactly one category, through its rental, copy and film.
 
 .`sales_by_film_category_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -2068,8 +2078,8 @@ The `sales_by_store` view, mapped by `SalesByStore`.
 
 ==== Exercise 1: every store's sales
 
-The `sales_by_store` view sums the payments of each store, and names
-the store by its city and country, and its manager. Show every row: the `store`, the `manager` and the
+The `sales_by_store` view sums the payments of each store, and names the store by its city and country, and its manager.
+Show every row: the `store`, the `manager` and the
 `total_sales`.
 
 .`sales_by_store_exercises_01_basic.sql`, exercise 1
@@ -2098,8 +2108,8 @@ Answered by `SalesByStore_Exercises_01_Basic_PersistenceIT`.
 ==== Exercise 1: whether the stores' sales add up to every payment with a rental
 
 Check the view: sum its `total_sales` over the stores, sum the
-`amount` of the payments which have a rental, and show both in one row. The view reaches a store through the
-rental, so a payment without one cannot be in it.
+`amount` of the payments which have a rental, and show both in one row.
+The view reaches a store through the rental, so a payment without one cannot be in it.
 
 .`sales_by_store_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -2185,9 +2195,9 @@ ORDER BY s.staff_id
 
 ==== Exercise 2: the staff members who manage the store they work at
 
-A store names its manager (`manager_staff_id`), and a staff member
-names the store they work at (`store_id`). The two are not tied together by the schema. Find the staff members who
-manage the very store they work at: their `staff_id`, `first_name`, `last_name` and the `store_id`.
+A store names its manager (`manager_staff_id`), and a staff member names the store they work at (`store_id`).
+The two are not tied together by the schema.
+Find the staff members who manage the very store they work at: their `staff_id`, `first_name`, `last_name` and the `store_id`.
 
 .`staff_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -2221,8 +2231,8 @@ The `staff_list` view, mapped by `StaffList`.
 
 ==== Exercise 1: every row of the view
 
-The `staff_list` view joins each staff member with their address, city
-and country. Show every row, ordered by `ID`.
+The `staff_list` view joins each staff member with their address, city and country.
+Show every row, ordered by `ID`.
 
 .`staff_list_exercises_01_basic.sql`, exercise 1
 [%collapsible]
@@ -2280,9 +2290,8 @@ The `store` table, mapped by `Store`.
 
 ==== Exercise 1: every store, with its manager and city
 
-Show every store with the name of its manager and the city of its
-address: the `store_id`, the manager's `first_name` and `last_name`, and the city, ordered by `store_id`. The
-manager is a staff member, and the city is two joins away, through the address.
+Show every store with the name of its manager and the city of its address: the `store_id`, the manager's `first_name` and `last_name`, and the city, ordered by `store_id`.
+The manager is a staff member, and the city is two joins away, through the address.
 
 .`store_exercises_02_intermediate.sql`, exercise 1
 [%collapsible]
@@ -2309,9 +2318,8 @@ ORDER BY st.store_id
 
 ==== Exercise 2: how many customers, copies and staff members each store has
 
-For each store, count its customers, its copies in the inventory and
-its staff members, and show the three counts in one row per store, ordered by `store_id`. The three counts come
-from three different tables; joining all three at once would multiply the rows, so each is counted on its own.
+For each store, count its customers, its copies in the inventory and its staff members, and show the three counts in one row per store, ordered by `store_id`.
+The three counts come from three different tables; joining all three at once would multiply the rows, so each is counted on its own.
 
 .`store_exercises_02_intermediate.sql`, exercise 2
 [%collapsible]
@@ -2342,9 +2350,9 @@ Answered by `Store_Exercises_02_Intermediate_PersistenceIT`.
 
 ==== Exercise 1: how many films each store has a copy of, and how many of them only that store has
 
-For each store, count the distinct films it has at least one copy of, and,
-of those, the films no other store has a copy of. Show the `store_id` and both counts, ordered by `store_id`. The
-second count needs a correlated condition on the inventory of the other stores.
+For each store, count the distinct films it has at least one copy of, and, of those, the films no other store has a copy of.
+Show the `store_id` and both counts, ordered by `store_id`.
+The second count needs a correlated condition on the inventory of the other stores.
 
 .`store_exercises_03_advanced.sql`, exercise 1
 [%collapsible]
@@ -2383,8 +2391,7 @@ Exercises on the schema as a whole, not on a single table.
 ==== Exercise 1: the tables and the views of the schema
 
 List the tables and the views of the `sakila` schema, from
-`information_schema.tables`: each name with its type (`BASE TABLE` or `VIEW`), ordered by the type and the
-name.
+`information_schema.tables`: each name with its type (`BASE TABLE` or `VIEW`), ordered by the type and the name.
 
 .`_schema_01_basic_exercises.sql`, exercise 1
 [%collapsible]
@@ -2413,8 +2420,7 @@ ORDER BY table_type, table_name
 
 ==== Exercise 2: how many rows each table has
 
-Count the rows of each of the sixteen tables, and show each table's name with
-its count, one row per table. `information_schema` gives only an estimate of the rows, so count them, one `SELECT`
+Count the rows of each of the sixteen tables, and show each table's name with its count, one row per table. `information_schema` gives only an estimate of the rows, so count them, one `SELECT`
 per table, joined with `UNION ALL`.
 
 .`_schema_01_basic_exercises.sql`, exercise 2
@@ -2457,8 +2463,7 @@ UNION ALL SELECT 'store', COUNT(*) FROM store
 ==== Exercise 3: every foreign key: the column, and the column it refers to
 
 List every foreign key column of the schema, from
-`information_schema.key_column_usage`: the table and the column, and the table and the column it refers to,
-ordered by the table and the column.
+`information_schema.key_column_usage`: the table and the column, and the table and the column it refers to, ordered by the table and the column.
 
 .`_schema_01_basic_exercises.sql`, exercise 3
 [%collapsible]
@@ -2522,8 +2527,7 @@ ORDER BY table_name
 
 ==== Exercise 5: the triggers, and the table and the event each fires on
 
-List the triggers of the schema, from `information_schema.triggers`: each
-trigger's name, the table it fires on, whether it fires before or after, and on which event (`INSERT`, `UPDATE`,
+List the triggers of the schema, from `information_schema.triggers`: each trigger's name, the table it fires on, whether it fires before or after, and on which event (`INSERT`, `UPDATE`,
 `DELETE`), ordered by the table and the trigger.
 
 .`_schema_01_basic_exercises.sql`, exercise 5
@@ -2587,9 +2591,10 @@ Answered by `_Schema_Exercises_01_Basic_PersistenceIT`.
 
 ==== Exercise 1: how much each store took, through the copies it rented out
 
-Find how much each store took. A payment names no store; the store is
-that of the copy the payment's rental rented out. So go from `payment` through `rental` to `inventory`, and group
-by `inventory.store_id`. Show each store with the number of payments and their sum.
+Find how much each store took.
+A payment names no store; the store is that of the copy the payment's rental rented out.
+So go from `payment` through `rental` to `inventory`, and group by `inventory.store_id`.
+Show each store with the number of payments and their sum.
 
 .`_schema_02_intermediate_exercises.sql`, exercise 1
 [%collapsible]
@@ -2617,8 +2622,8 @@ ORDER BY i.store_id
 ==== Exercise 2: how many rentals each category had, the most first
 
 Count the rentals of each category: from `rental` through the copy and
-`film_category` to `category`. Show each category's name with its count, the most first; ties are ordered by
-name.
+`film_category` to `category`.
+Show each category's name with its count, the most first; ties are ordered by name.
 
 .`_schema_02_intermediate_exercises.sql`, exercise 2
 [%collapsible]
@@ -2650,9 +2655,8 @@ ORDER BY rentals DESC, c.name
 
 ==== Exercise 3: the five countries whose customers paid the most
 
-Sum the payments by the country of the customer who paid them, through
-the customer, the address and the city. Show the five countries which paid the most, each with the number of its
-distinct customers who paid and the sum, the largest first.
+Sum the payments by the country of the customer who paid them, through the customer, the address and the city.
+Show the five countries which paid the most, each with the number of its distinct customers who paid and the sum, the largest first.
 
 .`_schema_02_intermediate_exercises.sql`, exercise 3
 [%collapsible]
@@ -2686,8 +2690,8 @@ LIMIT 5
 ==== Exercise 4: the average payment of each rating
 
 Average the payments by the rating of the film rented: from `payment`
-through the rental and the copy to `film`. Show each rating with the average, rounded to two decimal places,
-ordered by the rating.
+through the rental and the copy to `film`.
+Show each rating with the average, rounded to two decimal places, ordered by the rating.
 
 .`_schema_02_intermediate_exercises.sql`, exercise 4
 [%collapsible]
@@ -2719,9 +2723,9 @@ ORDER BY f.rating
 ==== Exercise 5: the five actors whose films took the most
 
 Sum, for each actor, the payments of the rentals of their films: from
-`actor` through `film_actor`, the copies and the rentals to `payment`. Show the five actors whose films took the
-most: their `actor_id`, `first_name`, `last_name` and the sum, the largest first; ties are ordered by `actor_id`. A
-payment is counted once for each actor of the film.
+`actor` through `film_actor`, the copies and the rentals to `payment`.
+Show the five actors whose films took the most: their `actor_id`, `first_name`, `last_name` and the sum, the largest first; ties are ordered by `actor_id`.
+A payment is counted once for each actor of the film.
 
 .`_schema_02_intermediate_exercises.sql`, exercise 5
 [%collapsible]
@@ -2754,8 +2758,7 @@ LIMIT 5
 
 ==== Exercise 6: the customers who have returned everything they rented, how many
 
-Count the customers none of whose rentals is still out, that is, who
-have no rental without a `return_date`.
+Count the customers none of whose rentals is still out, that is, who have no rental without a `return_date`.
 
 .`_schema_02_intermediate_exercises.sql`, exercise 6
 [%collapsible]
@@ -2778,9 +2781,8 @@ WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.customer_id = c.customer_id AND
 
 ==== Exercise 7: how many rentals, and how much was paid, in each month
 
-Group the rentals by the month of `rental_date`, written as `YYYY-MM`,
-and show each month with the number of rentals and the sum of their payments. A rental may have no payment, so the
-payments are joined with an outer join.
+Group the rentals by the month of `rental_date`, written as `YYYY-MM`, and show each month with the number of rentals and the sum of their payments.
+A rental may have no payment, so the payments are joined with an outer join.
 
 .`_schema_02_intermediate_exercises.sql`, exercise 7
 [%collapsible]
@@ -2839,9 +2841,8 @@ Answered by `_Schema_Exercises_02_Intermediate_PersistenceIT`.
 
 ==== Exercise 1: the customer who paid the most in each of the five countries which paid the most
 
-Sum each customer's payments, and their country's. For each
-country, find the customer who paid the most, ranking the customers within the country with a window function
-(`RANK() OVER (PARTITION BY ...)`), and take the country's total with another (`SUM() OVER (PARTITION BY ...)`).
+Sum each customer's payments, and their country's.
+For each country, find the customer who paid the most, ranking the customers within the country with a window function (`RANK() OVER (PARTITION BY ...)`), and take the country's total with another (`SUM() OVER (PARTITION BY ...)`).
 Show, for the five countries which paid the most, the country, its top customer's `customer_id`, `first_name`,
 `last_name` and total, and the country's total, the largest country first.
 
@@ -2883,9 +2884,9 @@ LIMIT 5
 
 ==== Exercise 2: the customers who rented a film of every category
 
-Find the customers who have rented at least one film of each
-category: for each customer, count the distinct categories of the films they rented, and compare it with the
-number of categories. A relational division across five tables. Show the first five such customers by
+Find the customers who have rented at least one film of each category: for each customer, count the distinct categories of the films they rented, and compare it with the number of categories.
+A relational division across five tables.
+Show the first five such customers by
 `customer_id`.
 
 .`_schema_03_advanced_intermediate_exercises.sql`, exercise 2
@@ -2919,9 +2920,9 @@ LIMIT 5
 
 ==== Exercise 3: the running total of the payments, on the first five days
 
-Sum the payments of each day, and, for each day, the running
-total: the sum of that day and all the days before. A window function with an `ORDER BY` and no partition. Show
-the first five days: the day, its total and the running total.
+Sum the payments of each day, and, for each day, the running total: the sum of that day and all the days before.
+A window function with an `ORDER BY` and no partition.
+Show the first five days: the day, its total and the running total.
 
 .`_schema_03_advanced_intermediate_exercises.sql`, exercise 3
 [%collapsible]
@@ -2949,9 +2950,9 @@ LIMIT 5
 
 ==== Exercise 4: each month's payments, and the change from the month before
 
-Sum the payments of each month, written as `YYYY-MM`, and,
-for each month, the difference from the month before it, taken with `LAG`. The first month has none, so its
-difference is `NULL`. Show each month with its total and the difference.
+Sum the payments of each month, written as `YYYY-MM`, and, for each month, the difference from the month before it, taken with `LAG`.
+The first month has none, so its difference is `NULL`.
+Show each month with its total and the difference.
 
 .`_schema_03_advanced_intermediate_exercises.sql`, exercise 4
 [%collapsible]
@@ -2978,9 +2979,9 @@ ORDER BY month
 
 ==== Exercise 5: the three films rented the most at each store
 
-Count the rentals of each film at each store, the store
-being that of the copy rented. Number the films within each store, the most rented first and ties by `film_id`,
-with `ROW_NUMBER() OVER (PARTITION BY ...)`, and keep the first three of each store. Show the `store_id`, the
+Count the rentals of each film at each store, the store being that of the copy rented.
+Number the films within each store, the most rented first and ties by `film_id`, with `ROW_NUMBER() OVER (PARTITION BY ...)`, and keep the first three of each store.
+Show the `store_id`, the
 `film_id`, the `title` and the count.
 
 .`_schema_03_advanced_intermediate_exercises.sql`, exercise 5
@@ -3015,11 +3016,9 @@ ORDER BY store_id, n
 
 ==== Exercise 6: how many actors are one film, and how many two films, away from KEVIN BLOOM; a Bacon number, Sakila having no KEVIN BACON
 
-Two actors are one film apart when they appear in the same
-film; two films apart when they are one film apart from someone who is one film apart from the first. Starting
-from `KEVIN BLOOM`, walk `film_actor` with a recursive common table expression, up to two steps, keep each actor's
-smallest number of steps, and count the actors at one and at two. Sakila has no `KEVIN BACON`, so this is the
-Bacon number of KEVIN BLOOM.
+Two actors are one film apart when they appear in the same film; two films apart when they are one film apart from someone who is one film apart from the first.
+Starting from `KEVIN BLOOM`, walk `film_actor` with a recursive common table expression, up to two steps, keep each actor's smallest number of steps, and count the actors at one and at two.
+Sakila has no `KEVIN BACON`, so this is the Bacon number of KEVIN BLOOM.
 
 .`_schema_03_advanced_intermediate_exercises.sql`, exercise 6
 [%collapsible]
@@ -3054,9 +3053,9 @@ ORDER BY number
 ==== Exercise 7: the films none of whose copies is in, right now
 
 A copy is out when it has a rental without a `return_date`.
-Find the films which have copies, and all of whose copies are out right now: their `film_id`, `title` and number
-of copies. The count of the copies out must equal the count of all copies, for each film. The installed data has
-none.
+Find the films which have copies, and all of whose copies are out right now: their `film_id`, `title` and number of copies.
+The count of the copies out must equal the count of all copies, for each film.
+The installed data has none.
 
 .`_schema_03_advanced_intermediate_exercises.sql`, exercise 7
 [%collapsible]

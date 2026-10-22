@@ -49,7 +49,8 @@ class StaffList_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> List.<Object[]>of(new Object[]{
-                    em.createQuery("SELECT COUNT(e) FROM StaffList e", Long.class).getSingleResult(),
+                    em.createQuery("SELECT COUNT(e) FROM StaffList e",
+                                   Long.class).getSingleResult(),
                     em.createQuery("SELECT COUNT(e) FROM Staff e", Long.class).getSingleResult()}));
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)

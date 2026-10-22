@@ -25,9 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -47,13 +44,15 @@ class Category_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                    SELECT c
-                    FROM Category c
-                    ORDER BY c.name""", Category.class)
+                                                                                      SELECT c
+                                                                                      FROM Category c
+                                                                                      ORDER BY c.name""",
+                                                                              Category.class)
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).hasSize(16);
-            assertThat(list).extracting(Category::getName).startsWith("Action", "Animation", "Children").endsWith("Travel");
+            assertThat(list).extracting(Category::getName)
+                    .startsWith("Action", "Animation", "Children").endsWith("Travel");
         }
 
         @Test
@@ -69,7 +68,8 @@ class Category_Exercises_01_Basic_PersistenceIT {
             });
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).hasSize(16);
-            assertThat(list).extracting(Category::getName).startsWith("Action", "Animation", "Children").endsWith("Travel");
+            assertThat(list).extracting(Category::getName)
+                    .startsWith("Action", "Animation", "Children").endsWith("Travel");
         }
     }
 }

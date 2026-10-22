@@ -33,7 +33,7 @@
 -- +---------+----------+
 -- |   11.99 |       10 |
 -- +---------+----------+
-SELECT MAX(amount) AS largest,
+SELECT MAX(amount)                                                                     AS largest,
        (SELECT COUNT(*) FROM payment WHERE amount = (SELECT MAX(amount) FROM payment)) AS payments
 FROM payment
 ;

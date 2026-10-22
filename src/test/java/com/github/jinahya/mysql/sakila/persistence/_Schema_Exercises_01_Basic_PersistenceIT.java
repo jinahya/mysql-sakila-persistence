@@ -54,14 +54,15 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT table_name, table_type
-                    FROM information_schema.tables
-                    WHERE table_schema = ?1
-                    ORDER BY table_type, table_name""")
+                                                                                                      SELECT table_name, table_type
+                                                                                                      FROM information_schema.tables
+                                                                                                      WHERE table_schema = ?1
+                                                                                                      ORDER BY table_type, table_name""")
                     .setParameter(1, "sakila")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).extracting(r -> ((Object[]) r)[0]).contains("actor", "film", "actor_info", "staff_list");
+            assertThat(list).extracting(r -> ((Object[]) r)[0])
+                    .contains("actor", "film", "actor_info", "staff_list");
         }
     }
 
@@ -69,30 +70,32 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
     @Nested
     class Exercise2Test {
 
-        // the exercise counts the rows of the tables, by the tables' names; JPQL knows entities, not
+        // the exercise counts the rows of the tables, by the tables' names; JPQL knows entities,
+        // not
         // tables
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT 'actor' AS table_name, COUNT(*) AS row_count FROM actor
-                    UNION ALL SELECT 'address', COUNT(*) FROM address
-                    UNION ALL SELECT 'category', COUNT(*) FROM category
-                    UNION ALL SELECT 'city', COUNT(*) FROM city
-                    UNION ALL SELECT 'country', COUNT(*) FROM country
-                    UNION ALL SELECT 'customer', COUNT(*) FROM customer
-                    UNION ALL SELECT 'film', COUNT(*) FROM film
-                    UNION ALL SELECT 'film_actor', COUNT(*) FROM film_actor
-                    UNION ALL SELECT 'film_category', COUNT(*) FROM film_category
-                    UNION ALL SELECT 'film_text', COUNT(*) FROM film_text
-                    UNION ALL SELECT 'inventory', COUNT(*) FROM inventory
-                    UNION ALL SELECT 'language', COUNT(*) FROM language
-                    UNION ALL SELECT 'payment', COUNT(*) FROM payment
-                    UNION ALL SELECT 'rental', COUNT(*) FROM rental
-                    UNION ALL SELECT 'staff', COUNT(*) FROM staff
-                    UNION ALL SELECT 'store', COUNT(*) FROM store""")
+                                                                                                      SELECT 'actor' AS table_name, COUNT(*) AS row_count FROM actor
+                                                                                                      UNION ALL SELECT 'address', COUNT(*) FROM address
+                                                                                                      UNION ALL SELECT 'category', COUNT(*) FROM category
+                                                                                                      UNION ALL SELECT 'city', COUNT(*) FROM city
+                                                                                                      UNION ALL SELECT 'country', COUNT(*) FROM country
+                                                                                                      UNION ALL SELECT 'customer', COUNT(*) FROM customer
+                                                                                                      UNION ALL SELECT 'film', COUNT(*) FROM film
+                                                                                                      UNION ALL SELECT 'film_actor', COUNT(*) FROM film_actor
+                                                                                                      UNION ALL SELECT 'film_category', COUNT(*) FROM film_category
+                                                                                                      UNION ALL SELECT 'film_text', COUNT(*) FROM film_text
+                                                                                                      UNION ALL SELECT 'inventory', COUNT(*) FROM inventory
+                                                                                                      UNION ALL SELECT 'language', COUNT(*) FROM language
+                                                                                                      UNION ALL SELECT 'payment', COUNT(*) FROM payment
+                                                                                                      UNION ALL SELECT 'rental', COUNT(*) FROM rental
+                                                                                                      UNION ALL SELECT 'staff', COUNT(*) FROM staff
+                                                                                                      UNION ALL SELECT 'store', COUNT(*) FROM store""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).hasSize(16).first().satisfies(r -> assertThat(((Object[]) r)[0]).isEqualTo("actor"));
+            assertThat(list).hasSize(16).first()
+                    .satisfies(r -> assertThat(((Object[]) r)[0]).isEqualTo("actor"));
         }
     }
 
@@ -105,15 +108,16 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT table_name, column_name, referenced_table_name, referenced_column_name
-                    FROM information_schema.key_column_usage
-                    WHERE table_schema = ?1
-                      AND referenced_table_name IS NOT NULL
-                    ORDER BY table_name, column_name""")
+                                                                                                      SELECT table_name, column_name, referenced_table_name, referenced_column_name
+                                                                                                      FROM information_schema.key_column_usage
+                                                                                                      WHERE table_schema = ?1
+                                                                                                        AND referenced_table_name IS NOT NULL
+                                                                                                      ORDER BY table_name, column_name""")
                     .setParameter(1, "sakila")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).extracting(r -> ((Object[]) r)[0] + "." + ((Object[]) r)[1]).contains("address.city_id", "city.country_id");
+            assertThat(list).extracting(r -> ((Object[]) r)[0] + "." + ((Object[]) r)[1])
+                    .contains("address.city_id", "city.country_id");
         }
     }
 
@@ -127,14 +131,14 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         @ValueSource(strings = {"last_update", "name"})
         void nativeQuery(final String column) {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT table_name
-                    FROM information_schema.columns
-                    WHERE table_schema = ?1
-                      AND column_name = ?2
-                      AND table_name IN (SELECT table_name
-                                         FROM information_schema.tables
-                                         WHERE table_schema = ?1 AND table_type = ?3)
-                    ORDER BY table_name""")
+                                                                                                      SELECT table_name
+                                                                                                      FROM information_schema.columns
+                                                                                                      WHERE table_schema = ?1
+                                                                                                        AND column_name = ?2
+                                                                                                        AND table_name IN (SELECT table_name
+                                                                                                                           FROM information_schema.tables
+                                                                                                                           WHERE table_schema = ?1 AND table_type = ?3)
+                                                                                                      ORDER BY table_name""")
                     .setParameter(1, "sakila")
                     .setParameter(2, column)
                     .setParameter(3, "BASE TABLE")
@@ -153,15 +157,16 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT trigger_name, event_object_table, action_timing, event_manipulation
-                    FROM information_schema.triggers
-                    WHERE trigger_schema = ?1
-                    ORDER BY event_object_table, trigger_name""")
+                                                                                                      SELECT trigger_name, event_object_table, action_timing, event_manipulation
+                                                                                                      FROM information_schema.triggers
+                                                                                                      WHERE trigger_schema = ?1
+                                                                                                      ORDER BY event_object_table, trigger_name""")
                     .setParameter(1, "sakila")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list).extracting(r -> ((Object[]) r)[0]).containsExactly(
-                    "customer_create_date", "del_film", "ins_film", "upd_film", "payment_date", "rental_date");
+                    "customer_create_date", "del_film", "ins_film", "upd_film", "payment_date",
+                    "rental_date");
         }
     }
 
@@ -174,15 +179,16 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT routine_name, routine_type
-                    FROM information_schema.routines
-                    WHERE routine_schema = ?1
-                    ORDER BY routine_type, routine_name""")
+                                                                                                      SELECT routine_name, routine_type
+                                                                                                      FROM information_schema.routines
+                                                                                                      WHERE routine_schema = ?1
+                                                                                                      ORDER BY routine_type, routine_name""")
                     .setParameter(1, "sakila")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list).extracting(r -> ((Object[]) r)[0]).containsExactly(
-                    "get_customer_balance", "inventory_held_by_customer", "inventory_in_stock", "film_in_stock",
+                    "get_customer_balance", "inventory_held_by_customer", "inventory_in_stock",
+                    "film_in_stock",
                     "film_not_in_stock", "rewards_report");
         }
     }
