@@ -64,17 +64,17 @@ class FilmList_IT {
         @SuppressWarnings("unchecked")
         final List<Object[]> rows = __Persistence_TestUtils.applyEntityManager(
                 _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
-                "SELECT " + String.join(", ",
-                                        FilmList.COLUMN_NAME_FID,
-                                        FilmList.COLUMN_NAME_TITLE,
-                                        FilmList.COLUMN_NAME_DESCRIPTION,
-                                        FilmList.COLUMN_NAME_CATEGORY,
-                                        FilmList.COLUMN_NAME_PRICE,
-                                        FilmList.COLUMN_NAME_LENGTH,
-                                        FilmList.COLUMN_NAME_RATING,
-                                        FilmList.COLUMN_NAME_ACTORS)
-                + " FROM " + FilmList.TABLE_NAME
-        ).getResultList());
+                        "SELECT " + String.join(", ",
+                                                FilmList.COLUMN_NAME_FID,
+                                                FilmList.COLUMN_NAME_TITLE,
+                                                FilmList.COLUMN_NAME_DESCRIPTION,
+                                                FilmList.COLUMN_NAME_CATEGORY,
+                                                FilmList.COLUMN_NAME_PRICE,
+                                                FilmList.COLUMN_NAME_LENGTH,
+                                                FilmList.COLUMN_NAME_RATING,
+                                                FilmList.COLUMN_NAME_ACTORS)
+                        + " FROM " + FilmList.TABLE_NAME
+                ).getResultList());
         assertThat(rows).as("rows of %s", FilmList.TABLE_NAME).isNotEmpty();
         rows.stream().map(FilmList_IT::newInstanceOf).forEach(v -> {
             assertThat(v.getFid()).as("fid of %s", v).isNotNull();

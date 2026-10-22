@@ -50,10 +50,10 @@ class SalesByStore_IT {
         @SuppressWarnings("unchecked")
         final List<Object[]> rows = __Persistence_TestUtils.applyEntityManager(
                 _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
-                "SELECT " + SalesByStore.COLUMN_NAME_STORE + ", " + SalesByStore.COLUMN_NAME_MANAGER
-                + ", " + SalesByStore.COLUMN_NAME_TOTAL_SALES
-                + " FROM " + SalesByStore.TABLE_NAME
-        ).getResultList());
+                        "SELECT " + SalesByStore.COLUMN_NAME_STORE + ", " + SalesByStore.COLUMN_NAME_MANAGER
+                        + ", " + SalesByStore.COLUMN_NAME_TOTAL_SALES
+                        + " FROM " + SalesByStore.TABLE_NAME
+                ).getResultList());
         assertThat(rows).as("rows of %s", SalesByStore.TABLE_NAME).isNotEmpty();
         rows.stream().map(SalesByStore_IT::newInstanceOf).forEach(v -> {
             assertThat(v.getStore()).as("store of %s", v).isNotBlank()

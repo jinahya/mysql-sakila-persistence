@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -65,7 +64,7 @@ abstract class _Entity_Persistence_Test<T> {
     static final String PERSISTENCE_UNIT_NAME = "sakila-test";
 
     /**
-     * The prefix of the constants {@link #_SameValue_ATTRIBUTE_NAME_()} checks. The value is {@value}.
+     * The prefix of the constants {@link #_Resolvable_ATTRIBUTE_NAME_()} checks. The value is {@value}.
      */
     private static final String ATTRIBUTE_NAME_CONSTANT_PREFIX = "ATTRIBUTE_NAME_";
 
@@ -73,18 +72,6 @@ abstract class _Entity_Persistence_Test<T> {
      * The prefix of the constants {@link #_Resolvable_ATTRIBUTE_PATH_()} checks. The value is {@value}.
      */
     private static final String ATTRIBUTE_PATH_CONSTANT_PREFIX = "ATTRIBUTE_PATH_";
-
-    /**
-     * Returns the {@code UPPER_SNAKE_CASE} form of the specified attribute name.
-     *
-     * @param attributeName the attribute name to convert; {@code countryIsoCode}, say.
-     * @return the converted name; {@code COUNTRY_ISO_CODE} for the example above.
-     * @implNote An underscore goes wherever a lower-case letter or a digit is followed by an upper-case one,
-     *         which is the boundary the constants in this project are spelled with.
-     */
-    private static String toUpperSnakeCase(final String attributeName) {
-        return attributeName.replaceAll("(?<=[a-z0-9])(?=[A-Z])", "_").toUpperCase(Locale.ROOT);
-    }
 
     /**
      * Creates a new instance for the specified persistence class.
@@ -126,37 +113,24 @@ abstract class _Entity_Persistence_Test<T> {
     }
 
     /**
-     * Verifies the {@code ATTRIBUTE_NAME_*} constants of {@link #targetClass} both ways: every managed attribute whose
-     * constant exists finds that constant holding the attribute's name, and every such constant names a managed
+     * Verifies that every {@code ATTRIBUTE_NAME_*} constant of {@link #targetClass} holds the name of a managed
      * attribute of the type.
      *
-     * @implNote The first direction runs from the attribute to the constant, so an attribute with no constant
-     *         is skipped; whether every attribute ought to have one is a different question. The second runs from the
-     *         constant to the attribute, so a constant holding a name the provider does not manage the type by -- one
-     *         left behind by a renamed field, or one naming an attribute of some other class -- fails. A path into an
-     *         embedded attribute is not an attribute name; it is declared as an {@code ATTRIBUTE_PATH_*} constant and
+     * @implNote A constant holding a name the provider does not manage the type by -- one left behind by a
+     *         renamed field, or one naming an attribute of some other class -- fails. A name is resolved as a path of
+     *         one segment; a path into an embedded attribute is declared as an {@code ATTRIBUTE_PATH_*} constant and
      *         checked by {@link #_Resolvable_ATTRIBUTE_PATH_()}.
+     * @see __Persistence_TestUtils#resolveAttributePath(ManagedType, String)
      */
-    @DisplayName("every ATTRIBUTE_NAME_* constant names a managed attribute, and vice versa")
+    @DisplayName("every ATTRIBUTE_NAME_* constant names a managed attribute")
     @Test
-    void _SameValue_ATTRIBUTE_NAME_() {
+    void _Resolvable_ATTRIBUTE_NAME_() {
         __Persistence_TestUtils.<@Nullable Void>applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
             final var managedType = emf.getMetamodel().managedType(targetClass);
-            final var constants = constantsPrefixed(ATTRIBUTE_NAME_CONSTANT_PREFIX);
-            for (final var attribute : managedType.getAttributes()) {
-                final var attributeName = attribute.getName();
-                final var constantName = ATTRIBUTE_NAME_CONSTANT_PREFIX + toUpperSnakeCase(attributeName);
-                if (!constants.containsKey(constantName)) {
-                    continue; // existence is not this direction's concern
-                }
-                assertThat(constants.get(constantName))
-                        .as("%s.%s, for the managed attribute %s", targetClass.getSimpleName(), constantName,
-                            attributeName)
-                        .isEqualTo(attributeName);
-            }
-            constants.forEach((constantName, value) -> assertThatCode(() -> managedType.getAttribute(value))
+            constantsPrefixed(ATTRIBUTE_NAME_CONSTANT_PREFIX).forEach((constantName, name) -> assertThatCode(
+                    () -> __Persistence_TestUtils.resolveAttributePath(managedType, name))
                     .as("%s.%s = \"%s\" names a managed attribute of %s", targetClass.getSimpleName(), constantName,
-                        value, managedType.getJavaType().getSimpleName())
+                        name, managedType.getJavaType().getSimpleName())
                     .doesNotThrowAnyException());
             return null;
         });

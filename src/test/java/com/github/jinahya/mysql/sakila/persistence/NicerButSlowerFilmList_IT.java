@@ -64,17 +64,17 @@ class NicerButSlowerFilmList_IT {
         @SuppressWarnings("unchecked")
         final List<Object[]> rows = __Persistence_TestUtils.applyEntityManager(
                 _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
-                "SELECT " + String.join(", ",
-                                        NicerButSlowerFilmList.COLUMN_NAME_FID,
-                                        NicerButSlowerFilmList.COLUMN_NAME_TITLE,
-                                        NicerButSlowerFilmList.COLUMN_NAME_DESCRIPTION,
-                                        NicerButSlowerFilmList.COLUMN_NAME_CATEGORY,
-                                        NicerButSlowerFilmList.COLUMN_NAME_PRICE,
-                                        NicerButSlowerFilmList.COLUMN_NAME_LENGTH,
-                                        NicerButSlowerFilmList.COLUMN_NAME_RATING,
-                                        NicerButSlowerFilmList.COLUMN_NAME_ACTORS)
-                + " FROM " + NicerButSlowerFilmList.TABLE_NAME
-        ).getResultList());
+                        "SELECT " + String.join(", ",
+                                                NicerButSlowerFilmList.COLUMN_NAME_FID,
+                                                NicerButSlowerFilmList.COLUMN_NAME_TITLE,
+                                                NicerButSlowerFilmList.COLUMN_NAME_DESCRIPTION,
+                                                NicerButSlowerFilmList.COLUMN_NAME_CATEGORY,
+                                                NicerButSlowerFilmList.COLUMN_NAME_PRICE,
+                                                NicerButSlowerFilmList.COLUMN_NAME_LENGTH,
+                                                NicerButSlowerFilmList.COLUMN_NAME_RATING,
+                                                NicerButSlowerFilmList.COLUMN_NAME_ACTORS)
+                        + " FROM " + NicerButSlowerFilmList.TABLE_NAME
+                ).getResultList());
         assertThat(rows).as("rows of %s", NicerButSlowerFilmList.TABLE_NAME).isNotEmpty();
         rows.stream().map(NicerButSlowerFilmList_IT::newInstanceOf).forEach(v -> {
             assertThat(v.getFid()).as("fid of %s", v).isNotNull();

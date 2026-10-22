@@ -32,8 +32,8 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link EmbeddableRentalTerms} instances.
  * <p>
- * Nothing is excluded from randomization; {@link #get()} then puts every value within the range, and at the scale,
- * its column allows, as {@link Film_Randomizer} does for the same columns.
+ * Nothing is excluded from randomization; {@link #get()} then puts every value within the range, and at the scale, its
+ * column allows, as {@link Film_Randomizer} does for the same columns.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */

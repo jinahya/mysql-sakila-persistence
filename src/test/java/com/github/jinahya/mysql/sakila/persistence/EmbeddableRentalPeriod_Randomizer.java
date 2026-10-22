@@ -33,8 +33,8 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * A randomizer which produces randomized {@link EmbeddableRentalPeriod} instances.
  * <p>
- * Both dates are excluded from randomization and set by {@link #get()}: the rental date to now, and the return
- * date to either {@code null}, for a copy not returned yet, or a few days after the rental date.
+ * Both dates are excluded from randomization and set by {@link #get()}: the rental date to now, and the return date to
+ * either {@code null}, for a copy not returned yet, or a few days after the rental date.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */

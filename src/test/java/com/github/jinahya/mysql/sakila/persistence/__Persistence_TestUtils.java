@@ -239,6 +239,7 @@ final class __Persistence_TestUtils {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * Counts the rows mapped by the specified entity class.
      *

@@ -79,8 +79,7 @@ abstract class _Entity_Persistence_IT<T> {
      *         equal to the ones first selected. An empty table is not a failure; the test aborts, since the table's
      *         content is the installer's.
      *         <p>
-     *         The identifier is read with {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)};
-     *         see
+     *         The identifier is read with {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)}; see
      *         {@link __Persistence_TestUtils#getEntityIdentifier(jakarta.persistence.EntityManagerFactory, Object)}.
      * @implSpec The identifier has to be a single attribute, basic or an
      *         {@link jakarta.persistence.EmbeddedId EmbeddedId}; a subclass whose entity is mapped with an
