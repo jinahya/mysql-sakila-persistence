@@ -79,9 +79,6 @@ public class FilmCategoryId {
      * The constructor is {@code public}, rather than {@code protected}, because EclipseLink instantiates an id class
      * through {@link Class#getConstructor(Class[])}, which sees public constructors only.
      */
-    @SuppressWarnings({
-            "NullAway.Init" // the persistence provider sets the fields
-    })
     public FilmCategoryId() {
         super();
     }

@@ -29,7 +29,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 /**
  * An entity class for mapping the {@value BetterStaff#TABLE_NAME} table.
@@ -176,12 +175,11 @@ public class BetterStaff
     }
 
     // ----------------------------------------------------------------------------------------------------- storeStaff
-    @Nullable
     BetterStoreStaff getStoreStaff() {
         return storeStaff;
     }
 
-    void setStoreStaff(@Nullable final BetterStoreStaff storeStaff) {
+    void setStoreStaff(final BetterStoreStaff storeStaff) {
         this.storeStaff = storeStaff;
     }
 
@@ -193,7 +191,6 @@ public class BetterStaff
     private String name;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @OneToOne(mappedBy = BetterStoreStaff.ATTRIBUTE_NAME_STAFF, fetch = FetchType.LAZY)
     private BetterStoreStaff storeStaff;
 }

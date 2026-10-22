@@ -24,8 +24,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Objects;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -51,13 +49,13 @@ class Better_Scenario_Test {
             final var store2 = spy(new BetterStore());
             // add the staff to store1
             store1.addStaff(staff);
-            assertThat(Objects.requireNonNull(staff.getStoreStaff()).getStore()).isSameAs(store1);
+            assertThat(staff.getStoreStaff().getStore()).isSameAs(store1);
             assertThat(store1.getStoreStaffs()).extracting(BetterStoreStaff::getStaff).containsExactly(staff);
             // and then to store2
             store2.addStaff(staff);
             // which fired the staff at store1 first
             verify(store1, times(1)).removeStaff(staff);
-            assertThat(Objects.requireNonNull(staff.getStoreStaff()).getStore()).isSameAs(store2);
+            assertThat(staff.getStoreStaff().getStore()).isSameAs(store2);
             assertThat(store1.getStoreStaffs()).isEmpty();
             assertThat(store2.getStoreStaffs()).extracting(BetterStoreStaff::getStaff).containsExactly(staff);
         }

@@ -283,9 +283,6 @@ public class FilmCategory {
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    @SuppressWarnings({
-            "NullAway" // a new instance's getter, before the provider sets the field, gives null
-    })
     void setFilm(final Film film) {
         this.film = film;
         this.filmId = film == null ? null : film.getFilmId();

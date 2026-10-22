@@ -29,7 +29,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -162,7 +161,6 @@ public class EmbeddablePostalAddress {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
-    @Nullable
     public String getAddress2() {
         return address2;
     }
@@ -172,7 +170,7 @@ public class EmbeddablePostalAddress {
      *
      * @param address2 new value for {@value #ATTRIBUTE_NAME_ADDRESS2} attribute.
      */
-    public void setAddress2(@Nullable final String address2) {
+    public void setAddress2(final String address2) {
         this.address2 = address2;
     }
 
@@ -223,7 +221,6 @@ public class EmbeddablePostalAddress {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
-    @Nullable
     public String getPostalCode() {
         return postalCode;
     }
@@ -233,7 +230,7 @@ public class EmbeddablePostalAddress {
      *
      * @param postalCode new value for {@value #ATTRIBUTE_NAME_POSTAL_CODE} attribute.
      */
-    public void setPostalCode(@Nullable final String postalCode) {
+    public void setPostalCode(final String postalCode) {
         this.postalCode = postalCode;
     }
 
@@ -246,7 +243,6 @@ public class EmbeddablePostalAddress {
     private String address;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = Address.SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
     @Column(name = Address.COLUMN_NAME_ADDRESS2, nullable = true, insertable = true, updatable = true,
@@ -270,7 +266,6 @@ public class EmbeddablePostalAddress {
     private City city;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = Address.SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
     @Column(name = Address.COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true, updatable = true,

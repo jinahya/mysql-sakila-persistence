@@ -36,7 +36,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -233,7 +232,7 @@ public class Store {
         return Objects.hashCode(managerStaffIdOf(this));
     }
 
-    private static @Nullable Integer managerStaffIdOf(final Store store) {
+    private static Integer managerStaffIdOf(final Store store) {
         final var managerStaff = store.getManagerStaff();
         return managerStaff == null ? null : managerStaff.getStaffId();
     }

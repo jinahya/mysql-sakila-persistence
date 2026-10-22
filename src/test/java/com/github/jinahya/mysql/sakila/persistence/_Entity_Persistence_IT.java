@@ -22,7 +22,6 @@ package com.github.jinahya.mysql.sakila.persistence;
 
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
 import jakarta.persistence.EntityManager;
-import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -88,7 +87,7 @@ abstract class _Entity_Persistence_IT<T> {
     @DisplayName("find reaches a randomly selected row once the context is cleared")
     @Test
     void find_RandomlySelected_ContextCleared() {
-        this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
+        applyEntityManagerInTransactionAndRollback(em -> {
             final var selected = __Persistence_TestUtils.selectRandomEntity(em, targetClass);
             assumeTrue(selected.isPresent(), () -> "no row of " + targetClass + " is installed");
             final var identifier = __Persistence_TestUtils.getEntityIdentifier(em, selected.get());
@@ -142,7 +141,7 @@ abstract class _Entity_Persistence_IT<T> {
      */
     @Test
     void selectRandomTargetInstance() {
-        this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
+        applyEntityManagerInTransactionAndRollback(em -> {
             __Persistence_TestUtils.selectRandomEntity(em, targetClass).ifPresent(this::randomTargetInstanceSelected);
             return null;
         });
@@ -172,7 +171,7 @@ abstract class _Entity_Persistence_IT<T> {
      *         is no container transaction to join.
      * @see __Persistence_TestUtils#applyEntityManager(String, Function)
      */
-    <R extends @Nullable Object> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
+    <R> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
         return __Persistence_TestUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
     }
 
@@ -186,7 +185,7 @@ abstract class _Entity_Persistence_IT<T> {
      *         sample data as the installer left it.
      * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndRollback(String, Function)
      */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
+    <R> R applyEntityManagerInTransactionAndRollback(
             final Function<? super EntityManager, ? extends R> function) {
         return __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(PERSISTENCE_UNIT_NAME, function);
     }
@@ -203,7 +202,7 @@ abstract class _Entity_Persistence_IT<T> {
      *         rolled-back one.
      * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndCommit(String, Function)
      */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
+    <R> R applyEntityManagerInTransactionAndCommit(
             final Function<? super EntityManager, ? extends R> function) {
         return __Persistence_TestUtils.applyEntityManagerInTransactionAndCommit(PERSISTENCE_UNIT_NAME, function);
     }
@@ -226,7 +225,7 @@ abstract class _Entity_Persistence_IT<T> {
      * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is
      *         still managed when the function sees it, and it is gone when the transaction rolls back.
      */
-    <R extends @Nullable Object> R applyNewPersistedTargetInstanceAndRollback(
+    <R> R applyNewPersistedTargetInstanceAndRollback(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndRollback(em -> {
@@ -251,7 +250,7 @@ abstract class _Entity_Persistence_IT<T> {
      * @implNote Randomized values are the ones the persister produced, so a committed row is also a row nothing
      *         else in the schema expects; a foreign key pointing at it later is the caller's problem to clean up.
      */
-    <R extends @Nullable Object> R applyNewPersistedTargetInstanceAndCommit(
+    <R> R applyNewPersistedTargetInstanceAndCommit(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndCommit(em -> {

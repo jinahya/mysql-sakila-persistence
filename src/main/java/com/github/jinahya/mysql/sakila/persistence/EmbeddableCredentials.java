@@ -25,7 +25,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -149,7 +148,6 @@ public class EmbeddableCredentials {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
-    @Nullable
     public String getPassword() {
         return password;
     }
@@ -159,7 +157,7 @@ public class EmbeddableCredentials {
      *
      * @param password new value for {@value #ATTRIBUTE_NAME_PASSWORD} attribute.
      */
-    public void setPassword(@Nullable final String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -172,7 +170,6 @@ public class EmbeddableCredentials {
     private String username;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = Staff.SIZE_MAX_PASSWORD)
     @Basic(optional = true)
     @Column(name = Staff.COLUMN_NAME_PASSWORD, nullable = true, insertable = true, updatable = true,

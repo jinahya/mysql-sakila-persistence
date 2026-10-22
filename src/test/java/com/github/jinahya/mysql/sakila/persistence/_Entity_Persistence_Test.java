@@ -24,7 +24,6 @@ import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.ManagedType;
 import lombok.extern.slf4j.Slf4j;
-import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -125,7 +124,7 @@ abstract class _Entity_Persistence_Test<T> {
     @DisplayName("every ATTRIBUTE_NAME_* constant names a managed attribute")
     @Test
     void _Resolvable_ATTRIBUTE_NAME_() {
-        __Persistence_TestUtils.<@Nullable Void>applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
+        __Persistence_TestUtils.applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
             final var managedType = emf.getMetamodel().managedType(targetClass);
             constantsPrefixed(ATTRIBUTE_NAME_CONSTANT_PREFIX).forEach((constantName, name) -> assertThatCode(
                     () -> __Persistence_TestUtils.resolveAttributePath(managedType, name))
@@ -145,7 +144,7 @@ abstract class _Entity_Persistence_Test<T> {
     @DisplayName("every ATTRIBUTE_PATH_* constant resolves through the metamodel")
     @Test
     void _Resolvable_ATTRIBUTE_PATH_() {
-        __Persistence_TestUtils.<@Nullable Void>applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
+        __Persistence_TestUtils.applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
             final var managedType = emf.getMetamodel().managedType(targetClass);
             constantsPrefixed(ATTRIBUTE_PATH_CONSTANT_PREFIX).forEach((constantName, path) -> {
                 assertThat(path)
@@ -275,7 +274,7 @@ abstract class _Entity_Persistence_Test<T> {
      *         is no container transaction to join.
      * @see __Persistence_TestUtils#applyEntityManager(String, Function)
      */
-    <R extends @Nullable Object> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
+    <R> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
         return __Persistence_TestUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
     }
 
@@ -289,7 +288,7 @@ abstract class _Entity_Persistence_Test<T> {
      *         recreated per factory anyway.
      * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndRollback(String, Function)
      */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
+    <R> R applyEntityManagerInTransactionAndRollback(
             final Function<? super EntityManager, ? extends R> function) {
         return __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(PERSISTENCE_UNIT_NAME, function);
     }
@@ -305,7 +304,7 @@ abstract class _Entity_Persistence_Test<T> {
      *         factory and the in-memory database goes with it.
      * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndCommit(String, Function)
      */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
+    <R> R applyEntityManagerInTransactionAndCommit(
             final Function<? super EntityManager, ? extends R> function) {
         return __Persistence_TestUtils.applyEntityManagerInTransactionAndCommit(PERSISTENCE_UNIT_NAME, function);
     }
@@ -324,7 +323,7 @@ abstract class _Entity_Persistence_Test<T> {
      * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is
      *         still managed when the function sees it, and it is gone when the transaction rolls back.
      */
-    <R extends @Nullable Object> R applyNewPersistedEntityInstanceAndRollback(
+    <R> R applyNewPersistedEntityInstanceAndRollback(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndRollback(em -> {
@@ -346,7 +345,7 @@ abstract class _Entity_Persistence_Test<T> {
      * @implNote The persisted row outlives the call, on a database which is thrown away with the factory; a
      *         test which only needs the instance for the length of the {@code function} wants the rolled-back one.
      */
-    <R extends @Nullable Object> R applyNewPersistedEntityInstanceAndCommit(
+    <R> R applyNewPersistedEntityInstanceAndCommit(
             final BiFunction<? super EntityManager, ? super T, ? extends R> function) {
         Objects.requireNonNull(function, "function is null");
         return applyEntityManagerInTransactionAndCommit(em -> {

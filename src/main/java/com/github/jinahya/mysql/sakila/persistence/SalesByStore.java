@@ -25,7 +25,6 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 
@@ -163,9 +162,9 @@ public class SalesByStore {
      * @param manager    a value for the {@value #ATTRIBUTE_NAME_MANAGER} attribute.
      * @param totalSales a value for the {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute.
      */
-    public SalesByStore(final @Nullable String store,
-                        final @Nullable String manager,
-                        final @Nullable BigDecimal totalSales) {
+    public SalesByStore(final String store,
+                        final String manager,
+                        final BigDecimal totalSales) {
         super();
         this.store = store;
         this.manager = manager;
@@ -190,7 +189,6 @@ public class SalesByStore {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    @Nullable
     public String getStore() {
         return store;
     }
@@ -202,7 +200,6 @@ public class SalesByStore {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute.
      */
-    @Nullable
     public String getManager() {
         return manager;
     }
@@ -214,13 +211,11 @@ public class SalesByStore {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_TOTAL_SALES} attribute.
      */
-    @Nullable
     public BigDecimal getTotalSales() {
         return totalSales;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_STORE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_STORE, nullable = true, insertable = false, updatable = false,
@@ -228,7 +223,6 @@ public class SalesByStore {
     private String store;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Size(max = SIZE_MAX_MANAGER)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_MANAGER, nullable = true, insertable = false, updatable = false,
@@ -236,7 +230,6 @@ public class SalesByStore {
     private String manager;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     // @Digits counts digits differently by provider; https://github.com/jakartaee/validation-spec/issues/346
     // @Digits(integer = COLUMN_PRECISION_TOTAL_SALES - COLUMN_SCALE_TOTAL_SALES, fraction = COLUMN_SCALE_TOTAL_SALES)
     @DecimalMin(COLUMN_MIN_TOTAL_SALES)

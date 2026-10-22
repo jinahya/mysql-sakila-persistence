@@ -33,7 +33,6 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
-import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -237,7 +236,6 @@ public class BetterStoreStaff
      * @return current value of {@value #ATTRIBUTE_NAME_STORE_ID} attribute; {@code null} until a persisted store is
      *         set, or the instance is loaded from the database.
      */
-    @Nullable
     Long getStoreId() {
         return storeId;
     }
@@ -275,7 +273,6 @@ public class BetterStoreStaff
      * @return current value of {@value #ATTRIBUTE_NAME_STAFF_ID} attribute; {@code null} until a persisted staff member
      *         is set, or the instance is loaded from the database.
      */
-    @Nullable
     Long getStaffId() {
         return staffId;
     }
@@ -312,7 +309,6 @@ public class BetterStoreStaff
      * @return current value of {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the store,
      *         {@code null} otherwise.
      */
-    @Nullable
     public Boolean getManager() {
         return manager;
     }
@@ -323,12 +319,11 @@ public class BetterStoreStaff
      * @param manager new value for {@value #ATTRIBUTE_NAME_MANAGER} attribute; {@code TRUE} for the manager of the
      *                store, {@code null} otherwise; never {@code FALSE}.
      */
-    public void setManager(@Nullable final Boolean manager) {
+    public void setManager(final Boolean manager) {
         this.manager = manager;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Column(name = COLUMN_NAME_STORE_ID, nullable = false, insertable = false, updatable = false)
     private Long storeId;
 
@@ -340,7 +335,6 @@ public class BetterStoreStaff
     private BetterStore store;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @Column(name = COLUMN_NAME_STAFF_ID, nullable = false, insertable = false, updatable = false)
     private Long staffId;
 
@@ -352,7 +346,6 @@ public class BetterStoreStaff
     private BetterStaff staff;
 
     // -----------------------------------------------------------------------------------------------------------------
-    @Nullable
     @AssertTrue // TRUE or NULL, never FALSE, as the table's check constraint has it
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_MANAGER, nullable = true, insertable = true, updatable = true)

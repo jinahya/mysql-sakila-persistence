@@ -21,7 +21,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
-import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -43,7 +42,7 @@ class Better_Scenario_Persistence_IT {
         @DisplayName("moves the staff to store2")
         @Test
         void _addStaff_Store1ThenStore2() {
-            __Persistence_TestUtils.<@Nullable Void>applyEntityManagerInTransactionAndRollback(
+            __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
                     _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> {
                         // one staff, and two stores
                         final var staff = EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);

@@ -31,11 +31,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * An entity class for mapping the {@value BetterStore#TABLE_NAME} table.
@@ -113,7 +111,7 @@ public class BetterStore
      *
      * @see BetterStoreStaff#ATTRIBUTE_NAME_STORE
      */
-    public static final String ATTRIBUTE_NAME_STAFFS = "staffs";
+    public static final String ATTRIBUTE_NAME_STORE_STAFFS = "storeStaffs";
 
     // ---------------------------------------------------------------------------------------------------- CONSTRUCTORS
 
@@ -227,7 +225,6 @@ public class BetterStore
      * @return the staff member whose {@link BetterStoreStaff} row of this store is flagged as the manager's;
      *         {@code null} when the store has no manager, or is not yet loaded from the database.
      */
-    @Nullable
     public BetterStaff getManager() {
         if (storeStaffs == null) {
             return null;
@@ -243,13 +240,12 @@ public class BetterStore
         // unflag the current manager's row, if any; first, before a transferred row could add a second flag
         final var manager = getManager();
         if (manager != null) {
-            // the manager works at this store, so has a row
-            Objects.requireNonNull(manager.getStoreStaff(), "manager's storeStaff is null").setManager(null);
+            manager.getStoreStaff().setManager(null);
         }
         // hire them, from another store or from none
         addStaff(staff);
-        // flag the new manager's row; addStaff has given them one
-        Objects.requireNonNull(staff.getStoreStaff(), "staff's storeStaff is null").setManager(Boolean.TRUE);
+        // flag the new manager's row
+        staff.getStoreStaff().setManager(Boolean.TRUE);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
