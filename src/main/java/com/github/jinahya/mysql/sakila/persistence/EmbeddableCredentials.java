@@ -171,8 +171,7 @@ public class EmbeddableCredentials {
     @Size(max = Staff.SIZE_MAX_USERNAME)
     @Basic(optional = false)
     @Column(name = Staff.COLUMN_NAME_USERNAME, nullable = false, insertable = true,
-            updatable = true,
-            length = Staff.COLUMN_LENGTH_USERNAME)
+            updatable = true, length = Staff.COLUMN_LENGTH_USERNAME)
     private String username;
 
     // ---------------------------------------------------------------------------------------------

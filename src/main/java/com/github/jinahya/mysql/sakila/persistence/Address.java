@@ -72,10 +72,8 @@ import java.util.function.Function;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-address.html">The
  *         address Table</a>
- * @see <a
- *         href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats
- *         .html#gis-internal-format">Internal
- *         Geometry Storage Format</a>
+ * @see <a href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats
+ *         .html#gis-internal-format">Internal Geometry Storage Format</a>
  */
 @NamedQuery(name = "Address.selectOneByAddressId",
             query = """
@@ -654,8 +652,7 @@ public class Address {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private City city;
 
     // ---------------------------------------------------------------------------------------------

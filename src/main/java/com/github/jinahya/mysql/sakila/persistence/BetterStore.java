@@ -287,8 +287,7 @@ public class BetterStore {
 
     // ---------------------------------------------------------------------------------------------
     @OneToMany(mappedBy = BetterEmployment.ATTRIBUTE_NAME_STORE, fetch = FetchType.LAZY,
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
+               cascade = CascadeType.ALL, orphanRemoval = true)
     private List<@Valid @NotNull BetterEmployment> employments = new ArrayList<>();
 
     // ---------------------------------------------------------------------------------------------

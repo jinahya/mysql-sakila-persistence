@@ -250,16 +250,14 @@ public class EmbeddablePostalAddress {
     @Size(max = Address.SIZE_MAX_ADDRESS)
     @Basic(optional = false)
     @Column(name = Address.COLUMN_NAME_ADDRESS, nullable = false, insertable = true,
-            updatable = true,
-            length = Address.COLUMN_LENGTH_ADDRESS)
+            updatable = true, length = Address.COLUMN_LENGTH_ADDRESS)
     private String address;
 
     // ---------------------------------------------------------------------------------------------
     @Size(max = Address.SIZE_MAX_ADDRESS2)
     @Basic(optional = true)
     @Column(name = Address.COLUMN_NAME_ADDRESS2, nullable = true, insertable = true,
-            updatable = true,
-            length = Address.COLUMN_LENGTH_ADDRESS2)
+            updatable = true, length = Address.COLUMN_LENGTH_ADDRESS2)
     private String address2;
 
     // ---------------------------------------------------------------------------------------------
@@ -267,8 +265,7 @@ public class EmbeddablePostalAddress {
     @Size(max = Address.SIZE_MAX_DISTRICT)
     @Basic(optional = false)
     @Column(name = Address.COLUMN_NAME_DISTRICT, nullable = false, insertable = true,
-            updatable = true,
-            length = Address.COLUMN_LENGTH_DISTRICT)
+            updatable = true, length = Address.COLUMN_LENGTH_DISTRICT)
     private String district;
 
     // ---------------------------------------------------------------------------------------------
@@ -276,15 +273,13 @@ public class EmbeddablePostalAddress {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = Address.COLUMN_NAME_CITY_ID, referencedColumnName = City.COLUMN_NAME_CITY_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private City city;
 
     // ---------------------------------------------------------------------------------------------
     @Size(max = Address.SIZE_MAX_POSTAL_CODE)
     @Basic(optional = true)
     @Column(name = Address.COLUMN_NAME_POSTAL_CODE, nullable = true, insertable = true,
-            updatable = true,
-            length = Address.COLUMN_LENGTH_POSTAL_CODE)
+            updatable = true, length = Address.COLUMN_LENGTH_POSTAL_CODE)
     private String postalCode;
 }

@@ -482,8 +482,8 @@ public class Payment {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID,
-                referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID,
-                nullable = false, insertable = true, updatable = false)
+                referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID, nullable = false,
+                insertable = true, updatable = false)
     private Customer customer;
 
     // ---------------------------------------------------------------------------------------------
@@ -491,16 +491,14 @@ public class Payment {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
-                nullable = false,
-                insertable = true, updatable = false)
+                nullable = false, insertable = true, updatable = false)
     private Staff staff;
 
     // ---------------------------------------------------------------------------------------------
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_RENTAL_ID, referencedColumnName = Rental.COLUMN_NAME_RENTAL_ID,
-                nullable = true,
-                insertable = true, updatable = false)
+                nullable = true, insertable = true, updatable = false)
     private Rental rental;
 
     // ---------------------------------------------------------------------------------------------

@@ -563,8 +563,7 @@ public class Customer {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private Store store;
 
     // ---------------------------------------------------------------------------------------------

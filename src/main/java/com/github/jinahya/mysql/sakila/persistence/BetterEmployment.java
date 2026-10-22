@@ -104,16 +104,9 @@ import jakarta.validation.constraints.NotNull;
                     FROM BetterEmployment e"""
 )
 @Entity
-@Table(name = BetterEmployment.TABLE_NAME,
-       uniqueConstraints = {
-               @UniqueConstraint(
-                       columnNames = {
-                               BetterEmployment.COLUMN_NAME_MANAGER,
-                               BetterEmployment.COLUMN_NAME_STORE_ID
-                       }
-               )
-       }
-)
+@Table(name = BetterEmployment.TABLE_NAME, uniqueConstraints = {@UniqueConstraint(
+        columnNames = {BetterEmployment.COLUMN_NAME_MANAGER,
+                BetterEmployment.COLUMN_NAME_STORE_ID})})
 public class BetterEmployment {
 
     /**
@@ -321,8 +314,7 @@ public class BetterEmployment {
     @MapsId(BetterEmploymentId.ATTRIBUTE_NAME_STORE_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = BetterStore.COLUMN_NAME_ID,
-                nullable = false,
-                insertable = true, updatable = false)
+                nullable = false, insertable = true, updatable = false)
     private BetterStore store;
 
     // ---------------------------------------------------------------------------------------------
@@ -331,8 +323,7 @@ public class BetterEmployment {
     @MapsId(BetterEmploymentId.ATTRIBUTE_NAME_STAFF_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = BetterStaff.COLUMN_NAME_ID,
-                nullable = false,
-                insertable = true, updatable = false)
+                nullable = false, insertable = true, updatable = false)
     private BetterStaff staff;
 
     // ---------------------------------------------------------------------------------------------

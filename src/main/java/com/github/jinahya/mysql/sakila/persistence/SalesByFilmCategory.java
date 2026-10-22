@@ -60,10 +60,9 @@ import java.math.BigDecimal;
  * requires of an {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a
- *         href="https://dev.mysql
- *         .com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html">
- *         The sales_by_film_category View</a>
+ * @see <a href="https://dev.mysql
+ *         .com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html"> The
+ *         sales_by_film_category View</a>
  */
 @NamedQuery(name = "SalesByFilmCategory.selectOneByCategory",
             query = """

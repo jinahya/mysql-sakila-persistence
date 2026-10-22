@@ -370,8 +370,7 @@ public class Inventory {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private Film film;
 
     // ---------------------------------------------------------------------------------------------
@@ -384,8 +383,7 @@ public class Inventory {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private Store store;
 
     // ---------------------------------------------------------------------------------------------

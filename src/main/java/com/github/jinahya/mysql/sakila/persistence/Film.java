@@ -1090,16 +1090,16 @@ public class Film {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_LANGUAGE_ID,
-                referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
-                nullable = false, insertable = true, updatable = true)
+                referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID, nullable = false,
+                insertable = true, updatable = true)
     private Language language;
 
     // ---------------------------------------------------------------------------------------------
     @Valid
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_ORIGINAL_LANGUAGE_ID,
-                referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID,
-                nullable = true, insertable = true, updatable = true)
+                referencedColumnName = Language.COLUMN_NAME_LANGUAGE_ID, nullable = true,
+                insertable = true, updatable = true)
     private Language originalLanguage;
 
     // ---------------------------------------------------------------------------------------------
@@ -1139,8 +1139,8 @@ public class Film {
     @DecimalMax(COLUMN_MAX_REPLACEMENT_COST)
     @Basic(optional = false)
     @Column(name = COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true,
-            updatable = true,
-            precision = COLUMN_PRECISION_REPLACEMENT_COST, scale = COLUMN_SCALE_REPLACEMENT_COST)
+            updatable = true, precision = COLUMN_PRECISION_REPLACEMENT_COST,
+            scale = COLUMN_SCALE_REPLACEMENT_COST)
     private BigDecimal replacementCost;
 
     // ---------------------------------------------------------------------------------------------
@@ -1154,8 +1154,7 @@ public class Film {
     @Size(max = SIZE_MAX_SPECIAL_FEATURES)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_SPECIAL_FEATURES, nullable = true, insertable = true,
-            updatable = true,
-            length = COLUMN_LENGTH_SPECIAL_FEATURES)
+            updatable = true, length = COLUMN_LENGTH_SPECIAL_FEATURES)
     private String specialFeatures;
 
     // ---------------------------------------------------------------------------------------------

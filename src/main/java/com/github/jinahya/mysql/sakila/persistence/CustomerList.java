@@ -481,8 +481,7 @@ public class CustomerList {
     @Size(max = SIZE_MAX_ZIP_CODE)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_ZIP_CODE_DELIMITED, nullable = true, insertable = false,
-            updatable = false,
-            length = COLUMN_LENGTH_ZIP_CODE)
+            updatable = false, length = COLUMN_LENGTH_ZIP_CODE)
     private String zipCode;
 
     // ---------------------------------------------------------------------------------------------

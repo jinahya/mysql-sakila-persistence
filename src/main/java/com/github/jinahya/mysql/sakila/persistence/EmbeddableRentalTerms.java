@@ -222,8 +222,8 @@ public class EmbeddableRentalTerms {
     @DecimalMax(Film.COLUMN_MAX_RENTAL_RATE)
     @Basic(optional = false)
     @Column(name = Film.COLUMN_NAME_RENTAL_RATE, nullable = false, insertable = true,
-            updatable = true,
-            precision = Film.COLUMN_PRECISION_RENTAL_RATE, scale = Film.COLUMN_SCALE_RENTAL_RATE)
+            updatable = true, precision = Film.COLUMN_PRECISION_RENTAL_RATE,
+            scale = Film.COLUMN_SCALE_RENTAL_RATE)
     private BigDecimal rentalRate;
 
     // ---------------------------------------------------------------------------------------------
@@ -236,8 +236,7 @@ public class EmbeddableRentalTerms {
     @DecimalMax(Film.COLUMN_MAX_REPLACEMENT_COST)
     @Basic(optional = false)
     @Column(name = Film.COLUMN_NAME_REPLACEMENT_COST, nullable = false, insertable = true,
-            updatable = true,
-            precision = Film.COLUMN_PRECISION_REPLACEMENT_COST,
+            updatable = true, precision = Film.COLUMN_PRECISION_REPLACEMENT_COST,
             scale = Film.COLUMN_SCALE_REPLACEMENT_COST)
     private BigDecimal replacementCost;
 }

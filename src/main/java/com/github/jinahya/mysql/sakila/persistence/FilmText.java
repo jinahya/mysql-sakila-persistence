@@ -314,8 +314,7 @@ public class FilmText {
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
-                nullable = false,
-                insertable = false, updatable = false,
+                nullable = false, insertable = false, updatable = false,
                 foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Film film;
 

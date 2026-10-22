@@ -59,9 +59,9 @@ import java.time.LocalDateTime;
  * maps its key with an {@link jakarta.persistence.IdClass @IdClass} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The
- *         film_actor
- *         Table</a>
+ * @see <a
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The
+ *         film_actor Table</a>
  * @see FilmActorId
  */
 @NamedQuery(name = "FilmActor.selectOneByActorIdAndFilmId",
@@ -312,8 +312,7 @@ public class FilmActor {
     @MapsId(FilmActorId.ATTRIBUTE_NAME_ACTOR_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_ACTOR_ID, referencedColumnName = Actor.COLUMN_NAME_ACTOR_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private Actor actor;
 
     // ---------------------------------------------------------------------------------------------
@@ -322,8 +321,7 @@ public class FilmActor {
     @MapsId(FilmActorId.ATTRIBUTE_NAME_FILM_ID)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private Film film;
 
     // ---------------------------------------------------------------------------------------------

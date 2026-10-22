@@ -50,16 +50,16 @@ public record EmbeddablePersonName(
         @Size(max = EmbeddablePersonName.SIZE_MAX_FIRST_NAME)
         @Basic(optional = false)
         @Column(name = EmbeddablePersonName.COLUMN_NAME_FIRST_NAME, nullable = false,
-                insertable = true,
-                updatable = true, length = EmbeddablePersonName.COLUMN_LENGTH_FIRST_NAME)
+                insertable = true, updatable = true,
+                length = EmbeddablePersonName.COLUMN_LENGTH_FIRST_NAME)
         String firstName,
 
         @NotNull
         @Size(max = EmbeddablePersonName.SIZE_MAX_LAST_NAME)
         @Basic(optional = false)
         @Column(name = EmbeddablePersonName.COLUMN_NAME_LAST_NAME, nullable = false,
-                insertable = true,
-                updatable = true, length = EmbeddablePersonName.COLUMN_LENGTH_LAST_NAME)
+                insertable = true, updatable = true,
+                length = EmbeddablePersonName.COLUMN_LENGTH_LAST_NAME)
         String lastName
 ) {
 

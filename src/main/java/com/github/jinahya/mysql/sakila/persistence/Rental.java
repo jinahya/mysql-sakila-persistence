@@ -133,17 +133,9 @@ import java.util.List;
                     WHERE e.customer = :customer"""
 )
 @Entity
-@Table(name = Rental.TABLE_NAME,
-       uniqueConstraints = {
-               @UniqueConstraint(
-                       columnNames = {
-                               Rental.COLUMN_NAME_RENTAL_DATE,
-                               Rental.COLUMN_NAME_INVENTORY_ID,
-                               Rental.COLUMN_NAME_CUSTOMER_ID
-                       }
-               )
-       }
-)
+@Table(name = Rental.TABLE_NAME, uniqueConstraints = {@UniqueConstraint(
+        columnNames = {Rental.COLUMN_NAME_RENTAL_DATE, Rental.COLUMN_NAME_INVENTORY_ID,
+                Rental.COLUMN_NAME_CUSTOMER_ID})})
 public class Rental {
 
     /**
@@ -482,8 +474,8 @@ public class Rental {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_INVENTORY_ID,
-                referencedColumnName = Inventory.COLUMN_NAME_INVENTORY_ID,
-                nullable = false, insertable = true, updatable = true)
+                referencedColumnName = Inventory.COLUMN_NAME_INVENTORY_ID, nullable = false,
+                insertable = true, updatable = true)
     private Inventory inventory;
 
     // ---------------------------------------------------------------------------------------------
@@ -491,8 +483,8 @@ public class Rental {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID,
-                referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID,
-                nullable = false, insertable = true, updatable = true)
+                referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID, nullable = false,
+                insertable = true, updatable = true)
     private Customer customer;
 
     // ---------------------------------------------------------------------------------------------
@@ -505,8 +497,7 @@ public class Rental {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
-                nullable = false,
-                insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = true)
     private Staff staff;
 
     // ---------------------------------------------------------------------------------------------

@@ -66,8 +66,7 @@ import java.time.LocalDateTime;
  * {@link jakarta.persistence.EmbeddedId @EmbeddedId} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a
- *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
  *         The film_category Table</a>
  * @see FilmCategoryId
  */
@@ -355,8 +354,7 @@ public class FilmCategory {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
-                nullable = false,
-                insertable = false, updatable = false)
+                nullable = false, insertable = false, updatable = false)
     private Film film;
 
     // ---------------------------------------------------------------------------------------------
@@ -370,8 +368,8 @@ public class FilmCategory {
     @Id
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CATEGORY_ID,
-                referencedColumnName = Category.COLUMN_NAME_CATEGORY_ID,
-                nullable = false, insertable = true, updatable = false)
+                referencedColumnName = Category.COLUMN_NAME_CATEGORY_ID, nullable = false,
+                insertable = true, updatable = false)
     private Category category;
 
     // ---------------------------------------------------------------------------------------------

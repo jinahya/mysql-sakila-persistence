@@ -100,14 +100,7 @@ import java.util.Objects;
 )
 @Entity
 @Table(name = Store.TABLE_NAME,
-       uniqueConstraints = {
-               @UniqueConstraint(
-                       columnNames = {
-                               Store.COLUMN_NAME_MANAGER_STAFF_ID
-                       }
-               )
-       }
-)
+       uniqueConstraints = {@UniqueConstraint(columnNames = {Store.COLUMN_NAME_MANAGER_STAFF_ID})})
 public class Store {
 
     /**
@@ -345,8 +338,8 @@ public class Store {
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_MANAGER_STAFF_ID,
-                referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
-                nullable = false, insertable = true, updatable = true)
+                referencedColumnName = Staff.COLUMN_NAME_STAFF_ID, nullable = false,
+                insertable = true, updatable = true)
     private Staff managerStaff;
 
     // ---------------------------------------------------------------------------------------------
