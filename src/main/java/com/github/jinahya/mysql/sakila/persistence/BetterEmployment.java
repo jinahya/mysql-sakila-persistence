@@ -54,10 +54,10 @@ import jakarta.validation.constraints.NotNull;
  *}
  * <p>
  * A row links a {@link BetterStaff} to the {@link BetterStore} they work at, and flags the manager of the store. The
- * primary key is the two foreign keys, as an {@link EmbeddedId @EmbeddedId}; each association is
- * {@link MapsId @MapsId} to its component of the {@value #ATTRIBUTE_NAME_ID}. The {@value #COLUMN_NAME_MANAGER} column
- * is {@code TRUE}, for the manager, or {@code NULL}, never {@code FALSE}, so the unique key of it and the
- * {@value #COLUMN_NAME_STORE_ID} column, whose {@code NULL}s do not collide, allows one manager per store.
+ * primary key is the two foreign keys, as an {@link EmbeddedId @EmbeddedId}; each association is {@link MapsId @MapsId}
+ * to its component of the {@value #ATTRIBUTE_NAME_ID}. The {@value #COLUMN_NAME_MANAGER} column is {@code TRUE}, for
+ * the manager, or {@code NULL}, never {@code FALSE}, so the unique key of it and the {@value #COLUMN_NAME_STORE_ID}
+ * column, whose {@code NULL}s do not collide, allows one manager per store.
  * <p>
  * That a staff member works at one store at most is a rule of {@link BetterStore#addStaff(BetterStaff)}, not of the
  * table. The table is created by {@code 88-better-employment.sql}, which runs after the installer's scripts.

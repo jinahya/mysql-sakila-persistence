@@ -30,8 +30,8 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link BetterStaff} instances.
  * <p>
- * The {@code id}, which the database generates, and the {@code employments}, which only a {@link BetterEmployment}
- * row sets, are excluded from randomization.
+ * The {@code id}, which the database generates, and the {@code employments}, which only a {@link BetterEmployment} row
+ * sets, are excluded from randomization.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */

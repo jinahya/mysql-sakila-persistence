@@ -321,6 +321,6 @@ public class FilmActor {
     // -----------------------------------------------------------------------------------------------------------------
     @Basic
     @Column(name = COLUMN_NAME_LAST_UPDATE, nullable = false, insertable = false, updatable = false,
-            columnDefinition = __Constants.COLUMN_DEFINITION_LAST_UPDATE)
+            columnDefinition = _Constants.COLUMN_DEFINITION_LAST_UPDATE)
     private LocalDateTime lastUpdate;
 }
