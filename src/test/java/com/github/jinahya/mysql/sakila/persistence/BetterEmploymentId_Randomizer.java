@@ -26,26 +26,20 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * A randomizer which produces randomized {@link BetterStoreStaff} instances.
+ * A randomizer which produces randomized {@link BetterEmploymentId} instances.
  * <p>
- * The {@code id}, which the database generates, and the {@code store} and {@code staff} associations are excluded from
- * randomization; {@link BetterStoreStaff_Persister} supplies both associations. The {@code manager} is, at random,
- * {@link Boolean#TRUE} or {@code null}, never {@link Boolean#FALSE}, as the table's check constraint has it.
+ * Nothing is excluded from randomization: the class holds only the two columns of the composite key.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class BetterStoreStaff_Randomizer
-        extends PodamObjectRandomizer<BetterStoreStaff> {
+class BetterEmploymentId_Randomizer
+        extends PodamObjectRandomizer<BetterEmploymentId> {
 
-    BetterStoreStaff_Randomizer() {
-        super(BetterStoreStaff.class, List.of(
-                BetterStoreStaff.ATTRIBUTE_NAME_ID,
-                BetterStoreStaff.ATTRIBUTE_NAME_STORE,
-                BetterStoreStaff.ATTRIBUTE_NAME_STAFF,
-                BetterStoreStaff.ATTRIBUTE_NAME_MANAGER
+    BetterEmploymentId_Randomizer() {
+        super(BetterEmploymentId.class, List.of(
+
         ));
     }
 
@@ -66,9 +60,7 @@ class BetterStoreStaff_Randomizer
     }
 
     @Override
-    public BetterStoreStaff get() {
-        final var instance = super.get();
-        instance.setManager(ThreadLocalRandom.current().nextBoolean() ? Boolean.TRUE : null);
-        return instance;
+    public BetterEmploymentId get() {
+        return super.get();
     }
 }

@@ -23,16 +23,16 @@ package com.github.jinahya.mysql.sakila.persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Verifies the mappings of {@link BetterStoreStaff} against the installed {@code sakila} database, with
- * {@code 88-better-store-staff.sql} applied.
+ * Verifies the mappings of {@link BetterEmployment} against the installed {@code sakila} database, with
+ * {@code 88-better-employment.sql} applied.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class BetterStoreStaff_Persistence_IT
-        extends _Entity_Persistence_IT<BetterStoreStaff> {
+class BetterEmployment_Persistence_IT
+        extends _Entity_Persistence_IT<BetterEmployment> {
 
-    BetterStoreStaff_Persistence_IT() {
-        super(BetterStoreStaff.class);
+    BetterEmployment_Persistence_IT() {
+        super(BetterEmployment.class);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ class BetterStoreStaff_Persistence_IT
      *         {@code TRUE} or {@code null}, never {@code FALSE}.
      */
     @Override
-    void randomTargetInstanceSelected(final BetterStoreStaff instance) {
+    void randomTargetInstanceSelected(final BetterEmployment instance) {
         assertThat(instance.getStore().getId()).as("id of the store of %s", instance).isNotNull();
         assertThat(instance.getStaff().getId()).as("id of the staff of %s", instance).isNotNull();
         assertThat(instance.getManager()).as("manager of %s", instance).isNotEqualTo(Boolean.FALSE);

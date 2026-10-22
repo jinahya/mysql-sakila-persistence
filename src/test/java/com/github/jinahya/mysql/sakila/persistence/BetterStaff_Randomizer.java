@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * A randomizer which produces randomized {@link BetterStaff} instances.
  * <p>
- * The {@code id}, which the database generates, and the {@code storeStaff}, which only a {@link BetterStoreStaff}
+ * The {@code id}, which the database generates, and the {@code employments}, which only a {@link BetterEmployment}
  * row sets, are excluded from randomization.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
@@ -41,7 +41,7 @@ class BetterStaff_Randomizer
     BetterStaff_Randomizer() {
         super(BetterStaff.class, List.of(
                 BetterStaff.ATTRIBUTE_NAME_ID,
-                BetterStaff.ATTRIBUTE_NAME_STORE_STAFF
+                BetterStaff.ATTRIBUTE_NAME_EMPLOYMENTS
         ));
     }
 

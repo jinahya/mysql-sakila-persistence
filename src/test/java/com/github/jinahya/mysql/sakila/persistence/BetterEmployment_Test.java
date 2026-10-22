@@ -20,15 +20,28 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import nl.jqno.equalsverifier.Warning;
+import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
+
 /**
- * Verifies the mappings of {@link BetterStoreStaff} against the schema generated into the in-memory database.
+ * A class for testing the {@link BetterEmployment} entity class.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class BetterStoreStaff_Persistence_Test
-        extends _Entity_Persistence_Test<BetterStoreStaff> {
+class BetterEmployment_Test
+        extends _Entity_Test<BetterEmployment> {
 
-    BetterStoreStaff_Persistence_Test() {
-        super(BetterStoreStaff.class);
+    BetterEmployment_Test() {
+        super(BetterEmployment.class);
+    }
+
+    // ------------------------------------------------------------------------------------------------- equals/hashCode
+
+    @Override
+    public SingleTypeEqualsVerifierApi<BetterEmployment> equalsVerifier() {
+        return super.equalsVerifier()
+                .suppress(Warning.SURROGATE_KEY,
+                          Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
+                          Warning.STRICT_HASHCODE);
     }
 }
