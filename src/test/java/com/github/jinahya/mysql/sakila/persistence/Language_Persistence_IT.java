@@ -43,7 +43,7 @@ class Language_Persistence_IT
      * @implNote The name is there, and so is the {@code last_update} the database fills.
      */
     @Override
-    void randomSelected(final Language instance) {
+    void randomTargetInstanceSelected(final Language instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
     }

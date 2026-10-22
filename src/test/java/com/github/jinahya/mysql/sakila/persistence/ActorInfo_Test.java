@@ -44,8 +44,8 @@ class ActorInfo_Test
      *         attribute is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<ActorInfo> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<ActorInfo> equalsVerifier() {
+        return super.equalsVerifier()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

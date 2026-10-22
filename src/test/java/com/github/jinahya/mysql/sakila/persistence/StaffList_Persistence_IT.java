@@ -45,7 +45,7 @@ class StaffList_Persistence_IT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         // empty
     }
 
@@ -58,7 +58,7 @@ class StaffList_Persistence_IT
      * @implNote The name is there.
      */
     @Override
-    void randomSelected(final StaffList instance) {
+    void randomTargetInstanceSelected(final StaffList instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
     }
 }

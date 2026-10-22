@@ -44,8 +44,8 @@ class Staff_Test
      *         attribute is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<Staff> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<Staff> equalsVerifier() {
+        return super.equalsVerifier()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

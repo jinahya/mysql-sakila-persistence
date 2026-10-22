@@ -44,8 +44,8 @@ class City_Test
      *         is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<City> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<City> equalsVerifier() {
+        return super.equalsVerifier()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

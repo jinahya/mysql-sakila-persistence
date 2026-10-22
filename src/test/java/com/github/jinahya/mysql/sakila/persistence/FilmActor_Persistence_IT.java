@@ -44,7 +44,7 @@ class FilmActor_Persistence_IT
      *         actor and of the film, lazy associations which resolve.
      */
     @Override
-    void randomSelected(final FilmActor instance) {
+    void randomTargetInstanceSelected(final FilmActor instance) {
         assertThat(instance.getId().getActorId())
                 .as("actor id of the id of %s", instance)
                 .isEqualTo(instance.getActor().getActorId());

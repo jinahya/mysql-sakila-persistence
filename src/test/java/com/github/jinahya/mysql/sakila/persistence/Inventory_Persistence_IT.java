@@ -43,7 +43,7 @@ class Inventory_Persistence_IT
      * @implNote The film and the store, lazy associations, resolve.
      */
     @Override
-    void randomSelected(final Inventory instance) {
+    void randomTargetInstanceSelected(final Inventory instance) {
         assertThat(instance.getFilm().getTitle()).as("title of the film of %s", instance).isNotBlank();
         assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s", instance).isNotNull();
     }

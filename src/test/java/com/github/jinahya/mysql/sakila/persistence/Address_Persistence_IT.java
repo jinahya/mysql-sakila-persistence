@@ -57,7 +57,7 @@ class Address_Persistence_IT
      *         coordinate in the hundreds of millions.
      */
     @Override
-    void randomSelected(final Address instance) {
+    void randomTargetInstanceSelected(final Address instance) {
         {
             final var location = instance.getLocation();
             assertThat(location)

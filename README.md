@@ -198,8 +198,10 @@ What one provider does and the other does not, as far as these mappings and test
   first. So `FilmActor.id`, and the components of `FilmActorId`, carry no `@Valid` or `@NotNull`: under EclipseLink
   they would fail as `null` every time. The constraints are on `FilmActor.actor` and `film`, from which the identifier
   is derived.
-- `PersistenceUnitUtil.getIdentifier` instantiates an id class through its public constructors only, and the id
-  classes here declare the no-arg constructor `protected`, so `Find_Test` reads the identifier field instead.
+- `PersistenceUnitUtil.getIdentifier` instantiates an id class through its public constructors only; one with a
+  `protected` no-arg constructor fails with `EclipseLink-222`, a `NoSuchMethodException`. Hibernate ORM hands back
+  the identifier the entity already holds. The specification requires a primary key class to have a public no-arg
+  constructor (Jakarta Persistence 3.2, §2.4), so `FilmActorId` and `FilmCategoryId` declare it `public`.
 
 ## The mappings
 
@@ -237,6 +239,11 @@ Each mapped class has a `*_Test` (`toString`, `equals`/`hashCode`, accessors), a
 `*_Persistence_Test` against the `sakila-test` unit (H2, schema generated from the mappings) and a
 `*_Persistence_IT` against the `sakila-it` unit (the database above). A table also has a `*_Persister`, which persists
 whatever the instance references first. Every test runs in a transaction which is rolled back.
+
+There is no CDI container. `__Persistence_TestUtils` bootstraps a unit, by name, the Java SE way, through
+`Persistence.createEntityManagerFactory`; each of its `apply...` methods opens a factory and an entity manager, and
+closes both, around the work it is given. `_Entity_Persistence_Test` and `_Entity_Persistence_IT` call them with their
+own unit's name, and a test which extends neither, `FilmList_IT` say, calls them directly.
 
 `store` and `staff` reference each other (see [Integrity checks during the load](#integrity-checks-during-the-load)),
 so a persister gives a new row the first existing store or staff member, and the first existing language too: those

@@ -44,20 +44,20 @@ import jakarta.validation.constraints.Size;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Embeddable
-public record _PersonName(
+public record EmbeddablePersonName(
 
         @NotNull
-        @Size(max = _PersonName.SIZE_MAX_FIRST_NAME)
+        @Size(max = EmbeddablePersonName.SIZE_MAX_FIRST_NAME)
         @Basic(optional = false)
-        @Column(name = _PersonName.COLUMN_NAME_FIRST_NAME, nullable = false, insertable = true, updatable = true,
-                length = _PersonName.COLUMN_LENGTH_FIRST_NAME)
+        @Column(name = EmbeddablePersonName.COLUMN_NAME_FIRST_NAME, nullable = false, insertable = true,
+                updatable = true, length = EmbeddablePersonName.COLUMN_LENGTH_FIRST_NAME)
         String firstName,
 
         @NotNull
-        @Size(max = _PersonName.SIZE_MAX_LAST_NAME)
+        @Size(max = EmbeddablePersonName.SIZE_MAX_LAST_NAME)
         @Basic(optional = false)
-        @Column(name = _PersonName.COLUMN_NAME_LAST_NAME, nullable = false, insertable = true, updatable = true,
-                length = _PersonName.COLUMN_LENGTH_LAST_NAME)
+        @Column(name = EmbeddablePersonName.COLUMN_NAME_LAST_NAME, nullable = false, insertable = true,
+                updatable = true, length = EmbeddablePersonName.COLUMN_LENGTH_LAST_NAME)
         String lastName
 ) {
 

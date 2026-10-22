@@ -44,7 +44,7 @@ import java.util.Objects;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Embeddable
-public class _Credentials {
+public class EmbeddableCredentials {
 
     /**
      * The name of the attribute which maps the {@value Staff#COLUMN_NAME_USERNAME} column. The value is {@value}.
@@ -64,8 +64,8 @@ public class _Credentials {
      * @param username a value for the {@value #ATTRIBUTE_NAME_USERNAME} attribute.
      * @return a new instance of {@code username}.
      */
-    public static _Credentials of(final String username) {
-        final var instance = new _Credentials();
+    public static EmbeddableCredentials of(final String username) {
+        final var instance = new EmbeddableCredentials();
         instance.setUsername(username);
         return instance;
     }
@@ -75,7 +75,7 @@ public class _Credentials {
     /**
      * Creates a new instance.
      */
-    protected _Credentials() {
+    protected EmbeddableCredentials() {
         super();
     }
 
@@ -103,7 +103,7 @@ public class _Credentials {
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (!(obj instanceof _Credentials that)) {
+        if (!(obj instanceof EmbeddableCredentials that)) {
             return false;
         }
         return Objects.equals(username, that.username)

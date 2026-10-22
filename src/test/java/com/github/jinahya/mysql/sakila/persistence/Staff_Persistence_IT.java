@@ -46,7 +46,7 @@ class Staff_Persistence_IT
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         // empty
     }
 
@@ -59,7 +59,7 @@ class Staff_Persistence_IT
      * @implNote Both names and the username are there, and the store, a lazy association, resolves.
      */
     @Override
-    void randomSelected(final Staff instance) {
+    void randomTargetInstanceSelected(final Staff instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getUsername()).as("username of %s", instance).isNotBlank();

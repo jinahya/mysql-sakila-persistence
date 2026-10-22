@@ -21,25 +21,15 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
-import jakarta.enterprise.inject.Instance;
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.experimental.Accessors;
-import org.jboss.weld.junit5.auto.AddBeanClasses;
-import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static com.github.jinahya.mysql.sakila.persistence._Entity_Persistence_IT_Producer.__ItPU;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
@@ -47,8 +37,9 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * An abstract base class for integration tests which need the physical database, against a module's integration-test
  * persistence unit.
  * <p>
- * The container is started by weld-testing, with {@link _Entity_Persistence_IT_Producer} as its bean class; a test then
- * gets an entity manager on the MySQL database the Sakila sample was installed into, connecting as {@code root}.
+ * The unit is the one named {@value #PERSISTENCE_UNIT_NAME}, bootstrapped the Java SE way; each {@code apply...} method
+ * opens a factory of it, on the MySQL database the Sakila sample was installed into, connecting as {@code root}, and
+ * closes it once done.
  * <p>
  * These run under the {@code failsafe} profile only, and require the container from {@code compose.yaml} to be up.
  * Generating a schema is disabled for this unit: the tables are the ones Sakila's own schema script created, and the
@@ -56,16 +47,17 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  *
  * @param <T> the type of the entity under test.
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see _Entity_Persistence_IT_Producer
  */
-@AddBeanClasses(_Entity_Persistence_IT_Producer.class)
-@EnableAutoWeld
 @SuppressWarnings({
         "java:S101", // Class names should comply with a naming convention
         "java:S118"  // Abstract class names should comply with a naming convention
 })
-abstract class _Entity_Persistence_IT<T>
-        extends __Test<T> {
+abstract class _Entity_Persistence_IT<T> {
+
+    /**
+     * The name of the persistence unit this class bootstraps. The value is {@value}.
+     */
+    static final String PERSISTENCE_UNIT_NAME = "sakila-it";
 
     /**
      * Creates a new instance for the specified persistence class.
@@ -73,7 +65,8 @@ abstract class _Entity_Persistence_IT<T>
      * @param targetClass the class of the entity under test.
      */
     _Entity_Persistence_IT(final Class<T> targetClass) {
-        super(targetClass);
+        super();
+        this.targetClass = Objects.requireNonNull(targetClass, "targetClass is null");
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -85,6 +78,10 @@ abstract class _Entity_Persistence_IT<T>
      *         its equality on an association, and the reloaded instance holds proxies for those, which need not compare
      *         equal to the ones first selected. An empty table is not a failure; the test aborts, since the table's
      *         content is the installer's.
+     *         <p>
+     *         The identifier is read with {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)};
+     *         see
+     *         {@link __Persistence_TestUtils#getEntityIdentifier(jakarta.persistence.EntityManagerFactory, Object)}.
      * @implSpec The identifier has to be a single attribute, basic or an
      *         {@link jakarta.persistence.EmbeddedId EmbeddedId}; a subclass whose entity is mapped with an
      *         {@link jakarta.persistence.IdClass IdClass} overrides this method, without {@link Test @Test}.
@@ -93,42 +90,20 @@ abstract class _Entity_Persistence_IT<T>
     @Test
     void find_RandomlySelected_ContextCleared() {
         this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
-            final var selected = ___Persistence_TestUtils.selectRandom(em, targetClass);
+            final var selected = __Persistence_TestUtils.selectRandomEntity(em, targetClass);
             assumeTrue(selected.isPresent(), () -> "no row of " + targetClass + " is installed");
-            final var identifier = identifierOf(selected.get());
+            final var identifier = __Persistence_TestUtils.getEntityIdentifier(em, selected.get());
             em.clear();
             final var found = em.find(targetClass, identifier);
             assertThat(found)
                     .as("the %s found by its identifier, from the database", targetClass.getSimpleName())
                     .isNotNull()
                     .isNotSameAs(selected.get());
-            assertThat(identifierOf(found))
+            assertThat(__Persistence_TestUtils.getEntityIdentifier(em, found))
                     .as("the identifier of the %s found", targetClass.getSimpleName())
                     .isEqualTo(identifier);
             return null;
         });
-    }
-
-    /**
-     * Returns the identifier of the specified instance, read from the field the metamodel says maps it.
-     *
-     * @param instance the instance whose identifier to read.
-     * @return the identifier of the {@code instance}.
-     * @implNote Reads the mapped field rather than calling
-     *         {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)}, which EclipseLink answers by
-     *         instantiating the identifier class through {@link Class#getConstructor(Class[])}; that sees public
-     *         constructors only, and the identifier classes here declare the no-arg constructor {@code protected}, as
-     *         the specification asks of an embeddable. Every entity here maps its identifier by field.
-     */
-    private Object identifierOf(final T instance) {
-        final var entityType = entityManagerFactory.getMetamodel().entity(targetClass);
-        final var field = (Field) entityType.getId(entityType.getIdType().getJavaType()).getJavaMember();
-        field.setAccessible(true);
-        try {
-            return field.get(instance);
-        } catch (final IllegalAccessException iae) {
-            throw new AssertionError("failed to read " + field, iae);
-        }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -142,46 +117,96 @@ abstract class _Entity_Persistence_IT<T>
      *         and nothing tested.
      */
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         applyNewPersistedTargetInstanceAndRollback((em, v) -> {
             em.flush();
-            randomPersisted(em, v);
+            targetInstancePersisted(em, v);
             return null;
         });
     }
 
-    void randomPersisted(final EntityManager entityManager, final T entityInstance) {
+    void targetInstancePersisted(final EntityManager entityManager, final T entityInstance) {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Selects a random instance of {@link #targetClass}, from the installed schema, and hands it to
-     * {@link #randomSelected(Object)}.
+     * {@link #randomTargetInstanceSelected(Object)}.
      *
      * @implNote The selection and the callback both run inside a transaction which is rolled back, so the
-     *         instance handed over is still managed -- a lazy association read in {@link #randomSelected(Object)}
-     *         resolves rather than throwing -- and nothing the callback does reaches the sample data.
+     *         instance handed over is still managed -- a lazy association read in
+     *         {@link #randomTargetInstanceSelected(Object)} resolves rather than throwing -- and nothing the callback
+     *         does reaches the sample data.
      * @implSpec Selecting from an empty table is not a failure: the table's content is the installer's, not
-     *         this test's, so {@link #randomSelected(Object)} is simply not invoked.
+     *         this test's, so {@link #randomTargetInstanceSelected(Object)} is simply not invoked.
      */
     @Test
-    void selectRandom() {
+    void selectRandomTargetInstance() {
         this.<@Nullable Void>applyEntityManagerInTransactionAndRollback(em -> {
-            ___Persistence_TestUtils.selectRandom(em, targetClass).ifPresent(this::randomSelected);
+            __Persistence_TestUtils.selectRandomEntity(em, targetClass).ifPresent(this::randomTargetInstanceSelected);
             return null;
         });
     }
 
     /**
-     * Called with the instance {@link #selectRandom()} selected, while it is still managed.
+     * Called with the instance {@link #selectRandomTargetInstance()} selected, while it is still managed.
      *
      * @param instance the randomly selected instance.
      * @implSpec This class does nothing with it; a subclass overrides this method to assert whatever its entity
      *         promises of a row which is actually in the database.
      */
-    void randomSelected(final T instance) {
+    void randomTargetInstanceSelected(final T instance) {
         // empty; overridden by a subclass which has something to assert
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Applies a new entity manager, of a new factory of the {@value #PERSISTENCE_UNIT_NAME} unit, to the specified
+     * function, and closes both.
+     *
+     * @param function the function to apply the entity manager to.
+     * @param <R>      the type of the result.
+     * @return the result of the {@code function}.
+     * @implNote The transaction is left to the {@code function}: the unit is {@code RESOURCE_LOCAL}, so there
+     *         is no container transaction to join.
+     * @see __Persistence_TestUtils#applyEntityManager(String, Function)
+     */
+    <R extends @Nullable Object> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
+        return __Persistence_TestUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
+    }
+
+    /**
+     * Applies a new entity manager to the specified function, within a transaction which is always rolled back.
+     *
+     * @param function the function to apply the entity manager to.
+     * @param <R>      the type of the result.
+     * @return the result of the {@code function}.
+     * @implNote The rollback is what keeps one test from being visible to the next, and, here, what keeps the
+     *         sample data as the installer left it.
+     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndRollback(String, Function)
+     */
+    <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
+            final Function<? super EntityManager, ? extends R> function) {
+        return __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(PERSISTENCE_UNIT_NAME, function);
+    }
+
+    /**
+     * Applies a new entity manager to the specified function, within a transaction which is committed when the function
+     * returns, and rolled back when it throws.
+     *
+     * @param function the function to apply the entity manager to.
+     * @param <R>      the type of the result.
+     * @return the result of the {@code function}.
+     * @implNote What this writes reaches the installed sample data and stays there, which no test here wants by
+     *         accident. Use it only for a row the test cannot do without, and clean it up; otherwise take the
+     *         rolled-back one.
+     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndCommit(String, Function)
+     */
+    <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
+            final Function<? super EntityManager, ? extends R> function) {
+        return __Persistence_TestUtils.applyEntityManagerInTransactionAndCommit(PERSISTENCE_UNIT_NAME, function);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -195,10 +220,10 @@ abstract class _Entity_Persistence_IT<T>
      * @return the result of the {@code function}.
      * @throws IllegalArgumentException when {@link #targetClass} has no usable randomizer or no usable persister; see
      *                                  {@link EntityPersisterUtils#newPersistedInstanceOf(EntityManager, Class)}.
-     * @apiNote Unlike {@link #selectRandom()}, which reads a row the installer put there, this one writes a row
-     *         of its own -- against the physical schema, with whatever constraints and triggers it carries, which is a
-     *         good part of what an integration test is for. The rollback is what keeps it from being a change to the
-     *         sample data.
+     * @apiNote Unlike {@link #selectRandomTargetInstance()}, which reads a row the installer put there, this
+     *         one writes a row of its own -- against the physical schema, with whatever constraints and triggers it
+     *         carries, which is a good part of what an integration test is for. The rollback is what keeps it from
+     *         being a change to the sample data.
      * @implNote The instance is persisted inside the same transaction the {@code function} runs in, so it is
      *         still managed when the function sees it, and it is gone when the transaction rolls back.
      */
@@ -236,65 +261,12 @@ abstract class _Entity_Persistence_IT<T>
         });
     }
 
-    /**
-     * Applies the entity manager, of this instance, to the specified function, within a transaction which is always
-     * rolled back.
-     *
-     * @param function the function to apply the entity manager to.
-     * @param <R>      the type of the result.
-     * @return the result of the {@code function}.
-     * @implNote The rollback is what keeps one test from being visible to the next, and, here, what keeps the
-     *         sample data as the installer left it.
-     * @see ___Persistence_TestUtils#applyInTransactionAndRollback(EntityManager, Function)
-     */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
-            final Function<? super EntityManager, ? extends R> function) {
-        return ___Persistence_TestUtils.applyInTransactionAndRollback(entityManager, function);
-    }
-
-    /**
-     * Applies the entity manager, of this instance, to the specified function, within a transaction which is committed
-     * when the function returns, and rolled back when it throws.
-     *
-     * @param function the function to apply the entity manager to.
-     * @param <R>      the type of the result.
-     * @return the result of the {@code function}.
-     * @implNote What this writes reaches the installed sample data and stays there, which no test here wants by
-     *         accident. Use it only for a row the test cannot do without, and clean it up; otherwise take the
-     *         rolled-back one.
-     * @see ___Persistence_TestUtils#applyInTransactionAndCommit(EntityManager, Function)
-     */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
-            final Function<? super EntityManager, ? extends R> function) {
-        return ___Persistence_TestUtils.applyInTransactionAndCommit(entityManager, function);
-    }
+    // ----------------------------------------------------------------------------------------------------- targetClass
 
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * A new entity manager, for each test instance; {@link jakarta.enterprise.context.Dependent Dependent}.
+     * The class which this test targets.
      */
-    @__ItPU
-    @Inject
-    @Accessors(fluent = true)
-    @Getter(AccessLevel.PACKAGE)
-    private EntityManager entityManager;
-
-    /**
-     * The one factory of the container; {@link jakarta.enterprise.context.ApplicationScoped ApplicationScoped}.
-     */
-    @__ItPU
-    @Inject
-    @Accessors(fluent = true)
-    @Getter(AccessLevel.PACKAGE)
-    private EntityManagerFactory entityManagerFactory;
-
-    /**
-     * For obtaining entity managers by hand, rather than at an injection point.
-     */
-    @__ItPU
-    @Inject
-    @Accessors(fluent = true)
-    @Getter(AccessLevel.PACKAGE)
-    private Instance<EntityManager> entityManagers;
+    final Class<T> targetClass;
 }

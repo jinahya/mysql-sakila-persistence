@@ -44,7 +44,7 @@ class BetterStore_Persistence_IT
      * @implNote The identifier and the name are there.
      */
     @Override
-    void randomSelected(final BetterStore instance) {
+    void randomTargetInstanceSelected(final BetterStore instance) {
         assertThat(instance.getId()).as("id of %s", instance).isNotNull();
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
     }

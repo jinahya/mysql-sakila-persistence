@@ -55,7 +55,7 @@ class FilmCategory_Persistence_IT
      *         the category, lazy associations which resolve.
      */
     @Override
-    void randomSelected(final FilmCategory instance) {
+    void randomTargetInstanceSelected(final FilmCategory instance) {
         assertThat(instance.getFilmId())
                 .as("film id of %s", instance)
                 .isEqualTo(instance.getFilm().getFilmId());

@@ -44,7 +44,7 @@ class BetterStaff_Persistence_IT
      * @implNote The identifier and the name are there.
      */
     @Override
-    void randomSelected(final BetterStaff instance) {
+    void randomTargetInstanceSelected(final BetterStaff instance) {
         assertThat(instance.getId()).as("id of %s", instance).isNotNull();
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
     }

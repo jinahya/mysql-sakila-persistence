@@ -89,8 +89,8 @@ class FilmCategory_Test
      *         equality uses.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<FilmCategory> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<FilmCategory> equalsVerifier() {
+        return super.equalsVerifier()
                 .suppress(Warning.SURROGATE_OR_BUSINESS_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE)

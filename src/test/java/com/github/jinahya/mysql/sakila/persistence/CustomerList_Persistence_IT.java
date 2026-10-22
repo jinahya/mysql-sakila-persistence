@@ -45,7 +45,7 @@ class CustomerList_Persistence_IT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         // empty
     }
 
@@ -59,7 +59,7 @@ class CustomerList_Persistence_IT
      *         or empty.
      */
     @Override
-    void randomSelected(final CustomerList instance) {
+    void randomTargetInstanceSelected(final CustomerList instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getNotes()).as("notes of %s", instance).isIn("active", "");
     }

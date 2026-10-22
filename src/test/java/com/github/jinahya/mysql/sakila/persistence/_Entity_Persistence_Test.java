@@ -21,17 +21,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
-import jakarta.enterprise.inject.Instance;
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.metamodel.ManagedType;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.weld.junit5.auto.AddBeanClasses;
-import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,32 +37,32 @@ import java.util.TreeMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static com.github.jinahya.mysql.sakila.persistence._Entity_Persistence_Test_Producer.__TestPU;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 /**
  * An abstract base class for tests which need a persistence context, against a module's unit-test persistence unit.
  * <p>
- * The container is started by weld-testing, with {@link _Entity_Persistence_Test_Producer} as its bean class; a test
- * then gets an entity manager on an in-memory database whose schema the provider generates.
+ * The unit is the one named {@value #PERSISTENCE_UNIT_NAME}, bootstrapped the Java SE way; each {@code apply...} method
+ * opens a factory of it, on an in-memory database whose schema the provider generates, and closes it once done.
  * <p>
  * Nothing here reaches the MySQL database; a test which needs the real data extends {@link _Entity_Persistence_IT} and
  * is named {@code *_IT} so that failsafe, not surefire, runs it.
  *
  * @param <T> the type of the entity under test.
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see _Entity_Persistence_Test_Producer
  */
-@AddBeanClasses(_Entity_Persistence_Test_Producer.class)
-@EnableAutoWeld
 @Slf4j
 @SuppressWarnings({
         "java:S101", // Class names should comply with a naming convention
         "java:S118"  // Abstract class names should comply with a naming convention
 })
-abstract class _Entity_Persistence_Test<T>
-        extends __Test<T> {
+abstract class _Entity_Persistence_Test<T> {
+
+    /**
+     * The name of the persistence unit this class bootstraps. The value is {@value}.
+     */
+    static final String PERSISTENCE_UNIT_NAME = "sakila-test";
 
     /**
      * The prefix of the constants {@link #_SameValue_ATTRIBUTE_NAME_()} checks. The value is {@value}.
@@ -100,7 +92,8 @@ abstract class _Entity_Persistence_Test<T>
      * @param targetClass the class of the entity under test.
      */
     _Entity_Persistence_Test(final Class<T> targetClass) {
-        super(targetClass);
+        super();
+        this.targetClass = Objects.requireNonNull(targetClass, "targetClass is null");
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -147,44 +140,50 @@ abstract class _Entity_Persistence_Test<T>
     @DisplayName("every ATTRIBUTE_NAME_* constant names a managed attribute, and vice versa")
     @Test
     void _SameValue_ATTRIBUTE_NAME_() {
-        final var managedType = entityManagerFactory.getMetamodel().managedType(targetClass);
-        final var constants = constantsPrefixed(ATTRIBUTE_NAME_CONSTANT_PREFIX);
-        for (final var attribute : managedType.getAttributes()) {
-            final var attributeName = attribute.getName();
-            final var constantName = ATTRIBUTE_NAME_CONSTANT_PREFIX + toUpperSnakeCase(attributeName);
-            if (!constants.containsKey(constantName)) {
-                continue; // existence is not this direction's concern
+        __Persistence_TestUtils.<@Nullable Void>applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
+            final var managedType = emf.getMetamodel().managedType(targetClass);
+            final var constants = constantsPrefixed(ATTRIBUTE_NAME_CONSTANT_PREFIX);
+            for (final var attribute : managedType.getAttributes()) {
+                final var attributeName = attribute.getName();
+                final var constantName = ATTRIBUTE_NAME_CONSTANT_PREFIX + toUpperSnakeCase(attributeName);
+                if (!constants.containsKey(constantName)) {
+                    continue; // existence is not this direction's concern
+                }
+                assertThat(constants.get(constantName))
+                        .as("%s.%s, for the managed attribute %s", targetClass.getSimpleName(), constantName,
+                            attributeName)
+                        .isEqualTo(attributeName);
             }
-            assertThat(constants.get(constantName))
-                    .as("%s.%s, for the managed attribute %s", targetClass.getSimpleName(), constantName,
-                        attributeName)
-                    .isEqualTo(attributeName);
-        }
-        constants.forEach((constantName, value) -> assertThatCode(() -> managedType.getAttribute(value))
-                .as("%s.%s = \"%s\" names a managed attribute of %s", targetClass.getSimpleName(), constantName, value,
-                    managedType.getJavaType().getSimpleName())
-                .doesNotThrowAnyException());
+            constants.forEach((constantName, value) -> assertThatCode(() -> managedType.getAttribute(value))
+                    .as("%s.%s = \"%s\" names a managed attribute of %s", targetClass.getSimpleName(), constantName,
+                        value, managedType.getJavaType().getSimpleName())
+                    .doesNotThrowAnyException());
+            return null;
+        });
     }
 
     /**
      * Verifies that every {@code ATTRIBUTE_PATH_*} constant of {@link #targetClass} holds a dotted path which resolves
      * through the metamodel, segment by segment, to an attribute whose name is the path's last segment.
      *
-     * @see ___Persistence_TestUtils#resolveAttributePath(ManagedType, String)
+     * @see __Persistence_TestUtils#resolveAttributePath(ManagedType, String)
      */
     @DisplayName("every ATTRIBUTE_PATH_* constant resolves through the metamodel")
     @Test
     void _Resolvable_ATTRIBUTE_PATH_() {
-        final var managedType = entityManagerFactory.getMetamodel().managedType(targetClass);
-        constantsPrefixed(ATTRIBUTE_PATH_CONSTANT_PREFIX).forEach((constantName, path) -> {
-            assertThat(path)
-                    .as("%s.%s is a dotted path", targetClass.getSimpleName(), constantName)
-                    .contains(".");
-            final var resolved = ___Persistence_TestUtils.resolveAttributePath(managedType, path);
-            assertThat(resolved.getName())
-                    .as("%s.%s = \"%s\" resolves to its last segment", targetClass.getSimpleName(), constantName,
-                        path)
-                    .isEqualTo(path.substring(path.lastIndexOf('.') + 1));
+        __Persistence_TestUtils.<@Nullable Void>applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
+            final var managedType = emf.getMetamodel().managedType(targetClass);
+            constantsPrefixed(ATTRIBUTE_PATH_CONSTANT_PREFIX).forEach((constantName, path) -> {
+                assertThat(path)
+                        .as("%s.%s is a dotted path", targetClass.getSimpleName(), constantName)
+                        .contains(".");
+                final var resolved = __Persistence_TestUtils.resolveAttributePath(managedType, path);
+                assertThat(resolved.getName())
+                        .as("%s.%s = \"%s\" resolves to its last segment", targetClass.getSimpleName(), constantName,
+                            path)
+                        .isEqualTo(path.substring(path.lastIndexOf('.') + 1));
+            });
+            return null;
         });
     }
 
@@ -292,6 +291,54 @@ abstract class _Entity_Persistence_Test<T>
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
+     * Applies a new entity manager, of a new factory of the {@value #PERSISTENCE_UNIT_NAME} unit, to the specified
+     * function, and closes both.
+     *
+     * @param function the function to apply the entity manager to.
+     * @param <R>      the type of the result.
+     * @return the result of the {@code function}.
+     * @implNote The transaction is left to the {@code function}: the unit is {@code RESOURCE_LOCAL}, so there
+     *         is no container transaction to join.
+     * @see __Persistence_TestUtils#applyEntityManager(String, Function)
+     */
+    <R extends @Nullable Object> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
+        return __Persistence_TestUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
+    }
+
+    /**
+     * Applies a new entity manager to the specified function, within a transaction which is always rolled back.
+     *
+     * @param function the function to apply the entity manager to.
+     * @param <R>      the type of the result.
+     * @return the result of the {@code function}.
+     * @implNote The rollback is what keeps one test from being visible to the next, on a schema which is
+     *         recreated per factory anyway.
+     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndRollback(String, Function)
+     */
+    <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
+            final Function<? super EntityManager, ? extends R> function) {
+        return __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(PERSISTENCE_UNIT_NAME, function);
+    }
+
+    /**
+     * Applies a new entity manager to the specified function, within a transaction which is committed when the function
+     * returns, and rolled back when it throws.
+     *
+     * @param function the function to apply the entity manager to.
+     * @param <R>      the type of the result.
+     * @return the result of the {@code function}.
+     * @implNote What this writes survives the transaction, but not the factory: the schema is generated per
+     *         factory and the in-memory database goes with it.
+     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndCommit(String, Function)
+     */
+    <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
+            final Function<? super EntityManager, ? extends R> function) {
+        return __Persistence_TestUtils.applyEntityManagerInTransactionAndCommit(PERSISTENCE_UNIT_NAME, function);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
      * Persists a new randomized instance of {@link #targetClass}, and applies it, along with the entity manager, to the
      * specified function, within a transaction which is always rolled back.
      *
@@ -322,7 +369,7 @@ abstract class _Entity_Persistence_Test<T>
      * @return the result of the {@code function}.
      * @throws IllegalArgumentException when {@link #targetClass} has no usable randomizer or no usable persister; see
      *                                  {@link EntityPersisterUtils#newPersistedInstanceOf(EntityManager, Class)}.
-     * @implNote The persisted row outlives the call, on a database which is thrown away with the container; a
+     * @implNote The persisted row outlives the call, on a database which is thrown away with the factory; a
      *         test which only needs the instance for the length of the {@code function} wants the rolled-back one.
      */
     <R extends @Nullable Object> R applyNewPersistedEntityInstanceAndCommit(
@@ -334,67 +381,12 @@ abstract class _Entity_Persistence_Test<T>
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * Applies the entity manager, of this instance, to the specified function, within a transaction which is always
-     * rolled back.
-     *
-     * @param function the function to apply the entity manager to.
-     * @param <R>      the type of the result.
-     * @return the result of the {@code function}.
-     * @implNote The rollback is what keeps one test from being visible to the next, on a schema which is
-     *         recreated per container anyway.
-     * @see ___Persistence_TestUtils#applyInTransactionAndRollback(EntityManager, Function)
-     */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndRollback(
-            final Function<? super EntityManager, ? extends R> function) {
-        return ___Persistence_TestUtils.applyInTransactionAndRollback(entityManager, function);
-    }
-
-    /**
-     * Applies the entity manager, of this instance, to the specified function, within a transaction which is committed
-     * when the function returns, and rolled back when it throws.
-     *
-     * @param function the function to apply the entity manager to.
-     * @param <R>      the type of the result.
-     * @return the result of the {@code function}.
-     * @implNote What this writes survives the transaction, but not the container: the schema is generated per
-     *         container and the in-memory database goes with it. Still the exception -- a test whose writes nothing
-     *         later has to read wants the rolled-back one.
-     * @see ___Persistence_TestUtils#applyInTransactionAndCommit(EntityManager, Function)
-     */
-    <R extends @Nullable Object> R applyEntityManagerInTransactionAndCommit(
-            final Function<? super EntityManager, ? extends R> function) {
-        return ___Persistence_TestUtils.applyInTransactionAndCommit(entityManager, function);
-    }
+    // ----------------------------------------------------------------------------------------------------- targetClass
 
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * A new entity manager, for each test instance; {@link jakarta.enterprise.context.Dependent Dependent}.
+     * The class which this test targets.
      */
-    @__TestPU
-    @Inject
-    @Accessors(fluent = true)
-    @Getter(AccessLevel.PACKAGE)
-    private EntityManager entityManager;
-
-    /**
-     * The one factory of the container; {@link jakarta.enterprise.context.ApplicationScoped ApplicationScoped}.
-     */
-    @__TestPU
-    @Inject
-    @Accessors(fluent = true)
-    @Getter(AccessLevel.PACKAGE)
-    private EntityManagerFactory entityManagerFactory;
-
-    /**
-     * For obtaining entity managers by hand, rather than at an injection point.
-     */
-    @__TestPU
-    @Inject
-    @Accessors(fluent = true)
-    @Getter(AccessLevel.PACKAGE)
-    private Instance<EntityManager> entityManagers;
+    final Class<T> targetClass;
 }

@@ -44,7 +44,7 @@ import java.util.Objects;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Embeddable
-public class _RentalPeriod {
+public class EmbeddableRentalPeriod {
 
     /**
      * The name of the attribute which maps the {@value Rental#COLUMN_NAME_RENTAL_DATE} column. The value is {@value}.
@@ -64,8 +64,8 @@ public class _RentalPeriod {
      * @param rentalDate a value for the {@value #ATTRIBUTE_NAME_RENTAL_DATE} attribute.
      * @return a new instance of {@code rentalDate}.
      */
-    public static _RentalPeriod of(final LocalDateTime rentalDate) {
-        final var instance = new _RentalPeriod();
+    public static EmbeddableRentalPeriod of(final LocalDateTime rentalDate) {
+        final var instance = new EmbeddableRentalPeriod();
         instance.setRentalDate(rentalDate);
         return instance;
     }
@@ -75,7 +75,7 @@ public class _RentalPeriod {
     /**
      * Creates a new instance.
      */
-    protected _RentalPeriod() {
+    protected EmbeddableRentalPeriod() {
         super();
     }
 
@@ -99,7 +99,7 @@ public class _RentalPeriod {
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (!(obj instanceof _RentalPeriod that)) {
+        if (!(obj instanceof EmbeddableRentalPeriod that)) {
             return false;
         }
         return Objects.equals(rentalDate, that.rentalDate)

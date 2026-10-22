@@ -44,8 +44,8 @@ class SalesByFilmCategory_Test
      *         other attribute is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<SalesByFilmCategory> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<SalesByFilmCategory> equalsVerifier() {
+        return super.equalsVerifier()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

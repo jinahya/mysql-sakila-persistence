@@ -49,7 +49,7 @@ class Film_Persistence_IT
      *         film's.
      */
     @Override
-    void randomPersisted(final EntityManager entityManager, final Film entityInstance) {
+    void targetInstancePersisted(final EntityManager entityManager, final Film entityInstance) {
         final var filmText = entityManager.find(FilmText.class, entityInstance.getFilmId());
         assertThat(filmText).as("film text of %s", entityInstance).isNotNull();
         assertThat(filmText.getTitle()).as("title of %s", filmText).isEqualTo(entityInstance.getTitle());
@@ -68,7 +68,7 @@ class Film_Persistence_IT
      *         {@link Film.SpecialFeature} knows, and that the language, a lazy association, resolves.
      */
     @Override
-    void randomSelected(final Film instance) {
+    void randomTargetInstanceSelected(final Film instance) {
         assertThatCode(() -> Film.SpecialFeature.parse(instance.getSpecialFeatures()))
                 .as("special features of %s", instance)
                 .doesNotThrowAnyException();
