@@ -56,7 +56,7 @@ import java.util.Objects;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Embeddable
-public class _PostalAddress {
+public class EmbeddablePostalAddress {
 
     /**
      * The name of the attribute which maps the {@value Address#COLUMN_NAME_ADDRESS} column. The value is {@value}.
@@ -88,7 +88,7 @@ public class _PostalAddress {
     /**
      * Creates a new instance.
      */
-    protected _PostalAddress() {
+    protected EmbeddablePostalAddress() {
         super();
     }
 
@@ -114,7 +114,7 @@ public class _PostalAddress {
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (!(obj instanceof _PostalAddress that)) {
+        if (!(obj instanceof EmbeddablePostalAddress that)) {
             return false;
         }
         return Objects.equals(address, that.address)

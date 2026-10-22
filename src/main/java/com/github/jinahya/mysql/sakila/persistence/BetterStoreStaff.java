@@ -64,7 +64,7 @@ import org.jspecify.annotations.Nullable;
  * manager per store. The manager works at the store they manage, for the flag is on the row which says so.
  * <p>
  * What the table does not enforce is that every store has a manager, and that every staff member works at a store. The
- * table is created by {@code 99-better-store-staff.sql}, which runs after the installer's scripts.
+ * table is created by {@code 88-better-store-staff.sql}, which runs after the installer's scripts.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */

@@ -20,10 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import org.jboss.weld.junit5.auto.AddBeanClasses;
-import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +27,6 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.github.jinahya.mysql.sakila.persistence._Entity_Persistence_IT_Producer.__ItPU;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -42,8 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-@AddBeanClasses(_Entity_Persistence_IT_Producer.class)
-@EnableAutoWeld
 class FilmList_IT {
 
     private static @Nullable Integer integerOf(final @Nullable Object value) {
@@ -69,18 +62,19 @@ class FilmList_IT {
     @Test
     void readAll_() {
         @SuppressWarnings("unchecked")
-        final List<Object[]> rows = entityManager.createNativeQuery(
-                "SELECT " + String.join(", ",
-                                        FilmList.COLUMN_NAME_FID,
-                                        FilmList.COLUMN_NAME_TITLE,
-                                        FilmList.COLUMN_NAME_DESCRIPTION,
-                                        FilmList.COLUMN_NAME_CATEGORY,
-                                        FilmList.COLUMN_NAME_PRICE,
-                                        FilmList.COLUMN_NAME_LENGTH,
-                                        FilmList.COLUMN_NAME_RATING,
-                                        FilmList.COLUMN_NAME_ACTORS)
-                + " FROM " + FilmList.TABLE_NAME
-        ).getResultList();
+        final List<Object[]> rows = __Persistence_TestUtils.applyEntityManager(
+                _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
+                        "SELECT " + String.join(", ",
+                                                FilmList.COLUMN_NAME_FID,
+                                                FilmList.COLUMN_NAME_TITLE,
+                                                FilmList.COLUMN_NAME_DESCRIPTION,
+                                                FilmList.COLUMN_NAME_CATEGORY,
+                                                FilmList.COLUMN_NAME_PRICE,
+                                                FilmList.COLUMN_NAME_LENGTH,
+                                                FilmList.COLUMN_NAME_RATING,
+                                                FilmList.COLUMN_NAME_ACTORS)
+                        + " FROM " + FilmList.TABLE_NAME
+                ).getResultList());
         assertThat(rows).as("rows of %s", FilmList.TABLE_NAME).isNotEmpty();
         rows.stream().map(FilmList_IT::newInstanceOf).forEach(v -> {
             assertThat(v.getFid()).as("fid of %s", v).isNotNull();
@@ -89,9 +83,4 @@ class FilmList_IT {
             assertThat(v.getPrice()).as("price of %s", v).isNotNull();
         });
     }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    @__ItPU
-    @Inject
-    private EntityManager entityManager;
 }

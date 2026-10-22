@@ -43,7 +43,7 @@ class Actor_Persistence_IT
      * @implNote Both names are there, and so is the {@code last_update} the database fills.
      */
     @Override
-    void randomSelected(final Actor instance) {
+    void randomTargetInstanceSelected(final Actor instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();

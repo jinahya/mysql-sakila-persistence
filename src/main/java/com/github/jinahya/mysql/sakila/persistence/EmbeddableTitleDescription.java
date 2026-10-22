@@ -52,7 +52,7 @@ import java.util.Objects;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Embeddable
-public class _TitleDescription {
+public class EmbeddableTitleDescription {
 
     // ----------------------------------------------------------------------------------------------------------- title
 
@@ -99,8 +99,8 @@ public class _TitleDescription {
      * @param description a value for the {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
      * @return a new instance of {@code title} and {@code description}.
      */
-    public static _TitleDescription of(final String title, @Nullable final String description) {
-        final var instance = new _TitleDescription();
+    public static EmbeddableTitleDescription of(final String title, @Nullable final String description) {
+        final var instance = new EmbeddableTitleDescription();
         instance.setTitle(title);
         instance.setDescription(description);
         return instance;
@@ -111,7 +111,7 @@ public class _TitleDescription {
     /**
      * Creates a new instance.
      */
-    protected _TitleDescription() {
+    protected EmbeddableTitleDescription() {
         super();
     }
 
@@ -134,7 +134,7 @@ public class _TitleDescription {
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (!(obj instanceof _TitleDescription that)) {
+        if (!(obj instanceof EmbeddableTitleDescription that)) {
             return false;
         }
         return Objects.equals(title, that.title)

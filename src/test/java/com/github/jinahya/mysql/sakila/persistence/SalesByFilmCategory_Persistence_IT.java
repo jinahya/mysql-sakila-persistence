@@ -46,7 +46,7 @@ class SalesByFilmCategory_Persistence_IT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         // empty
     }
 
@@ -59,7 +59,7 @@ class SalesByFilmCategory_Persistence_IT
      * @implNote The category is there, and its total is not negative.
      */
     @Override
-    void randomSelected(final SalesByFilmCategory instance) {
+    void randomTargetInstanceSelected(final SalesByFilmCategory instance) {
         assertThat(instance.getCategory()).as("category of %s", instance).isNotBlank();
         assertThat(instance.getTotalSales()).as("total sales of %s", instance).isNotNegative();
     }

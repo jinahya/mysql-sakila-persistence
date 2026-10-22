@@ -44,7 +44,7 @@ class Customer_Persistence_IT
      *         lazy associations, resolve.
      */
     @Override
-    void randomSelected(final Customer instance) {
+    void randomTargetInstanceSelected(final Customer instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getActive()).as("activeness of %s", instance).isNotNull();

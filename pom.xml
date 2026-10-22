@@ -142,15 +142,6 @@
     <!-- https://hibernate.org/validator/releases/ -->
     <!-- https://central.sonatype.com/artifact/org.hibernate.validator/hibernate-validator/versions -->
     <version.org.hibernate.validator>9.1.5.Final</version.org.hibernate.validator>
-    <!-- https://weld.cdi-spec.org/download/ -->
-    <!-- https://central.sonatype.com/artifact/org.jboss.weld/weld-junit5/versions -->
-    <!-- note: this is the weld-junit5 (weld-testing) version, not the Weld version; -->
-    <!--       weld-junit5 5.0.x pulls weld-se-core 6.0.x, i.e. Weld 6 / CDI 4.1 -->
-    <!--       weld-junit-jupiter 6.x (its successor) pulls Weld 7 / CDI 5.0, past Jakarta EE 11 -->
-    <version.org.jboss.weld>5.0.3.Final</version.org.jboss.weld>
-    <!-- https://central.sonatype.com/artifact/org.jboss.weld.se/weld-se-core/versions -->
-    <!-- the Weld itself, overriding what weld-junit5 pulls; stays on 6.0.x, i.e. CDI 4.1 / Jakarta EE 11 -->
-    <version.org.jboss.weld.se>6.0.4.Final</version.org.jboss.weld.se>
     <!-- https://central.sonatype.com/artifact/org.jspecify/jspecify/versions -->
     <version.org.jspecify>1.0.1</version.org.jspecify>
     <!-- https://central.sonatype.com/artifact/com.google.errorprone/error_prone_core/versions -->
@@ -241,16 +232,6 @@
         <version>${version.org.hibernate.validator}</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.weld</groupId>
-        <artifactId>weld-junit5</artifactId>
-        <version>${version.org.jboss.weld}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.weld.se</groupId>
-        <artifactId>weld-se-core</artifactId>
-        <version>${version.org.jboss.weld.se}</version>
-      </dependency>
-      <dependency>
         <groupId>org.jspecify</groupId>
         <artifactId>jspecify</artifactId>
         <version>${version.org.jspecify}</version>
@@ -295,16 +276,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>jakarta.enterprise</groupId>
-      <artifactId>jakarta.enterprise.cdi-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.inject</groupId>
-      <artifactId>jakarta.inject-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>jakarta.persistence</groupId>
       <artifactId>jakarta.persistence-api</artifactId>
       <scope>provided</scope>
@@ -313,11 +284,6 @@
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.jboss.weld</groupId>
-      <artifactId>weld-junit5</artifactId>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jspecify</groupId>
@@ -853,10 +819,9 @@
     </profile>
 
     <!-- ============================================================== persistence provider ==== -->
-    <!-- The only implementation axis in this build. The other specs have a single implementation
-         each (Hibernate Validator + Expressly for Jakarta Validation, Weld for CDI), pinned to
-         their Jakarta EE 11 aligned release in <properties>; there is nothing to choose there, so
-         they have no profiles.
+    <!-- The only implementation axis in this build. The other spec has a single implementation
+         (Hibernate Validator + Expressly for Jakarta Validation), pinned to its Jakarta EE 11
+         aligned release in <properties>; there is nothing to choose there, so it has no profile.
          These two profiles do not choose a VERSION either: both provider versions live in
          <properties>, one per provider. A profile decides only which provider is on the test
          classpath, and which metamodel generator the annotation processor path uses. -->

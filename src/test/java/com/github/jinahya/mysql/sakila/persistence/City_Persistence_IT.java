@@ -43,7 +43,7 @@ class City_Persistence_IT
      * @implNote The name is there, and the country, a lazy association, resolves.
      */
     @Override
-    void randomSelected(final City instance) {
+    void randomTargetInstanceSelected(final City instance) {
         assertThat(instance.getCity()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getCountry().getCountry()).as("name of the country of %s", instance).isNotBlank();
     }

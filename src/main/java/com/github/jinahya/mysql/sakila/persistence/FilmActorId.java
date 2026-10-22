@@ -72,8 +72,12 @@ public class FilmActorId {
 
     /**
      * Creates a new instance.
+     * <p>
+     * The constructor is {@code public}, rather than {@code protected}, because the specification requires a primary
+     * key class to have a public no-arg constructor (Jakarta Persistence 3.2, §2.4); EclipseLink relies on it, through
+     * {@link Class#getConstructor(Class[])}, to answer {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier}.
      */
-    protected FilmActorId() {
+    public FilmActorId() {
         super();
     }
 

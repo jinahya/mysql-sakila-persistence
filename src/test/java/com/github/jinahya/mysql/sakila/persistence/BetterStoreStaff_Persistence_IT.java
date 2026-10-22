@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Verifies the mappings of {@link BetterStoreStaff} against the installed {@code sakila} database, with
- * {@code 99-better-store-staff.sql} applied.
+ * {@code 88-better-store-staff.sql} applied.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -45,7 +45,7 @@ class BetterStoreStaff_Persistence_IT
      *         {@code TRUE} or {@code null}, never {@code FALSE}.
      */
     @Override
-    void randomSelected(final BetterStoreStaff instance) {
+    void randomTargetInstanceSelected(final BetterStoreStaff instance) {
         assertThat(instance.getStore().getId()).as("id of the store of %s", instance).isNotNull();
         assertThat(instance.getStaff().getId()).as("id of the staff of %s", instance).isNotNull();
         assertThat(instance.getManager()).as("manager of %s", instance).isNotEqualTo(Boolean.FALSE);

@@ -46,7 +46,7 @@ class Store_Persistence_IT
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         // empty
     }
 
@@ -59,7 +59,7 @@ class Store_Persistence_IT
      * @implNote The manager, a lazy association, works at the store, and the address, another, resolves.
      */
     @Override
-    void randomSelected(final Store instance) {
+    void randomTargetInstanceSelected(final Store instance) {
         assertThat(instance.getManagerStaff().getStore().getStoreId())
                 .as("store id of the manager of %s", instance)
                 .isEqualTo(instance.getStoreId());

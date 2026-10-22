@@ -44,7 +44,7 @@ import jakarta.validation.constraints.Size;
  * <p>
  * A staff member who refers to nothing. Unlike a {@link Staff}, it names no store; the store they work at, if any, is
  * the {@link BetterStoreStaff} row of them, so a store and a staff member can each be persisted first, without the
- * cycle of {@code store} and {@code staff}. The table is created by {@code 99-better-store-staff.sql}, which runs after
+ * cycle of {@code store} and {@code staff}. The table is created by {@code 88-better-store-staff.sql}, which runs after
  * the installer's scripts.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;

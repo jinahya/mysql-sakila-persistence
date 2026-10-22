@@ -46,7 +46,7 @@ class FilmText_Persistence_IT
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         // empty
     }
 
@@ -60,7 +60,7 @@ class FilmText_Persistence_IT
      *         {@code filmId}, with the same title.
      */
     @Override
-    void randomSelected(final FilmText instance) {
+    void randomTargetInstanceSelected(final FilmText instance) {
         assertThat(instance.getTitle()).as("title of %s", instance).isNotBlank();
         assertThat(instance.getFilm().getFilmId()).as("film id of the film of %s", instance)
                 .isEqualTo(instance.getFilmId());

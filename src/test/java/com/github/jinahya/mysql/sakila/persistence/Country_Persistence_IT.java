@@ -43,7 +43,7 @@ class Country_Persistence_IT
      * @implNote The name is there, and so is the {@code last_update} the database fills.
      */
     @Override
-    void randomSelected(final Country instance) {
+    void randomTargetInstanceSelected(final Country instance) {
         assertThat(instance.getCountry()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
     }

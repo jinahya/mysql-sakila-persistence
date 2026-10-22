@@ -77,8 +77,8 @@ class FilmActor_Test
      *         suppressed.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<FilmActor> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<FilmActor> equalsVerifier() {
+        return super.equalsVerifier()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

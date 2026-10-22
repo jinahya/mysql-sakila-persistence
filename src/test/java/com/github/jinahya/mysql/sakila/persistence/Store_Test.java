@@ -45,8 +45,8 @@ class Store_Test
      *         {@value Store#ATTRIBUTE_NAME_STORE_ID}, which is null until the row is inserted.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<Store> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<Store> equalsVerifier() {
+        return super.equalsVerifier()
                 .withPrefabValues(Staff.class,
                                   newInstanceWithId(Staff.class, Staff.ATTRIBUTE_NAME_STAFF_ID, 1),
                                   newInstanceWithId(Staff.class, Staff.ATTRIBUTE_NAME_STAFF_ID, 2))

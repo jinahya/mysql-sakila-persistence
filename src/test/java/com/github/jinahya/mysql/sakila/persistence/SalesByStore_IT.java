@@ -20,17 +20,12 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import org.jboss.weld.junit5.auto.AddBeanClasses;
-import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.github.jinahya.mysql.sakila.persistence._Entity_Persistence_IT_Producer.__ItPU;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -41,8 +36,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-@AddBeanClasses(_Entity_Persistence_IT_Producer.class)
-@EnableAutoWeld
 class SalesByStore_IT {
 
     private static SalesByStore newInstanceOf(final Object[] row) {
@@ -55,11 +48,12 @@ class SalesByStore_IT {
     @Test
     void readAll_() {
         @SuppressWarnings("unchecked")
-        final List<Object[]> rows = entityManager.createNativeQuery(
-                "SELECT " + SalesByStore.COLUMN_NAME_STORE + ", " + SalesByStore.COLUMN_NAME_MANAGER
-                + ", " + SalesByStore.COLUMN_NAME_TOTAL_SALES
-                + " FROM " + SalesByStore.TABLE_NAME
-        ).getResultList();
+        final List<Object[]> rows = __Persistence_TestUtils.applyEntityManager(
+                _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
+                        "SELECT " + SalesByStore.COLUMN_NAME_STORE + ", " + SalesByStore.COLUMN_NAME_MANAGER
+                        + ", " + SalesByStore.COLUMN_NAME_TOTAL_SALES
+                        + " FROM " + SalesByStore.TABLE_NAME
+                ).getResultList());
         assertThat(rows).as("rows of %s", SalesByStore.TABLE_NAME).isNotEmpty();
         rows.stream().map(SalesByStore_IT::newInstanceOf).forEach(v -> {
             assertThat(v.getStore()).as("store of %s", v).isNotBlank()
@@ -67,9 +61,4 @@ class SalesByStore_IT {
             assertThat(v.getTotalSales()).as("total sales of %s", v).isPositive();
         });
     }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    @__ItPU
-    @Inject
-    private EntityManager entityManager;
 }

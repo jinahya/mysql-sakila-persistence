@@ -45,7 +45,7 @@ class ActorInfo_Persistence_IT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    void persistTargetInstance() {
         // empty
     }
 
@@ -58,7 +58,7 @@ class ActorInfo_Persistence_IT
      * @implNote Both names are there.
      */
     @Override
-    void randomSelected(final ActorInfo instance) {
+    void randomTargetInstanceSelected(final ActorInfo instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
     }

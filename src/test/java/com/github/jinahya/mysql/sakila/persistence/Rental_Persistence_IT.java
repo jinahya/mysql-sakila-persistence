@@ -44,7 +44,7 @@ class Rental_Persistence_IT
      *         customer, and the staff member, lazy associations, resolve.
      */
     @Override
-    void randomSelected(final Rental instance) {
+    void randomTargetInstanceSelected(final Rental instance) {
         assertThat(instance.isReturnDateNotBeforeRentalDate()).as("return date of %s", instance).isTrue();
         assertThat(instance.getInventory().getLastUpdate()).as("last update of the inventory of %s", instance)
                 .isNotNull();

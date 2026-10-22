@@ -44,8 +44,8 @@ class BetterStoreStaff_Test
      *         other attribute is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<BetterStoreStaff> equals_verifier_() {
-        return super.equals_verifier_()
+    public SingleTypeEqualsVerifierApi<BetterStoreStaff> equalsVerifier() {
+        return super.equalsVerifier()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

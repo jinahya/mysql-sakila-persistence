@@ -49,7 +49,7 @@ import java.util.Objects;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Embeddable
-public class _RentalTerms {
+public class EmbeddableRentalTerms {
 
     /**
      * The name of the attribute which maps the {@value Film#COLUMN_NAME_RENTAL_DURATION} column. The value is
@@ -78,9 +78,9 @@ public class _RentalTerms {
      * @param replacementCost a value for the {@value #ATTRIBUTE_NAME_REPLACEMENT_COST} attribute.
      * @return a new instance of {@code rentalDuration}, {@code rentalRate}, and {@code replacementCost}.
      */
-    public static _RentalTerms of(final Integer rentalDuration, final BigDecimal rentalRate,
-                                  final BigDecimal replacementCost) {
-        final var instance = new _RentalTerms();
+    public static EmbeddableRentalTerms of(final Integer rentalDuration, final BigDecimal rentalRate,
+                                           final BigDecimal replacementCost) {
+        final var instance = new EmbeddableRentalTerms();
         instance.setRentalDuration(rentalDuration);
         instance.setRentalRate(rentalRate);
         instance.setReplacementCost(replacementCost);
@@ -92,7 +92,7 @@ public class _RentalTerms {
     /**
      * Creates a new instance.
      */
-    protected _RentalTerms() {
+    protected EmbeddableRentalTerms() {
         super();
     }
 
@@ -118,7 +118,7 @@ public class _RentalTerms {
      */
     @Override
     public final boolean equals(final Object obj) {
-        if (!(obj instanceof _RentalTerms that)) {
+        if (!(obj instanceof EmbeddableRentalTerms that)) {
             return false;
         }
         return Objects.equals(rentalDuration, that.rentalDuration)
