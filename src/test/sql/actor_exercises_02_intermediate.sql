@@ -44,19 +44,19 @@ ORDER BY actors DESC, last_name
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-02
 -- the five actors who appear in the most films.
--- +----------+------------+-----------+-------+
--- | actor_id | first_name | last_name | films |
--- +----------+------------+-----------+-------+
--- |      107 | GINA       | DEGENERES |    42 |
--- |      102 | WALTER     | TORN      |    41 |
--- |      198 | MARY       | KEITEL    |    40 |
--- |      181 | MATTHEW    | CARREY    |    39 |
--- |       23 | SANDRA     | KILMER    |    37 |
--- +----------+------------+-----------+-------+
-SELECT a.actor_id, a.first_name, a.last_name, COUNT(*) AS films
+-- +----------+------------+-----------+---------------------+-------+
+-- | actor_id | first_name | last_name | last_update         | films |
+-- +----------+------------+-----------+---------------------+-------+
+-- |      107 | GINA       | DEGENERES | 2006-02-15 04:34:33 |    42 |
+-- |      102 | WALTER     | TORN      | 2006-02-15 04:34:33 |    41 |
+-- |      198 | MARY       | KEITEL    | 2006-02-15 04:34:33 |    40 |
+-- |      181 | MATTHEW    | CARREY    | 2006-02-15 04:34:33 |    39 |
+-- |       23 | SANDRA     | KILMER    | 2006-02-15 04:34:33 |    37 |
+-- +----------+------------+-----------+---------------------+-------+
+SELECT a.*, COUNT(*) AS films
 FROM actor a
          JOIN film_actor fa ON fa.actor_id = a.actor_id
-GROUP BY a.actor_id, a.first_name, a.last_name
+GROUP BY a.actor_id
 ORDER BY films DESC, a.actor_id LIMIT 5
 ;
 
@@ -104,38 +104,36 @@ ORDER BY actors DESC, last_name LIMIT 5
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-06
 -- the five actors whose films are, on average, the longest.
--- +----------+------------+-----------+----------------+
--- | actor_id | first_name | last_name | average_length |
--- +----------+------------+-----------+----------------+
--- |       35 | JUDY       | DEAN      |         137.73 |
--- |      156 | FAY        | WOOD      |         133.82 |
--- |       16 | FRED       | COSTNER   |         131.56 |
--- |       95 | DARYL      | WAHLBERG  |         130.94 |
--- |        8 | MATTHEW    | JOHANSSON |         130.85 |
--- +----------+------------+-----------+----------------+
-SELECT a.actor_id, a.first_name, a.last_name, ROUND(AVG(f.length), 2) AS average_length
+-- +----------+------------+-----------+---------------------+----------------+
+-- | actor_id | first_name | last_name | last_update         | average_length |
+-- +----------+------------+-----------+---------------------+----------------+
+-- |       35 | JUDY       | DEAN      | 2006-02-15 04:34:33 |         137.73 |
+-- |      156 | FAY        | WOOD      | 2006-02-15 04:34:33 |         133.82 |
+-- |       16 | FRED       | COSTNER   | 2006-02-15 04:34:33 |         131.56 |
+-- |       95 | DARYL      | WAHLBERG  | 2006-02-15 04:34:33 |         130.94 |
+-- |        8 | MATTHEW    | JOHANSSON | 2006-02-15 04:34:33 |         130.85 |
+-- +----------+------------+-----------+---------------------+----------------+
+SELECT a.*, ROUND(AVG(f.length), 2) AS average_length
 FROM actor a
          JOIN film_actor fa ON fa.actor_id = a.actor_id
          JOIN film f ON f.film_id = fa.film_id
-GROUP BY a.actor_id, a.first_name, a.last_name
+GROUP BY a.actor_id
 ORDER BY average_length DESC, a.actor_id
 LIMIT 5
 ;
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-07
 -- the films of the first five actors, counted by rating.
--- +----------+------------+--------------+------+------+-------+------+-------+
--- | actor_id | first_name | last_name    | g    | pg   | pg_13 | r    | nc_17 |
--- +----------+------------+--------------+------+------+-------+------+-------+
--- |        1 | PENELOPE   | GUINESS      |    4 |    6 |     1 |    3 |     5 |
--- |        2 | NICK       | WAHLBERG     |    7 |    6 |     2 |    2 |     8 |
--- |        3 | ED         | CHASE        |    2 |    5 |     5 |    5 |     5 |
--- |        4 | JENNIFER   | DAVIS        |    3 |    5 |     5 |    4 |     5 |
--- |        5 | JOHNNY     | LOLLOBRIGIDA |    7 |    4 |     4 |    7 |     7 |
--- +----------+------------+--------------+------+------+-------+------+-------+
-SELECT a.actor_id,
-       a.first_name,
-       a.last_name,
+-- +----------+------------+--------------+---------------------+------+------+-------+------+-------+
+-- | actor_id | first_name | last_name    | last_update         | g    | pg   | pg_13 | r    | nc_17 |
+-- +----------+------------+--------------+---------------------+------+------+-------+------+-------+
+-- |        1 | PENELOPE   | GUINESS      | 2006-02-15 04:34:33 |    4 |    6 |     1 |    3 |     5 |
+-- |        2 | NICK       | WAHLBERG     | 2006-02-15 04:34:33 |    7 |    6 |     2 |    2 |     8 |
+-- |        3 | ED         | CHASE        | 2006-02-15 04:34:33 |    2 |    5 |     5 |    5 |     5 |
+-- |        4 | JENNIFER   | DAVIS        | 2006-02-15 04:34:33 |    3 |    5 |     5 |    4 |     5 |
+-- |        5 | JOHNNY     | LOLLOBRIGIDA | 2006-02-15 04:34:33 |    7 |    4 |     4 |    7 |     7 |
+-- +----------+------------+--------------+---------------------+------+------+-------+------+-------+
+SELECT a.*,
        SUM(CASE WHEN f.rating = 'G' THEN 1 ELSE 0 END)     AS g,
        SUM(CASE WHEN f.rating = 'PG' THEN 1 ELSE 0 END)    AS pg,
        SUM(CASE WHEN f.rating = 'PG-13' THEN 1 ELSE 0 END) AS pg_13,
@@ -145,6 +143,6 @@ FROM actor a
          JOIN film_actor fa ON fa.actor_id = a.actor_id
          JOIN film f ON f.film_id = fa.film_id
 WHERE a.actor_id BETWEEN 1 AND 5
-GROUP BY a.actor_id, a.first_name, a.last_name
+GROUP BY a.actor_id
 ORDER BY a.actor_id
 ;

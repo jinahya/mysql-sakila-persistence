@@ -38,13 +38,13 @@ SELECT (SELECT COUNT(*) FROM staff_list) AS staff_list, (SELECT COUNT(*) FROM st
 
 -- ---------------------------------------------------------------------------------------------- SAKILA-STAFF_LIST-I-02
 -- whether each staff member lives in the city of their store.
--- +----+--------------+------------+------------+
--- | ID | name         | lives_in   | works_in   |
--- +----+--------------+------------+------------+
--- |  1 | Mike Hillyer | Lethbridge | Lethbridge |
--- |  2 | Jon Stephens | Woodridge  | Woodridge  |
--- +----+--------------+------------+------------+
-SELECT l.ID, l.name, l.city AS lives_in, ci.city AS works_in
+-- +----+--------------+----------------------+----------+-------------+------------+-----------+-----+---------+------------+------------+---------------------+
+-- | ID | name         | address              | zip code | phone       | city       | country   | SID | city_id | city       | country_id | last_update         |
+-- +----+--------------+----------------------+----------+-------------+------------+-----------+-----+---------+------------+------------+---------------------+
+-- |  1 | Mike Hillyer | 23 Workhaven Lane    |          | 14033335568 | Lethbridge | Canada    |   1 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |
+-- |  2 | Jon Stephens | 1411 Lillydale Drive |          | 6172235589  | Woodridge  | Australia |   2 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |
+-- +----+--------------+----------------------+----------+-------------+------------+-----------+-----+---------+------------+------------+---------------------+
+SELECT l.*, ci.*
 FROM staff_list l
          JOIN store st ON st.store_id = l.SID
          JOIN address a ON a.address_id = st.address_id

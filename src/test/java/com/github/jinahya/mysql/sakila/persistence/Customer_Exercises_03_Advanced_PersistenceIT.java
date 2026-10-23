@@ -85,7 +85,7 @@ class Customer_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.storeId,
+                                                                                      SELECT s,
                                                                                              COUNT(c),
                                                                                              ROUND((SELECT SUM(p3.amount) FROM Payment p3 WHERE p3.customer.store = s)
                                                                                                    / (SELECT COUNT(c3) FROM Customer c3 WHERE c3.store = s AND c3.payments IS NOT EMPTY), 2)
@@ -94,13 +94,13 @@ class Customer_Exercises_03_Advanced_PersistenceIT {
                                                                                       WHERE (SELECT SUM(p.amount) FROM Payment p WHERE p.customer = c)
                                                                                             > (SELECT SUM(p2.amount) FROM Payment p2 WHERE p2.customer.store = s)
                                                                                               / (SELECT COUNT(c2) FROM Customer c2 WHERE c2.store = s AND c2.payments IS NOT EMPTY)
-                                                                                      GROUP BY s.storeId
+                                                                                      GROUP BY s
                                                                                       ORDER BY s.storeId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).doubleValue())
                     .containsExactly(
                             tuple(1, 154L, 113.49),
@@ -136,17 +136,17 @@ class Customer_Exercises_03_Advanced_PersistenceIT {
                 storeCustomers2.select(cb.count(c3))
                         .where(cb.equal(c3.get(Customer_.store), s),
                                cb.isNotEmpty(c3.get(Customer_.payments)));
-                cq.select(cb.array(s.get(Store_.storeId), cb.count(c),
+                cq.select(cb.array(s, cb.count(c),
                                    cb.round(cb.quot(storePaid2, storeCustomers2), 2)))
                         .where(cb.gt(paid, cb.quot(storePaid1, storeCustomers1)))
-                        .groupBy(s.get(Store_.storeId))
+                        .groupBy(s)
                         .orderBy(cb.asc(s.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).doubleValue())
                     .containsExactly(
                             tuple(1, 154L, 113.49),

@@ -86,8 +86,8 @@ ORDER BY c.customer_id LIMIT 5
 -- | 2005-05-27 | 684.34 |       2042.15 |
 -- | 2005-05-28 | 804.04 |       2846.19 |
 -- +------------+--------+---------------+
-SELECT day, total, SUM (total) OVER (ORDER BY day) AS running_total
-FROM (SELECT DATE (payment_date) AS day, SUM (amount) AS total FROM payment GROUP BY day) t
+SELECT day, total, SUM(total) OVER (ORDER BY day) AS running_total
+FROM (SELECT DATE(payment_date) AS day, SUM(amount) AS total FROM payment GROUP BY day) t
 ORDER BY day
     LIMIT 5
 ;
@@ -104,7 +104,7 @@ ORDER BY day
 -- | 2006-02 |   514.18 |            -23555.96 |
 -- +---------+----------+----------------------+
 SELECT month, total, total - LAG(total) OVER (ORDER BY month) AS change_from_previous
-FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM (amount) AS total FROM payment GROUP BY month) t
+FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM(amount) AS total FROM payment GROUP BY month) t
 ORDER BY month
 ;
 
@@ -163,10 +163,10 @@ ORDER BY number
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-07
 -- the films none of whose copies is in, right now.
 -- no rows.
-SELECT f.film_id, f.title, COUNT(*) AS copies
+SELECT f.*, COUNT(*) AS copies
 FROM film f
          JOIN inventory i ON i.film_id = f.film_id
-GROUP BY f.film_id, f.title
+GROUP BY f.film_id
 HAVING SUM(EXISTS (SELECT 1
                    FROM rental r
                    WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)) = COUNT(*)
@@ -175,46 +175,46 @@ ORDER BY f.film_id
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-08
 -- the five longest runs of days on which a customer rented every day.
--- +-------------+------------+-----------+------------+------------+------+
--- | customer_id | first_name | last_name | first_day  | last_day   | days |
--- +-------------+------------+-----------+------------+------------+------+
--- |          42 | CAROLYN    | PEREZ     | 2005-07-26 | 2005-08-02 |    8 |
--- |         181 | ANA        | BRADLEY   | 2005-07-26 | 2005-08-02 |    8 |
--- |         290 | KRISTINA   | CHAMBERS  | 2005-07-26 | 2005-08-02 |    8 |
--- |         306 | CHARLES    | KOWALSKI  | 2005-07-26 | 2005-08-02 |    8 |
--- |         373 | LOUIS      | LEONE     | 2005-07-26 | 2005-08-02 |    8 |
--- +-------------+------------+-----------+------------+------------+------+
+-- +-------------+----------+------------+-----------+--------------------------------------+------------+--------+---------------------+---------------------+------------+------------+------+
+-- | customer_id | store_id | first_name | last_name | email                                | address_id | active | create_date         | last_update         | first_day  | last_day   | days |
+-- +-------------+----------+------------+-----------+--------------------------------------+------------+--------+---------------------+---------------------+------------+------------+------+
+-- |          42 |        2 | CAROLYN    | PEREZ     | CAROLYN.PEREZ@sakilacustomer.org     |         46 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 2005-07-26 | 2005-08-02 |    8 |
+-- |         181 |        2 | ANA        | BRADLEY   | ANA.BRADLEY@sakilacustomer.org       |        185 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 2005-07-26 | 2005-08-02 |    8 |
+-- |         290 |        1 | KRISTINA   | CHAMBERS  | KRISTINA.CHAMBERS@sakilacustomer.org |        295 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 2005-07-26 | 2005-08-02 |    8 |
+-- |         306 |        1 | CHARLES    | KOWALSKI  | CHARLES.KOWALSKI@sakilacustomer.org  |        311 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 2005-07-26 | 2005-08-02 |    8 |
+-- |         373 |        1 | LOUIS      | LEONE     | LOUIS.LEONE@sakilacustomer.org       |        378 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 2005-07-26 | 2005-08-02 |    8 |
+-- +-------------+----------+------------+-----------+--------------------------------------+------------+--------+---------------------+---------------------+------------+------------+------+
 WITH days AS (SELECT DISTINCT customer_id, DATE(rental_date) AS day
               FROM rental),
      islands AS (SELECT customer_id, day,
                         DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY day) DAY) AS island
                  FROM days)
-SELECT c.customer_id, c.first_name, c.last_name, MIN(i.day) AS first_day, MAX(i.day) AS last_day, COUNT(*) AS days
+SELECT c.*, MIN(i.day) AS first_day, MAX(i.day) AS last_day, COUNT(*) AS days
 FROM islands i
          JOIN customer c ON c.customer_id = i.customer_id
-GROUP BY c.customer_id, c.first_name, c.last_name, i.island
+GROUP BY c.customer_id, i.island
 ORDER BY days DESC, c.customer_id, first_day
 LIMIT 5
 ;
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-09
 -- the countries none of whose customers rented a Music film.
--- +------------------+-----------+
--- | country          | customers |
--- +------------------+-----------+
--- | Afghanistan      |         1 |
--- | Bahrain          |         1 |
--- | Finland          |         1 |
--- | French Polynesia |         2 |
--- | Iraq             |         1 |
--- | Liechtenstein    |         1 |
--- | Madagascar       |         1 |
--- | New Zealand      |         1 |
--- | Slovakia         |         1 |
--- | Sri Lanka        |         1 |
--- | Turkmenistan     |         1 |
--- +------------------+-----------+
-SELECT co.country, COUNT(*) AS customers
+-- +------------+------------------+---------------------+-----------+
+-- | country_id | country          | last_update         | customers |
+-- +------------+------------------+---------------------+-----------+
+-- |          1 | Afghanistan      | 2006-02-15 04:44:00 |         1 |
+-- |         11 | Bahrain          | 2006-02-15 04:44:00 |         1 |
+-- |         33 | Finland          | 2006-02-15 04:44:00 |         1 |
+-- |         36 | French Polynesia | 2006-02-15 04:44:00 |         2 |
+-- |         47 | Iraq             | 2006-02-15 04:44:00 |         1 |
+-- |         55 | Liechtenstein    | 2006-02-15 04:44:00 |         1 |
+-- |         57 | Madagascar       | 2006-02-15 04:44:00 |         1 |
+-- |         68 | New Zealand      | 2006-02-15 04:44:00 |         1 |
+-- |         84 | Slovakia         | 2006-02-15 04:44:00 |         1 |
+-- |         88 | Sri Lanka        | 2006-02-15 04:44:00 |         1 |
+-- |         98 | Turkmenistan     | 2006-02-15 04:44:00 |         1 |
+-- +------------+------------------+---------------------+-----------+
+SELECT co.*, COUNT(*) AS customers
 FROM country co
          JOIN city ci ON ci.country_id = co.country_id
          JOIN address a ON a.city_id = ci.city_id
@@ -229,6 +229,6 @@ WHERE NOT EXISTS (SELECT 1
                            JOIN category c ON c.category_id = fc.category_id
                   WHERE ci2.country_id = co.country_id
                     AND c.name = 'Music')
-GROUP BY co.country_id, co.country
+GROUP BY co.country_id
 ORDER BY co.country
 ;

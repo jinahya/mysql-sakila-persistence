@@ -48,18 +48,20 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.customerId, c.firstName, c.lastName, SUM(p.amount)
+                                                                                      SELECT c, SUM(p.amount)
                                                                                       FROM Customer c
                                                                                                JOIN c.payments p
-                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      GROUP BY c
                                                                                       ORDER BY SUM(p.amount) DESC, c.customerId""",
                                                                               Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple(526, "KARL", "SEAL", "221.55"),
                             tuple(148, "ELEANOR", "HUNT", "216.54"),
@@ -75,11 +77,8 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Customer.class);
                 final var p = c.join(Customer_.payments);
-                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
-                                   c.get(Customer_.lastName),
-                                   cb.sum(p.get(Payment_.amount))))
-                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName),
-                                 c.get(Customer_.lastName))
+                cq.select(cb.array(c, cb.sum(p.get(Payment_.amount))))
+                        .groupBy(c)
                         .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))),
                                  cb.asc(c.get(Customer_.customerId)));
                 return em.createQuery(cq)
@@ -88,8 +87,10 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple(526, "KARL", "SEAL", "221.55"),
                             tuple(148, "ELEANOR", "HUNT", "216.54"),
@@ -138,18 +139,20 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.customerId, c.firstName, c.lastName, COUNT(r)
+                                                                                      SELECT c, COUNT(r)
                                                                                       FROM Customer c
                                                                                                JOIN c.rentals r
-                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      GROUP BY c
                                                                                       HAVING COUNT(r) >= 40
                                                                                       ORDER BY COUNT(r) DESC, c.customerId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(148, "ELEANOR", "HUNT", 46L),
                             tuple(526, "KARL", "SEAL", 45L),
@@ -167,10 +170,8 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Customer.class);
                 final var r = c.join(Customer_.rentals);
-                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
-                                   c.get(Customer_.lastName), cb.count(r)))
-                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName),
-                                 c.get(Customer_.lastName))
+                cq.select(cb.array(c, cb.count(r)))
+                        .groupBy(c)
                         .having(cb.ge(cb.count(r), 40L))
                         .orderBy(cb.desc(cb.count(r)), cb.asc(c.get(Customer_.customerId)));
                 return em.createQuery(cq)
@@ -178,8 +179,10 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(148, "ELEANOR", "HUNT", 46L),
                             tuple(526, "KARL", "SEAL", 45L),
@@ -198,19 +201,21 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.customerId, c.firstName, c.lastName, COUNT(r)
+                                                                                      SELECT c, COUNT(r)
                                                                                       FROM Customer c
                                                                                                JOIN c.rentals r
                                                                                       WHERE r.returnDate IS NULL
-                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      GROUP BY c
                                                                                       ORDER BY COUNT(r) DESC, c.customerId""",
                                                                               Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(75, "TAMMY", "SANDERS", 3L),
                             tuple(15, "HELEN", "HARRIS", 2L),
@@ -226,11 +231,9 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Customer.class);
                 final var r = c.join(Customer_.rentals);
-                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
-                                   c.get(Customer_.lastName), cb.count(r)))
+                cq.select(cb.array(c, cb.count(r)))
                         .where(cb.isNull(r.get(Rental_.returnDate)))
-                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName),
-                                 c.get(Customer_.lastName))
+                        .groupBy(c)
                         .orderBy(cb.desc(cb.count(r)), cb.asc(c.get(Customer_.customerId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -238,8 +241,10 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(75, "TAMMY", "SANDERS", 3L),
                             tuple(15, "HELEN", "HARRIS", 2L),

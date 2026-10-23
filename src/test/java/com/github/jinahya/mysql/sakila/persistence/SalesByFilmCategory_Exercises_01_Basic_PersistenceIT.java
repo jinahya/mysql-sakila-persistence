@@ -49,15 +49,16 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.category, s.totalSales
+                                                                                      SELECT s
                                                                                       FROM SalesByFilmCategory s
                                                                                       ORDER BY s.totalSales DESC""",
-                                                                              Object[].class)
+                                                                              SalesByFilmCategory.class)
                     .setMaxResults(3)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(SalesByFilmCategory::getCategory,
+                                s -> s.getTotalSales().toPlainString())
                     .containsExactly(
                             tuple("Sports", "5314.21"),
                             tuple("Sci-Fi", "4756.98"),
@@ -68,18 +69,18 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(SalesByFilmCategory.class);
                 final var s = cq.from(SalesByFilmCategory.class);
-                cq.select(cb.array(s.get(SalesByFilmCategory_.category),
-                                   s.get(SalesByFilmCategory_.totalSales)))
+                cq.select(s)
                         .orderBy(cb.desc(s.get(SalesByFilmCategory_.totalSales)));
                 return em.createQuery(cq)
                         .setMaxResults(3)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(SalesByFilmCategory::getCategory,
+                                s -> s.getTotalSales().toPlainString())
                     .containsExactly(
                             tuple("Sports", "5314.21"),
                             tuple("Sci-Fi", "4756.98"),
@@ -94,17 +95,18 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.category, s.totalSales
+                                                                                      SELECT s
                                                                                       FROM SalesByFilmCategory s
                                                                                       WHERE s.totalSales BETWEEN :low AND :high
                                                                                       ORDER BY s.category""",
-                                                                              Object[].class)
+                                                                              SalesByFilmCategory.class)
                     .setParameter("low", BigDecimal.valueOf(4000))
                     .setParameter("high", BigDecimal.valueOf(4500))
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(SalesByFilmCategory::getCategory,
+                                s -> s.getTotalSales().toPlainString())
                     .containsExactly(
                             tuple("Action", "4375.85"),
                             tuple("Comedy", "4383.58"),
@@ -119,10 +121,10 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(SalesByFilmCategory.class);
                 final var s = cq.from(SalesByFilmCategory.class);
                 final var totalSales = s.get(SalesByFilmCategory_.totalSales);
-                cq.select(cb.array(s.get(SalesByFilmCategory_.category), totalSales))
+                cq.select(s)
                         .where(cb.between(totalSales, cb.parameter(BigDecimal.class, "low"),
                                           cb.parameter(BigDecimal.class, "high")))
                         .orderBy(cb.asc(s.get(SalesByFilmCategory_.category)));
@@ -131,9 +133,10 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
                         .setParameter("high", BigDecimal.valueOf(4500))
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(SalesByFilmCategory::getCategory,
+                                s -> s.getTotalSales().toPlainString())
                     .containsExactly(
                             tuple("Action", "4375.85"),
                             tuple("Comedy", "4383.58"),

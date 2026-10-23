@@ -28,21 +28,21 @@
 
 -- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-B-01
 -- the films whose description has both a Crocodile and a Shark.
--- +---------+-------------------+
--- | film_id | title             |
--- +---------+-------------------+
--- |     155 | CLEOPATRA DEVIL   |
--- |     177 | CONNECTICUT TRAMP |
--- |     206 | DANCING FEVER     |
--- |     292 | EXCITEMENT EVE    |
--- |     429 | HONEY TIES        |
--- |     543 | MADIGAN DORADO    |
--- |     790 | SHOOTIST SUPERFLY |
--- |     803 | SLACKER LIAISONS  |
--- |     832 | SPLASH GUMP       |
--- |     959 | WARLOCK WEREWOLF  |
--- +---------+-------------------+
-SELECT film_id, title
+-- +---------+-------------------+------------------------------------------------------------------------------------------------------+
+-- | film_id | title             | description                                                                                          |
+-- +---------+-------------------+------------------------------------------------------------------------------------------------------+
+-- |     155 | CLEOPATRA DEVIL   | A Fanciful Documentary of a Crocodile And a Technical Writer who must Fight a A Shark in A Baloon    |
+-- |     177 | CONNECTICUT TRAMP | A Unbelieveable Drama of a Crocodile And a Mad Cow who must Reach a Dentist in A Shark Tank          |
+-- |     206 | DANCING FEVER     | A Stunning Story of a Explorer And a Forensic Psychologist who must Face a Crocodile in A Shark Tank |
+-- |     292 | EXCITEMENT EVE    | A Brilliant Documentary of a Monkey And a Car who must Conquer a Crocodile in A Shark Tank           |
+-- |     429 | HONEY TIES        | A Taut Story of a Waitress And a Crocodile who must Outrace a Lumberjack in A Shark Tank             |
+-- |     543 | MADIGAN DORADO    | A Astounding Character Study of a A Shark And a A Shark who must Discover a Crocodile in The Outback |
+-- |     790 | SHOOTIST SUPERFLY | A Fast-Paced Story of a Crocodile And a A Shark who must Sink a Pioneer in Berlin                    |
+-- |     803 | SLACKER LIAISONS  | A Fast-Paced Tale of a A Shark And a Student who must Meet a Crocodile in Ancient China              |
+-- |     832 | SPLASH GUMP       | A Taut Saga of a Crocodile And a Boat who must Conquer a Hunter in A Shark Tank                      |
+-- |     959 | WARLOCK WEREWOLF  | A Astounding Yarn of a Pioneer And a Crocodile who must Defeat a A Shark in The Outback              |
+-- +---------+-------------------+------------------------------------------------------------------------------------------------------+
+SELECT *
 FROM film_text
 WHERE description LIKE '%Crocodile%'
   AND description LIKE '%Shark%'
@@ -51,16 +51,16 @@ ORDER BY film_id
 
 -- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-B-02
 -- the five longest descriptions.
--- +---------+---------------------+------------+
--- | film_id | title               | characters |
--- +---------+---------------------+------------+
--- |     116 | CANDIDATE PERDITION |        130 |
--- |     217 | DAZED PUNK          |        130 |
--- |     274 | EGG IGBY            |        129 |
--- |     569 | MENAGERIE RUSHMORE  |        128 |
--- |      51 | BALLOON HOMEWARD    |        127 |
--- +---------+---------------------+------------+
-SELECT film_id, title, LENGTH(description) AS characters
+-- +---------+---------------------+------------------------------------------------------------------------------------------------------------------------------------+------------+
+-- | film_id | title               | description                                                                                                                        | characters |
+-- +---------+---------------------+------------------------------------------------------------------------------------------------------------------------------------+------------+
+-- |     116 | CANDIDATE PERDITION | A Brilliant Epistle of a Composer And a Database Administrator who must Vanquish a Mad Scientist in The First Manned Space Station |        130 |
+-- |     217 | DAZED PUNK          | A Action-Packed Story of a Pioneer And a Technical Writer who must Discover a Forensic Psychologist in An Abandoned Amusement Park |        130 |
+-- |     274 | EGG IGBY            | A Beautiful Documentary of a Boat And a Sumo Wrestler who must Succumb a Database Administrator in The First Manned Space Station  |        129 |
+-- |     569 | MENAGERIE RUSHMORE  | A Unbelieveable Panorama of a Composer And a Butler who must Overcome a Database Administrator in The First Manned Space Station   |        128 |
+-- |      51 | BALLOON HOMEWARD    | A Insightful Panorama of a Forensic Psychologist And a Mad Cow who must Build a Mad Scientist in The First Manned Space Station    |        127 |
+-- +---------+---------------------+------------------------------------------------------------------------------------------------------------------------------------+------------+
+SELECT *, LENGTH(description) AS characters
 FROM film_text
 ORDER BY characters DESC, film_id
 LIMIT 5

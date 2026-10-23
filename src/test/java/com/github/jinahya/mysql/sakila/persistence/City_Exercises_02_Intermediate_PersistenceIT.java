@@ -94,10 +94,10 @@ class City_Exercises_02_Intermediate_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT co.country, COUNT(c)
+                                            SELECT co, COUNT(c)
                                             FROM City c
                                                      JOIN c.country co
-                                            GROUP BY co.countryId, co.country
+                                            GROUP BY co
                                             ORDER BY COUNT(c) DESC, co.country""",
                                     Object[].class
                             )
@@ -106,7 +106,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("India", 60L),
                             tuple("China", 53L),
@@ -122,8 +123,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(City.class);
                 final var co = c.join(City_.country);
-                cq.select(cb.array(co.get(Country_.country), cb.count(c)))
-                        .groupBy(co.get(Country_.countryId), co.get(Country_.country))
+                cq.select(cb.array(co, cb.count(c)))
+                        .groupBy(co)
                         .orderBy(cb.desc(cb.count(c)), cb.asc(co.get(Country_.country)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -131,7 +132,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("India", 60L),
                             tuple("China", 53L),
@@ -184,10 +186,10 @@ class City_Exercises_02_Intermediate_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.cityId, c.city, COUNT(a)
+                                            SELECT c, COUNT(a)
                                             FROM City c
                                                      JOIN c.addresses a
-                                            GROUP BY c.cityId, c.city
+                                            GROUP BY c
                                             HAVING COUNT(a) > 1
                                             ORDER BY COUNT(a) DESC, c.city, c.cityId""",
                                     Object[].class
@@ -196,8 +198,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((City) r[0]).getCityId(), r -> ((City) r[0]).getCity(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(42, "Aurora", 2L),
                             tuple(300, "Lethbridge", 2L),
@@ -212,8 +214,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(City.class);
                 final var a = c.join(City_.addresses);
-                cq.select(cb.array(c.get(City_.cityId), c.get(City_.city), cb.count(a)))
-                        .groupBy(c.get(City_.cityId), c.get(City_.city))
+                cq.select(cb.array(c, cb.count(a)))
+                        .groupBy(c)
                         .having(cb.gt(cb.count(a), 1L))
                         .orderBy(cb.desc(cb.count(a)), cb.asc(c.get(City_.city)),
                                  cb.asc(c.get(City_.cityId)));
@@ -222,8 +224,8 @@ class City_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((City) r[0]).getCityId(), r -> ((City) r[0]).getCity(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(42, "Aurora", 2L),
                             tuple(300, "Lethbridge", 2L),

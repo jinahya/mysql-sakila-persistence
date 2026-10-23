@@ -28,12 +28,12 @@
 
 -- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-01
 -- the actors of the film 1, as this view writes them.
--- +-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
--- | FID | title            | actors                                                                                                                                         |
--- +-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
--- |   1 | ACADEMY DINOSAUR | Penelope Guiness, Christian Gable, Lucille Tracy, Sandra Peck, Johnny Cage, Mena Temple, Warren Nolte, Oprah Kilmer, Rock Dukakis, Mary Keitel |
--- +-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
-SELECT FID, title, actors
+-- +-----+------------------+--------------------------------------------------------------------------------------------------+-------------+-------+--------+--------+------------------------------------------------------------------------------------------------------------------------------------------------+
+-- | FID | title            | description                                                                                      | category    | price | length | rating | actors                                                                                                                                         |
+-- +-----+------------------+--------------------------------------------------------------------------------------------------+-------------+-------+--------+--------+------------------------------------------------------------------------------------------------------------------------------------------------+
+-- |   1 | ACADEMY DINOSAUR | A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies | Documentary |  0.99 |     86 | PG     | Penelope Guiness, Christian Gable, Lucille Tracy, Sandra Peck, Johnny Cage, Mena Temple, Warren Nolte, Oprah Kilmer, Rock Dukakis, Mary Keitel |
+-- +-----+------------------+--------------------------------------------------------------------------------------------------+-------------+-------+--------+--------+------------------------------------------------------------------------------------------------------------------------------------------------+
+SELECT *
 FROM nicer_but_slower_film_list
 WHERE FID = 1
 ;
@@ -52,14 +52,14 @@ WHERE actors LIKE '%Penelope Guiness%'
 
 -- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-03
 -- the films which have no actors.
--- +-----+------------------+----------+
--- | FID | title            | category |
--- +-----+------------------+----------+
--- | 257 | DRUMLINE CYCLONE | Travel   |
--- | 323 | FLIGHT LIES      | Sports   |
--- | 803 | SLACKER LIAISONS | Drama    |
--- +-----+------------------+----------+
-SELECT FID, title, category
+-- +-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
+-- | FID | title            | description                                                                                                    | category | price | length | rating | actors |
+-- +-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
+-- | 257 | DRUMLINE CYCLONE | A Insightful Panorama of a Monkey And a Sumo Wrestler who must Outrace a Mad Scientist in The Canadian Rockies | Travel   |  0.99 |    110 | G      | NULL   |
+-- | 323 | FLIGHT LIES      | A Stunning Character Study of a Crocodile And a Pioneer who must Pursue a Teacher in New Orleans               | Sports   |  4.99 |    179 | R      | NULL   |
+-- | 803 | SLACKER LIAISONS | A Fast-Paced Tale of a A Shark And a Student who must Meet a Crocodile in Ancient China                        | Drama    |  4.99 |    179 | R      | NULL   |
+-- +-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
+SELECT *
 FROM nicer_but_slower_film_list
 WHERE actors IS NULL
 ORDER BY FID

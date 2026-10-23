@@ -60,7 +60,7 @@ ORDER BY rating
 -- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-I-03
 -- the films whose actors string lists a different number of actors than film_actor.
 -- no rows.
-SELECT l.FID, l.title
+SELECT l.*
 FROM film_list l
 WHERE l.actors IS NOT NULL
   AND LENGTH(l.actors) - LENGTH(REPLACE(l.actors, ',', '')) + 1

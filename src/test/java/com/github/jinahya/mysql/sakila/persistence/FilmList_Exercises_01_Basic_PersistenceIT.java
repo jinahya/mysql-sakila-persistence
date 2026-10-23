@@ -72,7 +72,7 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         @ValueSource(ints = {1, 2, 3})
         void nativeQuery(final int fid) {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT FID, title, actors
+                                                                                                      SELECT *
                                                                                                       FROM film_list
                                                                                                       WHERE FID = ?1""")
                     .setParameter(1, fid)
@@ -91,7 +91,7 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT FID, title, length
+                                                                                                      SELECT *
                                                                                                       FROM film_list
                                                                                                       WHERE category = ?1
                                                                                                         AND rating = ?2
@@ -103,7 +103,7 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
             assertThat(list)
                     .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
                                 r -> ((Object[]) r)[1],
-                                r -> ((Number) ((Object[]) r)[2]).intValue())
+                                r -> ((Number) ((Object[]) r)[5]).intValue())
                     .containsExactly(
                             tuple(238, "DOCTOR GRAIL", 57),
                             tuple(280, "EMPIRE MALKOVICH", 177),
@@ -126,7 +126,7 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT FID, title, category
+                                                                                                      SELECT *
                                                                                                       FROM film_list
                                                                                                       WHERE actors IS NULL
                                                                                                       ORDER BY FID""")
@@ -135,7 +135,7 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
             assertThat(list)
                     .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
                                 r -> ((Object[]) r)[1],
-                                r -> ((Object[]) r)[2])
+                                r -> ((Object[]) r)[3])
                     .containsExactly(
                             tuple(257, "DRUMLINE CYCLONE", "Travel"),
                             tuple(323, "FLIGHT LIES", "Sports"),

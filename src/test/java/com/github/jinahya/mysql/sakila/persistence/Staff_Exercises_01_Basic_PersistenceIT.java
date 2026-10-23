@@ -47,15 +47,19 @@ class Staff_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.staffId, s.firstName, s.lastName, s.store.storeId, s.active
+                                                                                      SELECT s, st
                                                                                       FROM Staff s
+                                                                                               JOIN s.store st
                                                                                       ORDER BY s.staffId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).intValue(), r -> r[4])
+                    .extracting(r -> ((Staff) r[0]).getStaffId(),
+                                r -> ((Staff) r[0]).getFirstName(),
+                                r -> ((Staff) r[0]).getLastName(),
+                                r -> ((Store) r[1]).getStoreId(),
+                                r -> ((Staff) r[0]).getActive())
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", 1, true),
                             tuple(2, "Jon", "Stephens", 2, true));
@@ -67,17 +71,19 @@ class Staff_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var s = cq.from(Staff.class);
-                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName),
-                                   s.get(Staff_.lastName),
-                                   s.get(Staff_.store).get(Store_.storeId), s.get(Staff_.active)))
+                final var st = s.join(Staff_.store);
+                cq.select(cb.array(s, st))
                         .orderBy(cb.asc(s.get(Staff_.staffId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).intValue(), r -> r[4])
+                    .extracting(r -> ((Staff) r[0]).getStaffId(),
+                                r -> ((Staff) r[0]).getFirstName(),
+                                r -> ((Staff) r[0]).getLastName(),
+                                r -> ((Store) r[1]).getStoreId(),
+                                r -> ((Staff) r[0]).getActive())
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", 1, true),
                             tuple(2, "Jon", "Stephens", 2, true));
@@ -91,15 +97,16 @@ class Staff_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.staffId, s.firstName, s.lastName, s.username
+                                                                                      SELECT s
                                                                                       FROM Staff s
                                                                                       WHERE s.password IS NULL
                                                                                       ORDER BY s.staffId""",
-                                                                              Object[].class)
+                                                                              Staff.class)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(Staff::getStaffId, Staff::getFirstName, Staff::getLastName,
+                                Staff::getUsername)
                     .containsExactly(
                             tuple(2, "Jon", "Stephens", "Jon"));
         }
@@ -108,18 +115,18 @@ class Staff_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(Staff.class);
                 final var s = cq.from(Staff.class);
-                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName),
-                                   s.get(Staff_.lastName), s.get(Staff_.username)))
+                cq.select(s)
                         .where(cb.isNull(s.get(Staff_.password)))
                         .orderBy(cb.asc(s.get(Staff_.staffId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(Staff::getStaffId, Staff::getFirstName, Staff::getLastName,
+                                Staff::getUsername)
                     .containsExactly(
                             tuple(2, "Jon", "Stephens", "Jon"));
         }

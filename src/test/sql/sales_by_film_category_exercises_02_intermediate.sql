@@ -48,7 +48,7 @@ SELECT (SELECT SUM(total_sales) FROM sales_by_film_category) AS by_category,
 -- | Drama     |     4587.39 |    6.81 |
 -- | Comedy    |     4383.58 |    6.50 |
 -- +-----------+-------------+---------+
-SELECT category, total_sales,
+SELECT *,
        ROUND(100 * total_sales / (SELECT SUM(total_sales) FROM sales_by_film_category), 2) AS percent
 FROM sales_by_film_category
 ORDER BY total_sales DESC, category
@@ -66,7 +66,7 @@ LIMIT 5
 -- | Sports    |     5314.21 |    74 |    71.81 |
 -- | Animation |     4656.30 |    66 |    70.55 |
 -- +-----------+-------------+-------+----------+
-SELECT s.category, s.total_sales, COUNT(*) AS films, ROUND(s.total_sales / COUNT(*), 2) AS per_film
+SELECT s.*, COUNT(*) AS films, ROUND(s.total_sales / COUNT(*), 2) AS per_film
 FROM sales_by_film_category s
          JOIN category c ON c.name = s.category
          JOIN film_category fc ON fc.category_id = c.category_id

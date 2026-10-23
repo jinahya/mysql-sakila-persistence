@@ -29,59 +29,60 @@
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-01
 -- how much each store took, through the copies it rented out.
--- +----------+----------+----------+
--- | store_id | payments | total    |
--- +----------+----------+----------+
--- |        1 |     7923 | 33679.79 |
--- |        2 |     8121 | 33726.77 |
--- +----------+----------+----------+
-SELECT i.store_id, COUNT(*) AS payments, SUM(p.amount) AS total
+-- +----------+------------------+------------+---------------------+----------+----------+
+-- | store_id | manager_staff_id | address_id | last_update         | payments | total    |
+-- +----------+------------------+------------+---------------------+----------+----------+
+-- |        1 |                1 |          1 | 2006-02-15 04:57:12 |     7923 | 33679.79 |
+-- |        2 |                2 |          2 | 2006-02-15 04:57:12 |     8121 | 33726.77 |
+-- +----------+------------------+------------+---------------------+----------+----------+
+SELECT st.*, COUNT(*) AS payments, SUM(p.amount) AS total
 FROM payment p
          JOIN rental r ON r.rental_id = p.rental_id
          JOIN inventory i ON i.inventory_id = r.inventory_id
-GROUP BY i.store_id
-ORDER BY i.store_id
+         JOIN store st ON st.store_id = i.store_id
+GROUP BY st.store_id
+ORDER BY st.store_id
 ;
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-02
 -- how many rentals each category had, the most first.
--- +-------------+---------+
--- | name        | rentals |
--- +-------------+---------+
--- | Sports      |    1179 |
--- | Animation   |    1166 |
--- | Action      |    1112 |
--- | Sci-Fi      |    1101 |
--- | Family      |    1096 |
--- +-------------+---------+
+-- +-------------+-------------+---------------------+---------+
+-- | category_id | name        | last_update         | rentals |
+-- +-------------+-------------+---------------------+---------+
+-- |          15 | Sports      | 2006-02-15 04:46:27 |    1179 |
+-- |           2 | Animation   | 2006-02-15 04:46:27 |    1166 |
+-- |           1 | Action      | 2006-02-15 04:46:27 |    1112 |
+-- |          14 | Sci-Fi      | 2006-02-15 04:46:27 |    1101 |
+-- |           8 | Family      | 2006-02-15 04:46:27 |    1096 |
+-- +-------------+-------------+---------------------+---------+
 -- ... 16 rows in all.
-SELECT c.name, COUNT(*) AS rentals
+SELECT c.*, COUNT(*) AS rentals
 FROM rental r
          JOIN inventory i ON i.inventory_id = r.inventory_id
          JOIN film_category fc ON fc.film_id = i.film_id
          JOIN category c ON c.category_id = fc.category_id
-GROUP BY c.category_id, c.name
+GROUP BY c.category_id
 ORDER BY rentals DESC, c.name
 ;
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-03
 -- the five countries whose customers paid the most.
--- +---------------+-----------+---------+
--- | country       | customers | total   |
--- +---------------+-----------+---------+
--- | India         |        60 | 6628.28 |
--- | China         |        53 | 5798.74 |
--- | United States |        36 | 4110.32 |
--- | Japan         |        31 | 3470.75 |
--- | Mexico        |        30 | 3307.04 |
--- +---------------+-----------+---------+
-SELECT co.country, COUNT(DISTINCT cu.customer_id) AS customers, SUM(p.amount) AS total
+-- +------------+---------------+---------------------+-----------+---------+
+-- | country_id | country       | last_update         | customers | total   |
+-- +------------+---------------+---------------------+-----------+---------+
+-- |         44 | India         | 2006-02-15 04:44:00 |        60 | 6628.28 |
+-- |         23 | China         | 2006-02-15 04:44:00 |        53 | 5798.74 |
+-- |        103 | United States | 2006-02-15 04:44:00 |        36 | 4110.32 |
+-- |         50 | Japan         | 2006-02-15 04:44:00 |        31 | 3470.75 |
+-- |         60 | Mexico        | 2006-02-15 04:44:00 |        30 | 3307.04 |
+-- +------------+---------------+---------------------+-----------+---------+
+SELECT co.*, COUNT(DISTINCT cu.customer_id) AS customers, SUM(p.amount) AS total
 FROM payment p
          JOIN customer cu ON cu.customer_id = p.customer_id
          JOIN address a ON a.address_id = cu.address_id
          JOIN city ci ON ci.city_id = a.city_id
          JOIN country co ON co.country_id = ci.country_id
-GROUP BY co.country_id, co.country
+GROUP BY co.country_id
 ORDER BY total DESC LIMIT 5
 ;
 
@@ -107,22 +108,22 @@ ORDER BY f.rating
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-05
 -- the five actors whose films took the most.
--- +----------+------------+-----------+---------+
--- | actor_id | first_name | last_name | total   |
--- +----------+------------+-----------+---------+
--- |      107 | GINA       | DEGENERES | 3442.49 |
--- |      181 | MATTHEW    | CARREY    | 2742.19 |
--- |      198 | MARY       | KEITEL    | 2689.25 |
--- |       81 | SCARLETT   | DAMON     | 2655.28 |
--- |      102 | WALTER     | TORN      | 2620.62 |
--- +----------+------------+-----------+---------+
-SELECT a.actor_id, a.first_name, a.last_name, SUM(p.amount) AS total
+-- +----------+------------+-----------+---------------------+---------+
+-- | actor_id | first_name | last_name | last_update         | total   |
+-- +----------+------------+-----------+---------------------+---------+
+-- |      107 | GINA       | DEGENERES | 2006-02-15 04:34:33 | 3442.49 |
+-- |      181 | MATTHEW    | CARREY    | 2006-02-15 04:34:33 | 2742.19 |
+-- |      198 | MARY       | KEITEL    | 2006-02-15 04:34:33 | 2689.25 |
+-- |       81 | SCARLETT   | DAMON     | 2006-02-15 04:34:33 | 2655.28 |
+-- |      102 | WALTER     | TORN      | 2006-02-15 04:34:33 | 2620.62 |
+-- +----------+------------+-----------+---------------------+---------+
+SELECT a.*, SUM(p.amount) AS total
 FROM actor a
          JOIN film_actor fa ON fa.actor_id = a.actor_id
          JOIN inventory i ON i.film_id = fa.film_id
          JOIN rental r ON r.inventory_id = i.inventory_id
          JOIN payment p ON p.rental_id = r.rental_id
-GROUP BY a.actor_id, a.first_name, a.last_name
+GROUP BY a.actor_id
 ORDER BY total DESC, a.actor_id LIMIT 5
 ;
 
@@ -199,33 +200,33 @@ ORDER BY MIN(f.length)
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-10
 -- how many films of each category were never rented.
--- +-------------+-------+
--- | name        | films |
--- +-------------+-------+
--- | Foreign     |     6 |
--- | Documentary |     5 |
--- | Travel      |     4 |
--- | Action      |     3 |
--- | Classics    |     3 |
--- | Games       |     3 |
--- | Horror      |     3 |
--- | New         |     3 |
--- | Animation   |     2 |
--- | Children    |     2 |
--- | Comedy      |     2 |
--- | Family      |     2 |
--- | Sci-Fi      |     2 |
--- | Drama       |     1 |
--- | Sports      |     1 |
--- +-------------+-------+
-SELECT c.name, COUNT(*) AS films
+-- +-------------+-------------+---------------------+-------+
+-- | category_id | name        | last_update         | films |
+-- +-------------+-------------+---------------------+-------+
+-- |           9 | Foreign     | 2006-02-15 04:46:27 |     6 |
+-- |           6 | Documentary | 2006-02-15 04:46:27 |     5 |
+-- |          16 | Travel      | 2006-02-15 04:46:27 |     4 |
+-- |           1 | Action      | 2006-02-15 04:46:27 |     3 |
+-- |           4 | Classics    | 2006-02-15 04:46:27 |     3 |
+-- |          10 | Games       | 2006-02-15 04:46:27 |     3 |
+-- |          11 | Horror      | 2006-02-15 04:46:27 |     3 |
+-- |          13 | New         | 2006-02-15 04:46:27 |     3 |
+-- |           2 | Animation   | 2006-02-15 04:46:27 |     2 |
+-- |           3 | Children    | 2006-02-15 04:46:27 |     2 |
+-- |           5 | Comedy      | 2006-02-15 04:46:27 |     2 |
+-- |           8 | Family      | 2006-02-15 04:46:27 |     2 |
+-- |          14 | Sci-Fi      | 2006-02-15 04:46:27 |     2 |
+-- |           7 | Drama       | 2006-02-15 04:46:27 |     1 |
+-- |          15 | Sports      | 2006-02-15 04:46:27 |     1 |
+-- +-------------+-------------+---------------------+-------+
+SELECT c.*, COUNT(*) AS films
 FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
 WHERE NOT EXISTS (SELECT 1
                   FROM inventory i
                            JOIN rental r ON r.inventory_id = i.inventory_id
                   WHERE i.film_id = fc.film_id)
-GROUP BY c.category_id, c.name
+GROUP BY c.category_id
 ORDER BY films DESC, c.name
 ;
 
@@ -254,25 +255,25 @@ WHERE EXISTS (SELECT 1
 
 -- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-12
 -- the categories whose payments are, on average, larger than all payments.
--- +--------+-----------------+
--- | name   | average_payment |
--- +--------+-----------------+
--- | Comedy |            4.66 |
--- | New    |            4.63 |
--- | Sports |            4.51 |
--- | Games  |            4.42 |
--- | Horror |            4.40 |
--- | Drama  |            4.33 |
--- | Sci-Fi |            4.32 |
--- | Travel |            4.24 |
--- +--------+-----------------+
-SELECT c.name, ROUND(AVG(p.amount), 2) AS average_payment
+-- +-------------+--------+---------------------+-----------------+
+-- | category_id | name   | last_update         | average_payment |
+-- +-------------+--------+---------------------+-----------------+
+-- |           5 | Comedy | 2006-02-15 04:46:27 |            4.66 |
+-- |          13 | New    | 2006-02-15 04:46:27 |            4.63 |
+-- |          15 | Sports | 2006-02-15 04:46:27 |            4.51 |
+-- |          10 | Games  | 2006-02-15 04:46:27 |            4.42 |
+-- |          11 | Horror | 2006-02-15 04:46:27 |            4.40 |
+-- |           7 | Drama  | 2006-02-15 04:46:27 |            4.33 |
+-- |          14 | Sci-Fi | 2006-02-15 04:46:27 |            4.32 |
+-- |          16 | Travel | 2006-02-15 04:46:27 |            4.24 |
+-- +-------------+--------+---------------------+-----------------+
+SELECT c.*, ROUND(AVG(p.amount), 2) AS average_payment
 FROM payment p
          JOIN rental r ON r.rental_id = p.rental_id
          JOIN inventory i ON i.inventory_id = r.inventory_id
          JOIN film_category fc ON fc.film_id = i.film_id
          JOIN category c ON c.category_id = fc.category_id
-GROUP BY c.category_id, c.name
+GROUP BY c.category_id
 HAVING AVG(p.amount) > (SELECT AVG(amount) FROM payment)
 ORDER BY average_payment DESC, c.name
 ;

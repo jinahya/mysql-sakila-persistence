@@ -52,7 +52,7 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.category, s.totalSales,
+                                                                                      SELECT s,
                                                                                              SUM(CASE WHEN t.totalSales > s.totalSales
                                                                                                            OR (t.totalSales = s.totalSales AND t.category <= s.category)
                                                                                                       THEN t.totalSales ELSE 0 END),
@@ -60,15 +60,16 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
                                                                                                                        OR (t.totalSales = s.totalSales AND t.category <= s.category)
                                                                                                                   THEN t.totalSales ELSE 0 END) / SUM(t.totalSales), 2)
                                                                                       FROM SalesByFilmCategory s, SalesByFilmCategory t
-                                                                                      GROUP BY s.category, s.totalSales
+                                                                                      GROUP BY s
                                                                                       ORDER BY s.totalSales DESC, s.category""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).hasSize(16)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((BigDecimal) r[2]).toPlainString(),
-                                r -> ((Number) r[3]).doubleValue())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((BigDecimal) r[1]).toPlainString(),
+                                r -> ((Number) r[2]).doubleValue())
                     .startsWith(
                             tuple("Sports", "5314.21", "5314.21", 7.88d),
                             tuple("Sci-Fi", "4756.98", "10071.19", 14.94d),
@@ -99,20 +100,21 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
                 final var runningPercent = cb.round(
                         cb.quot(cb.prod(runningTotal, BigDecimal.valueOf(100)),
                                 cb.sum(tTotalSales)), 2);
-                cq.select(cb.array(category, totalSales, runningTotal, runningPercent))
+                cq.select(cb.array(s, runningTotal, runningPercent))
                         // keeps nothing out; without a WHERE clause on both roots, EclipseLink
                         // renders the s inside the CASE as a third, unjoined table
                         .where(cb.isNotNull(totalSales), cb.isNotNull(tTotalSales))
-                        .groupBy(category, totalSales)
+                        .groupBy(s)
                         .orderBy(cb.desc(totalSales), cb.asc(category));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).hasSize(16)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((BigDecimal) r[2]).toPlainString(),
-                                r -> ((Number) r[3]).doubleValue())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((BigDecimal) r[1]).toPlainString(),
+                                r -> ((Number) r[2]).doubleValue())
                     .startsWith(
                             tuple("Sports", "5314.21", "5314.21", 7.88d),
                             tuple("Sci-Fi", "4756.98", "10071.19", 14.94d),
@@ -132,7 +134,7 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.category, s.totalSales, n.category, s.totalSales - n.totalSales AS gap
+                                                                                      SELECT s, n, s.totalSales - n.totalSales AS gap
                                                                                       FROM SalesByFilmCategory s, SalesByFilmCategory n
                                                                                       WHERE (n.totalSales < s.totalSales OR (n.totalSales = s.totalSales AND n.category > s.category))
                                                                                         AND NOT EXISTS (SELECT m
@@ -147,8 +149,10 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(), r -> r[2],
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((SalesByFilmCategory) r[1]).getCategory(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("Sports", "5314.21", "Sci-Fi", "557.23"),
                             tuple("Documentary", "4217.52", "Horror", "494.98"),
@@ -178,7 +182,7 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
                                      cb.and(cb.equal(mTotalSales, nTotalSales),
                                             cb.lessThan(mCategory, nCategory))));
                 final var gap = cb.diff(sTotalSales, nTotalSales);
-                cq.select(cb.array(sCategory, sTotalSales, nCategory, gap))
+                cq.select(cb.array(s, n, gap))
                         .where(cb.or(cb.lt(nTotalSales, sTotalSales),
                                      cb.and(cb.equal(nTotalSales, sTotalSales),
                                             cb.greaterThan(nCategory, sCategory))),
@@ -190,8 +194,10 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(), r -> r[2],
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((SalesByFilmCategory) r[1]).getCategory(),
+                                r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple("Sports", "5314.21", "Sci-Fi", "557.23"),
                             tuple("Documentary", "4217.52", "Horror", "494.98"),

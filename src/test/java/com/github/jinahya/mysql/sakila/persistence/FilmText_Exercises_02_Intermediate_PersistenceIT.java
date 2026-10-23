@@ -101,7 +101,7 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT f.filmId, f.title, ft.title
+                                                                                      SELECT f, ft
                                                                                       FROM FilmText ft
                                                                                                JOIN ft.film f
                                                                                       WHERE ft.title <> f.title""",
@@ -118,9 +118,7 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var ft = cq.from(FilmText.class);
                 final var f = ft.join(FilmText_.film);
-                cq.select(
-                                cb.array(f.get(Film_.filmId), f.get(Film_.title),
-                                         ft.get(FilmText_.title)))
+                cq.select(cb.array(f, ft))
                         .where(cb.notEqual(ft.get(FilmText_.title), f.get(Film_.title)));
                 return em.createQuery(cq)
                         .getResultList();

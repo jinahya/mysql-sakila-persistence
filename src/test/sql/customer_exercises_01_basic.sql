@@ -42,16 +42,17 @@ ORDER BY active
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-B-02
 -- how many customers each store has.
--- +----------+-----------+
--- | store_id | customers |
--- +----------+-----------+
--- |        1 |       326 |
--- |        2 |       273 |
--- +----------+-----------+
-SELECT store_id, COUNT(*) AS customers
-FROM customer
-GROUP BY store_id
-ORDER BY store_id
+-- +----------+------------------+------------+---------------------+-----------+
+-- | store_id | manager_staff_id | address_id | last_update         | customers |
+-- +----------+------------------+------------+---------------------+-----------+
+-- |        1 |                1 |          1 | 2006-02-15 04:57:12 |       326 |
+-- |        2 |                2 |          2 | 2006-02-15 04:57:12 |       273 |
+-- +----------+------------------+------------+---------------------+-----------+
+SELECT st.*, COUNT(*) AS customers
+FROM customer c
+         JOIN store st ON st.store_id = c.store_id
+GROUP BY st.store_id
+ORDER BY st.store_id
 ;
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-B-03
@@ -68,26 +69,26 @@ GROUP BY domain
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-B-04
 -- the customers who are not active.
--- +-------------+------------+-----------+----------+
--- | customer_id | first_name | last_name | store_id |
--- +-------------+------------+-----------+----------+
--- |          16 | SANDRA     | MARTIN    |        2 |
--- |          64 | JUDITH     | COX       |        2 |
--- |         124 | SHEILA     | WELLS     |        1 |
--- |         169 | ERICA      | MATTHEWS  |        2 |
--- |         241 | HEIDI      | LARSON    |        2 |
--- |         271 | PENNY      | NEAL      |        1 |
--- |         315 | KENNETH    | GOODEN    |        2 |
--- |         368 | HARRY      | ARCE      |        1 |
--- |         406 | NATHAN     | RUNYON    |        1 |
--- |         446 | THEODORE   | CULP      |        2 |
--- |         482 | MAURICE    | CRAWLEY   |        1 |
--- |         510 | BEN        | EASTER    |        2 |
--- |         534 | CHRISTIAN  | JUNG      |        1 |
--- |         558 | JIMMIE     | EGGLESTON |        1 |
--- |         592 | TERRANCE   | ROUSH     |        1 |
--- +-------------+------------+-----------+----------+
-SELECT customer_id, first_name, last_name, store_id
+-- +-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+
+-- | customer_id | store_id | first_name | last_name | email                               | address_id | active | create_date         | last_update         |
+-- +-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+
+-- |          16 |        2 | SANDRA     | MARTIN    | SANDRA.MARTIN@sakilacustomer.org    |         20 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+-- |          64 |        2 | JUDITH     | COX       | JUDITH.COX@sakilacustomer.org       |         68 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+-- |         124 |        1 | SHEILA     | WELLS     | SHEILA.WELLS@sakilacustomer.org     |        128 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+-- |         169 |        2 | ERICA      | MATTHEWS  | ERICA.MATTHEWS@sakilacustomer.org   |        173 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+-- |         241 |        2 | HEIDI      | LARSON    | HEIDI.LARSON@sakilacustomer.org     |        245 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+-- |         271 |        1 | PENNY      | NEAL      | PENNY.NEAL@sakilacustomer.org       |        276 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+-- |         315 |        2 | KENNETH    | GOODEN    | KENNETH.GOODEN@sakilacustomer.org   |        320 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         368 |        1 | HARRY      | ARCE      | HARRY.ARCE@sakilacustomer.org       |        373 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         406 |        1 | NATHAN     | RUNYON    | NATHAN.RUNYON@sakilacustomer.org    |        411 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         446 |        2 | THEODORE   | CULP      | THEODORE.CULP@sakilacustomer.org    |        451 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         482 |        1 | MAURICE    | CRAWLEY   | MAURICE.CRAWLEY@sakilacustomer.org  |        487 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         510 |        2 | BEN        | EASTER    | BEN.EASTER@sakilacustomer.org       |        515 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         534 |        1 | CHRISTIAN  | JUNG      | CHRISTIAN.JUNG@sakilacustomer.org   |        540 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         558 |        1 | JIMMIE     | EGGLESTON | JIMMIE.EGGLESTON@sakilacustomer.org |        564 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- |         592 |        1 | TERRANCE   | ROUSH     | TERRANCE.ROUSH@sakilacustomer.org   |        598 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+-- +-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+
+SELECT *
 FROM customer
 WHERE active = 0
 ORDER BY customer_id

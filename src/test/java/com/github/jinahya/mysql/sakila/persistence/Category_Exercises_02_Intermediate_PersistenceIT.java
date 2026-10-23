@@ -49,10 +49,10 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.name, COUNT(fc)
+                                            SELECT c, COUNT(fc)
                                             FROM Category c
                                                      JOIN c.filmCategories fc
-                                            GROUP BY c.categoryId, c.name
+                                            GROUP BY c
                                             ORDER BY COUNT(fc) DESC, c.name""",
                                     Object[].class
                             )
@@ -61,7 +61,7 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).hasSize(16);
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue())
                     .startsWith(tuple("Sports", 74L), tuple("Foreign", 73L), tuple("Family", 69L));
         }
 
@@ -72,8 +72,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Category.class);
                 final var fc = c.join(Category_.filmCategories);
-                cq.select(cb.array(c.get(Category_.name), cb.count(fc)))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                cq.select(cb.array(c, cb.count(fc)))
+                        .groupBy(c)
                         .orderBy(cb.desc(cb.count(fc)), cb.asc(c.get(Category_.name)));
                 return em.createQuery(cq)
                         .getResultList();
@@ -81,7 +81,7 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list).hasSize(16);
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue())
                     .startsWith(tuple("Sports", 74L), tuple("Foreign", 73L), tuple("Family", 69L));
         }
     }
@@ -95,11 +95,11 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.name, ROUND(AVG(f.length), 2)
+                                            SELECT c, ROUND(AVG(f.length), 2)
                                             FROM Category c
                                                      JOIN c.filmCategories fc
                                                      JOIN fc.film f
-                                            GROUP BY c.categoryId, c.name
+                                            GROUP BY c
                                             ORDER BY AVG(f.length) DESC""",
                                     Object[].class
                             )
@@ -108,7 +108,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).doubleValue())
+                    .extracting(r -> ((Category) r[0]).getName(),
+                                r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
                             tuple("Sports", 128.2d));
         }
@@ -120,8 +121,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Category.class);
                 final var f = c.join(Category_.filmCategories).join(FilmCategory_.film);
-                cq.select(cb.array(c.get(Category_.name), cb.round(cb.avg(f.get(Film_.length)), 2)))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                cq.select(cb.array(c, cb.round(cb.avg(f.get(Film_.length)), 2)))
+                        .groupBy(c)
                         .orderBy(cb.desc(cb.avg(f.get(Film_.length))));
                 return em.createQuery(cq)
                         .setMaxResults(1)
@@ -129,7 +130,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).doubleValue())
+                    .extracting(r -> ((Category) r[0]).getName(),
+                                r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
                             tuple("Sports", 128.2d));
         }
@@ -180,11 +182,11 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.name, ROUND(AVG(f.rentalRate), 2)
+                                            SELECT c, ROUND(AVG(f.rentalRate), 2)
                                             FROM Category c
                                                      JOIN c.filmCategories fc
                                                      JOIN fc.film f
-                                            GROUP BY c.categoryId, c.name
+                                            GROUP BY c
                                             HAVING AVG(f.rentalRate) > (SELECT AVG(f2.rentalRate) FROM Film f2)
                                             ORDER BY AVG(f.rentalRate) DESC, c.name""",
                                     Object[].class
@@ -193,7 +195,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).doubleValue())
+                    .extracting(r -> ((Category) r[0]).getName(),
+                                r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
                             tuple("Games", 3.25d),
                             tuple("Travel", 3.24d),
@@ -216,9 +219,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
                 final var average = cq.subquery(Double.class);
                 final var f2 = average.from(Film.class);
                 average.select(cb.avg(f2.get(Film_.rentalRate)));
-                cq.select(cb.array(c.get(Category_.name),
-                                   cb.round(cb.avg(f.get(Film_.rentalRate)), 2)))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                cq.select(cb.array(c, cb.round(cb.avg(f.get(Film_.rentalRate)), 2)))
+                        .groupBy(c)
                         .having(cb.gt(cb.avg(f.get(Film_.rentalRate)), average))
                         .orderBy(cb.desc(cb.avg(f.get(Film_.rentalRate))),
                                  cb.asc(c.get(Category_.name)));
@@ -227,7 +229,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).doubleValue())
+                    .extracting(r -> ((Category) r[0]).getName(),
+                                r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
                             tuple("Games", 3.25d),
                             tuple("Travel", 3.24d),
@@ -250,12 +253,12 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.name, COUNT(DISTINCT fa.actor)
+                                            SELECT c, COUNT(DISTINCT fa.actor)
                                             FROM Category c
                                                      JOIN c.filmCategories fc
                                                      JOIN fc.film f
                                                      JOIN f.filmActors fa
-                                            GROUP BY c.categoryId, c.name
+                                            GROUP BY c
                                             ORDER BY COUNT(DISTINCT fa.actor) DESC, c.name""",
                                     Object[].class
                             )
@@ -264,7 +267,7 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("Sports", 182L),
                             tuple("Foreign", 175L),
@@ -282,8 +285,8 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
                 final var fa = c.join(Category_.filmCategories).join(FilmCategory_.film)
                         .join(Film_.filmActors);
                 final var actors = cb.countDistinct(fa.get(FilmActor_.actor));
-                cq.select(cb.array(c.get(Category_.name), actors))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                cq.select(cb.array(c, actors))
+                        .groupBy(c)
                         .orderBy(cb.desc(actors), cb.asc(c.get(Category_.name)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -291,7 +294,7 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("Sports", 182L),
                             tuple("Foreign", 175L),

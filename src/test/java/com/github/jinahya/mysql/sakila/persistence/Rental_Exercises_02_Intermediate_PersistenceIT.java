@@ -48,17 +48,18 @@ class Rental_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT i.storeId, COUNT(r)
+                                                                                      SELECT st, COUNT(r)
                                                                                       FROM Rental r
                                                                                                JOIN r.inventory i
+                                                                                               JOIN i.store st
                                                                                       WHERE r.returnDate IS NULL
-                                                                                      GROUP BY i.storeId
-                                                                                      ORDER BY i.storeId""",
+                                                                                      GROUP BY st
+                                                                                      ORDER BY st.storeId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 92L),
                             tuple(2, 91L));
@@ -70,17 +71,17 @@ class Rental_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var r = cq.from(Rental.class);
-                final var storeId = r.join(Rental_.inventory).get(Inventory_.storeId);
-                cq.select(cb.array(storeId, cb.count(r)))
+                final var st = r.join(Rental_.inventory).join(Inventory_.store);
+                cq.select(cb.array(st, cb.count(r)))
                         .where(cb.isNull(r.get(Rental_.returnDate)))
-                        .groupBy(storeId)
-                        .orderBy(cb.asc(storeId));
+                        .groupBy(st)
+                        .orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 92L),
                             tuple(2, 91L));

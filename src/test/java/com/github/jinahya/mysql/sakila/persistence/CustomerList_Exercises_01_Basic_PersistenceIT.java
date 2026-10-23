@@ -92,15 +92,17 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT l.sid, COUNT(l)
-                                                                                      FROM CustomerList l
-                                                                                      GROUP BY l.sid
-                                                                                      ORDER BY l.sid""",
+                                                                                      SELECT s, COUNT(l)
+                                                                                      FROM CustomerList l,
+                                                                                           Store s
+                                                                                      WHERE s.storeId = l.sid
+                                                                                      GROUP BY s
+                                                                                      ORDER BY s.storeId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 326L),
                             tuple(2, 273L));
@@ -112,15 +114,17 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var l = cq.from(CustomerList.class);
-                cq.select(cb.array(l.get(CustomerList_.sid), cb.count(l)))
-                        .groupBy(l.get(CustomerList_.sid))
-                        .orderBy(cb.asc(l.get(CustomerList_.sid)));
+                final var s = cq.from(Store.class);
+                cq.select(cb.array(s, cb.count(l)))
+                        .where(cb.equal(s.get(Store_.storeId), l.get(CustomerList_.sid)))
+                        .groupBy(s)
+                        .orderBy(cb.asc(s.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 326L),
                             tuple(2, 273L));

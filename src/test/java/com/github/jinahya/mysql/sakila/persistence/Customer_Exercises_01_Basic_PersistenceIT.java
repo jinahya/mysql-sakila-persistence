@@ -90,15 +90,16 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.store.storeId, COUNT(c)
+                                                                                      SELECT s, COUNT(c)
                                                                                       FROM Customer c
-                                                                                      GROUP BY c.store.storeId
-                                                                                      ORDER BY c.store.storeId""",
+                                                                                               JOIN c.store s
+                                                                                      GROUP BY s
+                                                                                      ORDER BY s.storeId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 326L),
                             tuple(2, 273L));
@@ -110,16 +111,16 @@ class Customer_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Customer.class);
-                final var storeId = c.get(Customer_.store).get(Store_.storeId);
-                cq.select(cb.array(storeId, cb.count(c)))
-                        .groupBy(storeId)
-                        .orderBy(cb.asc(storeId));
+                final var s = c.join(Customer_.store);
+                cq.select(cb.array(s, cb.count(c)))
+                        .groupBy(s)
+                        .orderBy(cb.asc(s.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 326L),
                             tuple(2, 273L));
@@ -154,16 +155,19 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.customerId, c.firstName, c.lastName, c.store.storeId
+                                                                                      SELECT c, s
                                                                                       FROM Customer c
+                                                                                               JOIN c.store s
                                                                                       WHERE c.active = FALSE
                                                                                       ORDER BY c.customerId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).intValue())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((Store) r[1]).getStoreId())
                     .containsExactly(
                             tuple(16, "SANDRA", "MARTIN", 2),
                             tuple(64, "JUDITH", "COX", 2),
@@ -188,9 +192,8 @@ class Customer_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var c = cq.from(Customer.class);
-                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
-                                   c.get(Customer_.lastName),
-                                   c.get(Customer_.store).get(Store_.storeId)))
+                final var s = c.join(Customer_.store);
+                cq.select(cb.array(c, s))
                         .where(cb.isFalse(c.get(Customer_.active)))
                         .orderBy(cb.asc(c.get(Customer_.customerId)));
                 return em.createQuery(cq)
@@ -198,8 +201,10 @@ class Customer_Exercises_01_Basic_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).intValue())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((Store) r[1]).getStoreId())
                     .containsExactly(
                             tuple(16, "SANDRA", "MARTIN", 2),
                             tuple(64, "JUDITH", "COX", 2),

@@ -94,7 +94,7 @@ class Address_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT a1.addressId, a1.address, a2.addressId, a2.address, a1.postalCode
+                                                                                      SELECT a1, a2
                                                                                       FROM Address a1, Address a2
                                                                                       WHERE a2.postalCode = a1.postalCode
                                                                                         AND a2.addressId > a1.addressId
@@ -104,8 +104,11 @@ class Address_Exercises_03_Advanced_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue(), r -> r[3], r -> r[4])
+                    .extracting(r -> ((Address) r[0]).getAddressId(),
+                                r -> ((Address) r[0]).getAddress(),
+                                r -> ((Address) r[1]).getAddressId(),
+                                r -> ((Address) r[1]).getAddress(),
+                                r -> ((Address) r[0]).getPostalCode())
                     .containsExactly(
                             tuple(221, "866 Shivapuri Manor", 595, "1074 Sanaa Parkway", "22474"),
                             tuple(304, "1635 Kuwana Boulevard", 603, "1103 Quilmes Boulevard",
@@ -121,9 +124,7 @@ class Address_Exercises_03_Advanced_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var a1 = cq.from(Address.class);
                 final var a2 = cq.from(Address.class);
-                cq.select(cb.array(a1.get(Address_.addressId), a1.get(Address_.address),
-                                   a2.get(Address_.addressId), a2.get(Address_.address),
-                                   a1.get(Address_.postalCode)))
+                cq.select(cb.array(a1, a2))
                         .where(cb.equal(a2.get(Address_.postalCode), a1.get(Address_.postalCode)),
                                cb.gt(a2.get(Address_.addressId), a1.get(Address_.addressId)),
                                cb.notEqual(a1.get(Address_.postalCode), ""))
@@ -134,8 +135,11 @@ class Address_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue(), r -> r[3], r -> r[4])
+                    .extracting(r -> ((Address) r[0]).getAddressId(),
+                                r -> ((Address) r[0]).getAddress(),
+                                r -> ((Address) r[1]).getAddressId(),
+                                r -> ((Address) r[1]).getAddress(),
+                                r -> ((Address) r[0]).getPostalCode())
                     .containsExactly(
                             tuple(221, "866 Shivapuri Manor", 595, "1074 Sanaa Parkway", "22474"),
                             tuple(304, "1635 Kuwana Boulevard", 603, "1103 Quilmes Boulevard",

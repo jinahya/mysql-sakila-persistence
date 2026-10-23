@@ -129,7 +129,7 @@ class Country_Exercises_01_Basic_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.country, FUNCTION('CHAR_LENGTH', c.country) AS nameLength
+                                            SELECT c, FUNCTION('CHAR_LENGTH', c.country) AS nameLength
                                             FROM Country c
                                             ORDER BY nameLength DESC, c.country""",
                                     Object[].class
@@ -139,7 +139,7 @@ class Country_Exercises_01_Basic_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(), r -> ((Number) r[1]).intValue())
                     .containsExactly(
                             tuple("Congo, The Democratic Republic of the", 37),
                             tuple("Saint Vincent and the Grenadines", 32),
@@ -156,7 +156,7 @@ class Country_Exercises_01_Basic_PersistenceIT {
                 final var c = cq.from(Country.class);
                 final var nameLength =
                         cb.function("CHAR_LENGTH", Integer.class, c.get(Country_.country));
-                cq.select(cb.array(c.get(Country_.country), nameLength))
+                cq.select(cb.array(c, nameLength))
                         .orderBy(cb.desc(nameLength), cb.asc(c.get(Country_.country)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -164,7 +164,7 @@ class Country_Exercises_01_Basic_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(), r -> ((Number) r[1]).intValue())
                     .containsExactly(
                             tuple("Congo, The Democratic Republic of the", 37),
                             tuple("Saint Vincent and the Grenadines", 32),

@@ -47,15 +47,17 @@ class Store_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT st.storeId, st.managerStaff.staffId, st.address.addressId
+                                                                                      SELECT st, s, a
                                                                                       FROM Store st
+                                                                                               JOIN st.managerStaff s
+                                                                                               JOIN st.address a
                                                                                       ORDER BY st.storeId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue(),
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Staff) r[1]).getStaffId(),
+                                r -> ((Address) r[2]).getAddressId())
                     .containsExactly(
                             tuple(1, 1, 1),
                             tuple(2, 2, 2));
@@ -67,17 +69,17 @@ class Store_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var st = cq.from(Store.class);
-                cq.select(cb.array(st.get(Store_.storeId),
-                                   st.get(Store_.managerStaff).get(Staff_.staffId),
-                                   st.get(Store_.address).get(Address_.addressId)))
+                final var s = st.join(Store_.managerStaff);
+                final var a = st.join(Store_.address);
+                cq.select(cb.array(st, s, a))
                         .orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue(),
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Staff) r[1]).getStaffId(),
+                                r -> ((Address) r[2]).getAddressId())
                     .containsExactly(
                             tuple(1, 1, 1),
                             tuple(2, 2, 2));

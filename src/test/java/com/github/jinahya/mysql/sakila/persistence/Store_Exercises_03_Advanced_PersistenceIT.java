@@ -56,23 +56,27 @@ class Store_Exercises_03_Advanced_PersistenceIT {
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var onlyHere = em.createQuery("""
-                                                            SELECT i.storeId, COUNT(DISTINCT i.film)
+                                                            SELECT st, COUNT(DISTINCT i.film)
                                                             FROM Inventory i
+                                                                     JOIN i.store st
                                                             WHERE NOT EXISTS (SELECT o FROM Inventory o WHERE o.film = i.film AND o.storeId <> i.storeId)
-                                                            GROUP BY i.storeId""", Object[].class)
-                        .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
-                return em.createQuery("""
-                                              SELECT i.storeId, COUNT(DISTINCT i.film)
-                                              FROM Inventory i
-                                              GROUP BY i.storeId
-                                              ORDER BY i.storeId""", Object[].class)
+                                                            GROUP BY st""", Object[].class)
                         .getResultStream()
-                        .map(r -> new Object[]{r[0], r[1], onlyHere.get(r[0])})
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
+                return em.createQuery("""
+                                              SELECT st, COUNT(DISTINCT i.film)
+                                              FROM Inventory i
+                                                       JOIN i.store st
+                                              GROUP BY st
+                                              ORDER BY st.storeId""", Object[].class)
+                        .getResultStream()
+                        .map(r -> new Object[]{r[0], r[1],
+                                               onlyHere.get(((Store) r[0]).getStoreId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(1, 759L, 196L),
@@ -90,25 +94,26 @@ class Store_Exercises_03_Advanced_PersistenceIT {
                 others.select(o).where(cb.equal(o.get(Inventory_.film), i1.get(Inventory_.film)),
                                        cb.notEqual(o.get(Inventory_.storeId),
                                                    i1.get(Inventory_.storeId)));
-                only.select(cb.array(i1.get(Inventory_.storeId),
-                                     cb.countDistinct(i1.get(Inventory_.film))))
+                final var st1 = i1.join(Inventory_.store);
+                only.select(cb.array(st1, cb.countDistinct(i1.get(Inventory_.film))))
                         .where(cb.not(cb.exists(others)))
-                        .groupBy(i1.get(Inventory_.storeId));
+                        .groupBy(st1);
                 final var onlyHere = em.createQuery(only).getResultStream()
-                        .collect(Collectors.toMap(r -> r[0], r -> r[1]));
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
                 final var cq = cb.createQuery(Object[].class);
                 final var i = cq.from(Inventory.class);
-                cq.select(cb.array(i.get(Inventory_.storeId),
-                                   cb.countDistinct(i.get(Inventory_.film))))
-                        .groupBy(i.get(Inventory_.storeId))
-                        .orderBy(cb.asc(i.get(Inventory_.storeId)));
+                final var st = i.join(Inventory_.store);
+                cq.select(cb.array(st, cb.countDistinct(i.get(Inventory_.film))))
+                        .groupBy(st)
+                        .orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq).getResultStream()
-                        .map(r -> new Object[]{r[0], r[1], onlyHere.get(r[0])})
+                        .map(r -> new Object[]{r[0], r[1],
+                                               onlyHere.get(((Store) r[0]).getStoreId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(1, 759L, 196L),
@@ -134,11 +139,12 @@ class Store_Exercises_03_Advanced_PersistenceIT {
                         .collect(Collectors.toMap(r -> String.format("%d-%02d", r[0], r[1]),
                                                   r -> ((Number) r[2]).longValue()));
                 return em.createQuery("""
-                                              SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), i.storeId, COUNT(r)
+                                              SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), st, COUNT(r)
                                               FROM Rental r
                                                        JOIN r.inventory i
-                                              GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), i.storeId
-                                              ORDER BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), i.storeId""",
+                                                       JOIN i.store st
+                                              GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), st
+                                              ORDER BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), st.storeId""",
                                       Object[].class)
                         .getResultStream()
                         .map(r -> share(String.format("%d-%02d", r[0], r[1]), r[2], r[3], months))
@@ -146,7 +152,7 @@ class Store_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue(),
+                    .extracting(r -> r[0], r -> ((Store) r[1]).getStoreId(),
                                 r -> ((Number) r[2]).longValue(),
                                 r -> ((BigDecimal) r[3]).toPlainString())
                     .containsExactly(
@@ -178,19 +184,19 @@ class Store_Exercises_03_Advanced_PersistenceIT {
                                                   r -> ((Number) r[2]).longValue()));
                 final var cq = cb.createQuery(Object[].class);
                 final var r = cq.from(Rental.class);
-                final var i = r.join(Rental_.inventory);
+                final var st = r.join(Rental_.inventory).join(Inventory_.store);
                 final var year = cb.extract(LocalDateTimeField.YEAR, r.get(Rental_.rentalDate));
                 final var month = cb.extract(LocalDateTimeField.MONTH, r.get(Rental_.rentalDate));
-                cq.select(cb.array(year, month, i.get(Inventory_.storeId), cb.count(r)))
-                        .groupBy(year, month, i.get(Inventory_.storeId))
-                        .orderBy(cb.asc(year), cb.asc(month), cb.asc(i.get(Inventory_.storeId)));
+                cq.select(cb.array(year, month, st, cb.count(r)))
+                        .groupBy(year, month, st)
+                        .orderBy(cb.asc(year), cb.asc(month), cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq).getResultStream()
                         .map(e -> share(String.format("%d-%02d", e[0], e[1]), e[2], e[3], months))
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue(),
+                    .extracting(r -> r[0], r -> ((Store) r[1]).getStoreId(),
                                 r -> ((Number) r[2]).longValue(),
                                 r -> ((BigDecimal) r[3]).toPlainString())
                     .containsExactly(
@@ -207,10 +213,10 @@ class Store_Exercises_03_Advanced_PersistenceIT {
         }
 
         // the month, the store, its rentals, and its percentage of the month's rentals
-        private static Object[] share(final String month, final Object storeId,
+        private static Object[] share(final String month, final Object store,
                                       final Object rentals, final Map<String, Long> months) {
             final var count = ((Number) rentals).longValue();
-            return new Object[]{month, storeId, count,
+            return new Object[]{month, store, count,
                     BigDecimal.valueOf(100L * count)
                             .divide(BigDecimal.valueOf(months.get(month)), 2,
                                     RoundingMode.HALF_UP)};

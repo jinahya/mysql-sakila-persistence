@@ -49,7 +49,7 @@
 -- | Travel      |     3549.64 |      63988.84 |           94.93 |
 -- | Music       |     3417.72 |      67406.56 |          100.00 |
 -- +-------------+-------------+---------------+-----------------+
-SELECT category, total_sales,
+SELECT *,
        SUM(total_sales) OVER (ORDER BY total_sales DESC, category) AS running_total,
        ROUND(100 * SUM(total_sales) OVER (ORDER BY total_sales DESC, category) / SUM(total_sales) OVER (), 2)
            AS running_percent

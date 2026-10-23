@@ -28,13 +28,13 @@
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-STORE-I-01
 -- every store, with its manager and city.
--- +----------+------------+-----------+------------+
--- | store_id | first_name | last_name | city       |
--- +----------+------------+-----------+------------+
--- |        1 | Mike       | Hillyer   | Lethbridge |
--- |        2 | Jon        | Stephens  | Woodridge  |
--- +----------+------------+-----------+------------+
-SELECT st.store_id, s.first_name, s.last_name, ci.city
+-- +----------+------------------+------------+---------------------+----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+------------+------------+---------------------+
+-- | store_id | manager_staff_id | address_id | last_update         | staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | city_id | city       | country_id | last_update         |
+-- +----------+------------------+------------+---------------------+----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+------------+------------+---------------------+
+-- |        1 |                1 |          1 | 2006-02-15 04:57:12 |        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |
+-- |        2 |                2 |          2 | 2006-02-15 04:57:12 |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |
+-- +----------+------------------+------------+---------------------+----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+------------+------------+---------------------+
+SELECT st.*, s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, ci.* -- every column but picture, a BLOB which does not print
 FROM store st
          JOIN staff s ON s.staff_id = st.manager_staff_id
          JOIN address a ON a.address_id = st.address_id
@@ -44,13 +44,13 @@ ORDER BY st.store_id
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-STORE-I-02
 -- how many customers, copies and staff members each store has.
--- +----------+-----------+--------+-------+
--- | store_id | customers | copies | staff |
--- +----------+-----------+--------+-------+
--- |        1 |       326 |   2270 |     1 |
--- |        2 |       273 |   2311 |     1 |
--- +----------+-----------+--------+-------+
-SELECT st.store_id,
+-- +----------+------------------+------------+---------------------+-----------+--------+-------+
+-- | store_id | manager_staff_id | address_id | last_update         | customers | copies | staff |
+-- +----------+------------------+------------+---------------------+-----------+--------+-------+
+-- |        1 |                1 |          1 | 2006-02-15 04:57:12 |       326 |   2270 |     1 |
+-- |        2 |                2 |          2 | 2006-02-15 04:57:12 |       273 |   2311 |     1 |
+-- +----------+------------------+------------+---------------------+-----------+--------+-------+
+SELECT st.*,
        (SELECT COUNT(*) FROM customer c WHERE c.store_id = st.store_id)  AS customers,
        (SELECT COUNT(*) FROM inventory i WHERE i.store_id = st.store_id) AS copies,
        (SELECT COUNT(*) FROM staff s WHERE s.store_id = st.store_id)     AS staff

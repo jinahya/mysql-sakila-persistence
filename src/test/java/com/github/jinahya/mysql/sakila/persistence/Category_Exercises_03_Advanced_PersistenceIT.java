@@ -51,7 +51,7 @@ class Category_Exercises_03_Advanced_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.name,
+                                            SELECT c,
                                                    (SELECT COUNT(fc1) FROM FilmCategory fc1 WHERE fc1.category = c),
                                                    COUNT(fc),
                                                    ROUND(COUNT(fc) * 100.0 / (SELECT COUNT(fc2) FROM FilmCategory fc2), 1)
@@ -59,7 +59,7 @@ class Category_Exercises_03_Advanced_PersistenceIT {
                                                      JOIN fc.category c2
                                             WHERE SIZE(c2.filmCategories) > SIZE(c.filmCategories)
                                                OR (SIZE(c2.filmCategories) = SIZE(c.filmCategories) AND c2.name <= c.name)
-                                            GROUP BY c.categoryId, c.name
+                                            GROUP BY c
                                             ORDER BY COUNT(fc)""",
                                     Object[].class
                             )
@@ -67,7 +67,7 @@ class Category_Exercises_03_Advanced_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue(),
                                 r -> ((Number) r[3]).doubleValue())
                     .containsExactly(
@@ -106,20 +106,20 @@ class Category_Exercises_03_Advanced_PersistenceIT {
                 final var size2 = cb.size(c2.get(Category_.filmCategories));
                 // eclipselink selects no bare subquery (a ClassCastException); it does select a
                 // COALESCE of one
-                cq.select(cb.array(c.get(Category_.name), cb.coalesce(films, 0L), cb.count(fc),
+                cq.select(cb.array(c, cb.coalesce(films, 0L), cb.count(fc),
                                    cb.round(cb.quot(cb.prod(cb.count(fc), 100.0), all), 1)))
                         .where(cb.or(cb.gt(size2, size),
                                      cb.and(cb.equal(size2, size),
                                             cb.lessThanOrEqualTo(c2.get(Category_.name),
                                                                  c.get(Category_.name)))))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                        .groupBy(c)
                         .orderBy(cb.asc(cb.count(fc)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue(),
                                 r -> ((Number) r[3]).doubleValue())
                     .containsExactly(
@@ -153,13 +153,13 @@ class Category_Exercises_03_Advanced_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.name, f.title, COUNT(r)
+                                            SELECT c, f, COUNT(r)
                                             FROM Category c
                                                      JOIN c.filmCategories fc
                                                      JOIN fc.film f
                                                      JOIN f.inventories i
                                                      JOIN i.rentals r
-                                            GROUP BY c.categoryId, c.name, f.filmId, f.title
+                                            GROUP BY c, f
                                             HAVING COUNT(r) >= ALL (SELECT COUNT(r2)
                                                                     FROM FilmCategory fc2
                                                                              JOIN fc2.film f2
@@ -182,7 +182,8 @@ class Category_Exercises_03_Advanced_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Film) r[1]).getTitle(),
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple("Action", "RUGRATS SHAKESPEARE", 30L),
                             tuple("Animation", "JUGGLER HARDLY", 32L),
@@ -223,9 +224,8 @@ class Category_Exercises_03_Advanced_PersistenceIT {
                         .where(cb.equal(fc3.get(FilmCategory_.category), c),
                                cb.lessThan(f3.get(Film_.title), f.get(Film_.title)))
                         .groupBy(f3.get(Film_.filmId));
-                cq.select(cb.array(c.get(Category_.name), f.get(Film_.title), cb.count(r)))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name),
-                                 f.get(Film_.filmId), f.get(Film_.title))
+                cq.select(cb.array(c, f, cb.count(r)))
+                        .groupBy(c, f)
                         .having(cb.ge(cb.count(r), cb.all(others)),
                                 cb.gt(cb.count(r), cb.all(before)))
                         .orderBy(cb.asc(c.get(Category_.name)));
@@ -234,7 +234,8 @@ class Category_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> r[1], r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Film) r[1]).getTitle(),
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple("Action", "RUGRATS SHAKESPEARE", 30L),
                             tuple("Animation", "JUGGLER HARDLY", 32L),

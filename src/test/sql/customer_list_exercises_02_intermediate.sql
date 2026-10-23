@@ -55,7 +55,7 @@ ORDER BY city, country
 -- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-I-03
 -- the rows whose name is not the customer's first and last name.
 -- no rows.
-SELECT cl.ID, cl.name, c.first_name, c.last_name
+SELECT cl.*, c.*
 FROM customer_list cl
          JOIN customer c ON c.customer_id = cl.ID
 WHERE cl.name <> CONCAT(c.first_name, ' ', c.last_name)

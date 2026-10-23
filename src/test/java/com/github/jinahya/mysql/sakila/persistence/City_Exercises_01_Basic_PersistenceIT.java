@@ -133,7 +133,7 @@ class City_Exercises_01_Basic_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT c.cityId, c.city, FUNCTION('CHAR_LENGTH', c.city) AS cityLength
+                                            SELECT c, FUNCTION('CHAR_LENGTH', c.city) AS cityLength
                                             FROM City c
                                             ORDER BY cityLength DESC, c.city""",
                                     Object[].class
@@ -143,8 +143,8 @@ class City_Exercises_01_Basic_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(r -> ((City) r[0]).getCityId(), r -> ((City) r[0]).getCity(),
+                                r -> ((Number) r[1]).intValue())
                     .containsExactly(
                             tuple(450, "San Felipe de Puerto Plata", 26),
                             tuple(452, "San Juan Bautista Tuxtepec", 26),
@@ -161,7 +161,7 @@ class City_Exercises_01_Basic_PersistenceIT {
                 final var c = cq.from(City.class);
                 final var cityLength =
                         cb.function("CHAR_LENGTH", Integer.class, c.get(City_.city));
-                cq.select(cb.array(c.get(City_.cityId), c.get(City_.city), cityLength))
+                cq.select(cb.array(c, cityLength))
                         .orderBy(cb.desc(cityLength), cb.asc(c.get(City_.city)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -169,8 +169,8 @@ class City_Exercises_01_Basic_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(r -> ((City) r[0]).getCityId(), r -> ((City) r[0]).getCity(),
+                                r -> ((Number) r[1]).intValue())
                     .containsExactly(
                             tuple(450, "San Felipe de Puerto Plata", 26),
                             tuple(452, "San Juan Bautista Tuxtepec", 26),

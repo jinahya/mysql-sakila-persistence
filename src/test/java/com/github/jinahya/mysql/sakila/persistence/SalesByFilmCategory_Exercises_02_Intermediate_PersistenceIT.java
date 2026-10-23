@@ -95,17 +95,18 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.category, s.totalSales, ROUND(100 * s.totalSales / SUM(t.totalSales), 2)
+                                                                                      SELECT s, ROUND(100 * s.totalSales / SUM(t.totalSales), 2)
                                                                                       FROM SalesByFilmCategory s, SalesByFilmCategory t
-                                                                                      GROUP BY s.category, s.totalSales
+                                                                                      GROUP BY s
                                                                                       ORDER BY s.totalSales DESC, s.category""",
                                                                               Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((Number) r[2]).doubleValue())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
                             tuple("Sports", "5314.21", 7.88d),
                             tuple("Sci-Fi", "4756.98", 7.06d),
@@ -126,8 +127,8 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
                 final var percent = cb.round(
                         cb.quot(cb.prod(totalSales, BigDecimal.valueOf(100)),
                                 cb.sum(t.get(SalesByFilmCategory_.totalSales))), 2);
-                cq.select(cb.array(category, totalSales, percent))
-                        .groupBy(category, totalSales)
+                cq.select(cb.array(s, percent))
+                        .groupBy(s)
                         .orderBy(cb.desc(totalSales), cb.asc(category));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -135,8 +136,9 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((Number) r[2]).doubleValue())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
                             tuple("Sports", "5314.21", 7.88d),
                             tuple("Sci-Fi", "4756.98", 7.06d),
@@ -153,20 +155,21 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.category, s.totalSales, COUNT(fc.filmId), ROUND(s.totalSales / COUNT(fc.filmId), 2) AS perFilm
+                                                                                      SELECT s, COUNT(fc.filmId), ROUND(s.totalSales / COUNT(fc.filmId), 2) AS perFilm
                                                                                       FROM SalesByFilmCategory s, FilmCategory fc
                                                                                                JOIN fc.category c
                                                                                       WHERE c.name = s.category
-                                                                                      GROUP BY s.category, s.totalSales
+                                                                                      GROUP BY s
                                                                                       ORDER BY perFilm DESC, s.category""",
                                                                               Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((Number) r[2]).longValue(),
-                                r -> ((Number) r[3]).doubleValue())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).doubleValue())
                     .containsExactly(
                             tuple("Sci-Fi", "4756.98", 61L, 77.98d),
                             tuple("Comedy", "4383.58", 58L, 75.58d),
@@ -187,9 +190,9 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
                 final var totalSales = s.get(SalesByFilmCategory_.totalSales);
                 final var films = cb.count(fc.get(FilmCategory_.filmId));
                 final var perFilm = cb.round(cb.quot(totalSales, films), 2);
-                cq.select(cb.array(category, totalSales, films, perFilm))
+                cq.select(cb.array(s, films, perFilm))
                         .where(cb.equal(c.get(Category_.name), category))
-                        .groupBy(category, totalSales)
+                        .groupBy(s)
                         .orderBy(cb.desc(perFilm), cb.asc(category));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -197,9 +200,10 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((Number) r[2]).longValue(),
-                                r -> ((Number) r[3]).doubleValue())
+                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
+                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
+                                r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).doubleValue())
                     .containsExactly(
                             tuple("Sci-Fi", "4756.98", 61L, 77.98d),
                             tuple("Comedy", "4383.58", 58L, 75.58d),

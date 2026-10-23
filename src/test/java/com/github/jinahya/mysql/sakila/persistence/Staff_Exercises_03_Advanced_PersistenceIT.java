@@ -50,10 +50,10 @@ class Staff_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s.staffId, EXTRACT(DATE FROM p.paymentDate), COUNT(p), SUM(p.amount)
+                                                                                      SELECT s, EXTRACT(DATE FROM p.paymentDate), COUNT(p), SUM(p.amount)
                                                                                       FROM Payment p
                                                                                                JOIN p.staff s
-                                                                                      GROUP BY s.staffId, EXTRACT(DATE FROM p.paymentDate)
+                                                                                      GROUP BY s, EXTRACT(DATE FROM p.paymentDate)
                                                                                       HAVING SUM(p.amount) >= ALL (SELECT SUM(p2.amount)
                                                                                                                    FROM Payment p2
                                                                                                                    WHERE p2.staff.staffId = s.staffId
@@ -64,7 +64,7 @@ class Staff_Exercises_03_Advanced_PersistenceIT {
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
                     // the day, whichever of LocalDate, LocalDateTime and java.sql.Date it is
-                    .extracting(r -> ((Number) r[0]).intValue(),
+                    .extracting(r -> ((Staff) r[0]).getStaffId(),
                                 r -> String.valueOf(r[1]).substring(0, 10),
                                 r -> ((Number) r[2]).longValue(),
                                 r -> ((BigDecimal) r[3]).toPlainString())
@@ -88,9 +88,8 @@ class Staff_Exercises_03_Advanced_PersistenceIT {
                                         s.get(Staff_.staffId)))
                         .groupBy(cb.extract(LocalDateTimeField.DATE,
                                             p2.get(Payment_.paymentDate)));
-                cq.select(cb.array(s.get(Staff_.staffId), day, cb.count(p),
-                                   cb.sum(p.get(Payment_.amount))))
-                        .groupBy(s.get(Staff_.staffId), day)
+                cq.select(cb.array(s, day, cb.count(p), cb.sum(p.get(Payment_.amount))))
+                        .groupBy(s, day)
                         .having(cb.greaterThanOrEqualTo(cb.sum(p.get(Payment_.amount)),
                                                         cb.all(totals)))
                         .orderBy(cb.asc(s.get(Staff_.staffId)));
@@ -100,7 +99,7 @@ class Staff_Exercises_03_Advanced_PersistenceIT {
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
                     // the day, whichever of LocalDate, LocalDateTime and java.sql.Date it is
-                    .extracting(r -> ((Number) r[0]).intValue(),
+                    .extracting(r -> ((Staff) r[0]).getStaffId(),
                                 r -> String.valueOf(r[1]).substring(0, 10),
                                 r -> ((Number) r[2]).longValue(),
                                 r -> ((BigDecimal) r[3]).toPlainString())

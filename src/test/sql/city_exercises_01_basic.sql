@@ -56,16 +56,16 @@ WHERE city LIKE '% %'
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-B-03
 -- the five longest city names.
--- +---------+----------------------------+-------------+
--- | city_id | city                       | city_length |
--- +---------+----------------------------+-------------+
--- |     450 | San Felipe de Puerto Plata |          26 |
--- |     452 | San Juan Bautista Tuxtepec |          26 |
--- |     460 | Santiago de los Caballeros |          26 |
--- |      41 | Augusta-Richmond County    |          23 |
--- |      71 | Berhampore (Baharampur)    |          23 |
--- +---------+----------------------------+-------------+
-SELECT city_id, city, CHAR_LENGTH(city) AS city_length
+-- +---------+----------------------------+------------+---------------------+-------------+
+-- | city_id | city                       | country_id | last_update         | city_length |
+-- +---------+----------------------------+------------+---------------------+-------------+
+-- |     450 | San Felipe de Puerto Plata |         27 | 2006-02-15 04:45:25 |          26 |
+-- |     452 | San Juan Bautista Tuxtepec |         60 | 2006-02-15 04:45:25 |          26 |
+-- |     460 | Santiago de los Caballeros |         27 | 2006-02-15 04:45:25 |          26 |
+-- |      41 | Augusta-Richmond County    |        103 | 2006-02-15 04:45:25 |          23 |
+-- |      71 | Berhampore (Baharampur)    |         44 | 2006-02-15 04:45:25 |          23 |
+-- +---------+----------------------------+------------+---------------------+-------------+
+SELECT *, CHAR_LENGTH(city) AS city_length
 FROM city
 ORDER BY city_length DESC, city
 LIMIT 5

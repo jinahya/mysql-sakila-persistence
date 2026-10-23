@@ -83,19 +83,20 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT co.country, COUNT(cu)
+                                                                                      SELECT co, COUNT(cu)
                                                                                       FROM Customer cu
                                                                                                JOIN cu.address a
                                                                                                JOIN a.city c
                                                                                                JOIN c.country co
-                                                                                      GROUP BY co.countryId, co.country
+                                                                                      GROUP BY co
                                                                                       ORDER BY COUNT(cu) DESC, co.country""",
                                                                               Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("India", 60L),
                             tuple("China", 53L),
@@ -111,8 +112,8 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var cu = cq.from(Customer.class);
                 final var co = cu.join(Customer_.address).join(Address_.city).join(City_.country);
-                cq.select(cb.array(co.get(Country_.country), cb.count(cu)))
-                        .groupBy(co.get(Country_.countryId), co.get(Country_.country))
+                cq.select(cb.array(co, cb.count(cu)))
+                        .groupBy(co)
                         .orderBy(cb.desc(cb.count(cu)), cb.asc(co.get(Country_.country)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -120,7 +121,8 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("India", 60L),
                             tuple("China", 53L),

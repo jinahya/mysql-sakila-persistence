@@ -127,7 +127,7 @@ class CustomerList_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT l.id, l.name, c.firstName, c.lastName
+                                                                                      SELECT l, c
                                                                                       FROM CustomerList l,
                                                                                            Customer c
                                                                                       WHERE c.customerId = l.id
@@ -146,8 +146,7 @@ class CustomerList_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var l = cq.from(CustomerList.class);
                 final var c = cq.from(Customer.class);
-                cq.select(cb.array(l.get(CustomerList_.id), l.get(CustomerList_.name),
-                                   c.get(Customer_.firstName), c.get(Customer_.lastName)))
+                cq.select(cb.array(l, c))
                         .where(cb.equal(c.get(Customer_.customerId), l.get(CustomerList_.id)),
                                cb.notEqual(l.get(CustomerList_.name),
                                            cb.concat(cb.concat(c.get(Customer_.firstName), " "),

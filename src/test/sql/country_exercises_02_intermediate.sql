@@ -36,21 +36,21 @@ WHERE NOT EXISTS (SELECT 1 FROM city ci WHERE ci.country_id = co.country_id)
 
 -- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-02
 -- the five countries with the most customers.
--- +---------------+-----------+
--- | country       | customers |
--- +---------------+-----------+
--- | India         |        60 |
--- | China         |        53 |
--- | United States |        36 |
--- | Japan         |        31 |
--- | Mexico        |        30 |
--- +---------------+-----------+
-SELECT co.country, COUNT(*) AS customers
+-- +------------+---------------+---------------------+-----------+
+-- | country_id | country       | last_update         | customers |
+-- +------------+---------------+---------------------+-----------+
+-- |         44 | India         | 2006-02-15 04:44:00 |        60 |
+-- |         23 | China         | 2006-02-15 04:44:00 |        53 |
+-- |        103 | United States | 2006-02-15 04:44:00 |        36 |
+-- |         50 | Japan         | 2006-02-15 04:44:00 |        31 |
+-- |         60 | Mexico        | 2006-02-15 04:44:00 |        30 |
+-- +------------+---------------+---------------------+-----------+
+SELECT co.*, COUNT(*) AS customers
 FROM country co
          JOIN city ci ON ci.country_id = co.country_id
          JOIN address a ON a.city_id = ci.city_id
          JOIN customer cu ON cu.address_id = a.address_id
-GROUP BY co.country_id, co.country
+GROUP BY co.country_id
 ORDER BY customers DESC, co.country LIMIT 5
 ;
 

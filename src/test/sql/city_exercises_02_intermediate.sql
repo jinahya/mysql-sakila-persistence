@@ -48,19 +48,19 @@ ORDER BY ci.city
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-I-02
 -- the five countries with the most cities.
--- +---------------+--------+
--- | country       | cities |
--- +---------------+--------+
--- | India         |     60 |
--- | China         |     53 |
--- | United States |     35 |
--- | Japan         |     31 |
--- | Mexico        |     30 |
--- +---------------+--------+
-SELECT co.country, COUNT(*) AS cities
+-- +------------+---------------+---------------------+--------+
+-- | country_id | country       | last_update         | cities |
+-- +------------+---------------+---------------------+--------+
+-- |         44 | India         | 2006-02-15 04:44:00 |     60 |
+-- |         23 | China         | 2006-02-15 04:44:00 |     53 |
+-- |        103 | United States | 2006-02-15 04:44:00 |     35 |
+-- |         50 | Japan         | 2006-02-15 04:44:00 |     31 |
+-- |         60 | Mexico        | 2006-02-15 04:44:00 |     30 |
+-- +------------+---------------+---------------------+--------+
+SELECT co.*, COUNT(*) AS cities
 FROM country co
          JOIN city ci ON ci.country_id = co.country_id
-GROUP BY co.country_id, co.country
+GROUP BY co.country_id
 ORDER BY cities DESC, co.country LIMIT 5
 ;
 
@@ -78,18 +78,18 @@ WHERE NOT EXISTS (SELECT 1 FROM address a WHERE a.city_id = ci.city_id)
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-I-04
 -- the cities with more than one address.
--- +---------+------------+-----------+
--- | city_id | city       | addresses |
--- +---------+------------+-----------+
--- |      42 | Aurora     |         2 |
--- |     300 | Lethbridge |         2 |
--- |     312 | London     |         2 |
--- |     576 | Woodridge  |         2 |
--- +---------+------------+-----------+
-SELECT ci.city_id, ci.city, COUNT(*) AS addresses
+-- +---------+------------+------------+---------------------+-----------+
+-- | city_id | city       | country_id | last_update         | addresses |
+-- +---------+------------+------------+---------------------+-----------+
+-- |      42 | Aurora     |        103 | 2006-02-15 04:45:25 |         2 |
+-- |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         2 |
+-- |     312 | London     |        102 | 2006-02-15 04:45:25 |         2 |
+-- |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |         2 |
+-- +---------+------------+------------+---------------------+-----------+
+SELECT ci.*, COUNT(*) AS addresses
 FROM city ci
          JOIN address a ON a.city_id = ci.city_id
-GROUP BY ci.city_id, ci.city
+GROUP BY ci.city_id
 HAVING COUNT(*) > 1
 ORDER BY addresses DESC, ci.city
 ;

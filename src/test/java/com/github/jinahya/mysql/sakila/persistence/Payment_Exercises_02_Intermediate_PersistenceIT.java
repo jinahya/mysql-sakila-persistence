@@ -99,10 +99,10 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.customerId, c.firstName, c.lastName, SUM(p.amount) AS total
+                                                                                      SELECT c, SUM(p.amount) AS total
                                                                                       FROM Payment p
                                                                                                JOIN p.customer c
-                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      GROUP BY c
                                                                                       HAVING SUM(p.amount) > :total
                                                                                       ORDER BY total DESC, c.customerId""",
                                                                               Object[].class)
@@ -110,8 +110,10 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple(526, "KARL", "SEAL", "221.55"),
                             tuple(148, "ELEANOR", "HUNT", "216.54"),
@@ -128,21 +130,21 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var p = cq.from(Payment.class);
                 final var c = p.join(Payment_.customer);
-                final var customerId = c.get(Customer_.customerId);
                 final var total = cb.sum(p.get(Payment_.amount));
-                cq.select(cb.array(customerId, c.get(Customer_.firstName),
-                                   c.get(Customer_.lastName), total))
-                        .groupBy(customerId, c.get(Customer_.firstName), c.get(Customer_.lastName))
+                cq.select(cb.array(c, total))
+                        .groupBy(c)
                         .having(cb.gt(total, cb.parameter(BigDecimal.class, "total")))
-                        .orderBy(cb.desc(total), cb.asc(customerId));
+                        .orderBy(cb.desc(total), cb.asc(c.get(Customer_.customerId)));
                 return em.createQuery(cq)
                         .setParameter("total", BigDecimal.valueOf(180))
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Customer) r[0]).getCustomerId(),
+                                r -> ((Customer) r[0]).getFirstName(),
+                                r -> ((Customer) r[0]).getLastName(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple(526, "KARL", "SEAL", "221.55"),
                             tuple(148, "ELEANOR", "HUNT", "216.54"),

@@ -57,14 +57,14 @@ WHERE original_language_id IS NOT NULL
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-B-03
 -- which of four languages the table has.
--- +---------+
--- | name    |
--- +---------+
--- | English |
--- | French  |
--- | German  |
--- +---------+
-SELECT name
+-- +-------------+---------+---------------------+
+-- | language_id | name    | last_update         |
+-- +-------------+---------+---------------------+
+-- |           1 | English | 2006-02-15 05:02:19 |
+-- |           5 | French  | 2006-02-15 05:02:19 |
+-- |           6 | German  | 2006-02-15 05:02:19 |
+-- +-------------+---------+---------------------+
+SELECT *
 FROM language
 WHERE name IN ('English', 'French', 'German', 'Spanish')
 ORDER BY name
@@ -72,14 +72,14 @@ ORDER BY name
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-B-04
 -- the languages whose name ends with an or ese.
--- +-------------+----------+
--- | language_id | name     |
--- +-------------+----------+
--- |           6 | German   |
--- |           2 | Italian  |
--- |           3 | Japanese |
--- +-------------+----------+
-SELECT language_id, name
+-- +-------------+----------+---------------------+
+-- | language_id | name     | last_update         |
+-- +-------------+----------+---------------------+
+-- |           6 | German   | 2006-02-15 05:02:19 |
+-- |           2 | Italian  | 2006-02-15 05:02:19 |
+-- |           3 | Japanese | 2006-02-15 05:02:19 |
+-- +-------------+----------+---------------------+
+SELECT *
 FROM language
 WHERE name LIKE '%an'
    OR name LIKE '%ese'

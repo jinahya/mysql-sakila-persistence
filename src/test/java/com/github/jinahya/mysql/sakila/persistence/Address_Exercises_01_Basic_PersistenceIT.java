@@ -136,15 +136,15 @@ class Address_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT a.addressId, a.address, a.district
+                                                                                      SELECT a
                                                                                       FROM Address a
                                                                                       WHERE a.address2 IS NULL
                                                                                       ORDER BY a.addressId""",
-                                                                              Object[].class)
+                                                                              Address.class)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .extracting(Address::getAddressId, Address::getAddress, Address::getDistrict)
                     .containsExactly(
                             tuple(1, "47 MySakila Drive", "Alberta"),
                             tuple(2, "28 MySQL Boulevard", "QLD"),
@@ -156,18 +156,17 @@ class Address_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(Address.class);
                 final var a = cq.from(Address.class);
-                cq.select(cb.array(a.get(Address_.addressId), a.get(Address_.address),
-                                   a.get(Address_.district)))
+                cq.select(a)
                         .where(cb.isNull(a.get(Address_.address2)))
                         .orderBy(cb.asc(a.get(Address_.addressId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .extracting(Address::getAddressId, Address::getAddress, Address::getDistrict)
                     .containsExactly(
                             tuple(1, "47 MySakila Drive", "Alberta"),
                             tuple(2, "28 MySQL Boulevard", "QLD"),
@@ -183,15 +182,16 @@ class Address_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT a.addressId, a.address, a.postalCode, a.phone
+                                                                                      SELECT a
                                                                                       FROM Address a
                                                                                       WHERE a.district = ''
                                                                                       ORDER BY a.addressId""",
-                                                                              Object[].class)
+                                                                              Address.class)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(Address::getAddressId, Address::getAddress, Address::getPostalCode,
+                                Address::getPhone)
                     .containsExactly(
                             tuple(30, "18 Duisburg Boulevard", "58327", "998009777982"),
                             tuple(386, "1368 Maracaíbo Boulevard", "32716", "934352415130"),
@@ -202,18 +202,18 @@ class Address_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(Address.class);
                 final var a = cq.from(Address.class);
-                cq.select(cb.array(a.get(Address_.addressId), a.get(Address_.address),
-                                   a.get(Address_.postalCode), a.get(Address_.phone)))
+                cq.select(a)
                         .where(cb.equal(a.get(Address_.district), ""))
                         .orderBy(cb.asc(a.get(Address_.addressId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(Address::getAddressId, Address::getAddress, Address::getPostalCode,
+                                Address::getPhone)
                     .containsExactly(
                             tuple(30, "18 Duisburg Boulevard", "58327", "998009777982"),
                             tuple(386, "1368 Maracaíbo Boulevard", "32716", "934352415130"),

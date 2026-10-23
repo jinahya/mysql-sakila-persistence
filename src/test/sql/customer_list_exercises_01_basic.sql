@@ -71,16 +71,17 @@ ORDER BY ID
 
 -- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-B-02
 -- how many customers each store has, as the view's SID says.
--- +-----+-----------+
--- | SID | customers |
--- +-----+-----------+
--- |   1 |       326 |
--- |   2 |       273 |
--- +-----+-----------+
-SELECT SID, COUNT(*) AS customers
-FROM customer_list
-GROUP BY SID
-ORDER BY SID
+-- +----------+------------------+------------+---------------------+-----------+
+-- | store_id | manager_staff_id | address_id | last_update         | customers |
+-- +----------+------------------+------------+---------------------+-----------+
+-- |        1 |                1 |          1 | 2006-02-15 04:57:12 |       326 |
+-- |        2 |                2 |          2 | 2006-02-15 04:57:12 |       273 |
+-- +----------+------------------+------------+---------------------+-----------+
+SELECT st.*, COUNT(*) AS customers
+FROM customer_list l
+         JOIN store st ON st.store_id = l.SID
+GROUP BY st.store_id
+ORDER BY st.store_id
 ;
 
 -- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-B-03

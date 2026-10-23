@@ -51,7 +51,7 @@ WHERE MATCH (title, description) AGAINST ('drama')
 -- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-03
 -- the films whose film_text title differs from their title.
 -- no rows.
-SELECT f.film_id, f.title, ft.title AS film_text_title
+SELECT f.*, ft.*
 FROM film f
          JOIN film_text ft ON ft.film_id = f.film_id
 WHERE ft.title <> f.title

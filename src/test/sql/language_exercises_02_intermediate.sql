@@ -28,35 +28,35 @@
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-I-01
 -- how many films each language has.
--- +----------+-------+
--- | name     | films |
--- +----------+-------+
--- | English  |  1000 |
--- | Italian  |     0 |
--- | Japanese |     0 |
--- | Mandarin |     0 |
--- | French   |     0 |
--- | German   |     0 |
--- +----------+-------+
-SELECT l.name, COUNT(f.film_id) AS films
+-- +-------------+----------+---------------------+-------+
+-- | language_id | name     | last_update         | films |
+-- +-------------+----------+---------------------+-------+
+-- |           1 | English  | 2006-02-15 05:02:19 |  1000 |
+-- |           2 | Italian  | 2006-02-15 05:02:19 |     0 |
+-- |           3 | Japanese | 2006-02-15 05:02:19 |     0 |
+-- |           4 | Mandarin | 2006-02-15 05:02:19 |     0 |
+-- |           5 | French   | 2006-02-15 05:02:19 |     0 |
+-- |           6 | German   | 2006-02-15 05:02:19 |     0 |
+-- +-------------+----------+---------------------+-------+
+SELECT l.*, COUNT(f.film_id) AS films
 FROM language l
          LEFT JOIN film f ON f.language_id = l.language_id
-GROUP BY l.language_id, l.name
+GROUP BY l.language_id
 ORDER BY l.language_id
 ;
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-I-02
 -- the languages no film uses, either as its language or as its original language.
--- +-------------+----------+
--- | language_id | name     |
--- +-------------+----------+
--- |           2 | Italian  |
--- |           3 | Japanese |
--- |           4 | Mandarin |
--- |           5 | French   |
--- |           6 | German   |
--- +-------------+----------+
-SELECT l.language_id, l.name
+-- +-------------+----------+---------------------+
+-- | language_id | name     | last_update         |
+-- +-------------+----------+---------------------+
+-- |           2 | Italian  | 2006-02-15 05:02:19 |
+-- |           3 | Japanese | 2006-02-15 05:02:19 |
+-- |           4 | Mandarin | 2006-02-15 05:02:19 |
+-- |           5 | French   | 2006-02-15 05:02:19 |
+-- |           6 | German   | 2006-02-15 05:02:19 |
+-- +-------------+----------+---------------------+
+SELECT l.*
 FROM language l
 WHERE NOT EXISTS (SELECT 1
                   FROM film f

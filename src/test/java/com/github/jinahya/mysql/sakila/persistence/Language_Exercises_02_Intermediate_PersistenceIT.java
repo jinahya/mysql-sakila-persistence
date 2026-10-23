@@ -48,16 +48,16 @@ class Language_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT l.name, COUNT(f)
+                                                                                      SELECT l, COUNT(f)
                                                                                       FROM Language l
                                                                                                LEFT JOIN l.films f
-                                                                                      GROUP BY l.languageId, l.name
+                                                                                      GROUP BY l
                                                                                       ORDER BY l.languageId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Language) r[0]).getName(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("English", 1000L),
                             tuple("Italian", 0L),
@@ -74,15 +74,15 @@ class Language_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var l = cq.from(Language.class);
                 final var f = l.join(Language_.films, JoinType.LEFT);
-                cq.select(cb.array(l.get(Language_.name), cb.count(f)))
-                        .groupBy(l.get(Language_.languageId), l.get(Language_.name))
+                cq.select(cb.array(l, cb.count(f)))
+                        .groupBy(l)
                         .orderBy(cb.asc(l.get(Language_.languageId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Language) r[0]).getName(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("English", 1000L),
                             tuple("Italian", 0L),

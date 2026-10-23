@@ -61,17 +61,17 @@ ORDER BY name
 
 -- ------------------------------------------------------------------------------------------- SAKILA-FILM_CATEGORY-A-02
 -- the pairs of categories which have the same number of films.
--- +-----------+-----------+-------+
--- | category1 | category2 | films |
--- +-----------+-----------+-------+
--- | Games     | Sci-Fi    |    61 |
--- | Classics  | Travel    |    57 |
--- +-----------+-----------+-------+
-SELECT c1.name AS category1, c2.name AS category2,
+-- +-------------+----------+---------------------+-------------+--------+---------------------+-------+
+-- | category_id | name     | last_update         | category_id | name   | last_update         | films |
+-- +-------------+----------+---------------------+-------------+--------+---------------------+-------+
+-- |          10 | Games    | 2006-02-15 04:46:27 |          14 | Sci-Fi | 2006-02-15 04:46:27 |    61 |
+-- |           4 | Classics | 2006-02-15 04:46:27 |          16 | Travel | 2006-02-15 04:46:27 |    57 |
+-- +-------------+----------+---------------------+-------------+--------+---------------------+-------+
+SELECT c1.*, c2.*,
        (SELECT COUNT(*) FROM film_category fc WHERE fc.category_id = c1.category_id) AS films
 FROM category c1
          JOIN category c2 ON c1.name < c2.name
 WHERE (SELECT COUNT(*) FROM film_category fc WHERE fc.category_id = c1.category_id)
           = (SELECT COUNT(*) FROM film_category fc WHERE fc.category_id = c2.category_id)
-ORDER BY films DESC, category1, category2
+ORDER BY films DESC, c1.name, c2.name
 ;

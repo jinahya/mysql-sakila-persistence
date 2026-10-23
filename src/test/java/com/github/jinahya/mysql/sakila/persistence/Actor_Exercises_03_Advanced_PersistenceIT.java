@@ -102,15 +102,14 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT a.actorId, a.firstName, a.lastName,
-                                                   (SELECT COUNT(fa) FROM FilmActor fa WHERE fa.actor = a), COUNT(b)
+                                            SELECT a, (SELECT COUNT(fa) FROM FilmActor fa WHERE fa.actor = a), COUNT(b)
                                             FROM Actor a, Actor b
                                             WHERE SIZE(b.filmActors) >= SIZE(a.filmActors)
                                               AND NOT EXISTS (SELECT b2
                                                               FROM Actor b2
                                                               WHERE SIZE(b2.filmActors) = SIZE(b.filmActors)
                                                                 AND b2.actorId < b.actorId)
-                                            GROUP BY a.actorId, a.firstName, a.lastName
+                                            GROUP BY a
                                             HAVING COUNT(b) <= 7
                                             ORDER BY COUNT(b), a.actorId""",
                                     Object[].class
@@ -119,8 +118,9 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue(), r -> ((Number) r[4]).longValue())
+                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                                r -> ((Actor) r[0]).getLastName(), r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", 42L, 1L),
                             tuple(102, "WALTER", "TORN", 41L, 2L),
@@ -154,13 +154,11 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
                                cb.lt(b2.get(Actor_.actorId), b.get(Actor_.actorId)));
                 // eclipselink selects no bare subquery (a ClassCastException); it does select a
                 // COALESCE of one
-                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
-                                   a.get(Actor_.lastName), cb.coalesce(films, 0L), cb.count(b)))
+                cq.select(cb.array(a, cb.coalesce(films, 0L), cb.count(b)))
                         .where(cb.ge(cb.size(b.get(Actor_.filmActors)),
                                      cb.size(a.get(Actor_.filmActors))),
                                cb.not(cb.exists(earlier)))
-                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
-                                 a.get(Actor_.lastName))
+                        .groupBy(a)
                         .having(cb.le(cb.count(b), 7L))
                         .orderBy(cb.asc(cb.count(b)), cb.asc(a.get(Actor_.actorId)));
                 return em.createQuery(cq)
@@ -168,8 +166,9 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue(), r -> ((Number) r[4]).longValue())
+                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                                r -> ((Actor) r[0]).getLastName(), r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", 42L, 1L),
                             tuple(102, "WALTER", "TORN", 41L, 2L),
@@ -195,7 +194,7 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
             final var list = __Exercises_TestUtils.apply(
                     em -> em.createQuery(
                                     """
-                                            SELECT a.actorId, a.firstName, a.lastName, f.title, f.length
+                                            SELECT a, f
                                             FROM Actor a
                                                      JOIN a.filmActors fa
                                                      JOIN fa.film f
@@ -211,8 +210,9 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3],
-                                r -> ((Number) r[4]).intValue())
+                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                                r -> ((Actor) r[0]).getLastName(), r -> ((Film) r[1]).getTitle(),
+                                r -> ((Film) r[1]).getLength())
                     .containsExactly(
                             tuple(1, "PENELOPE", "GUINESS", "KING EVOLUTION", 184),
                             tuple(2, "NICK", "WAHLBERG", "WARDROBE PHANTOM", 178),
@@ -233,9 +233,7 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
                 final var f2 = fa2.join(FilmActor_.film);
                 longest.select(cb.max(f2.get(Film_.length)))
                         .where(cb.equal(fa2.get(FilmActor_.actor), a));
-                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
-                                   a.get(Actor_.lastName), f.get(Film_.title),
-                                   f.get(Film_.length)))
+                cq.select(cb.array(a, f))
                         .where(cb.between(a.get(Actor_.actorId), 1, 5),
                                cb.equal(f.get(Film_.length), longest))
                         .orderBy(cb.asc(a.get(Actor_.actorId)), cb.asc(f.get(Film_.title)));
@@ -244,8 +242,9 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3],
-                                r -> ((Number) r[4]).intValue())
+                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                                r -> ((Actor) r[0]).getLastName(), r -> ((Film) r[1]).getTitle(),
+                                r -> ((Film) r[1]).getLength())
                     .containsExactly(
                             tuple(1, "PENELOPE", "GUINESS", "KING EVOLUTION", 184),
                             tuple(2, "NICK", "WAHLBERG", "WARDROBE PHANTOM", 178),

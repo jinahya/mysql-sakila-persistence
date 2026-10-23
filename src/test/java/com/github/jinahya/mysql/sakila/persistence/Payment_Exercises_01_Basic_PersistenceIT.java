@@ -50,15 +50,16 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT p.staff.staffId, COUNT(p), SUM(p.amount)
+                                                                                      SELECT s, COUNT(p), SUM(p.amount)
                                                                                       FROM Payment p
-                                                                                      GROUP BY p.staff.staffId
-                                                                                      ORDER BY p.staff.staffId""",
+                                                                                               JOIN p.staff s
+                                                                                      GROUP BY s
+                                                                                      ORDER BY s.staffId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Staff) r[0]).getStaffId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple(1, 8054L, "33482.50"),
@@ -71,16 +72,16 @@ class Payment_Exercises_01_Basic_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var p = cq.from(Payment.class);
-                final var staffId = p.get(Payment_.staff).get(Staff_.staffId);
-                cq.select(cb.array(staffId, cb.count(p), cb.sum(p.get(Payment_.amount))))
-                        .groupBy(staffId)
-                        .orderBy(cb.asc(staffId));
+                final var s = p.join(Payment_.staff);
+                cq.select(cb.array(s, cb.count(p), cb.sum(p.get(Payment_.amount))))
+                        .groupBy(s)
+                        .orderBy(cb.asc(s.get(Staff_.staffId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Staff) r[0]).getStaffId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((BigDecimal) r[2]).toPlainString())
                     .containsExactly(
                             tuple(1, 8054L, "33482.50"),
@@ -245,27 +246,26 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT p.paymentId, p.amount, p.paymentDate
+                                                                                      SELECT p
                                                                                       FROM Payment p
                                                                                       WHERE p.customer.customerId = :customerId
                                                                                         AND p.paymentDate BETWEEN :from AND :to
                                                                                       ORDER BY p.paymentDate, p.paymentId""",
-                                                                              Object[].class)
+                                                                              Payment.class)
                     .setParameter("customerId", 1)
                     .setParameter("from", FROM)
                     .setParameter("to", TO)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list).hasSize(12)
-                    .extracting(r -> ((Number) r[0]).intValue(),
-                                r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(Payment::getPaymentId, p -> p.getAmount().toPlainString())
                     .startsWith(
                             tuple(10, "5.99"),
                             tuple(11, "5.99"),
                             tuple(12, "4.99"))
                     .endsWith(
                             tuple(21, "2.99"));
-            assertThat(list).extracting(r -> (LocalDateTime) r[2])
+            assertThat(list).extracting(Payment::getPaymentDate)
                     .isSorted()
                     .first().isEqualTo(LocalDateTime.of(2005, 7, 8, 3, 17, 5));
         }
@@ -274,10 +274,10 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(Payment.class);
                 final var p = cq.from(Payment.class);
                 final var paymentDate = p.get(Payment_.paymentDate);
-                cq.select(cb.array(p.get(Payment_.paymentId), p.get(Payment_.amount), paymentDate))
+                cq.select(p)
                         .where(cb.equal(p.get(Payment_.customer).get(Customer_.customerId),
                                         cb.parameter(Integer.class, "customerId")),
                                cb.between(paymentDate,
@@ -290,17 +290,16 @@ class Payment_Exercises_01_Basic_PersistenceIT {
                         .setParameter("to", TO)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list).hasSize(12)
-                    .extracting(r -> ((Number) r[0]).intValue(),
-                                r -> ((BigDecimal) r[1]).toPlainString())
+                    .extracting(Payment::getPaymentId, p -> p.getAmount().toPlainString())
                     .startsWith(
                             tuple(10, "5.99"),
                             tuple(11, "5.99"),
                             tuple(12, "4.99"))
                     .endsWith(
                             tuple(21, "2.99"));
-            assertThat(list).extracting(r -> (LocalDateTime) r[2])
+            assertThat(list).extracting(Payment::getPaymentDate)
                     .isSorted()
                     .first().isEqualTo(LocalDateTime.of(2005, 7, 8, 3, 17, 5));
         }

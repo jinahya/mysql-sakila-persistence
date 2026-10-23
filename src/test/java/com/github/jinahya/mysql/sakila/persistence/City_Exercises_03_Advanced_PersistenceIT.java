@@ -47,7 +47,7 @@ class City_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.cityId, c.city, co.country
+                                                                                      SELECT c, co
                                                                                       FROM City c
                                                                                                JOIN c.country co
                                                                                       WHERE NOT EXISTS (SELECT o FROM City o WHERE o.country = c.country AND o.cityId <> c.cityId)
@@ -57,7 +57,8 @@ class City_Exercises_03_Advanced_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .extracting(r -> ((City) r[0]).getCityId(), r -> ((City) r[0]).getCity(),
+                                r -> ((Country) r[1]).getCountry())
                     .containsExactly(
                             tuple(251, "Kabul", "Afghanistan"),
                             tuple(516, "Tafuna", "American Samoa"),
@@ -82,8 +83,7 @@ class City_Exercises_03_Advanced_PersistenceIT {
                 final var o = others.from(City.class);
                 others.select(o).where(cb.equal(o.get(City_.country), c.get(City_.country)),
                                        cb.notEqual(o.get(City_.cityId), c.get(City_.cityId)));
-                cq.select(cb.array(c.get(City_.cityId), c.get(City_.city),
-                                   co.get(Country_.country)))
+                cq.select(cb.array(c, co))
                         .where(cb.not(cb.exists(others)))
                         .orderBy(cb.asc(co.get(Country_.country)), cb.asc(c.get(City_.cityId)));
                 return em.createQuery(cq)
@@ -92,7 +92,8 @@ class City_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .extracting(r -> ((City) r[0]).getCityId(), r -> ((City) r[0]).getCity(),
+                                r -> ((Country) r[1]).getCountry())
                     .containsExactly(
                             tuple(251, "Kabul", "Afghanistan"),
                             tuple(516, "Tafuna", "American Samoa"),
@@ -114,16 +115,16 @@ class City_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.cityId, c.city
+                                                                                      SELECT c
                                                                                       FROM City c
                                                                                       WHERE EXISTS (SELECT cu FROM Customer cu WHERE cu.address.city = c)
                                                                                         AND NOT EXISTS (SELECT cu FROM Customer cu WHERE cu.address.city = c AND cu.active = TRUE)
                                                                                       ORDER BY c.city, c.cityId""",
-                                                                              Object[].class)
+                                                                              City.class)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue())
+                    .extracting(City::getCityId)
                     .containsExactly(24, 57, 111, 125, 139, 259, 283, 281, 356, 407, 495, 512, 554,
                                      577, 578);
         }
@@ -132,7 +133,7 @@ class City_Exercises_03_Advanced_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(City.class);
                 final var c = cq.from(City.class);
                 final var any = cq.subquery(Customer.class);
                 final var cu1 = any.from(Customer.class);
@@ -143,15 +144,15 @@ class City_Exercises_03_Advanced_PersistenceIT {
                 active.select(cu2)
                         .where(cb.equal(cu2.get(Customer_.address).get(Address_.city), c),
                                cb.isTrue(cu2.get(Customer_.active)));
-                cq.select(cb.array(c.get(City_.cityId), c.get(City_.city)))
+                cq.select(c)
                         .where(cb.exists(any), cb.not(cb.exists(active)))
                         .orderBy(cb.asc(c.get(City_.city)), cb.asc(c.get(City_.cityId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue())
+                    .extracting(City::getCityId)
                     .containsExactly(24, 57, 111, 125, 139, 259, 283, 281, 356, 407, 495, 512, 554,
                                      577, 578);
         }

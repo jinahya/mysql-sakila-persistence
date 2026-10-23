@@ -28,35 +28,35 @@
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-01
 -- how many films each category has, the most first.
--- +-------------+-------+
--- | name        | films |
--- +-------------+-------+
--- | Sports      |    74 |
--- | Foreign     |    73 |
--- | Family      |    69 |
--- | Documentary |    68 |
--- | Animation   |    66 |
--- +-------------+-------+
+-- +-------------+-------------+---------------------+-------+
+-- | category_id | name        | last_update         | films |
+-- +-------------+-------------+---------------------+-------+
+-- |          15 | Sports      | 2006-02-15 04:46:27 |    74 |
+-- |           9 | Foreign     | 2006-02-15 04:46:27 |    73 |
+-- |           8 | Family      | 2006-02-15 04:46:27 |    69 |
+-- |           6 | Documentary | 2006-02-15 04:46:27 |    68 |
+-- |           2 | Animation   | 2006-02-15 04:46:27 |    66 |
+-- +-------------+-------------+---------------------+-------+
 -- ... 16 rows in all.
-SELECT c.name, COUNT(*) AS films
+SELECT c.*, COUNT(*) AS films
 FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
-GROUP BY c.category_id, c.name
+GROUP BY c.category_id
 ORDER BY films DESC, c.name
 ;
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-02
 -- the category whose films are, on average, the longest.
--- +--------+----------------+
--- | name   | average_length |
--- +--------+----------------+
--- | Sports |         128.20 |
--- +--------+----------------+
-SELECT c.name, ROUND(AVG(f.length), 2) AS average_length
+-- +-------------+--------+---------------------+----------------+
+-- | category_id | name   | last_update         | average_length |
+-- +-------------+--------+---------------------+----------------+
+-- |          15 | Sports | 2006-02-15 04:46:27 |         128.20 |
+-- +-------------+--------+---------------------+----------------+
+SELECT c.*, ROUND(AVG(f.length), 2) AS average_length
 FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
          JOIN film f ON f.film_id = fc.film_id
-GROUP BY c.category_id, c.name
+GROUP BY c.category_id
 ORDER BY average_length DESC LIMIT 1
 ;
 
@@ -70,44 +70,44 @@ WHERE NOT EXISTS (SELECT 1 FROM film_category fc WHERE fc.category_id = c.catego
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-04
 -- the categories whose films rent for more than the average.
--- +---------+---------------------+
--- | name    | average_rental_rate |
--- +---------+---------------------+
--- | Games   |                3.25 |
--- | Travel  |                3.24 |
--- | Sci-Fi  |                3.22 |
--- | Comedy  |                3.16 |
--- | Sports  |                3.13 |
--- | New     |                3.12 |
--- | Foreign |                3.10 |
--- | Horror  |                3.03 |
--- | Drama   |                3.02 |
--- +---------+---------------------+
-SELECT c.name, ROUND(AVG(f.rental_rate), 2) AS average_rental_rate
+-- +-------------+---------+---------------------+---------------------+
+-- | category_id | name    | last_update         | average_rental_rate |
+-- +-------------+---------+---------------------+---------------------+
+-- |          10 | Games   | 2006-02-15 04:46:27 |                3.25 |
+-- |          16 | Travel  | 2006-02-15 04:46:27 |                3.24 |
+-- |          14 | Sci-Fi  | 2006-02-15 04:46:27 |                3.22 |
+-- |           5 | Comedy  | 2006-02-15 04:46:27 |                3.16 |
+-- |          15 | Sports  | 2006-02-15 04:46:27 |                3.13 |
+-- |          13 | New     | 2006-02-15 04:46:27 |                3.12 |
+-- |           9 | Foreign | 2006-02-15 04:46:27 |                3.10 |
+-- |          11 | Horror  | 2006-02-15 04:46:27 |                3.03 |
+-- |           7 | Drama   | 2006-02-15 04:46:27 |                3.02 |
+-- +-------------+---------+---------------------+---------------------+
+SELECT c.*, ROUND(AVG(f.rental_rate), 2) AS average_rental_rate
 FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
          JOIN film f ON f.film_id = fc.film_id
-GROUP BY c.category_id, c.name
+GROUP BY c.category_id
 HAVING AVG(f.rental_rate) > (SELECT AVG(rental_rate) FROM film)
 ORDER BY average_rental_rate DESC, c.name
 ;
 
 -- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-05
 -- the five categories with the most different actors.
--- +-------------+--------+
--- | name        | actors |
--- +-------------+--------+
--- | Sports      |    182 |
--- | Foreign     |    175 |
--- | New         |    169 |
--- | Documentary |    168 |
--- | Sci-Fi      |    167 |
--- +-------------+--------+
-SELECT c.name, COUNT(DISTINCT fa.actor_id) AS actors
+-- +-------------+-------------+---------------------+--------+
+-- | category_id | name        | last_update         | actors |
+-- +-------------+-------------+---------------------+--------+
+-- |          15 | Sports      | 2006-02-15 04:46:27 |    182 |
+-- |           9 | Foreign     | 2006-02-15 04:46:27 |    175 |
+-- |          13 | New         | 2006-02-15 04:46:27 |    169 |
+-- |           6 | Documentary | 2006-02-15 04:46:27 |    168 |
+-- |          14 | Sci-Fi      | 2006-02-15 04:46:27 |    167 |
+-- +-------------+-------------+---------------------+--------+
+SELECT c.*, COUNT(DISTINCT fa.actor_id) AS actors
 FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
          JOIN film_actor fa ON fa.film_id = fc.film_id
-GROUP BY c.category_id, c.name
+GROUP BY c.category_id
 ORDER BY actors DESC, c.name
 LIMIT 5
 ;

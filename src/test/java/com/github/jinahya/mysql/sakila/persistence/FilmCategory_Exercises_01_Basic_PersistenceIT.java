@@ -25,8 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -77,17 +75,17 @@ class FilmCategory_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT fc.filmId, fc.categoryId
+                                                                                      SELECT fc
                                                                                       FROM FilmCategory fc
                                                                                       WHERE fc.filmId BETWEEN :min AND :max
                                                                                       ORDER BY fc.filmId""",
-                                                                              Object[].class)
+                                                                              FilmCategory.class)
                     .setParameter("min", 1)
                     .setParameter("max", 10)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue())
+                    .extracting(FilmCategory::getFilmId, FilmCategory::getCategoryId)
                     .containsExactly(
                             tuple(1, 6),
                             tuple(2, 11),
@@ -105,9 +103,9 @@ class FilmCategory_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(FilmCategory.class);
                 final var fc = cq.from(FilmCategory.class);
-                cq.select(cb.array(fc.get(FilmCategory_.filmId), fc.get(FilmCategory_.categoryId)))
+                cq.select(fc)
                         .where(cb.between(fc.get(FilmCategory_.filmId),
                                           cb.parameter(Integer.class, "min"),
                                           cb.parameter(Integer.class, "max")))
@@ -117,9 +115,9 @@ class FilmCategory_Exercises_01_Basic_PersistenceIT {
                         .setParameter("max", 10)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).intValue())
+                    .extracting(FilmCategory::getFilmId, FilmCategory::getCategoryId)
                     .containsExactly(
                             tuple(1, 6),
                             tuple(2, 11),

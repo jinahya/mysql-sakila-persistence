@@ -40,22 +40,22 @@ FROM payment
 
 -- ------------------------------------------------------------------------------------------------- SAKILA-PAYMENT-I-02
 -- the customers who paid more than 180 in all.
--- +-------------+------------+-----------+--------+
--- | customer_id | first_name | last_name | total  |
--- +-------------+------------+-----------+--------+
--- |         526 | KARL       | SEAL      | 221.55 |
--- |         148 | ELEANOR    | HUNT      | 216.54 |
--- |         144 | CLARA      | SHAW      | 195.58 |
--- |         137 | RHONDA     | KENNEDY   | 194.61 |
--- |         178 | MARION     | SNYDER    | 194.61 |
--- |         459 | TOMMY      | COLLAZO   | 186.62 |
--- +-------------+------------+-----------+--------+
-SELECT p.customer_id, c.first_name, c.last_name, SUM(p.amount) AS total
+-- +-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+-- | customer_id | store_id | first_name | last_name | email                             | address_id | active | create_date         | last_update         | total  |
+-- +-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+-- |         526 |        2 | KARL       | SEAL      | KARL.SEAL@sakilacustomer.org      |        532 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 221.55 |
+-- |         148 |        1 | ELEANOR    | HUNT      | ELEANOR.HUNT@sakilacustomer.org   |        152 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 216.54 |
+-- |         144 |        1 | CLARA      | SHAW      | CLARA.SHAW@sakilacustomer.org     |        148 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 195.58 |
+-- |         137 |        2 | RHONDA     | KENNEDY   | RHONDA.KENNEDY@sakilacustomer.org |        141 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 194.61 |
+-- |         178 |        2 | MARION     | SNYDER    | MARION.SNYDER@sakilacustomer.org  |        182 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 194.61 |
+-- |         459 |        1 | TOMMY      | COLLAZO   | TOMMY.COLLAZO@sakilacustomer.org  |        464 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 186.62 |
+-- +-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+SELECT c.*, SUM(p.amount) AS total
 FROM payment p
          JOIN customer c ON c.customer_id = p.customer_id
-GROUP BY p.customer_id, c.first_name, c.last_name
+GROUP BY c.customer_id
 HAVING SUM(p.amount) > 180
-ORDER BY total DESC, p.customer_id
+ORDER BY total DESC, c.customer_id
 ;
 
 -- ------------------------------------------------------------------------------------------------- SAKILA-PAYMENT-I-03

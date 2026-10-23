@@ -35,7 +35,7 @@
 -- | Sci-Fi    |     4756.98 |
 -- | Animation |     4656.30 |
 -- +-----------+-------------+
-SELECT category, total_sales
+SELECT *
 FROM sales_by_film_category LIMIT 3
 ;
 
@@ -52,7 +52,7 @@ FROM sales_by_film_category LIMIT 3
 -- | Games       |     4281.33 |
 -- | New         |     4351.62 |
 -- +-------------+-------------+
-SELECT category, total_sales
+SELECT *
 FROM sales_by_film_category
 WHERE total_sales BETWEEN 4000 AND 4500
 ORDER BY category

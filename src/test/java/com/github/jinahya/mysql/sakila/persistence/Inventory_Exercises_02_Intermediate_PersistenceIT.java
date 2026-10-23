@@ -47,18 +47,18 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT f.filmId, f.title, COUNT(i)
+                                                                                      SELECT f, COUNT(i)
                                                                                       FROM Film f
                                                                                                JOIN f.inventories i
-                                                                                      GROUP BY f.filmId, f.title
+                                                                                      GROUP BY f
                                                                                       ORDER BY COUNT(i) DESC, f.filmId""",
                                                                               Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Film) r[0]).getFilmId(), r -> ((Film) r[0]).getTitle(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, "ACADEMY DINOSAUR", 8L),
                             tuple(31, "APACHE DIVINE", 8L),
@@ -74,8 +74,8 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var f = cq.from(Film.class);
                 final var i = f.join(Film_.inventories);
-                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), cb.count(i)))
-                        .groupBy(f.get(Film_.filmId), f.get(Film_.title))
+                cq.select(cb.array(f, cb.count(i)))
+                        .groupBy(f)
                         .orderBy(cb.desc(cb.count(i)), cb.asc(f.get(Film_.filmId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -83,8 +83,8 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Film) r[0]).getFilmId(), r -> ((Film) r[0]).getTitle(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, "ACADEMY DINOSAUR", 8L),
                             tuple(31, "APACHE DIVINE", 8L),
@@ -133,17 +133,18 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT i.storeId, COUNT(r)
+                                                                                      SELECT st, COUNT(r)
                                                                                       FROM Inventory i
+                                                                                               JOIN i.store st
                                                                                                JOIN i.rentals r
                                                                                       WHERE r.returnDate IS NULL
-                                                                                      GROUP BY i.storeId
-                                                                                      ORDER BY i.storeId""",
+                                                                                      GROUP BY st
+                                                                                      ORDER BY st.storeId""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 92L),
                             tuple(2, 91L));
@@ -155,17 +156,18 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var i = cq.from(Inventory.class);
+                final var st = i.join(Inventory_.store);
                 final var r = i.join(Inventory_.rentals);
-                cq.select(cb.array(i.get(Inventory_.storeId), cb.count(r)))
+                cq.select(cb.array(st, cb.count(r)))
                         .where(cb.isNull(r.get(Rental_.returnDate)))
-                        .groupBy(i.get(Inventory_.storeId))
-                        .orderBy(cb.asc(i.get(Inventory_.storeId)));
+                        .groupBy(st)
+                        .orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(1, 92L),
                             tuple(2, 91L));
@@ -179,16 +181,17 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT i.storeId, f.rating, COUNT(i)
+                                                                                      SELECT st, f.rating, COUNT(i)
                                                                                       FROM Inventory i
+                                                                                               JOIN i.store st
                                                                                                JOIN i.film f
-                                                                                      GROUP BY i.storeId, f.rating
-                                                                                      ORDER BY i.storeId, f.rating""",
+                                                                                      GROUP BY st, f.rating
+                                                                                      ORDER BY st.storeId, f.rating""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> r[1],
                                 r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(1, Film.Rating.G, 394L),
@@ -209,16 +212,17 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var i = cq.from(Inventory.class);
+                final var st = i.join(Inventory_.store);
                 final var f = i.join(Inventory_.film);
-                cq.select(cb.array(i.get(Inventory_.storeId), f.get(Film_.rating), cb.count(i)))
-                        .groupBy(i.get(Inventory_.storeId), f.get(Film_.rating))
-                        .orderBy(cb.asc(i.get(Inventory_.storeId)), cb.asc(f.get(Film_.rating)));
+                cq.select(cb.array(st, f.get(Film_.rating), cb.count(i)))
+                        .groupBy(st, f.get(Film_.rating))
+                        .orderBy(cb.asc(st.get(Store_.storeId)), cb.asc(f.get(Film_.rating)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> r[1],
                                 r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple(1, Film.Rating.G, 394L),

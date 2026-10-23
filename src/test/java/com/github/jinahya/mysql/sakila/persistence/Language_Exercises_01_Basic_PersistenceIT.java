@@ -115,31 +115,33 @@ class Language_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT l.name
+                                                                                      SELECT l
                                                                                       FROM Language l
                                                                                       WHERE l.name IN :names
                                                                                       ORDER BY l.name""",
-                                                                              String.class)
+                                                                              Language.class)
                     .setParameter("names", List.of("English", "French", "German", "Spanish"))
                     .getResultList());
             list.forEach(e -> log.debug("{}", e));
-            assertThat(list).containsExactly("English", "French", "German");
+            assertThat(list).extracting(Language::getName)
+                    .containsExactly("English", "French", "German");
         }
 
         @Test
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(String.class);
+                final var cq = cb.createQuery(Language.class);
                 final var l = cq.from(Language.class);
-                cq.select(l.get(Language_.name))
+                cq.select(l)
                         .where(l.get(Language_.name).in("English", "French", "German", "Spanish"))
                         .orderBy(cb.asc(l.get(Language_.name)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(e -> log.debug("{}", e));
-            assertThat(list).containsExactly("English", "French", "German");
+            assertThat(list).extracting(Language::getName)
+                    .containsExactly("English", "French", "German");
         }
     }
 

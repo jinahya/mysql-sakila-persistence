@@ -80,16 +80,16 @@ ORDER BY film_rank, actor_id
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-A-03
 -- the longest film of each of the first five actors.
--- +----------+------------+--------------+--------------------+--------+
--- | actor_id | first_name | last_name    | title              | length |
--- +----------+------------+--------------+--------------------+--------+
--- |        1 | PENELOPE   | GUINESS      | KING EVOLUTION     |    184 |
--- |        2 | NICK       | WAHLBERG     | WARDROBE PHANTOM   |    178 |
--- |        3 | ED         | CHASE        | YOUNG LANGUAGE     |    183 |
--- |        4 | JENNIFER   | DAVIS        | REDS POCUS         |    182 |
--- |        5 | JOHNNY     | LOLLOBRIGIDA | SOLDIERS EVOLUTION |    185 |
--- +----------+------------+--------------+--------------------+--------+
-SELECT a.actor_id, a.first_name, a.last_name, f.title, f.length
+-- +----------+------------+--------------+---------------------+---------+--------------------+-------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+-- | actor_id | first_name | last_name    | last_update         | film_id | title              | description                                                                                                       | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                                       | last_update         |
+-- +----------+------------+--------------+---------------------+---------+--------------------+-------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+-- |        1 | PENELOPE   | GUINESS      | 2006-02-15 04:34:33 |     499 | KING EVOLUTION     | A Action-Packed Tale of a Boy And a Lumberjack who must Chase a Madman in A Baloon                                |         2006 |           1 |                 NULL |               3 |        4.99 |    184 |            24.99 | NC-17  | Trailers,Deleted Scenes,Behind the Scenes              | 2006-02-15 05:03:42 |
+-- |        2 | NICK       | WAHLBERG     | 2006-02-15 04:34:33 |     958 | WARDROBE PHANTOM   | A Action-Packed Display of a Mad Cow And a Astronaut who must Kill a Car in Ancient India                         |         2006 |           1 |                 NULL |               6 |        2.99 |    178 |            19.99 | G      | Trailers,Commentaries                                  | 2006-02-15 05:03:42 |
+-- |        3 | ED         | CHASE        | 2006-02-15 04:34:33 |     996 | YOUNG LANGUAGE     | A Unbelieveable Yarn of a Boat And a Database Administrator who must Meet a Boy in The First Manned Space Station |         2006 |           1 |                 NULL |               6 |        0.99 |    183 |             9.99 | G      | Trailers,Behind the Scenes                             | 2006-02-15 05:03:42 |
+-- |        4 | JENNIFER   | DAVIS        | 2006-02-15 04:34:33 |     721 | REDS POCUS         | A Lacklusture Yarn of a Sumo Wrestler And a Squirrel who must Redeem a Monkey in Soviet Georgia                   |         2006 |           1 |                 NULL |               7 |        4.99 |    182 |            23.99 | PG-13  | Trailers,Behind the Scenes                             | 2006-02-15 05:03:42 |
+-- |        5 | JOHNNY     | LOLLOBRIGIDA | 2006-02-15 04:34:33 |     817 | SOLDIERS EVOLUTION | A Lacklusture Panorama of a A Shark And a Pioneer who must Confront a Student in The First Manned Space Station   |         2006 |           1 |                 NULL |               7 |        4.99 |    185 |            27.99 | R      | Trailers,Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
+-- +----------+------------+--------------+---------------------+---------+--------------------+-------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+SELECT a.*, f.*
 FROM actor a
          JOIN film_actor fa ON fa.actor_id = a.actor_id
          JOIN film f ON f.film_id = fa.film_id

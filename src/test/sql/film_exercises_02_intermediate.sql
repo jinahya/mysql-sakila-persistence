@@ -40,20 +40,20 @@ WHERE NOT EXISTS (SELECT 1 FROM inventory i WHERE i.film_id = f.film_id)
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-I-02
 -- the five films rented the most.
--- +---------+--------------------+---------+
--- | film_id | title              | rentals |
--- +---------+--------------------+---------+
--- |     103 | BUCKET BROTHERHOOD |      34 |
--- |     738 | ROCKETEER MOTHER   |      33 |
--- |     331 | FORWARD TEMPLE     |      32 |
--- |     382 | GRIT CLOCKWORK     |      32 |
--- |     489 | JUGGLER HARDLY     |      32 |
--- +---------+--------------------+---------+
-SELECT f.film_id, f.title, COUNT(*) AS rentals
+-- +---------+--------------------+--------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+
+-- | film_id | title              | description                                                                                                  | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                        | last_update         | rentals |
+-- +---------+--------------------+--------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+
+-- |     103 | BUCKET BROTHERHOOD | A Amazing Display of a Girl And a Womanizer who must Succumb a Lumberjack in A Baloon Factory                |         2006 |           1 |                 NULL |               7 |        4.99 |    133 |            27.99 | PG     | Commentaries,Deleted Scenes             | 2006-02-15 05:03:42 |      34 |
+-- |     738 | ROCKETEER MOTHER   | A Awe-Inspiring Character Study of a Robot And a Sumo Wrestler who must Discover a Womanizer in A Shark Tank |         2006 |           1 |                 NULL |               3 |        0.99 |    178 |            27.99 | PG-13  | Deleted Scenes,Behind the Scenes        | 2006-02-15 05:03:42 |      33 |
+-- |     331 | FORWARD TEMPLE     | A Astounding Display of a Forensic Psychologist And a Mad Scientist who must Challenge a Girl in New Orleans |         2006 |           1 |                 NULL |               6 |        2.99 |     90 |            25.99 | NC-17  | Trailers,Commentaries,Behind the Scenes | 2006-02-15 05:03:42 |      32 |
+-- |     382 | GRIT CLOCKWORK     | A Thoughtful Display of a Dentist And a Squirrel who must Confront a Lumberjack in A Shark Tank              |         2006 |           1 |                 NULL |               3 |        0.99 |    137 |            21.99 | PG     | Trailers,Deleted Scenes                 | 2006-02-15 05:03:42 |      32 |
+-- |     489 | JUGGLER HARDLY     | A Epic Story of a Mad Cow And a Astronaut who must Challenge a Car in California                             |         2006 |           1 |                 NULL |               4 |        0.99 |     54 |            14.99 | PG-13  | Trailers,Commentaries                   | 2006-02-15 05:03:42 |      32 |
+-- +---------+--------------------+--------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+
+SELECT f.*, COUNT(*) AS rentals
 FROM film f
          JOIN inventory i ON i.film_id = f.film_id
          JOIN rental r ON r.inventory_id = i.inventory_id
-GROUP BY f.film_id, f.title
+GROUP BY f.film_id
 ORDER BY rentals DESC, f.film_id LIMIT 5
 ;
 

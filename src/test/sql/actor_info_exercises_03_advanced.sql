@@ -30,7 +30,7 @@
 -- ---------------------------------------------------------------------------------------------- SAKILA-ACTOR_INFO-A-01
 -- the actors whose film_info disagrees with the tables on the number of categories.
 -- no rows.
-SELECT ai.actor_id, ai.first_name, ai.last_name
+SELECT ai.*
 FROM actor_info ai
 WHERE CHAR_LENGTH(ai.film_info) - CHAR_LENGTH(REPLACE(ai.film_info, ':', ''))
           <> (SELECT COUNT(DISTINCT fc.category_id)

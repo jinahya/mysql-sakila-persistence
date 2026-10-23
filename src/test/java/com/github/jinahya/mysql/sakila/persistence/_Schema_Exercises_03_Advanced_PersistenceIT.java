@@ -88,6 +88,7 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
     @Nested
     class Exercise2Test {
 
+        // both keep the columns: eclipselink drops GROUP BY/HAVING from a Criteria entity select
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
@@ -255,14 +256,14 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT f.filmId, f.title, COUNT(i)
+                                                                                      SELECT f, COUNT(i)
                                                                                       FROM Film f
                                                                                                JOIN f.inventories i
                                                                                       WHERE NOT EXISTS (SELECT i2
                                                                                                         FROM Inventory i2
                                                                                                         WHERE i2.film = f
                                                                                                           AND NOT EXISTS (SELECT r FROM Rental r WHERE r.inventory = i2 AND r.returnDate IS NULL))
-                                                                                      GROUP BY f.filmId, f.title
+                                                                                      GROUP BY f
                                                                                       ORDER BY f.filmId""",
                                                                               Object[].class)
                     .getResultList());
@@ -284,9 +285,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
                 out.select(r).where(cb.equal(r.get(Rental_.inventory), i2),
                                     cb.isNull(r.get(Rental_.returnDate)));
                 in.select(i2).where(cb.equal(i2.get(Inventory_.film), f), cb.not(cb.exists(out)));
-                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), cb.count(i)))
+                cq.select(cb.array(f, cb.count(i)))
                         .where(cb.not(cb.exists(in)))
-                        .groupBy(f.get(Film_.filmId), f.get(Film_.title))
+                        .groupBy(f)
                         .orderBy(cb.asc(f.get(Film_.filmId)));
                 return em.createQuery(cq)
                         .getResultList();
@@ -310,19 +311,19 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
                                                                                                            islands AS (SELECT customer_id, day,
                                                                                                                               DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY day) DAY) AS island
                                                                                                                        FROM days)
-                                                                                                      SELECT c.customer_id, c.first_name, c.last_name, MIN(i.day) AS first_day, MAX(i.day) AS last_day, COUNT(*) AS days
+                                                                                                      SELECT c.*, MIN(i.day) AS first_day, MAX(i.day) AS last_day, COUNT(*) AS days
                                                                                                       FROM islands i
                                                                                                                JOIN customer c ON c.customer_id = i.customer_id
-                                                                                                      GROUP BY c.customer_id, c.first_name, c.last_name, i.island
+                                                                                                      GROUP BY c.customer_id, i.island
                                                                                                       ORDER BY days DESC, c.customer_id, first_day
                                                                                                       LIMIT 5""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list)
                     .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
-                                r -> String.valueOf(((Object[]) r)[3]),
-                                r -> String.valueOf(((Object[]) r)[4]),
-                                r -> ((Number) ((Object[]) r)[5]).longValue())
+                                r -> String.valueOf(((Object[]) r)[9]),
+                                r -> String.valueOf(((Object[]) r)[10]),
+                                r -> ((Number) ((Object[]) r)[11]).longValue())
                     .containsExactly(
                             tuple(42, "2005-07-26", "2005-08-02", 8L),
                             tuple(181, "2005-07-26", "2005-08-02", 8L),
@@ -339,7 +340,7 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT co.country, COUNT(cu)
+                                                                                      SELECT co, COUNT(cu)
                                                                                       FROM Customer cu
                                                                                                JOIN cu.address a
                                                                                                JOIN a.city ci
@@ -355,14 +356,15 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
                                                                                                                  JOIN fc.category c
                                                                                                         WHERE ci2.country = co
                                                                                                           AND c.name = :name)
-                                                                                      GROUP BY co.countryId, co.country
+                                                                                      GROUP BY co
                                                                                       ORDER BY co.country""",
                                                                               Object[].class)
                     .setParameter("name", "Music")
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("Afghanistan", 1L),
                             tuple("Bahrain", 1L),
@@ -393,9 +395,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
                         .join(Film_.filmCategories).join(FilmCategory_.category);
                 music.select(r).where(cb.equal(ci2.get(City_.country), co),
                                       cb.equal(c.get(Category_.name), name));
-                cq.select(cb.array(co.get(Country_.country), cb.count(cu)))
+                cq.select(cb.array(co, cb.count(cu)))
                         .where(cb.not(cb.exists(music)))
-                        .groupBy(co.get(Country_.countryId), co.get(Country_.country))
+                        .groupBy(co)
                         .orderBy(cb.asc(co.get(Country_.country)));
                 return em.createQuery(cq)
                         .setParameter(name, "Music")
@@ -403,7 +405,8 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .extracting(r -> ((Country) r[0]).getCountry(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple("Afghanistan", 1L),
                             tuple("Bahrain", 1L),

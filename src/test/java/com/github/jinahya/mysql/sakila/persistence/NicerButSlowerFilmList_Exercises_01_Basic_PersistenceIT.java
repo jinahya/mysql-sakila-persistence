@@ -54,7 +54,7 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
         @ValueSource(ints = {1, 2, 3})
         void nativeQuery(final int fid) {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT FID, title, actors
+                                                                                                      SELECT *
                                                                                                       FROM nicer_but_slower_film_list
                                                                                                       WHERE FID = ?1""")
                     .setParameter(1, fid)
@@ -94,7 +94,7 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT FID, title, category
+                                                                                                      SELECT *
                                                                                                       FROM nicer_but_slower_film_list
                                                                                                       WHERE actors IS NULL
                                                                                                       ORDER BY FID""")
@@ -102,7 +102,7 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list)
                     .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
-                                r -> ((Object[]) r)[1], r -> ((Object[]) r)[2])
+                                r -> ((Object[]) r)[1], r -> ((Object[]) r)[3])
                     .containsExactly(
                             tuple(257, "DRUMLINE CYCLONE", "Travel"),
                             tuple(323, "FLIGHT LIES", "Sports"),

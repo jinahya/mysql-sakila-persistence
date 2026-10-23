@@ -45,7 +45,7 @@ SELECT (SELECT SUM(total_sales) FROM sales_by_store)                 AS by_store
 -- | Lethbridge,Canada   | Mike Hillyer |    33679.79 |         33482.50 |
 -- | Woodridge,Australia | Jon Stephens |    33726.77 |         33924.06 |
 -- +---------------------+--------------+-------------+------------------+
-SELECT v.store, v.manager, v.total_sales, SUM(p.amount) AS taken_by_manager
+SELECT v.*, SUM(p.amount) AS taken_by_manager
 FROM sales_by_store v
          JOIN staff s ON CONCAT(s.first_name, ' ', s.last_name) = v.manager
          JOIN payment p ON p.staff_id = s.staff_id

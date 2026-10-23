@@ -53,7 +53,7 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT a.addressId, a.address, c.city, co.country
+                                                                                      SELECT a, c, co
                                                                                       FROM Address a
                                                                                                JOIN a.city c
                                                                                                JOIN c.country co
@@ -63,7 +63,9 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(r -> ((Address) r[0]).getAddressId(),
+                                r -> ((Address) r[0]).getAddress(),
+                                r -> ((City) r[1]).getCity(), r -> ((Country) r[2]).getCountry())
                     .containsExactly(
                             tuple(1, "47 MySakila Drive", "Lethbridge", "Canada"),
                             tuple(2, "28 MySQL Boulevard", "Woodridge", "Australia"),
@@ -80,8 +82,7 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
                 final var a = cq.from(Address.class);
                 final var c = a.join(Address_.city);
                 final var co = c.join(City_.country);
-                cq.select(cb.array(a.get(Address_.addressId), a.get(Address_.address),
-                                   c.get(City_.city), co.get(Country_.country)))
+                cq.select(cb.array(a, c, co))
                         .orderBy(cb.asc(a.get(Address_.addressId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -89,7 +90,9 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(r -> ((Address) r[0]).getAddressId(),
+                                r -> ((Address) r[0]).getAddress(),
+                                r -> ((City) r[1]).getCity(), r -> ((Country) r[2]).getCountry())
                     .containsExactly(
                             tuple(1, "47 MySakila Drive", "Lethbridge", "Canada"),
                             tuple(2, "28 MySQL Boulevard", "Woodridge", "Australia"),

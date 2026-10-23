@@ -29,18 +29,20 @@
 
 -- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-A-01
 -- the three pairs of actors who appear together the most.
--- +-----------+-----------+-------+
--- | actor_id1 | actor_id2 | films |
--- +-----------+-----------+-------+
--- |        27 |        60 |     7 |
--- |        15 |       198 |     6 |
--- |        21 |       108 |     6 |
--- +-----------+-----------+-------+
-SELECT fa1.actor_id AS actor_id1, fa2.actor_id AS actor_id2, COUNT(*) AS films
+-- +----------+------------+-----------+---------------------+----------+------------+-----------+---------------------+-------+
+-- | actor_id | first_name | last_name | last_update         | actor_id | first_name | last_name | last_update         | films |
+-- +----------+------------+-----------+---------------------+----------+------------+-----------+---------------------+-------+
+-- |       27 | JULIA      | MCQUEEN   | 2006-02-15 04:34:33 |       60 | HENRY      | BERRY     | 2006-02-15 04:34:33 |     7 |
+-- |       15 | CUBA       | OLIVIER   | 2006-02-15 04:34:33 |      198 | MARY       | KEITEL    | 2006-02-15 04:34:33 |     6 |
+-- |       21 | KIRSTEN    | PALTROW   | 2006-02-15 04:34:33 |      108 | WARREN     | NOLTE     | 2006-02-15 04:34:33 |     6 |
+-- +----------+------------+-----------+---------------------+----------+------------+-----------+---------------------+-------+
+SELECT a1.*, a2.*, COUNT(*) AS films
 FROM film_actor fa1
          JOIN film_actor fa2 ON fa2.film_id = fa1.film_id AND fa2.actor_id > fa1.actor_id
-GROUP BY fa1.actor_id, fa2.actor_id
-ORDER BY films DESC, actor_id1, actor_id2 LIMIT 3
+         JOIN actor a1 ON a1.actor_id = fa1.actor_id
+         JOIN actor a2 ON a2.actor_id = fa2.actor_id
+GROUP BY a1.actor_id, a2.actor_id
+ORDER BY films DESC, a1.actor_id, a2.actor_id LIMIT 3
 ;
 
 -- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-A-02
@@ -79,16 +81,18 @@ ORDER BY name
 
 -- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-A-03
 -- the pairs of films which have exactly the same actors.
--- +----------+----------+--------+
--- | film_id1 | film_id2 | actors |
--- +----------+----------+--------+
--- |       97 |      556 |      1 |
--- +----------+----------+--------+
-SELECT fa1.film_id AS film_id1, fa2.film_id AS film_id2, COUNT(*) AS actors
+-- +---------+----------------+----------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+--------------+-------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-------------------+---------------------+--------+
+-- | film_id | title          | description                                                                | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                        | last_update         | film_id | title        | description                                                                                           | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features  | last_update         | actors |
+-- +---------+----------------+----------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+--------------+-------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-------------------+---------------------+--------+
+-- |      97 | BRIDE INTRIGUE | A Epic Tale of a Robot And a Monkey who must Vanquish a Man in New Orleans |         2006 |           1 |                 NULL |               7 |        0.99 |     56 |            24.99 | G      | Trailers,Commentaries,Behind the Scenes | 2006-02-15 05:03:42 |     556 | MALTESE HOPE | A Fast-Paced Documentary of a Crocodile And a Sumo Wrestler who must Conquer a Explorer in California |         2006 |           1 |                 NULL |               6 |        4.99 |    127 |            26.99 | PG-13  | Behind the Scenes | 2006-02-15 05:03:42 |      1 |
+-- +---------+----------------+----------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+--------------+-------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-------------------+---------------------+--------+
+SELECT f1.*, f2.*, COUNT(*) AS actors
 FROM film_actor fa1
          JOIN film_actor fa2 ON fa2.actor_id = fa1.actor_id AND fa2.film_id > fa1.film_id
-GROUP BY fa1.film_id, fa2.film_id
-HAVING COUNT(*) = (SELECT COUNT(*) FROM film_actor x WHERE x.film_id = fa1.film_id)
-   AND COUNT(*) = (SELECT COUNT(*) FROM film_actor y WHERE y.film_id = fa2.film_id)
-ORDER BY film_id1, film_id2
+         JOIN film f1 ON f1.film_id = fa1.film_id
+         JOIN film f2 ON f2.film_id = fa2.film_id
+GROUP BY f1.film_id, f2.film_id
+HAVING COUNT(*) = (SELECT COUNT(*) FROM film_actor x WHERE x.film_id = f1.film_id)
+   AND COUNT(*) = (SELECT COUNT(*) FROM film_actor y WHERE y.film_id = f2.film_id)
+ORDER BY f1.film_id, f2.film_id
 ;

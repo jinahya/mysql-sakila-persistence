@@ -234,16 +234,15 @@ class Film_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT f.filmId, f.title, f.length
+                                                                                      SELECT f
                                                                                       FROM Film f
                                                                                       ORDER BY f.length, f.title""",
-                                                                              Object[].class)
+                                                                              Film.class)
                     .setMaxResults(5)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(Film::getFilmId, Film::getTitle, Film::getLength)
                     .containsExactly(
                             tuple(15, "ALIEN CENTER", 46),
                             tuple(469, "IRON MOON", 46),
@@ -256,18 +255,17 @@ class Film_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(Film.class);
                 final var f = cq.from(Film.class);
-                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), f.get(Film_.length)))
+                cq.select(f)
                         .orderBy(cb.asc(f.get(Film_.length)), cb.asc(f.get(Film_.title)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(Film::getFilmId, Film::getTitle, Film::getLength)
                     .containsExactly(
                             tuple(15, "ALIEN CENTER", 46),
                             tuple(469, "IRON MOON", 46),
@@ -284,24 +282,24 @@ class Film_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT f.filmId, f.title, f.rentalRate, f.replacementCost
+                                                                                      SELECT f
                                                                                       FROM Film f
                                                                                       WHERE f.rentalRate = :rentalRate
                                                                                         AND f.replacementCost = :replacementCost
                                                                                       ORDER BY f.title""",
-                                                                              Object[].class)
+                                                                              Film.class)
                     .setParameter("rentalRate", new BigDecimal("0.99"))
                     .setParameter("replacementCost", new BigDecimal("29.99"))
                     .setMaxResults(10)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list).hasSize(10)
-                    .allSatisfy(r -> {
-                        assertThat(((BigDecimal) r[2]).toPlainString()).isEqualTo("0.99");
-                        assertThat(((BigDecimal) r[3]).toPlainString()).isEqualTo("29.99");
+                    .allSatisfy(f -> {
+                        assertThat(f.getRentalRate().toPlainString()).isEqualTo("0.99");
+                        assertThat(f.getReplacementCost().toPlainString()).isEqualTo("29.99");
                     });
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1])
+                    .extracting(Film::getFilmId, Film::getTitle)
                     .containsExactly(
                             tuple(34, "ARABIA DOGMA"),
                             tuple(52, "BALLROOM MOCKINGBIRD"),
@@ -319,10 +317,9 @@ class Film_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(Film.class);
                 final var f = cq.from(Film.class);
-                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), f.get(Film_.rentalRate),
-                                   f.get(Film_.replacementCost)))
+                cq.select(f)
                         .where(cb.equal(f.get(Film_.rentalRate),
                                         cb.parameter(BigDecimal.class, "rentalRate")),
                                cb.equal(f.get(Film_.replacementCost),
@@ -334,14 +331,14 @@ class Film_Exercises_01_Basic_PersistenceIT {
                         .setMaxResults(10)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list).hasSize(10)
-                    .allSatisfy(r -> {
-                        assertThat(((BigDecimal) r[2]).toPlainString()).isEqualTo("0.99");
-                        assertThat(((BigDecimal) r[3]).toPlainString()).isEqualTo("29.99");
+                    .allSatisfy(f -> {
+                        assertThat(f.getRentalRate().toPlainString()).isEqualTo("0.99");
+                        assertThat(f.getReplacementCost().toPlainString()).isEqualTo("29.99");
                     });
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1])
+                    .extracting(Film::getFilmId, Film::getTitle)
                     .containsExactly(
                             tuple(34, "ARABIA DOGMA"),
                             tuple(52, "BALLROOM MOCKINGBIRD"),

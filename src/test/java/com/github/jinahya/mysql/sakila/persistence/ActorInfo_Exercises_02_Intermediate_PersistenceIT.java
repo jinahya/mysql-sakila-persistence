@@ -79,15 +79,16 @@ class ActorInfo_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT i.actorId, i.firstName, i.lastName
+                                                                                      SELECT i
                                                                                       FROM ActorInfo i
                                                                                       WHERE LENGTH(i.filmInfo) - LENGTH(REPLACE(i.filmInfo, ':', '')) = (SELECT COUNT(c) FROM Category c)
                                                                                       ORDER BY i.actorId""",
-                                                                              Object[].class)
+                                                                              ActorInfo.class)
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .extracting(ActorInfo::getActorId, ActorInfo::getFirstName,
+                                ActorInfo::getLastName)
                     .containsExactly(
                             tuple(13, "UMA", "WOOD"),
                             tuple(72, "SEAN", "WILLIAMS"),
@@ -106,14 +107,13 @@ class ActorInfo_Exercises_02_Intermediate_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(ActorInfo.class);
                 final var i = cq.from(ActorInfo.class);
                 final var categories = cq.subquery(Long.class);
                 final var c = categories.from(Category.class);
                 categories.select(cb.count(c));
                 final var filmInfo = i.get(ActorInfo_.filmInfo);
-                cq.select(cb.array(i.get(ActorInfo_.actorId), i.get(ActorInfo_.firstName),
-                                   i.get(ActorInfo_.lastName)))
+                cq.select(i)
                         .where(cb.equal(cb.diff(cb.length(filmInfo),
                                                 cb.length(cb.replace(filmInfo, ":", ""))),
                                         categories))
@@ -121,9 +121,10 @@ class ActorInfo_Exercises_02_Intermediate_PersistenceIT {
                 return em.createQuery(cq)
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .extracting(ActorInfo::getActorId, ActorInfo::getFirstName,
+                                ActorInfo::getLastName)
                     .containsExactly(
                             tuple(13, "UMA", "WOOD"),
                             tuple(72, "SEAN", "WILLIAMS"),

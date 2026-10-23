@@ -99,7 +99,7 @@ class FilmList_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT l.FID, l.title
+                                                                                                      SELECT l.*
                                                                                                       FROM film_list l
                                                                                                       WHERE l.actors IS NOT NULL
                                                                                                         AND LENGTH(l.actors) - LENGTH(REPLACE(l.actors, ',', '')) + 1

@@ -51,13 +51,13 @@ class Payment_Exercises_03_Advanced_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT p.paymentId, p.paymentDate, p.amount, SUM(q.amount)
+                                                                                      SELECT p, SUM(q.amount)
                                                                                       FROM Payment p, Payment q
                                                                                       WHERE p.customer.customerId = :customerId
                                                                                         AND q.customer = p.customer
                                                                                         AND (q.paymentDate < p.paymentDate
                                                                                              OR (q.paymentDate = p.paymentDate AND q.paymentId <= p.paymentId))
-                                                                                      GROUP BY p.paymentId, p.paymentDate, p.amount
+                                                                                      GROUP BY p
                                                                                       ORDER BY p.paymentDate, p.paymentId""",
                                                                               Object[].class)
                     .setParameter("customerId", 1)
@@ -65,9 +65,9 @@ class Payment_Exercises_03_Advanced_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(),
-                                r -> ((BigDecimal) r[2]).toPlainString(),
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Payment) r[0]).getPaymentId(),
+                                r -> ((Payment) r[0]).getAmount().toPlainString(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple(1, "2.99", "2.99"),
                             tuple(2, "0.99", "3.98"),
@@ -90,15 +90,14 @@ class Payment_Exercises_03_Advanced_PersistenceIT {
                 final var q = cq.from(Payment.class);
                 final var paymentId = p.get(Payment_.paymentId);
                 final var paymentDate = p.get(Payment_.paymentDate);
-                final var amount = p.get(Payment_.amount);
-                cq.select(cb.array(paymentId, paymentDate, amount, cb.sum(q.get(Payment_.amount))))
+                cq.select(cb.array(p, cb.sum(q.get(Payment_.amount))))
                         .where(cb.equal(p.get(Payment_.customer).get(Customer_.customerId),
                                         cb.parameter(Integer.class, "customerId")),
                                cb.equal(q.get(Payment_.customer), p.get(Payment_.customer)),
                                cb.or(cb.lessThan(q.get(Payment_.paymentDate), paymentDate),
                                      cb.and(cb.equal(q.get(Payment_.paymentDate), paymentDate),
                                             cb.le(q.get(Payment_.paymentId), paymentId))))
-                        .groupBy(paymentId, paymentDate, amount)
+                        .groupBy(p)
                         .orderBy(cb.asc(paymentDate), cb.asc(paymentId));
                 return em.createQuery(cq)
                         .setParameter("customerId", 1)
@@ -107,9 +106,9 @@ class Payment_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(),
-                                r -> ((BigDecimal) r[2]).toPlainString(),
-                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .extracting(r -> ((Payment) r[0]).getPaymentId(),
+                                r -> ((Payment) r[0]).getAmount().toPlainString(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
                     .containsExactly(
                             tuple(1, "2.99", "2.99"),
                             tuple(2, "0.99", "3.98"),

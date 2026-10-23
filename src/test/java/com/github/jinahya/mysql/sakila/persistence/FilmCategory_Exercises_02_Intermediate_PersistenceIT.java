@@ -53,9 +53,10 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @ValueSource(longs = {0, 1})
         void __QueryLanguage(final long count) {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT fc.filmId, COUNT(fc)
+                                                                                      SELECT f, COUNT(fc)
                                                                                       FROM FilmCategory fc
-                                                                                      GROUP BY fc.filmId
+                                                                                               JOIN fc.film f
+                                                                                      GROUP BY f
                                                                                       HAVING COUNT(fc) > :count""",
                                                                               Object[].class)
                     .setParameter("count", count)
@@ -72,8 +73,9 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
                 final var cb = em.getCriteriaBuilder();
                 final var cq = cb.createQuery(Object[].class);
                 final var fc = cq.from(FilmCategory.class);
-                cq.select(cb.array(fc.get(FilmCategory_.filmId), cb.count(fc)))
-                        .groupBy(fc.get(FilmCategory_.filmId))
+                final var f = fc.join(FilmCategory_.film);
+                cq.select(cb.array(f, cb.count(fc)))
+                        .groupBy(f)
                         .having(cb.gt(cb.count(fc), cb.parameter(Long.class, "count")));
                 return em.createQuery(cq)
                         .setParameter("count", count)
@@ -124,18 +126,18 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.name, COUNT(fc), SUM(CASE WHEN f.rating = :rating THEN 1 ELSE 0 END)
+                                                                                      SELECT c, COUNT(fc), SUM(CASE WHEN f.rating = :rating THEN 1 ELSE 0 END)
                                                                                       FROM FilmCategory fc
                                                                                                JOIN fc.category c
                                                                                                JOIN fc.film f
-                                                                                      GROUP BY c.categoryId, c.name
+                                                                                      GROUP BY c
                                                                                       ORDER BY c.name""",
                                                                               Object[].class)
                     .setParameter("rating", Film.Rating.R)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple("Action", 64L, 14L),
@@ -168,8 +170,8 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
                         .when(cb.equal(f.get(Film_.rating),
                                        cb.parameter(Film.Rating.class, "rating")), 1)
                         .otherwise(0);
-                cq.select(cb.array(c.get(Category_.name), cb.count(fc), cb.sum(rated)))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                cq.select(cb.array(c, cb.count(fc), cb.sum(rated)))
+                        .groupBy(c)
                         .orderBy(cb.asc(c.get(Category_.name)));
                 return em.createQuery(cq)
                         .setParameter("rating", Film.Rating.R)
@@ -177,7 +179,7 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Category) r[0]).getName(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue())
                     .containsExactly(
                             tuple("Action", 64L, 14L),
@@ -208,18 +210,19 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT c.name, AVG(f.replacementCost)
+                                                                                      SELECT c, AVG(f.replacementCost)
                                                                                       FROM FilmCategory fc
                                                                                                JOIN fc.category c
                                                                                                JOIN fc.film f
-                                                                                      GROUP BY c.categoryId, c.name
+                                                                                      GROUP BY c
                                                                                       HAVING AVG(f.replacementCost) > (SELECT AVG(f2.replacementCost) FROM Film f2)
                                                                                       ORDER BY AVG(f.replacementCost) DESC, c.name""",
                                                                               Object[].class)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> BigDecimal.valueOf(((Number) r[1]).doubleValue())
+                    .extracting(r -> ((Category) r[0]).getName(),
+                                r -> BigDecimal.valueOf(((Number) r[1]).doubleValue())
                             .setScale(6, RoundingMode.HALF_UP).toPlainString())
                     .containsExactly(
                             tuple("Sci-Fi", "21.153934"),
@@ -244,8 +247,8 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
                 final var f2 = average.from(Film.class);
                 average.select(cb.avg(f2.get(Film_.replacementCost)));
                 final var cost = cb.avg(f.get(Film_.replacementCost));
-                cq.select(cb.array(c.get(Category_.name), cost))
-                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                cq.select(cb.array(c, cost))
+                        .groupBy(c)
                         .having(cb.gt(cost, average))
                         .orderBy(cb.desc(cost), cb.asc(c.get(Category_.name)));
                 return em.createQuery(cq)
@@ -253,7 +256,8 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> r[0], r -> BigDecimal.valueOf(((Number) r[1]).doubleValue())
+                    .extracting(r -> ((Category) r[0]).getName(),
+                                r -> BigDecimal.valueOf(((Number) r[1]).doubleValue())
                             .setScale(6, RoundingMode.HALF_UP).toPlainString())
                     .containsExactly(
                             tuple("Sci-Fi", "21.153934"),

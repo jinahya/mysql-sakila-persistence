@@ -62,16 +62,16 @@ ORDER BY country
 
 -- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-B-03
 -- the five countries with the longest names.
--- +---------------------------------------+--------+
--- | country                               | length |
--- +---------------------------------------+--------+
--- | Congo, The Democratic Republic of the |     37 |
--- | Saint Vincent and the Grenadines      |     32 |
--- | Holy See (Vatican City State)         |     29 |
--- | United Arab Emirates                  |     20 |
--- | Virgin Islands, U.S.                  |     20 |
--- +---------------------------------------+--------+
-SELECT country, CHAR_LENGTH(country) AS length
+-- +------------+---------------------------------------+---------------------+--------+
+-- | country_id | country                               | last_update         | length |
+-- +------------+---------------------------------------+---------------------+--------+
+-- |         25 | Congo, The Democratic Republic of the | 2006-02-15 04:44:00 |     37 |
+-- |         81 | Saint Vincent and the Grenadines      | 2006-02-15 04:44:00 |     32 |
+-- |         41 | Holy See (Vatican City State)         | 2006-02-15 04:44:00 |     29 |
+-- |        101 | United Arab Emirates                  | 2006-02-15 04:44:00 |     20 |
+-- |        106 | Virgin Islands, U.S.                  | 2006-02-15 04:44:00 |     20 |
+-- +------------+---------------------------------------+---------------------+--------+
+SELECT *, CHAR_LENGTH(country) AS length
 FROM country
 ORDER BY length DESC, country
 LIMIT 5

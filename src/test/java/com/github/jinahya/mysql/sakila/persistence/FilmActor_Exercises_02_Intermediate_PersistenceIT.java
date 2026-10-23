@@ -48,18 +48,18 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT f.filmId, f.title, COUNT(fa)
+                                                                                      SELECT f, COUNT(fa)
                                                                                       FROM Film f
                                                                                                JOIN f.filmActors fa
-                                                                                      GROUP BY f.filmId, f.title
+                                                                                      GROUP BY f
                                                                                       ORDER BY COUNT(fa) DESC, f.filmId""",
                                                                               Object[].class)
                     .setMaxResults(5)
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Film) r[0]).getFilmId(), r -> ((Film) r[0]).getTitle(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(508, "LAMBS CINCINATTI", 15L),
                             tuple(87, "BOONDOCK BALLROOM", 13L),
@@ -75,8 +75,8 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var f = cq.from(Film.class);
                 final var fa = f.join(Film_.filmActors);
-                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), cb.count(fa)))
-                        .groupBy(f.get(Film_.filmId), f.get(Film_.title))
+                cq.select(cb.array(f, cb.count(fa)))
+                        .groupBy(f)
                         .orderBy(cb.desc(cb.count(fa)), cb.asc(f.get(Film_.filmId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -84,8 +84,8 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).longValue())
+                    .extracting(r -> ((Film) r[0]).getFilmId(), r -> ((Film) r[0]).getTitle(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(508, "LAMBS CINCINATTI", 15L),
                             tuple(87, "BOONDOCK BALLROOM", 13L),
@@ -136,13 +136,13 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT a.actorId, a.firstName, a.lastName, COUNT(fa2)
+                                                                                      SELECT a, COUNT(fa2)
                                                                                       FROM FilmActor fa1, FilmActor fa2
                                                                                                JOIN fa2.actor a
                                                                                       WHERE fa2.film = fa1.film
                                                                                         AND fa2.actor <> fa1.actor
                                                                                         AND fa1.actor.actorId = :actorId
-                                                                                      GROUP BY a.actorId, a.firstName, a.lastName
+                                                                                      GROUP BY a
                                                                                       ORDER BY COUNT(fa2) DESC, a.actorId""",
                                                                               Object[].class)
                     .setParameter("actorId", 1)
@@ -150,8 +150,10 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
+                                r -> ((Actor) r[0]).getLastName(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(4, "JENNIFER", "DAVIS", 4L),
                             tuple(20, "LUCILLE", "TRACY", 3L),
@@ -168,14 +170,12 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
                 final var fa1 = cq.from(FilmActor.class);
                 final var fa2 = cq.from(FilmActor.class);
                 final var a = fa2.join(FilmActor_.actor);
-                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
-                                   a.get(Actor_.lastName), cb.count(fa2)))
+                cq.select(cb.array(a, cb.count(fa2)))
                         .where(cb.equal(fa2.get(FilmActor_.film), fa1.get(FilmActor_.film)),
                                cb.notEqual(fa2.get(FilmActor_.actor), fa1.get(FilmActor_.actor)),
                                cb.equal(fa1.get(FilmActor_.actor).get(Actor_.actorId),
                                         cb.parameter(Integer.class, "actorId")))
-                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
-                                 a.get(Actor_.lastName))
+                        .groupBy(a)
                         .orderBy(cb.desc(cb.count(fa2)), cb.asc(a.get(Actor_.actorId)));
                 return em.createQuery(cq)
                         .setParameter("actorId", 1)
@@ -184,8 +184,10 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
-                                r -> ((Number) r[3]).longValue())
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
+                                r -> ((Actor) r[0]).getLastName(),
+                                r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(4, "JENNIFER", "DAVIS", 4L),
                             tuple(20, "LUCILLE", "TRACY", 3L),

@@ -28,26 +28,26 @@
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-STAFF-B-01
 -- every staff member, with their store.
--- +----------+------------+-----------+----------+--------+
--- | staff_id | first_name | last_name | store_id | active |
--- +----------+------------+-----------+----------+--------+
--- |        1 | Mike       | Hillyer   |        1 |      1 |
--- |        2 | Jon        | Stephens  |        2 |      1 |
--- +----------+------------+-----------+----------+--------+
-SELECT staff_id, first_name, last_name, store_id, active
-FROM staff
-ORDER BY staff_id
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+
+-- | staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+
+-- |        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |
+-- |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+
+SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update -- every column but picture, a BLOB which does not print
+FROM staff s
+ORDER BY s.staff_id
 ;
 
 -- --------------------------------------------------------------------------------------------------- SAKILA-STAFF-B-02
 -- the staff members who have no password.
--- +----------+------------+-----------+----------+
--- | staff_id | first_name | last_name | username |
--- +----------+------------+-----------+----------+
--- |        2 | Jon        | Stephens  | Jon      |
--- +----------+------------+-----------+----------+
-SELECT staff_id, first_name, last_name, username
-FROM staff
-WHERE password IS NULL
-ORDER BY staff_id
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+----------+---------------------+
+-- | staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password | last_update         |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+----------+---------------------+
+-- |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL     | 2006-02-15 03:57:16 |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+----------+---------------------+
+SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update -- every column but picture, a BLOB which does not print
+FROM staff s
+WHERE s.password IS NULL
+ORDER BY s.staff_id
 ;

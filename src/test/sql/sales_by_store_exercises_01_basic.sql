@@ -34,7 +34,7 @@
 -- | Woodridge,Australia | Jon Stephens |    33726.77 |
 -- | Lethbridge,Canada   | Mike Hillyer |    33679.79 |
 -- +---------------------+--------------+-------------+
-SELECT store, manager, total_sales
+SELECT *
 FROM sales_by_store
 ;
 

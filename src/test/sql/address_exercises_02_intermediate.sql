@@ -28,16 +28,16 @@
 
 -- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-I-01
 -- the first five addresses, with their city and country.
--- +------------+----------------------+------------+-----------+
--- | address_id | address              | city       | country   |
--- +------------+----------------------+------------+-----------+
--- |          1 | 47 MySakila Drive    | Lethbridge | Canada    |
--- |          2 | 28 MySQL Boulevard   | Woodridge  | Australia |
--- |          3 | 23 Workhaven Lane    | Lethbridge | Canada    |
--- |          4 | 1411 Lillydale Drive | Woodridge  | Australia |
--- |          5 | 1913 Hanoi Way       | Sasebo     | Japan     |
--- +------------+----------------------+------------+-----------+
-SELECT a.address_id, a.address, ci.city, co.country
+-- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
+-- | address_id | address              | address2 | district | city_id | postal_code | phone       | last_update         | city_id | city       | country_id | last_update         | country_id | country   | last_update         |
+-- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
+-- |          1 | 47 MySakila Drive    | NULL     | Alberta  |     300 |             |             | 2014-09-25 22:30:27 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         20 | Canada    | 2006-02-15 04:44:00 |
+-- |          2 | 28 MySQL Boulevard   | NULL     | QLD      |     576 |             |             | 2014-09-25 22:30:09 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |          8 | Australia | 2006-02-15 04:44:00 |
+-- |          3 | 23 Workhaven Lane    | NULL     | Alberta  |     300 |             | 14033335568 | 2014-09-25 22:30:27 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         20 | Canada    | 2006-02-15 04:44:00 |
+-- |          4 | 1411 Lillydale Drive | NULL     | QLD      |     576 |             | 6172235589  | 2014-09-25 22:30:09 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |          8 | Australia | 2006-02-15 04:44:00 |
+-- |          5 | 1913 Hanoi Way       |          | Nagasaki |     463 | 35200       | 28303384290 | 2014-09-25 22:31:53 |     463 | Sasebo     |         50 | 2006-02-15 04:45:25 |         50 | Japan     | 2006-02-15 04:44:00 |
+-- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
+SELECT a.address_id, a.address, a.address2, a.district, a.city_id, a.postal_code, a.phone, a.last_update, ci.*, co.* -- every column but location, a GEOMETRY which does not print
 FROM address a
          JOIN city ci ON ci.city_id = a.city_id
          JOIN country co ON co.country_id = ci.country_id

@@ -48,7 +48,7 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT st.storeId, s.firstName, s.lastName, c.city
+                                                                                      SELECT st, s, c
                                                                                       FROM Store st
                                                                                                JOIN st.managerStaff s
                                                                                                JOIN st.address a
@@ -58,7 +58,9 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(r -> ((Store) r[0]).getStoreId(),
+                                r -> ((Staff) r[1]).getFirstName(),
+                                r -> ((Staff) r[1]).getLastName(), r -> ((City) r[2]).getCity())
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", "Lethbridge"),
                             tuple(2, "Jon", "Stephens", "Woodridge"));
@@ -72,15 +74,16 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
                 final var st = cq.from(Store.class);
                 final var s = st.join(Store_.managerStaff);
                 final var c = st.join(Store_.address).join(Address_.city);
-                cq.select(cb.array(st.get(Store_.storeId), s.get(Staff_.firstName),
-                                   s.get(Staff_.lastName), c.get(City_.city)))
+                cq.select(cb.array(st, s, c))
                         .orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq)
                         .getResultList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .extracting(r -> ((Store) r[0]).getStoreId(),
+                                r -> ((Staff) r[1]).getFirstName(),
+                                r -> ((Staff) r[1]).getLastName(), r -> ((City) r[2]).getCity())
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", "Lethbridge"),
                             tuple(2, "Jon", "Stephens", "Woodridge"));
@@ -99,34 +102,41 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
                 // over their cross product;
                 // each count is a grouped query
                 final var customers = em.createQuery("""
-                                                             SELECT c.store.storeId, COUNT(c)
+                                                             SELECT st, COUNT(c)
                                                              FROM Customer c
-                                                             GROUP BY c.store.storeId""",
+                                                                      JOIN c.store st
+                                                             GROUP BY st""",
                                                      Object[].class)
-                        .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
-                final var copies = em.createQuery("""
-                                                          SELECT i.storeId, COUNT(i)
-                                                          FROM Inventory i
-                                                          GROUP BY i.storeId""", Object[].class)
-                        .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
-                final var staff = em.createQuery("""
-                                                         SELECT s.store.storeId, COUNT(s)
-                                                         FROM Staff s
-                                                         GROUP BY s.store.storeId""",
-                                                 Object[].class)
-                        .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
-                return em.createQuery("""
-                                              SELECT st.storeId
-                                              FROM Store st
-                                              ORDER BY st.storeId""", Integer.class)
                         .getResultStream()
-                        .map(id -> new Object[]{id, customers.get(id), copies.get(id), staff.get(
-                                id)})
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
+                final var copies = em.createQuery("""
+                                                          SELECT st, COUNT(i)
+                                                          FROM Inventory i
+                                                                   JOIN i.store st
+                                                          GROUP BY st""", Object[].class)
+                        .getResultStream()
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
+                final var staff = em.createQuery("""
+                                                         SELECT st, COUNT(s)
+                                                         FROM Staff s
+                                                                  JOIN s.store st
+                                                         GROUP BY st""",
+                                                 Object[].class)
+                        .getResultStream()
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
+                return em.createQuery("""
+                                              SELECT st
+                                              FROM Store st
+                                              ORDER BY st.storeId""", Store.class)
+                        .getResultStream()
+                        .map(st -> new Object[]{st, customers.get(st.getStoreId()),
+                                                copies.get(st.getStoreId()),
+                                                staff.get(st.getStoreId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue(), r -> ((Number) r[3]).longValue())
                     .containsExactly(
                             tuple(1, 326L, 2270L, 1L),
@@ -141,33 +151,34 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
                 // each count is a grouped query
                 final var customers = cb.createQuery(Object[].class);
                 final var c = customers.from(Customer.class);
-                final var customerStoreId = c.get(Customer_.store).get(Store_.storeId);
-                customers.select(cb.array(customerStoreId, cb.count(c))).groupBy(customerStoreId);
+                final var customerStore = c.join(Customer_.store);
+                customers.select(cb.array(customerStore, cb.count(c))).groupBy(customerStore);
                 final var copies = cb.createQuery(Object[].class);
                 final var i = copies.from(Inventory.class);
-                copies.select(cb.array(i.get(Inventory_.storeId), cb.count(i)))
-                        .groupBy(i.get(Inventory_.storeId));
+                final var copyStore = i.join(Inventory_.store);
+                copies.select(cb.array(copyStore, cb.count(i))).groupBy(copyStore);
                 final var staff = cb.createQuery(Object[].class);
                 final var s = staff.from(Staff.class);
-                final var staffStoreId = s.get(Staff_.store).get(Store_.storeId);
-                staff.select(cb.array(staffStoreId, cb.count(s))).groupBy(staffStoreId);
+                final var staffStore = s.join(Staff_.store);
+                staff.select(cb.array(staffStore, cb.count(s))).groupBy(staffStore);
                 final var byCustomers = em.createQuery(customers).getResultStream()
-                        .collect(Collectors.toMap(r -> r[0], r -> r[1]));
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
                 final var byCopies = em.createQuery(copies).getResultStream()
-                        .collect(Collectors.toMap(r -> r[0], r -> r[1]));
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
                 final var byStaff = em.createQuery(staff).getResultStream()
-                        .collect(Collectors.toMap(r -> r[0], r -> r[1]));
-                final var cq = cb.createQuery(Object.class);
+                        .collect(Collectors.toMap(r -> ((Store) r[0]).getStoreId(), r -> r[1]));
+                final var cq = cb.createQuery(Store.class);
                 final var st = cq.from(Store.class);
-                cq.select(st.get(Store_.storeId)).orderBy(cb.asc(st.get(Store_.storeId)));
+                cq.select(st).orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq).getResultStream()
-                        .map(id -> new Object[]{id, byCustomers.get(id), byCopies.get(
-                                id), byStaff.get(id)})
+                        .map(e -> new Object[]{e, byCustomers.get(e.getStoreId()),
+                                               byCopies.get(e.getStoreId()),
+                                               byStaff.get(e.getStoreId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue(),
+                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue(),
                                 r -> ((Number) r[2]).longValue(), r -> ((Number) r[3]).longValue())
                     .containsExactly(
                             tuple(1, 326L, 2270L, 1L),

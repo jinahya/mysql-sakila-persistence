@@ -47,18 +47,18 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT ft.filmId, ft.title
+                                                                                      SELECT ft
                                                                                       FROM FilmText ft
                                                                                       WHERE ft.description LIKE :crocodile
                                                                                         AND ft.description LIKE :shark
                                                                                       ORDER BY ft.filmId""",
-                                                                              Object[].class)
+                                                                              FilmText.class)
                     .setParameter("crocodile", "%Crocodile%")
                     .setParameter("shark", "%Shark%")
                     .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1])
+                    .extracting(FilmText::getFilmId, FilmText::getTitle)
                     .containsExactly(
                             tuple(155, "CLEOPATRA DEVIL"),
                             tuple(177, "CONNECTICUT TRAMP"),
@@ -76,9 +76,9 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> {
                 final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
+                final var cq = cb.createQuery(FilmText.class);
                 final var ft = cq.from(FilmText.class);
-                cq.select(cb.array(ft.get(FilmText_.filmId), ft.get(FilmText_.title)))
+                cq.select(ft)
                         .where(cb.like(ft.get(FilmText_.description),
                                        cb.parameter(String.class, "crocodile")),
                                cb.like(ft.get(FilmText_.description),
@@ -89,9 +89,9 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
                         .setParameter("shark", "%Shark%")
                         .getResultList();
             });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            list.forEach(e -> log.debug("{}", e));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1])
+                    .extracting(FilmText::getFilmId, FilmText::getTitle)
                     .containsExactly(
                             tuple(155, "CLEOPATRA DEVIL"),
                             tuple(177, "CONNECTICUT TRAMP"),
@@ -113,7 +113,7 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
         @Test
         void __QueryLanguage() {
             final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT ft.filmId, ft.title, LENGTH(ft.description)
+                                                                                      SELECT ft, LENGTH(ft.description)
                                                                                       FROM FilmText ft
                                                                                       ORDER BY LENGTH(ft.description) DESC, ft.filmId""",
                                                                               Object[].class)
@@ -121,8 +121,9 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
                     .getResultList());
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(r -> ((FilmText) r[0]).getFilmId(),
+                                r -> ((FilmText) r[0]).getTitle(),
+                                r -> ((Number) r[1]).intValue())
                     .containsExactly(
                             tuple(116, "CANDIDATE PERDITION", 130),
                             tuple(217, "DAZED PUNK", 130),
@@ -138,7 +139,7 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
                 final var cq = cb.createQuery(Object[].class);
                 final var ft = cq.from(FilmText.class);
                 final var characters = cb.length(ft.get(FilmText_.description));
-                cq.select(cb.array(ft.get(FilmText_.filmId), ft.get(FilmText_.title), characters))
+                cq.select(cb.array(ft, characters))
                         .orderBy(cb.desc(characters), cb.asc(ft.get(FilmText_.filmId)));
                 return em.createQuery(cq)
                         .setMaxResults(5)
@@ -146,8 +147,9 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
-                                r -> ((Number) r[2]).intValue())
+                    .extracting(r -> ((FilmText) r[0]).getFilmId(),
+                                r -> ((FilmText) r[0]).getTitle(),
+                                r -> ((Number) r[1]).intValue())
                     .containsExactly(
                             tuple(116, "CANDIDATE PERDITION", 130),
                             tuple(217, "DAZED PUNK", 130),
