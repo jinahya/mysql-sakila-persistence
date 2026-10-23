@@ -146,4 +146,109 @@ class Customer_Exercises_01_Basic_PersistenceIT {
                     r -> assertThat((Object[]) r).containsExactly("sakilacustomer.org", 599L));
         }
     }
+
+    @DisplayName("exercise 4: the customers who are not active")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT c.customerId, c.firstName, c.lastName, c.store.storeId
+                                                                                      FROM Customer c
+                                                                                      WHERE c.active = FALSE
+                                                                                      ORDER BY c.customerId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).intValue())
+                    .containsExactly(
+                            tuple(16, "SANDRA", "MARTIN", 2),
+                            tuple(64, "JUDITH", "COX", 2),
+                            tuple(124, "SHEILA", "WELLS", 1),
+                            tuple(169, "ERICA", "MATTHEWS", 2),
+                            tuple(241, "HEIDI", "LARSON", 2),
+                            tuple(271, "PENNY", "NEAL", 1),
+                            tuple(315, "KENNETH", "GOODEN", 2),
+                            tuple(368, "HARRY", "ARCE", 1),
+                            tuple(406, "NATHAN", "RUNYON", 1),
+                            tuple(446, "THEODORE", "CULP", 2),
+                            tuple(482, "MAURICE", "CRAWLEY", 1),
+                            tuple(510, "BEN", "EASTER", 2),
+                            tuple(534, "CHRISTIAN", "JUNG", 1),
+                            tuple(558, "JIMMIE", "EGGLESTON", 1),
+                            tuple(592, "TERRANCE", "ROUSH", 1));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(Customer.class);
+                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                   c.get(Customer_.lastName),
+                                   c.get(Customer_.store).get(Store_.storeId)))
+                        .where(cb.isFalse(c.get(Customer_.active)))
+                        .orderBy(cb.asc(c.get(Customer_.customerId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).intValue())
+                    .containsExactly(
+                            tuple(16, "SANDRA", "MARTIN", 2),
+                            tuple(64, "JUDITH", "COX", 2),
+                            tuple(124, "SHEILA", "WELLS", 1),
+                            tuple(169, "ERICA", "MATTHEWS", 2),
+                            tuple(241, "HEIDI", "LARSON", 2),
+                            tuple(271, "PENNY", "NEAL", 1),
+                            tuple(315, "KENNETH", "GOODEN", 2),
+                            tuple(368, "HARRY", "ARCE", 1),
+                            tuple(406, "NATHAN", "RUNYON", 1),
+                            tuple(446, "THEODORE", "CULP", 2),
+                            tuple(482, "MAURICE", "CRAWLEY", 1),
+                            tuple(510, "BEN", "EASTER", 2),
+                            tuple(534, "CHRISTIAN", "JUNG", 1),
+                            tuple(558, "JIMMIE", "EGGLESTON", 1),
+                            tuple(592, "TERRANCE", "ROUSH", 1));
+        }
+    }
+
+    @DisplayName("exercise 5: how many customers have the same initial in both names")
+    @Nested
+    class Exercise5Test {
+
+        // EclipseLink's JPQL parser does not know LEFT; SUBSTRING(x, 1, 1) takes the initial
+        @Test
+        void __QueryLanguage() {
+            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                       SELECT COUNT(c)
+                                                                                       FROM Customer c
+                                                                                       WHERE SUBSTRING(c.firstName, 1, 1) = SUBSTRING(c.lastName, 1, 1)""",
+                                                                               Long.class)
+                    .getSingleResult());
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(30L);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var value = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Long.class);
+                final var c = cq.from(Customer.class);
+                cq.select(cb.count(c))
+                        .where(cb.equal(cb.substring(c.get(Customer_.firstName), 1, 1),
+                                        cb.substring(c.get(Customer_.lastName), 1, 1)));
+                return em.createQuery(cq).getSingleResult();
+            });
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(30L);
+        }
+    }
 }

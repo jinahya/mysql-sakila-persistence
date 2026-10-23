@@ -174,4 +174,108 @@ class City_Exercises_02_Intermediate_PersistenceIT {
             assertThat(value).isEqualTo(1L);
         }
     }
+
+    @DisplayName("exercise 4: the cities with more than one address")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c.cityId, c.city, COUNT(a)
+                                            FROM City c
+                                                     JOIN c.addresses a
+                                            GROUP BY c.cityId, c.city
+                                            HAVING COUNT(a) > 1
+                                            ORDER BY COUNT(a) DESC, c.city, c.cityId""",
+                                    Object[].class
+                            )
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple(42, "Aurora", 2L),
+                            tuple(300, "Lethbridge", 2L),
+                            tuple(312, "London", 2L),
+                            tuple(576, "Woodridge", 2L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(City.class);
+                final var a = c.join(City_.addresses);
+                cq.select(cb.array(c.get(City_.cityId), c.get(City_.city), cb.count(a)))
+                        .groupBy(c.get(City_.cityId), c.get(City_.city))
+                        .having(cb.gt(cb.count(a), 1L))
+                        .orderBy(cb.desc(cb.count(a)), cb.asc(c.get(City_.city)),
+                                 cb.asc(c.get(City_.cityId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple(42, "Aurora", 2L),
+                            tuple(300, "Lethbridge", 2L),
+                            tuple(312, "London", 2L),
+                            tuple(576, "Woodridge", 2L));
+        }
+    }
+
+    @DisplayName("exercise 5: the city names found in more than one country")
+    @Nested
+    class Exercise5Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c.city, COUNT(DISTINCT c.country)
+                                            FROM City c
+                                            GROUP BY c.city
+                                            HAVING COUNT(DISTINCT c.country) > 1
+                                            ORDER BY COUNT(DISTINCT c.country) DESC, c.city""",
+                                    Object[].class
+                            )
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("London", 2L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(City.class);
+                final var countries = cb.countDistinct(c.get(City_.country));
+                cq.select(cb.array(c.get(City_.city), countries))
+                        .groupBy(c.get(City_.city))
+                        .having(cb.gt(countries, 1L))
+                        .orderBy(cb.desc(countries), cb.asc(c.get(City_.city)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("London", 2L));
+        }
+    }
 }

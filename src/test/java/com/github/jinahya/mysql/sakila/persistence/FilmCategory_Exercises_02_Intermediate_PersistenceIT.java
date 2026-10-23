@@ -27,9 +27,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/film_category_exercises_02_intermediate.sql},
@@ -111,6 +114,156 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
             });
             log.debug("{}", value);
             assertThat(value).isEqualTo(0L);
+        }
+    }
+
+    @DisplayName("exercise 3: how many films each category has, and how many of them are rated R")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT c.name, COUNT(fc), SUM(CASE WHEN f.rating = :rating THEN 1 ELSE 0 END)
+                                                                                      FROM FilmCategory fc
+                                                                                               JOIN fc.category c
+                                                                                               JOIN fc.film f
+                                                                                      GROUP BY c.categoryId, c.name
+                                                                                      ORDER BY c.name""",
+                                                                              Object[].class)
+                    .setParameter("rating", Film.Rating.R)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple("Action", 64L, 14L),
+                            tuple("Animation", 66L, 8L),
+                            tuple("Children", 60L, 9L),
+                            tuple("Classics", 57L, 14L),
+                            tuple("Comedy", 58L, 8L),
+                            tuple("Documentary", 68L, 13L),
+                            tuple("Drama", 62L, 6L),
+                            tuple("Family", 69L, 16L),
+                            tuple("Foreign", 73L, 15L),
+                            tuple("Games", 61L, 15L),
+                            tuple("Horror", 56L, 14L),
+                            tuple("Music", 51L, 11L),
+                            tuple("New", 63L, 9L),
+                            tuple("Sci-Fi", 61L, 17L),
+                            tuple("Sports", 74L, 16L),
+                            tuple("Travel", 57L, 10L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var fc = cq.from(FilmCategory.class);
+                final var c = fc.join(FilmCategory_.category);
+                final var f = fc.join(FilmCategory_.film);
+                final var rated = cb.<Integer>selectCase()
+                        .when(cb.equal(f.get(Film_.rating),
+                                       cb.parameter(Film.Rating.class, "rating")), 1)
+                        .otherwise(0);
+                cq.select(cb.array(c.get(Category_.name), cb.count(fc), cb.sum(rated)))
+                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                        .orderBy(cb.asc(c.get(Category_.name)));
+                return em.createQuery(cq)
+                        .setParameter("rating", Film.Rating.R)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue(),
+                                r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple("Action", 64L, 14L),
+                            tuple("Animation", 66L, 8L),
+                            tuple("Children", 60L, 9L),
+                            tuple("Classics", 57L, 14L),
+                            tuple("Comedy", 58L, 8L),
+                            tuple("Documentary", 68L, 13L),
+                            tuple("Drama", 62L, 6L),
+                            tuple("Family", 69L, 16L),
+                            tuple("Foreign", 73L, 15L),
+                            tuple("Games", 61L, 15L),
+                            tuple("Horror", 56L, 14L),
+                            tuple("Music", 51L, 11L),
+                            tuple("New", 63L, 9L),
+                            tuple("Sci-Fi", 61L, 17L),
+                            tuple("Sports", 74L, 16L),
+                            tuple("Travel", 57L, 10L));
+        }
+    }
+
+    @DisplayName(
+            "exercise 4: the categories whose films cost more to replace than the average " +
+            "film")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT c.name, AVG(f.replacementCost)
+                                                                                      FROM FilmCategory fc
+                                                                                               JOIN fc.category c
+                                                                                               JOIN fc.film f
+                                                                                      GROUP BY c.categoryId, c.name
+                                                                                      HAVING AVG(f.replacementCost) > (SELECT AVG(f2.replacementCost) FROM Film f2)
+                                                                                      ORDER BY AVG(f.replacementCost) DESC, c.name""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> BigDecimal.valueOf(((Number) r[1]).doubleValue())
+                            .setScale(6, RoundingMode.HALF_UP).toPlainString())
+                    .containsExactly(
+                            tuple("Sci-Fi", "21.153934"),
+                            tuple("Drama", "21.086774"),
+                            tuple("Classics", "21.007544"),
+                            tuple("Action", "20.911875"),
+                            tuple("Sports", "20.395405"),
+                            tuple("Games", "20.285082"),
+                            tuple("Animation", "20.126364"),
+                            tuple("Children", "20.056667"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var fc = cq.from(FilmCategory.class);
+                final var c = fc.join(FilmCategory_.category);
+                final var f = fc.join(FilmCategory_.film);
+                final var average = cq.subquery(Double.class);
+                final var f2 = average.from(Film.class);
+                average.select(cb.avg(f2.get(Film_.replacementCost)));
+                final var cost = cb.avg(f.get(Film_.replacementCost));
+                cq.select(cb.array(c.get(Category_.name), cost))
+                        .groupBy(c.get(Category_.categoryId), c.get(Category_.name))
+                        .having(cb.gt(cost, average))
+                        .orderBy(cb.desc(cost), cb.asc(c.get(Category_.name)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> BigDecimal.valueOf(((Number) r[1]).doubleValue())
+                            .setScale(6, RoundingMode.HALF_UP).toPlainString())
+                    .containsExactly(
+                            tuple("Sci-Fi", "21.153934"),
+                            tuple("Drama", "21.086774"),
+                            tuple("Classics", "21.007544"),
+                            tuple("Action", "20.911875"),
+                            tuple("Sports", "20.395405"),
+                            tuple("Games", "20.285082"),
+                            tuple("Animation", "20.126364"),
+                            tuple("Children", "20.056667"));
         }
     }
 }

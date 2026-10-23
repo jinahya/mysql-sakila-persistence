@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/_schema_exercises_01_basic.sql}, against the
@@ -190,6 +191,157 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
                     "get_customer_balance", "inventory_held_by_customer", "inventory_in_stock",
                     "film_in_stock",
                     "film_not_in_stock", "rewards_report");
+        }
+    }
+
+    @DisplayName("exercise 7: the views, and whether each is updatable")
+    @Nested
+    class Exercise7Test {
+
+        // information_schema describes the database, not the entities; JPQL and the Criteria API
+        // cannot read it
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT table_name, is_updatable
+                                                                                                      FROM information_schema.views
+                                                                                                      WHERE table_schema = ?1
+                                                                                                      ORDER BY table_name""")
+                    .setParameter(1, "sakila")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0], r -> ((Object[]) r)[1])
+                    .containsExactly(
+                            tuple("actor_info", "NO"),
+                            tuple("customer_list", "YES"),
+                            tuple("film_list", "NO"),
+                            tuple("nicer_but_slower_film_list", "NO"),
+                            tuple("sales_by_film_category", "NO"),
+                            tuple("sales_by_store", "NO"),
+                            tuple("staff_list", "YES"));
+        }
+    }
+
+    @DisplayName("exercise 8: the tables whose primary key has more than one column")
+    @Nested
+    class Exercise8Test {
+
+        // information_schema describes the database, not the entities; JPQL and the Criteria API
+        // cannot read it
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT table_name, COUNT(*) AS columns
+                                                                                                      FROM information_schema.key_column_usage
+                                                                                                      WHERE table_schema = ?1
+                                                                                                        AND constraint_name = ?2
+                                                                                                      GROUP BY table_name
+                                                                                                      HAVING COUNT(*) > 1
+                                                                                                      ORDER BY table_name""")
+                    .setParameter(1, "sakila")
+                    .setParameter(2, "PRIMARY")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0],
+                                r -> ((Number) ((Object[]) r)[1]).longValue())
+                    .containsExactly(
+                            tuple("better_employment", 2L),
+                            tuple("film_actor", 2L),
+                            tuple("film_category", 2L));
+        }
+    }
+
+    @DisplayName("exercise 9: the ENUM and SET columns")
+    @Nested
+    class Exercise9Test {
+
+        // information_schema describes the database, not the entities; JPQL and the Criteria API
+        // cannot read it
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT table_name, column_name, column_type
+                                                                                                      FROM information_schema.columns
+                                                                                                      WHERE table_schema = ?1
+                                                                                                        AND data_type IN (?2, ?3)
+                                                                                                      ORDER BY table_name, column_name""")
+                    .setParameter(1, "sakila")
+                    .setParameter(2, "enum")
+                    .setParameter(3, "set")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0], r -> ((Object[]) r)[1])
+                    .containsExactly(
+                            tuple("film", "rating"),
+                            tuple("film", "special_features"),
+                            tuple("film_list", "rating"),
+                            tuple("nicer_but_slower_film_list", "rating"));
+        }
+    }
+
+    @DisplayName("exercise 10: the foreign keys which do not restrict a delete")
+    @Nested
+    class Exercise10Test {
+
+        // information_schema describes the database, not the entities; JPQL and the Criteria API
+        // cannot read it
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT table_name, constraint_name, referenced_table_name, update_rule, delete_rule
+                                                                                                      FROM information_schema.referential_constraints
+                                                                                                      WHERE constraint_schema = ?1
+                                                                                                        AND delete_rule <> ?2
+                                                                                                      ORDER BY table_name, constraint_name""")
+                    .setParameter(1, "sakila")
+                    .setParameter(2, "RESTRICT")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0], r -> ((Object[]) r)[1],
+                                r -> ((Object[]) r)[2], r -> ((Object[]) r)[3],
+                                r -> ((Object[]) r)[4])
+                    .containsExactly(
+                            tuple("payment", "fk_payment_rental", "rental", "CASCADE",
+                                  "SET NULL"));
+        }
+    }
+
+    @DisplayName("exercise 11: the unique keys other than the primary keys, column by column")
+    @Nested
+    class Exercise11Test {
+
+        // information_schema describes the database, not the entities; JPQL and the Criteria API
+        // cannot read it
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT table_name, index_name, seq_in_index, column_name
+                                                                                                      FROM information_schema.statistics
+                                                                                                      WHERE table_schema = ?1
+                                                                                                        AND non_unique = 0
+                                                                                                        AND index_name <> ?2
+                                                                                                      ORDER BY table_name, index_name, seq_in_index""")
+                    .setParameter(1, "sakila")
+                    .setParameter(2, "PRIMARY")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0], r -> ((Object[]) r)[1],
+                                r -> ((Number) ((Object[]) r)[2]).intValue(),
+                                r -> ((Object[]) r)[3])
+                    .containsExactly(
+                            tuple("better_employment", "uk_better_employment_manager", 1,
+                                  "manager"),
+                            tuple("better_employment", "uk_better_employment_manager", 2,
+                                  "store_id"),
+                            tuple("rental", "rental_date", 1, "rental_date"),
+                            tuple("rental", "rental_date", 2, "inventory_id"),
+                            tuple("rental", "rental_date", 3, "customer_id"),
+                            tuple("store", "idx_unique_manager", 1, "manager_staff_id"));
         }
     }
 }

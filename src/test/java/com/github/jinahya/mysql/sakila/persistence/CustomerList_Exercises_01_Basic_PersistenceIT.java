@@ -126,4 +126,81 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
                             tuple(2, 273L));
         }
     }
+
+    @DisplayName("exercise 3: how many customers the view's notes call active")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT l.notes, COUNT(l)
+                                                                                      FROM CustomerList l
+                                                                                      GROUP BY l.notes
+                                                                                      ORDER BY l.notes""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("", 15L),
+                            tuple("active", 584L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var l = cq.from(CustomerList.class);
+                cq.select(cb.array(l.get(CustomerList_.notes), cb.count(l)))
+                        .groupBy(l.get(CustomerList_.notes))
+                        .orderBy(cb.asc(l.get(CustomerList_.notes)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("", 15L),
+                            tuple("active", 584L));
+        }
+    }
+
+    @DisplayName("exercise 4: how many customers live on an Avenue")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                       SELECT COUNT(l)
+                                                                                       FROM CustomerList l
+                                                                                       WHERE l.address LIKE :pattern""",
+                                                                               Long.class)
+                    .setParameter("pattern", "% Avenue")
+                    .getSingleResult());
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(59L);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var value = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Long.class);
+                final var l = cq.from(CustomerList.class);
+                cq.select(cb.count(l))
+                        .where(cb.like(l.get(CustomerList_.address),
+                                       cb.parameter(String.class, "pattern")));
+                return em.createQuery(cq)
+                        .setParameter("pattern", "% Avenue")
+                        .getSingleResult();
+            });
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(59L);
+        }
+    }
 }

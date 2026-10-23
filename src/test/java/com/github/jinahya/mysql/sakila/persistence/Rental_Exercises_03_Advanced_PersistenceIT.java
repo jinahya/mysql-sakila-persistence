@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/rental_exercises_03_advanced.sql}, against the
@@ -60,6 +61,82 @@ class Rental_Exercises_03_Advanced_PersistenceIT {
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list).singleElement()
                     .satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(8121L));
+        }
+    }
+
+    @DisplayName("exercise 2: the five longest waits between a customer's two rentals in 2005")
+    @Nested
+    class Exercise2Test {
+
+        // JPQL has no LAG and no difference of two dates; DATEDIFF is MySQL's own; the Criteria API
+        // has neither
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT customer_id, previous_rental, rental_date, DATEDIFF(rental_date, previous_rental) AS days
+                                                                                                      FROM (SELECT customer_id, rental_date,
+                                                                                                                   LAG(rental_date) OVER (PARTITION BY customer_id ORDER BY rental_date, rental_id) AS previous_rental
+                                                                                                            FROM rental
+                                                                                                            WHERE rental_date < '2006-01-01') g
+                                                                                                      WHERE previous_rental IS NOT NULL
+                                                                                                      ORDER BY days DESC, customer_id, rental_date
+                                                                                                      LIMIT 5""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
+                                r -> ((Number) ((Object[]) r)[3]).longValue())
+                    .containsExactly(
+                            tuple(61, 57L),
+                            tuple(101, 43L),
+                            tuple(4, 39L),
+                            tuple(401, 39L),
+                            tuple(433, 39L));
+        }
+    }
+
+    @DisplayName("exercise 3: whether a copy was ever rented out twice at the same time")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                       SELECT COUNT(a)
+                                                                                       FROM Rental a, Rental b
+                                                                                       WHERE b.inventory = a.inventory
+                                                                                         AND b.rentalId <> a.rentalId
+                                                                                         AND b.rentalDate >= a.rentalDate
+                                                                                         AND (a.returnDate IS NULL OR b.rentalDate < a.returnDate)
+                                                                                         AND (b.rentalDate > a.rentalDate OR b.rentalId > a.rentalId)""",
+                                                                               Long.class)
+                    .getSingleResult());
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(0L);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var value = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Long.class);
+                final var a = cq.from(Rental.class);
+                final var b = cq.from(Rental.class);
+                final var aRentalDate = a.get(Rental_.rentalDate);
+                final var bRentalDate = b.get(Rental_.rentalDate);
+                final var aReturnDate = a.get(Rental_.returnDate);
+                cq.select(cb.count(a))
+                        .where(cb.equal(b.get(Rental_.inventory), a.get(Rental_.inventory)),
+                               cb.notEqual(b.get(Rental_.rentalId), a.get(Rental_.rentalId)),
+                               cb.greaterThanOrEqualTo(bRentalDate, aRentalDate),
+                               cb.or(cb.isNull(aReturnDate), cb.lessThan(bRentalDate, aReturnDate)),
+                               cb.or(cb.greaterThan(bRentalDate, aRentalDate),
+                                     cb.gt(b.get(Rental_.rentalId), a.get(Rental_.rentalId))));
+                return em.createQuery(cq)
+                        .getSingleResult();
+            });
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(0L);
         }
     }
 }

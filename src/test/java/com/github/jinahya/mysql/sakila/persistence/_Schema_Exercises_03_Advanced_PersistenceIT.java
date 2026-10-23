@@ -295,4 +295,127 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
             assertThat(list).isEmpty();
         }
     }
+
+    @DisplayName("exercise 8: the five longest runs of days on which a customer rented every day")
+    @Nested
+    class Exercise8Test {
+
+        // JPQL has no window functions, nor date arithmetic; ROW_NUMBER() OVER (...) and DATE_SUB
+        // are SQL's
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      WITH days AS (SELECT DISTINCT customer_id, DATE(rental_date) AS day
+                                                                                                                    FROM rental),
+                                                                                                           islands AS (SELECT customer_id, day,
+                                                                                                                              DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY day) DAY) AS island
+                                                                                                                       FROM days)
+                                                                                                      SELECT c.customer_id, c.first_name, c.last_name, MIN(i.day) AS first_day, MAX(i.day) AS last_day, COUNT(*) AS days
+                                                                                                      FROM islands i
+                                                                                                               JOIN customer c ON c.customer_id = i.customer_id
+                                                                                                      GROUP BY c.customer_id, c.first_name, c.last_name, i.island
+                                                                                                      ORDER BY days DESC, c.customer_id, first_day
+                                                                                                      LIMIT 5""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
+                                r -> String.valueOf(((Object[]) r)[3]),
+                                r -> String.valueOf(((Object[]) r)[4]),
+                                r -> ((Number) ((Object[]) r)[5]).longValue())
+                    .containsExactly(
+                            tuple(42, "2005-07-26", "2005-08-02", 8L),
+                            tuple(181, "2005-07-26", "2005-08-02", 8L),
+                            tuple(290, "2005-07-26", "2005-08-02", 8L),
+                            tuple(306, "2005-07-26", "2005-08-02", 8L),
+                            tuple(373, "2005-07-26", "2005-08-02", 8L));
+        }
+    }
+
+    @DisplayName("exercise 9: the countries none of whose customers rented a Music film")
+    @Nested
+    class Exercise9Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT co.country, COUNT(cu)
+                                                                                      FROM Customer cu
+                                                                                               JOIN cu.address a
+                                                                                               JOIN a.city ci
+                                                                                               JOIN ci.country co
+                                                                                      WHERE NOT EXISTS (SELECT r
+                                                                                                        FROM Rental r
+                                                                                                                 JOIN r.customer cu2
+                                                                                                                 JOIN cu2.address a2
+                                                                                                                 JOIN a2.city ci2
+                                                                                                                 JOIN r.inventory i
+                                                                                                                 JOIN i.film f
+                                                                                                                 JOIN f.filmCategories fc
+                                                                                                                 JOIN fc.category c
+                                                                                                        WHERE ci2.country = co
+                                                                                                          AND c.name = :name)
+                                                                                      GROUP BY co.countryId, co.country
+                                                                                      ORDER BY co.country""",
+                                                                              Object[].class)
+                    .setParameter("name", "Music")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("Afghanistan", 1L),
+                            tuple("Bahrain", 1L),
+                            tuple("Finland", 1L),
+                            tuple("French Polynesia", 2L),
+                            tuple("Iraq", 1L),
+                            tuple("Liechtenstein", 1L),
+                            tuple("Madagascar", 1L),
+                            tuple("New Zealand", 1L),
+                            tuple("Slovakia", 1L),
+                            tuple("Sri Lanka", 1L),
+                            tuple("Turkmenistan", 1L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var cu = cq.from(Customer.class);
+                final var co = cu.join(Customer_.address).join(Address_.city).join(City_.country);
+                final var name = cb.parameter(String.class, "name");
+                final var music = cq.subquery(Rental.class);
+                final var r = music.from(Rental.class);
+                final var ci2 =
+                        r.join(Rental_.customer).join(Customer_.address).join(Address_.city);
+                final var c = r.join(Rental_.inventory).join(Inventory_.film)
+                        .join(Film_.filmCategories).join(FilmCategory_.category);
+                music.select(r).where(cb.equal(ci2.get(City_.country), co),
+                                      cb.equal(c.get(Category_.name), name));
+                cq.select(cb.array(co.get(Country_.country), cb.count(cu)))
+                        .where(cb.not(cb.exists(music)))
+                        .groupBy(co.get(Country_.countryId), co.get(Country_.country))
+                        .orderBy(cb.asc(co.get(Country_.country)));
+                return em.createQuery(cq)
+                        .setParameter(name, "Music")
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("Afghanistan", 1L),
+                            tuple("Bahrain", 1L),
+                            tuple("Finland", 1L),
+                            tuple("French Polynesia", 2L),
+                            tuple("Iraq", 1L),
+                            tuple("Liechtenstein", 1L),
+                            tuple("Madagascar", 1L),
+                            tuple("New Zealand", 1L),
+                            tuple("Slovakia", 1L),
+                            tuple("Sri Lanka", 1L),
+                            tuple("Turkmenistan", 1L));
+        }
+    }
 }

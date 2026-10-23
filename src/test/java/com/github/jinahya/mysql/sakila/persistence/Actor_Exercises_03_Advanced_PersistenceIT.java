@@ -25,7 +25,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/actor_exercises_03_advanced.sql}, against the
@@ -85,6 +88,170 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).extracting(Actor::getActorId).containsExactly(1, 2, 3, 4, 5);
+        }
+    }
+
+    @DisplayName("exercise 2: the actors in the top seven film counts, ties included")
+    @Nested
+    class Exercise2Test {
+
+        // JPQL has no DENSE_RANK(); an actor's rank is the number of the distinct film counts at
+        // or above the actor's, each counted once, by the first actor who has it
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a.actorId, a.firstName, a.lastName,
+                                                   (SELECT COUNT(fa) FROM FilmActor fa WHERE fa.actor = a), COUNT(b)
+                                            FROM Actor a, Actor b
+                                            WHERE SIZE(b.filmActors) >= SIZE(a.filmActors)
+                                              AND NOT EXISTS (SELECT b2
+                                                              FROM Actor b2
+                                                              WHERE SIZE(b2.filmActors) = SIZE(b.filmActors)
+                                                                AND b2.actorId < b.actorId)
+                                            GROUP BY a.actorId, a.firstName, a.lastName
+                                            HAVING COUNT(b) <= 7
+                                            ORDER BY COUNT(b), a.actorId""",
+                                    Object[].class
+                            )
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue(), r -> ((Number) r[4]).longValue())
+                    .containsExactly(
+                            tuple(107, "GINA", "DEGENERES", 42L, 1L),
+                            tuple(102, "WALTER", "TORN", 41L, 2L),
+                            tuple(198, "MARY", "KEITEL", 40L, 3L),
+                            tuple(181, "MATTHEW", "CARREY", 39L, 4L),
+                            tuple(23, "SANDRA", "KILMER", 37L, 5L),
+                            tuple(81, "SCARLETT", "DAMON", 36L, 6L),
+                            tuple(13, "UMA", "WOOD", 35L, 7L),
+                            tuple(37, "VAL", "BOLGER", 35L, 7L),
+                            tuple(60, "HENRY", "BERRY", 35L, 7L),
+                            tuple(106, "GROUCHO", "DUNST", 35L, 7L),
+                            tuple(144, "ANGELA", "WITHERSPOON", 35L, 7L),
+                            tuple(158, "VIVIEN", "BASINGER", 35L, 7L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Actor.class);
+                final var b = cq.from(Actor.class);
+                final var films = cq.subquery(Long.class);
+                final var fa = films.from(FilmActor.class);
+                films.select(cb.count(fa)).where(cb.equal(fa.get(FilmActor_.actor), a));
+                final var earlier = cq.subquery(Actor.class);
+                final var b2 = earlier.from(Actor.class);
+                earlier.select(b2)
+                        .where(cb.equal(cb.size(b2.get(Actor_.filmActors)),
+                                        cb.size(b.get(Actor_.filmActors))),
+                               cb.lt(b2.get(Actor_.actorId), b.get(Actor_.actorId)));
+                // eclipselink selects no bare subquery (a ClassCastException); it does select a
+                // COALESCE of one
+                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                   a.get(Actor_.lastName), cb.coalesce(films, 0L), cb.count(b)))
+                        .where(cb.ge(cb.size(b.get(Actor_.filmActors)),
+                                     cb.size(a.get(Actor_.filmActors))),
+                               cb.not(cb.exists(earlier)))
+                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                 a.get(Actor_.lastName))
+                        .having(cb.le(cb.count(b), 7L))
+                        .orderBy(cb.asc(cb.count(b)), cb.asc(a.get(Actor_.actorId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue(), r -> ((Number) r[4]).longValue())
+                    .containsExactly(
+                            tuple(107, "GINA", "DEGENERES", 42L, 1L),
+                            tuple(102, "WALTER", "TORN", 41L, 2L),
+                            tuple(198, "MARY", "KEITEL", 40L, 3L),
+                            tuple(181, "MATTHEW", "CARREY", 39L, 4L),
+                            tuple(23, "SANDRA", "KILMER", 37L, 5L),
+                            tuple(81, "SCARLETT", "DAMON", 36L, 6L),
+                            tuple(13, "UMA", "WOOD", 35L, 7L),
+                            tuple(37, "VAL", "BOLGER", 35L, 7L),
+                            tuple(60, "HENRY", "BERRY", 35L, 7L),
+                            tuple(106, "GROUCHO", "DUNST", 35L, 7L),
+                            tuple(144, "ANGELA", "WITHERSPOON", 35L, 7L),
+                            tuple(158, "VIVIEN", "BASINGER", 35L, 7L));
+        }
+    }
+
+    @DisplayName("exercise 3: the longest film of each of the first five actors")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a.actorId, a.firstName, a.lastName, f.title, f.length
+                                            FROM Actor a
+                                                     JOIN a.filmActors fa
+                                                     JOIN fa.film f
+                                            WHERE a.actorId BETWEEN 1 AND 5
+                                              AND f.length = (SELECT MAX(f2.length)
+                                                              FROM FilmActor fa2
+                                                                       JOIN fa2.film f2
+                                                              WHERE fa2.actor = a)
+                                            ORDER BY a.actorId, f.title""",
+                                    Object[].class
+                            )
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3],
+                                r -> ((Number) r[4]).intValue())
+                    .containsExactly(
+                            tuple(1, "PENELOPE", "GUINESS", "KING EVOLUTION", 184),
+                            tuple(2, "NICK", "WAHLBERG", "WARDROBE PHANTOM", 178),
+                            tuple(3, "ED", "CHASE", "YOUNG LANGUAGE", 183),
+                            tuple(4, "JENNIFER", "DAVIS", "REDS POCUS", 182),
+                            tuple(5, "JOHNNY", "LOLLOBRIGIDA", "SOLDIERS EVOLUTION", 185));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Actor.class);
+                final var f = a.join(Actor_.filmActors).join(FilmActor_.film);
+                final var longest = cq.subquery(Integer.class);
+                final var fa2 = longest.from(FilmActor.class);
+                final var f2 = fa2.join(FilmActor_.film);
+                longest.select(cb.max(f2.get(Film_.length)))
+                        .where(cb.equal(fa2.get(FilmActor_.actor), a));
+                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                   a.get(Actor_.lastName), f.get(Film_.title),
+                                   f.get(Film_.length)))
+                        .where(cb.between(a.get(Actor_.actorId), 1, 5),
+                               cb.equal(f.get(Film_.length), longest))
+                        .orderBy(cb.asc(a.get(Actor_.actorId)), cb.asc(f.get(Film_.title)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3],
+                                r -> ((Number) r[4]).intValue())
+                    .containsExactly(
+                            tuple(1, "PENELOPE", "GUINESS", "KING EVOLUTION", 184),
+                            tuple(2, "NICK", "WAHLBERG", "WARDROBE PHANTOM", 178),
+                            tuple(3, "ED", "CHASE", "YOUNG LANGUAGE", 183),
+                            tuple(4, "JENNIFER", "DAVIS", "REDS POCUS", 182),
+                            tuple(5, "JOHNNY", "LOLLOBRIGIDA", "SOLDIERS EVOLUTION", 185));
         }
     }
 }

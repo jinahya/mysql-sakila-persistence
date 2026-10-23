@@ -28,6 +28,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -289,6 +291,141 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
                             tuple("TEMPLE", 4L),
                             tuple("AKROYD", 3L),
                             tuple("ALLEN", 3L));
+        }
+    }
+
+    @DisplayName("exercise 6: the five actors whose films are, on average, the longest")
+    @Nested
+    class Exercise6Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a.actorId, a.firstName, a.lastName, ROUND(AVG(f.length), 2)
+                                            FROM Actor a
+                                                     JOIN a.filmActors fa
+                                                     JOIN fa.film f
+                                            GROUP BY a.actorId, a.firstName, a.lastName
+                                            ORDER BY AVG(f.length) DESC, a.actorId""",
+                                    Object[].class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).doubleValue())
+                    .containsExactly(
+                            tuple(35, "JUDY", "DEAN", 137.73d),
+                            tuple(156, "FAY", "WOOD", 133.82d),
+                            tuple(16, "FRED", "COSTNER", 131.56d),
+                            tuple(95, "DARYL", "WAHLBERG", 130.94d),
+                            tuple(8, "MATTHEW", "JOHANSSON", 130.85d));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Actor.class);
+                final var f = a.join(Actor_.filmActors).join(FilmActor_.film);
+                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                   a.get(Actor_.lastName),
+                                   cb.round(cb.avg(f.get(Film_.length)), 2)))
+                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                 a.get(Actor_.lastName))
+                        .orderBy(cb.desc(cb.avg(f.get(Film_.length))),
+                                 cb.asc(a.get(Actor_.actorId)));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).doubleValue())
+                    .containsExactly(
+                            tuple(35, "JUDY", "DEAN", 137.73d),
+                            tuple(156, "FAY", "WOOD", 133.82d),
+                            tuple(16, "FRED", "COSTNER", 131.56d),
+                            tuple(95, "DARYL", "WAHLBERG", 130.94d),
+                            tuple(8, "MATTHEW", "JOHANSSON", 130.85d));
+        }
+    }
+
+    @DisplayName("exercise 7: the films of the first five actors, counted by rating")
+    @Nested
+    class Exercise7Test {
+
+        // [actorId, firstName, lastName, rating, count]s into [actorId, firstName, lastName, g, pg,
+        // pg_13, r, nc_17]s
+        private static List<Object[]> pivot(final List<Object[]> list) {
+            final var rows = new LinkedHashMap<Object, Object[]>();
+            list.forEach(r -> rows.computeIfAbsent(
+                    r[0], k -> new Object[]{r[0], r[1], r[2], 0L, 0L, 0L, 0L, 0L}
+            )[3 + ((Film.Rating) r[3]).ordinal()] = ((Number) r[4]).longValue());
+            return List.copyOf(rows.values());
+        }
+
+        // JPQL counts no CASE; the films are counted by actor and rating, and pivoted in Java
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> pivot(em.createQuery(
+                                    """
+                                            SELECT a.actorId, a.firstName, a.lastName, f.rating, COUNT(f)
+                                            FROM Actor a
+                                                     JOIN a.filmActors fa
+                                                     JOIN fa.film f
+                                            WHERE a.actorId BETWEEN 1 AND 5
+                                            GROUP BY a.actorId, a.firstName, a.lastName, f.rating
+                                            ORDER BY a.actorId""",
+                                    Object[].class
+                            )
+                            .getResultList())
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3],
+                                r -> r[4], r -> r[5], r -> r[6], r -> r[7])
+                    .containsExactly(
+                            tuple(1, "PENELOPE", "GUINESS", 4L, 6L, 1L, 3L, 5L),
+                            tuple(2, "NICK", "WAHLBERG", 7L, 6L, 2L, 2L, 8L),
+                            tuple(3, "ED", "CHASE", 2L, 5L, 5L, 5L, 5L),
+                            tuple(4, "JENNIFER", "DAVIS", 3L, 5L, 5L, 4L, 5L),
+                            tuple(5, "JOHNNY", "LOLLOBRIGIDA", 7L, 4L, 4L, 7L, 7L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Actor.class);
+                final var f = a.join(Actor_.filmActors).join(FilmActor_.film);
+                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                   a.get(Actor_.lastName), f.get(Film_.rating), cb.count(f)))
+                        .where(cb.between(a.get(Actor_.actorId), 1, 5))
+                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                 a.get(Actor_.lastName), f.get(Film_.rating))
+                        .orderBy(cb.asc(a.get(Actor_.actorId)));
+                return pivot(em.createQuery(cq)
+                                     .getResultList());
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3],
+                                r -> r[4], r -> r[5], r -> r[6], r -> r[7])
+                    .containsExactly(
+                            tuple(1, "PENELOPE", "GUINESS", 4L, 6L, 1L, 3L, 5L),
+                            tuple(2, "NICK", "WAHLBERG", 7L, 6L, 2L, 2L, 8L),
+                            tuple(3, "ED", "CHASE", 2L, 5L, 5L, 5L, 5L),
+                            tuple(4, "JENNIFER", "DAVIS", 3L, 5L, 5L, 4L, 5L),
+                            tuple(5, "JOHNNY", "LOLLOBRIGIDA", 7L, 4L, 4L, 7L, 7L));
         }
     }
 }

@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -125,6 +126,108 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
             });
             log.debug("{}", value);
             assertThat(value.doubleValue()).isEqualTo(5.48d);
+        }
+    }
+
+    @DisplayName("exercise 3: the five actors who appear most often with the actor 1")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT a.actorId, a.firstName, a.lastName, COUNT(fa2)
+                                                                                      FROM FilmActor fa1, FilmActor fa2
+                                                                                               JOIN fa2.actor a
+                                                                                      WHERE fa2.film = fa1.film
+                                                                                        AND fa2.actor <> fa1.actor
+                                                                                        AND fa1.actor.actorId = :actorId
+                                                                                      GROUP BY a.actorId, a.firstName, a.lastName
+                                                                                      ORDER BY COUNT(fa2) DESC, a.actorId""",
+                                                                              Object[].class)
+                    .setParameter("actorId", 1)
+                    .setMaxResults(5)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
+                    .containsExactly(
+                            tuple(4, "JENNIFER", "DAVIS", 4L),
+                            tuple(20, "LUCILLE", "TRACY", 3L),
+                            tuple(64, "RAY", "JOHANSSON", 3L),
+                            tuple(6, "BETTE", "NICHOLSON", 2L),
+                            tuple(10, "CHRISTIAN", "GABLE", 2L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var fa1 = cq.from(FilmActor.class);
+                final var fa2 = cq.from(FilmActor.class);
+                final var a = fa2.join(FilmActor_.actor);
+                cq.select(cb.array(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                   a.get(Actor_.lastName), cb.count(fa2)))
+                        .where(cb.equal(fa2.get(FilmActor_.film), fa1.get(FilmActor_.film)),
+                               cb.notEqual(fa2.get(FilmActor_.actor), fa1.get(FilmActor_.actor)),
+                               cb.equal(fa1.get(FilmActor_.actor).get(Actor_.actorId),
+                                        cb.parameter(Integer.class, "actorId")))
+                        .groupBy(a.get(Actor_.actorId), a.get(Actor_.firstName),
+                                 a.get(Actor_.lastName))
+                        .orderBy(cb.desc(cb.count(fa2)), cb.asc(a.get(Actor_.actorId)));
+                return em.createQuery(cq)
+                        .setParameter("actorId", 1)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
+                    .containsExactly(
+                            tuple(4, "JENNIFER", "DAVIS", 4L),
+                            tuple(20, "LUCILLE", "TRACY", 3L),
+                            tuple(64, "RAY", "JOHANSSON", 3L),
+                            tuple(6, "BETTE", "NICHOLSON", 2L),
+                            tuple(10, "CHRISTIAN", "GABLE", 2L));
+        }
+    }
+
+    @DisplayName("exercise 4: how many films have one actor, two actors, and so on")
+    @Nested
+    class Exercise4Test {
+
+        // JPQL has no subquery in the FROM clause, nor a GROUP BY of a SIZE; the films are counted
+        // by a count of their own
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT actors, COUNT(*) AS films
+                                                                                                      FROM (SELECT film_id, COUNT(*) AS actors FROM film_actor GROUP BY film_id) t
+                                                                                                      GROUP BY actors
+                                                                                                      ORDER BY actors""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
+                                r -> ((Number) ((Object[]) r)[1]).longValue())
+                    .containsExactly(
+                            tuple(1, 21L),
+                            tuple(2, 69L),
+                            tuple(3, 119L),
+                            tuple(4, 137L),
+                            tuple(5, 195L),
+                            tuple(6, 150L),
+                            tuple(7, 119L),
+                            tuple(8, 90L),
+                            tuple(9, 49L),
+                            tuple(10, 21L),
+                            tuple(11, 14L),
+                            tuple(12, 6L),
+                            tuple(13, 6L),
+                            tuple(15, 1L));
         }
     }
 }

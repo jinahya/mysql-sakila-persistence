@@ -92,4 +92,60 @@ class Language_Exercises_02_Intermediate_PersistenceIT {
                             tuple("German", 0L));
         }
     }
+
+    @DisplayName(
+            "exercise 2: the languages no film uses, either as its language or as its original language")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT l
+                                                                                      FROM Language l
+                                                                                      WHERE NOT EXISTS (SELECT f
+                                                                                                        FROM Film f
+                                                                                                        WHERE f.language = l
+                                                                                                           OR f.originalLanguage = l)
+                                                                                      ORDER BY l.languageId""",
+                                                                              Language.class)
+                    .getResultList());
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Language::getLanguageId, Language::getName)
+                    .containsExactly(
+                            tuple(2, "Italian"),
+                            tuple(3, "Japanese"),
+                            tuple(4, "Mandarin"),
+                            tuple(5, "French"),
+                            tuple(6, "German"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Language.class);
+                final var l = cq.from(Language.class);
+                final var films = cq.subquery(Film.class);
+                final var f = films.from(Film.class);
+                films.select(f).where(cb.or(cb.equal(f.get(Film_.language), l),
+                                            cb.equal(f.get(Film_.originalLanguage), l)));
+                cq.select(l)
+                        .where(cb.not(cb.exists(films)))
+                        .orderBy(cb.asc(l.get(Language_.languageId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Language::getLanguageId, Language::getName)
+                    .containsExactly(
+                            tuple(2, "Italian"),
+                            tuple(3, "Japanese"),
+                            tuple(4, "Mandarin"),
+                            tuple(5, "French"),
+                            tuple(6, "German"));
+        }
+    }
 }

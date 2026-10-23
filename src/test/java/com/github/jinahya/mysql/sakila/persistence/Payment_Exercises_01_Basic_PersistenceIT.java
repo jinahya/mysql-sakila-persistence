@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -176,6 +177,132 @@ class Payment_Exercises_01_Basic_PersistenceIT {
             });
             log.debug("{}", value);
             assertThat(value).isEqualTo(0L);
+        }
+    }
+
+    @DisplayName("exercise 4: the five amounts paid most often")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT p.amount, COUNT(p) AS payments
+                                                                                      FROM Payment p
+                                                                                      GROUP BY p.amount
+                                                                                      ORDER BY payments DESC, p.amount""",
+                                                                              Object[].class)
+                    .setMaxResults(5)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(),
+                                r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("4.99", 3789L),
+                            tuple("2.99", 3542L),
+                            tuple("0.99", 2977L),
+                            tuple("5.99", 1299L),
+                            tuple("6.99", 1119L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var p = cq.from(Payment.class);
+                final var amount = p.get(Payment_.amount);
+                final var payments = cb.count(p);
+                cq.select(cb.array(amount, payments))
+                        .groupBy(amount)
+                        .orderBy(cb.desc(payments), cb.asc(amount));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((BigDecimal) r[0]).toPlainString(),
+                                r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("4.99", 3789L),
+                            tuple("2.99", 3542L),
+                            tuple("0.99", 2977L),
+                            tuple("5.99", 1299L),
+                            tuple("6.99", 1119L));
+        }
+    }
+
+    @DisplayName("exercise 5: the payments of the customer 1 in July 2005")
+    @Nested
+    class Exercise5Test {
+
+        private static final LocalDateTime FROM = LocalDateTime.of(2005, 7, 1, 0, 0, 0);
+
+        private static final LocalDateTime TO = LocalDateTime.of(2005, 7, 31, 23, 59, 59);
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT p.paymentId, p.amount, p.paymentDate
+                                                                                      FROM Payment p
+                                                                                      WHERE p.customer.customerId = :customerId
+                                                                                        AND p.paymentDate BETWEEN :from AND :to
+                                                                                      ORDER BY p.paymentDate, p.paymentId""",
+                                                                              Object[].class)
+                    .setParameter("customerId", 1)
+                    .setParameter("from", FROM)
+                    .setParameter("to", TO)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list).hasSize(12)
+                    .extracting(r -> ((Number) r[0]).intValue(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
+                    .startsWith(
+                            tuple(10, "5.99"),
+                            tuple(11, "5.99"),
+                            tuple(12, "4.99"))
+                    .endsWith(
+                            tuple(21, "2.99"));
+            assertThat(list).extracting(r -> (LocalDateTime) r[2])
+                    .isSorted()
+                    .first().isEqualTo(LocalDateTime.of(2005, 7, 8, 3, 17, 5));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var p = cq.from(Payment.class);
+                final var paymentDate = p.get(Payment_.paymentDate);
+                cq.select(cb.array(p.get(Payment_.paymentId), p.get(Payment_.amount), paymentDate))
+                        .where(cb.equal(p.get(Payment_.customer).get(Customer_.customerId),
+                                        cb.parameter(Integer.class, "customerId")),
+                               cb.between(paymentDate,
+                                          cb.parameter(LocalDateTime.class, "from"),
+                                          cb.parameter(LocalDateTime.class, "to")))
+                        .orderBy(cb.asc(paymentDate), cb.asc(p.get(Payment_.paymentId)));
+                return em.createQuery(cq)
+                        .setParameter("customerId", 1)
+                        .setParameter("from", FROM)
+                        .setParameter("to", TO)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list).hasSize(12)
+                    .extracting(r -> ((Number) r[0]).intValue(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
+                    .startsWith(
+                            tuple(10, "5.99"),
+                            tuple(11, "5.99"),
+                            tuple(12, "4.99"))
+                    .endsWith(
+                            tuple(21, "2.99"));
+            assertThat(list).extracting(r -> (LocalDateTime) r[2])
+                    .isSorted()
+                    .first().isEqualTo(LocalDateTime.of(2005, 7, 8, 3, 17, 5));
         }
     }
 }

@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -223,6 +224,135 @@ class Film_Exercises_01_Basic_PersistenceIT {
             });
             log.debug("{}", value);
             assertThat(value).isPositive();
+        }
+    }
+
+    @DisplayName("exercise 5: the five shortest films")
+    @Nested
+    class Exercise5Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT f.filmId, f.title, f.length
+                                                                                      FROM Film f
+                                                                                      ORDER BY f.length, f.title""",
+                                                                              Object[].class)
+                    .setMaxResults(5)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue())
+                    .containsExactly(
+                            tuple(15, "ALIEN CENTER", 46),
+                            tuple(469, "IRON MOON", 46),
+                            tuple(504, "KWAI HOMEWARD", 46),
+                            tuple(505, "LABYRINTH LEAGUE", 46),
+                            tuple(730, "RIDGEMONT SUBMARINE", 46));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var f = cq.from(Film.class);
+                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), f.get(Film_.length)))
+                        .orderBy(cb.asc(f.get(Film_.length)), cb.asc(f.get(Film_.title)));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue())
+                    .containsExactly(
+                            tuple(15, "ALIEN CENTER", 46),
+                            tuple(469, "IRON MOON", 46),
+                            tuple(504, "KWAI HOMEWARD", 46),
+                            tuple(505, "LABYRINTH LEAGUE", 46),
+                            tuple(730, "RIDGEMONT SUBMARINE", 46));
+        }
+    }
+
+    @DisplayName("exercise 6: the films cheapest to rent and dearest to replace")
+    @Nested
+    class Exercise6Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT f.filmId, f.title, f.rentalRate, f.replacementCost
+                                                                                      FROM Film f
+                                                                                      WHERE f.rentalRate = :rentalRate
+                                                                                        AND f.replacementCost = :replacementCost
+                                                                                      ORDER BY f.title""",
+                                                                              Object[].class)
+                    .setParameter("rentalRate", new BigDecimal("0.99"))
+                    .setParameter("replacementCost", new BigDecimal("29.99"))
+                    .setMaxResults(10)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list).hasSize(10)
+                    .allSatisfy(r -> {
+                        assertThat(((BigDecimal) r[2]).toPlainString()).isEqualTo("0.99");
+                        assertThat(((BigDecimal) r[3]).toPlainString()).isEqualTo("29.99");
+                    });
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1])
+                    .containsExactly(
+                            tuple(34, "ARABIA DOGMA"),
+                            tuple(52, "BALLROOM MOCKINGBIRD"),
+                            tuple(85, "BONNIE HOLOCAUST"),
+                            tuple(157, "CLOCKWORK PARADISE"),
+                            tuple(163, "CLYDE THEORY"),
+                            tuple(196, "CRUELTY UNFORGIVEN"),
+                            tuple(270, "EARTH VISION"),
+                            tuple(290, "EVERYONE CRAFT"),
+                            tuple(309, "FEUD FROGMEN"),
+                            tuple(358, "GILMORE BOILED"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var f = cq.from(Film.class);
+                cq.select(cb.array(f.get(Film_.filmId), f.get(Film_.title), f.get(Film_.rentalRate),
+                                   f.get(Film_.replacementCost)))
+                        .where(cb.equal(f.get(Film_.rentalRate),
+                                        cb.parameter(BigDecimal.class, "rentalRate")),
+                               cb.equal(f.get(Film_.replacementCost),
+                                        cb.parameter(BigDecimal.class, "replacementCost")))
+                        .orderBy(cb.asc(f.get(Film_.title)));
+                return em.createQuery(cq)
+                        .setParameter("rentalRate", new BigDecimal("0.99"))
+                        .setParameter("replacementCost", new BigDecimal("29.99"))
+                        .setMaxResults(10)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list).hasSize(10)
+                    .allSatisfy(r -> {
+                        assertThat(((BigDecimal) r[2]).toPlainString()).isEqualTo("0.99");
+                        assertThat(((BigDecimal) r[3]).toPlainString()).isEqualTo("29.99");
+                    });
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1])
+                    .containsExactly(
+                            tuple(34, "ARABIA DOGMA"),
+                            tuple(52, "BALLROOM MOCKINGBIRD"),
+                            tuple(85, "BONNIE HOLOCAUST"),
+                            tuple(157, "CLOCKWORK PARADISE"),
+                            tuple(163, "CLYDE THEORY"),
+                            tuple(196, "CRUELTY UNFORGIVEN"),
+                            tuple(270, "EARTH VISION"),
+                            tuple(290, "EVERYONE CRAFT"),
+                            tuple(309, "FEUD FROGMEN"),
+                            tuple(358, "GILMORE BOILED"));
         }
     }
 }

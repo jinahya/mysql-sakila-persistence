@@ -91,4 +91,128 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
                             tuple("11.99", 10L));
         }
     }
+
+    @DisplayName("exercise 2: the customers who paid more than 180 in all")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT c.customerId, c.firstName, c.lastName, SUM(p.amount) AS total
+                                                                                      FROM Payment p
+                                                                                               JOIN p.customer c
+                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      HAVING SUM(p.amount) > :total
+                                                                                      ORDER BY total DESC, c.customerId""",
+                                                                              Object[].class)
+                    .setParameter("total", BigDecimal.valueOf(180))
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .containsExactly(
+                            tuple(526, "KARL", "SEAL", "221.55"),
+                            tuple(148, "ELEANOR", "HUNT", "216.54"),
+                            tuple(144, "CLARA", "SHAW", "195.58"),
+                            tuple(137, "RHONDA", "KENNEDY", "194.61"),
+                            tuple(178, "MARION", "SNYDER", "194.61"),
+                            tuple(459, "TOMMY", "COLLAZO", "186.62"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var p = cq.from(Payment.class);
+                final var c = p.join(Payment_.customer);
+                final var customerId = c.get(Customer_.customerId);
+                final var total = cb.sum(p.get(Payment_.amount));
+                cq.select(cb.array(customerId, c.get(Customer_.firstName),
+                                   c.get(Customer_.lastName), total))
+                        .groupBy(customerId, c.get(Customer_.firstName), c.get(Customer_.lastName))
+                        .having(cb.gt(total, cb.parameter(BigDecimal.class, "total")))
+                        .orderBy(cb.desc(total), cb.asc(customerId));
+                return em.createQuery(cq)
+                        .setParameter("total", BigDecimal.valueOf(180))
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .containsExactly(
+                            tuple(526, "KARL", "SEAL", "221.55"),
+                            tuple(148, "ELEANOR", "HUNT", "216.54"),
+                            tuple(144, "CLARA", "SHAW", "195.58"),
+                            tuple(137, "RHONDA", "KENNEDY", "194.61"),
+                            tuple(178, "MARION", "SNYDER", "194.61"),
+                            tuple(459, "TOMMY", "COLLAZO", "186.62"));
+        }
+    }
+
+    @DisplayName(
+            "exercise 3: how many payments were less than, equal to, or more than the film's " +
+            "rental rate")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT CASE
+                                                                                                 WHEN p.amount < f.rentalRate THEN 'less'
+                                                                                                 WHEN p.amount = f.rentalRate THEN 'the rate'
+                                                                                                 ELSE 'more' END AS paid,
+                                                                                             COUNT(p)
+                                                                                      FROM Payment p
+                                                                                               JOIN p.rental r
+                                                                                               JOIN r.inventory i
+                                                                                               JOIN i.film f
+                                                                                      GROUP BY CASE
+                                                                                                   WHEN p.amount < f.rentalRate THEN 'less'
+                                                                                                   WHEN p.amount = f.rentalRate THEN 'the rate'
+                                                                                                   ELSE 'more' END
+                                                                                      ORDER BY paid""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("less", 24L),
+                            tuple("more", 7293L),
+                            tuple("the rate", 8727L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var p = cq.from(Payment.class);
+                final var f = p.join(Payment_.rental).join(Rental_.inventory).join(Inventory_.film);
+                final var amount = p.get(Payment_.amount);
+                final var rentalRate = f.get(Film_.rentalRate);
+                final var paid = cb.<String>selectCase()
+                        .when(cb.lt(amount, rentalRate), "less")
+                        .when(cb.equal(amount, rentalRate), "the rate")
+                        .otherwise("more");
+                cq.select(cb.array(paid, cb.count(p)))
+                        .groupBy(paid)
+                        .orderBy(cb.asc(paid));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("less", 24L),
+                            tuple("more", 7293L),
+                            tuple("the rate", 8727L));
+        }
+    }
 }

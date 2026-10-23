@@ -83,4 +83,45 @@ class Staff_Exercises_01_Basic_PersistenceIT {
                             tuple(2, "Jon", "Stephens", 2, true));
         }
     }
+
+    @DisplayName("exercise 2: the staff members who have no password")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT s.staffId, s.firstName, s.lastName, s.username
+                                                                                      FROM Staff s
+                                                                                      WHERE s.password IS NULL
+                                                                                      ORDER BY s.staffId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .containsExactly(
+                            tuple(2, "Jon", "Stephens", "Jon"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var s = cq.from(Staff.class);
+                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName),
+                                   s.get(Staff_.lastName), s.get(Staff_.username)))
+                        .where(cb.isNull(s.get(Staff_.password)))
+                        .orderBy(cb.asc(s.get(Staff_.staffId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .containsExactly(
+                            tuple(2, "Jon", "Stephens", "Jon"));
+        }
+    }
 }

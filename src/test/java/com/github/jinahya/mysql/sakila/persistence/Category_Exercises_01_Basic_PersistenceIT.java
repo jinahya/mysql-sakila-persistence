@@ -76,4 +76,44 @@ class Category_Exercises_01_Basic_PersistenceIT {
                     .startsWith("Action", "Animation", "Children").endsWith("Travel");
         }
     }
+
+    @DisplayName("exercise 2: the categories whose names fall between D and H")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c
+                                            FROM Category c
+                                            WHERE c.name BETWEEN 'D' AND 'H'
+                                            ORDER BY c.name""",
+                                    Category.class
+                            )
+                            .getResultList()
+            );
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).extracting(Category::getName)
+                    .containsExactly("Documentary", "Drama", "Family", "Foreign", "Games");
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Category.class);
+                final var c = cq.from(Category.class);
+                cq.select(c)
+                        .where(cb.between(c.get(Category_.name), "D", "H"))
+                        .orderBy(cb.asc(c.get(Category_.name)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).extracting(Category::getName)
+                    .containsExactly("Documentary", "Drama", "Family", "Foreign", "Games");
+        }
+    }
 }

@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/film_list_exercises_02_intermediate.sql}, against
@@ -55,6 +56,58 @@ class FilmList_Exercises_02_Intermediate_PersistenceIT {
             assertThat(list).singleElement().satisfies(
                     r -> assertThat((Object[]) r).extracting(v -> ((Number) v).longValue())
                             .containsExactly(1000L, 1000L));
+        }
+    }
+
+    @DisplayName("exercise 2: how many films of each rating there are at each price")
+    @Nested
+    class Exercise2Test {
+
+        // the view is not an entity; the FilmList class is a plain class, read with a native query
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT rating,
+                                                                                                             SUM(CASE WHEN price = 0.99 THEN 1 ELSE 0 END) AS price_0_99,
+                                                                                                             SUM(CASE WHEN price = 2.99 THEN 1 ELSE 0 END) AS price_2_99,
+                                                                                                             SUM(CASE WHEN price = 4.99 THEN 1 ELSE 0 END) AS price_4_99
+                                                                                                      FROM film_list
+                                                                                                      GROUP BY rating
+                                                                                                      ORDER BY rating""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0],
+                                r -> ((Number) ((Object[]) r)[1]).longValue(),
+                                r -> ((Number) ((Object[]) r)[2]).longValue(),
+                                r -> ((Number) ((Object[]) r)[3]).longValue())
+                    .containsExactly(
+                            tuple("G", 64L, 59L, 55L),
+                            tuple("PG", 62L, 64L, 68L),
+                            tuple("PG-13", 72L, 74L, 77L),
+                            tuple("R", 70L, 60L, 65L),
+                            tuple("NC-17", 73L, 66L, 71L));
+        }
+    }
+
+    @DisplayName(
+            "exercise 3: the films whose actors string lists a different number of actors than film_actor")
+    @Nested
+    class Exercise3Test {
+
+        // the view is not an entity; the FilmList class is a plain class, read with a native query
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT l.FID, l.title
+                                                                                                      FROM film_list l
+                                                                                                      WHERE l.actors IS NOT NULL
+                                                                                                        AND LENGTH(l.actors) - LENGTH(REPLACE(l.actors, ',', '')) + 1
+                                                                                                                <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = l.FID)
+                                                                                                      ORDER BY l.FID""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list).isEmpty();
         }
     }
 }

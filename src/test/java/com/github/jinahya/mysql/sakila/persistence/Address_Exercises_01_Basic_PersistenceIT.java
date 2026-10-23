@@ -128,4 +128,96 @@ class Address_Exercises_01_Basic_PersistenceIT {
                             tuple("São Paulo", 8L));
         }
     }
+
+    @DisplayName("exercise 3: the addresses whose address2 is NULL")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT a.addressId, a.address, a.district
+                                                                                      FROM Address a
+                                                                                      WHERE a.address2 IS NULL
+                                                                                      ORDER BY a.addressId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .containsExactly(
+                            tuple(1, "47 MySakila Drive", "Alberta"),
+                            tuple(2, "28 MySQL Boulevard", "QLD"),
+                            tuple(3, "23 Workhaven Lane", "Alberta"),
+                            tuple(4, "1411 Lillydale Drive", "QLD"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Address.class);
+                cq.select(cb.array(a.get(Address_.addressId), a.get(Address_.address),
+                                   a.get(Address_.district)))
+                        .where(cb.isNull(a.get(Address_.address2)))
+                        .orderBy(cb.asc(a.get(Address_.addressId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .containsExactly(
+                            tuple(1, "47 MySakila Drive", "Alberta"),
+                            tuple(2, "28 MySQL Boulevard", "QLD"),
+                            tuple(3, "23 Workhaven Lane", "Alberta"),
+                            tuple(4, "1411 Lillydale Drive", "QLD"));
+        }
+    }
+
+    @DisplayName("exercise 4: the addresses with an empty district")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT a.addressId, a.address, a.postalCode, a.phone
+                                                                                      FROM Address a
+                                                                                      WHERE a.district = ''
+                                                                                      ORDER BY a.addressId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .containsExactly(
+                            tuple(30, "18 Duisburg Boulevard", "58327", "998009777982"),
+                            tuple(386, "1368 Maracaíbo Boulevard", "32716", "934352415130"),
+                            tuple(519, "962 Tama Loop", "65952", "282667506728"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Address.class);
+                cq.select(cb.array(a.get(Address_.addressId), a.get(Address_.address),
+                                   a.get(Address_.postalCode), a.get(Address_.phone)))
+                        .where(cb.equal(a.get(Address_.district), ""))
+                        .orderBy(cb.asc(a.get(Address_.addressId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .containsExactly(
+                            tuple(30, "18 Duisburg Boulevard", "58327", "998009777982"),
+                            tuple(386, "1368 Maracaíbo Boulevard", "32716", "934352415130"),
+                            tuple(519, "962 Tama Loop", "65952", "282667506728"));
+        }
+    }
 }

@@ -98,7 +98,6 @@
   title: "the actors in the top seven film counts, ties included"
   sql: src/test/sql/actor_exercises_03_advanced.sql
   test: Actor_Exercises_03_Advanced_PersistenceIT.Exercise2Test
-  native-only: true
 - id: SAKILA-ACTOR-A-03
   section: "ACTOR"
   tier: Advanced
@@ -202,7 +201,6 @@
   title: "how many addresses belong to a store, a staff member or a customer"
   sql: src/test/sql/address_exercises_02_intermediate.sql
   test: Address_Exercises_02_Intermediate_PersistenceIT.Exercise3Test
-  native-only: true
 - id: SAKILA-ADDRESS-A-01
   section: "ADDRESS"
   tier: Advanced
@@ -273,14 +271,12 @@
   title: "the running total of the films, category by category"
   sql: src/test/sql/category_exercises_03_advanced.sql
   test: Category_Exercises_03_Advanced_PersistenceIT.Exercise1Test
-  native-only: true
 - id: SAKILA-CATEGORY-A-02
   section: "CATEGORY"
   tier: Advanced
   title: "the film rented the most in each category"
   sql: src/test/sql/category_exercises_03_advanced.sql
   test: Category_Exercises_03_Advanced_PersistenceIT.Exercise2Test
-  native-only: true
 
 # ---- city
 
@@ -473,7 +469,6 @@
   title: "how many customers of each store paid more than that store's average customer"
   sql: src/test/sql/customer_exercises_03_advanced.sql
   test: Customer_Exercises_03_Advanced_PersistenceIT.Exercise2Test
-  native-only: true
 
 # ---- customer_list
 
@@ -647,7 +642,6 @@
   title: "the actor who appears in the most films of each category"
   sql: src/test/sql/film_actor_exercises_03_advanced.sql
   test: FilmActor_Exercises_03_Advanced_PersistenceIT.Exercise2Test
-  native-only: true
 - id: SAKILA-FILM_ACTOR-A-03
   section: "FILM_ACTOR"
   tier: Advanced
@@ -699,7 +693,6 @@
   title: "the longest film of each category"
   sql: src/test/sql/film_category_exercises_03_advanced.sql
   test: FilmCategory_Exercises_03_Advanced_PersistenceIT.Exercise1Test
-  native-only: true
 - id: SAKILA-FILM_CATEGORY-A-02
   section: "FILM_CATEGORY"
   tier: Advanced
@@ -715,48 +708,56 @@
   title: "how many Action films there are"
   sql: src/test/sql/film_list_exercises_01_basic.sql
   test: FilmList_Exercises_01_Basic_PersistenceIT.Exercise1Test
+  native-only: true
 - id: SAKILA-FILM_LIST-B-02
   section: "FILM_LIST"
   tier: Basic
   title: "the actors of the film 1"
   sql: src/test/sql/film_list_exercises_01_basic.sql
   test: FilmList_Exercises_01_Basic_PersistenceIT.Exercise2Test
+  native-only: true
 - id: SAKILA-FILM_LIST-B-03
   section: "FILM_LIST"
   tier: Basic
   title: "the Children films rated G"
   sql: src/test/sql/film_list_exercises_01_basic.sql
   test: FilmList_Exercises_01_Basic_PersistenceIT.Exercise3Test
+  native-only: true
 - id: SAKILA-FILM_LIST-B-04
   section: "FILM_LIST"
   tier: Basic
   title: "the films with no actor"
   sql: src/test/sql/film_list_exercises_01_basic.sql
   test: FilmList_Exercises_01_Basic_PersistenceIT.Exercise4Test
+  native-only: true
 - id: SAKILA-FILM_LIST-I-01
   section: "FILM_LIST"
   tier: Intermediate
   title: "whether the view has a row for every film which has a category"
   sql: src/test/sql/film_list_exercises_02_intermediate.sql
   test: FilmList_Exercises_02_Intermediate_PersistenceIT.Exercise1Test
+  native-only: true
 - id: SAKILA-FILM_LIST-I-02
   section: "FILM_LIST"
   tier: Intermediate
   title: "how many films of each rating there are at each price"
   sql: src/test/sql/film_list_exercises_02_intermediate.sql
   test: FilmList_Exercises_02_Intermediate_PersistenceIT.Exercise2Test
+  native-only: true
 - id: SAKILA-FILM_LIST-I-03
   section: "FILM_LIST"
   tier: Intermediate
   title: "the films whose actors string lists a different number of actors than film_actor"
   sql: src/test/sql/film_list_exercises_02_intermediate.sql
   test: FilmList_Exercises_02_Intermediate_PersistenceIT.Exercise3Test
+  native-only: true
 - id: SAKILA-FILM_LIST-A-01
   section: "FILM_LIST"
   tier: Advanced
   title: "how many films of each category are longer than their category's average"
   sql: src/test/sql/film_list_exercises_03_advanced.sql
   test: FilmList_Exercises_03_Advanced_PersistenceIT.Exercise1Test
+  native-only: true
 
 # ---- film_text
 
@@ -924,48 +925,56 @@
   title: "the actors of the film 1, as this view writes them"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_01_basic.sql
   test: NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT.Exercise1Test
+  native-only: true
 - id: SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-02
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Basic
   title: "how many films PENELOPE GUINESS plays in, by the view's actors"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_01_basic.sql
   test: NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT.Exercise2Test
+  native-only: true
 - id: SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-03
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Basic
   title: "the films which have no actors"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_01_basic.sql
   test: NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT.Exercise3Test
+  native-only: true
 - id: SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-01
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Intermediate
   title: "the five categories whose films are the longest, on average"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_02_intermediate.sql
   test: NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT.Exercise1Test
+  native-only: true
 - id: SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-02
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Intermediate
   title: "how many films are short, medium and long"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_02_intermediate.sql
   test: NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT.Exercise2Test
+  native-only: true
 - id: SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-01
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Advanced
   title: "how many rows differ from film_list, column by column, but for the actors"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_03_advanced.sql
   test: NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT.Exercise1Test
+  native-only: true
 - id: SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-02
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Advanced
   title: "the longest length in each category, and how many films have it"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_03_advanced.sql
   test: NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT.Exercise2Test
+  native-only: true
 - id: SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-03
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Advanced
   title: "whether the actors string names as many actors as film_actor has"
   sql: src/test/sql/nicer_but_slower_film_list_exercises_03_advanced.sql
   test: NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT.Exercise3Test
+  native-only: true
 
 # ---- payment
 
@@ -1023,7 +1032,6 @@
   title: "the running total of the customer 1's payments, the first ten"
   sql: src/test/sql/payment_exercises_03_advanced.sql
   test: Payment_Exercises_03_Advanced_PersistenceIT.Exercise1Test
-  native-only: true
 - id: SAKILA-PAYMENT-A-02
   section: "PAYMENT"
   tier: Advanced
@@ -1134,14 +1142,12 @@
   title: "the running total of the categories' sales, and its share of all sales"
   sql: src/test/sql/sales_by_film_category_exercises_03_advanced.sql
   test: SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT.Exercise1Test
-  native-only: true
 - id: SAKILA-SALES_BY_FILM_CATEGORY-A-02
   section: "SALES_BY_FILM_CATEGORY"
   tier: Advanced
   title: "the three largest gaps between a category and the next one down"
   sql: src/test/sql/sales_by_film_category_exercises_03_advanced.sql
   test: SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT.Exercise2Test
-  native-only: true
 
 # ---- sales_by_store
 
@@ -1151,24 +1157,28 @@
   title: "every store's sales"
   sql: src/test/sql/sales_by_store_exercises_01_basic.sql
   test: SalesByStore_Exercises_01_Basic_PersistenceIT.Exercise1Test
+  native-only: true
 - id: SAKILA-SALES_BY_STORE-B-02
   section: "SALES_BY_STORE"
   tier: Basic
   title: "how far apart the two stores' sales are"
   sql: src/test/sql/sales_by_store_exercises_01_basic.sql
   test: SalesByStore_Exercises_01_Basic_PersistenceIT.Exercise2Test
+  native-only: true
 - id: SAKILA-SALES_BY_STORE-I-01
   section: "SALES_BY_STORE"
   tier: Intermediate
   title: "whether the stores' sales add up to every payment with a rental"
   sql: src/test/sql/sales_by_store_exercises_02_intermediate.sql
   test: SalesByStore_Exercises_02_Intermediate_PersistenceIT.Exercise1Test
+  native-only: true
 - id: SAKILA-SALES_BY_STORE-I-02
   section: "SALES_BY_STORE"
   tier: Intermediate
   title: "each store's sales, next to what its manager took"
   sql: src/test/sql/sales_by_store_exercises_02_intermediate.sql
   test: SalesByStore_Exercises_02_Intermediate_PersistenceIT.Exercise2Test
+  native-only: true
 
 # ---- staff
 
@@ -1208,7 +1218,6 @@
   title: "the day on which each staff member took the most"
   sql: src/test/sql/staff_exercises_03_advanced.sql
   test: Staff_Exercises_03_Advanced_PersistenceIT.Exercise1Test
-  native-only: true
 
 # ---- staff_list
 
@@ -1263,7 +1272,6 @@
   title: "each store's rentals in each month, and its share of the month"
   sql: src/test/sql/store_exercises_03_advanced.sql
   test: Store_Exercises_03_Advanced_PersistenceIT.Exercise2Test
-  native-only: true
 
 # ---- schema
 

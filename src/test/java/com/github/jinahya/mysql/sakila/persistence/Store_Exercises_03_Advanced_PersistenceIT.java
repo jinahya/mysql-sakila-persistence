@@ -20,12 +20,16 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.criteria.LocalDateTimeField;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -109,6 +113,107 @@ class Store_Exercises_03_Advanced_PersistenceIT {
                     .containsExactly(
                             tuple(1, 759L, 196L),
                             tuple(2, 762L, 199L));
+        }
+    }
+
+    @DisplayName("exercise 2: each store's rentals in each month, and its share of the month")
+    @Nested
+    class Exercise2Test {
+
+        // JPQL has no window functions; each month's rentals are a second query, and the share is
+        // worked out in Java
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var months = em.createQuery("""
+                                                          SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), COUNT(r)
+                                                          FROM Rental r
+                                                          GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate)""",
+                                                  Object[].class)
+                        .getResultStream()
+                        .collect(Collectors.toMap(r -> String.format("%d-%02d", r[0], r[1]),
+                                                  r -> ((Number) r[2]).longValue()));
+                return em.createQuery("""
+                                              SELECT EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), i.storeId, COUNT(r)
+                                              FROM Rental r
+                                                       JOIN r.inventory i
+                                              GROUP BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), i.storeId
+                                              ORDER BY EXTRACT(YEAR FROM r.rentalDate), EXTRACT(MONTH FROM r.rentalDate), i.storeId""",
+                                      Object[].class)
+                        .getResultStream()
+                        .map(r -> share(String.format("%d-%02d", r[0], r[1]), r[2], r[3], months))
+                        .toList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue(),
+                                r -> ((Number) r[2]).longValue(),
+                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .containsExactly(
+                            tuple("2005-05", 1, 575L, "49.74"),
+                            tuple("2005-05", 2, 581L, "50.26"),
+                            tuple("2005-06", 1, 1121L, "48.51"),
+                            tuple("2005-06", 2, 1190L, "51.49"),
+                            tuple("2005-07", 1, 3334L, "49.69"),
+                            tuple("2005-07", 2, 3375L, "50.31"),
+                            tuple("2005-08", 1, 2801L, "49.26"),
+                            tuple("2005-08", 2, 2885L, "50.74"),
+                            tuple("2006-02", 1, 92L, "50.55"),
+                            tuple("2006-02", 2, 90L, "49.45"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var mq = cb.createQuery(Object[].class);
+                final var r1 = mq.from(Rental.class);
+                final var year1 = cb.extract(LocalDateTimeField.YEAR, r1.get(Rental_.rentalDate));
+                final var month1 = cb.extract(LocalDateTimeField.MONTH,
+                                              r1.get(Rental_.rentalDate));
+                mq.select(cb.array(year1, month1, cb.count(r1)))
+                        .groupBy(year1, month1);
+                final var months = em.createQuery(mq).getResultStream()
+                        .collect(Collectors.toMap(r -> String.format("%d-%02d", r[0], r[1]),
+                                                  r -> ((Number) r[2]).longValue()));
+                final var cq = cb.createQuery(Object[].class);
+                final var r = cq.from(Rental.class);
+                final var i = r.join(Rental_.inventory);
+                final var year = cb.extract(LocalDateTimeField.YEAR, r.get(Rental_.rentalDate));
+                final var month = cb.extract(LocalDateTimeField.MONTH, r.get(Rental_.rentalDate));
+                cq.select(cb.array(year, month, i.get(Inventory_.storeId), cb.count(r)))
+                        .groupBy(year, month, i.get(Inventory_.storeId))
+                        .orderBy(cb.asc(year), cb.asc(month), cb.asc(i.get(Inventory_.storeId)));
+                return em.createQuery(cq).getResultStream()
+                        .map(e -> share(String.format("%d-%02d", e[0], e[1]), e[2], e[3], months))
+                        .toList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue(),
+                                r -> ((Number) r[2]).longValue(),
+                                r -> ((BigDecimal) r[3]).toPlainString())
+                    .containsExactly(
+                            tuple("2005-05", 1, 575L, "49.74"),
+                            tuple("2005-05", 2, 581L, "50.26"),
+                            tuple("2005-06", 1, 1121L, "48.51"),
+                            tuple("2005-06", 2, 1190L, "51.49"),
+                            tuple("2005-07", 1, 3334L, "49.69"),
+                            tuple("2005-07", 2, 3375L, "50.31"),
+                            tuple("2005-08", 1, 2801L, "49.26"),
+                            tuple("2005-08", 2, 2885L, "50.74"),
+                            tuple("2006-02", 1, 92L, "50.55"),
+                            tuple("2006-02", 2, 90L, "49.45"));
+        }
+
+        // the month, the store, its rentals, and its percentage of the month's rentals
+        private static Object[] share(final String month, final Object storeId,
+                                      final Object rentals, final Map<String, Long> months) {
+            final var count = ((Number) rentals).longValue();
+            return new Object[]{month, storeId, count,
+                    BigDecimal.valueOf(100L * count)
+                            .divide(BigDecimal.valueOf(months.get(month)), 2,
+                                    RoundingMode.HALF_UP)};
         }
     }
 }

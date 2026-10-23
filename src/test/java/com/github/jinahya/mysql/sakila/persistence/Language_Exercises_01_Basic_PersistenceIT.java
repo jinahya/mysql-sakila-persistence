@@ -25,7 +25,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/language_exercises_01_basic.sql}, against the
@@ -102,6 +105,93 @@ class Language_Exercises_01_Basic_PersistenceIT {
             });
             log.debug("{}", value);
             assertThat(value).isEqualTo(0L);
+        }
+    }
+
+    @DisplayName("exercise 3: which of four languages the table has")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT l.name
+                                                                                      FROM Language l
+                                                                                      WHERE l.name IN :names
+                                                                                      ORDER BY l.name""",
+                                                                              String.class)
+                    .setParameter("names", List.of("English", "French", "German", "Spanish"))
+                    .getResultList());
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).containsExactly("English", "French", "German");
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(String.class);
+                final var l = cq.from(Language.class);
+                cq.select(l.get(Language_.name))
+                        .where(l.get(Language_.name).in("English", "French", "German", "Spanish"))
+                        .orderBy(cb.asc(l.get(Language_.name)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).containsExactly("English", "French", "German");
+        }
+    }
+
+    @DisplayName("exercise 4: the languages whose name ends with an or ese")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT l
+                                                                                      FROM Language l
+                                                                                      WHERE l.name LIKE :an
+                                                                                         OR l.name LIKE :ese
+                                                                                      ORDER BY l.name""",
+                                                                              Language.class)
+                    .setParameter("an", "%an")
+                    .setParameter("ese", "%ese")
+                    .getResultList());
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Language::getLanguageId, Language::getName)
+                    .containsExactly(
+                            tuple(6, "German"),
+                            tuple(2, "Italian"),
+                            tuple(3, "Japanese"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Language.class);
+                final var l = cq.from(Language.class);
+                cq.select(l)
+                        .where(cb.or(cb.like(l.get(Language_.name),
+                                             cb.parameter(String.class, "an")),
+                                     cb.like(l.get(Language_.name),
+                                             cb.parameter(String.class, "ese"))))
+                        .orderBy(cb.asc(l.get(Language_.name)));
+                return em.createQuery(cq)
+                        .setParameter("an", "%an")
+                        .setParameter("ese", "%ese")
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Language::getLanguageId, Language::getName)
+                    .containsExactly(
+                            tuple(6, "German"),
+                            tuple(2, "Italian"),
+                            tuple(3, "Japanese"));
         }
     }
 }

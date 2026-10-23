@@ -71,4 +71,51 @@ class StaffList_Exercises_02_Intermediate_PersistenceIT {
                             tuple(2L, 2L));
         }
     }
+
+    @DisplayName("exercise 2: whether each staff member lives in the city of their store")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT l.id, l.name, l.city, ci.city
+                                                                                      FROM StaffList l, Store st
+                                                                                               JOIN st.address a
+                                                                                               JOIN a.city ci
+                                                                                      WHERE st.storeId = l.sid
+                                                                                      ORDER BY l.id""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .containsExactly(
+                            tuple(1, "Mike Hillyer", "Lethbridge", "Lethbridge"),
+                            tuple(2, "Jon Stephens", "Woodridge", "Woodridge"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var l = cq.from(StaffList.class);
+                final var st = cq.from(Store.class);
+                final var ci = st.join(Store_.address).join(Address_.city);
+                cq.select(cb.array(l.get(StaffList_.id), l.get(StaffList_.name),
+                                   l.get(StaffList_.city), ci.get(City_.city)))
+                        .where(cb.equal(st.get(Store_.storeId), l.get(StaffList_.sid)))
+                        .orderBy(cb.asc(l.get(StaffList_.id)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2], r -> r[3])
+                    .containsExactly(
+                            tuple(1, "Mike Hillyer", "Lethbridge", "Lethbridge"),
+                            tuple(2, "Jon Stephens", "Woodridge", "Woodridge"));
+        }
+    }
 }

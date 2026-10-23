@@ -23,9 +23,11 @@ package com.github.jinahya.mysql.sakila.persistence;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -183,6 +185,86 @@ class Actor_Exercises_01_Basic_PersistenceIT {
                     .allSatisfy(a -> assertThat(a.getLastName()).startsWith(prefix))
                     .isSortedAccordingTo(Comparator.comparing(Actor::getLastName)
                                                  .thenComparing(Actor::getActorId));
+        }
+    }
+
+    @DisplayName("exercise 4: the actors whose first and last names start with the same letter")
+    @Nested
+    class Exercise4Test {
+
+        // eclipselink parses no LEFT(...) in the WHERE clause; SUBSTRING(..., 1, 1) is the first
+        // letter, too
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a
+                                            FROM Actor a
+                                            WHERE SUBSTRING(a.firstName, 1, 1) = SUBSTRING(a.lastName, 1, 1)
+                                            ORDER BY a.actorId""",
+                                    Actor.class
+                            )
+                            .getResultList()
+            );
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).extracting(Actor::getActorId)
+                    .containsExactly(31, 54, 70, 76, 114, 131, 135, 161, 168, 191, 200);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Actor.class);
+                final var a = cq.from(Actor.class);
+                cq.select(a)
+                        .where(cb.equal(cb.substring(a.get(Actor_.firstName), 1, 1),
+                                        cb.substring(a.get(Actor_.lastName), 1, 1)))
+                        .orderBy(cb.asc(a.get(Actor_.actorId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).extracting(Actor::getActorId)
+                    .containsExactly(31, 54, 70, 76, 114, 131, 135, 161, 168, 191, 200);
+        }
+    }
+
+    @DisplayName("exercise 5: how many different first names and last names there are")
+    @Nested
+    class Exercise5Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var value = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT COUNT(DISTINCT a.firstName), COUNT(DISTINCT a.lastName)
+                                            FROM Actor a""",
+                                    Object[].class
+                            )
+                            .getSingleResult()
+            );
+            log.debug("{}", Arrays.toString(value));
+            assertThat(value).extracting(v -> ((Number) v).longValue())
+                    .containsExactly(128L, 121L);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var value = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Actor.class);
+                cq.select(cb.array(cb.countDistinct(a.get(Actor_.firstName)),
+                                   cb.countDistinct(a.get(Actor_.lastName))));
+                return em.createQuery(cq)
+                        .getSingleResult();
+            });
+            log.debug("{}", Arrays.toString(value));
+            assertThat(value).extracting(v -> ((Number) v).longValue())
+                    .containsExactly(128L, 121L);
         }
     }
 }

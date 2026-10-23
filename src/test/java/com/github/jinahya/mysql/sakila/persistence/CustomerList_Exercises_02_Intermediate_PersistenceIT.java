@@ -73,4 +73,91 @@ class CustomerList_Exercises_02_Intermediate_PersistenceIT {
                             tuple(599L, 599L));
         }
     }
+
+    @DisplayName("exercise 2: the cities with more than one customer")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT l.city, l.country, COUNT(l)
+                                                                                      FROM CustomerList l
+                                                                                      GROUP BY l.city, l.country
+                                                                                      HAVING COUNT(l) > 1
+                                                                                      ORDER BY l.city, l.country""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> r[1], r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple("Aurora", "United States", 2L),
+                            tuple("London", "United Kingdom", 2L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var l = cq.from(CustomerList.class);
+                cq.select(cb.array(l.get(CustomerList_.city), l.get(CustomerList_.country),
+                                   cb.count(l)))
+                        .groupBy(l.get(CustomerList_.city), l.get(CustomerList_.country))
+                        .having(cb.gt(cb.count(l), 1L))
+                        .orderBy(cb.asc(l.get(CustomerList_.city)),
+                                 cb.asc(l.get(CustomerList_.country)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> r[1], r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple("Aurora", "United States", 2L),
+                            tuple("London", "United Kingdom", 2L));
+        }
+    }
+
+    @DisplayName("exercise 3: the rows whose name is not the customer's first and last name")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT l.id, l.name, c.firstName, c.lastName
+                                                                                      FROM CustomerList l,
+                                                                                           Customer c
+                                                                                      WHERE c.customerId = l.id
+                                                                                        AND l.name <> CONCAT(c.firstName, ' ', c.lastName)
+                                                                                      ORDER BY l.id""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list).isEmpty();
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var l = cq.from(CustomerList.class);
+                final var c = cq.from(Customer.class);
+                cq.select(cb.array(l.get(CustomerList_.id), l.get(CustomerList_.name),
+                                   c.get(Customer_.firstName), c.get(Customer_.lastName)))
+                        .where(cb.equal(c.get(Customer_.customerId), l.get(CustomerList_.id)),
+                               cb.notEqual(l.get(CustomerList_.name),
+                                           cb.concat(cb.concat(c.get(Customer_.firstName), " "),
+                                                     c.get(Customer_.lastName))))
+                        .orderBy(cb.asc(l.get(CustomerList_.id)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list).isEmpty();
+        }
+    }
 }

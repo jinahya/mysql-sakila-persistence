@@ -71,4 +71,102 @@ class ActorInfo_Exercises_02_Intermediate_PersistenceIT {
                             tuple(200L, 200L));
         }
     }
+
+    @DisplayName("exercise 2: the actors whose film_info covers every category")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT i.actorId, i.firstName, i.lastName
+                                                                                      FROM ActorInfo i
+                                                                                      WHERE LENGTH(i.filmInfo) - LENGTH(REPLACE(i.filmInfo, ':', '')) = (SELECT COUNT(c) FROM Category c)
+                                                                                      ORDER BY i.actorId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .containsExactly(
+                            tuple(13, "UMA", "WOOD"),
+                            tuple(72, "SEAN", "WILLIAMS"),
+                            tuple(95, "DARYL", "WAHLBERG"),
+                            tuple(106, "GROUCHO", "DUNST"),
+                            tuple(107, "GINA", "DEGENERES"),
+                            tuple(127, "KEVIN", "GARLAND"),
+                            tuple(139, "EWAN", "GOODING"),
+                            tuple(155, "IAN", "TANDY"),
+                            tuple(161, "HARVEY", "HOPE"),
+                            tuple(185, "MICHAEL", "BOLGER"),
+                            tuple(197, "REESE", "WEST"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var i = cq.from(ActorInfo.class);
+                final var categories = cq.subquery(Long.class);
+                final var c = categories.from(Category.class);
+                categories.select(cb.count(c));
+                final var filmInfo = i.get(ActorInfo_.filmInfo);
+                cq.select(cb.array(i.get(ActorInfo_.actorId), i.get(ActorInfo_.firstName),
+                                   i.get(ActorInfo_.lastName)))
+                        .where(cb.equal(cb.diff(cb.length(filmInfo),
+                                                cb.length(cb.replace(filmInfo, ":", ""))),
+                                        categories))
+                        .orderBy(cb.asc(i.get(ActorInfo_.actorId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2])
+                    .containsExactly(
+                            tuple(13, "UMA", "WOOD"),
+                            tuple(72, "SEAN", "WILLIAMS"),
+                            tuple(95, "DARYL", "WAHLBERG"),
+                            tuple(106, "GROUCHO", "DUNST"),
+                            tuple(107, "GINA", "DEGENERES"),
+                            tuple(127, "KEVIN", "GARLAND"),
+                            tuple(139, "EWAN", "GOODING"),
+                            tuple(155, "IAN", "TANDY"),
+                            tuple(161, "HARVEY", "HOPE"),
+                            tuple(185, "MICHAEL", "BOLGER"),
+                            tuple(197, "REESE", "WEST"));
+        }
+    }
+
+    @DisplayName("exercise 3: how many actors cover how many categories")
+    @Nested
+    class Exercise3Test {
+
+        // JPQL groups by paths, not by an expression of one; the Criteria API's grouping by an
+        // expression is not portable either
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')) AS categories, COUNT(*) AS actors
+                                                                                                      FROM actor_info
+                                                                                                      GROUP BY categories
+                                                                                                      ORDER BY categories DESC""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Number) ((Object[]) r)[0]).longValue(),
+                                r -> ((Number) ((Object[]) r)[1]).longValue())
+                    .containsExactly(
+                            tuple(16L, 11L),
+                            tuple(15L, 19L),
+                            tuple(14L, 49L),
+                            tuple(13L, 57L),
+                            tuple(12L, 33L),
+                            tuple(11L, 19L),
+                            tuple(10L, 8L),
+                            tuple(9L, 2L),
+                            tuple(8L, 2L));
+        }
+    }
 }

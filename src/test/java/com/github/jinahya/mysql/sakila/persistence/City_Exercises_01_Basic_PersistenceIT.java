@@ -23,10 +23,14 @@ package com.github.jinahya.mysql.sakila.persistence;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/city_exercises_01_basic.sql}, against the installed
@@ -77,6 +81,102 @@ class City_Exercises_01_Basic_PersistenceIT {
             });
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).allSatisfy(c -> assertThat(c.getCity()).startsWith(letter));
+        }
+    }
+
+    @DisplayName("exercise 2: how many city names have more than one word")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var value = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT COUNT(c)
+                                            FROM City c
+                                            WHERE c.city LIKE :pattern""",
+                                    Long.class
+                            )
+                            .setParameter("pattern", "% %")
+                            .getSingleResult()
+            );
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(92L);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var value = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Long.class);
+                final var c = cq.from(City.class);
+                cq.select(cb.count(c))
+                        .where(cb.like(c.get(City_.city), cb.parameter(String.class, "pattern")));
+                return em.createQuery(cq)
+                        .setParameter("pattern", "% %")
+                        .getSingleResult();
+            });
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(92L);
+        }
+    }
+
+    @DisplayName("exercise 3: the five longest city names")
+    @Nested
+    class Exercise3Test {
+
+        // EclipseLink renders LENGTH as MySQL's LENGTH, which counts bytes, not characters; the
+        // name is measured with CHAR_LENGTH, by FUNCTION
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c.cityId, c.city, FUNCTION('CHAR_LENGTH', c.city) AS cityLength
+                                            FROM City c
+                                            ORDER BY cityLength DESC, c.city""",
+                                    Object[].class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue())
+                    .containsExactly(
+                            tuple(450, "San Felipe de Puerto Plata", 26),
+                            tuple(452, "San Juan Bautista Tuxtepec", 26),
+                            tuple(460, "Santiago de los Caballeros", 26),
+                            tuple(41, "Augusta-Richmond County", 23),
+                            tuple(71, "Berhampore (Baharampur)", 23));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(City.class);
+                final var cityLength =
+                        cb.function("CHAR_LENGTH", Integer.class, c.get(City_.city));
+                cq.select(cb.array(c.get(City_.cityId), c.get(City_.city), cityLength))
+                        .orderBy(cb.desc(cityLength), cb.asc(c.get(City_.city)));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue())
+                    .containsExactly(
+                            tuple(450, "San Felipe de Puerto Plata", 26),
+                            tuple(452, "San Juan Bautista Tuxtepec", 26),
+                            tuple(460, "Santiago de los Caballeros", 26),
+                            tuple(41, "Augusta-Richmond County", 23),
+                            tuple(71, "Berhampore (Baharampur)", 23));
         }
     }
 }

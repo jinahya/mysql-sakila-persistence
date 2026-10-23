@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -130,6 +131,85 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
                     .containsExactly(
                             tuple(1, "Mike", "Hillyer", 1),
                             tuple(2, "Jon", "Stephens", 2));
+        }
+    }
+
+    @DisplayName(
+            "exercise 3: how many rentals each staff member handled for their own store's copies, " +
+            "and for the other's")
+    @Nested
+    class Exercise3Test {
+
+        // JPQL sums no CASE; the rentals of the other store's copies are a second query
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var otherStore = em.createQuery("""
+                                                              SELECT s.staffId, COUNT(r)
+                                                              FROM Rental r
+                                                                       JOIN r.staff s
+                                                                       JOIN r.inventory i
+                                                              WHERE i.storeId <> s.store.storeId
+                                                              GROUP BY s.staffId""", Object[].class)
+                        .getResultStream().collect(Collectors.toMap(r -> r[0], r -> r[1]));
+                return em.createQuery("""
+                                              SELECT s.staffId, s.firstName, s.store.storeId, COUNT(r)
+                                              FROM Rental r
+                                                       JOIN r.staff s
+                                                       JOIN r.inventory i
+                                              WHERE i.storeId = s.store.storeId
+                                              GROUP BY s.staffId, s.firstName, s.store.storeId
+                                              ORDER BY s.staffId""", Object[].class)
+                        .getResultStream()
+                        .map(r -> new Object[]{r[0], r[1], r[2], r[3], otherStore.get(r[0])})
+                        .toList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue(), r -> ((Number) r[3]).longValue(),
+                                r -> ((Number) r[4]).longValue())
+                    .containsExactly(
+                            tuple(1, "Mike", 1, 3991L, 4049L),
+                            tuple(2, "Jon", 2, 4072L, 3932L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var other = cb.createQuery(Object[].class);
+                final var r1 = other.from(Rental.class);
+                final var s1 = r1.join(Rental_.staff);
+                final var i1 = r1.join(Rental_.inventory);
+                other.select(cb.array(s1.get(Staff_.staffId), cb.count(r1)))
+                        .where(cb.notEqual(i1.get(Inventory_.storeId),
+                                           s1.get(Staff_.store).get(Store_.storeId)))
+                        .groupBy(s1.get(Staff_.staffId));
+                final var otherStore = em.createQuery(other).getResultStream()
+                        .collect(Collectors.toMap(r -> r[0], r -> r[1]));
+                final var cq = cb.createQuery(Object[].class);
+                final var r = cq.from(Rental.class);
+                final var s = r.join(Rental_.staff);
+                final var i = r.join(Rental_.inventory);
+                final var storeId = s.get(Staff_.store).get(Store_.storeId);
+                cq.select(cb.array(s.get(Staff_.staffId), s.get(Staff_.firstName), storeId,
+                                   cb.count(r)))
+                        .where(cb.equal(i.get(Inventory_.storeId), storeId))
+                        .groupBy(s.get(Staff_.staffId), s.get(Staff_.firstName), storeId)
+                        .orderBy(cb.asc(s.get(Staff_.staffId)));
+                return em.createQuery(cq).getResultStream()
+                        .map(e -> new Object[]{e[0], e[1], e[2], e[3], otherStore.get(e[0])})
+                        .toList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue(), r -> ((Number) r[3]).longValue(),
+                                r -> ((Number) r[4]).longValue())
+                    .containsExactly(
+                            tuple(1, "Mike", 1, 3991L, 4049L),
+                            tuple(2, "Jon", 2, 4072L, 3932L));
         }
     }
 }

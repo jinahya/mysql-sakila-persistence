@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/sales_by_store_exercises_02_intermediate.sql},
@@ -58,6 +59,33 @@ class SalesByStore_Exercises_02_Intermediate_PersistenceIT {
             assertThat(list).singleElement().satisfies(
                     r -> assertThat(((BigDecimal) ((Object[]) r)[0])).isEqualByComparingTo(
                             (BigDecimal) ((Object[]) r)[1]));
+        }
+    }
+
+    @DisplayName("exercise 2: each store's sales, next to what its manager took")
+    @Nested
+    class Exercise2Test {
+
+        // the view is not an entity; the SalesByStore class is a plain class, read with a native
+        // query
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT v.store, v.manager, v.total_sales, SUM(p.amount) AS taken_by_manager
+                                                                                                      FROM sales_by_store v
+                                                                                                               JOIN staff s ON CONCAT(s.first_name, ' ', s.last_name) = v.manager
+                                                                                                               JOIN payment p ON p.staff_id = s.staff_id
+                                                                                                      GROUP BY v.store, v.manager, v.total_sales
+                                                                                                      ORDER BY v.store""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0], r -> ((Object[]) r)[1],
+                                r -> ((BigDecimal) ((Object[]) r)[2]).toPlainString(),
+                                r -> ((BigDecimal) ((Object[]) r)[3]).toPlainString())
+                    .containsExactly(
+                            tuple("Lethbridge,Canada", "Mike Hillyer", "33679.79", "33482.50"),
+                            tuple("Woodridge,Australia", "Jon Stephens", "33726.77", "33924.06"));
         }
     }
 }

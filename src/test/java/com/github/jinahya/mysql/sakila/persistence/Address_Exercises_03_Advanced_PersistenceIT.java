@@ -25,7 +25,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/address_exercises_03_advanced.sql}, against the
@@ -80,6 +84,105 @@ class Address_Exercises_03_Advanced_PersistenceIT {
             });
             list.forEach(e -> log.debug("{}", e));
             assertThat(list).isEmpty();
+        }
+    }
+
+    @DisplayName("exercise 2: the pairs of addresses which share a postal code")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT a1.addressId, a1.address, a2.addressId, a2.address, a1.postalCode
+                                                                                      FROM Address a1, Address a2
+                                                                                      WHERE a2.postalCode = a1.postalCode
+                                                                                        AND a2.addressId > a1.addressId
+                                                                                        AND a1.postalCode <> ''
+                                                                                      ORDER BY a1.addressId, a2.addressId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue(), r -> r[3], r -> r[4])
+                    .containsExactly(
+                            tuple(221, "866 Shivapuri Manor", 595, "1074 Sanaa Parkway", "22474"),
+                            tuple(304, "1635 Kuwana Boulevard", 603, "1103 Quilmes Boulevard",
+                                  "52137"),
+                            tuple(313, "1191 Sungai Petani Boulevard", 476, "270 Tambaram Parkway",
+                                  "9668"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a1 = cq.from(Address.class);
+                final var a2 = cq.from(Address.class);
+                cq.select(cb.array(a1.get(Address_.addressId), a1.get(Address_.address),
+                                   a2.get(Address_.addressId), a2.get(Address_.address),
+                                   a1.get(Address_.postalCode)))
+                        .where(cb.equal(a2.get(Address_.postalCode), a1.get(Address_.postalCode)),
+                               cb.gt(a2.get(Address_.addressId), a1.get(Address_.addressId)),
+                               cb.notEqual(a1.get(Address_.postalCode), ""))
+                        .orderBy(cb.asc(a1.get(Address_.addressId)),
+                                 cb.asc(a2.get(Address_.addressId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).intValue(), r -> r[3], r -> r[4])
+                    .containsExactly(
+                            tuple(221, "866 Shivapuri Manor", 595, "1074 Sanaa Parkway", "22474"),
+                            tuple(304, "1635 Kuwana Boulevard", 603, "1103 Quilmes Boulevard",
+                                  "52137"),
+                            tuple(313, "1191 Sungai Petani Boulevard", 476, "270 Tambaram Parkway",
+                                  "9668"));
+        }
+    }
+
+    @DisplayName(
+            "exercise 3: the three districts with the most addresses in each of India, China and " +
+            "the United States")
+    @Nested
+    class Exercise3Test {
+
+        // JPQL has no window functions, nor a subquery in the FROM clause; ROW_NUMBER() OVER
+        // (PARTITION BY ...) is SQL's
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT country, district, addresses
+                                                                                                      FROM (SELECT co.country,
+                                                                                                                   a.district,
+                                                                                                                   COUNT(*)                                                                          AS addresses,
+                                                                                                                   ROW_NUMBER() OVER (PARTITION BY co.country_id ORDER BY COUNT(*) DESC, a.district) AS district_rank
+                                                                                                            FROM address a
+                                                                                                                     JOIN city ci ON ci.city_id = a.city_id
+                                                                                                                     JOIN country co ON co.country_id = ci.country_id
+                                                                                                            WHERE co.country IN ('India', 'China', 'United States')
+                                                                                                            GROUP BY co.country_id, co.country, a.district) ranked
+                                                                                                      WHERE district_rank <= 3
+                                                                                                      ORDER BY country, district_rank""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0], r -> ((Object[]) r)[1],
+                                r -> ((Number) ((Object[]) r)[2]).longValue())
+                    .containsExactly(
+                            tuple("China", "Shandong", 9L),
+                            tuple("China", "Hubei", 5L),
+                            tuple("China", "Guangdong", 4L),
+                            tuple("India", "West Bengali", 9L),
+                            tuple("India", "Uttar Pradesh", 8L),
+                            tuple("India", "Maharashtra", 7L),
+                            tuple("United States", "California", 9L),
+                            tuple("United States", "Texas", 5L),
+                            tuple("United States", "Illinois", 4L));
         }
     }
 }

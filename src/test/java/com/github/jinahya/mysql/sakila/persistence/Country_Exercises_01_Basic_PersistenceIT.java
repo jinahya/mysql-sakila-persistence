@@ -25,7 +25,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of {@code src/test/sql/country_exercises_01_basic.sql}, against the
@@ -67,6 +70,107 @@ class Country_Exercises_01_Basic_PersistenceIT {
             });
             log.debug("{}", value);
             assertThat(value).isEqualTo(109L);
+        }
+    }
+
+    @DisplayName("exercise 2: the countries whose name starts with S, ordered by name")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c
+                                            FROM Country c
+                                            WHERE c.country LIKE :pattern
+                                            ORDER BY c.country""",
+                                    Country.class
+                            )
+                            .setParameter("pattern", "S%")
+                            .getResultList()
+            );
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Country::getCountryId)
+                    .containsExactly(81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Country.class);
+                final var c = cq.from(Country.class);
+                cq.select(c)
+                        .where(cb.like(c.get(Country_.country),
+                                       cb.parameter(String.class, "pattern")))
+                        .orderBy(cb.asc(c.get(Country_.country)));
+                return em.createQuery(cq)
+                        .setParameter("pattern", "S%")
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Country::getCountryId)
+                    .containsExactly(81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91);
+        }
+    }
+
+    @DisplayName("exercise 3: the five countries with the longest names")
+    @Nested
+    class Exercise3Test {
+
+        // EclipseLink renders LENGTH as MySQL's LENGTH, which counts bytes, not characters; the
+        // name is measured with CHAR_LENGTH, by FUNCTION
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c.country, FUNCTION('CHAR_LENGTH', c.country) AS nameLength
+                                            FROM Country c
+                                            ORDER BY nameLength DESC, c.country""",
+                                    Object[].class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue())
+                    .containsExactly(
+                            tuple("Congo, The Democratic Republic of the", 37),
+                            tuple("Saint Vincent and the Grenadines", 32),
+                            tuple("Holy See (Vatican City State)", 29),
+                            tuple("United Arab Emirates", 20),
+                            tuple("Virgin Islands, U.S.", 20));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(Country.class);
+                final var nameLength =
+                        cb.function("CHAR_LENGTH", Integer.class, c.get(Country_.country));
+                cq.select(cb.array(c.get(Country_.country), nameLength))
+                        .orderBy(cb.desc(nameLength), cb.asc(c.get(Country_.country)));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).intValue())
+                    .containsExactly(
+                            tuple("Congo, The Democratic Republic of the", 37),
+                            tuple("Saint Vincent and the Grenadines", 32),
+                            tuple("Holy See (Vatican City State)", 29),
+                            tuple("United Arab Emirates", 20),
+                            tuple("Virgin Islands, U.S.", 20));
         }
     }
 }

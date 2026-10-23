@@ -130,4 +130,122 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
             assertThat(list).isEmpty();
         }
     }
+
+    @DisplayName("exercise 3: the customers who rented forty times or more")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT c.customerId, c.firstName, c.lastName, COUNT(r)
+                                                                                      FROM Customer c
+                                                                                               JOIN c.rentals r
+                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      HAVING COUNT(r) >= 40
+                                                                                      ORDER BY COUNT(r) DESC, c.customerId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
+                    .containsExactly(
+                            tuple(148, "ELEANOR", "HUNT", 46L),
+                            tuple(526, "KARL", "SEAL", 45L),
+                            tuple(144, "CLARA", "SHAW", 42L),
+                            tuple(236, "MARCIA", "DEAN", 42L),
+                            tuple(75, "TAMMY", "SANDERS", 41L),
+                            tuple(197, "SUE", "PETERS", 40L),
+                            tuple(469, "WESLEY", "BULL", 40L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(Customer.class);
+                final var r = c.join(Customer_.rentals);
+                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                   c.get(Customer_.lastName), cb.count(r)))
+                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                 c.get(Customer_.lastName))
+                        .having(cb.ge(cb.count(r), 40L))
+                        .orderBy(cb.desc(cb.count(r)), cb.asc(c.get(Customer_.customerId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
+                    .containsExactly(
+                            tuple(148, "ELEANOR", "HUNT", 46L),
+                            tuple(526, "KARL", "SEAL", 45L),
+                            tuple(144, "CLARA", "SHAW", 42L),
+                            tuple(236, "MARCIA", "DEAN", 42L),
+                            tuple(75, "TAMMY", "SANDERS", 41L),
+                            tuple(197, "SUE", "PETERS", 40L),
+                            tuple(469, "WESLEY", "BULL", 40L));
+        }
+    }
+
+    @DisplayName("exercise 4: the five customers holding the most rentals not returned yet")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT c.customerId, c.firstName, c.lastName, COUNT(r)
+                                                                                      FROM Customer c
+                                                                                               JOIN c.rentals r
+                                                                                      WHERE r.returnDate IS NULL
+                                                                                      GROUP BY c.customerId, c.firstName, c.lastName
+                                                                                      ORDER BY COUNT(r) DESC, c.customerId""",
+                                                                              Object[].class)
+                    .setMaxResults(5)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
+                    .containsExactly(
+                            tuple(75, "TAMMY", "SANDERS", 3L),
+                            tuple(15, "HELEN", "HARRIS", 2L),
+                            tuple(42, "CAROLYN", "PEREZ", 2L),
+                            tuple(43, "CHRISTINE", "ROBERTS", 2L),
+                            tuple(53, "HEATHER", "MORRIS", 2L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(Customer.class);
+                final var r = c.join(Customer_.rentals);
+                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                   c.get(Customer_.lastName), cb.count(r)))
+                        .where(cb.isNull(r.get(Rental_.returnDate)))
+                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                 c.get(Customer_.lastName))
+                        .orderBy(cb.desc(cb.count(r)), cb.asc(c.get(Customer_.customerId)));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
+                    .containsExactly(
+                            tuple(75, "TAMMY", "SANDERS", 3L),
+                            tuple(15, "HELEN", "HARRIS", 2L),
+                            tuple(42, "CAROLYN", "PEREZ", 2L),
+                            tuple(43, "CHRISTINE", "ROBERTS", 2L),
+                            tuple(53, "HEATHER", "MORRIS", 2L));
+        }
+    }
 }

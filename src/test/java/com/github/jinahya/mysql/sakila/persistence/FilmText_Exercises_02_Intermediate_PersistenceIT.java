@@ -129,4 +129,47 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
             assertThat(list).isEmpty();
         }
     }
+
+    @DisplayName(
+            "exercise 4: how many films mention a Boat but not a Shark, by the full-text index")
+    @Nested
+    class Exercise4Test {
+
+        // JPQL has no full-text search; MATCH ... AGAINST ... IN BOOLEAN MODE is MySQL's own
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT COUNT(*) AS films
+                                                                                                      FROM film_text
+                                                                                                      WHERE MATCH(title, description) AGAINST (?1 IN BOOLEAN MODE)""")
+                    .setParameter(1, "+boat -shark")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(143L));
+        }
+    }
+
+    @DisplayName(
+            "exercise 5: how many films mention a Crocodile or a Shark, and how many mention both")
+    @Nested
+    class Exercise5Test {
+
+        // JPQL has no full-text search; MATCH ... AGAINST is MySQL's own
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT (SELECT COUNT(*) FROM film_text WHERE MATCH(title, description) AGAINST (?1)) AS either_word,
+                                                                                                             (SELECT COUNT(*)
+                                                                                                              FROM film_text
+                                                                                                              WHERE MATCH(title, description) AGAINST (?2 IN BOOLEAN MODE)) AS both_words""")
+                    .setParameter(1, "crocodile shark")
+                    .setParameter(2, "+crocodile +shark")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list).singleElement().satisfies(
+                    r -> assertThat((Object[]) r).extracting(v -> ((Number) v).longValue())
+                            .containsExactly(203L, 10L));
+        }
+    }
 }

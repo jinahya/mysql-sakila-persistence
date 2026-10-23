@@ -86,4 +86,106 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
                             tuple("Animation", "4656.30"));
         }
     }
+
+    @DisplayName("exercise 2: the categories which sold between 4000 and 4500")
+    @Nested
+    class Exercise2Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT s.category, s.totalSales
+                                                                                      FROM SalesByFilmCategory s
+                                                                                      WHERE s.totalSales BETWEEN :low AND :high
+                                                                                      ORDER BY s.category""",
+                                                                              Object[].class)
+                    .setParameter("low", BigDecimal.valueOf(4000))
+                    .setParameter("high", BigDecimal.valueOf(4500))
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString())
+                    .containsExactly(
+                            tuple("Action", "4375.85"),
+                            tuple("Comedy", "4383.58"),
+                            tuple("Documentary", "4217.52"),
+                            tuple("Family", "4226.07"),
+                            tuple("Foreign", "4270.67"),
+                            tuple("Games", "4281.33"),
+                            tuple("New", "4351.62"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var s = cq.from(SalesByFilmCategory.class);
+                final var totalSales = s.get(SalesByFilmCategory_.totalSales);
+                cq.select(cb.array(s.get(SalesByFilmCategory_.category), totalSales))
+                        .where(cb.between(totalSales, cb.parameter(BigDecimal.class, "low"),
+                                          cb.parameter(BigDecimal.class, "high")))
+                        .orderBy(cb.asc(s.get(SalesByFilmCategory_.category)));
+                return em.createQuery(cq)
+                        .setParameter("low", BigDecimal.valueOf(4000))
+                        .setParameter("high", BigDecimal.valueOf(4500))
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((BigDecimal) r[1]).toPlainString())
+                    .containsExactly(
+                            tuple("Action", "4375.85"),
+                            tuple("Comedy", "4383.58"),
+                            tuple("Documentary", "4217.52"),
+                            tuple("Family", "4226.07"),
+                            tuple("Foreign", "4270.67"),
+                            tuple("Games", "4281.33"),
+                            tuple("New", "4351.62"));
+        }
+    }
+
+    @DisplayName(
+            "exercise 3: how many categories sold less than 4000, and how much they sold together")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT COUNT(s), SUM(s.totalSales)
+                                                                                      FROM SalesByFilmCategory s
+                                                                                      WHERE s.totalSales < :total""",
+                                                                              Object[].class)
+                    .setParameter("total", BigDecimal.valueOf(4000))
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).longValue(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
+                    .containsExactly(
+                            tuple(5L, "17985.04"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var s = cq.from(SalesByFilmCategory.class);
+                final var totalSales = s.get(SalesByFilmCategory_.totalSales);
+                cq.select(cb.array(cb.count(s), cb.sum(totalSales)))
+                        .where(cb.lessThan(totalSales, cb.parameter(BigDecimal.class, "total")));
+                return em.createQuery(cq)
+                        .setParameter("total", BigDecimal.valueOf(4000))
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).longValue(),
+                                r -> ((BigDecimal) r[1]).toPlainString())
+                    .containsExactly(
+                            tuple(5L, "17985.04"));
+        }
+    }
 }

@@ -129,4 +129,83 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
                             tuple("Mexico", 30L));
         }
     }
+
+    @DisplayName("exercise 3: how many countries have exactly one city")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                       SELECT COUNT(c)
+                                                                                       FROM Country c
+                                                                                       WHERE (SELECT COUNT(ci) FROM City ci WHERE ci.country = c) = 1""",
+                                                                               Long.class)
+                    .getSingleResult());
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(42L);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var value = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Long.class);
+                final var c = cq.from(Country.class);
+                final var cities = cq.subquery(Long.class);
+                final var ci = cities.from(City.class);
+                cities.select(cb.count(ci)).where(cb.equal(ci.get(City_.country), c));
+                cq.select(cb.count(c)).where(cb.equal(cities, 1L));
+                return em.createQuery(cq).getSingleResult();
+            });
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(42L);
+        }
+    }
+
+    @DisplayName("exercise 4: the countries which have a city but no customer")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT c
+                                                                                      FROM Country c
+                                                                                      WHERE c.cities IS NOT EMPTY
+                                                                                        AND NOT EXISTS (SELECT cu FROM Customer cu WHERE cu.address.city.country = c)
+                                                                                      ORDER BY c.country""",
+                                                                              Country.class)
+                    .getResultList());
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Country::getCountryId, Country::getCountry)
+                    .containsExactly(
+                            tuple(8, "Australia"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Country.class);
+                final var c = cq.from(Country.class);
+                final var customers = cq.subquery(Customer.class);
+                final var cu = customers.from(Customer.class);
+                customers.select(cu)
+                        .where(cb.equal(cu.get(Customer_.address).get(Address_.city)
+                                                .get(City_.country), c));
+                cq.select(c)
+                        .where(cb.isNotEmpty(c.get(Country_.cities)), cb.not(cb.exists(customers)))
+                        .orderBy(cb.asc(c.get(Country_.country)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Country::getCountryId, Country::getCountry)
+                    .containsExactly(
+                            tuple(8, "Australia"));
+        }
+    }
 }

@@ -25,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -55,6 +56,25 @@ class SalesByStore_Exercises_01_Basic_PersistenceIT {
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list).extracting(r -> ((Object[]) r)[0])
                     .containsExactly("Woodridge,Australia", "Lethbridge,Canada");
+        }
+    }
+
+    @DisplayName("exercise 2: how far apart the two stores' sales are")
+    @Nested
+    class Exercise2Test {
+
+        // the view is not an entity; the SalesByStore class is a plain class, read with a native
+        // query
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT MAX(total_sales) - MIN(total_sales) AS difference
+                                                                                                      FROM sales_by_store""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((BigDecimal) v).toPlainString())
+                            .isEqualTo("46.98"));
         }
     }
 }

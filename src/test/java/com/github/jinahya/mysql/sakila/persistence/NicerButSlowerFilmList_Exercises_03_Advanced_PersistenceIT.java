@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of
@@ -56,6 +57,58 @@ class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
                                                                                                                JOIN film_list l ON l.FID = n.FID AND l.category = n.category
                                                                                                       WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <=> l.price
                                                                                                                  AND n.length <=> l.length AND n.rating <=> l.rating)""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list).singleElement()
+                    .satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(0L));
+        }
+    }
+
+    @DisplayName("exercise 2: the longest length in each category, and how many films have it")
+    @Nested
+    class Exercise2Test {
+
+        // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
+        // native query
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT n.category, n.length AS longest, COUNT(*) AS films
+                                                                                                      FROM nicer_but_slower_film_list n
+                                                                                                      WHERE n.length = (SELECT MAX(m.length) FROM nicer_but_slower_film_list m WHERE m.category = n.category)
+                                                                                                      GROUP BY n.category, n.length
+                                                                                                      ORDER BY n.category""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list).hasSize(16)
+                    .extracting(r -> ((Object[]) r)[0],
+                                r -> ((Number) ((Object[]) r)[1]).intValue(),
+                                r -> ((Number) ((Object[]) r)[2]).longValue())
+                    .startsWith(
+                            tuple("Action", 185, 2L),
+                            tuple("Animation", 185, 2L),
+                            tuple("Children", 178, 2L),
+                            tuple("Classics", 184, 1L))
+                    .endsWith(
+                            tuple("Sports", 184, 1L),
+                            tuple("Travel", 185, 2L));
+        }
+    }
+
+    @DisplayName("exercise 3: whether the actors string names as many actors as film_actor has")
+    @Nested
+    class Exercise3Test {
+
+        // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
+        // native query
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                                                                                                      SELECT COUNT(*) AS mismatched
+                                                                                                      FROM nicer_but_slower_film_list n
+                                                                                                      WHERE n.actors IS NOT NULL
+                                                                                                        AND CHAR_LENGTH(n.actors) - CHAR_LENGTH(REPLACE(n.actors, ',', '')) + 1
+                                                                                                            <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = n.FID)""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list).singleElement()

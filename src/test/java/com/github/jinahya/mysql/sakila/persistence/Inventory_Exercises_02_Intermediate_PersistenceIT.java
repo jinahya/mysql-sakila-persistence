@@ -125,4 +125,112 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
             assertThat(value).isEqualTo(1L);
         }
     }
+
+    @DisplayName("exercise 3: how many copies each store has out right now")
+    @Nested
+    class Exercise3Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT i.storeId, COUNT(r)
+                                                                                      FROM Inventory i
+                                                                                               JOIN i.rentals r
+                                                                                      WHERE r.returnDate IS NULL
+                                                                                      GROUP BY i.storeId
+                                                                                      ORDER BY i.storeId""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple(1, 92L),
+                            tuple(2, 91L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var i = cq.from(Inventory.class);
+                final var r = i.join(Inventory_.rentals);
+                cq.select(cb.array(i.get(Inventory_.storeId), cb.count(r)))
+                        .where(cb.isNull(r.get(Rental_.returnDate)))
+                        .groupBy(i.get(Inventory_.storeId))
+                        .orderBy(cb.asc(i.get(Inventory_.storeId)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple(1, 92L),
+                            tuple(2, 91L));
+        }
+    }
+
+    @DisplayName("exercise 4: how many copies of each rating each store has")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                      SELECT i.storeId, f.rating, COUNT(i)
+                                                                                      FROM Inventory i
+                                                                                               JOIN i.film f
+                                                                                      GROUP BY i.storeId, f.rating
+                                                                                      ORDER BY i.storeId, f.rating""",
+                                                                              Object[].class)
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple(1, Film.Rating.G, 394L),
+                            tuple(1, Film.Rating.PG, 444L),
+                            tuple(1, Film.Rating.PG_13, 525L),
+                            tuple(1, Film.Rating.R, 442L),
+                            tuple(1, Film.Rating.NC_17, 465L),
+                            tuple(2, Film.Rating.G, 397L),
+                            tuple(2, Film.Rating.PG, 480L),
+                            tuple(2, Film.Rating.PG_13, 493L),
+                            tuple(2, Film.Rating.R, 462L),
+                            tuple(2, Film.Rating.NC_17, 479L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var i = cq.from(Inventory.class);
+                final var f = i.join(Inventory_.film);
+                cq.select(cb.array(i.get(Inventory_.storeId), f.get(Film_.rating), cb.count(i)))
+                        .groupBy(i.get(Inventory_.storeId), f.get(Film_.rating))
+                        .orderBy(cb.asc(i.get(Inventory_.storeId)), cb.asc(f.get(Film_.rating)));
+                return em.createQuery(cq)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1],
+                                r -> ((Number) r[2]).longValue())
+                    .containsExactly(
+                            tuple(1, Film.Rating.G, 394L),
+                            tuple(1, Film.Rating.PG, 444L),
+                            tuple(1, Film.Rating.PG_13, 525L),
+                            tuple(1, Film.Rating.R, 442L),
+                            tuple(1, Film.Rating.NC_17, 465L),
+                            tuple(2, Film.Rating.G, 397L),
+                            tuple(2, Film.Rating.PG, 480L),
+                            tuple(2, Film.Rating.PG_13, 493L),
+                            tuple(2, Film.Rating.R, 462L),
+                            tuple(2, Film.Rating.NC_17, 479L));
+        }
+    }
 }
