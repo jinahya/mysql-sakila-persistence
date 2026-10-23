@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-I-01
 -- the cities of Canada.
 -- +---------+---------------+------------+---------------------+
 -- | city_id | city          | country_id | last_update         |
@@ -46,7 +46,7 @@ WHERE co.country = 'Canada'
 ORDER BY ci.city
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-I-02
 -- the five countries with the most cities.
 -- +---------------+--------+
 -- | country       | cities |
@@ -64,7 +64,7 @@ GROUP BY co.country_id, co.country
 ORDER BY cities DESC, co.country LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 3
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-I-03
 -- how many cities have no address.
 -- +--------+
 -- | cities |
@@ -74,4 +74,36 @@ ORDER BY cities DESC, co.country LIMIT 5
 SELECT COUNT(*) AS cities
 FROM city ci
 WHERE NOT EXISTS (SELECT 1 FROM address a WHERE a.city_id = ci.city_id)
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-I-04
+-- the cities with more than one address.
+-- +---------+------------+-----------+
+-- | city_id | city       | addresses |
+-- +---------+------------+-----------+
+-- |      42 | Aurora     |         2 |
+-- |     300 | Lethbridge |         2 |
+-- |     312 | London     |         2 |
+-- |     576 | Woodridge  |         2 |
+-- +---------+------------+-----------+
+SELECT ci.city_id, ci.city, COUNT(*) AS addresses
+FROM city ci
+         JOIN address a ON a.city_id = ci.city_id
+GROUP BY ci.city_id, ci.city
+HAVING COUNT(*) > 1
+ORDER BY addresses DESC, ci.city
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-I-05
+-- the city names found in more than one country.
+-- +--------+-----------+
+-- | city   | countries |
+-- +--------+-----------+
+-- | London |         2 |
+-- +--------+-----------+
+SELECT city, COUNT(DISTINCT country_id) AS countries
+FROM city
+GROUP BY city
+HAVING COUNT(DISTINCT country_id) > 1
+ORDER BY countries DESC, city
 ;

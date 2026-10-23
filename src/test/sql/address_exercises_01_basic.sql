@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-B-01
 -- how many addresses are in the district of California.
 -- +-----------+
 -- | addresses |
@@ -38,7 +38,7 @@ FROM address
 WHERE district = 'California'
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-B-02
 -- the five districts with the most addresses.
 -- +--------------+-----------+
 -- | district     | addresses |
@@ -53,4 +53,35 @@ SELECT district, COUNT(*) AS addresses
 FROM address
 GROUP BY district
 ORDER BY addresses DESC, district LIMIT 5
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-B-03
+-- the addresses whose address2 is NULL.
+-- +------------+----------------------+----------+
+-- | address_id | address              | district |
+-- +------------+----------------------+----------+
+-- |          1 | 47 MySakila Drive    | Alberta  |
+-- |          2 | 28 MySQL Boulevard   | QLD      |
+-- |          3 | 23 Workhaven Lane    | Alberta  |
+-- |          4 | 1411 Lillydale Drive | QLD      |
+-- +------------+----------------------+----------+
+SELECT address_id, address, district
+FROM address
+WHERE address2 IS NULL
+ORDER BY address_id
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-B-04
+-- the addresses with an empty district.
+-- +------------+---------------------------+-------------+--------------+
+-- | address_id | address                   | postal_code | phone        |
+-- +------------+---------------------------+-------------+--------------+
+-- |         30 | 18 Duisburg Boulevard     | 58327       | 998009777982 |
+-- |        386 | 1368 Maracaíbo Boulevard  | 32716       | 934352415130 |
+-- |        519 | 962 Tama Loop             | 65952       | 282667506728 |
+-- +------------+---------------------------+-------------+--------------+
+SELECT address_id, address, postal_code, phone
+FROM address
+WHERE district = ''
+ORDER BY address_id
 ;

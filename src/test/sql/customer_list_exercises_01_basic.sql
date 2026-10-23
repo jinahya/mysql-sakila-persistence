@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-B-01
 -- the customers in Japan.
 -- +-----+-------------------+-----------------------------------+----------+--------------+--------------+---------+--------+-----+
 -- | ID  | name              | address                           | zip code | phone        | city         | country | notes  | SID |
@@ -69,7 +69,7 @@ WHERE country = 'Japan'
 ORDER BY ID
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-B-02
 -- how many customers each store has, as the view's SID says.
 -- +-----+-----------+
 -- | SID | customers |
@@ -81,4 +81,30 @@ SELECT SID, COUNT(*) AS customers
 FROM customer_list
 GROUP BY SID
 ORDER BY SID
+;
+
+-- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-B-03
+-- how many customers the view's notes call active.
+-- +--------+-----------+
+-- | notes  | customers |
+-- +--------+-----------+
+-- |        |        15 |
+-- | active |       584 |
+-- +--------+-----------+
+SELECT notes, COUNT(*) AS customers
+FROM customer_list
+GROUP BY notes
+ORDER BY notes
+;
+
+-- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-B-04
+-- how many customers live on an Avenue.
+-- +-----------+
+-- | customers |
+-- +-----------+
+-- |        59 |
+-- +-----------+
+SELECT COUNT(*) AS customers
+FROM customer_list
+WHERE address LIKE '% Avenue'
 ;

@@ -19,15 +19,15 @@
 -- -
 --
 -- Exercises at the intermediate level on the business of the schema, across several tables, not on a single table; the
--- exercises on each table and view are in its own {table}_exercises.sql. Each poses a question, answers it, and shows
+-- exercises on each table and view are in its own {table}_exercises_*.sql. Each poses a question, answers it, and shows
 -- what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/_schema_02_intermediate_exercises.sql
+--   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/_schema_exercises_02_intermediate.sql
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-01
 -- how much each store took, through the copies it rented out.
 -- +----------+----------+----------+
 -- | store_id | payments | total    |
@@ -43,7 +43,7 @@ GROUP BY i.store_id
 ORDER BY i.store_id
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-02
 -- how many rentals each category had, the most first.
 -- +-------------+---------+
 -- | name        | rentals |
@@ -64,7 +64,7 @@ GROUP BY c.category_id, c.name
 ORDER BY rentals DESC, c.name
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 3
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-03
 -- the five countries whose customers paid the most.
 -- +---------------+-----------+---------+
 -- | country       | customers | total   |
@@ -85,7 +85,7 @@ GROUP BY co.country_id, co.country
 ORDER BY total DESC LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 4
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-04
 -- the average payment of each rating.
 -- +--------+-----------------+
 -- | rating | average_payment |
@@ -105,7 +105,7 @@ GROUP BY f.rating
 ORDER BY f.rating
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 5
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-05
 -- the five actors whose films took the most.
 -- +----------+------------+-----------+---------+
 -- | actor_id | first_name | last_name | total   |
@@ -126,7 +126,7 @@ GROUP BY a.actor_id, a.first_name, a.last_name
 ORDER BY total DESC, a.actor_id LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 6
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-06
 -- the customers who have returned everything they rented, how many.
 -- +-----------+
 -- | customers |
@@ -140,7 +140,7 @@ WHERE NOT EXISTS (SELECT 1
                   WHERE r.customer_id = c.customer_id AND r.return_date IS NULL)
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 7
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-07
 -- how many rentals, and how much was paid, in each month.
 -- +---------+---------+----------+
 -- | month   | rentals | total    |
@@ -159,7 +159,7 @@ GROUP BY month
 ORDER BY month
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 8
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-08
 -- the customers who rented from a store other than their own, how many.
 -- +-----------+
 -- | customers |
@@ -171,4 +171,108 @@ FROM customer c
          JOIN rental r ON r.customer_id = c.customer_id
          JOIN inventory i ON i.inventory_id = r.inventory_id
 WHERE i.store_id <> c.store_id
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-09
+-- how many rentals, and how much was paid, for short, medium and long films.
+-- +--------------+---------+----------+
+-- | length_group | rentals | total    |
+-- +--------------+---------+----------+
+-- | short        |    1531 |  6191.68 |
+-- | medium       |    7213 | 30346.87 |
+-- | long         |    7300 | 30868.01 |
+-- +--------------+---------+----------+
+SELECT CASE
+           WHEN f.length < 60 THEN 'short'
+           WHEN f.length <= 120 THEN 'medium'
+           ELSE 'long'
+           END AS length_group,
+       COUNT(*) AS rentals,
+       SUM(p.amount) AS total
+FROM rental r
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+         LEFT JOIN payment p ON p.rental_id = r.rental_id
+GROUP BY length_group
+ORDER BY MIN(f.length)
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-10
+-- how many films of each category were never rented.
+-- +-------------+-------+
+-- | name        | films |
+-- +-------------+-------+
+-- | Foreign     |     6 |
+-- | Documentary |     5 |
+-- | Travel      |     4 |
+-- | Action      |     3 |
+-- | Classics    |     3 |
+-- | Games       |     3 |
+-- | Horror      |     3 |
+-- | New         |     3 |
+-- | Animation   |     2 |
+-- | Children    |     2 |
+-- | Comedy      |     2 |
+-- | Family      |     2 |
+-- | Sci-Fi      |     2 |
+-- | Drama       |     1 |
+-- | Sports      |     1 |
+-- +-------------+-------+
+SELECT c.name, COUNT(*) AS films
+FROM category c
+         JOIN film_category fc ON fc.category_id = c.category_id
+WHERE NOT EXISTS (SELECT 1
+                  FROM inventory i
+                           JOIN rental r ON r.inventory_id = i.inventory_id
+                  WHERE i.film_id = fc.film_id)
+GROUP BY c.category_id, c.name
+ORDER BY films DESC, c.name
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-11
+-- the actors who appear in both a Comedy and a Horror film, how many.
+-- +--------+
+-- | actors |
+-- +--------+
+-- |    115 |
+-- +--------+
+SELECT COUNT(*) AS actors
+FROM actor a
+WHERE EXISTS (SELECT 1
+              FROM film_actor fa
+                       JOIN film_category fc ON fc.film_id = fa.film_id
+                       JOIN category c ON c.category_id = fc.category_id
+              WHERE fa.actor_id = a.actor_id
+                AND c.name = 'Comedy')
+  AND EXISTS (SELECT 1
+              FROM film_actor fa
+                       JOIN film_category fc ON fc.film_id = fa.film_id
+                       JOIN category c ON c.category_id = fc.category_id
+              WHERE fa.actor_id = a.actor_id
+                AND c.name = 'Horror')
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-12
+-- the categories whose payments are, on average, larger than all payments.
+-- +--------+-----------------+
+-- | name   | average_payment |
+-- +--------+-----------------+
+-- | Comedy |            4.66 |
+-- | New    |            4.63 |
+-- | Sports |            4.51 |
+-- | Games  |            4.42 |
+-- | Horror |            4.40 |
+-- | Drama  |            4.33 |
+-- | Sci-Fi |            4.32 |
+-- | Travel |            4.24 |
+-- +--------+-----------------+
+SELECT c.name, ROUND(AVG(p.amount), 2) AS average_payment
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film_category fc ON fc.film_id = i.film_id
+         JOIN category c ON c.category_id = fc.category_id
+GROUP BY c.category_id, c.name
+HAVING AVG(p.amount) > (SELECT AVG(amount) FROM payment)
+ORDER BY average_payment DESC, c.name
 ;

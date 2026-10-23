@@ -40,6 +40,7 @@ import java.nio.ByteOrder;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -579,7 +580,7 @@ public class Address {
      * @return current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute; the bytes of the
      *         geometry in MySQL's internal format.
      */
-    public byte[] getLocation() {
+    byte[] getLocation() {
         return location;
     }
 
@@ -591,18 +592,44 @@ public class Address {
      *                 geometry in MySQL's internal format.
      * @see #newLocation(int, double, double)
      */
-    public void setLocation(final byte[] location) {
+    void setLocation(final byte[] location) {
         this.location = location;
     }
 
-    <R> R getLocationAs(final Function<? super byte[], ? extends R> mapper) {
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute, mapped with the
+     * specified function.
+     *
+     * @param mapper the function which maps current value of {@value #ATTRIBUTE_NAME_LOCATION}
+     *               attribute, the bytes of the geometry in MySQL's internal format; applied only
+     *               when the value is not {@code null}.
+     * @param <R>    result type parameter
+     * @return the result of the {@code mapper} applied to current value of
+     *         {@value #ATTRIBUTE_NAME_LOCATION} attribute; {@code null} when the value is
+     *         {@code null}, or when the {@code mapper} returns {@code null}.
+     */
+    public <R> R getLocationAs(final Function<? super byte[], ? extends R> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
-        return mapper.apply(getLocation());
+        return Optional.ofNullable(getLocation()).map(mapper).orElse(null);
     }
 
-    <T> void setLocationAs(final T location, final Function<? super T, ? extends byte[]> mapper) {
+    /**
+     * Replaces current value of {@value #ATTRIBUTE_NAME_LOCATION} attribute with the specified
+     * value, mapped with the specified function.
+     *
+     * @param location the value to map; {@code null} to replace current value with {@code null},
+     *                 without the {@code mapper}.
+     * @param mapper   the function which maps the {@code location} to a new value for
+     *                 {@value #ATTRIBUTE_NAME_LOCATION} attribute, the bytes of a geometry in
+     *                 MySQL's internal format; applied only when the {@code location} is not
+     *                 {@code null}.
+     * @param <T>      value type parameter
+     * @see #newLocation(int, double, double)
+     */
+    public <T> void setLocationAs(final T location,
+                                  final Function<? super T, ? extends byte[]> mapper) {
         Objects.requireNonNull(mapper, "mapper is null");
-        setLocation(mapper.apply(location));
+        setLocation(Optional.ofNullable(location).map(mapper).orElse(null));
     }
 
     // ---------------------------------------------------------------------------------- lastUpdate

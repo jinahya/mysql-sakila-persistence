@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-01
 -- the countries with no city.
 -- no rows.
 SELECT co.*
@@ -34,7 +34,7 @@ FROM country co
 WHERE NOT EXISTS (SELECT 1 FROM city ci WHERE ci.country_id = co.country_id)
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-02
 -- the five countries with the most customers.
 -- +---------------+-----------+
 -- | country       | customers |
@@ -52,4 +52,34 @@ FROM country co
          JOIN customer cu ON cu.address_id = a.address_id
 GROUP BY co.country_id, co.country
 ORDER BY customers DESC, co.country LIMIT 5
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-03
+-- how many countries have exactly one city.
+-- +-----------+
+-- | countries |
+-- +-----------+
+-- |        42 |
+-- +-----------+
+SELECT COUNT(*) AS countries
+FROM country co
+WHERE (SELECT COUNT(*) FROM city ci WHERE ci.country_id = co.country_id) = 1
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-04
+-- the countries which have a city but no customer.
+-- +------------+-----------+---------------------+
+-- | country_id | country   | last_update         |
+-- +------------+-----------+---------------------+
+-- |          8 | Australia | 2006-02-15 04:44:00 |
+-- +------------+-----------+---------------------+
+SELECT co.*
+FROM country co
+WHERE EXISTS (SELECT 1 FROM city ci WHERE ci.country_id = co.country_id)
+  AND NOT EXISTS (SELECT 1
+                  FROM city ci
+                           JOIN address a ON a.city_id = ci.city_id
+                           JOIN customer cu ON cu.address_id = a.address_id
+                  WHERE ci.country_id = co.country_id)
+ORDER BY co.country
 ;

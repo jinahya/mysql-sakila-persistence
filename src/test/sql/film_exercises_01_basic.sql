@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-B-01
 -- how many films each rating has.
 -- +--------+-------+
 -- | rating | films |
@@ -43,7 +43,7 @@ GROUP BY rating
 ORDER BY rating
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-B-02
 -- the films longer than three hours, the longest first.
 -- +---------+----------------+----------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+
 -- | film_id | title          | description                                                                                        | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                        | last_update         |
@@ -60,7 +60,7 @@ WHERE length > 180
 ORDER BY length DESC, title LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 3
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-B-03
 -- the average rental rate of each rating.
 -- +--------+---------------------+
 -- | rating | average_rental_rate |
@@ -77,7 +77,7 @@ GROUP BY rating
 ORDER BY rating
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 4
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-B-04
 -- how many films have Behind the Scenes among their special features.
 -- +-------+
 -- | films |
@@ -87,4 +87,45 @@ ORDER BY rating
 SELECT COUNT(*) AS films
 FROM film
 WHERE FIND_IN_SET('Behind the Scenes', special_features) > 0
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-B-05
+-- the five shortest films.
+-- +---------+---------------------+--------+
+-- | film_id | title               | length |
+-- +---------+---------------------+--------+
+-- |      15 | ALIEN CENTER        |     46 |
+-- |     469 | IRON MOON           |     46 |
+-- |     504 | KWAI HOMEWARD       |     46 |
+-- |     505 | LABYRINTH LEAGUE    |     46 |
+-- |     730 | RIDGEMONT SUBMARINE |     46 |
+-- +---------+---------------------+--------+
+SELECT film_id, title, length
+FROM film
+ORDER BY length, title
+LIMIT 5
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-B-06
+-- the films cheapest to rent and dearest to replace.
+-- +---------+----------------------+-------------+------------------+
+-- | film_id | title                | rental_rate | replacement_cost |
+-- +---------+----------------------+-------------+------------------+
+-- |      34 | ARABIA DOGMA         |        0.99 |            29.99 |
+-- |      52 | BALLROOM MOCKINGBIRD |        0.99 |            29.99 |
+-- |      85 | BONNIE HOLOCAUST     |        0.99 |            29.99 |
+-- |     157 | CLOCKWORK PARADISE   |        0.99 |            29.99 |
+-- |     163 | CLYDE THEORY         |        0.99 |            29.99 |
+-- |     196 | CRUELTY UNFORGIVEN   |        0.99 |            29.99 |
+-- |     270 | EARTH VISION         |        0.99 |            29.99 |
+-- |     290 | EVERYONE CRAFT       |        0.99 |            29.99 |
+-- |     309 | FEUD FROGMEN         |        0.99 |            29.99 |
+-- |     358 | GILMORE BOILED       |        0.99 |            29.99 |
+-- +---------+----------------------+-------------+------------------+
+SELECT film_id, title, rental_rate, replacement_cost
+FROM film
+WHERE rental_rate = 0.99
+  AND replacement_cost = 29.99
+ORDER BY title
+LIMIT 10
 ;

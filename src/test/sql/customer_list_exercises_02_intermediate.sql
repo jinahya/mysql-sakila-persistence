@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-I-01
 -- whether the view has a row for every customer.
 -- +---------------+----------+
 -- | customer_list | customer |
@@ -35,4 +35,28 @@
 -- +---------------+----------+
 SELECT (SELECT COUNT(*) FROM customer_list) AS customer_list,
        (SELECT COUNT(*) FROM customer)      AS customer
+;
+
+-- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-I-02
+-- the cities with more than one customer.
+-- +--------+----------------+-----------+
+-- | city   | country        | customers |
+-- +--------+----------------+-----------+
+-- | Aurora | United States  |         2 |
+-- | London | United Kingdom |         2 |
+-- +--------+----------------+-----------+
+SELECT city, country, COUNT(*) AS customers
+FROM customer_list
+GROUP BY city, country
+HAVING COUNT(*) > 1
+ORDER BY city, country
+;
+
+-- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-I-03
+-- the rows whose name is not the customer's first and last name.
+-- no rows.
+SELECT cl.ID, cl.name, c.first_name, c.last_name
+FROM customer_list cl
+         JOIN customer c ON c.customer_id = cl.ID
+WHERE cl.name <> CONCAT(c.first_name, ' ', c.last_name)
 ;

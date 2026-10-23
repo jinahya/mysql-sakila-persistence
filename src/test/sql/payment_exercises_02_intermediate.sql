@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------- SAKILA-PAYMENT-I-01
 -- the largest payment, and how many payments are that large.
 -- +---------+----------+
 -- | largest | payments |
@@ -36,4 +36,46 @@
 SELECT MAX(amount)                                                                     AS largest,
        (SELECT COUNT(*) FROM payment WHERE amount = (SELECT MAX(amount) FROM payment)) AS payments
 FROM payment
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-PAYMENT-I-02
+-- the customers who paid more than 180 in all.
+-- +-------------+------------+-----------+--------+
+-- | customer_id | first_name | last_name | total  |
+-- +-------------+------------+-----------+--------+
+-- |         526 | KARL       | SEAL      | 221.55 |
+-- |         148 | ELEANOR    | HUNT      | 216.54 |
+-- |         144 | CLARA      | SHAW      | 195.58 |
+-- |         137 | RHONDA     | KENNEDY   | 194.61 |
+-- |         178 | MARION     | SNYDER    | 194.61 |
+-- |         459 | TOMMY      | COLLAZO   | 186.62 |
+-- +-------------+------------+-----------+--------+
+SELECT p.customer_id, c.first_name, c.last_name, SUM(p.amount) AS total
+FROM payment p
+         JOIN customer c ON c.customer_id = p.customer_id
+GROUP BY p.customer_id, c.first_name, c.last_name
+HAVING SUM(p.amount) > 180
+ORDER BY total DESC, p.customer_id
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-PAYMENT-I-03
+-- how many payments were less than, equal to, or more than the film's rental rate.
+-- +----------+----------+
+-- | paid     | payments |
+-- +----------+----------+
+-- | less     |       24 |
+-- | more     |     7293 |
+-- | the rate |     8727 |
+-- +----------+----------+
+SELECT CASE
+           WHEN p.amount < f.rental_rate THEN 'less'
+           WHEN p.amount = f.rental_rate THEN 'the rate'
+           ELSE 'more' END AS paid,
+       COUNT(*) AS payments
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+GROUP BY paid
+ORDER BY paid
 ;

@@ -19,15 +19,15 @@
 -- -
 --
 -- Exercises at the basic level on the structure of the schema, as information_schema describes it, not on a single
--- table; the exercises on each table and view are in its own {table}_exercises.sql. Each poses a question, answers it,
--- and shows what the installed data gives back.
+-- table; the exercises on each table and view are in its own {table}_exercises_*.sql. Each poses a question, answers
+-- it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/_schema_01_basic_exercises.sql
+--   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/_schema_exercises_01_basic.sql
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-01
 -- the tables and the views of the schema.
 -- +----------------------------+------------+
 -- | TABLE_NAME                 | TABLE_TYPE |
@@ -45,7 +45,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_type, table_name
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-02
 -- how many rows each table has.
 -- +---------------+-----------+
 -- | table_name    | row_count |
@@ -106,7 +106,7 @@ SELECT 'store', COUNT(*)
 FROM store
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 3
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-03
 -- every foreign key: the column, and the column it refers to.
 -- +-------------------+----------------------+-----------------------+------------------------+
 -- | TABLE_NAME        | COLUMN_NAME          | REFERENCED_TABLE_NAME | REFERENCED_COLUMN_NAME |
@@ -125,7 +125,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_name, column_name
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 4
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-04
 -- the tables which have a last_update column.
 -- +---------------+
 -- | TABLE_NAME    |
@@ -148,7 +148,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_name
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 5
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-05
 -- the triggers, and the table and the event each fires on.
 -- +----------------------+--------------------+---------------+--------------------+
 -- | TRIGGER_NAME         | EVENT_OBJECT_TABLE | ACTION_TIMING | EVENT_MANIPULATION |
@@ -166,7 +166,7 @@ WHERE trigger_schema = 'sakila'
 ORDER BY event_object_table, trigger_name
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 6
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-06
 -- the stored procedures and functions.
 -- +----------------------------+--------------+
 -- | ROUTINE_NAME               | ROUTINE_TYPE |
@@ -182,4 +182,92 @@ SELECT routine_name, routine_type
 FROM information_schema.routines
 WHERE routine_schema = 'sakila'
 ORDER BY routine_type, routine_name
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-07
+-- the views, and whether each is updatable.
+-- +----------------------------+--------------+
+-- | TABLE_NAME                 | IS_UPDATABLE |
+-- +----------------------------+--------------+
+-- | actor_info                 | NO           |
+-- | customer_list              | YES          |
+-- | film_list                  | NO           |
+-- | nicer_but_slower_film_list | NO           |
+-- | sales_by_film_category     | NO           |
+-- | sales_by_store             | NO           |
+-- | staff_list                 | YES          |
+-- +----------------------------+--------------+
+SELECT table_name, is_updatable
+FROM information_schema.views
+WHERE table_schema = 'sakila'
+ORDER BY table_name
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-08
+-- the tables whose primary key has more than one column.
+-- +-------------------+---------+
+-- | TABLE_NAME        | columns |
+-- +-------------------+---------+
+-- | better_employment |       2 |
+-- | film_actor        |       2 |
+-- | film_category     |       2 |
+-- +-------------------+---------+
+SELECT table_name, COUNT(*) AS columns
+FROM information_schema.key_column_usage
+WHERE table_schema = 'sakila'
+  AND constraint_name = 'PRIMARY'
+GROUP BY table_name
+HAVING COUNT(*) > 1
+ORDER BY table_name
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-09
+-- the ENUM and SET columns.
+-- +----------------------------+------------------+---------------------------------------------------------------------+
+-- | TABLE_NAME                 | COLUMN_NAME      | COLUMN_TYPE                                                         |
+-- +----------------------------+------------------+---------------------------------------------------------------------+
+-- | film                       | rating           | enum('G','PG','PG-13','R','NC-17')                                  |
+-- | film                       | special_features | set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') |
+-- | film_list                  | rating           | enum('G','PG','PG-13','R','NC-17')                                  |
+-- | nicer_but_slower_film_list | rating           | enum('G','PG','PG-13','R','NC-17')                                  |
+-- +----------------------------+------------------+---------------------------------------------------------------------+
+SELECT table_name, column_name, column_type
+FROM information_schema.columns
+WHERE table_schema = 'sakila'
+  AND data_type IN ('enum', 'set')
+ORDER BY table_name, column_name
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-10
+-- the foreign keys which do not restrict a delete.
+-- +------------+-------------------+-----------------------+-------------+-------------+
+-- | TABLE_NAME | CONSTRAINT_NAME   | REFERENCED_TABLE_NAME | UPDATE_RULE | DELETE_RULE |
+-- +------------+-------------------+-----------------------+-------------+-------------+
+-- | payment    | fk_payment_rental | rental                | CASCADE     | SET NULL    |
+-- +------------+-------------------+-----------------------+-------------+-------------+
+SELECT table_name, constraint_name, referenced_table_name, update_rule, delete_rule
+FROM information_schema.referential_constraints
+WHERE constraint_schema = 'sakila'
+  AND delete_rule <> 'RESTRICT'
+ORDER BY table_name, constraint_name
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-11
+-- the unique keys other than the primary keys, column by column.
+-- +-------------------+------------------------------+--------------+------------------+
+-- | TABLE_NAME        | INDEX_NAME                   | SEQ_IN_INDEX | COLUMN_NAME      |
+-- +-------------------+------------------------------+--------------+------------------+
+-- | better_employment | uk_better_employment_manager |            1 | manager          |
+-- | better_employment | uk_better_employment_manager |            2 | store_id         |
+-- | rental            | rental_date                  |            1 | rental_date      |
+-- | rental            | rental_date                  |            2 | inventory_id     |
+-- | rental            | rental_date                  |            3 | customer_id      |
+-- | store             | idx_unique_manager           |            1 | manager_staff_id |
+-- +-------------------+------------------------------+--------------+------------------+
+SELECT table_name, index_name, seq_in_index, column_name
+FROM information_schema.statistics
+WHERE table_schema = 'sakila'
+  AND non_unique = 0
+  AND index_name <> 'PRIMARY'
+ORDER BY table_name, index_name, seq_in_index
 ;

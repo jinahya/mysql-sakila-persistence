@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------------------- SAKILA-ACTOR_INFO-I-01
 -- whether the view has a row for every actor.
 -- +------------+-------+
 -- | actor_info | actor |
@@ -34,4 +34,48 @@
 -- |        200 |   200 |
 -- +------------+-------+
 SELECT (SELECT COUNT(*) FROM actor_info) AS actor_info, (SELECT COUNT(*) FROM actor) AS actor
+;
+
+-- ---------------------------------------------------------------------------------------------- SAKILA-ACTOR_INFO-I-02
+-- the actors whose film_info covers every category.
+-- +----------+------------+-----------+
+-- | actor_id | first_name | last_name |
+-- +----------+------------+-----------+
+-- |       13 | UMA        | WOOD      |
+-- |       72 | SEAN       | WILLIAMS  |
+-- |       95 | DARYL      | WAHLBERG  |
+-- |      106 | GROUCHO    | DUNST     |
+-- |      107 | GINA       | DEGENERES |
+-- |      127 | KEVIN      | GARLAND   |
+-- |      139 | EWAN       | GOODING   |
+-- |      155 | IAN        | TANDY     |
+-- |      161 | HARVEY     | HOPE      |
+-- |      185 | MICHAEL    | BOLGER    |
+-- |      197 | REESE      | WEST      |
+-- +----------+------------+-----------+
+SELECT actor_id, first_name, last_name
+FROM actor_info
+WHERE CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')) = (SELECT COUNT(*) FROM category)
+ORDER BY actor_id
+;
+
+-- ---------------------------------------------------------------------------------------------- SAKILA-ACTOR_INFO-I-03
+-- how many actors cover how many categories.
+-- +------------+--------+
+-- | categories | actors |
+-- +------------+--------+
+-- |         16 |     11 |
+-- |         15 |     19 |
+-- |         14 |     49 |
+-- |         13 |     57 |
+-- |         12 |     33 |
+-- |         11 |     19 |
+-- |         10 |      8 |
+-- |          9 |      2 |
+-- |          8 |      2 |
+-- +------------+--------+
+SELECT CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')) AS categories, COUNT(*) AS actors
+FROM actor_info
+GROUP BY categories
+ORDER BY categories DESC
 ;

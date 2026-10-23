@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-I-01
 -- the first five addresses, with their city and country.
 -- +------------+----------------------+------------+-----------+
 -- | address_id | address              | city       | country   |
@@ -42,4 +42,46 @@ FROM address a
          JOIN city ci ON ci.city_id = a.city_id
          JOIN country co ON co.country_id = ci.country_id
 ORDER BY a.address_id LIMIT 5
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-I-02
+-- the district names found in more than one country.
+-- +------------------+-----------+
+-- | district         | countries |
+-- +------------------+-----------+
+-- | Central          |         3 |
+-- | al-Sharqiya      |         2 |
+-- | Distrito Federal |         2 |
+-- | Ontario          |         2 |
+-- | Punjab           |         2 |
+-- | Sucre            |         2 |
+-- +------------------+-----------+
+SELECT a.district, COUNT(DISTINCT ci.country_id) AS countries
+FROM address a
+         JOIN city ci ON ci.city_id = a.city_id
+WHERE a.district <> ''
+GROUP BY a.district
+HAVING COUNT(DISTINCT ci.country_id) > 1
+ORDER BY countries DESC, a.district
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-I-03
+-- how many addresses belong to a store, a staff member or a customer.
+-- +----------+-----------+
+-- | used_by  | addresses |
+-- +----------+-----------+
+-- | customer |       599 |
+-- | staff    |         2 |
+-- | store    |         2 |
+-- +----------+-----------+
+SELECT CASE
+           WHEN EXISTS (SELECT 1 FROM store s WHERE s.address_id = a.address_id) THEN 'store'
+           WHEN EXISTS (SELECT 1 FROM staff s WHERE s.address_id = a.address_id) THEN 'staff'
+           WHEN EXISTS (SELECT 1 FROM customer c WHERE c.address_id = a.address_id) THEN 'customer'
+           ELSE 'none'
+           END  AS used_by,
+       COUNT(*) AS addresses
+FROM address a
+GROUP BY used_by
+ORDER BY addresses DESC, used_by
 ;

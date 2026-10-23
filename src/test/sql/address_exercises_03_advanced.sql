@@ -27,7 +27,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-A-01
 -- the addresses no customer, staff member or store has.
 -- no rows.
 SELECT a.*
@@ -36,4 +36,53 @@ WHERE NOT EXISTS (SELECT 1 FROM customer c WHERE c.address_id = a.address_id)
   AND NOT EXISTS (SELECT 1 FROM staff s WHERE s.address_id = a.address_id)
   AND NOT EXISTS (SELECT 1 FROM store s WHERE s.address_id = a.address_id)
 ORDER BY a.address_id
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-A-02
+-- the pairs of addresses which share a postal code.
+-- +------------+------------------------------+------------------+------------------------+-------------+
+-- | address_id | address                      | other_address_id | other_address          | postal_code |
+-- +------------+------------------------------+------------------+------------------------+-------------+
+-- |        221 | 866 Shivapuri Manor          |              595 | 1074 Sanaa Parkway     | 22474       |
+-- |        304 | 1635 Kuwana Boulevard        |              603 | 1103 Quilmes Boulevard | 52137       |
+-- |        313 | 1191 Sungai Petani Boulevard |              476 | 270 Tambaram Parkway   | 9668        |
+-- +------------+------------------------------+------------------+------------------------+-------------+
+SELECT a1.address_id,
+       a1.address,
+       a2.address_id AS other_address_id,
+       a2.address    AS other_address,
+       a1.postal_code
+FROM address a1
+         JOIN address a2 ON a2.postal_code = a1.postal_code AND a2.address_id > a1.address_id
+WHERE a1.postal_code <> ''
+ORDER BY a1.address_id, a2.address_id
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-A-03
+-- the three districts with the most addresses in each of India, China and the United States.
+-- +---------------+---------------+-----------+
+-- | country       | district      | addresses |
+-- +---------------+---------------+-----------+
+-- | China         | Shandong      |         9 |
+-- | China         | Hubei         |         5 |
+-- | China         | Guangdong     |         4 |
+-- | India         | West Bengali  |         9 |
+-- | India         | Uttar Pradesh |         8 |
+-- | India         | Maharashtra   |         7 |
+-- | United States | California    |         9 |
+-- | United States | Texas         |         5 |
+-- | United States | Illinois      |         4 |
+-- +---------------+---------------+-----------+
+SELECT country, district, addresses
+FROM (SELECT co.country,
+             a.district,
+             COUNT(*)                                                                       AS addresses,
+             ROW_NUMBER() OVER (PARTITION BY co.country_id ORDER BY COUNT(*) DESC, a.district) AS district_rank
+      FROM address a
+               JOIN city ci ON ci.city_id = a.city_id
+               JOIN country co ON co.country_id = ci.country_id
+      WHERE co.country IN ('India', 'China', 'United States')
+      GROUP BY co.country_id, co.country, a.district) ranked
+WHERE district_rank <= 3
+ORDER BY country, district_rank
 ;

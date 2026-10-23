@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-01
 -- the five films with the most actors.
 -- +---------+-------------------+--------+
 -- | film_id | title             | actors |
@@ -44,7 +44,7 @@ GROUP BY f.film_id, f.title
 ORDER BY actors DESC, f.film_id LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-02
 -- how many actors a film has, on average.
 -- +----------------+
 -- | average_actors |
@@ -53,4 +53,51 @@ ORDER BY actors DESC, f.film_id LIMIT 5
 -- +----------------+
 SELECT ROUND(AVG(actors), 2) AS average_actors
 FROM (SELECT COUNT(*) AS actors FROM film_actor GROUP BY film_id) t
+;
+
+-- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-03
+-- the five actors who appear most often with the actor 1.
+-- +----------+------------+-----------+-------+
+-- | actor_id | first_name | last_name | films |
+-- +----------+------------+-----------+-------+
+-- |        4 | JENNIFER   | DAVIS     |     4 |
+-- |       20 | LUCILLE    | TRACY     |     3 |
+-- |       64 | RAY        | JOHANSSON |     3 |
+-- |        6 | BETTE      | NICHOLSON |     2 |
+-- |       10 | CHRISTIAN  | GABLE     |     2 |
+-- +----------+------------+-----------+-------+
+SELECT fa2.actor_id, a.first_name, a.last_name, COUNT(*) AS films
+FROM film_actor fa1
+         JOIN film_actor fa2 ON fa2.film_id = fa1.film_id AND fa2.actor_id <> fa1.actor_id
+         JOIN actor a ON a.actor_id = fa2.actor_id
+WHERE fa1.actor_id = 1
+GROUP BY fa2.actor_id, a.first_name, a.last_name
+ORDER BY films DESC, fa2.actor_id
+LIMIT 5
+;
+
+-- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-04
+-- how many films have one actor, two actors, and so on.
+-- +--------+-------+
+-- | actors | films |
+-- +--------+-------+
+-- |      1 |    21 |
+-- |      2 |    69 |
+-- |      3 |   119 |
+-- |      4 |   137 |
+-- |      5 |   195 |
+-- |      6 |   150 |
+-- |      7 |   119 |
+-- |      8 |    90 |
+-- |      9 |    49 |
+-- |     10 |    21 |
+-- |     11 |    14 |
+-- |     12 |     6 |
+-- |     13 |     6 |
+-- |     15 |     1 |
+-- +--------+-------+
+SELECT actors, COUNT(*) AS films
+FROM (SELECT film_id, COUNT(*) AS actors FROM film_actor GROUP BY film_id) t
+GROUP BY actors
+ORDER BY actors
 ;

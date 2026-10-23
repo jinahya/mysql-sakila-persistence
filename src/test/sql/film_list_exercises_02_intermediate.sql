@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-I-01
 -- whether the view has a row for every film which has a category.
 -- +-----------+-----------------------+
 -- | film_list | films_with_a_category |
@@ -35,4 +35,35 @@
 -- +-----------+-----------------------+
 SELECT (SELECT COUNT(*) FROM film_list)                    AS film_list,
        (SELECT COUNT(DISTINCT film_id) FROM film_category) AS films_with_a_category
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-I-02
+-- how many films of each rating there are at each price.
+-- +--------+------------+------------+------------+
+-- | rating | price_0_99 | price_2_99 | price_4_99 |
+-- +--------+------------+------------+------------+
+-- | G      |         64 |         59 |         55 |
+-- | PG     |         62 |         64 |         68 |
+-- | PG-13  |         72 |         74 |         77 |
+-- | R      |         70 |         60 |         65 |
+-- | NC-17  |         73 |         66 |         71 |
+-- +--------+------------+------------+------------+
+SELECT rating,
+       SUM(CASE WHEN price = 0.99 THEN 1 ELSE 0 END) AS price_0_99,
+       SUM(CASE WHEN price = 2.99 THEN 1 ELSE 0 END) AS price_2_99,
+       SUM(CASE WHEN price = 4.99 THEN 1 ELSE 0 END) AS price_4_99
+FROM film_list
+GROUP BY rating
+ORDER BY rating
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-I-03
+-- the films whose actors string lists a different number of actors than film_actor.
+-- no rows.
+SELECT l.FID, l.title
+FROM film_list l
+WHERE l.actors IS NOT NULL
+  AND LENGTH(l.actors) - LENGTH(REPLACE(l.actors, ',', '')) + 1
+          <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = l.FID)
+ORDER BY l.FID
 ;

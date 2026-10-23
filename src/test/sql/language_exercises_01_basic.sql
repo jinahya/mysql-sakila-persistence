@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-B-01
 -- every language.
 -- +-------------+----------+---------------------+
 -- | language_id | name     | last_update         |
@@ -43,7 +43,7 @@ FROM language
 ORDER BY language_id
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-B-02
 -- how many films have an original language.
 -- +-------+
 -- | films |
@@ -53,4 +53,35 @@ ORDER BY language_id
 SELECT COUNT(*) AS films
 FROM film
 WHERE original_language_id IS NOT NULL
+;
+
+-- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-B-03
+-- which of four languages the table has.
+-- +---------+
+-- | name    |
+-- +---------+
+-- | English |
+-- | French  |
+-- | German  |
+-- +---------+
+SELECT name
+FROM language
+WHERE name IN ('English', 'French', 'German', 'Spanish')
+ORDER BY name
+;
+
+-- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-B-04
+-- the languages whose name ends with an or ese.
+-- +-------------+----------+
+-- | language_id | name     |
+-- +-------------+----------+
+-- |           6 | German   |
+-- |           2 | Italian  |
+-- |           3 | Japanese |
+-- +-------------+----------+
+SELECT language_id, name
+FROM language
+WHERE name LIKE '%an'
+   OR name LIKE '%ese'
+ORDER BY name
 ;

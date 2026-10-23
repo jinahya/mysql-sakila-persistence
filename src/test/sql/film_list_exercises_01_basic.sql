@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-B-01
 -- how many Action films there are.
 -- +-------+
 -- | films |
@@ -38,7 +38,7 @@ FROM film_list
 WHERE category = 'Action'
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-B-02
 -- the actors of the film 1.
 -- +-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
 -- | FID | title            | actors                                                                                                                                         |
@@ -48,4 +48,42 @@ WHERE category = 'Action'
 SELECT FID, title, actors
 FROM film_list
 WHERE FID = 1
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-B-03
+-- the Children films rated G.
+-- +-----+----------------------+--------+
+-- | FID | title                | length |
+-- +-----+----------------------+--------+
+-- | 238 | DOCTOR GRAIL         |     57 |
+-- | 280 | EMPIRE MALKOVICH     |    177 |
+-- | 304 | FARGO GANDHI         |    130 |
+-- | 354 | GHOST GROUNDHOG      |     85 |
+-- | 373 | GRADUATE LORD        |    156 |
+-- | 409 | HEARTBREAKERS BRIGHT |     59 |
+-- | 626 | NOON PAPI            |     57 |
+-- | 853 | STRANGER STRANGERS   |    139 |
+-- | 873 | SWEETHEARTS SUSPECTS |    108 |
+-- | 959 | WARLOCK WEREWOLF     |     83 |
+-- +-----+----------------------+--------+
+SELECT FID, title, length
+FROM film_list
+WHERE category = 'Children'
+  AND rating = 'G'
+ORDER BY title, FID
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-B-04
+-- the films with no actor.
+-- +-----+------------------+----------+
+-- | FID | title            | category |
+-- +-----+------------------+----------+
+-- | 257 | DRUMLINE CYCLONE | Travel   |
+-- | 323 | FLIGHT LIES      | Sports   |
+-- | 803 | SLACKER LIAISONS | Drama    |
+-- +-----+------------------+----------+
+SELECT FID, title, category
+FROM film_list
+WHERE actors IS NULL
+ORDER BY FID
 ;

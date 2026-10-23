@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------ SAKILA-SALES_BY_STORE-I-01
 -- whether the stores' sales add up to every payment with a rental.
 -- +----------+---------------+
 -- | by_store | with_a_rental |
@@ -35,4 +35,20 @@
 -- +----------+---------------+
 SELECT (SELECT SUM(total_sales) FROM sales_by_store)                 AS by_store,
        (SELECT SUM(amount) FROM payment WHERE rental_id IS NOT NULL) AS with_a_rental
+;
+
+-- ------------------------------------------------------------------------------------------ SAKILA-SALES_BY_STORE-I-02
+-- each store's sales, next to what its manager took.
+-- +---------------------+--------------+-------------+------------------+
+-- | store               | manager      | total_sales | taken_by_manager |
+-- +---------------------+--------------+-------------+------------------+
+-- | Lethbridge,Canada   | Mike Hillyer |    33679.79 |         33482.50 |
+-- | Woodridge,Australia | Jon Stephens |    33726.77 |         33924.06 |
+-- +---------------------+--------------+-------------+------------------+
+SELECT v.store, v.manager, v.total_sales, SUM(p.amount) AS taken_by_manager
+FROM sales_by_store v
+         JOIN staff s ON CONCAT(s.first_name, ' ', s.last_name) = v.manager
+         JOIN payment p ON p.staff_id = s.staff_id
+GROUP BY v.store, v.manager, v.total_sales
+ORDER BY v.store
 ;

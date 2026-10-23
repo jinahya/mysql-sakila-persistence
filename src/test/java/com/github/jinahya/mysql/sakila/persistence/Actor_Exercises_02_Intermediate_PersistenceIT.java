@@ -183,4 +183,112 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
             assertThat(list).isEmpty();
         }
     }
+
+    @DisplayName("exercise 4: the five most common first names")
+    @Nested
+    class Exercise4Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a.firstName, COUNT(a)
+                                            FROM Actor a
+                                            GROUP BY a.firstName
+                                            ORDER BY COUNT(a) DESC, a.firstName""",
+                                    Object[].class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("JULIA", 4L),
+                            tuple("KENNETH", 4L),
+                            tuple("PENELOPE", 4L),
+                            tuple("BURT", 3L),
+                            tuple("CAMERON", 3L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Actor.class);
+                cq.select(cb.array(a.get(Actor_.firstName), cb.count(a)))
+                        .groupBy(a.get(Actor_.firstName))
+                        .orderBy(cb.desc(cb.count(a)), cb.asc(a.get(Actor_.firstName)));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("JULIA", 4L),
+                            tuple("KENNETH", 4L),
+                            tuple("PENELOPE", 4L),
+                            tuple("BURT", 3L),
+                            tuple("CAMERON", 3L));
+        }
+    }
+
+    @DisplayName("exercise 5: the five most common last names")
+    @Nested
+    class Exercise5Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a.lastName, COUNT(a)
+                                            FROM Actor a
+                                            GROUP BY a.lastName
+                                            ORDER BY COUNT(a) DESC, a.lastName""",
+                                    Object[].class
+                            )
+                            .setMaxResults(5)
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("KILMER", 5L),
+                            tuple("NOLTE", 4L),
+                            tuple("TEMPLE", 4L),
+                            tuple("AKROYD", 3L),
+                            tuple("ALLEN", 3L));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var a = cq.from(Actor.class);
+                cq.select(cb.array(a.get(Actor_.lastName), cb.count(a)))
+                        .groupBy(a.get(Actor_.lastName))
+                        .orderBy(cb.desc(cb.count(a)), cb.asc(a.get(Actor_.lastName)));
+                return em.createQuery(cq)
+                        .setMaxResults(5)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertThat(list)
+                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
+                    .containsExactly(
+                            tuple("KILMER", 5L),
+                            tuple("NOLTE", 4L),
+                            tuple("TEMPLE", 4L),
+                            tuple("AKROYD", 3L),
+                            tuple("ALLEN", 3L));
+        }
+    }
 }

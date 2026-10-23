@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-I-01
 -- how many films have no copy in the inventory.
 -- +-------+
 -- | films |
@@ -38,7 +38,7 @@ FROM film f
 WHERE NOT EXISTS (SELECT 1 FROM inventory i WHERE i.film_id = f.film_id)
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-I-02
 -- the five films rented the most.
 -- +---------+--------------------+---------+
 -- | film_id | title              | rentals |
@@ -55,4 +55,35 @@ FROM film f
          JOIN rental r ON r.inventory_id = i.inventory_id
 GROUP BY f.film_id, f.title
 ORDER BY rentals DESC, f.film_id LIMIT 5
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-I-03
+-- how many films are short, medium and long.
+-- +--------+-------+
+-- | size   | films |
+-- +--------+-------+
+-- | short  |    96 |
+-- | medium |   447 |
+-- | long   |   457 |
+-- +--------+-------+
+SELECT CASE WHEN length < 60 THEN 'short' WHEN length <= 120 THEN 'medium' ELSE 'long' END AS size,
+       COUNT(*) AS films
+FROM film
+GROUP BY size
+ORDER BY MIN(length)
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-FILM-I-04
+-- the ratings whose films are longer than the average film.
+-- +--------+----------------+
+-- | rating | average_length |
+-- +--------+----------------+
+-- | PG-13  |         120.44 |
+-- | R      |         118.66 |
+-- +--------+----------------+
+SELECT rating, ROUND(AVG(length), 2) AS average_length
+FROM film
+GROUP BY rating
+HAVING AVG(length) > (SELECT AVG(length) FROM film)
+ORDER BY rating
 ;

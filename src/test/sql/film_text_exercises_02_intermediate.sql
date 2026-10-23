@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-01
 -- whether film_text has a row for every film.
 -- +-----------+------+
 -- | film_text | film |
@@ -36,7 +36,7 @@
 SELECT (SELECT COUNT(*) FROM film_text) AS film_text, (SELECT COUNT(*) FROM film) AS film
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-02
 -- how many films mention a Drama, by the full-text index.
 -- +-------+
 -- | films |
@@ -48,11 +48,36 @@ FROM film_text
 WHERE MATCH (title, description) AGAINST ('drama')
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 3
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-03
 -- the films whose film_text title differs from their title.
 -- no rows.
 SELECT f.film_id, f.title, ft.title AS film_text_title
 FROM film f
          JOIN film_text ft ON ft.film_id = f.film_id
 WHERE ft.title <> f.title
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-04
+-- how many films mention a Boat but not a Shark, by the full-text index.
+-- +-------+
+-- | films |
+-- +-------+
+-- |   143 |
+-- +-------+
+SELECT COUNT(*) AS films
+FROM film_text
+WHERE MATCH(title, description) AGAINST ('+boat -shark' IN BOOLEAN MODE)
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-05
+-- how many films mention a Crocodile or a Shark, and how many mention both.
+-- +-------------+------------+
+-- | either_word | both_words |
+-- +-------------+------------+
+-- |         203 |         10 |
+-- +-------------+------------+
+SELECT (SELECT COUNT(*) FROM film_text WHERE MATCH(title, description) AGAINST ('crocodile shark')) AS either_word,
+       (SELECT COUNT(*)
+        FROM film_text
+        WHERE MATCH(title, description) AGAINST ('+crocodile +shark' IN BOOLEAN MODE)) AS both_words
 ;

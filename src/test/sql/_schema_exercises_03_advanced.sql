@@ -19,15 +19,15 @@
 -- -
 --
 -- Exercises at the advanced level on the schema as a whole, with window functions, relational division and graphs, not
--- on a single table; the exercises on each table and view are in its own {table}_exercises.sql. Each poses a question,
--- answers it, and shows what the installed data gives back.
+-- on a single table; the exercises on each table and view are in its own {table}_exercises_*.sql. Each poses a
+-- question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/_schema_03_advanced_intermediate_exercises.sql
+--   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/_schema_exercises_03_advanced.sql
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-01
 -- the customer who paid the most in each of the five countries which paid the most.
 -- +---------------+-------------+------------+-----------+--------+---------------+
 -- | country       | customer_id | first_name | last_name | total  | country_total |
@@ -54,7 +54,7 @@ WHERE rank_in_country = 1
 ORDER BY country_total DESC LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-02
 -- the customers who rented a film of every category.
 -- +-------------+------------+-----------+
 -- | customer_id | first_name | last_name |
@@ -75,7 +75,7 @@ HAVING COUNT(DISTINCT fc.category_id) = (SELECT COUNT(*) FROM category)
 ORDER BY c.customer_id LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 3
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-03
 -- the running total of the payments, on the first five days.
 -- +------------+--------+---------------+
 -- | day        | total  | running_total |
@@ -92,7 +92,7 @@ ORDER BY day
     LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 4
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-04
 -- each month's payments, and the change from the month before.
 -- +---------+----------+----------------------+
 -- | month   | total    | change_from_previous |
@@ -108,7 +108,7 @@ FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM (amount) AS total 
 ORDER BY month
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 5
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-05
 -- the three films rented the most at each store.
 -- +----------+---------+----------------------+---------+
 -- | store_id | film_id | title                | rentals |
@@ -134,7 +134,7 @@ WHERE n <= 3
 ORDER BY store_id, n
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 6
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-06
 -- how many actors are one film, and how many two films, away from KEVIN BLOOM; a Bacon number, Sakila having no KEVIN
 -- BACON.
 -- +--------+--------+
@@ -160,7 +160,7 @@ GROUP BY number
 ORDER BY number
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 7
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-07
 -- the films none of whose copies is in, right now.
 -- no rows.
 SELECT f.film_id, f.title, COUNT(*) AS copies
@@ -171,4 +171,64 @@ HAVING SUM(EXISTS (SELECT 1
                    FROM rental r
                    WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)) = COUNT(*)
 ORDER BY f.film_id
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-08
+-- the five longest runs of days on which a customer rented every day.
+-- +-------------+------------+-----------+------------+------------+------+
+-- | customer_id | first_name | last_name | first_day  | last_day   | days |
+-- +-------------+------------+-----------+------------+------------+------+
+-- |          42 | CAROLYN    | PEREZ     | 2005-07-26 | 2005-08-02 |    8 |
+-- |         181 | ANA        | BRADLEY   | 2005-07-26 | 2005-08-02 |    8 |
+-- |         290 | KRISTINA   | CHAMBERS  | 2005-07-26 | 2005-08-02 |    8 |
+-- |         306 | CHARLES    | KOWALSKI  | 2005-07-26 | 2005-08-02 |    8 |
+-- |         373 | LOUIS      | LEONE     | 2005-07-26 | 2005-08-02 |    8 |
+-- +-------------+------------+-----------+------------+------------+------+
+WITH days AS (SELECT DISTINCT customer_id, DATE(rental_date) AS day
+              FROM rental),
+     islands AS (SELECT customer_id, day,
+                        DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY day) DAY) AS island
+                 FROM days)
+SELECT c.customer_id, c.first_name, c.last_name, MIN(i.day) AS first_day, MAX(i.day) AS last_day, COUNT(*) AS days
+FROM islands i
+         JOIN customer c ON c.customer_id = i.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name, i.island
+ORDER BY days DESC, c.customer_id, first_day
+LIMIT 5
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-09
+-- the countries none of whose customers rented a Music film.
+-- +------------------+-----------+
+-- | country          | customers |
+-- +------------------+-----------+
+-- | Afghanistan      |         1 |
+-- | Bahrain          |         1 |
+-- | Finland          |         1 |
+-- | French Polynesia |         2 |
+-- | Iraq             |         1 |
+-- | Liechtenstein    |         1 |
+-- | Madagascar       |         1 |
+-- | New Zealand      |         1 |
+-- | Slovakia         |         1 |
+-- | Sri Lanka        |         1 |
+-- | Turkmenistan     |         1 |
+-- +------------------+-----------+
+SELECT co.country, COUNT(*) AS customers
+FROM country co
+         JOIN city ci ON ci.country_id = co.country_id
+         JOIN address a ON a.city_id = ci.city_id
+         JOIN customer cu ON cu.address_id = a.address_id
+WHERE NOT EXISTS (SELECT 1
+                  FROM customer cu2
+                           JOIN address a2 ON a2.address_id = cu2.address_id
+                           JOIN city ci2 ON ci2.city_id = a2.city_id
+                           JOIN rental r ON r.customer_id = cu2.customer_id
+                           JOIN inventory i ON i.inventory_id = r.inventory_id
+                           JOIN film_category fc ON fc.film_id = i.film_id
+                           JOIN category c ON c.category_id = fc.category_id
+                  WHERE ci2.country_id = co.country_id
+                    AND c.name = 'Music')
+GROUP BY co.country_id, co.country
+ORDER BY co.country
 ;

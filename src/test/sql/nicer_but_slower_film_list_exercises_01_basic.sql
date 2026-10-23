@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-01
 -- the actors of the film 1, as this view writes them.
 -- +-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
 -- | FID | title            | actors                                                                                                                                         |
@@ -36,4 +36,31 @@
 SELECT FID, title, actors
 FROM nicer_but_slower_film_list
 WHERE FID = 1
+;
+
+-- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-02
+-- how many films PENELOPE GUINESS plays in, by the view's actors.
+-- +-------+
+-- | films |
+-- +-------+
+-- |    19 |
+-- +-------+
+SELECT COUNT(*) AS films
+FROM nicer_but_slower_film_list
+WHERE actors LIKE '%Penelope Guiness%'
+;
+
+-- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-03
+-- the films which have no actors.
+-- +-----+------------------+----------+
+-- | FID | title            | category |
+-- +-----+------------------+----------+
+-- | 257 | DRUMLINE CYCLONE | Travel   |
+-- | 323 | FLIGHT LIES      | Sports   |
+-- | 803 | SLACKER LIAISONS | Drama    |
+-- +-----+------------------+----------+
+SELECT FID, title, category
+FROM nicer_but_slower_film_list
+WHERE actors IS NULL
+ORDER BY FID
 ;

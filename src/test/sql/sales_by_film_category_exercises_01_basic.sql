@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-B-01
 -- the three categories which sold the most.
 -- +-----------+-------------+
 -- | category  | total_sales |
@@ -37,4 +37,35 @@
 -- +-----------+-------------+
 SELECT category, total_sales
 FROM sales_by_film_category LIMIT 3
+;
+
+-- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-B-02
+-- the categories which sold between 4000 and 4500.
+-- +-------------+-------------+
+-- | category    | total_sales |
+-- +-------------+-------------+
+-- | Action      |     4375.85 |
+-- | Comedy      |     4383.58 |
+-- | Documentary |     4217.52 |
+-- | Family      |     4226.07 |
+-- | Foreign     |     4270.67 |
+-- | Games       |     4281.33 |
+-- | New         |     4351.62 |
+-- +-------------+-------------+
+SELECT category, total_sales
+FROM sales_by_film_category
+WHERE total_sales BETWEEN 4000 AND 4500
+ORDER BY category
+;
+
+-- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-B-03
+-- how many categories sold less than 4000, and how much they sold together.
+-- +------------+----------+
+-- | categories | total    |
+-- +------------+----------+
+-- |          5 | 17985.04 |
+-- +------------+----------+
+SELECT COUNT(*) AS categories, SUM(total_sales) AS total
+FROM sales_by_film_category
+WHERE total_sales < 4000
 ;

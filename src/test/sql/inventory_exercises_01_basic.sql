@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-B-01
 -- how many copies each store has.
 -- +----------+--------+
 -- | store_id | copies |
@@ -38,4 +38,44 @@ SELECT store_id, COUNT(*) AS copies
 FROM inventory
 GROUP BY store_id
 ORDER BY store_id
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-B-02
+-- the copies of the film 1.
+-- +--------------+----------+
+-- | inventory_id | store_id |
+-- +--------------+----------+
+-- |            1 |        1 |
+-- |            2 |        1 |
+-- |            3 |        1 |
+-- |            4 |        1 |
+-- |            5 |        2 |
+-- |            6 |        2 |
+-- |            7 |        2 |
+-- |            8 |        2 |
+-- +--------------+----------+
+SELECT inventory_id, store_id
+FROM inventory
+WHERE film_id = 1
+ORDER BY inventory_id
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-B-03
+-- how many copies of the films 1 to 5 each store has.
+-- +---------+----------+--------+
+-- | film_id | store_id | copies |
+-- +---------+----------+--------+
+-- |       1 |        1 |      4 |
+-- |       1 |        2 |      4 |
+-- |       2 |        2 |      3 |
+-- |       3 |        2 |      4 |
+-- |       4 |        1 |      4 |
+-- |       4 |        2 |      3 |
+-- |       5 |        2 |      3 |
+-- +---------+----------+--------+
+SELECT film_id, store_id, COUNT(*) AS copies
+FROM inventory
+WHERE film_id BETWEEN 1 AND 5
+GROUP BY film_id, store_id
+ORDER BY film_id, store_id
 ;

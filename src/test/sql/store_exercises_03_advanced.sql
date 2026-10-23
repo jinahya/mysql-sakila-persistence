@@ -27,7 +27,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- --------------------------------------------------------------------------------------------------- SAKILA-STORE-A-01
 -- how many films each store has a copy of, and how many of them only that store has.
 -- +----------+-------+-----------------+
 -- | store_id | films | films_only_here |
@@ -47,4 +47,28 @@ FROM store st
          JOIN inventory i ON i.store_id = st.store_id
 GROUP BY st.store_id
 ORDER BY st.store_id
+;
+
+-- --------------------------------------------------------------------------------------------------- SAKILA-STORE-A-02
+-- each store's rentals in each month, and its share of the month.
+-- +---------+----------+---------+---------+
+-- | month   | store_id | rentals | percent |
+-- +---------+----------+---------+---------+
+-- | 2005-05 |        1 |     575 |   49.74 |
+-- | 2005-05 |        2 |     581 |   50.26 |
+-- | 2005-06 |        1 |    1121 |   48.51 |
+-- | 2005-06 |        2 |    1190 |   51.49 |
+-- | 2005-07 |        1 |    3334 |   49.69 |
+-- | 2005-07 |        2 |    3375 |   50.31 |
+-- | 2005-08 |        1 |    2801 |   49.26 |
+-- | 2005-08 |        2 |    2885 |   50.74 |
+-- | 2006-02 |        1 |      92 |   50.55 |
+-- | 2006-02 |        2 |      90 |   49.45 |
+-- +---------+----------+---------+---------+
+SELECT DATE_FORMAT(r.rental_date, '%Y-%m') AS month, i.store_id, COUNT(*) AS rentals,
+       ROUND(100 * COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY DATE_FORMAT(r.rental_date, '%Y-%m')), 2) AS percent
+FROM rental r
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+GROUP BY month, i.store_id
+ORDER BY month, i.store_id
 ;

@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-01
 -- the five films with the most copies.
 -- +---------+------------------+--------+
 -- | film_id | title            | copies |
@@ -44,7 +44,7 @@ GROUP BY f.film_id, f.title
 ORDER BY copies DESC, f.film_id LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-02
 -- how many copies were never rented.
 -- +--------+
 -- | copies |
@@ -54,4 +54,43 @@ ORDER BY copies DESC, f.film_id LIMIT 5
 SELECT COUNT(*) AS copies
 FROM inventory i
 WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id)
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-03
+-- how many copies each store has out right now.
+-- +----------+------------+
+-- | store_id | copies_out |
+-- +----------+------------+
+-- |        1 |         92 |
+-- |        2 |         91 |
+-- +----------+------------+
+SELECT i.store_id, COUNT(*) AS copies_out
+FROM inventory i
+         JOIN rental r ON r.inventory_id = i.inventory_id
+WHERE r.return_date IS NULL
+GROUP BY i.store_id
+ORDER BY i.store_id
+;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-04
+-- how many copies of each rating each store has.
+-- +----------+--------+--------+
+-- | store_id | rating | copies |
+-- +----------+--------+--------+
+-- |        1 | G      |    394 |
+-- |        1 | PG     |    444 |
+-- |        1 | PG-13  |    525 |
+-- |        1 | R      |    442 |
+-- |        1 | NC-17  |    465 |
+-- |        2 | G      |    397 |
+-- |        2 | PG     |    480 |
+-- |        2 | PG-13  |    493 |
+-- |        2 | R      |    462 |
+-- |        2 | NC-17  |    479 |
+-- +----------+--------+--------+
+SELECT i.store_id, f.rating, COUNT(*) AS copies
+FROM inventory i
+         JOIN film f ON f.film_id = i.film_id
+GROUP BY i.store_id, f.rating
+ORDER BY i.store_id, f.rating
 ;

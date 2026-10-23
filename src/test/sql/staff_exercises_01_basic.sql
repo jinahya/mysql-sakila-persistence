@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- --------------------------------------------------------------------------------------------------- SAKILA-STAFF-B-01
 -- every staff member, with their store.
 -- +----------+------------+-----------+----------+--------+
 -- | staff_id | first_name | last_name | store_id | active |
@@ -36,5 +36,18 @@
 -- +----------+------------+-----------+----------+--------+
 SELECT staff_id, first_name, last_name, store_id, active
 FROM staff
+ORDER BY staff_id
+;
+
+-- --------------------------------------------------------------------------------------------------- SAKILA-STAFF-B-02
+-- the staff members who have no password.
+-- +----------+------------+-----------+----------+
+-- | staff_id | first_name | last_name | username |
+-- +----------+------------+-----------+----------+
+-- |        2 | Jon        | Stephens  | Jon      |
+-- +----------+------------+-----------+----------+
+SELECT staff_id, first_name, last_name, username
+FROM staff
+WHERE password IS NULL
 ORDER BY staff_id
 ;

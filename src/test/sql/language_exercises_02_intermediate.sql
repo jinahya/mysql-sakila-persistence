@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-I-01
 -- how many films each language has.
 -- +----------+-------+
 -- | name     | films |
@@ -42,5 +42,25 @@ SELECT l.name, COUNT(f.film_id) AS films
 FROM language l
          LEFT JOIN film f ON f.language_id = l.language_id
 GROUP BY l.language_id, l.name
+ORDER BY l.language_id
+;
+
+-- ------------------------------------------------------------------------------------------------ SAKILA-LANGUAGE-I-02
+-- the languages no film uses, either as its language or as its original language.
+-- +-------------+----------+
+-- | language_id | name     |
+-- +-------------+----------+
+-- |           2 | Italian  |
+-- |           3 | Japanese |
+-- |           4 | Mandarin |
+-- |           5 | French   |
+-- |           6 | German   |
+-- +-------------+----------+
+SELECT l.language_id, l.name
+FROM language l
+WHERE NOT EXISTS (SELECT 1
+                  FROM film f
+                  WHERE f.language_id = l.language_id
+                     OR f.original_language_id = l.language_id)
 ORDER BY l.language_id
 ;

@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-B-01
 -- the cities whose name starts with Q.
 -- +---------+-------------+------------+---------------------+
 -- | city_id | city        | country_id | last_update         |
@@ -40,4 +40,33 @@ SELECT *
 FROM city
 WHERE city LIKE 'Q%'
 ORDER BY city
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-B-02
+-- how many city names have more than one word.
+-- +--------+
+-- | cities |
+-- +--------+
+-- |     92 |
+-- +--------+
+SELECT COUNT(*) AS cities
+FROM city
+WHERE city LIKE '% %'
+;
+
+-- ---------------------------------------------------------------------------------------------------- SAKILA-CITY-B-03
+-- the five longest city names.
+-- +---------+----------------------------+-------------+
+-- | city_id | city                       | city_length |
+-- +---------+----------------------------+-------------+
+-- |     450 | San Felipe de Puerto Plata |          26 |
+-- |     452 | San Juan Bautista Tuxtepec |          26 |
+-- |     460 | Santiago de los Caballeros |          26 |
+-- |      41 | Augusta-Richmond County    |          23 |
+-- |      71 | Berhampore (Baharampur)    |          23 |
+-- +---------+----------------------------+-------------+
+SELECT city_id, city, CHAR_LENGTH(city) AS city_length
+FROM city
+ORDER BY city_length DESC, city
+LIMIT 5
 ;

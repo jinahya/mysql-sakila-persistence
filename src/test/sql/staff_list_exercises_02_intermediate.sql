@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------------------- SAKILA-STAFF_LIST-I-01
 -- whether the view has a row for every staff member.
 -- +------------+-------+
 -- | staff_list | staff |
@@ -34,4 +34,20 @@
 -- |          2 |     2 |
 -- +------------+-------+
 SELECT (SELECT COUNT(*) FROM staff_list) AS staff_list, (SELECT COUNT(*) FROM staff) AS staff
+;
+
+-- ---------------------------------------------------------------------------------------------- SAKILA-STAFF_LIST-I-02
+-- whether each staff member lives in the city of their store.
+-- +----+--------------+------------+------------+
+-- | ID | name         | lives_in   | works_in   |
+-- +----+--------------+------------+------------+
+-- |  1 | Mike Hillyer | Lethbridge | Lethbridge |
+-- |  2 | Jon Stephens | Woodridge  | Woodridge  |
+-- +----+--------------+------------+------------+
+SELECT l.ID, l.name, l.city AS lives_in, ci.city AS works_in
+FROM staff_list l
+         JOIN store st ON st.store_id = l.SID
+         JOIN address a ON a.address_id = st.address_id
+         JOIN city ci ON ci.city_id = a.city_id
+ORDER BY l.ID
 ;

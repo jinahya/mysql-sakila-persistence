@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-I-01
 -- whether the view's sales add up to every payment.
 -- +-------------+--------------+
 -- | by_category | all_payments |
@@ -35,4 +35,42 @@
 -- +-------------+--------------+
 SELECT (SELECT SUM(total_sales) FROM sales_by_film_category) AS by_category,
        (SELECT SUM(amount) FROM payment)                     AS all_payments
+;
+
+-- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-I-02
+-- the five categories which sold the most, and their share of all sales.
+-- +-----------+-------------+---------+
+-- | category  | total_sales | percent |
+-- +-----------+-------------+---------+
+-- | Sports    |     5314.21 |    7.88 |
+-- | Sci-Fi    |     4756.98 |    7.06 |
+-- | Animation |     4656.30 |    6.91 |
+-- | Drama     |     4587.39 |    6.81 |
+-- | Comedy    |     4383.58 |    6.50 |
+-- +-----------+-------------+---------+
+SELECT category, total_sales,
+       ROUND(100 * total_sales / (SELECT SUM(total_sales) FROM sales_by_film_category), 2) AS percent
+FROM sales_by_film_category
+ORDER BY total_sales DESC, category
+LIMIT 5
+;
+
+-- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-I-03
+-- the five categories which sold the most per film.
+-- +-----------+-------------+-------+----------+
+-- | category  | total_sales | films | per_film |
+-- +-----------+-------------+-------+----------+
+-- | Sci-Fi    |     4756.98 |    61 |    77.98 |
+-- | Comedy    |     4383.58 |    58 |    75.58 |
+-- | Drama     |     4587.39 |    62 |    73.99 |
+-- | Sports    |     5314.21 |    74 |    71.81 |
+-- | Animation |     4656.30 |    66 |    70.55 |
+-- +-----------+-------------+-------+----------+
+SELECT s.category, s.total_sales, COUNT(*) AS films, ROUND(s.total_sales / COUNT(*), 2) AS per_film
+FROM sales_by_film_category s
+         JOIN category c ON c.name = s.category
+         JOIN film_category fc ON fc.category_id = c.category_id
+GROUP BY s.category, s.total_sales
+ORDER BY per_film DESC, s.category
+LIMIT 5
 ;

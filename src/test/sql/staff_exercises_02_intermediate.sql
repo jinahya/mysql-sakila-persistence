@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- --------------------------------------------------------------------------------------------------- SAKILA-STAFF-I-01
 -- how many rentals each staff member handled.
 -- +----------+------------+---------+
 -- | staff_id | first_name | rentals |
@@ -41,7 +41,7 @@ GROUP BY s.staff_id, s.first_name
 ORDER BY s.staff_id
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- --------------------------------------------------------------------------------------------------- SAKILA-STAFF-I-02
 -- the staff members who manage the store they work at.
 -- +----------+------------+-----------+----------+
 -- | staff_id | first_name | last_name | store_id |
@@ -53,5 +53,23 @@ SELECT s.staff_id, s.first_name, s.last_name, st.store_id
 FROM staff s
          JOIN store st ON st.manager_staff_id = s.staff_id
 WHERE st.store_id = s.store_id
+ORDER BY s.staff_id
+;
+
+-- --------------------------------------------------------------------------------------------------- SAKILA-STAFF-I-03
+-- how many rentals each staff member handled for their own store's copies, and for the other's.
+-- +----------+------------+----------+-----------+-------------+
+-- | staff_id | first_name | store_id | own_store | other_store |
+-- +----------+------------+----------+-----------+-------------+
+-- |        1 | Mike       |        1 |      3991 |        4049 |
+-- |        2 | Jon        |        2 |      4072 |        3932 |
+-- +----------+------------+----------+-----------+-------------+
+SELECT s.staff_id, s.first_name, s.store_id,
+       SUM(CASE WHEN i.store_id = s.store_id THEN 1 ELSE 0 END) AS own_store,
+       SUM(CASE WHEN i.store_id <> s.store_id THEN 1 ELSE 0 END) AS other_store
+FROM staff s
+         JOIN rental r ON r.staff_id = s.staff_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+GROUP BY s.staff_id, s.first_name, s.store_id
 ORDER BY s.staff_id
 ;

@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------ SAKILA-SALES_BY_STORE-B-01
 -- every store's sales.
 -- +---------------------+--------------+-------------+
 -- | store               | manager      | total_sales |
@@ -35,5 +35,16 @@
 -- | Lethbridge,Canada   | Mike Hillyer |    33679.79 |
 -- +---------------------+--------------+-------------+
 SELECT store, manager, total_sales
+FROM sales_by_store
+;
+
+-- ------------------------------------------------------------------------------------------ SAKILA-SALES_BY_STORE-B-02
+-- how far apart the two stores' sales are.
+-- +------------+
+-- | difference |
+-- +------------+
+-- |      46.98 |
+-- +------------+
+SELECT MAX(total_sales) - MIN(total_sales) AS difference
 FROM sales_by_store
 ;

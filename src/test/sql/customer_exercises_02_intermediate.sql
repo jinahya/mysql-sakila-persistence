@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- exercise 1
+-- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-01
 -- the five customers who paid the most.
 -- +-------------+------------+-----------+--------+
 -- | customer_id | first_name | last_name | paid   |
@@ -44,10 +44,51 @@ GROUP BY c.customer_id, c.first_name, c.last_name
 ORDER BY paid DESC, c.customer_id LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------------------- exercise 2
+-- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-02
 -- the customers who never rented.
 -- no rows.
 SELECT c.*
 FROM customer c
 WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.customer_id = c.customer_id)
+;
+
+-- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-03
+-- the customers who rented forty times or more.
+-- +-------------+------------+-----------+---------+
+-- | customer_id | first_name | last_name | rentals |
+-- +-------------+------------+-----------+---------+
+-- |         148 | ELEANOR    | HUNT      |      46 |
+-- |         526 | KARL       | SEAL      |      45 |
+-- |         144 | CLARA      | SHAW      |      42 |
+-- |         236 | MARCIA     | DEAN      |      42 |
+-- |          75 | TAMMY      | SANDERS   |      41 |
+-- |         197 | SUE        | PETERS    |      40 |
+-- |         469 | WESLEY     | BULL      |      40 |
+-- +-------------+------------+-----------+---------+
+SELECT c.customer_id, c.first_name, c.last_name, COUNT(*) AS rentals
+FROM customer c
+         JOIN rental r ON r.customer_id = c.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+HAVING COUNT(*) >= 40
+ORDER BY rentals DESC, c.customer_id
+;
+
+-- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-04
+-- the five customers holding the most rentals not returned yet.
+-- +-------------+------------+-----------+------------+
+-- | customer_id | first_name | last_name | unreturned |
+-- +-------------+------------+-----------+------------+
+-- |          75 | TAMMY      | SANDERS   |          3 |
+-- |          15 | HELEN      | HARRIS    |          2 |
+-- |          42 | CAROLYN    | PEREZ     |          2 |
+-- |          43 | CHRISTINE  | ROBERTS   |          2 |
+-- |          53 | HEATHER    | MORRIS    |          2 |
+-- +-------------+------------+-----------+------------+
+SELECT c.customer_id, c.first_name, c.last_name, COUNT(*) AS unreturned
+FROM customer c
+         JOIN rental r ON r.customer_id = c.customer_id
+WHERE r.return_date IS NULL
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY unreturned DESC, c.customer_id
+LIMIT 5
 ;

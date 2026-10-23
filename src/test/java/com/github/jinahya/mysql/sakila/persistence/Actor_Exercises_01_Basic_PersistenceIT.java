@@ -26,6 +26,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Comparator;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -83,6 +85,104 @@ class Actor_Exercises_01_Basic_PersistenceIT {
             assertThat(list).isNotEmpty()
                     .allSatisfy(a -> assertThat(a.getLastName()).isEqualTo(lastName));
             assertThat(list).extracting(Actor::getActorId).isSorted();
+        }
+    }
+
+    @DisplayName("exercise 2: the actors whose first name starts with JU, ordered by first name")
+    @Nested
+    class Exercise2Test {
+
+        @ParameterizedTest
+        @ValueSource(strings = {"JU", "PEN", "SA"})
+        void __QueryLanguage(final String prefix) {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a
+                                            FROM Actor a
+                                            WHERE a.firstName LIKE :pattern
+                                            ORDER BY a.firstName, a.actorId""",
+                                    Actor.class
+                            )
+                            .setParameter("pattern", prefix + '%')
+                            .getResultList()
+            );
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(a -> assertThat(a.getFirstName()).startsWith(prefix))
+                    .isSortedAccordingTo(Comparator.comparing(Actor::getFirstName)
+                                                 .thenComparing(Actor::getActorId));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"JU", "PEN", "SA"})
+        void __CriteriaApi(final String prefix) {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Actor.class);
+                final var a = cq.from(Actor.class);
+                cq.select(a)
+                        .where(cb.like(a.get(Actor_.firstName),
+                                       cb.parameter(String.class, "pattern")))
+                        .orderBy(cb.asc(a.get(Actor_.firstName)), cb.asc(a.get(Actor_.actorId)));
+                return em.createQuery(cq)
+                        .setParameter("pattern", prefix + '%')
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(a -> assertThat(a.getFirstName()).startsWith(prefix))
+                    .isSortedAccordingTo(Comparator.comparing(Actor::getFirstName)
+                                                 .thenComparing(Actor::getActorId));
+        }
+    }
+
+    @DisplayName("exercise 3: the actors whose last name starts with WA, ordered by last name")
+    @Nested
+    class Exercise3Test {
+
+        @ParameterizedTest
+        @ValueSource(strings = {"WA", "GU", "KI"})
+        void __QueryLanguage(final String prefix) {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a
+                                            FROM Actor a
+                                            WHERE a.lastName LIKE :pattern
+                                            ORDER BY a.lastName, a.actorId""",
+                                    Actor.class
+                            )
+                            .setParameter("pattern", prefix + '%')
+                            .getResultList()
+            );
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(a -> assertThat(a.getLastName()).startsWith(prefix))
+                    .isSortedAccordingTo(Comparator.comparing(Actor::getLastName)
+                                                 .thenComparing(Actor::getActorId));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {"WA", "GU", "KI"})
+        void __CriteriaApi(final String prefix) {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Actor.class);
+                final var a = cq.from(Actor.class);
+                cq.select(a)
+                        .where(cb.like(a.get(Actor_.lastName),
+                                       cb.parameter(String.class, "pattern")))
+                        .orderBy(cb.asc(a.get(Actor_.lastName)), cb.asc(a.get(Actor_.actorId)));
+                return em.createQuery(cq)
+                        .setParameter("pattern", prefix + '%')
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list).isNotEmpty()
+                    .allSatisfy(a -> assertThat(a.getLastName()).startsWith(prefix))
+                    .isSortedAccordingTo(Comparator.comparing(Actor::getLastName)
+                                                 .thenComparing(Actor::getActorId));
         }
     }
 }
