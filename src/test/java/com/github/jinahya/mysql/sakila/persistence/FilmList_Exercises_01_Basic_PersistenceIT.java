@@ -43,9 +43,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmList_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many Action films there are")
+    @DisplayName("SAKILA_FILM_LIST_B_01: how many Action films there are")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_LIST_B_01_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @ParameterizedTest
@@ -63,9 +63,9 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the actors of the film 1")
+    @DisplayName("SAKILA_FILM_LIST_B_02: the actors of the film 1")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_LIST_B_02_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @ParameterizedTest
@@ -83,9 +83,9 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the Children films rated G")
+    @DisplayName("SAKILA_FILM_LIST_B_03: the Children films rated G")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_LIST_B_03_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @Test
@@ -118,9 +118,9 @@ class FilmList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the films with no actor")
+    @DisplayName("SAKILA_FILM_LIST_B_04: the films with no actor")
     @Nested
-    class Exercise4Test {
+    class SAKILA_FILM_LIST_B_04_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @Test

@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-B-01
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_B_01
 -- the three categories which sold the most.
 -- +-----------+-------------+
 -- | category  | total_sales |
@@ -39,7 +39,7 @@ SELECT *
 FROM sales_by_film_category LIMIT 3
 ;
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-B-02
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_B_02
 -- the categories which sold between 4000 and 4500.
 -- +-------------+-------------+
 -- | category    | total_sales |
@@ -58,7 +58,7 @@ WHERE total_sales BETWEEN 4000 AND 4500
 ORDER BY category
 ;
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-B-03
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_B_03
 -- how many categories sold less than 4000, and how much they sold together.
 -- +------------+----------+
 -- | categories | total    |

@@ -38,9 +38,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class StaffList_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: every row of the view")
+    @DisplayName("SAKILA_STAFF_LIST_B_01: every row of the view")
     @Nested
-    class Exercise1Test {
+    class SAKILA_STAFF_LIST_B_01_Test {
 
         @Test
         void __QueryLanguage() {

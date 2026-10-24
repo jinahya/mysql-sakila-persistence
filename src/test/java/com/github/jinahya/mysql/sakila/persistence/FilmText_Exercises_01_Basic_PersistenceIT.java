@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmText_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: the films whose description has both a Crocodile and a Shark")
+    @DisplayName("SAKILA_FILM_TEXT_B_01: the films whose description has both a Crocodile and a Shark")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_TEXT_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -106,9 +106,9 @@ class FilmText_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the five longest descriptions")
+    @DisplayName("SAKILA_FILM_TEXT_B_02: the five longest descriptions")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_TEXT_B_02_Test {
 
         @Test
         void __QueryLanguage() {

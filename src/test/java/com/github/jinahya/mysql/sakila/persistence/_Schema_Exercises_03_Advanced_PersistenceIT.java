@@ -50,10 +50,10 @@ import static org.assertj.core.api.Assertions.tuple;
 class _Schema_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: the customer who paid the most in each of the five countries which paid " +
+            "SAKILA_SCHEMA_A_01: the customer who paid the most in each of the five countries which paid " +
             "the most")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SCHEMA_A_01_Test {
 
         // JPQL has no window functions, nor a subquery in the FROM clause; RANK() OVER
         // (PARTITION BY
@@ -84,9 +84,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the customers who rented a film of every category")
+    @DisplayName("SAKILA_SCHEMA_A_02: the customers who rented a film of every category")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SCHEMA_A_02_Test {
 
         // both keep the columns: eclipselink drops GROUP BY/HAVING from a Criteria entity select
         @Test
@@ -150,9 +150,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the running total of the payments, on the first five days")
+    @DisplayName("SAKILA_SCHEMA_A_03: the running total of the payments, on the first five days")
     @Nested
-    class Exercise3Test {
+    class SAKILA_SCHEMA_A_03_Test {
 
         // JPQL has no window functions; SUM() OVER (ORDER BY ...) is SQL's
         @Test
@@ -170,9 +170,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: each month's payments, and the change from the month before")
+    @DisplayName("SAKILA_SCHEMA_A_04: each month's payments, and the change from the month before")
     @Nested
-    class Exercise4Test {
+    class SAKILA_SCHEMA_A_04_Test {
 
         // JPQL has no window functions; LAG() is SQL's
         @Test
@@ -188,9 +188,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the three films rented the most at each store")
+    @DisplayName("SAKILA_SCHEMA_A_05: the three films rented the most at each store")
     @Nested
-    class Exercise5Test {
+    class SAKILA_SCHEMA_A_05_Test {
 
         // JPQL has no window functions; ROW_NUMBER() OVER (PARTITION BY ...) is SQL's
         @ParameterizedTest
@@ -214,10 +214,10 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 6: how many actors are one film, and how many two films, away from KEVIN " +
+            "SAKILA_SCHEMA_A_06: how many actors are one film, and how many two films, away from KEVIN " +
             "BLOOM; a Bacon number, Sakila having no KEVIN BACON")
     @Nested
-    class Exercise6Test {
+    class SAKILA_SCHEMA_A_06_Test {
 
         // JPQL has no recursive query; WITH RECURSIVE is SQL's
         @ParameterizedTest
@@ -248,9 +248,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 7: the films none of whose copies is in, right now")
+    @DisplayName("SAKILA_SCHEMA_A_07: the films none of whose copies is in, right now")
     @Nested
-    class Exercise7Test {
+    class SAKILA_SCHEMA_A_07_Test {
 
         // JPQL sums no EXISTS; a film all of whose copies are out is one with no copy which is in
         @Test
@@ -297,9 +297,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 8: the five longest runs of days on which a customer rented every day")
+    @DisplayName("SAKILA_SCHEMA_A_08: the five longest runs of days on which a customer rented every day")
     @Nested
-    class Exercise8Test {
+    class SAKILA_SCHEMA_A_08_Test {
 
         // JPQL has no window functions, nor date arithmetic; ROW_NUMBER() OVER (...) and DATE_SUB
         // are SQL's
@@ -333,9 +333,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 9: the countries none of whose customers rented a Music film")
+    @DisplayName("SAKILA_SCHEMA_A_09: the countries none of whose customers rented a Music film")
     @Nested
-    class Exercise9Test {
+    class SAKILA_SCHEMA_A_09_Test {
 
         @Test
         void __QueryLanguage() {

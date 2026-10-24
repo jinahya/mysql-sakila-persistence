@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Country_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the fewest countries which hold half of the customers")
+    @DisplayName("SAKILA_COUNTRY_A_01: the fewest countries which hold half of the customers")
     @Nested
-    class Exercise1Test {
+    class SAKILA_COUNTRY_A_01_Test {
 
         // JPQL has no window functions, nor a subquery in the FROM clause; SUM() OVER (ORDER BY
         // ...) is SQL's
@@ -83,9 +83,9 @@ class Country_Exercises_03_Advanced_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 2: the countries ranked in the top ten by customers, ties sharing a rank")
+            "SAKILA_COUNTRY_A_02: the countries ranked in the top ten by customers, ties sharing a rank")
     @Nested
-    class Exercise2Test {
+    class SAKILA_COUNTRY_A_02_Test {
 
         // JPQL has no window functions, nor a subquery in the FROM clause; RANK() OVER (ORDER BY
         // ...) is SQL's

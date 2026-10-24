@@ -27,7 +27,7 @@
 --
 
 
--- -------------------------------------------------------------------------------------------------- SAKILA-RENTAL-A-01
+-- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_A_01
 -- how many rentals came back later than the film's rental duration allows.
 -- +------+
 -- | late |
@@ -41,7 +41,7 @@ FROM rental r
 WHERE r.return_date > r.rental_date + INTERVAL f.rental_duration DAY
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-RENTAL-A-02
+-- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_A_02
 -- the five longest waits between a customer's two rentals in 2005.
 -- +-------------+---------------------+---------------------+------+
 -- | customer_id | previous_rental     | rental_date         | days |
@@ -62,7 +62,7 @@ ORDER BY days DESC, customer_id, rental_date
 LIMIT 5
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-RENTAL-A-03
+-- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_A_03
 -- whether a copy was ever rented out twice at the same time.
 -- +-------------+
 -- | overlapping |

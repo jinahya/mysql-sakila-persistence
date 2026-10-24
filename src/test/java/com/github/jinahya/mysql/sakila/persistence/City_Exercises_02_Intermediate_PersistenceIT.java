@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class City_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the cities of Canada")
+    @DisplayName("SAKILA_CITY_I_01: the cities of Canada")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CITY_I_01_Test {
 
         @ParameterizedTest
         @ValueSource(strings = {"Canada", "Japan", "Brazil"})
@@ -85,9 +85,9 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the five countries with the most cities")
+    @DisplayName("SAKILA_CITY_I_02: the five countries with the most cities")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CITY_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -143,9 +143,9 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many cities have no address")
+    @DisplayName("SAKILA_CITY_I_03: how many cities have no address")
     @Nested
-    class Exercise3Test {
+    class SAKILA_CITY_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -177,9 +177,9 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the cities with more than one address")
+    @DisplayName("SAKILA_CITY_I_04: the cities with more than one address")
     @Nested
-    class Exercise4Test {
+    class SAKILA_CITY_I_04_Test {
 
         @Test
         void __QueryLanguage() {
@@ -234,9 +234,9 @@ class City_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the city names found in more than one country")
+    @DisplayName("SAKILA_CITY_I_05: the city names found in more than one country")
     @Nested
-    class Exercise5Test {
+    class SAKILA_CITY_I_05_Test {
 
         @Test
         void __QueryLanguage() {

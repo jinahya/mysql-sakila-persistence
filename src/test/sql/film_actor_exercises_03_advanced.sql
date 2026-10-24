@@ -27,7 +27,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-A-01
+-- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_A_01
 -- the three pairs of actors who appear together the most.
 -- +----------+------------+-----------+---------------------+----------+------------+-----------+---------------------+-------+
 -- | actor_id | first_name | last_name | last_update         | actor_id | first_name | last_name | last_update         | films |
@@ -45,7 +45,7 @@ GROUP BY a1.actor_id, a2.actor_id
 ORDER BY films DESC, a1.actor_id, a2.actor_id LIMIT 3
 ;
 
--- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-A-02
+-- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_A_02
 -- the actor who appears in the most films of each category.
 -- +-------------+----------+------------+-----------+-------+
 -- | name        | actor_id | first_name | last_name | films |
@@ -79,7 +79,7 @@ WHERE n = 1
 ORDER BY name
 ;
 
--- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-A-03
+-- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_A_03
 -- the pairs of films which have exactly the same actors.
 -- +---------+----------------+----------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+--------------+-------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-------------------+---------------------+--------+
 -- | film_id | title          | description                                                                | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                        | last_update         | film_id | title        | description                                                                                           | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features  | last_update         | actors |

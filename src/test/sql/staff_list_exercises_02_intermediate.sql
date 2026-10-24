@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------- SAKILA-STAFF_LIST-I-01
+-- ---------------------------------------------------------------------------------------------- SAKILA_STAFF_LIST_I_01
 -- whether the view has a row for every staff member.
 -- +------------+-------+
 -- | staff_list | staff |
@@ -36,7 +36,7 @@
 SELECT (SELECT COUNT(*) FROM staff_list) AS staff_list, (SELECT COUNT(*) FROM staff) AS staff
 ;
 
--- ---------------------------------------------------------------------------------------------- SAKILA-STAFF_LIST-I-02
+-- ---------------------------------------------------------------------------------------------- SAKILA_STAFF_LIST_I_02
 -- whether each staff member lives in the city of their store.
 -- +----+--------------+----------------------+----------+-------------+------------+-----------+-----+---------+------------+------------+---------------------+
 -- | ID | name         | address              | zip code | phone       | city       | country   | SID | city_id | city       | country_id | last_update         |

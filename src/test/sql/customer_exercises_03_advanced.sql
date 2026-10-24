@@ -27,7 +27,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-A-01
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_A_01
 -- the three customers who paid the most at each store.
 -- +----------+-------------+------------+-----------+--------+
 -- | store_id | customer_id | first_name | last_name | paid   |
@@ -49,7 +49,7 @@ WHERE n <= 3
 ORDER BY store_id, n
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-A-02
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_A_02
 -- how many customers of each store paid more than that store's average customer.
 -- +----------+-----------+--------------+
 -- | store_id | customers | average_paid |

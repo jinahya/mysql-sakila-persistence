@@ -27,7 +27,7 @@
 --
 
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-01
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_01
 -- how much each store took, through the copies it rented out.
 -- +----------+------------------+------------+---------------------+----------+----------+
 -- | store_id | manager_staff_id | address_id | last_update         | payments | total    |
@@ -44,7 +44,7 @@ GROUP BY st.store_id
 ORDER BY st.store_id
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-02
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_02
 -- how many rentals each category had, the most first.
 -- +-------------+-------------+---------------------+---------+
 -- | category_id | name        | last_update         | rentals |
@@ -65,7 +65,7 @@ GROUP BY c.category_id
 ORDER BY rentals DESC, c.name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-03
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_03
 -- the five countries whose customers paid the most.
 -- +------------+---------------+---------------------+-----------+---------+
 -- | country_id | country       | last_update         | customers | total   |
@@ -86,7 +86,7 @@ GROUP BY co.country_id
 ORDER BY total DESC LIMIT 5
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-04
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_04
 -- the average payment of each rating.
 -- +--------+-----------------+
 -- | rating | average_payment |
@@ -106,7 +106,7 @@ GROUP BY f.rating
 ORDER BY f.rating
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-05
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_05
 -- the five actors whose films took the most.
 -- +----------+------------+-----------+---------------------+---------+
 -- | actor_id | first_name | last_name | last_update         | total   |
@@ -127,7 +127,7 @@ GROUP BY a.actor_id
 ORDER BY total DESC, a.actor_id LIMIT 5
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-06
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_06
 -- the customers who have returned everything they rented, how many.
 -- +-----------+
 -- | customers |
@@ -141,7 +141,7 @@ WHERE NOT EXISTS (SELECT 1
                   WHERE r.customer_id = c.customer_id AND r.return_date IS NULL)
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-07
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_07
 -- how many rentals, and how much was paid, in each month.
 -- +---------+---------+----------+
 -- | month   | rentals | total    |
@@ -160,7 +160,7 @@ GROUP BY month
 ORDER BY month
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-08
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_08
 -- the customers who rented from a store other than their own, how many.
 -- +-----------+
 -- | customers |
@@ -174,7 +174,7 @@ FROM customer c
 WHERE i.store_id <> c.store_id
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-09
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_09
 -- how many rentals, and how much was paid, for short, medium and long films.
 -- +--------------+---------+----------+
 -- | length_group | rentals | total    |
@@ -198,7 +198,7 @@ GROUP BY length_group
 ORDER BY MIN(f.length)
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-10
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_10
 -- how many films of each category were never rented.
 -- +-------------+-------------+---------------------+-------+
 -- | category_id | name        | last_update         | films |
@@ -230,7 +230,7 @@ GROUP BY c.category_id
 ORDER BY films DESC, c.name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-11
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_11
 -- the actors who appear in both a Comedy and a Horror film, how many.
 -- +--------+
 -- | actors |
@@ -253,7 +253,7 @@ WHERE EXISTS (SELECT 1
                 AND c.name = 'Horror')
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-I-12
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_12
 -- the categories whose payments are, on average, larger than all payments.
 -- +-------------+--------+---------------------+-----------------+
 -- | category_id | name   | last_update         | average_payment |

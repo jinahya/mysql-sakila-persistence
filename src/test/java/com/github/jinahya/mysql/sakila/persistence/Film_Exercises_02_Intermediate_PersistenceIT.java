@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Film_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: how many films have no copy in the inventory")
+    @DisplayName("SAKILA_FILM_I_01: how many films have no copy in the inventory")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -72,9 +72,9 @@ class Film_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the five films rented the most")
+    @DisplayName("SAKILA_FILM_I_02: the five films rented the most")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -127,9 +127,9 @@ class Film_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many films are short, medium and long")
+    @DisplayName("SAKILA_FILM_I_03: how many films are short, medium and long")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -176,9 +176,9 @@ class Film_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the ratings whose films are longer than the average film")
+    @DisplayName("SAKILA_FILM_I_04: the ratings whose films are longer than the average film")
     @Nested
-    class Exercise4Test {
+    class SAKILA_FILM_I_04_Test {
 
         @Test
         void __QueryLanguage() {

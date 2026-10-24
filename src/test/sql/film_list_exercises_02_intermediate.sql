@@ -26,7 +26,7 @@
 --
 
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-I-01
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_LIST_I_01
 -- whether the view has a row for every film which has a category.
 -- +-----------+-----------------------+
 -- | film_list | films_with_a_category |
@@ -37,7 +37,7 @@ SELECT (SELECT COUNT(*) FROM film_list)                    AS film_list,
        (SELECT COUNT(DISTINCT film_id) FROM film_category) AS films_with_a_category
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-I-02
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_LIST_I_02
 -- how many films of each rating there are at each price.
 -- +--------+------------+------------+------------+
 -- | rating | price_0_99 | price_2_99 | price_4_99 |
@@ -57,7 +57,7 @@ GROUP BY rating
 ORDER BY rating
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_LIST-I-03
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_LIST_I_03
 -- the films whose actors string lists a different number of actors than film_actor.
 -- no rows.
 SELECT l.*

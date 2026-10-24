@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-01
+-- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_01
 -- how many films each category has, the most first.
 -- +-------------+-------------+---------------------+-------+
 -- | category_id | name        | last_update         | films |
@@ -45,7 +45,7 @@ GROUP BY c.category_id
 ORDER BY films DESC, c.name
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-02
+-- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_02
 -- the category whose films are, on average, the longest.
 -- +-------------+--------+---------------------+----------------+
 -- | category_id | name   | last_update         | average_length |
@@ -60,7 +60,7 @@ GROUP BY c.category_id
 ORDER BY average_length DESC LIMIT 1
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-03
+-- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_03
 -- the categories with no film.
 -- no rows.
 SELECT c.*
@@ -68,7 +68,7 @@ FROM category c
 WHERE NOT EXISTS (SELECT 1 FROM film_category fc WHERE fc.category_id = c.category_id)
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-04
+-- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_04
 -- the categories whose films rent for more than the average.
 -- +-------------+---------+---------------------+---------------------+
 -- | category_id | name    | last_update         | average_rental_rate |
@@ -92,7 +92,7 @@ HAVING AVG(f.rental_rate) > (SELECT AVG(rental_rate) FROM film)
 ORDER BY average_rental_rate DESC, c.name
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CATEGORY-I-05
+-- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_05
 -- the five categories with the most different actors.
 -- +-------------+-------------+---------------------+--------+
 -- | category_id | name        | last_update         | actors |

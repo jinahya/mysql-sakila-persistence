@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Country_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the countries with no city")
+    @DisplayName("SAKILA_COUNTRY_I_01: the countries with no city")
     @Nested
-    class Exercise1Test {
+    class SAKILA_COUNTRY_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -76,9 +76,9 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the five countries with the most customers")
+    @DisplayName("SAKILA_COUNTRY_I_02: the five countries with the most customers")
     @Nested
-    class Exercise2Test {
+    class SAKILA_COUNTRY_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -132,9 +132,9 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many countries have exactly one city")
+    @DisplayName("SAKILA_COUNTRY_I_03: how many countries have exactly one city")
     @Nested
-    class Exercise3Test {
+    class SAKILA_COUNTRY_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -165,9 +165,9 @@ class Country_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the countries which have a city but no customer")
+    @DisplayName("SAKILA_COUNTRY_I_04: the countries which have a city but no customer")
     @Nested
-    class Exercise4Test {
+    class SAKILA_COUNTRY_I_04_Test {
 
         @Test
         void __QueryLanguage() {

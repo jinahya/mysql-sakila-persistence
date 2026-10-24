@@ -18,15 +18,15 @@ The `actor` table, mapped by `Actor`.
 
 === Basic
 
-[[SAKILA-ACTOR-B-01]]
-==== SAKILA-ACTOR-B-01: the actors whose last name is GUINESS
+[[SAKILA_ACTOR_B_01]]
+==== SAKILA_ACTOR_B_01: the actors of a given last name, ordered by actor_id
 
-Find every actor whose `last_name` is exactly `GUINESS`.
+Find every actor whose `last_name` is exactly a given name; here the name is `GUINESS`.
 Show the whole rows, ordered by
 `actor_id`.
 A single table and an equality filter; no join.
 
-.`actor_exercises_01_basic.sql`, SAKILA-ACTOR-B-01
+.`actor_exercises_01_basic.sql`, SAKILA_ACTOR_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -48,14 +48,14 @@ ORDER BY actor_id
 ....
 ====
 
-[[SAKILA-ACTOR-B-02]]
-==== SAKILA-ACTOR-B-02: the actors whose first name starts with JU, ordered by first name
+[[SAKILA_ACTOR_B_02]]
+==== SAKILA_ACTOR_B_02: the actors whose first name starts with JU, ordered by first name
 
 Find every actor whose `first_name` starts with `JU`.
 Show the whole rows, ordered by `first_name`; actors with the same first name are ordered by `actor_id`, so the order is always the same.
 A single table, a `LIKE` filter and a sort on two columns; no join.
 
-.`actor_exercises_01_basic.sql`, SAKILA-ACTOR-B-02
+.`actor_exercises_01_basic.sql`, SAKILA_ACTOR_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -81,14 +81,14 @@ ORDER BY first_name, actor_id
 ....
 ====
 
-[[SAKILA-ACTOR-B-03]]
-==== SAKILA-ACTOR-B-03: the actors whose last name starts with WA, ordered by last name
+[[SAKILA_ACTOR_B_03]]
+==== SAKILA_ACTOR_B_03: the actors whose last name starts with WA, ordered by last name
 
 Find every actor whose `last_name` starts with `WA`.
 Show the whole rows, ordered by `last_name`; actors with the same last name are ordered by `actor_id`.
 The same query as the one before, on the other name.
 
-.`actor_exercises_01_basic.sql`, SAKILA-ACTOR-B-03
+.`actor_exercises_01_basic.sql`, SAKILA_ACTOR_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -111,14 +111,14 @@ ORDER BY last_name, actor_id
 ....
 ====
 
-[[SAKILA-ACTOR-B-04]]
-==== SAKILA-ACTOR-B-04: the actors whose first and last names start with the same letter
+[[SAKILA_ACTOR_B_04]]
+==== SAKILA_ACTOR_B_04: the actors whose first and last names start with the same letter
 
 Find the actors whose `first_name` and `last_name` begin with the same letter, such as `SISSY SOBIESKI`.
 Show the whole rows, ordered by `actor_id`.
 The filter compares two columns of the same row, each through `LEFT`, instead of comparing a column with a constant.
 
-.`actor_exercises_01_basic.sql`, SAKILA-ACTOR-B-04
+.`actor_exercises_01_basic.sql`, SAKILA_ACTOR_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -148,13 +148,13 @@ ORDER BY actor_id
 ....
 ====
 
-[[SAKILA-ACTOR-B-05]]
-==== SAKILA-ACTOR-B-05: how many different first names and last names there are
+[[SAKILA_ACTOR_B_05]]
+==== SAKILA_ACTOR_B_05: how many different first names and last names there are
 
 Count the different first names and the different last names of the actors, and show both counts in one row.
 `COUNT(DISTINCT ...)` counts each value once, so the two counts are smaller than the number of actors.
 
-.`actor_exercises_01_basic.sql`, SAKILA-ACTOR-B-05
+.`actor_exercises_01_basic.sql`, SAKILA_ACTOR_B_05
 [%collapsible]
 ====
 [source,sql]
@@ -176,8 +176,8 @@ Answered by `Actor_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-ACTOR-I-01]]
-==== SAKILA-ACTOR-I-01: the last names shared by more than three actors, the most shared first
+[[SAKILA_ACTOR_I_01]]
+==== SAKILA_ACTOR_I_01: the last names shared by more than three actors, the most shared first
 
 Some last names are shared by several actors.
 Group the actors by
@@ -185,7 +185,7 @@ Group the actors by
 Show each last name with its count, the most shared name first; names with the same count are ordered by the name.
 The filter is on the groups, not on the rows, so it belongs in `HAVING`, not in `WHERE`.
 
-.`actor_exercises_02_intermediate.sql`, SAKILA-ACTOR-I-01
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -208,15 +208,15 @@ ORDER BY actors DESC, last_name
 ....
 ====
 
-[[SAKILA-ACTOR-I-02]]
-==== SAKILA-ACTOR-I-02: the five actors who appear in the most films
+[[SAKILA_ACTOR_I_02]]
+==== SAKILA_ACTOR_I_02: the top n actors by their number of films
 
 Count, for each actor, the films they appear in, through the `film_actor`
 link table.
-Show the five actors with the most films: their `actor_id`, `first_name`, `last_name` and the number of films, the most first.
-Break ties by `actor_id`, so the five are always the same five.
+Show the top n actors by that number, the most first, each with its number of films; here n is five.
+Break ties by `actor_id`, so the n are always the same n.
 
-.`actor_exercises_02_intermediate.sql`, SAKILA-ACTOR-I-02
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -242,14 +242,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-ACTOR-I-03]]
-==== SAKILA-ACTOR-I-03: the actors who appear in no film
+[[SAKILA_ACTOR_I_03]]
+==== SAKILA_ACTOR_I_03: the actors who appear in no film
 
 Find the actors who have no row in `film_actor` at all, that is, who appear in no film.
 Show the whole rows.
 Use a `NOT EXISTS` (or an anti-join); the installed data has none, so the answer is empty, and the exercise is about writing the query that proves it.
 
-.`actor_exercises_02_intermediate.sql`, SAKILA-ACTOR-I-03
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -264,14 +264,14 @@ no rows.
 ....
 ====
 
-[[SAKILA-ACTOR-I-04]]
-==== SAKILA-ACTOR-I-04: the five most common first names
+[[SAKILA_ACTOR_I_04]]
+==== SAKILA_ACTOR_I_04: the five most common first names
 
 Count the actors who share each first name.
 Show the five first names that occur most often, with their counts, the most first.
 Many names occur three times, so break ties by the name, and the five are always the same five.
 
-.`actor_exercises_02_intermediate.sql`, SAKILA-ACTOR-I-04
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -296,14 +296,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-ACTOR-I-05]]
-==== SAKILA-ACTOR-I-05: the five most common last names
+[[SAKILA_ACTOR_I_05]]
+==== SAKILA_ACTOR_I_05: the five most common last names
 
 Count the actors who share each last name.
 Show the five last names that occur most often, with their counts, the most first; break ties by the name.
-Unlike SAKILA-ACTOR-I-01, which keeps every group above a count, this keeps a fixed number of groups.
+Unlike SAKILA_ACTOR_I_01, which keeps every group above a count, this keeps a fixed number of groups.
 
-.`actor_exercises_02_intermediate.sql`, SAKILA-ACTOR-I-05
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_05
 [%collapsible]
 ====
 [source,sql]
@@ -328,14 +328,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-ACTOR-I-06]]
-==== SAKILA-ACTOR-I-06: the five actors whose films are, on average, the longest
+[[SAKILA_ACTOR_I_06]]
+==== SAKILA_ACTOR_I_06: the five actors whose films are, on average, the longest
 
 For each actor, take the average `length` of the films they appear in, through `film_actor`.
 Show the five actors with the largest average: their `actor_id`, `first_name`, `last_name` and the average rounded to two decimal places, the largest first.
 Break ties by `actor_id`.
 
-.`actor_exercises_02_intermediate.sql`, SAKILA-ACTOR-I-06
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_06
 [%collapsible]
 ====
 [source,sql]
@@ -362,14 +362,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-ACTOR-I-07]]
-==== SAKILA-ACTOR-I-07: the films of the first five actors, counted by rating
+[[SAKILA_ACTOR_I_07]]
+==== SAKILA_ACTOR_I_07: the films of the first five actors, counted by rating
 
 For each of the actors `1` to `5`, count their films of each rating, one column per rating.
 Show the `actor_id`, the `first_name`, the `last_name` and the five counts, ordered by `actor_id`.
 Each column is a `SUM` of a `CASE` that gives `1` for a film of that rating and `0` otherwise, so one pass over the rows fills all five columns.
 
-.`actor_exercises_02_intermediate.sql`, SAKILA-ACTOR-I-07
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_07
 [%collapsible]
 ====
 [source,sql]
@@ -405,14 +405,14 @@ Answered by `Actor_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-ACTOR-A-01]]
-==== SAKILA-ACTOR-A-01: the actors who appear in a film of every rating
+[[SAKILA_ACTOR_A_01]]
+==== SAKILA_ACTOR_A_01: the actors who appear in a film of every rating
 
 Find the actors who have appeared in at least one film of each rating (`G`, `PG`, `PG-13`, `R`, `NC-17`).
 This is a relational division: for each actor, count the distinct ratings of their films, and compare that count with the number of distinct ratings over all films, taken by a subquery, so the query does not hard-code the five ratings.
 Show the whole rows of the first five such actors by `actor_id`.
 
-.`actor_exercises_03_advanced.sql`, SAKILA-ACTOR-A-01
+.`actor_exercises_03_advanced.sql`, SAKILA_ACTOR_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -440,14 +440,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-ACTOR-A-02]]
-==== SAKILA-ACTOR-A-02: the actors in the top seven film counts, ties included
+[[SAKILA_ACTOR_A_02]]
+==== SAKILA_ACTOR_A_02: the actors in the top seven film counts, ties included
 
 Rank the actors by the number of films they appear in, so that actors with the same number share a rank and the next number takes the next rank.
 Show the actors of the first seven ranks: `actor_id`, `first_name`, `last_name`, the number of films and the rank, ordered by the rank and then by `actor_id`.
-Unlike the `LIMIT` of SAKILA-ACTOR-I-02, `DENSE_RANK()` keeps every actor tied at the last rank.
+Unlike the `LIMIT` of SAKILA_ACTOR_I_02, `DENSE_RANK()` keeps every actor tied at the last rank.
 
-.`actor_exercises_03_advanced.sql`, SAKILA-ACTOR-A-02
+.`actor_exercises_03_advanced.sql`, SAKILA_ACTOR_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -485,14 +485,14 @@ ORDER BY film_rank, actor_id
 ....
 ====
 
-[[SAKILA-ACTOR-A-03]]
-==== SAKILA-ACTOR-A-03: the longest film of each of the first five actors
+[[SAKILA_ACTOR_A_03]]
+==== SAKILA_ACTOR_A_03: the longest film of each of the first five actors
 
 For each of the actors `1` to `5`, find the longest film they appear in.
 Show the `actor_id`, the `first_name`, the `last_name`, the film's `title` and its `length`, ordered by `actor_id`; if two films of an actor share the longest length, both are shown, ordered by `title`.
 A correlated subquery takes the longest length of the actor of the outer row.
 
-.`actor_exercises_03_advanced.sql`, SAKILA-ACTOR-A-03
+.`actor_exercises_03_advanced.sql`, SAKILA_ACTOR_A_03
 [%collapsible]
 ====
 [source,sql]
@@ -530,15 +530,15 @@ The `actor_info` view, mapped by `ActorInfo`.
 
 === Basic
 
-[[SAKILA-ACTOR_INFO-B-01]]
-==== SAKILA-ACTOR_INFO-B-01: the film_info of the actor 1
+[[SAKILA_ACTOR_INFO_B_01]]
+==== SAKILA_ACTOR_INFO_B_01: the film_info of the actor 1
 
 The `actor_info` view puts, for each actor, all of their films into one
 `film_info` string, grouped by category (`Animation: ...; Comedy: ...`).
 Show the row of the actor `1`: the
 `actor_id`, the `first_name`, the `last_name` and the first 80 characters of `film_info`, which is long.
 
-.`actor_info_exercises_01_basic.sql`, SAKILA-ACTOR_INFO-B-01
+.`actor_info_exercises_01_basic.sql`, SAKILA_ACTOR_INFO_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -557,14 +557,14 @@ WHERE actor_id = 1
 ....
 ====
 
-[[SAKILA-ACTOR_INFO-B-02]]
-==== SAKILA-ACTOR_INFO-B-02: how many actors appear in a Horror film, as film_info says
+[[SAKILA_ACTOR_INFO_B_02]]
+==== SAKILA_ACTOR_INFO_B_02: how many actors appear in a Horror film, as film_info says
 
 Count the actors who appear in at least one Horror film, reading only the
 `film_info` string of the view.
 Each category in that string is written as its name followed by a colon, so a pattern on `Horror:` finds the actors, without joining any table.
 
-.`actor_info_exercises_01_basic.sql`, SAKILA-ACTOR_INFO-B-02
+.`actor_info_exercises_01_basic.sql`, SAKILA_ACTOR_INFO_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -583,14 +583,14 @@ WHERE film_info LIKE '%Horror:%'
 ....
 ====
 
-[[SAKILA-ACTOR_INFO-B-03]]
-==== SAKILA-ACTOR_INFO-B-03: the actors of ACADEMY DINOSAUR, as film_info says
+[[SAKILA_ACTOR_INFO_B_03]]
+==== SAKILA_ACTOR_INFO_B_03: the actors of ACADEMY DINOSAUR, as film_info says
 
 Find the actors whose `film_info` names the film `ACADEMY DINOSAUR`.
 Show the `actor_id`, the `first_name` and the `last_name`, ordered by `actor_id`.
 A `LIKE` with a wildcard on both sides searches the whole string, without joining `film_actor`.
 
-.`actor_info_exercises_01_basic.sql`, SAKILA-ACTOR_INFO-B-03
+.`actor_info_exercises_01_basic.sql`, SAKILA_ACTOR_INFO_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -619,13 +619,13 @@ ORDER BY actor_id
 ....
 ====
 
-[[SAKILA-ACTOR_INFO-B-04]]
-==== SAKILA-ACTOR_INFO-B-04: the five actors with the longest film_info
+[[SAKILA_ACTOR_INFO_B_04]]
+==== SAKILA_ACTOR_INFO_B_04: the five actors with the longest film_info
 
 Measure the `film_info` of each actor in characters.
 Show the five actors with the longest one: the `actor_id`, the `first_name`, the `last_name` and the length, the longest first; break ties by `actor_id`.
 
-.`actor_info_exercises_01_basic.sql`, SAKILA-ACTOR_INFO-B-04
+.`actor_info_exercises_01_basic.sql`, SAKILA_ACTOR_INFO_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -653,13 +653,13 @@ Answered by `ActorInfo_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-ACTOR_INFO-I-01]]
-==== SAKILA-ACTOR_INFO-I-01: whether the view has a row for every actor
+[[SAKILA_ACTOR_INFO_I_01]]
+==== SAKILA_ACTOR_INFO_I_01: whether the view has a row for every actor
 
 Check that the view is complete: count the rows of `actor_info` and the rows of `actor`, and show both counts side by side in one row.
 The two should be equal; an actor without a film would still have a row, since the view groups the actors, not the films.
 
-.`actor_info_exercises_02_intermediate.sql`, SAKILA-ACTOR_INFO-I-01
+.`actor_info_exercises_02_intermediate.sql`, SAKILA_ACTOR_INFO_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -676,15 +676,15 @@ SELECT (SELECT COUNT(*) FROM actor_info) AS actor_info, (SELECT COUNT(*) FROM ac
 ....
 ====
 
-[[SAKILA-ACTOR_INFO-I-02]]
-==== SAKILA-ACTOR_INFO-I-02: the actors whose film_info covers every category
+[[SAKILA_ACTOR_INFO_I_02]]
+==== SAKILA_ACTOR_INFO_I_02: the actors whose film_info covers every category
 
 Each category in `film_info` ends with a colon, so the number of colons is the number of categories the actor's films belong to.
 Find the actors whose number of categories equals the number of rows in `category`, taken by a subquery.
 Show the `actor_id`, the `first_name` and the `last_name`, ordered by `actor_id`.
 The colons are counted as the length of the string minus the length of the string with the colons removed by `REPLACE`.
 
-.`actor_info_exercises_02_intermediate.sql`, SAKILA-ACTOR_INFO-I-02
+.`actor_info_exercises_02_intermediate.sql`, SAKILA_ACTOR_INFO_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -714,14 +714,14 @@ ORDER BY actor_id
 ....
 ====
 
-[[SAKILA-ACTOR_INFO-I-03]]
-==== SAKILA-ACTOR_INFO-I-03: how many actors cover how many categories
+[[SAKILA_ACTOR_INFO_I_03]]
+==== SAKILA_ACTOR_INFO_I_03: how many actors cover how many categories
 
-Count the categories of each actor's `film_info` as in SAKILA-ACTOR_INFO-I-02, then group the actors by that number.
+Count the categories of each actor's `film_info` as in SAKILA_ACTOR_INFO_I_02, then group the actors by that number.
 Show each number of categories with the number of actors, the most categories first.
 The groups are formed on a computed value, not on a column.
 
-.`actor_info_exercises_02_intermediate.sql`, SAKILA-ACTOR_INFO-I-03
+.`actor_info_exercises_02_intermediate.sql`, SAKILA_ACTOR_INFO_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -753,15 +753,15 @@ Answered by `ActorInfo_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-ACTOR_INFO-A-01]]
-==== SAKILA-ACTOR_INFO-A-01: the actors whose film_info disagrees with the tables on the number of categories
+[[SAKILA_ACTOR_INFO_A_01]]
+==== SAKILA_ACTOR_INFO_A_01: the actors whose film_info disagrees with the tables on the number of categories
 
 Check the view against the tables it is built on.
-For each actor, compare the number of categories in `film_info`, counted as in SAKILA-ACTOR_INFO-I-02, with the number of distinct categories of the actor's films, counted from `film_actor` and `film_category` by a correlated subquery.
+For each actor, compare the number of categories in `film_info`, counted as in SAKILA_ACTOR_INFO_I_02, with the number of distinct categories of the actor's films, counted from `film_actor` and `film_category` by a correlated subquery.
 Show the `actor_id`, the `first_name` and the `last_name` of the actors where the two differ, ordered by `actor_id`.
 The installed data has none.
 
-.`actor_info_exercises_03_advanced.sql`, SAKILA-ACTOR_INFO-A-01
+.`actor_info_exercises_03_advanced.sql`, SAKILA_ACTOR_INFO_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -789,13 +789,13 @@ The `address` table, mapped by `Address`.
 
 === Basic
 
-[[SAKILA-ADDRESS-B-01]]
-==== SAKILA-ADDRESS-B-01: how many addresses are in the district of California
+[[SAKILA_ADDRESS_B_01]]
+==== SAKILA_ADDRESS_B_01: how many addresses are in the district of California
 
 Count the addresses whose `district` is `California`.
 A single table, an equality filter and a `COUNT`.
 
-.`address_exercises_01_basic.sql`, SAKILA-ADDRESS-B-01
+.`address_exercises_01_basic.sql`, SAKILA_ADDRESS_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -814,13 +814,13 @@ WHERE district = 'California'
 ....
 ====
 
-[[SAKILA-ADDRESS-B-02]]
-==== SAKILA-ADDRESS-B-02: the five districts with the most addresses
+[[SAKILA_ADDRESS_B_02]]
+==== SAKILA_ADDRESS_B_02: the five districts with the most addresses
 
 Group the addresses by `district` and count each group.
 Show the five districts with the most addresses, with their counts, the most first; districts with the same count are ordered by name.
 
-.`address_exercises_01_basic.sql`, SAKILA-ADDRESS-B-02
+.`address_exercises_01_basic.sql`, SAKILA_ADDRESS_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -845,14 +845,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-ADDRESS-B-03]]
-==== SAKILA-ADDRESS-B-03: the addresses whose address2 is NULL
+[[SAKILA_ADDRESS_B_03]]
+==== SAKILA_ADDRESS_B_03: the addresses whose address2 is NULL
 
 Most addresses have an empty `address2`, but a few have none at all.
 Find the addresses whose `address2` is `NULL`, and show the `address_id`, the `address` and the `district`, ordered by `address_id`.
 `= NULL` matches nothing; the test is `IS NULL`, and an empty string is not `NULL`.
 
-.`address_exercises_01_basic.sql`, SAKILA-ADDRESS-B-03
+.`address_exercises_01_basic.sql`, SAKILA_ADDRESS_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -875,14 +875,14 @@ ORDER BY address_id
 ....
 ====
 
-[[SAKILA-ADDRESS-B-04]]
-==== SAKILA-ADDRESS-B-04: the addresses with an empty district
+[[SAKILA_ADDRESS_B_04]]
+==== SAKILA_ADDRESS_B_04: the addresses with an empty district
 
 Find the addresses whose `district` is the empty string.
 Show the `address_id`, the `address`, the `postal_code` and the `phone`, ordered by `address_id`.
 The column is `NOT NULL`, so a missing district is stored as `''`, and the filter compares with it.
 
-.`address_exercises_01_basic.sql`, SAKILA-ADDRESS-B-04
+.`address_exercises_01_basic.sql`, SAKILA_ADDRESS_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -908,13 +908,13 @@ Answered by `Address_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-ADDRESS-I-01]]
-==== SAKILA-ADDRESS-I-01: the first five addresses, with their city and country
+[[SAKILA_ADDRESS_I_01]]
+==== SAKILA_ADDRESS_I_01: the first five addresses, with their city and country
 
 Show the first five addresses by `address_id`, each with the name of its city and the name of that city's country.
 An address refers to a city (`city_id`), and a city to a country (`country_id`), so the query joins three tables in a chain.
 
-.`address_exercises_02_intermediate.sql`, SAKILA-ADDRESS-I-01
+.`address_exercises_02_intermediate.sql`, SAKILA_ADDRESS_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -940,14 +940,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-ADDRESS-I-02]]
-==== SAKILA-ADDRESS-I-02: the district names found in more than one country
+[[SAKILA_ADDRESS_I_02]]
+==== SAKILA_ADDRESS_I_02: the district names found in more than one country
 
 The same district name may appear in different countries.
 Group the addresses by `district`, join `city` to reach the country, and keep the districts whose addresses lie in more than one country; leave out the empty district.
 Show each district with its number of countries, the most first; districts with the same number are ordered by name.
 
-.`address_exercises_02_intermediate.sql`, SAKILA-ADDRESS-I-02
+.`address_exercises_02_intermediate.sql`, SAKILA_ADDRESS_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -975,14 +975,14 @@ ORDER BY countries DESC, a.district
 ....
 ====
 
-[[SAKILA-ADDRESS-I-03]]
-==== SAKILA-ADDRESS-I-03: how many addresses belong to a store, a staff member or a customer
+[[SAKILA_ADDRESS_I_03]]
+==== SAKILA_ADDRESS_I_03: how many addresses belong to a store, a staff member or a customer
 
 Classify each address by who refers to it: a store, else a staff member, else a customer, else nobody.
 Show each class with its number of addresses, the most first; classes with the same number are ordered by name.
 A `CASE` of `EXISTS` conditions gives the class, and the first condition that holds wins.
 
-.`address_exercises_02_intermediate.sql`, SAKILA-ADDRESS-I-03
+.`address_exercises_02_intermediate.sql`, SAKILA_ADDRESS_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -1014,15 +1014,15 @@ Answered by `Address_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-ADDRESS-A-01]]
-==== SAKILA-ADDRESS-A-01: the addresses no customer, staff member or store has
+[[SAKILA_ADDRESS_A_01]]
+==== SAKILA_ADDRESS_A_01: the addresses no customer, staff member or store has
 
 An address is referred to by a customer, a staff member or a store.
 Find the addresses which none of the three refers to, the whole rows, by `address_id`.
 Three `NOT EXISTS` conditions, each a correlated subquery on a different table.
 The installed data has none.
 
-.`address_exercises_03_advanced.sql`, SAKILA-ADDRESS-A-01
+.`address_exercises_03_advanced.sql`, SAKILA_ADDRESS_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -1040,14 +1040,14 @@ no rows.
 ....
 ====
 
-[[SAKILA-ADDRESS-A-02]]
-==== SAKILA-ADDRESS-A-02: the pairs of addresses which share a postal code
+[[SAKILA_ADDRESS_A_02]]
+==== SAKILA_ADDRESS_A_02: the pairs of addresses which share a postal code
 
 Find the pairs of different addresses with the same `postal_code`, leaving out the empty postal code.
 Show each pair once: the `address_id` and the `address` of both, and the postal code, ordered by the first `address_id` and then by the second.
 A self join of `address`; the condition that the second id is larger than the first keeps each pair once and drops an address paired with itself.
 
-.`address_exercises_03_advanced.sql`, SAKILA-ADDRESS-A-02
+.`address_exercises_03_advanced.sql`, SAKILA_ADDRESS_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -1071,14 +1071,14 @@ ORDER BY a1.address_id, a2.address_id
 ....
 ====
 
-[[SAKILA-ADDRESS-A-03]]
-==== SAKILA-ADDRESS-A-03: the three districts with the most addresses in each of India, China and the United States
+[[SAKILA_ADDRESS_A_03]]
+==== SAKILA_ADDRESS_A_03: the three districts with the most addresses in each of India, China and the United States
 
 Count the addresses of each district in India, in China and in the United States, and keep the three districts with the most addresses in each country.
 Show the country, the district and the count, ordered by the country and then by the count, the most first; districts with the same count are ordered by name.
 A top-N per group: `ROW_NUMBER()` over a partition by country numbers the districts, and the outer query keeps the first three.
 
-.`address_exercises_03_advanced.sql`, SAKILA-ADDRESS-A-03
+.`address_exercises_03_advanced.sql`, SAKILA_ADDRESS_A_03
 [%collapsible]
 ====
 [source,sql]
@@ -1122,12 +1122,12 @@ The `category` table, mapped by `Category`.
 
 === Basic
 
-[[SAKILA-CATEGORY-B-01]]
-==== SAKILA-CATEGORY-B-01: every category, by name
+[[SAKILA_CATEGORY_B_01]]
+==== SAKILA_CATEGORY_B_01: every category, by name
 
 Show every category, the whole rows, ordered by the name.
 
-.`category_exercises_01_basic.sql`, SAKILA-CATEGORY-B-01
+.`category_exercises_01_basic.sql`, SAKILA_CATEGORY_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -1161,14 +1161,14 @@ ORDER BY name
 ....
 ====
 
-[[SAKILA-CATEGORY-B-02]]
-==== SAKILA-CATEGORY-B-02: the categories whose names fall between D and H
+[[SAKILA_CATEGORY_B_02]]
+==== SAKILA_CATEGORY_B_02: the categories whose names fall between D and H
 
 Find the categories whose `name` is between `D` and `H`, with `BETWEEN`.
 Show the whole rows, ordered by the name.
 `Horror` is not in the answer: it sorts after `H`, which is the upper bound itself, not every name that starts with it.
 
-.`category_exercises_01_basic.sql`, SAKILA-CATEGORY-B-02
+.`category_exercises_01_basic.sql`, SAKILA_CATEGORY_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -1196,13 +1196,13 @@ Answered by `Category_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-CATEGORY-I-01]]
-==== SAKILA-CATEGORY-I-01: how many films each category has, the most first
+[[SAKILA_CATEGORY_I_01]]
+==== SAKILA_CATEGORY_I_01: how many films each category has, the most first
 
 Count the films of each category through the `film_category` link table.
 Show each category's name and its number of films, the most first; categories with the same count are ordered by name.
 
-.`category_exercises_02_intermediate.sql`, SAKILA-CATEGORY-I-01
+.`category_exercises_02_intermediate.sql`, SAKILA_CATEGORY_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -1228,14 +1228,14 @@ ORDER BY films DESC, c.name
 ....
 ====
 
-[[SAKILA-CATEGORY-I-02]]
-==== SAKILA-CATEGORY-I-02: the category whose films are, on average, the longest
+[[SAKILA_CATEGORY_I_02]]
+==== SAKILA_CATEGORY_I_02: the category whose films are, on average, the longest
 
 For each category, take the average `length` of its films, and find the category whose average is the largest.
 Show its name and the average, rounded to two decimal places.
 Order the groups by the average and keep only the first.
 
-.`category_exercises_02_intermediate.sql`, SAKILA-CATEGORY-I-02
+.`category_exercises_02_intermediate.sql`, SAKILA_CATEGORY_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -1258,15 +1258,15 @@ LIMIT 1
 ....
 ====
 
-[[SAKILA-CATEGORY-I-03]]
-==== SAKILA-CATEGORY-I-03: the categories with no film
+[[SAKILA_CATEGORY_I_03]]
+==== SAKILA_CATEGORY_I_03: the categories with no film
 
 Find the categories which have no film: no row in `film_category`
 refers to them.
 Show the whole rows.
 The installed data has none.
 
-.`category_exercises_02_intermediate.sql`, SAKILA-CATEGORY-I-03
+.`category_exercises_02_intermediate.sql`, SAKILA_CATEGORY_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -1281,14 +1281,14 @@ no rows.
 ....
 ====
 
-[[SAKILA-CATEGORY-I-04]]
-==== SAKILA-CATEGORY-I-04: the categories whose films rent for more than the average
+[[SAKILA_CATEGORY_I_04]]
+==== SAKILA_CATEGORY_I_04: the categories whose films rent for more than the average
 
 For each category, take the average `rental_rate` of its films, and keep the categories whose average is higher than the average over all films.
 Show each such category's name and its average rounded to two decimal places, the highest first; categories with the same rounded average are ordered by name.
 The overall average comes from a subquery in `HAVING`.
 
-.`category_exercises_02_intermediate.sql`, SAKILA-CATEGORY-I-04
+.`category_exercises_02_intermediate.sql`, SAKILA_CATEGORY_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -1319,14 +1319,14 @@ ORDER BY average_rental_rate DESC, c.name
 ....
 ====
 
-[[SAKILA-CATEGORY-I-05]]
-==== SAKILA-CATEGORY-I-05: the five categories with the most different actors
+[[SAKILA_CATEGORY_I_05]]
+==== SAKILA_CATEGORY_I_05: the five categories with the most different actors
 
 Count the different actors who appear in the films of each category, through `film_category` and `film_actor`.
 Show the five categories with the most actors, with their counts, the most first; categories with the same count are ordered by name.
 An actor in several films of one category is counted once, so the count is `COUNT(DISTINCT ...)`.
 
-.`category_exercises_02_intermediate.sql`, SAKILA-CATEGORY-I-05
+.`category_exercises_02_intermediate.sql`, SAKILA_CATEGORY_I_05
 [%collapsible]
 ====
 [source,sql]
@@ -1357,14 +1357,14 @@ Answered by `Category_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-CATEGORY-A-01]]
-==== SAKILA-CATEGORY-A-01: the running total of the films, category by category
+[[SAKILA_CATEGORY_A_01]]
+==== SAKILA_CATEGORY_A_01: the running total of the films, category by category
 
 Count the films of each category, and, going from the category with the most films down, add up the counts as a running total and as a running percentage of all films.
 Show each category's name, its number of films, the running total and the running percentage rounded to one decimal place; categories with the same count are ordered by name.
 Window functions over the grouped rows: `SUM(COUNT(*)) OVER (ORDER BY ...)` for the running total and `SUM(COUNT(*)) OVER ()` for the whole.
 
-.`category_exercises_03_advanced.sql`, SAKILA-CATEGORY-A-01
+.`category_exercises_03_advanced.sql`, SAKILA_CATEGORY_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -1404,14 +1404,14 @@ ORDER BY films DESC, c.name
 ....
 ====
 
-[[SAKILA-CATEGORY-A-02]]
-==== SAKILA-CATEGORY-A-02: the film rented the most in each category
+[[SAKILA_CATEGORY_A_02]]
+==== SAKILA_CATEGORY_A_02: the film rented the most in each category
 
 Count the rentals of each film, through `inventory` and `rental`, and find, in each category, the film with the most rentals.
 Show the category's name, the film's `title` and its number of rentals, ordered by the category's name; when films of a category tie, the one whose title comes first is shown.
 A top-1 per group: `ROW_NUMBER()` over a partition by category.
 
-.`category_exercises_03_advanced.sql`, SAKILA-CATEGORY-A-02
+.`category_exercises_03_advanced.sql`, SAKILA_CATEGORY_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -1463,14 +1463,14 @@ The `city` table, mapped by `City`.
 
 === Basic
 
-[[SAKILA-CITY-B-01]]
-==== SAKILA-CITY-B-01: the cities whose name starts with Q
+[[SAKILA_CITY_B_01]]
+==== SAKILA_CITY_B_01: the cities whose name starts with Q
 
 Find the cities whose name starts with the letter `Q`.
 Show the whole rows, ordered by the name.
 A `LIKE` with a trailing wildcard.
 
-.`city_exercises_01_basic.sql`, SAKILA-CITY-B-01
+.`city_exercises_01_basic.sql`, SAKILA_CITY_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -1493,13 +1493,13 @@ ORDER BY city
 ....
 ====
 
-[[SAKILA-CITY-B-02]]
-==== SAKILA-CITY-B-02: how many city names have more than one word
+[[SAKILA_CITY_B_02]]
+==== SAKILA_CITY_B_02: how many city names have more than one word
 
 Count the cities whose name has a space in it, such as `Buenos Aires`.
 A `LIKE` with a wildcard on both sides of the space.
 
-.`city_exercises_01_basic.sql`, SAKILA-CITY-B-02
+.`city_exercises_01_basic.sql`, SAKILA_CITY_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -1518,13 +1518,13 @@ WHERE city LIKE '% %'
 ....
 ====
 
-[[SAKILA-CITY-B-03]]
-==== SAKILA-CITY-B-03: the five longest city names
+[[SAKILA_CITY_B_03]]
+==== SAKILA_CITY_B_03: the five longest city names
 
 Measure each city name in characters.
 Show the five longest: the `city_id`, the `city` and the length, the longest first; names of the same length are ordered by the name.
 
-.`city_exercises_01_basic.sql`, SAKILA-CITY-B-03
+.`city_exercises_01_basic.sql`, SAKILA_CITY_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -1552,13 +1552,13 @@ Answered by `City_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-CITY-I-01]]
-==== SAKILA-CITY-I-01: the cities of Canada
+[[SAKILA_CITY_I_01]]
+==== SAKILA_CITY_I_01: the cities of Canada
 
 Show the cities of Canada, the whole rows, ordered by the name.
 The country is known only by its name, so join `country` and filter on `country.country`.
 
-.`city_exercises_02_intermediate.sql`, SAKILA-CITY-I-01
+.`city_exercises_02_intermediate.sql`, SAKILA_CITY_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -1585,13 +1585,13 @@ ORDER BY ci.city
 ....
 ====
 
-[[SAKILA-CITY-I-02]]
-==== SAKILA-CITY-I-02: the five countries with the most cities
+[[SAKILA_CITY_I_02]]
+==== SAKILA_CITY_I_02: the five countries with the most cities
 
 Count the cities of each country.
 Show the five countries with the most cities, with their counts, the most first; countries with the same count are ordered by name.
 
-.`city_exercises_02_intermediate.sql`, SAKILA-CITY-I-02
+.`city_exercises_02_intermediate.sql`, SAKILA_CITY_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -1617,14 +1617,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-CITY-I-03]]
-==== SAKILA-CITY-I-03: how many cities have no address
+[[SAKILA_CITY_I_03]]
+==== SAKILA_CITY_I_03: how many cities have no address
 
 Count the cities to which no address refers.
 An anti-join on
 `address.city_id`, then a count.
 
-.`city_exercises_02_intermediate.sql`, SAKILA-CITY-I-03
+.`city_exercises_02_intermediate.sql`, SAKILA_CITY_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -1643,13 +1643,13 @@ WHERE NOT EXISTS (SELECT 1 FROM address a WHERE a.city_id = ci.city_id)
 ....
 ====
 
-[[SAKILA-CITY-I-04]]
-==== SAKILA-CITY-I-04: the cities with more than one address
+[[SAKILA_CITY_I_04]]
+==== SAKILA_CITY_I_04: the cities with more than one address
 
 Count the addresses of each city, and keep the cities with more than one.
 Show the `city_id`, the `city` and the count, the most first; cities with the same count are ordered by the name.
 
-.`city_exercises_02_intermediate.sql`, SAKILA-CITY-I-04
+.`city_exercises_02_intermediate.sql`, SAKILA_CITY_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -1674,13 +1674,13 @@ ORDER BY addresses DESC, ci.city
 ....
 ====
 
-[[SAKILA-CITY-I-05]]
-==== SAKILA-CITY-I-05: the city names found in more than one country
+[[SAKILA_CITY_I_05]]
+==== SAKILA_CITY_I_05: the city names found in more than one country
 
 Group the cities by name and keep the names that belong to more than one country.
 Show each such name with its number of countries, the most first; names with the same number are ordered by the name.
 
-.`city_exercises_02_intermediate.sql`, SAKILA-CITY-I-05
+.`city_exercises_02_intermediate.sql`, SAKILA_CITY_I_05
 [%collapsible]
 ====
 [source,sql]
@@ -1705,14 +1705,14 @@ Answered by `City_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-CITY-A-01]]
-==== SAKILA-CITY-A-01: the first ten cities which are the only city of their country
+[[SAKILA_CITY_A_01]]
+==== SAKILA_CITY_A_01: the first ten cities which are the only city of their country
 
 Find the cities for which no other city has the same `country_id`.
 Show the `city_id`, the `city` and the name of its country for the first ten such cities, ordered by the country's name and then by `city_id`.
 A correlated `NOT EXISTS` on `city` itself: the subquery looks for another city of the same country.
 
-.`city_exercises_03_advanced.sql`, SAKILA-CITY-A-01
+.`city_exercises_03_advanced.sql`, SAKILA_CITY_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -1743,14 +1743,14 @@ LIMIT 10
 ....
 ====
 
-[[SAKILA-CITY-A-02]]
-==== SAKILA-CITY-A-02: the cities whose customers are all inactive
+[[SAKILA_CITY_A_02]]
+==== SAKILA_CITY_A_02: the cities whose customers are all inactive
 
 Find the cities which have at least one customer, through `address`, and none of whose customers is active.
 Show the `city_id` and the `city`, ordered by the name and then by `city_id`.
 An `EXISTS` asks for a customer, and a `NOT EXISTS` asks that no customer of the city has `active = 1`.
 
-.`city_exercises_03_advanced.sql`, SAKILA-CITY-A-02
+.`city_exercises_03_advanced.sql`, SAKILA_CITY_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -1800,12 +1800,12 @@ The `country` table, mapped by `Country`.
 
 === Basic
 
-[[SAKILA-COUNTRY-B-01]]
-==== SAKILA-COUNTRY-B-01: how many countries there are
+[[SAKILA_COUNTRY_B_01]]
+==== SAKILA_COUNTRY_B_01: how many countries there are
 
 Count the rows of `country`.
 
-.`country_exercises_01_basic.sql`, SAKILA-COUNTRY-B-01
+.`country_exercises_01_basic.sql`, SAKILA_COUNTRY_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -1823,13 +1823,13 @@ FROM country
 ....
 ====
 
-[[SAKILA-COUNTRY-B-02]]
-==== SAKILA-COUNTRY-B-02: the countries whose name starts with S, ordered by name
+[[SAKILA_COUNTRY_B_02]]
+==== SAKILA_COUNTRY_B_02: the countries whose name starts with S, ordered by name
 
 Find the countries whose `country` starts with `S`.
 Show the whole rows, ordered by the name; the names are unique, so no tie-break is needed.
 
-.`country_exercises_01_basic.sql`, SAKILA-COUNTRY-B-02
+.`country_exercises_01_basic.sql`, SAKILA_COUNTRY_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -1859,13 +1859,13 @@ ORDER BY country
 ....
 ====
 
-[[SAKILA-COUNTRY-B-03]]
-==== SAKILA-COUNTRY-B-03: the five countries with the longest names
+[[SAKILA_COUNTRY_B_03]]
+==== SAKILA_COUNTRY_B_03: the five countries with the longest names
 
 Measure each country's name in characters, not in bytes, with `CHAR_LENGTH`.
 Show the five countries with the longest names, with their lengths, the longest first; ties are ordered by the name.
 
-.`country_exercises_01_basic.sql`, SAKILA-COUNTRY-B-03
+.`country_exercises_01_basic.sql`, SAKILA_COUNTRY_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -1893,14 +1893,14 @@ Answered by `Country_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-COUNTRY-I-01]]
-==== SAKILA-COUNTRY-I-01: the countries with no city
+[[SAKILA_COUNTRY_I_01]]
+==== SAKILA_COUNTRY_I_01: the countries with no city
 
 Find the countries which have no city: no row in `city` refers to them.
 Show the whole rows.
 The installed data has none.
 
-.`country_exercises_02_intermediate.sql`, SAKILA-COUNTRY-I-01
+.`country_exercises_02_intermediate.sql`, SAKILA_COUNTRY_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -1915,14 +1915,14 @@ no rows.
 ....
 ====
 
-[[SAKILA-COUNTRY-I-02]]
-==== SAKILA-COUNTRY-I-02: the five countries with the most customers
+[[SAKILA_COUNTRY_I_02]]
+==== SAKILA_COUNTRY_I_02: the five countries with the most customers
 
 Count the customers who live in each country.
 A customer has an address, an address a city, and a city a country, so the query walks four tables.
 Show the five countries with the most customers, with their counts, the most first; ties are ordered by the country's name.
 
-.`country_exercises_02_intermediate.sql`, SAKILA-COUNTRY-I-02
+.`country_exercises_02_intermediate.sql`, SAKILA_COUNTRY_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -1950,13 +1950,13 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-COUNTRY-I-03]]
-==== SAKILA-COUNTRY-I-03: how many countries have exactly one city
+[[SAKILA_COUNTRY_I_03]]
+==== SAKILA_COUNTRY_I_03: how many countries have exactly one city
 
 Count the countries which have exactly one row in `city`.
 A correlated subquery counts each country's cities, and the outer query keeps those whose count is one.
 
-.`country_exercises_02_intermediate.sql`, SAKILA-COUNTRY-I-03
+.`country_exercises_02_intermediate.sql`, SAKILA_COUNTRY_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -1975,14 +1975,14 @@ WHERE (SELECT COUNT(*) FROM city ci WHERE ci.country_id = co.country_id) = 1
 ....
 ====
 
-[[SAKILA-COUNTRY-I-04]]
-==== SAKILA-COUNTRY-I-04: the countries which have a city but no customer
+[[SAKILA_COUNTRY_I_04]]
+==== SAKILA_COUNTRY_I_04: the countries which have a city but no customer
 
 Find the countries which have at least one city, yet no customer lives in any of their cities.
 Show the whole rows, ordered by the name.
 One `EXISTS` and one `NOT EXISTS`, the second walking city, address and customer.
 
-.`country_exercises_02_intermediate.sql`, SAKILA-COUNTRY-I-04
+.`country_exercises_02_intermediate.sql`, SAKILA_COUNTRY_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -2011,14 +2011,14 @@ Answered by `Country_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-COUNTRY-A-01]]
-==== SAKILA-COUNTRY-A-01: the fewest countries which hold half of the customers
+[[SAKILA_COUNTRY_A_01]]
+==== SAKILA_COUNTRY_A_01: the fewest countries which hold half of the customers
 
 Count the customers of each country, and order the countries by the count, the most first, ties by the name.
 Keep a running total of the counts (`SUM() OVER (ORDER BY ...)`) and stop at the first country with which the total reaches half of all the customers.
 Show each country, its count, the running total and the running total as a percentage of all the customers, rounded to two decimal places.
 
-.`country_exercises_03_advanced.sql`, SAKILA-COUNTRY-A-01
+.`country_exercises_03_advanced.sql`, SAKILA_COUNTRY_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -2056,14 +2056,14 @@ ORDER BY customers DESC, country
 ....
 ====
 
-[[SAKILA-COUNTRY-A-02]]
-==== SAKILA-COUNTRY-A-02: the countries ranked in the top ten by customers, ties sharing a rank
+[[SAKILA_COUNTRY_A_02]]
+==== SAKILA_COUNTRY_A_02: the countries ranked in the top ten by customers, ties sharing a rank
 
 Rank the countries by their number of customers with `RANK()`, so that countries with the same count share a rank and the next rank is skipped.
 Show the countries whose rank is ten or better, with their counts and ranks, ordered by the rank; ties are ordered by the name.
 Unlike `LIMIT 10`, the cut keeps every country tied at the edge.
 
-.`country_exercises_03_advanced.sql`, SAKILA-COUNTRY-A-02
+.`country_exercises_03_advanced.sql`, SAKILA_COUNTRY_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -2105,13 +2105,13 @@ The `customer` table, mapped by `Customer`.
 
 === Basic
 
-[[SAKILA-CUSTOMER-B-01]]
-==== SAKILA-CUSTOMER-B-01: how many customers are active, and how many are not
+[[SAKILA_CUSTOMER_B_01]]
+==== SAKILA_CUSTOMER_B_01: how many customers are active, and how many are not
 
 Split the customers by the `active` flag: show each value of `active` (`0`
 or `1`) with the number of customers who have it, ordered by the value.
 
-.`customer_exercises_01_basic.sql`, SAKILA-CUSTOMER-B-01
+.`customer_exercises_01_basic.sql`, SAKILA_CUSTOMER_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -2132,13 +2132,13 @@ ORDER BY active
 ....
 ====
 
-[[SAKILA-CUSTOMER-B-02]]
-==== SAKILA-CUSTOMER-B-02: how many customers each store has
+[[SAKILA_CUSTOMER_B_02]]
+==== SAKILA_CUSTOMER_B_02: how many customers each store has
 
 Count the customers of each store, by the customer's own `store_id`.
 Show each `store_id` with its count, ordered by the store.
 
-.`customer_exercises_01_basic.sql`, SAKILA-CUSTOMER-B-02
+.`customer_exercises_01_basic.sql`, SAKILA_CUSTOMER_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -2160,14 +2160,14 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-CUSTOMER-B-03]]
-==== SAKILA-CUSTOMER-B-03: the domains of the customers' emails
+[[SAKILA_CUSTOMER_B_03]]
+==== SAKILA_CUSTOMER_B_03: the domains of the customers' emails
 
 Every customer has an `email`.
 Take the part after the `@` as the domain, group the customers by it, and show each domain with the number of its customers.
 The group is by an expression, not by a column.
 
-.`customer_exercises_01_basic.sql`, SAKILA-CUSTOMER-B-03
+.`customer_exercises_01_basic.sql`, SAKILA_CUSTOMER_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -2186,13 +2186,13 @@ GROUP BY domain
 ....
 ====
 
-[[SAKILA-CUSTOMER-B-04]]
-==== SAKILA-CUSTOMER-B-04: the customers who are not active
+[[SAKILA_CUSTOMER_B_04]]
+==== SAKILA_CUSTOMER_B_04: the customers who are not active
 
 Find the customers whose `active` is `0`.
 Show their `customer_id`, `first_name`, `last_name` and `store_id`, ordered by `customer_id`.
 
-.`customer_exercises_01_basic.sql`, SAKILA-CUSTOMER-B-04
+.`customer_exercises_01_basic.sql`, SAKILA_CUSTOMER_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -2226,13 +2226,13 @@ ORDER BY customer_id
 ....
 ====
 
-[[SAKILA-CUSTOMER-B-05]]
-==== SAKILA-CUSTOMER-B-05: how many customers have the same initial in both names
+[[SAKILA_CUSTOMER_B_05]]
+==== SAKILA_CUSTOMER_B_05: how many customers have the same initial in both names
 
 Count the customers whose `first_name` and `last_name` start with the same letter.
 The condition compares two expressions of the same row, `LEFT(first_name, 1)` and `LEFT(last_name, 1)`.
 
-.`customer_exercises_01_basic.sql`, SAKILA-CUSTOMER-B-05
+.`customer_exercises_01_basic.sql`, SAKILA_CUSTOMER_B_05
 [%collapsible]
 ====
 [source,sql]
@@ -2255,14 +2255,14 @@ Answered by `Customer_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-CUSTOMER-I-01]]
-==== SAKILA-CUSTOMER-I-01: the five customers who paid the most
+[[SAKILA_CUSTOMER_I_01]]
+==== SAKILA_CUSTOMER_I_01: the five customers who paid the most
 
 Sum the payments of each customer.
 Show the five customers who paid the most: their `customer_id`, `first_name`, `last_name` and total, the largest first; ties are ordered by
 `customer_id`.
 
-.`customer_exercises_02_intermediate.sql`, SAKILA-CUSTOMER-I-01
+.`customer_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -2288,14 +2288,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-CUSTOMER-I-02]]
-==== SAKILA-CUSTOMER-I-02: the customers who never rented
+[[SAKILA_CUSTOMER_I_02]]
+==== SAKILA_CUSTOMER_I_02: the customers who never rented
 
 Find the customers who have no rental at all.
 Show the whole rows.
 The installed data has none.
 
-.`customer_exercises_02_intermediate.sql`, SAKILA-CUSTOMER-I-02
+.`customer_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -2310,14 +2310,14 @@ no rows.
 ....
 ====
 
-[[SAKILA-CUSTOMER-I-03]]
-==== SAKILA-CUSTOMER-I-03: the customers who rented forty times or more
+[[SAKILA_CUSTOMER_I_03]]
+==== SAKILA_CUSTOMER_I_03: the customers who rented forty times or more
 
 Count the rentals of each customer, and keep the customers with forty or more.
 Show their `customer_id`, `first_name`, `last_name` and number of rentals, the most first; ties are ordered by `customer_id`.
 The condition is on the count, so it goes in `HAVING`.
 
-.`customer_exercises_02_intermediate.sql`, SAKILA-CUSTOMER-I-03
+.`customer_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -2345,13 +2345,13 @@ ORDER BY rentals DESC, c.customer_id
 ....
 ====
 
-[[SAKILA-CUSTOMER-I-04]]
-==== SAKILA-CUSTOMER-I-04: the five customers holding the most rentals not returned yet
+[[SAKILA_CUSTOMER_I_04]]
+==== SAKILA_CUSTOMER_I_04: the five customers holding the most rentals not returned yet
 
 A rental whose `return_date` is `NULL` is not returned yet.
 Count those rentals of each customer, and show the five customers with the most: their `customer_id`, `first_name`, `last_name` and count, the most first; ties are ordered by `customer_id`.
 
-.`customer_exercises_02_intermediate.sql`, SAKILA-CUSTOMER-I-04
+.`customer_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -2382,14 +2382,14 @@ Answered by `Customer_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-CUSTOMER-A-01]]
-==== SAKILA-CUSTOMER-A-01: the three customers who paid the most at each store
+[[SAKILA_CUSTOMER_A_01]]
+==== SAKILA_CUSTOMER_A_01: the three customers who paid the most at each store
 
 Sum the payments of each customer, the store being the customer's own `store_id`.
 Number the customers within each store, the largest total first and ties by `customer_id`, with `ROW_NUMBER() OVER (PARTITION BY ...)`, and keep the first three of each store.
 Show the `store_id`, the `customer_id`, the `first_name`, the `last_name` and the total, ordered by the store and the number.
 
-.`customer_exercises_03_advanced.sql`, SAKILA-CUSTOMER-A-01
+.`customer_exercises_03_advanced.sql`, SAKILA_CUSTOMER_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -2418,14 +2418,14 @@ ORDER BY store_id, n
 ....
 ====
 
-[[SAKILA-CUSTOMER-A-02]]
-==== SAKILA-CUSTOMER-A-02: how many customers of each store paid more than that store's average customer
+[[SAKILA_CUSTOMER_A_02]]
+==== SAKILA_CUSTOMER_A_02: how many customers of each store paid more than that store's average customer
 
 Sum the payments of each customer, then compare each customer's total with the average total of the customers of the same store.
 Show, for each store, how many of its customers paid more than the average, and the average itself rounded to two decimal places, ordered by `store_id`.
 A common table expression holds the totals, and a correlated subquery takes the average of the customer's own store.
 
-.`customer_exercises_03_advanced.sql`, SAKILA-CUSTOMER-A-02
+.`customer_exercises_03_advanced.sql`, SAKILA_CUSTOMER_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -2460,13 +2460,13 @@ The `customer_list` view, mapped by `CustomerList`.
 
 === Basic
 
-[[SAKILA-CUSTOMER_LIST-B-01]]
-==== SAKILA-CUSTOMER_LIST-B-01: the customers in Japan
+[[SAKILA_CUSTOMER_LIST_B_01]]
+==== SAKILA_CUSTOMER_LIST_B_01: the customers in Japan
 
 The `customer_list` view joins each customer with their address, city and country, and writes the name as one string.
 Show the customers who live in Japan, the whole rows of the view, ordered by `ID`.
 
-.`customer_list_exercises_01_basic.sql`, SAKILA-CUSTOMER_LIST-B-01
+.`customer_list_exercises_01_basic.sql`, SAKILA_CUSTOMER_LIST_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -2516,15 +2516,15 @@ ORDER BY ID
 ....
 ====
 
-[[SAKILA-CUSTOMER_LIST-B-02]]
-==== SAKILA-CUSTOMER_LIST-B-02: how many customers each store has, as the view's SID says
+[[SAKILA_CUSTOMER_LIST_B_02]]
+==== SAKILA_CUSTOMER_LIST_B_02: how many customers each store has, as the view's SID says
 
 Count the customers of each store, as the view's `SID` column, the store's id, says.
 Show each `SID` with its count, ordered by `SID`.
 The counts should match those taken from
 `customer` itself.
 
-.`customer_list_exercises_01_basic.sql`, SAKILA-CUSTOMER_LIST-B-02
+.`customer_list_exercises_01_basic.sql`, SAKILA_CUSTOMER_LIST_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -2546,14 +2546,14 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-CUSTOMER_LIST-B-03]]
-==== SAKILA-CUSTOMER_LIST-B-03: how many customers the view's notes call active
+[[SAKILA_CUSTOMER_LIST_B_03]]
+==== SAKILA_CUSTOMER_LIST_B_03: how many customers the view's notes call active
 
 The view does not show the `active` flag; its `notes` column holds `active` for an active customer and an empty string for the others.
 Show each value of `notes` with the number of its customers, ordered by `notes`.
 The counts should match those of `active` in `customer` itself.
 
-.`customer_list_exercises_01_basic.sql`, SAKILA-CUSTOMER_LIST-B-03
+.`customer_list_exercises_01_basic.sql`, SAKILA_CUSTOMER_LIST_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -2574,12 +2574,12 @@ ORDER BY notes
 ....
 ====
 
-[[SAKILA-CUSTOMER_LIST-B-04]]
-==== SAKILA-CUSTOMER_LIST-B-04: how many customers live on an Avenue
+[[SAKILA_CUSTOMER_LIST_B_04]]
+==== SAKILA_CUSTOMER_LIST_B_04: how many customers live on an Avenue
 
 Count the rows of the view whose `address` ends with the word `Avenue`.
 
-.`customer_list_exercises_01_basic.sql`, SAKILA-CUSTOMER_LIST-B-04
+.`customer_list_exercises_01_basic.sql`, SAKILA_CUSTOMER_LIST_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -2602,14 +2602,14 @@ Answered by `CustomerList_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-CUSTOMER_LIST-I-01]]
-==== SAKILA-CUSTOMER_LIST-I-01: whether the view has a row for every customer
+[[SAKILA_CUSTOMER_LIST_I_01]]
+==== SAKILA_CUSTOMER_LIST_I_01: whether the view has a row for every customer
 
 Check that the view is complete: count the rows of
 `customer_list` and the rows of `customer`, and show both counts in one row.
 The view uses inner joins, so a customer whose address chain is broken would be missing.
 
-.`customer_list_exercises_02_intermediate.sql`, SAKILA-CUSTOMER_LIST-I-01
+.`customer_list_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_LIST_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -2626,13 +2626,13 @@ SELECT (SELECT COUNT(*) FROM customer_list) AS customer_list, (SELECT COUNT(*) F
 ....
 ====
 
-[[SAKILA-CUSTOMER_LIST-I-02]]
-==== SAKILA-CUSTOMER_LIST-I-02: the cities with more than one customer
+[[SAKILA_CUSTOMER_LIST_I_02]]
+==== SAKILA_CUSTOMER_LIST_I_02: the cities with more than one customer
 
 Group the rows of the view by `city` and `country`, as two countries may have a city of the same name.
 Show the groups with more than one customer, with their counts, ordered by the city and then the country.
 
-.`customer_list_exercises_02_intermediate.sql`, SAKILA-CUSTOMER_LIST-I-02
+.`customer_list_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_LIST_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -2654,15 +2654,15 @@ ORDER BY city, country
 ....
 ====
 
-[[SAKILA-CUSTOMER_LIST-I-03]]
-==== SAKILA-CUSTOMER_LIST-I-03: the rows whose name is not the customer's first and last name
+[[SAKILA_CUSTOMER_LIST_I_03]]
+==== SAKILA_CUSTOMER_LIST_I_03: the rows whose name is not the customer's first and last name
 
 The view writes a customer's name as one string.
 Join each row of the view with its `customer` by `ID`, and find the rows whose `name` differs from `first_name`, a space, and `last_name`.
 Show the `ID`, the `name`, the `first_name` and the `last_name`.
 The installed data has none.
 
-.`customer_list_exercises_02_intermediate.sql`, SAKILA-CUSTOMER_LIST-I-03
+.`customer_list_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_LIST_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -2682,14 +2682,14 @@ Answered by `CustomerList_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-CUSTOMER_LIST-A-01]]
-==== SAKILA-CUSTOMER_LIST-A-01: the three countries with the most customers of each store
+[[SAKILA_CUSTOMER_LIST_A_01]]
+==== SAKILA_CUSTOMER_LIST_A_01: the three countries with the most customers of each store
 
 Count the rows of the view for each `SID` and `country`.
 Number the countries within each store, the most customers first and ties by the country's name, with `ROW_NUMBER() OVER (PARTITION BY ...)`, and keep the first three of each store.
 Show the `SID`, the country and the count, ordered by the store and the number.
 
-.`customer_list_exercises_03_advanced.sql`, SAKILA-CUSTOMER_LIST-A-01
+.`customer_list_exercises_03_advanced.sql`, SAKILA_CUSTOMER_LIST_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -2725,14 +2725,14 @@ The `film` table, mapped by `Film`.
 
 === Basic
 
-[[SAKILA-FILM-B-01]]
-==== SAKILA-FILM-B-01: how many films each rating has
+[[SAKILA_FILM_B_01]]
+==== SAKILA_FILM_B_01: how many films each rating has
 
 Count the films of each `rating`.
 Show each rating with its count, ordered by the rating.
 The rating is an `ENUM`, so its order is the order of the enum's values, not the alphabetical one.
 
-.`film_exercises_01_basic.sql`, SAKILA-FILM-B-01
+.`film_exercises_01_basic.sql`, SAKILA_FILM_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -2756,13 +2756,13 @@ ORDER BY rating
 ....
 ====
 
-[[SAKILA-FILM-B-02]]
-==== SAKILA-FILM-B-02: the films longer than three hours, the longest first
+[[SAKILA_FILM_B_02]]
+==== SAKILA_FILM_B_02: the films longer than three hours, the longest first
 
 Find the films whose `length` is more than three hours, that is, more than 180 minutes.
 Show the whole rows, the longest first, ties ordered by title, and keep the first five.
 
-.`film_exercises_01_basic.sql`, SAKILA-FILM-B-02
+.`film_exercises_01_basic.sql`, SAKILA_FILM_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -2787,13 +2787,13 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-FILM-B-03]]
-==== SAKILA-FILM-B-03: the average rental rate of each rating
+[[SAKILA_FILM_B_03]]
+==== SAKILA_FILM_B_03: the average rental rate of each rating
 
 Take the average `rental_rate` of the films of each rating.
 Show each rating with the average, rounded to two decimal places, ordered by the rating.
 
-.`film_exercises_01_basic.sql`, SAKILA-FILM-B-03
+.`film_exercises_01_basic.sql`, SAKILA_FILM_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -2817,14 +2817,14 @@ ORDER BY rating
 ....
 ====
 
-[[SAKILA-FILM-B-04]]
-==== SAKILA-FILM-B-04: how many films have Behind the Scenes among their special features
+[[SAKILA_FILM_B_04]]
+==== SAKILA_FILM_B_04: how many films have Behind the Scenes among their special features
 
 `special_features` is a `SET`: one value which holds any of `Trailers`,
 `Commentaries`, `Deleted Scenes` and `Behind the Scenes`.
 Count the films whose set holds `Behind the Scenes`.
 
-.`film_exercises_01_basic.sql`, SAKILA-FILM-B-04
+.`film_exercises_01_basic.sql`, SAKILA_FILM_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -2843,12 +2843,12 @@ WHERE FIND_IN_SET('Behind the Scenes', special_features) > 0
 ....
 ====
 
-[[SAKILA-FILM-B-05]]
-==== SAKILA-FILM-B-05: the five shortest films
+[[SAKILA_FILM_B_05]]
+==== SAKILA_FILM_B_05: the five shortest films
 
 Show the five films with the smallest `length`: their `film_id`, `title` and `length`, the shortest first; ties are ordered by title.
 
-.`film_exercises_01_basic.sql`, SAKILA-FILM-B-05
+.`film_exercises_01_basic.sql`, SAKILA_FILM_B_05
 [%collapsible]
 ====
 [source,sql]
@@ -2872,13 +2872,13 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-FILM-B-06]]
-==== SAKILA-FILM-B-06: the films cheapest to rent and dearest to replace
+[[SAKILA_FILM_B_06]]
+==== SAKILA_FILM_B_06: the films cheapest to rent and dearest to replace
 
 Find the films whose `rental_rate` is `0.99`, the lowest, and whose `replacement_cost` is `29.99`, the highest.
 Show their `film_id`, `title`, `rental_rate` and `replacement_cost`, ordered by title, and keep the first ten.
 
-.`film_exercises_01_basic.sql`, SAKILA-FILM-B-06
+.`film_exercises_01_basic.sql`, SAKILA_FILM_B_06
 [%collapsible]
 ====
 [source,sql]
@@ -2913,14 +2913,14 @@ Answered by `Film_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-FILM-I-01]]
-==== SAKILA-FILM-I-01: how many films have no copy in the inventory
+[[SAKILA_FILM_I_01]]
+==== SAKILA_FILM_I_01: how many films have no copy in the inventory
 
 Count the films which have no copy in `inventory`.
 They cannot be rented.
 An anti-join on `inventory.film_id`.
 
-.`film_exercises_02_intermediate.sql`, SAKILA-FILM-I-01
+.`film_exercises_02_intermediate.sql`, SAKILA_FILM_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -2939,15 +2939,15 @@ WHERE NOT EXISTS (SELECT 1 FROM inventory i WHERE i.film_id = f.film_id)
 ....
 ====
 
-[[SAKILA-FILM-I-02]]
-==== SAKILA-FILM-I-02: the five films rented the most
+[[SAKILA_FILM_I_02]]
+==== SAKILA_FILM_I_02: the five films rented the most
 
 Count how many times each film was rented.
 A rental refers to a copy (`inventory_id`), and a copy to a film, so the count goes through `inventory`.
 Show the five films rented the most:
 their `film_id`, `title` and number of rentals, the most first; ties are ordered by `film_id`.
 
-.`film_exercises_02_intermediate.sql`, SAKILA-FILM-I-02
+.`film_exercises_02_intermediate.sql`, SAKILA_FILM_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -2974,14 +2974,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-FILM-I-03]]
-==== SAKILA-FILM-I-03: how many films are short, medium and long
+[[SAKILA_FILM_I_03]]
+==== SAKILA_FILM_I_03: how many films are short, medium and long
 
 Put each film in one of three groups by its `length`: `short` under 60 minutes, `medium` from 60 to 120 minutes, and `long` over 120 minutes.
 Show each group with its number of films, from the shortest group to the longest.
 A `CASE` expression makes the group, and the query groups by it.
 
-.`film_exercises_02_intermediate.sql`, SAKILA-FILM-I-03
+.`film_exercises_02_intermediate.sql`, SAKILA_FILM_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -3004,14 +3004,14 @@ ORDER BY MIN(length)
 ....
 ====
 
-[[SAKILA-FILM-I-04]]
-==== SAKILA-FILM-I-04: the ratings whose films are longer than the average film
+[[SAKILA_FILM_I_04]]
+==== SAKILA_FILM_I_04: the ratings whose films are longer than the average film
 
 Take the average `length` of the films of each rating, and keep the ratings whose average is above the average of all the films.
 Show each such rating with its average, rounded to two decimal places, ordered by the rating.
 A subquery in `HAVING` gives the overall average.
 
-.`film_exercises_02_intermediate.sql`, SAKILA-FILM-I-04
+.`film_exercises_02_intermediate.sql`, SAKILA_FILM_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -3037,14 +3037,14 @@ Answered by `Film_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-FILM-A-01]]
-==== SAKILA-FILM-A-01: how many films of each rating are longer than their rating's average
+[[SAKILA_FILM_A_01]]
+==== SAKILA_FILM_A_01: how many films of each rating are longer than their rating's average
 
 Compare each film's `length` with the average length of the films of the same rating.
 Count, for each rating, the films longer than that average, and show each rating with its count, ordered by the rating.
 A correlated subquery: the average is taken again for the rating of each film.
 
-.`film_exercises_03_advanced.sql`, SAKILA-FILM-A-01
+.`film_exercises_03_advanced.sql`, SAKILA_FILM_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -3077,13 +3077,13 @@ The `film_actor` table, mapped by `FilmActor`.
 
 === Basic
 
-[[SAKILA-FILM_ACTOR-B-01]]
-==== SAKILA-FILM_ACTOR-B-01: how many films the actor 1 appears in
+[[SAKILA_FILM_ACTOR_B_01]]
+==== SAKILA_FILM_ACTOR_B_01: how many films the actor 1 appears in
 
 Count the rows of `film_actor` whose `actor_id` is `1`.
 Each row is one film the actor appears in.
 
-.`film_actor_exercises_01_basic.sql`, SAKILA-FILM_ACTOR-B-01
+.`film_actor_exercises_01_basic.sql`, SAKILA_FILM_ACTOR_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -3102,13 +3102,13 @@ WHERE actor_id = 1
 ....
 ====
 
-[[SAKILA-FILM_ACTOR-B-02]]
-==== SAKILA-FILM_ACTOR-B-02: how many castings, actors and films the table has
+[[SAKILA_FILM_ACTOR_B_02]]
+==== SAKILA_FILM_ACTOR_B_02: how many castings, actors and films the table has
 
 Count, in one row, the rows of `film_actor`, the distinct `actor_id` values and the distinct `film_id` values.
 The distinct films are fewer than the films of `film`: some films have no actor.
 
-.`film_actor_exercises_01_basic.sql`, SAKILA-FILM_ACTOR-B-02
+.`film_actor_exercises_01_basic.sql`, SAKILA_FILM_ACTOR_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -3130,14 +3130,14 @@ Answered by `FilmActor_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-FILM_ACTOR-I-01]]
-==== SAKILA-FILM_ACTOR-I-01: the five films with the most actors
+[[SAKILA_FILM_ACTOR_I_01]]
+==== SAKILA_FILM_ACTOR_I_01: the five films with the most actors
 
 Count the actors of each film through `film_actor`.
 Show the five films with the most actors: their `film_id`, `title` and number of actors, the most first; ties are ordered by
 `film_id`.
 
-.`film_actor_exercises_02_intermediate.sql`, SAKILA-FILM_ACTOR-I-01
+.`film_actor_exercises_02_intermediate.sql`, SAKILA_FILM_ACTOR_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -3163,13 +3163,13 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-FILM_ACTOR-I-02]]
-==== SAKILA-FILM_ACTOR-I-02: how many actors a film has, on average
+[[SAKILA_FILM_ACTOR_I_02]]
+==== SAKILA_FILM_ACTOR_I_02: how many actors a film has, on average
 
 Find how many actors a film has, on average, over the films which have at least one.
 Count the actors of each film, then average the counts, rounded to two decimal places.
 
-.`film_actor_exercises_02_intermediate.sql`, SAKILA-FILM_ACTOR-I-02
+.`film_actor_exercises_02_intermediate.sql`, SAKILA_FILM_ACTOR_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -3187,13 +3187,13 @@ FROM (SELECT COUNT(*) AS actors FROM film_actor GROUP BY film_id) t
 ....
 ====
 
-[[SAKILA-FILM_ACTOR-I-03]]
-==== SAKILA-FILM_ACTOR-I-03: the five actors who appear most often with the actor 1
+[[SAKILA_FILM_ACTOR_I_03]]
+==== SAKILA_FILM_ACTOR_I_03: the five actors who appear most often with the actor 1
 
 Join `film_actor` with itself on the film, keeping the rows of the actor 1 on one side and the other actors of the same films on the other.
 Count the films each other actor shares with the actor 1, and show the five with the most: their `actor_id`, `first_name`, `last_name` and count, the most first; ties are ordered by `actor_id`.
 
-.`film_actor_exercises_02_intermediate.sql`, SAKILA-FILM_ACTOR-I-03
+.`film_actor_exercises_02_intermediate.sql`, SAKILA_FILM_ACTOR_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -3221,14 +3221,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-FILM_ACTOR-I-04]]
-==== SAKILA-FILM_ACTOR-I-04: how many films have one actor, two actors, and so on
+[[SAKILA_FILM_ACTOR_I_04]]
+==== SAKILA_FILM_ACTOR_I_04: how many films have one actor, two actors, and so on
 
 Count the actors of each film, then count the films of each such number.
 Show each number of actors with its number of films, ordered by the number of actors.
 A grouping over a grouping: the inner query groups by film, the outer by its count.
 
-.`film_actor_exercises_02_intermediate.sql`, SAKILA-FILM_ACTOR-I-04
+.`film_actor_exercises_02_intermediate.sql`, SAKILA_FILM_ACTOR_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -3265,8 +3265,8 @@ Answered by `FilmActor_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-FILM_ACTOR-A-01]]
-==== SAKILA-FILM_ACTOR-A-01: the three pairs of actors who appear together the most
+[[SAKILA_FILM_ACTOR_A_01]]
+==== SAKILA_FILM_ACTOR_A_01: the three pairs of actors who appear together the most
 
 Two actors appear together when both are in the same film.
 Pair every
@@ -3274,7 +3274,7 @@ Pair every
 Show the three pairs who appear together the most: both actors' ids and the count, the most first; ties are ordered by the ids.
 A self-join.
 
-.`film_actor_exercises_03_advanced.sql`, SAKILA-FILM_ACTOR-A-01
+.`film_actor_exercises_03_advanced.sql`, SAKILA_FILM_ACTOR_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -3300,14 +3300,14 @@ LIMIT 3
 ....
 ====
 
-[[SAKILA-FILM_ACTOR-A-02]]
-==== SAKILA-FILM_ACTOR-A-02: the actor who appears in the most films of each category
+[[SAKILA_FILM_ACTOR_A_02]]
+==== SAKILA_FILM_ACTOR_A_02: the actor who appears in the most films of each category
 
 Count the films of each actor in each category, through `film_category`.
 Number the actors within each category, the most films first and ties by `actor_id`, with `ROW_NUMBER() OVER (PARTITION BY ...)`, and keep the first of each category.
 Show the category's `name`, the actor's `actor_id`, `first_name` and `last_name`, and the count, ordered by the category's name.
 
-.`film_actor_exercises_03_advanced.sql`, SAKILA-FILM_ACTOR-A-02
+.`film_actor_exercises_03_advanced.sql`, SAKILA_FILM_ACTOR_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -3348,15 +3348,15 @@ ORDER BY name
 ....
 ====
 
-[[SAKILA-FILM_ACTOR-A-03]]
-==== SAKILA-FILM_ACTOR-A-03: the pairs of films which have exactly the same actors
+[[SAKILA_FILM_ACTOR_A_03]]
+==== SAKILA_FILM_ACTOR_A_03: the pairs of films which have exactly the same actors
 
 Two films have the same cast when every actor of each is also an actor of the other.
 Join `film_actor` with itself on the actor, keeping each pair of films once (the first film's id smaller than the second's), and keep the pairs whose number of shared actors equals the number of actors of both films.
 Show both films' ids and the number of actors, ordered by the ids.
 A relational division by counting.
 
-.`film_actor_exercises_03_advanced.sql`, SAKILA-FILM_ACTOR-A-03
+.`film_actor_exercises_03_advanced.sql`, SAKILA_FILM_ACTOR_A_03
 [%collapsible]
 ====
 [source,sql]
@@ -3389,13 +3389,13 @@ The `film_category` table, mapped by `FilmCategory`.
 
 === Basic
 
-[[SAKILA-FILM_CATEGORY-B-01]]
-==== SAKILA-FILM_CATEGORY-B-01: how many categories the films are in
+[[SAKILA_FILM_CATEGORY_B_01]]
+==== SAKILA_FILM_CATEGORY_B_01: how many categories the films are in
 
 Count the different categories that `film_category` refers to, that is, the categories which have at least one film.
 Count each `category_id` once, however many films it has.
 
-.`film_category_exercises_01_basic.sql`, SAKILA-FILM_CATEGORY-B-01
+.`film_category_exercises_01_basic.sql`, SAKILA_FILM_CATEGORY_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -3413,13 +3413,13 @@ FROM film_category
 ....
 ====
 
-[[SAKILA-FILM_CATEGORY-B-02]]
-==== SAKILA-FILM_CATEGORY-B-02: the categories of the films 1 to 10
+[[SAKILA_FILM_CATEGORY_B_02]]
+==== SAKILA_FILM_CATEGORY_B_02: the categories of the films 1 to 10
 
 Show the rows of `film_category` for the films whose id is between `1` and `10`: the `film_id` and its `category_id`, ordered by `film_id`.
 A film has one category in the installed data, so `film_id` alone gives the order.
 
-.`film_category_exercises_01_basic.sql`, SAKILA-FILM_CATEGORY-B-02
+.`film_category_exercises_01_basic.sql`, SAKILA_FILM_CATEGORY_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -3452,15 +3452,15 @@ Answered by `FilmCategory_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-FILM_CATEGORY-I-01]]
-==== SAKILA-FILM_CATEGORY-I-01: the films with more than one category
+[[SAKILA_FILM_CATEGORY_I_01]]
+==== SAKILA_FILM_CATEGORY_I_01: the films with more than one category
 
 The table allows a film more than one category.
 Find the films which actually have more than one: group `film_category` by `film_id` and keep the groups with more than one row.
 Show each film's id with its count.
 The installed data has none; every film has exactly one category.
 
-.`film_category_exercises_02_intermediate.sql`, SAKILA-FILM_CATEGORY-I-01
+.`film_category_exercises_02_intermediate.sql`, SAKILA_FILM_CATEGORY_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -3477,12 +3477,12 @@ no rows.
 ....
 ====
 
-[[SAKILA-FILM_CATEGORY-I-02]]
-==== SAKILA-FILM_CATEGORY-I-02: how many films have no category
+[[SAKILA_FILM_CATEGORY_I_02]]
+==== SAKILA_FILM_CATEGORY_I_02: how many films have no category
 
 Count the films which have no row in `film_category`.
 
-.`film_category_exercises_02_intermediate.sql`, SAKILA-FILM_CATEGORY-I-02
+.`film_category_exercises_02_intermediate.sql`, SAKILA_FILM_CATEGORY_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -3501,14 +3501,14 @@ WHERE NOT EXISTS (SELECT 1 FROM film_category fc WHERE fc.film_id = f.film_id)
 ....
 ====
 
-[[SAKILA-FILM_CATEGORY-I-03]]
-==== SAKILA-FILM_CATEGORY-I-03: how many films each category has, and how many of them are rated R
+[[SAKILA_FILM_CATEGORY_I_03]]
+==== SAKILA_FILM_CATEGORY_I_03: how many films each category has, and how many of them are rated R
 
 For each category, count its films, and, in the same row, those of them whose `rating` is `R`.
 Show the category's name with both counts, ordered by the name.
 Count the R-rated films with a `CASE` inside a `SUM`, so that one pass over the rows gives both counts.
 
-.`film_category_exercises_02_intermediate.sql`, SAKILA-FILM_CATEGORY-I-03
+.`film_category_exercises_02_intermediate.sql`, SAKILA_FILM_CATEGORY_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -3547,14 +3547,14 @@ ORDER BY c.name
 ....
 ====
 
-[[SAKILA-FILM_CATEGORY-I-04]]
-==== SAKILA-FILM_CATEGORY-I-04: the categories whose films cost more to replace than the average film
+[[SAKILA_FILM_CATEGORY_I_04]]
+==== SAKILA_FILM_CATEGORY_I_04: the categories whose films cost more to replace than the average film
 
 Find the categories whose films' average `replacement_cost` is higher than the average `replacement_cost` of all films.
 Show each category's name with its average, the highest first; ties are ordered by the name.
 The average of all films is a subquery in the `HAVING` clause.
 
-.`film_category_exercises_02_intermediate.sql`, SAKILA-FILM_CATEGORY-I-04
+.`film_category_exercises_02_intermediate.sql`, SAKILA_FILM_CATEGORY_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -3588,15 +3588,15 @@ Answered by `FilmCategory_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-FILM_CATEGORY-A-01]]
-==== SAKILA-FILM_CATEGORY-A-01: the longest film of each category
+[[SAKILA_FILM_CATEGORY_A_01]]
+==== SAKILA_FILM_CATEGORY_A_01: the longest film of each category
 
 For each category, find its longest film.
 Show the category's name, the film's `film_id`, `title` and `length`, ordered by the category's name.
 Several films of a category may share the longest length; take the one with the smallest `film_id`.
 Number the films of each category with `ROW_NUMBER()`, partitioned by the category, and keep the first.
 
-.`film_category_exercises_03_advanced.sql`, SAKILA-FILM_CATEGORY-A-01
+.`film_category_exercises_03_advanced.sql`, SAKILA_FILM_CATEGORY_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -3635,14 +3635,14 @@ ORDER BY name
 ....
 ====
 
-[[SAKILA-FILM_CATEGORY-A-02]]
-==== SAKILA-FILM_CATEGORY-A-02: the pairs of categories which have the same number of films
+[[SAKILA_FILM_CATEGORY_A_02]]
+==== SAKILA_FILM_CATEGORY_A_02: the pairs of categories which have the same number of films
 
 Find the pairs of categories which have the same number of films.
 Join `category` with itself, keeping each pair once, the name which comes first on the left, and compare the two counts, each a correlated subquery on `film_category`.
 Show the two names and the number of films, the largest number first; ties are ordered by the two names.
 
-.`film_category_exercises_03_advanced.sql`, SAKILA-FILM_CATEGORY-A-02
+.`film_category_exercises_03_advanced.sql`, SAKILA_FILM_CATEGORY_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -3674,13 +3674,13 @@ The `film_list` view, mapped by `FilmList`.
 
 === Basic
 
-[[SAKILA-FILM_LIST-B-01]]
-==== SAKILA-FILM_LIST-B-01: how many Action films there are
+[[SAKILA_FILM_LIST_B_01]]
+==== SAKILA_FILM_LIST_B_01: how many Action films there are
 
 The `film_list` view shows each film with its category, its price and its actors.
 Count the films whose `category` is `Action`.
 
-.`film_list_exercises_01_basic.sql`, SAKILA-FILM_LIST-B-01
+.`film_list_exercises_01_basic.sql`, SAKILA_FILM_LIST_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -3699,12 +3699,12 @@ WHERE category = 'Action'
 ....
 ====
 
-[[SAKILA-FILM_LIST-B-02]]
-==== SAKILA-FILM_LIST-B-02: the actors of the film 1
+[[SAKILA_FILM_LIST_B_02]]
+==== SAKILA_FILM_LIST_B_02: the actors of the film 1
 
 Show the view's row for the film `1`: its `FID`, `title` and `actors`, the names of all its actors in one comma-separated string.
 
-.`film_list_exercises_01_basic.sql`, SAKILA-FILM_LIST-B-02
+.`film_list_exercises_01_basic.sql`, SAKILA_FILM_LIST_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -3723,13 +3723,13 @@ WHERE FID = 1
 ....
 ====
 
-[[SAKILA-FILM_LIST-B-03]]
-==== SAKILA-FILM_LIST-B-03: the Children films rated G
+[[SAKILA_FILM_LIST_B_03]]
+==== SAKILA_FILM_LIST_B_03: the Children films rated G
 
 Find the films whose `category` is `Children` and whose `rating` is `G`.
 Show their `FID`, `title` and `length`, ordered by the title; ties are ordered by `FID`.
 
-.`film_list_exercises_01_basic.sql`, SAKILA-FILM_LIST-B-03
+.`film_list_exercises_01_basic.sql`, SAKILA_FILM_LIST_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -3759,13 +3759,13 @@ ORDER BY title, FID
 ....
 ====
 
-[[SAKILA-FILM_LIST-B-04]]
-==== SAKILA-FILM_LIST-B-04: the films with no actor
+[[SAKILA_FILM_LIST_B_04]]
+==== SAKILA_FILM_LIST_B_04: the films with no actor
 
 The view joins the actors with outer joins, so a film without an actor still has a row, and its `actors` is `NULL`.
 Find those films: their `FID`, `title` and `category`, ordered by `FID`.
 
-.`film_list_exercises_01_basic.sql`, SAKILA-FILM_LIST-B-04
+.`film_list_exercises_01_basic.sql`, SAKILA_FILM_LIST_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -3791,14 +3791,14 @@ Answered by `FilmList_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-FILM_LIST-I-01]]
-==== SAKILA-FILM_LIST-I-01: whether the view has a row for every film which has a category
+[[SAKILA_FILM_LIST_I_01]]
+==== SAKILA_FILM_LIST_I_01: whether the view has a row for every film which has a category
 
 The view joins `film` with `film_category` and `category` by inner joins, so it has a row only for a film which has a category.
 Count the rows of the view, and the distinct films of
 `film_category`, and show both in one row.
 
-.`film_list_exercises_02_intermediate.sql`, SAKILA-FILM_LIST-I-01
+.`film_list_exercises_02_intermediate.sql`, SAKILA_FILM_LIST_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -3816,14 +3816,14 @@ SELECT (SELECT COUNT(*) FROM film_list) AS film_list,
 ....
 ====
 
-[[SAKILA-FILM_LIST-I-02]]
-==== SAKILA-FILM_LIST-I-02: how many films of each rating there are at each price
+[[SAKILA_FILM_LIST_I_02]]
+==== SAKILA_FILM_LIST_I_02: how many films of each rating there are at each price
 
 The view's `price` takes only three values: `0.99`, `2.99` and `4.99`.
 For each rating, count its films at each price, one column per price, and order the rows by the rating, in the order the `rating` column declares its values.
 Count each price with a `CASE` inside a `SUM`.
 
-.`film_list_exercises_02_intermediate.sql`, SAKILA-FILM_LIST-I-02
+.`film_list_exercises_02_intermediate.sql`, SAKILA_FILM_LIST_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -3850,15 +3850,15 @@ ORDER BY rating
 ....
 ====
 
-[[SAKILA-FILM_LIST-I-03]]
-==== SAKILA-FILM_LIST-I-03: the films whose actors string lists a different number of actors than film_actor
+[[SAKILA_FILM_LIST_I_03]]
+==== SAKILA_FILM_LIST_I_03: the films whose actors string lists a different number of actors than film_actor
 
 Count the actors in each film's `actors` string, one more than its commas, and compare the number with the film's rows in `film_actor`.
 Find the films, of those which have an actor, whose two numbers differ: their `FID` and `title`, ordered by `FID`.
 The commas are counted as the length of the string less the length of the string with its commas removed.
 The installed data has none.
 
-.`film_list_exercises_02_intermediate.sql`, SAKILA-FILM_LIST-I-03
+.`film_list_exercises_02_intermediate.sql`, SAKILA_FILM_LIST_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -3880,14 +3880,14 @@ Answered by `FilmList_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-FILM_LIST-A-01]]
-==== SAKILA-FILM_LIST-A-01: how many films of each category are longer than their category's average
+[[SAKILA_FILM_LIST_A_01]]
+==== SAKILA_FILM_LIST_A_01: how many films of each category are longer than their category's average
 
 For each category, count the films which are longer than the average length of the films of that same category.
 Show the category with its count, the largest count first; ties are ordered by the category.
 The average is a correlated subquery on the view, matched to the outer row by `category`.
 
-.`film_list_exercises_03_advanced.sql`, SAKILA-FILM_LIST-A-01
+.`film_list_exercises_03_advanced.sql`, SAKILA_FILM_LIST_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -3931,13 +3931,13 @@ The `film_text` table, mapped by `FilmText`.
 
 === Basic
 
-[[SAKILA-FILM_TEXT-B-01]]
-==== SAKILA-FILM_TEXT-B-01: the films whose description has both a Crocodile and a Shark
+[[SAKILA_FILM_TEXT_B_01]]
+==== SAKILA_FILM_TEXT_B_01: the films whose description has both a Crocodile and a Shark
 
 Find the films whose `description` mentions both `Crocodile` and `Shark`, with two `LIKE` conditions.
 Show their `film_id` and `title`, ordered by `film_id`.
 
-.`film_text_exercises_01_basic.sql`, SAKILA-FILM_TEXT-B-01
+.`film_text_exercises_01_basic.sql`, SAKILA_FILM_TEXT_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -3967,13 +3967,13 @@ ORDER BY film_id
 ....
 ====
 
-[[SAKILA-FILM_TEXT-B-02]]
-==== SAKILA-FILM_TEXT-B-02: the five longest descriptions
+[[SAKILA_FILM_TEXT_B_02]]
+==== SAKILA_FILM_TEXT_B_02: the five longest descriptions
 
 Find the five films whose `description` is the longest, by its number of characters.
 Show their `film_id`, `title` and the length, the longest first; ties are ordered by `film_id`.
 
-.`film_text_exercises_01_basic.sql`, SAKILA-FILM_TEXT-B-02
+.`film_text_exercises_01_basic.sql`, SAKILA_FILM_TEXT_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -4001,13 +4001,13 @@ Answered by `FilmText_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-FILM_TEXT-I-01]]
-==== SAKILA-FILM_TEXT-I-01: whether film_text has a row for every film
+[[SAKILA_FILM_TEXT_I_01]]
+==== SAKILA_FILM_TEXT_I_01: whether film_text has a row for every film
 
 `film_text` keeps a copy of each film's title and description, for the full-text index; triggers on `film` keep it up to date.
 Count the rows of `film_text` and of `film`, and show both in one row.
 
-.`film_text_exercises_02_intermediate.sql`, SAKILA-FILM_TEXT-I-01
+.`film_text_exercises_02_intermediate.sql`, SAKILA_FILM_TEXT_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -4024,14 +4024,14 @@ SELECT (SELECT COUNT(*) FROM film_text) AS film_text, (SELECT COUNT(*) FROM film
 ....
 ====
 
-[[SAKILA-FILM_TEXT-I-02]]
-==== SAKILA-FILM_TEXT-I-02: how many films mention a Drama, by the full-text index
+[[SAKILA_FILM_TEXT_I_02]]
+==== SAKILA_FILM_TEXT_I_02: how many films mention a Drama, by the full-text index
 
 `film_text` has a full-text index on `title` and `description`.
 Count the films which mention the word `drama`, searching with that index (`MATCH ... AGAINST`), not with a
 `LIKE`.
 
-.`film_text_exercises_02_intermediate.sql`, SAKILA-FILM_TEXT-I-02
+.`film_text_exercises_02_intermediate.sql`, SAKILA_FILM_TEXT_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -4050,13 +4050,13 @@ WHERE MATCH(title, description) AGAINST ('drama')
 ....
 ====
 
-[[SAKILA-FILM_TEXT-I-03]]
-==== SAKILA-FILM_TEXT-I-03: the films whose film_text title differs from their title
+[[SAKILA_FILM_TEXT_I_03]]
+==== SAKILA_FILM_TEXT_I_03: the films whose film_text title differs from their title
 
 Join `film_text` to `film` by the film id, and find the films whose two titles are not the same: the `film_id`, the film's `title` and the `film_text` title.
 The triggers keep them the same, so the installed data has none.
 
-.`film_text_exercises_02_intermediate.sql`, SAKILA-FILM_TEXT-I-03
+.`film_text_exercises_02_intermediate.sql`, SAKILA_FILM_TEXT_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -4072,13 +4072,13 @@ no rows.
 ....
 ====
 
-[[SAKILA-FILM_TEXT-I-04]]
-==== SAKILA-FILM_TEXT-I-04: how many films mention a Boat but not a Shark, by the full-text index
+[[SAKILA_FILM_TEXT_I_04]]
+==== SAKILA_FILM_TEXT_I_04: how many films mention a Boat but not a Shark, by the full-text index
 
 Count the films which mention the word `boat` but not the word `shark`, searching with the full-text index in boolean mode.
 In boolean mode, `+` marks a word which must be present and `-` a word which must be absent.
 
-.`film_text_exercises_02_intermediate.sql`, SAKILA-FILM_TEXT-I-04
+.`film_text_exercises_02_intermediate.sql`, SAKILA_FILM_TEXT_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -4097,13 +4097,13 @@ WHERE MATCH(title, description) AGAINST ('+boat -shark' IN BOOLEAN MODE)
 ....
 ====
 
-[[SAKILA-FILM_TEXT-I-05]]
-==== SAKILA-FILM_TEXT-I-05: how many films mention a Crocodile or a Shark, and how many mention both
+[[SAKILA_FILM_TEXT_I_05]]
+==== SAKILA_FILM_TEXT_I_05: how many films mention a Crocodile or a Shark, and how many mention both
 
 Search the full-text index for `crocodile` and `shark` twice, and show both counts in one row.
 First in natural language mode, which finds the films mentioning either word; then in boolean mode with both words marked `+`, which finds the films mentioning both.
 
-.`film_text_exercises_02_intermediate.sql`, SAKILA-FILM_TEXT-I-05
+.`film_text_exercises_02_intermediate.sql`, SAKILA_FILM_TEXT_I_05
 [%collapsible]
 ====
 [source,sql]
@@ -4127,15 +4127,15 @@ Answered by `FilmText_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-FILM_TEXT-A-01]]
-==== SAKILA-FILM_TEXT-A-01: the most common kind of story in each category
+[[SAKILA_FILM_TEXT_A_01]]
+==== SAKILA_FILM_TEXT_A_01: the most common kind of story in each category
 
 Every `description` starts the same way, like `A Epic Drama of ...`: its third word is the kind of story, such as `Drama`, `Documentary` or `Saga`.
 For each category, find the kind of story its films tell the most, and show the category, the kind and its number of films, ordered by the category.
 Ties are broken by the kind, the first in alphabetical order.
 Take the third word with `SUBSTRING_INDEX`, count the films per category and kind in one CTE, and rank them with `ROW_NUMBER()` in another.
 
-.`film_text_exercises_03_advanced.sql`, SAKILA-FILM_TEXT-A-01
+.`film_text_exercises_03_advanced.sql`, SAKILA_FILM_TEXT_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -4180,15 +4180,15 @@ ORDER BY category
 ....
 ====
 
-[[SAKILA-FILM_TEXT-A-02]]
-==== SAKILA-FILM_TEXT-A-02: the chain of titles from ACADEMY DINOSAUR
+[[SAKILA_FILM_TEXT_A_02]]
+==== SAKILA_FILM_TEXT_A_02: the chain of titles from ACADEMY DINOSAUR
 
 Every title has two words, and the last word of a title is, for all but one film, the first word of another film's title; no two titles share a first word.
 Starting from the film `1`, `ACADEMY DINOSAUR`, follow that chain for ten films: the next film is the one whose title starts with the last word of the current one.
 Show the step, the `film_id` and the `title`, ordered by the step.
 Follow the chain with a recursive CTE which stops at the tenth step.
 
-.`film_text_exercises_03_advanced.sql`, SAKILA-FILM_TEXT-A-02
+.`film_text_exercises_03_advanced.sql`, SAKILA_FILM_TEXT_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -4232,14 +4232,14 @@ The `inventory` table, mapped by `Inventory`.
 
 === Basic
 
-[[SAKILA-INVENTORY-B-01]]
-==== SAKILA-INVENTORY-B-01: how many copies each store has
+[[SAKILA_INVENTORY_B_01]]
+==== SAKILA_INVENTORY_B_01: how many copies each store has
 
 Count the copies, the rows of `inventory`, that each store has.
 Show each
 `store_id` with its count, ordered by the store.
 
-.`inventory_exercises_01_basic.sql`, SAKILA-INVENTORY-B-01
+.`inventory_exercises_01_basic.sql`, SAKILA_INVENTORY_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -4261,13 +4261,13 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-INVENTORY-B-02]]
-==== SAKILA-INVENTORY-B-02: the copies of the film 1
+[[SAKILA_INVENTORY_B_02]]
+==== SAKILA_INVENTORY_B_02: the copies of the film 1
 
 Find the copies of the film `1`.
 Show each copy's `inventory_id` and `store_id`, ordered by `inventory_id`.
 
-.`inventory_exercises_01_basic.sql`, SAKILA-INVENTORY-B-02
+.`inventory_exercises_01_basic.sql`, SAKILA_INVENTORY_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -4294,14 +4294,14 @@ ORDER BY inventory_id
 ....
 ====
 
-[[SAKILA-INVENTORY-B-03]]
-==== SAKILA-INVENTORY-B-03: how many copies of the films 1 to 5 each store has
+[[SAKILA_INVENTORY_B_03]]
+==== SAKILA_INVENTORY_B_03: how many copies of the films 1 to 5 each store has
 
 For the films whose id is between `1` and `5`, count the copies each store has of each film.
 Show the `film_id`, the `store_id` and the count, ordered by `film_id` and then by `store_id`.
 A store with no copy of a film has no row for it.
 
-.`inventory_exercises_01_basic.sql`, SAKILA-INVENTORY-B-03
+.`inventory_exercises_01_basic.sql`, SAKILA_INVENTORY_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -4334,13 +4334,13 @@ Answered by `Inventory_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-INVENTORY-I-01]]
-==== SAKILA-INVENTORY-I-01: the five films with the most copies
+[[SAKILA_INVENTORY_I_01]]
+==== SAKILA_INVENTORY_I_01: the five films with the most copies
 
 Count the copies of each film.
 Show the five films with the most copies: their `film_id`, `title` and number of copies, the most first; ties are ordered by `film_id`.
 
-.`inventory_exercises_02_intermediate.sql`, SAKILA-INVENTORY-I-01
+.`inventory_exercises_02_intermediate.sql`, SAKILA_INVENTORY_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -4366,12 +4366,12 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-INVENTORY-I-02]]
-==== SAKILA-INVENTORY-I-02: how many copies were never rented
+[[SAKILA_INVENTORY_I_02]]
+==== SAKILA_INVENTORY_I_02: how many copies were never rented
 
 Count the copies which no rental refers to, that is, the copies which were never rented.
 
-.`inventory_exercises_02_intermediate.sql`, SAKILA-INVENTORY-I-02
+.`inventory_exercises_02_intermediate.sql`, SAKILA_INVENTORY_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -4390,13 +4390,13 @@ WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id)
 ....
 ====
 
-[[SAKILA-INVENTORY-I-03]]
-==== SAKILA-INVENTORY-I-03: how many copies each store has out right now
+[[SAKILA_INVENTORY_I_03]]
+==== SAKILA_INVENTORY_I_03: how many copies each store has out right now
 
 A copy is out while it has a rental whose `return_date` is `NULL`.
 Count, for each store, its copies which are out, and show each `store_id` with its count, ordered by the store.
 
-.`inventory_exercises_02_intermediate.sql`, SAKILA-INVENTORY-I-03
+.`inventory_exercises_02_intermediate.sql`, SAKILA_INVENTORY_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -4420,13 +4420,13 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-INVENTORY-I-04]]
-==== SAKILA-INVENTORY-I-04: how many copies of each rating each store has
+[[SAKILA_INVENTORY_I_04]]
+==== SAKILA_INVENTORY_I_04: how many copies of each rating each store has
 
 Count the copies of each store by the rating of their film.
 Show the `store_id`, the `rating` and the count, ordered by the store and then by the rating, in the order the `rating` column declares its values.
 
-.`inventory_exercises_02_intermediate.sql`, SAKILA-INVENTORY-I-04
+.`inventory_exercises_02_intermediate.sql`, SAKILA_INVENTORY_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -4461,15 +4461,15 @@ Answered by `Inventory_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-INVENTORY-A-01]]
-==== SAKILA-INVENTORY-A-01: the five longest times a copy sat on the shelf between two rentals
+[[SAKILA_INVENTORY_A_01]]
+==== SAKILA_INVENTORY_A_01: the five longest times a copy sat on the shelf between two rentals
 
 For each rental of a copy, find the copy's next rental, and the days between the return and that next rental.
 Leave out the rentals of 2006, which all fall on one day, months after the others.
 Show the five longest: the `inventory_id`, the `return_date`, the next rental's date and the days, the most days first; ties are ordered by `inventory_id` and then by `return_date`.
 Find the next rental with `LEAD()`, partitioned by the copy and ordered by the rental date and the rental's id.
 
-.`inventory_exercises_03_advanced.sql`, SAKILA-INVENTORY-A-01
+.`inventory_exercises_03_advanced.sql`, SAKILA_INVENTORY_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -4500,13 +4500,13 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-INVENTORY-A-02]]
-==== SAKILA-INVENTORY-A-02: how many films have had every one of their copies rented
+[[SAKILA_INVENTORY_A_02]]
+==== SAKILA_INVENTORY_A_02: how many films have had every one of their copies rented
 
 Count the films in the inventory, and, in the same row, the films every copy of which has been rented at least once.
 A film qualifies when none of its copies is without a rental: a `NOT EXISTS` inside a `NOT EXISTS`.
 
-.`inventory_exercises_03_advanced.sql`, SAKILA-INVENTORY-A-02
+.`inventory_exercises_03_advanced.sql`, SAKILA_INVENTORY_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -4537,12 +4537,12 @@ The `language` table, mapped by `Language`.
 
 === Basic
 
-[[SAKILA-LANGUAGE-B-01]]
-==== SAKILA-LANGUAGE-B-01: every language
+[[SAKILA_LANGUAGE_B_01]]
+==== SAKILA_LANGUAGE_B_01: every language
 
 Show every language, the whole rows, ordered by the id.
 
-.`language_exercises_01_basic.sql`, SAKILA-LANGUAGE-B-01
+.`language_exercises_01_basic.sql`, SAKILA_LANGUAGE_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -4566,13 +4566,13 @@ ORDER BY language_id
 ....
 ====
 
-[[SAKILA-LANGUAGE-B-02]]
-==== SAKILA-LANGUAGE-B-02: how many films have an original language
+[[SAKILA_LANGUAGE_B_02]]
+==== SAKILA_LANGUAGE_B_02: how many films have an original language
 
 A film has a `language_id` and may have an `original_language_id`.
 Count the films whose `original_language_id` is not `NULL`.
 
-.`language_exercises_01_basic.sql`, SAKILA-LANGUAGE-B-02
+.`language_exercises_01_basic.sql`, SAKILA_LANGUAGE_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -4591,13 +4591,13 @@ WHERE original_language_id IS NOT NULL
 ....
 ====
 
-[[SAKILA-LANGUAGE-B-03]]
-==== SAKILA-LANGUAGE-B-03: which of four languages the table has
+[[SAKILA_LANGUAGE_B_03]]
+==== SAKILA_LANGUAGE_B_03: which of four languages the table has
 
 Find which of `English`, `French`, `German` and `Spanish` are in the table, with one `IN` condition.
 Show their names, ordered by the name.
 
-.`language_exercises_01_basic.sql`, SAKILA-LANGUAGE-B-03
+.`language_exercises_01_basic.sql`, SAKILA_LANGUAGE_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -4619,13 +4619,13 @@ ORDER BY name
 ....
 ====
 
-[[SAKILA-LANGUAGE-B-04]]
-==== SAKILA-LANGUAGE-B-04: the languages whose name ends with an or ese
+[[SAKILA_LANGUAGE_B_04]]
+==== SAKILA_LANGUAGE_B_04: the languages whose name ends with an or ese
 
 Find the languages whose `name` ends with `an` or with `ese`.
 Show their `language_id` and `name`, ordered by the name.
 
-.`language_exercises_01_basic.sql`, SAKILA-LANGUAGE-B-04
+.`language_exercises_01_basic.sql`, SAKILA_LANGUAGE_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -4652,13 +4652,13 @@ Answered by `Language_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-LANGUAGE-I-01]]
-==== SAKILA-LANGUAGE-I-01: how many films each language has
+[[SAKILA_LANGUAGE_I_01]]
+==== SAKILA_LANGUAGE_I_01: how many films each language has
 
 Count the films of each language, by `film.language_id`, and show every language, even one without a film, with its count, ordered by the language's id.
 The languages without a film must show `0`, so the join is an outer one, and the count is of the films, not of the rows.
 
-.`language_exercises_02_intermediate.sql`, SAKILA-LANGUAGE-I-01
+.`language_exercises_02_intermediate.sql`, SAKILA_LANGUAGE_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -4684,13 +4684,13 @@ ORDER BY l.language_id
 ....
 ====
 
-[[SAKILA-LANGUAGE-I-02]]
-==== SAKILA-LANGUAGE-I-02: the languages no film uses, either as its language or as its original language
+[[SAKILA_LANGUAGE_I_02]]
+==== SAKILA_LANGUAGE_I_02: the languages no film uses, either as its language or as its original language
 
 Find the languages which no film refers to, neither by `language_id` nor by `original_language_id`.
 Show their `language_id` and `name`, ordered by `language_id`.
 
-.`language_exercises_02_intermediate.sql`, SAKILA-LANGUAGE-I-02
+.`language_exercises_02_intermediate.sql`, SAKILA_LANGUAGE_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -4725,14 +4725,14 @@ The `nicer_but_slower_film_list` view, mapped by `NicerButSlowerFilmList`.
 
 === Basic
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-01]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-01: the actors of the film 1, as this view writes them
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01: the actors of the film 1, as this view writes them
 
 `nicer_but_slower_film_list` is `film_list` with the actors' names written with only the first letter of each name in upper case.
 Show the view's row for the film `1`:
 its `FID`, `title` and `actors`, and compare them with the same row of `film_list`.
 
-.`nicer_but_slower_film_list_exercises_01_basic.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-01
+.`nicer_but_slower_film_list_exercises_01_basic.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -4751,14 +4751,14 @@ WHERE FID = 1
 ....
 ====
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-02]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-02: how many films PENELOPE GUINESS plays in, by the view's actors
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02: how many films PENELOPE GUINESS plays in, by the view's actors
 
 The view writes the actors as one string, `Penelope Guiness, Christian Gable, ...`.
 Count the rows whose `actors` contain `Penelope Guiness`, with `LIKE`.
 The column's collation ignores case, so `PENELOPE GUINESS` would match as well.
 
-.`nicer_but_slower_film_list_exercises_01_basic.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-02
+.`nicer_but_slower_film_list_exercises_01_basic.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -4777,13 +4777,13 @@ WHERE actors LIKE '%Penelope Guiness%'
 ....
 ====
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-03]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-03: the films which have no actors
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03: the films which have no actors
 
 A film with no row in `film_actor` is still in the view, with `actors` `NULL`.
 Show the `FID`, `title` and `category` of those films, ordered by `FID`.
 
-.`nicer_but_slower_film_list_exercises_01_basic.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-B-03
+.`nicer_but_slower_film_list_exercises_01_basic.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -4809,14 +4809,14 @@ Answered by `NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-01]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-01: the five categories whose films are the longest, on average
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01: the five categories whose films are the longest, on average
 
 Group the view's rows by `category`.
 Show each category with the number of its films and their average `length`, rounded to two decimal places.
 Show the five longest on average, the longest first; on a tie, by `category`.
 
-.`nicer_but_slower_film_list_exercises_02_intermediate.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-01
+.`nicer_but_slower_film_list_exercises_02_intermediate.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -4841,14 +4841,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-02]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-02: how many films are short, medium and long
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02: how many films are short, medium and long
 
 Put each film in a band by its `length`: `short` under 60 minutes, `medium` from 60 to 120, and `long` over 120.
 Show each band with the number of its films and the shortest and the longest length in it, ordered by the shortest length.
 The band is a `CASE` expression, and the query groups by it.
 
-.`nicer_but_slower_film_list_exercises_02_intermediate.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-02
+.`nicer_but_slower_film_list_exercises_02_intermediate.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -4875,8 +4875,8 @@ Answered by `NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-01]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-01: how many rows differ from film_list, column by column, but for the actors
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01: how many rows differ from film_list, column by column, but for the actors
 
 The two views should differ only in how the actors are written.
 Join them row by row, by `FID` and `category`, and count the rows where any other column (`title`,
@@ -4884,7 +4884,7 @@ Join them row by row, by `FID` and `category`, and count the rows where any othe
 The columns may be `NULL`, so compare them with the null-safe `<=>`, not with `=`.
 The answer is `0`.
 
-.`nicer_but_slower_film_list_exercises_03_advanced.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-01
+.`nicer_but_slower_film_list_exercises_03_advanced.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -4905,14 +4905,14 @@ WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <
 ....
 ====
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-02]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-02: the longest length in each category, and how many films have it
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02: the longest length in each category, and how many films have it
 
 For each category, find the longest `length` of its films, and count the films which are exactly that long.
 Show the `category`, the longest length and the count, ordered by `category`.
 A row is kept when its length equals the maximum of its own category, which is a correlated subquery.
 
-.`nicer_but_slower_film_list_exercises_03_advanced.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-02
+.`nicer_but_slower_film_list_exercises_03_advanced.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -4948,14 +4948,14 @@ ORDER BY n.category
 ....
 ====
 
-[[SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-03]]
-==== SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-03: whether the actors string names as many actors as film_actor has
+[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03]]
+==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03: whether the actors string names as many actors as film_actor has
 
 The view joins the actors of a film into one string, separated by commas.
 For each row which has actors, count the names in `actors` (the number of commas plus one), and compare it with the number of the film's rows in `film_actor`.
 Count the rows where the two differ; the answer is `0`.
 
-.`nicer_but_slower_film_list_exercises_03_advanced.sql`, SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-03
+.`nicer_but_slower_film_list_exercises_03_advanced.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03
 [%collapsible]
 ====
 [source,sql]
@@ -4984,14 +4984,14 @@ The `payment` table, mapped by `Payment`.
 
 === Basic
 
-[[SAKILA-PAYMENT-B-01]]
-==== SAKILA-PAYMENT-B-01: how much each staff member took
+[[SAKILA_PAYMENT_B_01]]
+==== SAKILA_PAYMENT_B_01: how much each staff member took
 
 Group the payments by the staff member who took them.
 Show each
 `staff_id` with the number of payments and their sum, ordered by `staff_id`.
 
-.`payment_exercises_01_basic.sql`, SAKILA-PAYMENT-B-01
+.`payment_exercises_01_basic.sql`, SAKILA_PAYMENT_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -5013,13 +5013,13 @@ ORDER BY s.staff_id
 ....
 ====
 
-[[SAKILA-PAYMENT-B-02]]
-==== SAKILA-PAYMENT-B-02: how much was paid in each month
+[[SAKILA_PAYMENT_B_02]]
+==== SAKILA_PAYMENT_B_02: how much was paid in each month
 
 Group the payments by the month of `payment_date`, written as `YYYY-MM`.
 Show each month with the number of payments and their sum, ordered by the month.
 
-.`payment_exercises_01_basic.sql`, SAKILA-PAYMENT-B-02
+.`payment_exercises_01_basic.sql`, SAKILA_PAYMENT_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -5043,13 +5043,13 @@ ORDER BY month
 ....
 ====
 
-[[SAKILA-PAYMENT-B-03]]
-==== SAKILA-PAYMENT-B-03: how many payments have no rental
+[[SAKILA_PAYMENT_B_03]]
+==== SAKILA_PAYMENT_B_03: how many payments have no rental
 
 `payment.rental_id` may be `NULL`.
 Count the payments which refer to no rental.
 
-.`payment_exercises_01_basic.sql`, SAKILA-PAYMENT-B-03
+.`payment_exercises_01_basic.sql`, SAKILA_PAYMENT_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -5068,13 +5068,13 @@ WHERE rental_id IS NULL
 ....
 ====
 
-[[SAKILA-PAYMENT-B-04]]
-==== SAKILA-PAYMENT-B-04: the five amounts paid most often
+[[SAKILA_PAYMENT_B_04]]
+==== SAKILA_PAYMENT_B_04: the five amounts paid most often
 
 Group the payments by `amount`.
 Show the five amounts paid most often, with the number of payments, the most first; on a tie, the smaller amount first.
 
-.`payment_exercises_01_basic.sql`, SAKILA-PAYMENT-B-04
+.`payment_exercises_01_basic.sql`, SAKILA_PAYMENT_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -5099,14 +5099,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-PAYMENT-B-05]]
-==== SAKILA-PAYMENT-B-05: the payments of the customer 1 in July 2005
+[[SAKILA_PAYMENT_B_05]]
+==== SAKILA_PAYMENT_B_05: the payments of the customer 1 in July 2005
 
 Show the payments of the customer `1` whose `payment_date` falls in July 2005: the `payment_id`, `amount` and `payment_date`.
 Order them by `payment_date`, then by `payment_id`.
 `payment_date` has a time, so the range ends at the last second of July 31.
 
-.`payment_exercises_01_basic.sql`, SAKILA-PAYMENT-B-05
+.`payment_exercises_01_basic.sql`, SAKILA_PAYMENT_B_05
 [%collapsible]
 ====
 [source,sql]
@@ -5142,13 +5142,13 @@ Answered by `Payment_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-PAYMENT-I-01]]
-==== SAKILA-PAYMENT-I-01: the largest payment, and how many payments are that large
+[[SAKILA_PAYMENT_I_01]]
+==== SAKILA_PAYMENT_I_01: the largest payment, and how many payments are that large
 
 Find the largest `amount` of all payments, and count how many payments are exactly that large.
 Show both in one row; the count needs the largest amount, so it compares with a subquery.
 
-.`payment_exercises_02_intermediate.sql`, SAKILA-PAYMENT-I-01
+.`payment_exercises_02_intermediate.sql`, SAKILA_PAYMENT_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -5167,13 +5167,13 @@ FROM payment
 ....
 ====
 
-[[SAKILA-PAYMENT-I-02]]
-==== SAKILA-PAYMENT-I-02: the customers who paid more than 180 in all
+[[SAKILA_PAYMENT_I_02]]
+==== SAKILA_PAYMENT_I_02: the customers who paid more than 180 in all
 
 Sum the payments of each customer, and keep the customers whose sum is over `180`.
 Show the `customer_id`, the customer's `first_name` and `last_name`, and the sum, the largest first; on a tie, by `customer_id`.
 
-.`payment_exercises_02_intermediate.sql`, SAKILA-PAYMENT-I-02
+.`payment_exercises_02_intermediate.sql`, SAKILA_PAYMENT_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -5200,14 +5200,14 @@ ORDER BY total DESC, c.customer_id
 ....
 ====
 
-[[SAKILA-PAYMENT-I-03]]
-==== SAKILA-PAYMENT-I-03: how many payments were less than, equal to, or more than the film's rental rate
+[[SAKILA_PAYMENT_I_03]]
+==== SAKILA_PAYMENT_I_03: how many payments were less than, equal to, or more than the film's rental rate
 
 Compare each payment's `amount` with the `rental_rate` of the film it paid for, reached through the rental and the copy.
 Name the result `less`, `the rate` or `more` with a `CASE` expression, and count the payments of each, ordered by that name.
 A payment over the rate carries a late fee.
 
-.`payment_exercises_02_intermediate.sql`, SAKILA-PAYMENT-I-03
+.`payment_exercises_02_intermediate.sql`, SAKILA_PAYMENT_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -5240,13 +5240,13 @@ Answered by `Payment_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-PAYMENT-A-01]]
-==== SAKILA-PAYMENT-A-01: the running total of the customer 1's payments, the first ten
+[[SAKILA_PAYMENT_A_01]]
+==== SAKILA_PAYMENT_A_01: the running total of the customer 1's payments, the first ten
 
 Show the first ten payments of the customer `1`, ordered by `payment_date` and then by `payment_id`: the `payment_id`, `payment_date`, `amount`, and the sum of the amounts so far.
 The sum so far is a window function, `SUM(...) OVER (ORDER BY ...)`, with the same order.
 
-.`payment_exercises_03_advanced.sql`, SAKILA-PAYMENT-A-01
+.`payment_exercises_03_advanced.sql`, SAKILA_PAYMENT_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -5277,14 +5277,14 @@ LIMIT 10
 ....
 ====
 
-[[SAKILA-PAYMENT-A-02]]
-==== SAKILA-PAYMENT-A-02: the runs of consecutive days on which payments were made
+[[SAKILA_PAYMENT_A_02]]
+==== SAKILA_PAYMENT_A_02: the runs of consecutive days on which payments were made
 
 The payments were not made on every day; they come in runs of consecutive days.
 Find each run: its first day, its last day and the number of days in it, ordered by the first day.
 Number the distinct days in order; a day minus its number is the same for every day of a run, and the query groups by it (gaps and islands).
 
-.`payment_exercises_03_advanced.sql`, SAKILA-PAYMENT-A-02
+.`payment_exercises_03_advanced.sql`, SAKILA_PAYMENT_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -5319,13 +5319,13 @@ The `rental` table, mapped by `Rental`.
 
 === Basic
 
-[[SAKILA-RENTAL-B-01]]
-==== SAKILA-RENTAL-B-01: how many rentals are not returned yet
+[[SAKILA_RENTAL_B_01]]
+==== SAKILA_RENTAL_B_01: how many rentals are not returned yet
 
 A rental not returned yet has no `return_date`.
 Count those rentals.
 
-.`rental_exercises_01_basic.sql`, SAKILA-RENTAL-B-01
+.`rental_exercises_01_basic.sql`, SAKILA_RENTAL_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -5344,13 +5344,13 @@ WHERE return_date IS NULL
 ....
 ====
 
-[[SAKILA-RENTAL-B-02]]
-==== SAKILA-RENTAL-B-02: how many rentals were made in each month
+[[SAKILA_RENTAL_B_02]]
+==== SAKILA_RENTAL_B_02: how many rentals were made in each month
 
 Group the rentals by the month of `rental_date`, written as `YYYY-MM`.
 Show each month with the number of rentals, ordered by the month.
 
-.`rental_exercises_01_basic.sql`, SAKILA-RENTAL-B-02
+.`rental_exercises_01_basic.sql`, SAKILA_RENTAL_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -5374,14 +5374,14 @@ ORDER BY month
 ....
 ====
 
-[[SAKILA-RENTAL-B-03]]
-==== SAKILA-RENTAL-B-03: how many days a returned rental lasts, on average
+[[SAKILA_RENTAL_B_03]]
+==== SAKILA_RENTAL_B_03: how many days a returned rental lasts, on average
 
 For the returned rentals, take the number of days between `rental_date` and
 `return_date`, and average them, rounded to two decimal places.
 The rentals not returned are left out.
 
-.`rental_exercises_01_basic.sql`, SAKILA-RENTAL-B-03
+.`rental_exercises_01_basic.sql`, SAKILA_RENTAL_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -5400,14 +5400,14 @@ WHERE return_date IS NOT NULL
 ....
 ====
 
-[[SAKILA-RENTAL-B-04]]
-==== SAKILA-RENTAL-B-04: on which day of the week the most rentals were made
+[[SAKILA_RENTAL_B_04]]
+==== SAKILA_RENTAL_B_04: on which day of the week the most rentals were made
 
 Group the rentals by the name of the day of the week of `rental_date`
 (`Monday`, `Tuesday`, ...).
 Show the day on which the most rentals were made, with its count.
 
-.`rental_exercises_01_basic.sql`, SAKILA-RENTAL-B-04
+.`rental_exercises_01_basic.sql`, SAKILA_RENTAL_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -5432,13 +5432,13 @@ Answered by `Rental_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-RENTAL-I-01]]
-==== SAKILA-RENTAL-I-01: how many rentals are not returned yet, at each store
+[[SAKILA_RENTAL_I_01]]
+==== SAKILA_RENTAL_I_01: how many rentals are not returned yet, at each store
 
 A rental reaches a store through the copy it rented.
 Count the rentals not returned yet (no `return_date`) at each store, and show the `store_id` with the count, ordered by `store_id`.
 
-.`rental_exercises_02_intermediate.sql`, SAKILA-RENTAL-I-01
+.`rental_exercises_02_intermediate.sql`, SAKILA_RENTAL_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -5462,14 +5462,14 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-RENTAL-I-02]]
-==== SAKILA-RENTAL-I-02: on which days the rentals not returned yet were made
+[[SAKILA_RENTAL_I_02]]
+==== SAKILA_RENTAL_I_02: on which days the rentals not returned yet were made
 
 Group the rentals not returned yet by the day of `rental_date`, with `DATE`.
 Show each day with the number of rentals, ordered by the day.
 Almost all of them were made on the last day of the data.
 
-.`rental_exercises_02_intermediate.sql`, SAKILA-RENTAL-I-02
+.`rental_exercises_02_intermediate.sql`, SAKILA_RENTAL_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -5495,15 +5495,15 @@ Answered by `Rental_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-RENTAL-A-01]]
-==== SAKILA-RENTAL-A-01: how many rentals came back later than the film's rental duration allows
+[[SAKILA_RENTAL_A_01]]
+==== SAKILA_RENTAL_A_01: how many rentals came back later than the film's rental duration allows
 
 Each film has a `rental_duration`, the number of days a rental may last.
 Count the rentals which were returned later than that: the `return_date` is after the `rental_date` plus the film's
 `rental_duration` days.
 The duration is on the film, so the query goes from the rental through the copy to the film, and does arithmetic on dates.
 
-.`rental_exercises_03_advanced.sql`, SAKILA-RENTAL-A-01
+.`rental_exercises_03_advanced.sql`, SAKILA_RENTAL_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -5524,14 +5524,14 @@ WHERE r.return_date > r.rental_date + INTERVAL f.rental_duration DAY
 ....
 ====
 
-[[SAKILA-RENTAL-A-02]]
-==== SAKILA-RENTAL-A-02: the five longest waits between a customer's two rentals in 2005
+[[SAKILA_RENTAL_A_02]]
+==== SAKILA_RENTAL_A_02: the five longest waits between a customer's two rentals in 2005
 
 For each rental made in 2005, find the same customer's rental just before it, and the number of days between the two.
 Show the five longest waits: the `customer_id`, the earlier and the later `rental_date`, and the days, the longest first; on a tie, by `customer_id`, then by the later `rental_date`.
 The rental just before is `LAG(...) OVER (PARTITION BY customer_id ORDER BY rental_date, rental_id)`.
 
-.`rental_exercises_03_advanced.sql`, SAKILA-RENTAL-A-02
+.`rental_exercises_03_advanced.sql`, SAKILA_RENTAL_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -5559,14 +5559,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-RENTAL-A-03]]
-==== SAKILA-RENTAL-A-03: whether a copy was ever rented out twice at the same time
+[[SAKILA_RENTAL_A_03]]
+==== SAKILA_RENTAL_A_03: whether a copy was ever rented out twice at the same time
 
 A copy should not be rented again before it comes back.
 Join the rentals with themselves on `inventory_id`, and count the pairs where the second starts at or after the first and before the first is returned; a rental not returned yet lasts to the end of time.
 Each pair is counted once; the answer is `0`.
 
-.`rental_exercises_03_advanced.sql`, SAKILA-RENTAL-A-03
+.`rental_exercises_03_advanced.sql`, SAKILA_RENTAL_A_03
 [%collapsible]
 ====
 [source,sql]
@@ -5596,13 +5596,13 @@ The `sales_by_film_category` view, mapped by `SalesByFilmCategory`.
 
 === Basic
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-B-01]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-B-01: the three categories which sold the most
+[[SAKILA_SALES_BY_FILM_CATEGORY_B_01]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_B_01: the three categories which sold the most
 
 The `sales_by_film_category` view sums the payments of each category.
 Show the three categories which sold the most, with their `total_sales`, the most first.
 
-.`sales_by_film_category_exercises_01_basic.sql`, SAKILA-SALES_BY_FILM_CATEGORY-B-01
+.`sales_by_film_category_exercises_01_basic.sql`, SAKILA_SALES_BY_FILM_CATEGORY_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -5623,12 +5623,12 @@ LIMIT 3
 ....
 ====
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-B-02]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-B-02: the categories which sold between 4000 and 4500
+[[SAKILA_SALES_BY_FILM_CATEGORY_B_02]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_B_02: the categories which sold between 4000 and 4500
 
 Show the categories whose `total_sales` is between `4000` and `4500`, with their `total_sales`, ordered by `category`.
 
-.`sales_by_film_category_exercises_01_basic.sql`, SAKILA-SALES_BY_FILM_CATEGORY-B-02
+.`sales_by_film_category_exercises_01_basic.sql`, SAKILA_SALES_BY_FILM_CATEGORY_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -5654,13 +5654,13 @@ ORDER BY category
 ....
 ====
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-B-03]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-B-03: how many categories sold less than 4000, and how much they sold together
+[[SAKILA_SALES_BY_FILM_CATEGORY_B_03]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_B_03: how many categories sold less than 4000, and how much they sold together
 
 Keep the categories whose `total_sales` is under `4000`.
 Show how many they are and the sum of their `total_sales`, in one row.
 
-.`sales_by_film_category_exercises_01_basic.sql`, SAKILA-SALES_BY_FILM_CATEGORY-B-03
+.`sales_by_film_category_exercises_01_basic.sql`, SAKILA_SALES_BY_FILM_CATEGORY_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -5683,13 +5683,13 @@ Answered by `SalesByFilmCategory_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-I-01]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-I-01: whether the view's sales add up to every payment
+[[SAKILA_SALES_BY_FILM_CATEGORY_I_01]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_I_01: whether the view's sales add up to every payment
 
 Check the view: sum its `total_sales` over all categories, sum the `amount` of all payments, and show both in one row.
 They are equal only if every payment reaches exactly one category, through its rental, copy and film.
 
-.`sales_by_film_category_exercises_02_intermediate.sql`, SAKILA-SALES_BY_FILM_CATEGORY-I-01
+.`sales_by_film_category_exercises_02_intermediate.sql`, SAKILA_SALES_BY_FILM_CATEGORY_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -5707,14 +5707,14 @@ SELECT (SELECT SUM(total_sales) FROM sales_by_film_category) AS by_category,
 ....
 ====
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-I-02]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-I-02: the five categories which sold the most, and their share of all sales
+[[SAKILA_SALES_BY_FILM_CATEGORY_I_02]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_I_02: the five categories which sold the most, and their share of all sales
 
 Show the five categories which sold the most, with their `total_sales` and their share of the sales of all categories, in percent, rounded to two decimal places.
 Order them by `total_sales`, the most first; on a tie, by `category`.
 The sales of all categories come from a subquery.
 
-.`sales_by_film_category_exercises_02_intermediate.sql`, SAKILA-SALES_BY_FILM_CATEGORY-I-02
+.`sales_by_film_category_exercises_02_intermediate.sql`, SAKILA_SALES_BY_FILM_CATEGORY_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -5739,14 +5739,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-I-03]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-I-03: the five categories which sold the most per film
+[[SAKILA_SALES_BY_FILM_CATEGORY_I_03]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_I_03: the five categories which sold the most per film
 
 A category with more films may sell more only because it has more films.
 Join the view to `category` by name and to `film_category`, and count each category's films.
 Show the five categories with the largest sales per film: the `category`, `total_sales`, the number of films and the sales per film rounded to two decimal places, the largest first; on a tie, by `category`.
 
-.`sales_by_film_category_exercises_02_intermediate.sql`, SAKILA-SALES_BY_FILM_CATEGORY-I-03
+.`sales_by_film_category_exercises_02_intermediate.sql`, SAKILA_SALES_BY_FILM_CATEGORY_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -5777,14 +5777,14 @@ Answered by `SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-A-01]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-A-01: the running total of the categories' sales, and its share of all sales
+[[SAKILA_SALES_BY_FILM_CATEGORY_A_01]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_A_01: the running total of the categories' sales, and its share of all sales
 
 Order the categories by `total_sales`, the most first; on a tie, by `category`.
 Show each with its `total_sales`, the sum of the sales so far, and that sum as a percent of all sales, rounded to two decimal places.
 Both are window functions: `SUM(...) OVER (ORDER BY ...)` for the sum so far, and `SUM(...) OVER ()` for all sales.
 
-.`sales_by_film_category_exercises_03_advanced.sql`, SAKILA-SALES_BY_FILM_CATEGORY-A-01
+.`sales_by_film_category_exercises_03_advanced.sql`, SAKILA_SALES_BY_FILM_CATEGORY_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -5821,15 +5821,15 @@ ORDER BY total_sales DESC, category
 ....
 ====
 
-[[SAKILA-SALES_BY_FILM_CATEGORY-A-02]]
-==== SAKILA-SALES_BY_FILM_CATEGORY-A-02: the three largest gaps between a category and the next one down
+[[SAKILA_SALES_BY_FILM_CATEGORY_A_02]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_A_02: the three largest gaps between a category and the next one down
 
 Order the categories by `total_sales`, the most first; on a tie, by `category`.
 For each category, find the category just below it and the difference between their sales.
 Show the three largest gaps: the `category`, its `total_sales`, the next category and the gap, the largest first; on a tie, by `category`.
 The next category is `LEAD(...) OVER (ORDER BY ...)`.
 
-.`sales_by_film_category_exercises_03_advanced.sql`, SAKILA-SALES_BY_FILM_CATEGORY-A-02
+.`sales_by_film_category_exercises_03_advanced.sql`, SAKILA_SALES_BY_FILM_CATEGORY_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -5863,14 +5863,14 @@ The `sales_by_store` view, mapped by `SalesByStore`.
 
 === Basic
 
-[[SAKILA-SALES_BY_STORE-B-01]]
-==== SAKILA-SALES_BY_STORE-B-01: every store's sales
+[[SAKILA_SALES_BY_STORE_B_01]]
+==== SAKILA_SALES_BY_STORE_B_01: every store's sales
 
 The `sales_by_store` view sums the payments of each store, and names the store by its city and country, and its manager.
 Show every row: the `store`, the `manager` and the
 `total_sales`.
 
-.`sales_by_store_exercises_01_basic.sql`, SAKILA-SALES_BY_STORE-B-01
+.`sales_by_store_exercises_01_basic.sql`, SAKILA_SALES_BY_STORE_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -5889,12 +5889,12 @@ FROM sales_by_store
 ....
 ====
 
-[[SAKILA-SALES_BY_STORE-B-02]]
-==== SAKILA-SALES_BY_STORE-B-02: how far apart the two stores' sales are
+[[SAKILA_SALES_BY_STORE_B_02]]
+==== SAKILA_SALES_BY_STORE_B_02: how far apart the two stores' sales are
 
 Show the difference between the largest and the smallest `total_sales` of the view, in one row.
 
-.`sales_by_store_exercises_01_basic.sql`, SAKILA-SALES_BY_STORE-B-02
+.`sales_by_store_exercises_01_basic.sql`, SAKILA_SALES_BY_STORE_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -5916,14 +5916,14 @@ Answered by `SalesByStore_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-SALES_BY_STORE-I-01]]
-==== SAKILA-SALES_BY_STORE-I-01: whether the stores' sales add up to every payment with a rental
+[[SAKILA_SALES_BY_STORE_I_01]]
+==== SAKILA_SALES_BY_STORE_I_01: whether the stores' sales add up to every payment with a rental
 
 Check the view: sum its `total_sales` over the stores, sum the
 `amount` of the payments which have a rental, and show both in one row.
 The view reaches a store through the rental, so a payment without one cannot be in it.
 
-.`sales_by_store_exercises_02_intermediate.sql`, SAKILA-SALES_BY_STORE-I-01
+.`sales_by_store_exercises_02_intermediate.sql`, SAKILA_SALES_BY_STORE_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -5941,14 +5941,14 @@ SELECT (SELECT SUM(total_sales) FROM sales_by_store) AS by_store,
 ....
 ====
 
-[[SAKILA-SALES_BY_STORE-I-02]]
-==== SAKILA-SALES_BY_STORE-I-02: each store's sales, next to what its manager took
+[[SAKILA_SALES_BY_STORE_I_02]]
+==== SAKILA_SALES_BY_STORE_I_02: each store's sales, next to what its manager took
 
 The view counts a payment for the store whose copy was rented; `payment.staff_id` names the staff member who took it.
 Join each row to its manager in `staff`, by the full name in `manager`, and to the payments that manager took.
 Show the `store`, `manager`, `total_sales` and the sum the manager took, ordered by `store`; the two sums differ.
 
-.`sales_by_store_exercises_02_intermediate.sql`, SAKILA-SALES_BY_STORE-I-02
+.`sales_by_store_exercises_02_intermediate.sql`, SAKILA_SALES_BY_STORE_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -5979,13 +5979,13 @@ The `staff` table, mapped by `Staff`.
 
 === Basic
 
-[[SAKILA-STAFF-B-01]]
-==== SAKILA-STAFF-B-01: every staff member, with their store
+[[SAKILA_STAFF_B_01]]
+==== SAKILA_STAFF_B_01: every staff member, with their store
 
 Show every staff member: their `staff_id`, `first_name`, `last_name`, the
 `store_id` of the store they work at, and the `active` flag, ordered by `staff_id`.
 
-.`staff_exercises_01_basic.sql`, SAKILA-STAFF-B-01
+.`staff_exercises_01_basic.sql`, SAKILA_STAFF_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -6005,13 +6005,13 @@ ORDER BY s.staff_id
 ....
 ====
 
-[[SAKILA-STAFF-B-02]]
-==== SAKILA-STAFF-B-02: the staff members who have no password
+[[SAKILA_STAFF_B_02]]
+==== SAKILA_STAFF_B_02: the staff members who have no password
 
 `staff.password` may be `NULL`.
 Show the `staff_id`, `first_name`, `last_name` and `username` of the staff members who have no password, ordered by `staff_id`.
 
-.`staff_exercises_01_basic.sql`, SAKILA-STAFF-B-02
+.`staff_exercises_01_basic.sql`, SAKILA_STAFF_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -6035,13 +6035,13 @@ Answered by `Staff_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-STAFF-I-01]]
-==== SAKILA-STAFF-I-01: how many rentals each staff member handled
+[[SAKILA_STAFF_I_01]]
+==== SAKILA_STAFF_I_01: how many rentals each staff member handled
 
 Count the rentals each staff member handled, by `rental.staff_id`.
 Show each staff member's `staff_id` and `first_name` with the count, ordered by `staff_id`.
 
-.`staff_exercises_02_intermediate.sql`, SAKILA-STAFF-I-01
+.`staff_exercises_02_intermediate.sql`, SAKILA_STAFF_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -6063,14 +6063,14 @@ ORDER BY s.staff_id
 ....
 ====
 
-[[SAKILA-STAFF-I-02]]
-==== SAKILA-STAFF-I-02: the staff members who manage the store they work at
+[[SAKILA_STAFF_I_02]]
+==== SAKILA_STAFF_I_02: the staff members who manage the store they work at
 
 A store names its manager (`manager_staff_id`), and a staff member names the store they work at (`store_id`).
 The two are not tied together by the schema.
 Find the staff members who manage the very store they work at: their `staff_id`, `first_name`, `last_name` and the `store_id`.
 
-.`staff_exercises_02_intermediate.sql`, SAKILA-STAFF-I-02
+.`staff_exercises_02_intermediate.sql`, SAKILA_STAFF_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -6092,14 +6092,14 @@ ORDER BY s.staff_id
 ....
 ====
 
-[[SAKILA-STAFF-I-03]]
-==== SAKILA-STAFF-I-03: how many rentals each staff member handled for their own store's copies, and for the other's
+[[SAKILA_STAFF_I_03]]
+==== SAKILA_STAFF_I_03: how many rentals each staff member handled for their own store's copies, and for the other's
 
 A staff member works at one store, but may rent out a copy of another store.
 For each staff member, count the rentals they handled whose copy is at their own store, and those whose copy is elsewhere, with `CASE` inside `SUM`.
 Show the `staff_id`, `first_name`, `store_id` and the two counts, ordered by `staff_id`.
 
-.`staff_exercises_02_intermediate.sql`, SAKILA-STAFF-I-03
+.`staff_exercises_02_intermediate.sql`, SAKILA_STAFF_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -6128,14 +6128,14 @@ Answered by `Staff_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-STAFF-A-01]]
-==== SAKILA-STAFF-A-01: the day on which each staff member took the most
+[[SAKILA_STAFF_A_01]]
+==== SAKILA_STAFF_A_01: the day on which each staff member took the most
 
 Sum the payments each staff member took on each day.
 For each staff member, show the day with the largest sum, with the number of payments and the sum; on a tie, the earlier day.
 Order by `staff_id`; the best day per staff member is a top-1-per-group, with `ROW_NUMBER() OVER (PARTITION BY staff_id ...)`.
 
-.`staff_exercises_03_advanced.sql`, SAKILA-STAFF-A-01
+.`staff_exercises_03_advanced.sql`, SAKILA_STAFF_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -6167,13 +6167,13 @@ The `staff_list` view, mapped by `StaffList`.
 
 === Basic
 
-[[SAKILA-STAFF_LIST-B-01]]
-==== SAKILA-STAFF_LIST-B-01: every row of the view
+[[SAKILA_STAFF_LIST_B_01]]
+==== SAKILA_STAFF_LIST_B_01: every row of the view
 
 The `staff_list` view joins each staff member with their address, city and country.
 Show every row, ordered by `ID`.
 
-.`staff_list_exercises_01_basic.sql`, SAKILA-STAFF_LIST-B-01
+.`staff_list_exercises_01_basic.sql`, SAKILA_STAFF_LIST_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -6197,13 +6197,13 @@ Answered by `StaffList_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-STAFF_LIST-I-01]]
-==== SAKILA-STAFF_LIST-I-01: whether the view has a row for every staff member
+[[SAKILA_STAFF_LIST_I_01]]
+==== SAKILA_STAFF_LIST_I_01: whether the view has a row for every staff member
 
 Check that the view is complete: count the rows of `staff_list`
 and of `staff`, and show both in one row.
 
-.`staff_list_exercises_02_intermediate.sql`, SAKILA-STAFF_LIST-I-01
+.`staff_list_exercises_02_intermediate.sql`, SAKILA_STAFF_LIST_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -6220,13 +6220,13 @@ SELECT (SELECT COUNT(*) FROM staff_list) AS staff_list, (SELECT COUNT(*) FROM st
 ....
 ====
 
-[[SAKILA-STAFF_LIST-I-02]]
-==== SAKILA-STAFF_LIST-I-02: whether each staff member lives in the city of their store
+[[SAKILA_STAFF_LIST_I_02]]
+==== SAKILA_STAFF_LIST_I_02: whether each staff member lives in the city of their store
 
 The view's `city` is where the staff member lives, and `SID` is the store they work at.
 Join each row to its store, the store's address and its city, and show the `ID`, `name`, the city they live in and the city they work in, ordered by `ID`.
 
-.`staff_list_exercises_02_intermediate.sql`, SAKILA-STAFF_LIST-I-02
+.`staff_list_exercises_02_intermediate.sql`, SAKILA_STAFF_LIST_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -6257,12 +6257,12 @@ The `store` table, mapped by `Store`.
 
 === Basic
 
-[[SAKILA-STORE-B-01]]
-==== SAKILA-STORE-B-01: every store, with its manager and address ids
+[[SAKILA_STORE_B_01]]
+==== SAKILA_STORE_B_01: every store, with its manager and address ids
 
 Show every store: its `store_id`, the `manager_staff_id` of its manager and its `address_id`, ordered by `store_id`.
 
-.`store_exercises_01_basic.sql`, SAKILA-STORE-B-01
+.`store_exercises_01_basic.sql`, SAKILA_STORE_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -6286,13 +6286,13 @@ Answered by `Store_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-STORE-I-01]]
-==== SAKILA-STORE-I-01: every store, with its manager and city
+[[SAKILA_STORE_I_01]]
+==== SAKILA_STORE_I_01: every store, with its manager and city
 
 Show every store with the name of its manager and the city of its address: the `store_id`, the manager's `first_name` and `last_name`, and the city, ordered by `store_id`.
 The manager is a staff member, and the city is two joins away, through the address.
 
-.`store_exercises_02_intermediate.sql`, SAKILA-STORE-I-01
+.`store_exercises_02_intermediate.sql`, SAKILA_STORE_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -6315,13 +6315,13 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-STORE-I-02]]
-==== SAKILA-STORE-I-02: how many customers, copies and staff members each store has
+[[SAKILA_STORE_I_02]]
+==== SAKILA_STORE_I_02: how many customers, copies and staff members each store has
 
 For each store, count its customers, its copies in the inventory and its staff members, and show the three counts in one row per store, ordered by `store_id`.
 The three counts come from three different tables; joining all three at once would multiply the rows, so each is counted on its own.
 
-.`store_exercises_02_intermediate.sql`, SAKILA-STORE-I-02
+.`store_exercises_02_intermediate.sql`, SAKILA_STORE_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -6348,14 +6348,14 @@ Answered by `Store_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-STORE-A-01]]
-==== SAKILA-STORE-A-01: how many films each store has a copy of, and how many of them only that store has
+[[SAKILA_STORE_A_01]]
+==== SAKILA_STORE_A_01: how many films each store has a copy of, and how many of them only that store has
 
 For each store, count the distinct films it has at least one copy of, and, of those, the films no other store has a copy of.
 Show the `store_id` and both counts, ordered by `store_id`.
 The second count needs a correlated condition on the inventory of the other stores.
 
-.`store_exercises_03_advanced.sql`, SAKILA-STORE-A-01
+.`store_exercises_03_advanced.sql`, SAKILA_STORE_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -6384,14 +6384,14 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-STORE-A-02]]
-==== SAKILA-STORE-A-02: each store's rentals in each month, and its share of the month
+[[SAKILA_STORE_A_02]]
+==== SAKILA_STORE_A_02: each store's rentals in each month, and its share of the month
 
 Count the rentals of each store in each month, written as `YYYY-MM`; a rental reaches a store through its copy.
 Show the month, the `store_id`, the count and the store's share of that month's rentals in percent, rounded to two decimal places.
 Order by the month, then by `store_id`; the month's rentals are `SUM(COUNT(*)) OVER (PARTITION BY ...)`.
 
-.`store_exercises_03_advanced.sql`, SAKILA-STORE-A-02
+.`store_exercises_03_advanced.sql`, SAKILA_STORE_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -6431,13 +6431,13 @@ Exercises on the schema as a whole, not on a single table.
 
 === Basic
 
-[[SAKILA-SCHEMA-B-01]]
-==== SAKILA-SCHEMA-B-01: the tables and the views of the schema
+[[SAKILA_SCHEMA_B_01]]
+==== SAKILA_SCHEMA_B_01: the tables and the views of the schema
 
 List the tables and the views of the `sakila` schema, from
 `information_schema.tables`: each name with its type (`BASE TABLE` or `VIEW`), ordered by the type and the name.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-01
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_01
 [%collapsible]
 ====
 [source,sql]
@@ -6462,13 +6462,13 @@ ORDER BY table_type, table_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-02]]
-==== SAKILA-SCHEMA-B-02: how many rows each table has
+[[SAKILA_SCHEMA_B_02]]
+==== SAKILA_SCHEMA_B_02: how many rows each table has
 
 Count the rows of each of the sixteen tables, and show each table's name with its count, one row per table. `information_schema` gives only an estimate of the rows, so count them, one `SELECT`
 per table, joined with `UNION ALL`.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-02
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_02
 [%collapsible]
 ====
 [source,sql]
@@ -6505,13 +6505,13 @@ UNION ALL SELECT 'store', COUNT(*) FROM store
 ....
 ====
 
-[[SAKILA-SCHEMA-B-03]]
-==== SAKILA-SCHEMA-B-03: every foreign key: the column, and the column it refers to
+[[SAKILA_SCHEMA_B_03]]
+==== SAKILA_SCHEMA_B_03: every foreign key: the column, and the column it refers to
 
 List every foreign key column of the schema, from
 `information_schema.key_column_usage`: the table and the column, and the table and the column it refers to, ordered by the table and the column.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-03
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_03
 [%collapsible]
 ====
 [source,sql]
@@ -6537,13 +6537,13 @@ ORDER BY table_name, column_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-04]]
-==== SAKILA-SCHEMA-B-04: the tables which have a last_update column
+[[SAKILA_SCHEMA_B_04]]
+==== SAKILA_SCHEMA_B_04: the tables which have a last_update column
 
 Find the tables, not the views, which have a `last_update` column, from
 `information_schema.columns`, ordered by name.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-04
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_04
 [%collapsible]
 ====
 [source,sql]
@@ -6572,13 +6572,13 @@ ORDER BY table_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-05]]
-==== SAKILA-SCHEMA-B-05: the triggers, and the table and the event each fires on
+[[SAKILA_SCHEMA_B_05]]
+==== SAKILA_SCHEMA_B_05: the triggers, and the table and the event each fires on
 
 List the triggers of the schema, from `information_schema.triggers`: each trigger's name, the table it fires on, whether it fires before or after, and on which event (`INSERT`, `UPDATE`,
 `DELETE`), ordered by the table and the trigger.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-05
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_05
 [%collapsible]
 ====
 [source,sql]
@@ -6603,13 +6603,13 @@ ORDER BY event_object_table, trigger_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-06]]
-==== SAKILA-SCHEMA-B-06: the stored procedures and functions
+[[SAKILA_SCHEMA_B_06]]
+==== SAKILA_SCHEMA_B_06: the stored procedures and functions
 
 List the stored procedures and functions of the schema, from
 `information_schema.routines`: each one's name and type, ordered by the type and the name.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-06
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_06
 [%collapsible]
 ====
 [source,sql]
@@ -6634,13 +6634,13 @@ ORDER BY routine_type, routine_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-07]]
-==== SAKILA-SCHEMA-B-07: the views, and whether each is updatable
+[[SAKILA_SCHEMA_B_07]]
+==== SAKILA_SCHEMA_B_07: the views, and whether each is updatable
 
 List the views of the schema, from `information_schema.views`: each view's name and whether it is updatable (`YES` or `NO`), ordered by name.
 A view is updatable when MySQL can map a row of it back to one row of a table.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-07
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_07
 [%collapsible]
 ====
 [source,sql]
@@ -6666,13 +6666,13 @@ ORDER BY table_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-08]]
-==== SAKILA-SCHEMA-B-08: the tables whose primary key has more than one column
+[[SAKILA_SCHEMA_B_08]]
+==== SAKILA_SCHEMA_B_08: the tables whose primary key has more than one column
 
 Find the tables whose primary key is made of more than one column, from `information_schema.key_column_usage`: each table's name with the number of columns of its key, ordered by name.
 A primary key's constraint is always named `PRIMARY` in MySQL.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-08
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_08
 [%collapsible]
 ====
 [source,sql]
@@ -6697,13 +6697,13 @@ ORDER BY table_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-09]]
-==== SAKILA-SCHEMA-B-09: the ENUM and SET columns
+[[SAKILA_SCHEMA_B_09]]
+==== SAKILA_SCHEMA_B_09: the ENUM and SET columns
 
 List the columns of the schema whose type is an `ENUM` or a `SET`, from `information_schema.columns`: the table, the column and its full type with the allowed values, ordered by the table and the column.
 The views which show such a column are listed too.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-09
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_09
 [%collapsible]
 ====
 [source,sql]
@@ -6727,13 +6727,13 @@ ORDER BY table_name, column_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-10]]
-==== SAKILA-SCHEMA-B-10: the foreign keys which do not restrict a delete
+[[SAKILA_SCHEMA_B_10]]
+==== SAKILA_SCHEMA_B_10: the foreign keys which do not restrict a delete
 
 Find the foreign keys whose rule on a delete of the referenced row is not `RESTRICT`, from `information_schema.referential_constraints`.
 Show the table, the constraint's name, the referenced table and the update and delete rules, ordered by the table and the constraint's name.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-10
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_10
 [%collapsible]
 ====
 [source,sql]
@@ -6754,13 +6754,13 @@ ORDER BY table_name, constraint_name
 ....
 ====
 
-[[SAKILA-SCHEMA-B-11]]
-==== SAKILA-SCHEMA-B-11: the unique keys other than the primary keys, column by column
+[[SAKILA_SCHEMA_B_11]]
+==== SAKILA_SCHEMA_B_11: the unique keys other than the primary keys, column by column
 
 List the unique indexes which are not primary keys, from `information_schema.statistics`, one row per column of each index.
 Show the table, the index's name, the column's position in the index and the column, ordered by the table, the index's name and the position.
 
-.`_schema_exercises_01_basic.sql`, SAKILA-SCHEMA-B-11
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_11
 [%collapsible]
 ====
 [source,sql]
@@ -6791,15 +6791,15 @@ Answered by `_Schema_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
 
-[[SAKILA-SCHEMA-I-01]]
-==== SAKILA-SCHEMA-I-01: how much each store took, through the copies it rented out
+[[SAKILA_SCHEMA_I_01]]
+==== SAKILA_SCHEMA_I_01: how much each store took, through the copies it rented out
 
 Find how much each store took.
 A payment names no store; the store is that of the copy the payment's rental rented out.
 So go from `payment` through `rental` to `inventory`, and group by `inventory.store_id`.
 Show each store with the number of payments and their sum.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-01
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_01
 [%collapsible]
 ====
 [source,sql]
@@ -6823,14 +6823,14 @@ ORDER BY st.store_id
 ....
 ====
 
-[[SAKILA-SCHEMA-I-02]]
-==== SAKILA-SCHEMA-I-02: how many rentals each category had, the most first
+[[SAKILA_SCHEMA_I_02]]
+==== SAKILA_SCHEMA_I_02: how many rentals each category had, the most first
 
 Count the rentals of each category: from `rental` through the copy and
 `film_category` to `category`.
 Show each category's name with its count, the most first; ties are ordered by name.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-02
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_02
 [%collapsible]
 ====
 [source,sql]
@@ -6858,13 +6858,13 @@ ORDER BY rentals DESC, c.name
 ....
 ====
 
-[[SAKILA-SCHEMA-I-03]]
-==== SAKILA-SCHEMA-I-03: the five countries whose customers paid the most
+[[SAKILA_SCHEMA_I_03]]
+==== SAKILA_SCHEMA_I_03: the five countries whose customers paid the most
 
 Sum the payments by the country of the customer who paid them, through the customer, the address and the city.
 Show the five countries which paid the most, each with the number of its distinct customers who paid and the sum, the largest first.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-03
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_03
 [%collapsible]
 ====
 [source,sql]
@@ -6893,14 +6893,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-SCHEMA-I-04]]
-==== SAKILA-SCHEMA-I-04: the average payment of each rating
+[[SAKILA_SCHEMA_I_04]]
+==== SAKILA_SCHEMA_I_04: the average payment of each rating
 
 Average the payments by the rating of the film rented: from `payment`
 through the rental and the copy to `film`.
 Show each rating with the average, rounded to two decimal places, ordered by the rating.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-04
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_04
 [%collapsible]
 ====
 [source,sql]
@@ -6927,15 +6927,15 @@ ORDER BY f.rating
 ....
 ====
 
-[[SAKILA-SCHEMA-I-05]]
-==== SAKILA-SCHEMA-I-05: the five actors whose films took the most
+[[SAKILA_SCHEMA_I_05]]
+==== SAKILA_SCHEMA_I_05: the five actors whose films took the most
 
 Sum, for each actor, the payments of the rentals of their films: from
 `actor` through `film_actor`, the copies and the rentals to `payment`.
 Show the five actors whose films took the most: their `actor_id`, `first_name`, `last_name` and the sum, the largest first; ties are ordered by `actor_id`.
 A payment is counted once for each actor of the film.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-05
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_05
 [%collapsible]
 ====
 [source,sql]
@@ -6964,12 +6964,12 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-SCHEMA-I-06]]
-==== SAKILA-SCHEMA-I-06: the customers who have returned everything they rented, how many
+[[SAKILA_SCHEMA_I_06]]
+==== SAKILA_SCHEMA_I_06: the customers who have returned everything they rented, how many
 
 Count the customers none of whose rentals is still out, that is, who have no rental without a `return_date`.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-06
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_06
 [%collapsible]
 ====
 [source,sql]
@@ -6988,13 +6988,13 @@ WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.customer_id = c.customer_id AND
 ....
 ====
 
-[[SAKILA-SCHEMA-I-07]]
-==== SAKILA-SCHEMA-I-07: how many rentals, and how much was paid, in each month
+[[SAKILA_SCHEMA_I_07]]
+==== SAKILA_SCHEMA_I_07: how many rentals, and how much was paid, in each month
 
 Group the rentals by the month of `rental_date`, written as `YYYY-MM`, and show each month with the number of rentals and the sum of their payments.
 A rental may have no payment, so the payments are joined with an outer join.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-07
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_07
 [%collapsible]
 ====
 [source,sql]
@@ -7019,13 +7019,13 @@ ORDER BY month
 ....
 ====
 
-[[SAKILA-SCHEMA-I-08]]
-==== SAKILA-SCHEMA-I-08: the customers who rented from a store other than their own, how many
+[[SAKILA_SCHEMA_I_08]]
+==== SAKILA_SCHEMA_I_08: the customers who rented from a store other than their own, how many
 
 A customer belongs to a store, but may rent a copy from any store.
 Count the distinct customers who rented at least one copy from a store other than their own.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-08
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_08
 [%collapsible]
 ====
 [source,sql]
@@ -7046,15 +7046,15 @@ WHERE i.store_id <> c.store_id
 ....
 ====
 
-[[SAKILA-SCHEMA-I-09]]
-==== SAKILA-SCHEMA-I-09: how many rentals, and how much was paid, for short, medium and long films
+[[SAKILA_SCHEMA_I_09]]
+==== SAKILA_SCHEMA_I_09: how many rentals, and how much was paid, for short, medium and long films
 
 Sort the films into three groups by `length`: `short` under 60 minutes, `medium` from 60 to 120, and `long` over 120.
 Count the rentals of each group's films, through the copy, and sum their payments; a rental may have no payment, so the payments are joined with an outer join.
 Show each group with its count and sum, from the group of the shortest films to the group of the longest.
 The group is a `CASE` expression, and the statement groups by it.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-09
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_09
 [%collapsible]
 ====
 [source,sql]
@@ -7085,14 +7085,14 @@ ORDER BY MIN(f.length)
 ....
 ====
 
-[[SAKILA-SCHEMA-I-10]]
-==== SAKILA-SCHEMA-I-10: how many films of each category were never rented
+[[SAKILA_SCHEMA_I_10]]
+==== SAKILA_SCHEMA_I_10: how many films of each category were never rented
 
 Count, for each category, its films which were never rented: those with no copy, and those none of whose copies has a rental.
 Show each category's name with its count, the most first; ties are ordered by name.
 A category with no such film is not shown.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-10
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_10
 [%collapsible]
 ====
 [source,sql]
@@ -7131,13 +7131,13 @@ ORDER BY films DESC, c.name
 ....
 ====
 
-[[SAKILA-SCHEMA-I-11]]
-==== SAKILA-SCHEMA-I-11: the actors who appear in both a Comedy and a Horror film, how many
+[[SAKILA_SCHEMA_I_11]]
+==== SAKILA_SCHEMA_I_11: the actors who appear in both a Comedy and a Horror film, how many
 
 Count the actors who appear in at least one `Comedy` film and in at least one `Horror` film.
 Use one `EXISTS` for each category, each going from `film_actor` through `film_category` to `category`.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-11
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_11
 [%collapsible]
 ====
 [source,sql]
@@ -7167,14 +7167,14 @@ WHERE EXISTS (SELECT 1
 ....
 ====
 
-[[SAKILA-SCHEMA-I-12]]
-==== SAKILA-SCHEMA-I-12: the categories whose payments are, on average, larger than all payments
+[[SAKILA_SCHEMA_I_12]]
+==== SAKILA_SCHEMA_I_12: the categories whose payments are, on average, larger than all payments
 
 Average the payments by the category of the film rented, from `payment` through the rental, the copy and `film_category` to `category`.
 Keep the categories whose average is larger than the average of all payments, comparing them in `HAVING` with a subquery.
 Show each category's name with its average, rounded to two decimal places, the largest first; ties are ordered by name.
 
-.`_schema_exercises_02_intermediate.sql`, SAKILA-SCHEMA-I-12
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_12
 [%collapsible]
 ====
 [source,sql]
@@ -7210,15 +7210,15 @@ Answered by `_Schema_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA-SCHEMA-A-01]]
-==== SAKILA-SCHEMA-A-01: the customer who paid the most in each of the five countries which paid the most
+[[SAKILA_SCHEMA_A_01]]
+==== SAKILA_SCHEMA_A_01: the customer who paid the most in each of the five countries which paid the most
 
 Sum each customer's payments, and their country's.
 For each country, find the customer who paid the most, ranking the customers within the country with a window function (`RANK() OVER (PARTITION BY ...)`), and take the country's total with another (`SUM() OVER (PARTITION BY ...)`).
 Show, for the five countries which paid the most, the country, its top customer's `customer_id`, `first_name`,
 `last_name` and total, and the country's total, the largest country first.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-01
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_01
 [%collapsible]
 ====
 [source,sql]
@@ -7254,15 +7254,15 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-SCHEMA-A-02]]
-==== SAKILA-SCHEMA-A-02: the customers who rented a film of every category
+[[SAKILA_SCHEMA_A_02]]
+==== SAKILA_SCHEMA_A_02: the customers who rented a film of every category
 
 Find the customers who have rented at least one film of each category: for each customer, count the distinct categories of the films they rented, and compare it with the number of categories.
 A relational division across five tables.
 Show the first five such customers by
 `customer_id`.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-02
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_02
 [%collapsible]
 ====
 [source,sql]
@@ -7291,14 +7291,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-SCHEMA-A-03]]
-==== SAKILA-SCHEMA-A-03: the running total of the payments, on the first five days
+[[SAKILA_SCHEMA_A_03]]
+==== SAKILA_SCHEMA_A_03: the running total of the payments, on the first five days
 
 Sum the payments of each day, and, for each day, the running total: the sum of that day and all the days before.
 A window function with an `ORDER BY` and no partition.
 Show the first five days: the day, its total and the running total.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-03
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_03
 [%collapsible]
 ====
 [source,sql]
@@ -7322,14 +7322,14 @@ ORDER BY day
 ....
 ====
 
-[[SAKILA-SCHEMA-A-04]]
-==== SAKILA-SCHEMA-A-04: each month's payments, and the change from the month before
+[[SAKILA_SCHEMA_A_04]]
+==== SAKILA_SCHEMA_A_04: each month's payments, and the change from the month before
 
 Sum the payments of each month, written as `YYYY-MM`, and, for each month, the difference from the month before it, taken with `LAG`.
 The first month has none, so its difference is `NULL`.
 Show each month with its total and the difference.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-04
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_04
 [%collapsible]
 ====
 [source,sql]
@@ -7352,15 +7352,15 @@ ORDER BY month
 ....
 ====
 
-[[SAKILA-SCHEMA-A-05]]
-==== SAKILA-SCHEMA-A-05: the three films rented the most at each store
+[[SAKILA_SCHEMA_A_05]]
+==== SAKILA_SCHEMA_A_05: the three films rented the most at each store
 
 Count the rentals of each film at each store, the store being that of the copy rented.
 Number the films within each store, the most rented first and ties by `film_id`, with `ROW_NUMBER() OVER (PARTITION BY ...)`, and keep the first three of each store.
 Show the `store_id`, the
 `film_id`, the `title` and the count.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-05
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_05
 [%collapsible]
 ====
 [source,sql]
@@ -7390,14 +7390,14 @@ ORDER BY store_id, n
 ....
 ====
 
-[[SAKILA-SCHEMA-A-06]]
-==== SAKILA-SCHEMA-A-06: how many actors are one film, and how many two films, away from KEVIN BLOOM; a Bacon number, Sakila having no KEVIN BACON
+[[SAKILA_SCHEMA_A_06]]
+==== SAKILA_SCHEMA_A_06: how many actors are one film, and how many two films, away from KEVIN BLOOM; a Bacon number, Sakila having no KEVIN BACON
 
 Two actors are one film apart when they appear in the same film; two films apart when they are one film apart from someone who is one film apart from the first.
 Starting from `KEVIN BLOOM`, walk `film_actor` with a recursive common table expression, up to two steps, keep each actor's smallest number of steps, and count the actors at one and at two.
 Sakila has no `KEVIN BACON`, so this is the Bacon number of KEVIN BLOOM.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-06
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_06
 [%collapsible]
 ====
 [source,sql]
@@ -7427,15 +7427,15 @@ ORDER BY number
 ....
 ====
 
-[[SAKILA-SCHEMA-A-07]]
-==== SAKILA-SCHEMA-A-07: the films none of whose copies is in, right now
+[[SAKILA_SCHEMA_A_07]]
+==== SAKILA_SCHEMA_A_07: the films none of whose copies is in, right now
 
 A copy is out when it has a rental without a `return_date`.
 Find the films which have copies, and all of whose copies are out right now: their `film_id`, `title` and number of copies.
 The count of the copies out must equal the count of all copies, for each film.
 The installed data has none.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-07
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_07
 [%collapsible]
 ====
 [source,sql]
@@ -7455,15 +7455,15 @@ no rows.
 ....
 ====
 
-[[SAKILA-SCHEMA-A-08]]
-==== SAKILA-SCHEMA-A-08: the five longest runs of days on which a customer rented every day
+[[SAKILA_SCHEMA_A_08]]
+==== SAKILA_SCHEMA_A_08: the five longest runs of days on which a customer rented every day
 
 A run is a series of consecutive days on each of which the customer rented at least once.
 Take each customer's distinct rental days, and subtract from each day its number among the customer's days, with `ROW_NUMBER()`; the days of one run all give the same date, so group by it.
 Show the five longest runs: the customer's `customer_id`, `first_name` and `last_name`, the run's first and last day and its number of days, the longest first; ties are ordered by `customer_id` and then by the first day.
 This is the gaps-and-islands technique.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-08
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_08
 [%collapsible]
 ====
 [source,sql]
@@ -7494,14 +7494,14 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA-SCHEMA-A-09]]
-==== SAKILA-SCHEMA-A-09: the countries none of whose customers rented a Music film
+[[SAKILA_SCHEMA_A_09]]
+==== SAKILA_SCHEMA_A_09: the countries none of whose customers rented a Music film
 
 Find the countries which have customers, none of whom has rented a film of the category `Music`.
 A `NOT EXISTS` whose subquery goes from the country's customers through their rentals, the copies and `film_category` to `category`, correlated by the country.
 Show each country with its number of customers, ordered by the country's name.
 
-.`_schema_exercises_03_advanced.sql`, SAKILA-SCHEMA-A-09
+.`_schema_exercises_03_advanced.sql`, SAKILA_SCHEMA_A_09
 [%collapsible]
 ====
 [source,sql]

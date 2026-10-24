@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Film_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: how many films of each rating are longer than their rating's average")
+    @DisplayName("SAKILA_FILM_A_01: how many films of each rating are longer than their rating's average")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_A_01_Test {
 
         @Test
         void __QueryLanguage() {

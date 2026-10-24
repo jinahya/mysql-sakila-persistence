@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class ActorInfo_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: whether the view has a row for every actor")
+    @DisplayName("SAKILA_ACTOR_INFO_I_01: whether the view has a row for every actor")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ACTOR_INFO_I_01_Test {
 
         // JPQL has no subquery in the SELECT clause; the two counts are two queries
         @Test
@@ -72,9 +72,9 @@ class ActorInfo_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the actors whose film_info covers every category")
+    @DisplayName("SAKILA_ACTOR_INFO_I_02: the actors whose film_info covers every category")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ACTOR_INFO_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -140,9 +140,9 @@ class ActorInfo_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many actors cover how many categories")
+    @DisplayName("SAKILA_ACTOR_INFO_I_03: how many actors cover how many categories")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ACTOR_INFO_I_03_Test {
 
         // JPQL groups by paths, not by an expression of one; the Criteria API's grouping by an
         // expression is not portable either

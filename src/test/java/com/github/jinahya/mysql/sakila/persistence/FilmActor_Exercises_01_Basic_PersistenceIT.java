@@ -39,9 +39,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class FilmActor_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many films the actor 1 appears in")
+    @DisplayName("SAKILA_FILM_ACTOR_B_01: how many films the actor 1 appears in")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_ACTOR_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -74,9 +74,9 @@ class FilmActor_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many castings, actors and films the table has")
+    @DisplayName("SAKILA_FILM_ACTOR_B_02: how many castings, actors and films the table has")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_ACTOR_B_02_Test {
 
         @Test
         void __QueryLanguage() {

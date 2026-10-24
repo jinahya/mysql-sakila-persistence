@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Category_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: how many films each category has, the most first")
+    @DisplayName("SAKILA_CATEGORY_I_01: how many films each category has, the most first")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CATEGORY_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -86,9 +86,9 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the category whose films are, on average, the longest")
+    @DisplayName("SAKILA_CATEGORY_I_02: the category whose films are, on average, the longest")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CATEGORY_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -137,9 +137,9 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the categories with no film")
+    @DisplayName("SAKILA_CATEGORY_I_03: the categories with no film")
     @Nested
-    class Exercise3Test {
+    class SAKILA_CATEGORY_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -173,9 +173,9 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the categories whose films rent for more than the average")
+    @DisplayName("SAKILA_CATEGORY_I_04: the categories whose films rent for more than the average")
     @Nested
-    class Exercise4Test {
+    class SAKILA_CATEGORY_I_04_Test {
 
         @Test
         void __QueryLanguage() {
@@ -244,9 +244,9 @@ class Category_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the five categories with the most different actors")
+    @DisplayName("SAKILA_CATEGORY_I_05: the five categories with the most different actors")
     @Nested
-    class Exercise5Test {
+    class SAKILA_CATEGORY_I_05_Test {
 
         @Test
         void __QueryLanguage() {

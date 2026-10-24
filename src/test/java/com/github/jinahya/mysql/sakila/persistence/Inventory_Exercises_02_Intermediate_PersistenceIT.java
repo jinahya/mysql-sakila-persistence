@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Inventory_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the five films with the most copies")
+    @DisplayName("SAKILA_INVENTORY_I_01: the five films with the most copies")
     @Nested
-    class Exercise1Test {
+    class SAKILA_INVENTORY_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -94,9 +94,9 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many copies were never rented")
+    @DisplayName("SAKILA_INVENTORY_I_02: how many copies were never rented")
     @Nested
-    class Exercise2Test {
+    class SAKILA_INVENTORY_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -126,9 +126,9 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many copies each store has out right now")
+    @DisplayName("SAKILA_INVENTORY_I_03: how many copies each store has out right now")
     @Nested
-    class Exercise3Test {
+    class SAKILA_INVENTORY_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -174,9 +174,9 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: how many copies of each rating each store has")
+    @DisplayName("SAKILA_INVENTORY_I_04: how many copies of each rating each store has")
     @Nested
-    class Exercise4Test {
+    class SAKILA_INVENTORY_I_04_Test {
 
         @Test
         void __QueryLanguage() {

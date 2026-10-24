@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-I-01
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_I_01
 -- the first five addresses, with their city and country.
 -- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
 -- | address_id | address              | address2 | district | city_id | postal_code | phone       | last_update         | city_id | city       | country_id | last_update         | country_id | country   | last_update         |
@@ -44,7 +44,7 @@ FROM address a
 ORDER BY a.address_id LIMIT 5
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-I-02
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_I_02
 -- the district names found in more than one country.
 -- +------------------+-----------+
 -- | district         | countries |
@@ -65,7 +65,7 @@ HAVING COUNT(DISTINCT ci.country_id) > 1
 ORDER BY countries DESC, a.district
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-I-03
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_I_03
 -- how many addresses belong to a store, a staff member or a customer.
 -- +----------+-----------+
 -- | used_by  | addresses |

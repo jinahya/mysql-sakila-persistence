@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Rental_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: how many rentals are not returned yet, at each store")
+    @DisplayName("SAKILA_RENTAL_I_01: how many rentals are not returned yet, at each store")
     @Nested
-    class Exercise1Test {
+    class SAKILA_RENTAL_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -88,9 +88,9 @@ class Rental_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: on which days the rentals not returned yet were made")
+    @DisplayName("SAKILA_RENTAL_I_02: on which days the rentals not returned yet were made")
     @Nested
-    class Exercise2Test {
+    class SAKILA_RENTAL_I_02_Test {
 
         @Test
         void __QueryLanguage() {

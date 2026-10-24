@@ -46,9 +46,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Address_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the first five addresses, with their city and country")
+    @DisplayName("SAKILA_ADDRESS_I_01: the first five addresses, with their city and country")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ADDRESS_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -102,9 +102,9 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the district names found in more than one country")
+    @DisplayName("SAKILA_ADDRESS_I_02: the district names found in more than one country")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ADDRESS_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -159,9 +159,9 @@ class Address_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many addresses belong to a store, a staff member or a customer")
+    @DisplayName("SAKILA_ADDRESS_I_03: how many addresses belong to a store, a staff member or a customer")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ADDRESS_I_03_Test {
 
         // the most addresses first, as the SQL orders them; a UNION has no ORDER BY of its own
         private static final Comparator<Object[]> ORDER =

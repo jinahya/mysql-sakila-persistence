@@ -44,9 +44,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: the actors of the film 1, as this view writes them")
+    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01: the actors of the film 1, as this view writes them")
     @Nested
-    class Exercise1Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query
@@ -65,9 +65,9 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many films PENELOPE GUINESS plays in, by the view's actors")
+    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02: how many films PENELOPE GUINESS plays in, by the view's actors")
     @Nested
-    class Exercise2Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query
@@ -85,9 +85,9 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the films which have no actors")
+    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03: the films which have no actors")
     @Nested
-    class Exercise3Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query

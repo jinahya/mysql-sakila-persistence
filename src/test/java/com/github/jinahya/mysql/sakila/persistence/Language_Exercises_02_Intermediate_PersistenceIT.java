@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Language_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: how many films each language has")
+    @DisplayName("SAKILA_LANGUAGE_I_01: how many films each language has")
     @Nested
-    class Exercise1Test {
+    class SAKILA_LANGUAGE_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -94,9 +94,9 @@ class Language_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 2: the languages no film uses, either as its language or as its original language")
+            "SAKILA_LANGUAGE_I_02: the languages no film uses, either as its language or as its original language")
     @Nested
-    class Exercise2Test {
+    class SAKILA_LANGUAGE_I_02_Test {
 
         @Test
         void __QueryLanguage() {

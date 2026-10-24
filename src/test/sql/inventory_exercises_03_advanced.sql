@@ -27,7 +27,7 @@
 --
 
 
--- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-A-01
+-- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_A_01
 -- the five longest times a copy sat on the shelf between two rentals.
 -- +--------------+---------------------+---------------------+-----------+
 -- | inventory_id | return_date         | next_rental_date    | idle_days |
@@ -51,7 +51,7 @@ ORDER BY idle_days DESC, inventory_id, return_date
 LIMIT 5
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-A-02
+-- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_A_02
 -- how many films have had every one of their copies rented.
 -- +--------------------+-------------------+
 -- | films_in_inventory | every_copy_rented |

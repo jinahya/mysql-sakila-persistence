@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class CustomerList_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: whether the view has a row for every customer")
+    @DisplayName("SAKILA_CUSTOMER_LIST_I_01: whether the view has a row for every customer")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CUSTOMER_LIST_I_01_Test {
 
         // JPQL has no subquery in the SELECT clause; the two counts are two queries
         @Test
@@ -74,9 +74,9 @@ class CustomerList_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the cities with more than one customer")
+    @DisplayName("SAKILA_CUSTOMER_LIST_I_02: the cities with more than one customer")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CUSTOMER_LIST_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -120,9 +120,9 @@ class CustomerList_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the rows whose name is not the customer's first and last name")
+    @DisplayName("SAKILA_CUSTOMER_LIST_I_03: the rows whose name is not the customer's first and last name")
     @Nested
-    class Exercise3Test {
+    class SAKILA_CUSTOMER_LIST_I_03_Test {
 
         @Test
         void __QueryLanguage() {

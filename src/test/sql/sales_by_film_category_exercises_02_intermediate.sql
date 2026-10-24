@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-I-01
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_I_01
 -- whether the view's sales add up to every payment.
 -- +-------------+--------------+
 -- | by_category | all_payments |
@@ -37,7 +37,7 @@ SELECT (SELECT SUM(total_sales) FROM sales_by_film_category) AS by_category,
        (SELECT SUM(amount) FROM payment)                     AS all_payments
 ;
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-I-02
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_I_02
 -- the five categories which sold the most, and their share of all sales.
 -- +-----------+-------------+---------+
 -- | category  | total_sales | percent |
@@ -55,7 +55,7 @@ ORDER BY total_sales DESC, category
 LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-I-03
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_I_03
 -- the five categories which sold the most per film.
 -- +-----------+-------------+-------+----------+
 -- | category  | total_sales | films | per_film |

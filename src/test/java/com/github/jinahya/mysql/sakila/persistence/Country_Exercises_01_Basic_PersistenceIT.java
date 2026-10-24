@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Country_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many countries there are")
+    @DisplayName("SAKILA_COUNTRY_B_01: how many countries there are")
     @Nested
-    class Exercise1Test {
+    class SAKILA_COUNTRY_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -73,9 +73,9 @@ class Country_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the countries whose name starts with S, ordered by name")
+    @DisplayName("SAKILA_COUNTRY_B_02: the countries whose name starts with S, ordered by name")
     @Nested
-    class Exercise2Test {
+    class SAKILA_COUNTRY_B_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -118,9 +118,9 @@ class Country_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the five countries with the longest names")
+    @DisplayName("SAKILA_COUNTRY_B_03: the five countries with the longest names")
     @Nested
-    class Exercise3Test {
+    class SAKILA_COUNTRY_B_03_Test {
 
         // EclipseLink renders LENGTH as MySQL's LENGTH, which counts bytes, not characters; the
         // name is measured with CHAR_LENGTH, by FUNCTION

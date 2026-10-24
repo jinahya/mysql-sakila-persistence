@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class ActorInfo_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: the film_info of the actor 1")
+    @DisplayName("SAKILA_ACTOR_INFO_B_01: the film_info of the actor 1")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ACTOR_INFO_B_01_Test {
 
         @ParameterizedTest
         @ValueSource(ints = {1, 2, 3})
@@ -85,9 +85,9 @@ class ActorInfo_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many actors appear in a Horror film, as film_info says")
+    @DisplayName("SAKILA_ACTOR_INFO_B_02: how many actors appear in a Horror film, as film_info says")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ACTOR_INFO_B_02_Test {
 
         @ParameterizedTest
         @ValueSource(strings = {"Horror", "Action", "Comedy"})
@@ -122,9 +122,9 @@ class ActorInfo_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the actors of ACADEMY DINOSAUR, as film_info says")
+    @DisplayName("SAKILA_ACTOR_INFO_B_03: the actors of ACADEMY DINOSAUR, as film_info says")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ACTOR_INFO_B_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -185,9 +185,9 @@ class ActorInfo_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the five actors with the longest film_info")
+    @DisplayName("SAKILA_ACTOR_INFO_B_04: the five actors with the longest film_info")
     @Nested
-    class Exercise4Test {
+    class SAKILA_ACTOR_INFO_B_04_Test {
 
         @Test
         void __QueryLanguage() {

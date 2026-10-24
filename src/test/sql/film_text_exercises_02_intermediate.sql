@@ -26,7 +26,7 @@
 --
 
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-01
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_01
 -- whether film_text has a row for every film.
 -- +-----------+------+
 -- | film_text | film |
@@ -36,7 +36,7 @@
 SELECT (SELECT COUNT(*) FROM film_text) AS film_text, (SELECT COUNT(*) FROM film) AS film
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-02
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_02
 -- how many films mention a Drama, by the full-text index.
 -- +-------+
 -- | films |
@@ -48,7 +48,7 @@ FROM film_text
 WHERE MATCH (title, description) AGAINST ('drama')
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-03
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_03
 -- the films whose film_text title differs from their title.
 -- no rows.
 SELECT f.*, ft.*
@@ -57,7 +57,7 @@ FROM film f
 WHERE ft.title <> f.title
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-04
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_04
 -- how many films mention a Boat but not a Shark, by the full-text index.
 -- +-------+
 -- | films |
@@ -69,7 +69,7 @@ FROM film_text
 WHERE MATCH(title, description) AGAINST ('+boat -shark' IN BOOLEAN MODE)
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-FILM_TEXT-I-05
+-- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_05
 -- how many films mention a Crocodile or a Shark, and how many mention both.
 -- +-------------+------------+
 -- | either_word | both_words |

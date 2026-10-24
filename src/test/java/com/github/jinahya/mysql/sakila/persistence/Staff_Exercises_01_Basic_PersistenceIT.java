@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Staff_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: every staff member, with their store")
+    @DisplayName("SAKILA_STAFF_B_01: every staff member, with their store")
     @Nested
-    class Exercise1Test {
+    class SAKILA_STAFF_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -90,9 +90,9 @@ class Staff_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the staff members who have no password")
+    @DisplayName("SAKILA_STAFF_B_02: the staff members who have no password")
     @Nested
-    class Exercise2Test {
+    class SAKILA_STAFF_B_02_Test {
 
         @Test
         void __QueryLanguage() {

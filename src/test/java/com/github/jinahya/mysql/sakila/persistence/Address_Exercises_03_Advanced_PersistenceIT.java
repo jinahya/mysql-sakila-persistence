@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Address_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the addresses no customer, staff member or store has")
+    @DisplayName("SAKILA_ADDRESS_A_01: the addresses no customer, staff member or store has")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ADDRESS_A_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -87,9 +87,9 @@ class Address_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the pairs of addresses which share a postal code")
+    @DisplayName("SAKILA_ADDRESS_A_02: the pairs of addresses which share a postal code")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ADDRESS_A_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -150,10 +150,10 @@ class Address_Exercises_03_Advanced_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 3: the three districts with the most addresses in each of India, China and " +
+            "SAKILA_ADDRESS_A_03: the three districts with the most addresses in each of India, China and " +
             "the United States")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ADDRESS_A_03_Test {
 
         // JPQL has no window functions, nor a subquery in the FROM clause; ROW_NUMBER() OVER
         // (PARTITION BY ...) is SQL's

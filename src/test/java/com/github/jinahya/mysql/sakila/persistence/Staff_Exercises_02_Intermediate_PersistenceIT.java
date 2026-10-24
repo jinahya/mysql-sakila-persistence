@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Staff_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: how many rentals each staff member handled")
+    @DisplayName("SAKILA_STAFF_I_01: how many rentals each staff member handled")
     @Nested
-    class Exercise1Test {
+    class SAKILA_STAFF_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -89,9 +89,9 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the staff members who manage the store they work at")
+    @DisplayName("SAKILA_STAFF_I_02: the staff members who manage the store they work at")
     @Nested
-    class Exercise2Test {
+    class SAKILA_STAFF_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -138,10 +138,10 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 3: how many rentals each staff member handled for their own store's copies, " +
+            "SAKILA_STAFF_I_03: how many rentals each staff member handled for their own store's copies, " +
             "and for the other's")
     @Nested
-    class Exercise3Test {
+    class SAKILA_STAFF_I_03_Test {
 
         // JPQL sums no CASE; the rentals of the other store's copies are a second query
         @Test

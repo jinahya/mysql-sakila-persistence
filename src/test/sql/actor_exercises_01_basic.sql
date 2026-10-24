@@ -26,8 +26,8 @@
 --
 
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-B-01
--- the actors whose last name is GUINESS.
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_B_01
+-- the actors of a given last name, ordered by actor_id; here the name is GUINESS.
 -- +----------+------------+-----------+---------------------+
 -- | actor_id | first_name | last_name | last_update         |
 -- +----------+------------+-----------+---------------------+
@@ -41,7 +41,7 @@ WHERE last_name = 'GUINESS'
 ORDER BY actor_id
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-B-02
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_B_02
 -- the actors whose first name starts with JU, ordered by first name.
 -- +----------+------------+-----------+---------------------+
 -- | actor_id | first_name | last_name | last_update         |
@@ -60,7 +60,7 @@ WHERE first_name LIKE 'JU%'
 ORDER BY first_name, actor_id
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-B-03
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_B_03
 -- the actors whose last name starts with WA, ordered by last name.
 -- +----------+------------+-----------+---------------------+
 -- | actor_id | first_name | last_name | last_update         |
@@ -76,7 +76,7 @@ WHERE last_name LIKE 'WA%'
 ORDER BY last_name, actor_id
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-B-04
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_B_04
 -- the actors whose first and last names start with the same letter.
 -- +----------+------------+-------------+---------------------+
 -- | actor_id | first_name | last_name   | last_update         |
@@ -99,7 +99,7 @@ WHERE LEFT(first_name, 1) = LEFT(last_name, 1)
 ORDER BY actor_id
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-B-05
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_B_05
 -- how many different first names and last names there are.
 -- +-------------+------------+
 -- | first_names | last_names |

@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: the three categories which sold the most")
+    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_B_01: the three categories which sold the most")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -88,9 +88,9 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the categories which sold between 4000 and 4500")
+    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_B_02: the categories which sold between 4000 and 4500")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_B_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -149,9 +149,9 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 3: how many categories sold less than 4000, and how much they sold together")
+            "SAKILA_SALES_BY_FILM_CATEGORY_B_03: how many categories sold less than 4000, and how much they sold together")
     @Nested
-    class Exercise3Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_B_03_Test {
 
         @Test
         void __QueryLanguage() {

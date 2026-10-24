@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Category_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the running total of the films, category by category")
+    @DisplayName("SAKILA_CATEGORY_A_01: the running total of the films, category by category")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CATEGORY_A_01_Test {
 
         // JPQL has no window functions; a category's running total counts the films of every
         // category at or before it, the most films first, then by name
@@ -142,9 +142,9 @@ class Category_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the film rented the most in each category")
+    @DisplayName("SAKILA_CATEGORY_A_02: the film rented the most in each category")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CATEGORY_A_02_Test {
 
         // JPQL has no window functions; the film is rented no less than any other film of the
         // category, and more than any film before it by title

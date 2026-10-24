@@ -27,7 +27,7 @@
 --
 
 
--- --------------------------------------------------------------------------------------------------- SAKILA-STORE-A-01
+-- --------------------------------------------------------------------------------------------------- SAKILA_STORE_A_01
 -- how many films each store has a copy of, and how many of them only that store has.
 -- +----------+------------------+------------+---------------------+-------+-----------------+
 -- | store_id | manager_staff_id | address_id | last_update         | films | films_only_here |
@@ -49,7 +49,7 @@ GROUP BY st.store_id
 ORDER BY st.store_id
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-STORE-A-02
+-- --------------------------------------------------------------------------------------------------- SAKILA_STORE_A_02
 -- each store's rentals in each month, and its share of the month.
 -- +---------+----------+------------------+------------+---------------------+---------+---------+
 -- | month   | store_id | manager_staff_id | address_id | last_update         | rentals | percent |

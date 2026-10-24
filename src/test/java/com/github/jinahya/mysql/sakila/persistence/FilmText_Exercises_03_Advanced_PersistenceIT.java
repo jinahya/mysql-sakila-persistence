@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmText_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the most common kind of story in each category")
+    @DisplayName("SAKILA_FILM_TEXT_A_01: the most common kind of story in each category")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_TEXT_A_01_Test {
 
         // JPQL has no window functions, nor a subquery in the FROM clause; ROW_NUMBER() OVER
         // picks one kind per category, ties broken by the kind
@@ -89,9 +89,9 @@ class FilmText_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the chain of titles from ACADEMY DINOSAUR")
+    @DisplayName("SAKILA_FILM_TEXT_A_02: the chain of titles from ACADEMY DINOSAUR")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_TEXT_A_02_Test {
 
         // JPQL has no recursive common table expression; WITH RECURSIVE follows the chain
         @Test

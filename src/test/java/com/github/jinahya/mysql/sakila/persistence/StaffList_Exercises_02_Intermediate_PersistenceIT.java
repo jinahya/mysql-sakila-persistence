@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class StaffList_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: whether the view has a row for every staff member")
+    @DisplayName("SAKILA_STAFF_LIST_I_01: whether the view has a row for every staff member")
     @Nested
-    class Exercise1Test {
+    class SAKILA_STAFF_LIST_I_01_Test {
 
         // JPQL has no subquery in the SELECT clause; the two counts are two queries
         @Test
@@ -72,9 +72,9 @@ class StaffList_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: whether each staff member lives in the city of their store")
+    @DisplayName("SAKILA_STAFF_LIST_I_02: whether each staff member lives in the city of their store")
     @Nested
-    class Exercise2Test {
+    class SAKILA_STAFF_LIST_I_02_Test {
 
         @Test
         void __QueryLanguage() {

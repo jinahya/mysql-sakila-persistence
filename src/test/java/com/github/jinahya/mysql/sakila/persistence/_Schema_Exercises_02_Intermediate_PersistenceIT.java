@@ -46,9 +46,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class _Schema_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: how much each store took, through the copies it rented out")
+    @DisplayName("SAKILA_SCHEMA_I_01: how much each store took, through the copies it rented out")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SCHEMA_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -95,9 +95,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many rentals each category had, the most first")
+    @DisplayName("SAKILA_SCHEMA_I_02: how many rentals each category had, the most first")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SCHEMA_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -144,9 +144,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the five countries whose customers paid the most")
+    @DisplayName("SAKILA_SCHEMA_I_03: the five countries whose customers paid the most")
     @Nested
-    class Exercise3Test {
+    class SAKILA_SCHEMA_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -204,9 +204,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the average payment of each rating")
+    @DisplayName("SAKILA_SCHEMA_I_04: the average payment of each rating")
     @Nested
-    class Exercise4Test {
+    class SAKILA_SCHEMA_I_04_Test {
 
         @Test
         void __QueryLanguage() {
@@ -258,9 +258,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the five actors whose films took the most")
+    @DisplayName("SAKILA_SCHEMA_I_05: the five actors whose films took the most")
     @Nested
-    class Exercise5Test {
+    class SAKILA_SCHEMA_I_05_Test {
 
         @Test
         void __QueryLanguage() {
@@ -324,9 +324,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 6: the customers who have returned everything they rented, how many")
+    @DisplayName("SAKILA_SCHEMA_I_06: the customers who have returned everything they rented, how many")
     @Nested
-    class Exercise6Test {
+    class SAKILA_SCHEMA_I_06_Test {
 
         @Test
         void __QueryLanguage() {
@@ -360,9 +360,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 7: how many rentals, and how much was paid, in each month")
+    @DisplayName("SAKILA_SCHEMA_I_07: how many rentals, and how much was paid, in each month")
     @Nested
-    class Exercise7Test {
+    class SAKILA_SCHEMA_I_07_Test {
 
         // JPQL has no DATE_FORMAT; the year and the month are EXTRACTed, and written as one in Java
         @Test
@@ -422,9 +422,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 8: the customers who rented from a store other than their own, how many")
+    @DisplayName("SAKILA_SCHEMA_I_08: the customers who rented from a store other than their own, how many")
     @Nested
-    class Exercise8Test {
+    class SAKILA_SCHEMA_I_08_Test {
 
         @Test
         void __QueryLanguage() {
@@ -459,10 +459,10 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 9: how many rentals, and how much was paid, for short, medium and long " +
+            "SAKILA_SCHEMA_I_09: how many rentals, and how much was paid, for short, medium and long " +
             "films")
     @Nested
-    class Exercise9Test {
+    class SAKILA_SCHEMA_I_09_Test {
 
         @Test
         void __QueryLanguage() {
@@ -516,9 +516,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 10: how many films of each category were never rented")
+    @DisplayName("SAKILA_SCHEMA_I_10: how many films of each category were never rented")
     @Nested
-    class Exercise10Test {
+    class SAKILA_SCHEMA_I_10_Test {
 
         @Test
         void __QueryLanguage() {
@@ -593,9 +593,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 11: the actors who appear in both a Comedy and a Horror film, how many")
+    @DisplayName("SAKILA_SCHEMA_I_11: the actors who appear in both a Comedy and a Horror film, how many")
     @Nested
-    class Exercise11Test {
+    class SAKILA_SCHEMA_I_11_Test {
 
         @Test
         void __QueryLanguage() {
@@ -645,10 +645,10 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 12: the categories whose payments are, on average, larger than all " +
+            "SAKILA_SCHEMA_I_12: the categories whose payments are, on average, larger than all " +
             "payments")
     @Nested
-    class Exercise12Test {
+    class SAKILA_SCHEMA_I_12_Test {
 
         @Test
         void __QueryLanguage() {

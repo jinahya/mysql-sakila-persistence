@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Rental_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many rentals are not returned yet")
+    @DisplayName("SAKILA_RENTAL_B_01: how many rentals are not returned yet")
     @Nested
-    class Exercise1Test {
+    class SAKILA_RENTAL_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -74,9 +74,9 @@ class Rental_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many rentals were made in each month")
+    @DisplayName("SAKILA_RENTAL_B_02: how many rentals were made in each month")
     @Nested
-    class Exercise2Test {
+    class SAKILA_RENTAL_B_02_Test {
 
         // JPQL has no DATE_FORMAT; the year and the month are EXTRACTed, and written as one in Java
         @Test
@@ -130,9 +130,9 @@ class Rental_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many days a returned rental lasts, on average")
+    @DisplayName("SAKILA_RENTAL_B_03: how many days a returned rental lasts, on average")
     @Nested
-    class Exercise3Test {
+    class SAKILA_RENTAL_B_03_Test {
 
         // JPQL has no difference of two dates; DATEDIFF is MySQL's own; the Criteria API has no
         // difference of two dates; DATEDIFF is MySQL's own
@@ -149,9 +149,9 @@ class Rental_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: on which day of the week the most rentals were made")
+    @DisplayName("SAKILA_RENTAL_B_04: on which day of the week the most rentals were made")
     @Nested
-    class Exercise4Test {
+    class SAKILA_RENTAL_B_04_Test {
 
         // JPQL's EXTRACT has no day of the week; DAYNAME is MySQL's own; the Criteria API's extract
         // has no day of the week; DAYNAME is MySQL's own

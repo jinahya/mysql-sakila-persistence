@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmActor_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the three pairs of actors who appear together the most")
+    @DisplayName("SAKILA_FILM_ACTOR_A_01: the three pairs of actors who appear together the most")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_ACTOR_A_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -102,9 +102,9 @@ class FilmActor_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the actor who appears in the most films of each category")
+    @DisplayName("SAKILA_FILM_ACTOR_A_02: the actor who appears in the most films of each category")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_ACTOR_A_02_Test {
 
         // JPQL has no window functions; the actor of each category is the one whom no actor
         // outnumbers, and whom no actor with a smaller id equals
@@ -215,9 +215,9 @@ class FilmActor_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the pairs of films which have exactly the same actors")
+    @DisplayName("SAKILA_FILM_ACTOR_A_03: the pairs of films which have exactly the same actors")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_ACTOR_A_03_Test {
 
         @Test
         void __QueryLanguage() {

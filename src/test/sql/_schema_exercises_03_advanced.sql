@@ -27,7 +27,7 @@
 --
 
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-01
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_01
 -- the customer who paid the most in each of the five countries which paid the most.
 -- +---------------+-------------+------------+-----------+--------+---------------+
 -- | country       | customer_id | first_name | last_name | total  | country_total |
@@ -54,7 +54,7 @@ WHERE rank_in_country = 1
 ORDER BY country_total DESC LIMIT 5
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-02
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_02
 -- the customers who rented a film of every category.
 -- +-------------+------------+-----------+
 -- | customer_id | first_name | last_name |
@@ -75,7 +75,7 @@ HAVING COUNT(DISTINCT fc.category_id) = (SELECT COUNT(*) FROM category)
 ORDER BY c.customer_id LIMIT 5
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-03
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_03
 -- the running total of the payments, on the first five days.
 -- +------------+--------+---------------+
 -- | day        | total  | running_total |
@@ -92,7 +92,7 @@ ORDER BY day
     LIMIT 5
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-04
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_04
 -- each month's payments, and the change from the month before.
 -- +---------+----------+----------------------+
 -- | month   | total    | change_from_previous |
@@ -108,7 +108,7 @@ FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM(amount) AS total F
 ORDER BY month
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-05
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_05
 -- the three films rented the most at each store.
 -- +----------+---------+----------------------+---------+
 -- | store_id | film_id | title                | rentals |
@@ -134,7 +134,7 @@ WHERE n <= 3
 ORDER BY store_id, n
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-06
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_06
 -- how many actors are one film, and how many two films, away from KEVIN BLOOM; a Bacon number, Sakila having no KEVIN
 -- BACON.
 -- +--------+--------+
@@ -160,7 +160,7 @@ GROUP BY number
 ORDER BY number
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-07
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_07
 -- the films none of whose copies is in, right now.
 -- no rows.
 SELECT f.*, COUNT(*) AS copies
@@ -173,7 +173,7 @@ HAVING SUM(EXISTS (SELECT 1
 ORDER BY f.film_id
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-08
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_08
 -- the five longest runs of days on which a customer rented every day.
 -- +-------------+----------+------------+-----------+--------------------------------------+------------+--------+---------------------+---------------------+------------+------------+------+
 -- | customer_id | store_id | first_name | last_name | email                                | address_id | active | create_date         | last_update         | first_day  | last_day   | days |
@@ -197,7 +197,7 @@ ORDER BY days DESC, c.customer_id, first_day
 LIMIT 5
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-A-09
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_09
 -- the countries none of whose customers rented a Music film.
 -- +------------+------------------+---------------------+-----------+
 -- | country_id | country          | last_update         | customers |

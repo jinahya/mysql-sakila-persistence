@@ -27,7 +27,7 @@
 --
 
 
--- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-01
+-- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01
 -- how many rows differ from film_list, column by column, but for the actors.
 -- +-----------+
 -- | differing |
@@ -41,7 +41,7 @@ WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <
            AND n.length <=> l.length AND n.rating <=> l.rating)
 ;
 
--- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-02
+-- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02
 -- the longest length in each category, and how many films have it.
 -- +-------------+---------+-------+
 -- | category    | longest | films |
@@ -70,7 +70,7 @@ GROUP BY n.category, n.length
 ORDER BY n.category
 ;
 
--- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-A-03
+-- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03
 -- whether the actors string names as many actors as film_actor has.
 -- +------------+
 -- | mismatched |

@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Customer_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many customers are active, and how many are not")
+    @DisplayName("SAKILA_CUSTOMER_B_01: how many customers are active, and how many are not")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CUSTOMER_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -83,9 +83,9 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many customers each store has")
+    @DisplayName("SAKILA_CUSTOMER_B_02: how many customers each store has")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CUSTOMER_B_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -127,9 +127,9 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the domains of the customers' emails")
+    @DisplayName("SAKILA_CUSTOMER_B_03: the domains of the customers' emails")
     @Nested
-    class Exercise3Test {
+    class SAKILA_CUSTOMER_B_03_Test {
 
         // JPQL groups by paths, not by a function of one; SUBSTRING_INDEX has no JPQL counterpart
         // either; the Criteria API has no SUBSTRING_INDEX, and grouping by a function of a path
@@ -148,9 +148,9 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the customers who are not active")
+    @DisplayName("SAKILA_CUSTOMER_B_04: the customers who are not active")
     @Nested
-    class Exercise4Test {
+    class SAKILA_CUSTOMER_B_04_Test {
 
         @Test
         void __QueryLanguage() {
@@ -224,9 +224,9 @@ class Customer_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: how many customers have the same initial in both names")
+    @DisplayName("SAKILA_CUSTOMER_B_05: how many customers have the same initial in both names")
     @Nested
-    class Exercise5Test {
+    class SAKILA_CUSTOMER_B_05_Test {
 
         // EclipseLink's JPQL parser does not know LEFT; SUBSTRING(x, 1, 1) takes the initial
         @Test

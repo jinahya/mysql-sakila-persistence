@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Address_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many addresses are in the district of California")
+    @DisplayName("SAKILA_ADDRESS_B_01: how many addresses are in the district of California")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ADDRESS_B_01_Test {
 
         @ParameterizedTest
         @ValueSource(strings = {"California", "Alberta", "Buenos Aires"})
@@ -79,9 +79,9 @@ class Address_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the five districts with the most addresses")
+    @DisplayName("SAKILA_ADDRESS_B_02: the five districts with the most addresses")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ADDRESS_B_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -129,9 +129,9 @@ class Address_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the addresses whose address2 is NULL")
+    @DisplayName("SAKILA_ADDRESS_B_03: the addresses whose address2 is NULL")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ADDRESS_B_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -175,9 +175,9 @@ class Address_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the addresses with an empty district")
+    @DisplayName("SAKILA_ADDRESS_B_04: the addresses with an empty district")
     @Nested
-    class Exercise4Test {
+    class SAKILA_ADDRESS_B_04_Test {
 
         @Test
         void __QueryLanguage() {

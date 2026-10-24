@@ -43,9 +43,9 @@ import static org.assertj.core.api.Assertions.tuple;
 class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: the running total of the categories' sales, and its share of all sales")
+            "SAKILA_SALES_BY_FILM_CATEGORY_A_01: the running total of the categories' sales, and its share of all sales")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_A_01_Test {
 
         // JPQL has no window function; a self-join sums, for each category, the categories up to it
         // and all of them
@@ -125,9 +125,9 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the three largest gaps between a category and the next one down")
+    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_A_02: the three largest gaps between a category and the next one down")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_A_02_Test {
 
         // JPQL has no LEAD; the next category down is the one after which, and before the other,
         // NOT EXISTS any

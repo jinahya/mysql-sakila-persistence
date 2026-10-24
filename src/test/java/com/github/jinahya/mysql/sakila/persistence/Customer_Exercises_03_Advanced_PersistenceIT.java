@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Customer_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the three customers who paid the most at each store")
+    @DisplayName("SAKILA_CUSTOMER_A_01: the three customers who paid the most at each store")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CUSTOMER_A_01_Test {
 
         // JPQL has no window functions, nor a subquery in the FROM clause; ROW_NUMBER() OVER
         // (PARTITION BY ...) is SQL's
@@ -76,10 +76,10 @@ class Customer_Exercises_03_Advanced_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 2: how many customers of each store paid more than that store's average " +
+            "SAKILA_CUSTOMER_A_02: how many customers of each store paid more than that store's average " +
             "customer")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CUSTOMER_A_02_Test {
 
         // JPQL has no common table expression; the totals are correlated subqueries instead
         @Test

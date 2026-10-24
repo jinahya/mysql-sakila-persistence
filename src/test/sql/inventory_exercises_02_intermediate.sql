@@ -26,7 +26,7 @@
 --
 
 
--- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-01
+-- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_I_01
 -- the five films with the most copies.
 -- +---------+------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+--------+
 -- | film_id | title            | description                                                                                                              | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                              | last_update         | copies |
@@ -44,7 +44,7 @@ GROUP BY f.film_id
 ORDER BY copies DESC, f.film_id LIMIT 5
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-02
+-- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_I_02
 -- how many copies were never rented.
 -- +--------+
 -- | copies |
@@ -56,7 +56,7 @@ FROM inventory i
 WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id)
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-03
+-- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_I_03
 -- how many copies each store has out right now.
 -- +----------+------------------+------------+---------------------+------------+
 -- | store_id | manager_staff_id | address_id | last_update         | copies_out |
@@ -73,7 +73,7 @@ GROUP BY st.store_id
 ORDER BY st.store_id
 ;
 
--- ----------------------------------------------------------------------------------------------- SAKILA-INVENTORY-I-04
+-- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_I_04
 -- how many copies of each rating each store has.
 -- +----------+------------------+------------+---------------------+--------+--------+
 -- | store_id | manager_staff_id | address_id | last_update         | rating | copies |

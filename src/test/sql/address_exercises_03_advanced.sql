@@ -27,7 +27,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-A-01
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_A_01
 -- the addresses no customer, staff member or store has.
 -- no rows.
 SELECT a.*
@@ -38,7 +38,7 @@ WHERE NOT EXISTS (SELECT 1 FROM customer c WHERE c.address_id = a.address_id)
 ORDER BY a.address_id
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-A-02
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_A_02
 -- the pairs of addresses which share a postal code.
 -- +------------+------------------------------+----------+---------------+---------+-------------+--------------+---------------------+------------+------------------------+----------+----------+---------+-------------+--------------+---------------------+
 -- | address_id | address                      | address2 | district      | city_id | postal_code | phone        | last_update         | address_id | address                | address2 | district | city_id | postal_code | phone        | last_update         |
@@ -55,7 +55,7 @@ WHERE a1.postal_code <> ''
 ORDER BY a1.address_id, a2.address_id
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-ADDRESS-A-03
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_A_03
 -- the three districts with the most addresses in each of India, China and the United States.
 -- +---------------+---------------+-----------+
 -- | country       | district      | addresses |

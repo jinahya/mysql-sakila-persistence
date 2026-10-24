@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Payment_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the running total of the customer 1's payments, the first ten")
+    @DisplayName("SAKILA_PAYMENT_A_01: the running total of the customer 1's payments, the first ten")
     @Nested
-    class Exercise1Test {
+    class SAKILA_PAYMENT_A_01_Test {
 
         // JPQL has no window function; the running total sums, by a self-join, every payment up to
         // each one
@@ -123,9 +123,9 @@ class Payment_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the runs of consecutive days on which payments were made")
+    @DisplayName("SAKILA_PAYMENT_A_02: the runs of consecutive days on which payments were made")
     @Nested
-    class Exercise2Test {
+    class SAKILA_PAYMENT_A_02_Test {
 
         // JPQL has no window function, and cannot subtract a number of days from a date; the runs
         // are numbered with ROW_NUMBER, and DATE_SUB is MySQL's own

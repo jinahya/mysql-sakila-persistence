@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class CustomerList_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: the customers in Japan")
+    @DisplayName("SAKILA_CUSTOMER_LIST_B_01: the customers in Japan")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CUSTOMER_LIST_B_01_Test {
 
         @ParameterizedTest
         @ValueSource(strings = {"Japan", "Canada", "Brazil"})
@@ -85,9 +85,9 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many customers each store has, as the view's SID says")
+    @DisplayName("SAKILA_CUSTOMER_LIST_B_02: how many customers each store has, as the view's SID says")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CUSTOMER_LIST_B_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -131,9 +131,9 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many customers the view's notes call active")
+    @DisplayName("SAKILA_CUSTOMER_LIST_B_03: how many customers the view's notes call active")
     @Nested
-    class Exercise3Test {
+    class SAKILA_CUSTOMER_LIST_B_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -173,9 +173,9 @@ class CustomerList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: how many customers live on an Avenue")
+    @DisplayName("SAKILA_CUSTOMER_LIST_B_04: how many customers live on an Avenue")
     @Nested
-    class Exercise4Test {
+    class SAKILA_CUSTOMER_LIST_B_04_Test {
 
         @Test
         void __QueryLanguage() {

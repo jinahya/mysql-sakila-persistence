@@ -38,10 +38,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ActorInfo_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: the actors whose film_info disagrees with the tables on the number of " +
+            "SAKILA_ACTOR_INFO_A_01: the actors whose film_info disagrees with the tables on the number of " +
             "categories")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ACTOR_INFO_A_01_Test {
 
         @Test
         void __QueryLanguage() {

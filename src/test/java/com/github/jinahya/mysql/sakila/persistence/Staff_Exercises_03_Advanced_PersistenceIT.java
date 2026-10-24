@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Staff_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the day on which each staff member took the most")
+    @DisplayName("SAKILA_STAFF_A_01: the day on which each staff member took the most")
     @Nested
-    class Exercise1Test {
+    class SAKILA_STAFF_A_01_Test {
 
         // JPQL has no window functions; the day is the one whose total is not less than any other
         @Test

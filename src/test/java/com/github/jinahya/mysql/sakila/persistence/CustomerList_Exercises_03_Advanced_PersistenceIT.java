@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class CustomerList_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the three countries with the most customers of each store")
+    @DisplayName("SAKILA_CUSTOMER_LIST_A_01: the three countries with the most customers of each store")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CUSTOMER_LIST_A_01_Test {
 
         // JPQL has no window functions, nor a subquery in the FROM clause; ROW_NUMBER() OVER
         // (PARTITION BY ...) is SQL's

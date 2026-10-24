@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-01
+-- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_I_01
 -- the countries with no city.
 -- no rows.
 SELECT co.*
@@ -34,7 +34,7 @@ FROM country co
 WHERE NOT EXISTS (SELECT 1 FROM city ci WHERE ci.country_id = co.country_id)
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-02
+-- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_I_02
 -- the five countries with the most customers.
 -- +------------+---------------+---------------------+-----------+
 -- | country_id | country       | last_update         | customers |
@@ -54,7 +54,7 @@ GROUP BY co.country_id
 ORDER BY customers DESC, co.country LIMIT 5
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-03
+-- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_I_03
 -- how many countries have exactly one city.
 -- +-----------+
 -- | countries |
@@ -66,7 +66,7 @@ FROM country co
 WHERE (SELECT COUNT(*) FROM city ci WHERE ci.country_id = co.country_id) = 1
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-I-04
+-- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_I_04
 -- the countries which have a city but no customer.
 -- +------------+-----------+---------------------+
 -- | country_id | country   | last_update         |

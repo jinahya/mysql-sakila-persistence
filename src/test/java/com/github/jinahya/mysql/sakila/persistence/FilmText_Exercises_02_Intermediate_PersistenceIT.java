@@ -43,9 +43,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmText_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: whether film_text has a row for every film")
+    @DisplayName("SAKILA_FILM_TEXT_I_01: whether film_text has a row for every film")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_TEXT_I_01_Test {
 
         // JPQL has no subquery in the SELECT clause; the two counts are two queries
         @Test
@@ -73,9 +73,9 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many films mention a Drama, by the full-text index")
+    @DisplayName("SAKILA_FILM_TEXT_I_02: how many films mention a Drama, by the full-text index")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_TEXT_I_02_Test {
 
         // JPQL has no full-text search; MATCH ... AGAINST is MySQL's own; the Criteria API has no
         // full-text search; MATCH ... AGAINST is MySQL's own
@@ -94,9 +94,9 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the films whose film_text title differs from their title")
+    @DisplayName("SAKILA_FILM_TEXT_I_03: the films whose film_text title differs from their title")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_TEXT_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -129,9 +129,9 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 4: how many films mention a Boat but not a Shark, by the full-text index")
+            "SAKILA_FILM_TEXT_I_04: how many films mention a Boat but not a Shark, by the full-text index")
     @Nested
-    class Exercise4Test {
+    class SAKILA_FILM_TEXT_I_04_Test {
 
         // JPQL has no full-text search; MATCH ... AGAINST ... IN BOOLEAN MODE is MySQL's own
         @Test
@@ -149,9 +149,9 @@ class FilmText_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 5: how many films mention a Crocodile or a Shark, and how many mention both")
+            "SAKILA_FILM_TEXT_I_05: how many films mention a Crocodile or a Shark, and how many mention both")
     @Nested
-    class Exercise5Test {
+    class SAKILA_FILM_TEXT_I_05_Test {
 
         // JPQL has no full-text search; MATCH ... AGAINST is MySQL's own
         @Test

@@ -43,9 +43,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Payment_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how much each staff member took")
+    @DisplayName("SAKILA_PAYMENT_B_01: how much each staff member took")
     @Nested
-    class Exercise1Test {
+    class SAKILA_PAYMENT_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -89,9 +89,9 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how much was paid in each month")
+    @DisplayName("SAKILA_PAYMENT_B_02: how much was paid in each month")
     @Nested
-    class Exercise2Test {
+    class SAKILA_PAYMENT_B_02_Test {
 
         // JPQL has no DATE_FORMAT; the year and the month are EXTRACTed, and written as one in Java
         @Test
@@ -149,9 +149,9 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many payments have no rental")
+    @DisplayName("SAKILA_PAYMENT_B_03: how many payments have no rental")
     @Nested
-    class Exercise3Test {
+    class SAKILA_PAYMENT_B_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -181,9 +181,9 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the five amounts paid most often")
+    @DisplayName("SAKILA_PAYMENT_B_04: the five amounts paid most often")
     @Nested
-    class Exercise4Test {
+    class SAKILA_PAYMENT_B_04_Test {
 
         @Test
         void __QueryLanguage() {
@@ -235,9 +235,9 @@ class Payment_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the payments of the customer 1 in July 2005")
+    @DisplayName("SAKILA_PAYMENT_B_05: the payments of the customer 1 in July 2005")
     @Nested
-    class Exercise5Test {
+    class SAKILA_PAYMENT_B_05_Test {
 
         private static final LocalDateTime FROM = LocalDateTime.of(2005, 7, 1, 0, 0, 0);
 

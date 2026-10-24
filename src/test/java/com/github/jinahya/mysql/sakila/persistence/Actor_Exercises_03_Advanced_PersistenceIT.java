@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Actor_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the actors who appear in a film of every rating")
+    @DisplayName("SAKILA_ACTOR_A_01: the actors who appear in a film of every rating")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ACTOR_A_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -91,9 +91,9 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the actors in the top seven film counts, ties included")
+    @DisplayName("SAKILA_ACTOR_A_02: the actors in the top seven film counts, ties included")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ACTOR_A_02_Test {
 
         // JPQL has no DENSE_RANK(); an actor's rank is the number of the distinct film counts at
         // or above the actor's, each counted once, by the first actor who has it
@@ -185,9 +185,9 @@ class Actor_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the longest film of each of the first five actors")
+    @DisplayName("SAKILA_ACTOR_A_03: the longest film of each of the first five actors")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ACTOR_A_03_Test {
 
         @Test
         void __QueryLanguage() {

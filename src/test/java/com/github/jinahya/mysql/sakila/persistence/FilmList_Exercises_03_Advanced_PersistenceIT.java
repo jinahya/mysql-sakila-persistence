@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 class FilmList_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: how many films of each category are longer than their category's average")
+            "SAKILA_FILM_LIST_A_01: how many films of each category are longer than their category's average")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_LIST_A_01_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @Test

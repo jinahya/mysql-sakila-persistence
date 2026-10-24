@@ -27,7 +27,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-A-01
+-- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_A_01
 -- the fewest countries which hold half of the customers.
 -- +--------------------+-----------+---------------+-----------------+
 -- | country            | customers | running_total | running_percent |
@@ -58,7 +58,7 @@ WHERE running_total - customers < total / 2
 ORDER BY customers DESC, country
 ;
 
--- ------------------------------------------------------------------------------------------------- SAKILA-COUNTRY-A-02
+-- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_A_02
 -- the countries ranked in the top ten by customers, ties sharing a rank.
 -- +--------------------+-----------+---------+
 -- | country            | customers | ranking |

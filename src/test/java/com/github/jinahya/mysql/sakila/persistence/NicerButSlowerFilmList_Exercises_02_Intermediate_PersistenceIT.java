@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the five categories whose films are the longest, on average")
+    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01: the five categories whose films are the longest, on average")
     @Nested
-    class Exercise1Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query
@@ -71,9 +71,9 @@ class NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many films are short, medium and long")
+    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02: how many films are short, medium and long")
     @Nested
-    class Exercise2Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query

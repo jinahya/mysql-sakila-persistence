@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-I-01
+-- ------------------------------------------------------------------------------------------- SAKILA_CUSTOMER_LIST_I_01
 -- whether the view has a row for every customer.
 -- +---------------+----------+
 -- | customer_list | customer |
@@ -37,7 +37,7 @@ SELECT (SELECT COUNT(*) FROM customer_list) AS customer_list,
        (SELECT COUNT(*) FROM customer)      AS customer
 ;
 
--- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-I-02
+-- ------------------------------------------------------------------------------------------- SAKILA_CUSTOMER_LIST_I_02
 -- the cities with more than one customer.
 -- +--------+----------------+-----------+
 -- | city   | country        | customers |
@@ -52,7 +52,7 @@ HAVING COUNT(*) > 1
 ORDER BY city, country
 ;
 
--- ------------------------------------------------------------------------------------------- SAKILA-CUSTOMER_LIST-I-03
+-- ------------------------------------------------------------------------------------------- SAKILA_CUSTOMER_LIST_I_03
 -- the rows whose name is not the customer's first and last name.
 -- no rows.
 SELECT cl.*, c.*

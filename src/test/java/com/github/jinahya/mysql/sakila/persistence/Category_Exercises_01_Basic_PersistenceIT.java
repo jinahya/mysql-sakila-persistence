@@ -37,9 +37,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class Category_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: every category, by name")
+    @DisplayName("SAKILA_CATEGORY_B_01: every category, by name")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CATEGORY_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -77,9 +77,9 @@ class Category_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the categories whose names fall between D and H")
+    @DisplayName("SAKILA_CATEGORY_B_02: the categories whose names fall between D and H")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CATEGORY_B_02_Test {
 
         @Test
         void __QueryLanguage() {

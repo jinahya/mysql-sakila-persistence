@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Language_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: every language")
+    @DisplayName("SAKILA_LANGUAGE_B_01: every language")
     @Nested
-    class Exercise1Test {
+    class SAKILA_LANGUAGE_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -76,9 +76,9 @@ class Language_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many films have an original language")
+    @DisplayName("SAKILA_LANGUAGE_B_02: how many films have an original language")
     @Nested
-    class Exercise2Test {
+    class SAKILA_LANGUAGE_B_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -108,9 +108,9 @@ class Language_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: which of four languages the table has")
+    @DisplayName("SAKILA_LANGUAGE_B_03: which of four languages the table has")
     @Nested
-    class Exercise3Test {
+    class SAKILA_LANGUAGE_B_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -145,9 +145,9 @@ class Language_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the languages whose name ends with an or ese")
+    @DisplayName("SAKILA_LANGUAGE_B_04: the languages whose name ends with an or ese")
     @Nested
-    class Exercise4Test {
+    class SAKILA_LANGUAGE_B_04_Test {
 
         @Test
         void __QueryLanguage() {

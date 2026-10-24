@@ -27,7 +27,7 @@
 --
 
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-01
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_01
 -- the tables and the views of the schema.
 -- +----------------------------+------------+
 -- | TABLE_NAME                 | TABLE_TYPE |
@@ -45,7 +45,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_type, table_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-02
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_02
 -- how many rows each table has.
 -- +---------------+-----------+
 -- | table_name    | row_count |
@@ -106,7 +106,7 @@ SELECT 'store', COUNT(*)
 FROM store
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-03
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_03
 -- every foreign key: the column, and the column it refers to.
 -- +-------------------+----------------------+-----------------------+------------------------+
 -- | TABLE_NAME        | COLUMN_NAME          | REFERENCED_TABLE_NAME | REFERENCED_COLUMN_NAME |
@@ -125,7 +125,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_name, column_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-04
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_04
 -- the tables which have a last_update column.
 -- +---------------+
 -- | TABLE_NAME    |
@@ -148,7 +148,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-05
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_05
 -- the triggers, and the table and the event each fires on.
 -- +----------------------+--------------------+---------------+--------------------+
 -- | TRIGGER_NAME         | EVENT_OBJECT_TABLE | ACTION_TIMING | EVENT_MANIPULATION |
@@ -166,7 +166,7 @@ WHERE trigger_schema = 'sakila'
 ORDER BY event_object_table, trigger_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-06
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_06
 -- the stored procedures and functions.
 -- +----------------------------+--------------+
 -- | ROUTINE_NAME               | ROUTINE_TYPE |
@@ -184,7 +184,7 @@ WHERE routine_schema = 'sakila'
 ORDER BY routine_type, routine_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-07
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_07
 -- the views, and whether each is updatable.
 -- +----------------------------+--------------+
 -- | TABLE_NAME                 | IS_UPDATABLE |
@@ -203,7 +203,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-08
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_08
 -- the tables whose primary key has more than one column.
 -- +-------------------+---------+
 -- | TABLE_NAME        | columns |
@@ -221,7 +221,7 @@ HAVING COUNT(*) > 1
 ORDER BY table_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-09
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_09
 -- the ENUM and SET columns.
 -- +----------------------------+------------------+---------------------------------------------------------------------+
 -- | TABLE_NAME                 | COLUMN_NAME      | COLUMN_TYPE                                                         |
@@ -238,7 +238,7 @@ WHERE table_schema = 'sakila'
 ORDER BY table_name, column_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-10
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_10
 -- the foreign keys which do not restrict a delete.
 -- +------------+-------------------+-----------------------+-------------+-------------+
 -- | TABLE_NAME | CONSTRAINT_NAME   | REFERENCED_TABLE_NAME | UPDATE_RULE | DELETE_RULE |
@@ -252,7 +252,7 @@ WHERE constraint_schema = 'sakila'
 ORDER BY table_name, constraint_name
 ;
 
--- -------------------------------------------------------------------------------------------------- SAKILA-SCHEMA-B-11
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_11
 -- the unique keys other than the primary keys, column by column.
 -- +-------------------+------------------------------+--------------+------------------+
 -- | TABLE_NAME        | INDEX_NAME                   | SEQ_IN_INDEX | COLUMN_NAME      |

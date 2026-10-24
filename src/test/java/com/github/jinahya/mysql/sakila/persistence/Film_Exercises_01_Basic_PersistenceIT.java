@@ -44,9 +44,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Film_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many films each rating has")
+    @DisplayName("SAKILA_FILM_B_01: how many films each rating has")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -92,9 +92,9 @@ class Film_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the films longer than three hours, the longest first")
+    @DisplayName("SAKILA_FILM_B_02: the films longer than three hours, the longest first")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_B_02_Test {
 
         @ParameterizedTest
         @ValueSource(ints = {170, 180})
@@ -138,9 +138,9 @@ class Film_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the average rental rate of each rating")
+    @DisplayName("SAKILA_FILM_B_03: the average rental rate of each rating")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_B_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -188,9 +188,9 @@ class Film_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: how many films have Behind the Scenes among their special features")
+    @DisplayName("SAKILA_FILM_B_04: how many films have Behind the Scenes among their special features")
     @Nested
-    class Exercise4Test {
+    class SAKILA_FILM_B_04_Test {
 
         // JPQL has no FIND_IN_SET; no member of the set contains another, so a LIKE finds the same
         // films
@@ -227,9 +227,9 @@ class Film_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the five shortest films")
+    @DisplayName("SAKILA_FILM_B_05: the five shortest films")
     @Nested
-    class Exercise5Test {
+    class SAKILA_FILM_B_05_Test {
 
         @Test
         void __QueryLanguage() {
@@ -275,9 +275,9 @@ class Film_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 6: the films cheapest to rent and dearest to replace")
+    @DisplayName("SAKILA_FILM_B_06: the films cheapest to rent and dearest to replace")
     @Nested
-    class Exercise6Test {
+    class SAKILA_FILM_B_06_Test {
 
         @Test
         void __QueryLanguage() {

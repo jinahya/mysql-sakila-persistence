@@ -43,9 +43,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class SalesByStore_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: whether the stores' sales add up to every payment with a rental")
+    @DisplayName("SAKILA_SALES_BY_STORE_I_01: whether the stores' sales add up to every payment with a rental")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SALES_BY_STORE_I_01_Test {
 
         // the view is not an entity; the SalesByStore class is a plain class, read with a native
         // query
@@ -62,9 +62,9 @@ class SalesByStore_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: each store's sales, next to what its manager took")
+    @DisplayName("SAKILA_SALES_BY_STORE_I_02: each store's sales, next to what its manager took")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SALES_BY_STORE_I_02_Test {
 
         // the view is not an entity; the SalesByStore class is a plain class, read with a native
         // query

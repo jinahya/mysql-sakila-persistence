@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class City_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the first ten cities which are the only city of their country")
+    @DisplayName("SAKILA_CITY_A_01: the first ten cities which are the only city of their country")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CITY_A_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -108,9 +108,9 @@ class City_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the cities whose customers are all inactive")
+    @DisplayName("SAKILA_CITY_A_02: the cities whose customers are all inactive")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CITY_A_02_Test {
 
         @Test
         void __QueryLanguage() {

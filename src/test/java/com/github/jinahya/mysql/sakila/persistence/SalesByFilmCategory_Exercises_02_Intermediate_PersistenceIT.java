@@ -43,9 +43,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: whether the view's sales add up to every payment")
+    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_I_01: whether the view's sales add up to every payment")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_I_01_Test {
 
         // JPQL has no subquery in the SELECT clause; the two sums are two queries
         @Test
@@ -87,9 +87,9 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 2: the five categories which sold the most, and their share of all sales")
+            "SAKILA_SALES_BY_FILM_CATEGORY_I_02: the five categories which sold the most, and their share of all sales")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_I_02_Test {
 
         // JPQL has no subquery in the SELECT clause; the sum of all sales comes from a cross join
         @Test
@@ -148,9 +148,9 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the five categories which sold the most per film")
+    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_I_03: the five categories which sold the most per film")
     @Nested
-    class Exercise3Test {
+    class SAKILA_SALES_BY_FILM_CATEGORY_I_03_Test {
 
         @Test
         void __QueryLanguage() {

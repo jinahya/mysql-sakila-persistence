@@ -43,9 +43,9 @@ import static org.assertj.core.api.Assertions.tuple;
 class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: how many rows differ from film_list, column by column, but for the actors")
+            "SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01: how many rows differ from film_list, column by column, but for the actors")
     @Nested
-    class Exercise1Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query
@@ -64,9 +64,9 @@ class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the longest length in each category, and how many films have it")
+    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02: the longest length in each category, and how many films have it")
     @Nested
-    class Exercise2Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query
@@ -95,9 +95,9 @@ class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: whether the actors string names as many actors as film_actor has")
+    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03: whether the actors string names as many actors as film_actor has")
     @Nested
-    class Exercise3Test {
+    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03_Test {
 
         // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
         // native query

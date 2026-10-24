@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Customer_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the five customers who paid the most")
+    @DisplayName("SAKILA_CUSTOMER_I_01: the five customers who paid the most")
     @Nested
-    class Exercise1Test {
+    class SAKILA_CUSTOMER_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -100,9 +100,9 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the customers who never rented")
+    @DisplayName("SAKILA_CUSTOMER_I_02: the customers who never rented")
     @Nested
-    class Exercise2Test {
+    class SAKILA_CUSTOMER_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -132,9 +132,9 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the customers who rented forty times or more")
+    @DisplayName("SAKILA_CUSTOMER_I_03: the customers who rented forty times or more")
     @Nested
-    class Exercise3Test {
+    class SAKILA_CUSTOMER_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -194,9 +194,9 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the five customers holding the most rentals not returned yet")
+    @DisplayName("SAKILA_CUSTOMER_I_04: the five customers holding the most rentals not returned yet")
     @Nested
-    class Exercise4Test {
+    class SAKILA_CUSTOMER_I_04_Test {
 
         @Test
         void __QueryLanguage() {

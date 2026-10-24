@@ -40,9 +40,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmCategory_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the longest film of each category")
+    @DisplayName("SAKILA_FILM_CATEGORY_A_01: the longest film of each category")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_CATEGORY_A_01_Test {
 
         // JPQL has no window functions; the longest film of a category is the one which no film of
         // the category outlasts, nor equals with a smaller id
@@ -132,9 +132,9 @@ class FilmCategory_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the pairs of categories which have the same number of films")
+    @DisplayName("SAKILA_FILM_CATEGORY_A_02: the pairs of categories which have the same number of films")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_CATEGORY_A_02_Test {
 
         @Test
         void __QueryLanguage() {

@@ -27,7 +27,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-A-01
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_A_01
 -- the running total of the categories' sales, and its share of all sales.
 -- +-------------+-------------+---------------+-----------------+
 -- | category    | total_sales | running_total | running_percent |
@@ -57,7 +57,7 @@ FROM sales_by_film_category
 ORDER BY total_sales DESC, category
 ;
 
--- ---------------------------------------------------------------------------------- SAKILA-SALES_BY_FILM_CATEGORY-A-02
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_A_02
 -- the three largest gaps between a category and the next one down.
 -- +-------------+-------------+---------------+--------+
 -- | category    | total_sales | next_category | gap    |

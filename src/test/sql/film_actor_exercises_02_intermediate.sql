@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-01
+-- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_I_01
 -- the five films with the most actors.
 -- +---------+-------------------+-------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------+---------------------+--------+
 -- | film_id | title             | description                                                                                                             | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features            | last_update         | actors |
@@ -44,7 +44,7 @@ GROUP BY f.film_id
 ORDER BY actors DESC, f.film_id LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-02
+-- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_I_02
 -- how many actors a film has, on average.
 -- +----------------+
 -- | average_actors |
@@ -55,7 +55,7 @@ SELECT ROUND(AVG(actors), 2) AS average_actors
 FROM (SELECT COUNT(*) AS actors FROM film_actor GROUP BY film_id) t
 ;
 
--- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-03
+-- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_I_03
 -- the five actors who appear most often with the actor 1.
 -- +----------+------------+-----------+---------------------+-------+
 -- | actor_id | first_name | last_name | last_update         | films |
@@ -76,7 +76,7 @@ ORDER BY films DESC, a.actor_id
 LIMIT 5
 ;
 
--- ---------------------------------------------------------------------------------------------- SAKILA-FILM_ACTOR-I-04
+-- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_I_04
 -- how many films have one actor, two actors, and so on.
 -- +--------+-------+
 -- | actors | films |

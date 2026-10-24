@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Inventory_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("exercise 1: the five longest times a copy sat on the shelf between two rentals")
+    @DisplayName("SAKILA_INVENTORY_A_01: the five longest times a copy sat on the shelf between two rentals")
     @Nested
-    class Exercise1Test {
+    class SAKILA_INVENTORY_A_01_Test {
 
         // JPQL has no window functions, nor a difference of two dates; LEAD() OVER finds the next
         // rental of the same copy, and DATEDIFF counts the days in between
@@ -76,9 +76,9 @@ class Inventory_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many films have had every one of their copies rented")
+    @DisplayName("SAKILA_INVENTORY_A_02: how many films have had every one of their copies rented")
     @Nested
-    class Exercise2Test {
+    class SAKILA_INVENTORY_A_02_Test {
 
         // JPQL has no SELECT without a FROM; the two counts are two queries
         @Test

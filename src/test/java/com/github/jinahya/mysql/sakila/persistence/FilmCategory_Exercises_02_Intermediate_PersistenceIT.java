@@ -45,9 +45,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the films with more than one category")
+    @DisplayName("SAKILA_FILM_CATEGORY_I_01: the films with more than one category")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_CATEGORY_I_01_Test {
 
         @ParameterizedTest
         @ValueSource(longs = {0, 1})
@@ -87,9 +87,9 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many films have no category")
+    @DisplayName("SAKILA_FILM_CATEGORY_I_02: how many films have no category")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_CATEGORY_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -119,9 +119,9 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: how many films each category has, and how many of them are rated R")
+    @DisplayName("SAKILA_FILM_CATEGORY_I_03: how many films each category has, and how many of them are rated R")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_CATEGORY_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -202,10 +202,10 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 4: the categories whose films cost more to replace than the average " +
+            "SAKILA_FILM_CATEGORY_I_04: the categories whose films cost more to replace than the average " +
             "film")
     @Nested
-    class Exercise4Test {
+    class SAKILA_FILM_CATEGORY_I_04_Test {
 
         @Test
         void __QueryLanguage() {

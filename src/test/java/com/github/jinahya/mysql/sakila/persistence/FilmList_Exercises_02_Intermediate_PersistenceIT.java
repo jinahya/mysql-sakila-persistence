@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmList_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: whether the view has a row for every film which has a category")
+    @DisplayName("SAKILA_FILM_LIST_I_01: whether the view has a row for every film which has a category")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_LIST_I_01_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @Test
@@ -59,9 +59,9 @@ class FilmList_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many films of each rating there are at each price")
+    @DisplayName("SAKILA_FILM_LIST_I_02: how many films of each rating there are at each price")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_LIST_I_02_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @Test
@@ -91,9 +91,9 @@ class FilmList_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 3: the films whose actors string lists a different number of actors than film_actor")
+            "SAKILA_FILM_LIST_I_03: the films whose actors string lists a different number of actors than film_actor")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_LIST_I_03_Test {
 
         // the view is not an entity; the FilmList class is a plain class, read with a native query
         @Test

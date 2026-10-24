@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Payment_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the largest payment, and how many payments are that large")
+    @DisplayName("SAKILA_PAYMENT_I_01: the largest payment, and how many payments are that large")
     @Nested
-    class Exercise1Test {
+    class SAKILA_PAYMENT_I_01_Test {
 
         // JPQL has no subquery in the SELECT clause; the largest amount and its count are two
         // queries
@@ -92,9 +92,9 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the customers who paid more than 180 in all")
+    @DisplayName("SAKILA_PAYMENT_I_02: the customers who paid more than 180 in all")
     @Nested
-    class Exercise2Test {
+    class SAKILA_PAYMENT_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -156,10 +156,10 @@ class Payment_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "exercise 3: how many payments were less than, equal to, or more than the film's " +
+            "SAKILA_PAYMENT_I_03: how many payments were less than, equal to, or more than the film's " +
             "rental rate")
     @Nested
-    class Exercise3Test {
+    class SAKILA_PAYMENT_I_03_Test {
 
         @Test
         void __QueryLanguage() {

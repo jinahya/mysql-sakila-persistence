@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class SalesByStore_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: every store's sales")
+    @DisplayName("SAKILA_SALES_BY_STORE_B_01: every store's sales")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SALES_BY_STORE_B_01_Test {
 
         // the view is not an entity; the SalesByStore class is a plain class, read with a native
         // query
@@ -59,9 +59,9 @@ class SalesByStore_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how far apart the two stores' sales are")
+    @DisplayName("SAKILA_SALES_BY_STORE_B_02: how far apart the two stores' sales are")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SALES_BY_STORE_B_02_Test {
 
         // the view is not an entity; the SalesByStore class is a plain class, read with a native
         // query

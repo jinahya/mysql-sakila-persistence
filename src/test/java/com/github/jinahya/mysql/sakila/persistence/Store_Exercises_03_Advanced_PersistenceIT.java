@@ -46,10 +46,10 @@ import static org.assertj.core.api.Assertions.tuple;
 class Store_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: how many films each store has a copy of, and how many of them only that " +
+            "SAKILA_STORE_A_01: how many films each store has a copy of, and how many of them only that " +
             "store has")
     @Nested
-    class Exercise1Test {
+    class SAKILA_STORE_A_01_Test {
 
         // JPQL counts no CASE; the films only that store has are a second query
         @Test
@@ -121,9 +121,9 @@ class Store_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: each store's rentals in each month, and its share of the month")
+    @DisplayName("SAKILA_STORE_A_02: each store's rentals in each month, and its share of the month")
     @Nested
-    class Exercise2Test {
+    class SAKILA_STORE_A_02_Test {
 
         // JPQL has no window functions; each month's rentals are a second query, and the share is
         // worked out in Java

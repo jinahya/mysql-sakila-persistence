@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 class Actor_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: the actors whose last name is GUINESS")
+    @DisplayName("SAKILA_ACTOR_B_01: the actors of a given last name, ordered by actor_id")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ACTOR_B_01_Test {
 
         @ParameterizedTest
         @ValueSource(strings = {"GUINESS", "WAHLBERG", "KILMER"})
@@ -90,9 +90,9 @@ class Actor_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the actors whose first name starts with JU, ordered by first name")
+    @DisplayName("SAKILA_ACTOR_B_02: the actors whose first name starts with JU, ordered by first name")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ACTOR_B_02_Test {
 
         @ParameterizedTest
         @ValueSource(strings = {"JU", "PEN", "SA"})
@@ -139,9 +139,9 @@ class Actor_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the actors whose last name starts with WA, ordered by last name")
+    @DisplayName("SAKILA_ACTOR_B_03: the actors whose last name starts with WA, ordered by last name")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ACTOR_B_03_Test {
 
         @ParameterizedTest
         @ValueSource(strings = {"WA", "GU", "KI"})
@@ -188,9 +188,9 @@ class Actor_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the actors whose first and last names start with the same letter")
+    @DisplayName("SAKILA_ACTOR_B_04: the actors whose first and last names start with the same letter")
     @Nested
-    class Exercise4Test {
+    class SAKILA_ACTOR_B_04_Test {
 
         // eclipselink parses no LEFT(...) in the WHERE clause; SUBSTRING(..., 1, 1) is the first
         // letter, too
@@ -231,9 +231,9 @@ class Actor_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: how many different first names and last names there are")
+    @DisplayName("SAKILA_ACTOR_B_05: how many different first names and last names there are")
     @Nested
-    class Exercise5Test {
+    class SAKILA_ACTOR_B_05_Test {
 
         @Test
         void __QueryLanguage() {

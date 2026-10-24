@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmActor_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: the five films with the most actors")
+    @DisplayName("SAKILA_FILM_ACTOR_I_01: the five films with the most actors")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_ACTOR_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -95,9 +95,9 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many actors a film has, on average")
+    @DisplayName("SAKILA_FILM_ACTOR_I_02: how many actors a film has, on average")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_ACTOR_I_02_Test {
 
         // JPQL has no subquery in the FROM clause; the average is the number of rows over the
         // number
@@ -129,9 +129,9 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the five actors who appear most often with the actor 1")
+    @DisplayName("SAKILA_FILM_ACTOR_I_03: the five actors who appear most often with the actor 1")
     @Nested
-    class Exercise3Test {
+    class SAKILA_FILM_ACTOR_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -197,9 +197,9 @@ class FilmActor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: how many films have one actor, two actors, and so on")
+    @DisplayName("SAKILA_FILM_ACTOR_I_04: how many films have one actor, two actors, and so on")
     @Nested
-    class Exercise4Test {
+    class SAKILA_FILM_ACTOR_I_04_Test {
 
         // JPQL has no subquery in the FROM clause, nor a GROUP BY of a SIZE; the films are counted
         // by a count of their own

@@ -27,7 +27,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------- SAKILA-ACTOR_INFO-A-01
+-- ---------------------------------------------------------------------------------------------- SAKILA_ACTOR_INFO_A_01
 -- the actors whose film_info disagrees with the tables on the number of categories.
 -- no rows.
 SELECT ai.*

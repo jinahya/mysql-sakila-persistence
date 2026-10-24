@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------ SAKILA-SALES_BY_STORE-I-01
+-- ------------------------------------------------------------------------------------------ SAKILA_SALES_BY_STORE_I_01
 -- whether the stores' sales add up to every payment with a rental.
 -- +----------+---------------+
 -- | by_store | with_a_rental |
@@ -37,7 +37,7 @@ SELECT (SELECT SUM(total_sales) FROM sales_by_store)                 AS by_store
        (SELECT SUM(amount) FROM payment WHERE rental_id IS NOT NULL) AS with_a_rental
 ;
 
--- ------------------------------------------------------------------------------------------ SAKILA-SALES_BY_STORE-I-02
+-- ------------------------------------------------------------------------------------------ SAKILA_SALES_BY_STORE_I_02
 -- each store's sales, next to what its manager took.
 -- +---------------------+--------------+-------------+------------------+
 -- | store               | manager      | total_sales | taken_by_manager |

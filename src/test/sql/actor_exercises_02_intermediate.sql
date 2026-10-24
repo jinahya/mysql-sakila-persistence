@@ -26,7 +26,7 @@
 --
 
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-01
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_01
 -- the last names shared by more than three actors, the most shared first.
 -- +-----------+--------+
 -- | last_name | actors |
@@ -42,8 +42,8 @@ HAVING COUNT(*) > 3
 ORDER BY actors DESC, last_name
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-02
--- the five actors who appear in the most films.
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_02
+-- the top n actors by their number of films, the most first; here n is five.
 -- +----------+------------+-----------+---------------------+-------+
 -- | actor_id | first_name | last_name | last_update         | films |
 -- +----------+------------+-----------+---------------------+-------+
@@ -60,7 +60,7 @@ GROUP BY a.actor_id
 ORDER BY films DESC, a.actor_id LIMIT 5
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-03
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_03
 -- the actors who appear in no film.
 -- no rows.
 SELECT a.*
@@ -68,7 +68,7 @@ FROM actor a
 WHERE NOT EXISTS (SELECT 1 FROM film_actor fa WHERE fa.actor_id = a.actor_id)
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-04
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_04
 -- the five most common first names.
 -- +------------+--------+
 -- | first_name | actors |
@@ -85,7 +85,7 @@ GROUP BY first_name
 ORDER BY actors DESC, first_name LIMIT 5
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-05
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_05
 -- the five most common last names.
 -- +-----------+--------+
 -- | last_name | actors |
@@ -102,7 +102,7 @@ GROUP BY last_name
 ORDER BY actors DESC, last_name LIMIT 5
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-06
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_06
 -- the five actors whose films are, on average, the longest.
 -- +----------+------------+-----------+---------------------+----------------+
 -- | actor_id | first_name | last_name | last_update         | average_length |
@@ -122,7 +122,7 @@ ORDER BY average_length DESC, a.actor_id
 LIMIT 5
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA-ACTOR-I-07
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_07
 -- the films of the first five actors, counted by rating.
 -- +----------+------------+--------------+---------------------+------+------+-------+------+-------+
 -- | actor_id | first_name | last_name    | last_update         | g    | pg   | pg_13 | r    | nc_17 |

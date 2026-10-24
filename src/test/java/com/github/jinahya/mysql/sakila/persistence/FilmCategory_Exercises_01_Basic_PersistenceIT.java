@@ -38,9 +38,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class FilmCategory_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: how many categories the films are in")
+    @DisplayName("SAKILA_FILM_CATEGORY_B_01: how many categories the films are in")
     @Nested
-    class Exercise1Test {
+    class SAKILA_FILM_CATEGORY_B_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -68,9 +68,9 @@ class FilmCategory_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the categories of the films 1 to 10")
+    @DisplayName("SAKILA_FILM_CATEGORY_B_02: the categories of the films 1 to 10")
     @Nested
-    class Exercise2Test {
+    class SAKILA_FILM_CATEGORY_B_02_Test {
 
         @Test
         void __QueryLanguage() {

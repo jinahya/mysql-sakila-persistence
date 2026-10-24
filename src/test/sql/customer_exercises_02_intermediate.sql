@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-01
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_01
 -- the five customers who paid the most.
 -- +-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
 -- | customer_id | store_id | first_name | last_name | email                             | address_id | active | create_date         | last_update         | paid   |
@@ -44,7 +44,7 @@ GROUP BY c.customer_id
 ORDER BY paid DESC, c.customer_id LIMIT 5
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-02
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_02
 -- the customers who never rented.
 -- no rows.
 SELECT c.*
@@ -52,7 +52,7 @@ FROM customer c
 WHERE NOT EXISTS (SELECT 1 FROM rental r WHERE r.customer_id = c.customer_id)
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-03
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_03
 -- the customers who rented forty times or more.
 -- +-------------+----------+------------+-----------+----------------------------------+------------+--------+---------------------+---------------------+---------+
 -- | customer_id | store_id | first_name | last_name | email                            | address_id | active | create_date         | last_update         | rentals |
@@ -73,7 +73,7 @@ HAVING COUNT(*) >= 40
 ORDER BY rentals DESC, c.customer_id
 ;
 
--- ------------------------------------------------------------------------------------------------ SAKILA-CUSTOMER-I-04
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_04
 -- the five customers holding the most rentals not returned yet.
 -- +-------------+----------+------------+-----------+--------------------------------------+------------+--------+---------------------+---------------------+------------+
 -- | customer_id | store_id | first_name | last_name | email                                | address_id | active | create_date         | last_update         | unreturned |

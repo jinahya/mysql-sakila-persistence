@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------------------- SAKILA-FILM_CATEGORY-I-01
+-- ------------------------------------------------------------------------------------------- SAKILA_FILM_CATEGORY_I_01
 -- the films with more than one category.
 -- no rows.
 SELECT f.*, COUNT(*) AS categories
@@ -36,7 +36,7 @@ GROUP BY f.film_id
 HAVING COUNT(*) > 1
 ;
 
--- ------------------------------------------------------------------------------------------- SAKILA-FILM_CATEGORY-I-02
+-- ------------------------------------------------------------------------------------------- SAKILA_FILM_CATEGORY_I_02
 -- how many films have no category.
 -- +-------+
 -- | films |
@@ -48,7 +48,7 @@ FROM film f
 WHERE NOT EXISTS (SELECT 1 FROM film_category fc WHERE fc.film_id = f.film_id)
 ;
 
--- ------------------------------------------------------------------------------------------- SAKILA-FILM_CATEGORY-I-03
+-- ------------------------------------------------------------------------------------------- SAKILA_FILM_CATEGORY_I_03
 -- how many films each category has, and how many of them are rated R.
 -- +-------------+-------------+---------------------+-------+---------+
 -- | category_id | name        | last_update         | films | r_rated |
@@ -80,7 +80,7 @@ GROUP BY c.category_id
 ORDER BY c.name
 ;
 
--- ------------------------------------------------------------------------------------------- SAKILA-FILM_CATEGORY-I-04
+-- ------------------------------------------------------------------------------------------- SAKILA_FILM_CATEGORY_I_04
 -- the categories whose films cost more to replace than the average film.
 -- +-------------+-----------+---------------------+--------------------------+
 -- | category_id | name      | last_update         | average_replacement_cost |

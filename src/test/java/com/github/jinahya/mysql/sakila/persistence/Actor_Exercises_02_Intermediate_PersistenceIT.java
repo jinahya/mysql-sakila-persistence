@@ -45,9 +45,9 @@ import static org.assertj.core.api.Assertions.tuple;
 class Actor_Exercises_02_Intermediate_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: the last names shared by more than three actors, the most shared first")
+            "SAKILA_ACTOR_I_01: the last names shared by more than three actors, the most shared first")
     @Nested
-    class Exercise1Test {
+    class SAKILA_ACTOR_I_01_Test {
 
         @ParameterizedTest
         @ValueSource(longs = {2, 3, 4})
@@ -90,9 +90,9 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the five actors who appear in the most films")
+    @DisplayName("SAKILA_ACTOR_I_02: the five actors who appear in the most films")
     @Nested
-    class Exercise2Test {
+    class SAKILA_ACTOR_I_02_Test {
 
         @Test
         void __QueryLanguage() {
@@ -148,9 +148,9 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: the actors who appear in no film")
+    @DisplayName("SAKILA_ACTOR_I_03: the actors who appear in no film")
     @Nested
-    class Exercise3Test {
+    class SAKILA_ACTOR_I_03_Test {
 
         @Test
         void __QueryLanguage() {
@@ -184,9 +184,9 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the five most common first names")
+    @DisplayName("SAKILA_ACTOR_I_04: the five most common first names")
     @Nested
-    class Exercise4Test {
+    class SAKILA_ACTOR_I_04_Test {
 
         @Test
         void __QueryLanguage() {
@@ -238,9 +238,9 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the five most common last names")
+    @DisplayName("SAKILA_ACTOR_I_05: the five most common last names")
     @Nested
-    class Exercise5Test {
+    class SAKILA_ACTOR_I_05_Test {
 
         @Test
         void __QueryLanguage() {
@@ -292,9 +292,9 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 6: the five actors whose films are, on average, the longest")
+    @DisplayName("SAKILA_ACTOR_I_06: the five actors whose films are, on average, the longest")
     @Nested
-    class Exercise6Test {
+    class SAKILA_ACTOR_I_06_Test {
 
         @Test
         void __QueryLanguage() {
@@ -354,9 +354,9 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 7: the films of the first five actors, counted by rating")
+    @DisplayName("SAKILA_ACTOR_I_07: the films of the first five actors, counted by rating")
     @Nested
-    class Exercise7Test {
+    class SAKILA_ACTOR_I_07_Test {
 
         // [actor, rating, count]s into [actor, g, pg, pg_13, r, nc_17]s
         private static List<Object[]> pivot(final List<Object[]> list) {

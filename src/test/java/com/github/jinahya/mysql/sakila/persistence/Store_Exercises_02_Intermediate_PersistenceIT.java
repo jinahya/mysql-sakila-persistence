@@ -41,9 +41,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class Store_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("exercise 1: every store, with its manager and city")
+    @DisplayName("SAKILA_STORE_I_01: every store, with its manager and city")
     @Nested
-    class Exercise1Test {
+    class SAKILA_STORE_I_01_Test {
 
         @Test
         void __QueryLanguage() {
@@ -90,9 +90,9 @@ class Store_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many customers, copies and staff members each store has")
+    @DisplayName("SAKILA_STORE_I_02: how many customers, copies and staff members each store has")
     @Nested
-    class Exercise2Test {
+    class SAKILA_STORE_I_02_Test {
 
         // the three counts are three grouped queries, put together by the store
         @Test

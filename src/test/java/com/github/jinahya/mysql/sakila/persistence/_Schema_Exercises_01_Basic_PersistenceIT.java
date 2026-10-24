@@ -46,9 +46,9 @@ import static org.assertj.core.api.Assertions.tuple;
 @Slf4j
 class _Schema_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("exercise 1: the tables and the views of the schema")
+    @DisplayName("SAKILA_SCHEMA_B_01: the tables and the views of the schema")
     @Nested
-    class Exercise1Test {
+    class SAKILA_SCHEMA_B_01_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -67,9 +67,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: how many rows each table has")
+    @DisplayName("SAKILA_SCHEMA_B_02: how many rows each table has")
     @Nested
-    class Exercise2Test {
+    class SAKILA_SCHEMA_B_02_Test {
 
         // the exercise counts the rows of the tables, by the tables' names; JPQL knows entities,
         // not
@@ -100,9 +100,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: every foreign key: the column, and the column it refers to")
+    @DisplayName("SAKILA_SCHEMA_B_03: every foreign key: the column, and the column it refers to")
     @Nested
-    class Exercise3Test {
+    class SAKILA_SCHEMA_B_03_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -122,9 +122,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 4: the tables which have a last_update column")
+    @DisplayName("SAKILA_SCHEMA_B_04: the tables which have a last_update column")
     @Nested
-    class Exercise4Test {
+    class SAKILA_SCHEMA_B_04_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -149,9 +149,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 5: the triggers, and the table and the event each fires on")
+    @DisplayName("SAKILA_SCHEMA_B_05: the triggers, and the table and the event each fires on")
     @Nested
-    class Exercise5Test {
+    class SAKILA_SCHEMA_B_05_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -171,9 +171,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 6: the stored procedures and functions")
+    @DisplayName("SAKILA_SCHEMA_B_06: the stored procedures and functions")
     @Nested
-    class Exercise6Test {
+    class SAKILA_SCHEMA_B_06_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -194,9 +194,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 7: the views, and whether each is updatable")
+    @DisplayName("SAKILA_SCHEMA_B_07: the views, and whether each is updatable")
     @Nested
-    class Exercise7Test {
+    class SAKILA_SCHEMA_B_07_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -223,9 +223,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 8: the tables whose primary key has more than one column")
+    @DisplayName("SAKILA_SCHEMA_B_08: the tables whose primary key has more than one column")
     @Nested
-    class Exercise8Test {
+    class SAKILA_SCHEMA_B_08_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -253,9 +253,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 9: the ENUM and SET columns")
+    @DisplayName("SAKILA_SCHEMA_B_09: the ENUM and SET columns")
     @Nested
-    class Exercise9Test {
+    class SAKILA_SCHEMA_B_09_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -282,9 +282,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 10: the foreign keys which do not restrict a delete")
+    @DisplayName("SAKILA_SCHEMA_B_10: the foreign keys which do not restrict a delete")
     @Nested
-    class Exercise10Test {
+    class SAKILA_SCHEMA_B_10_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it
@@ -310,9 +310,9 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 11: the unique keys other than the primary keys, column by column")
+    @DisplayName("SAKILA_SCHEMA_B_11: the unique keys other than the primary keys, column by column")
     @Nested
-    class Exercise11Test {
+    class SAKILA_SCHEMA_B_11_Test {
 
         // information_schema describes the database, not the entities; JPQL and the Criteria API
         // cannot read it

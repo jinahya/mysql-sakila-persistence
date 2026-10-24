@@ -26,7 +26,7 @@
 --
 
 
--- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-01
+-- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01
 -- the five categories whose films are the longest, on average.
 -- +----------+-------+----------------+
 -- | category | films | average_length |
@@ -44,7 +44,7 @@ ORDER BY average_length DESC, category
 LIMIT 5
 ;
 
--- ------------------------------------------------------------------------------ SAKILA-NICER_BUT_SLOWER_FILM_LIST-I-02
+-- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02
 -- how many films are short, medium and long.
 -- +--------+-------+----------+---------+
 -- | band   | films | shortest | longest |

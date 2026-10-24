@@ -42,9 +42,9 @@ import static org.assertj.core.api.Assertions.tuple;
 class Rental_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "exercise 1: how many rentals came back later than the film's rental duration allows")
+            "SAKILA_RENTAL_A_01: how many rentals came back later than the film's rental duration allows")
     @Nested
-    class Exercise1Test {
+    class SAKILA_RENTAL_A_01_Test {
 
         // JPQL cannot add a number of days to a date; INTERVAL is MySQL's own; the Criteria API
         // cannot
@@ -64,9 +64,9 @@ class Rental_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 2: the five longest waits between a customer's two rentals in 2005")
+    @DisplayName("SAKILA_RENTAL_A_02: the five longest waits between a customer's two rentals in 2005")
     @Nested
-    class Exercise2Test {
+    class SAKILA_RENTAL_A_02_Test {
 
         // JPQL has no LAG and no difference of two dates; DATEDIFF is MySQL's own; the Criteria API
         // has neither
@@ -95,9 +95,9 @@ class Rental_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("exercise 3: whether a copy was ever rented out twice at the same time")
+    @DisplayName("SAKILA_RENTAL_A_03: whether a copy was ever rented out twice at the same time")
     @Nested
-    class Exercise3Test {
+    class SAKILA_RENTAL_A_03_Test {
 
         @Test
         void __QueryLanguage() {
