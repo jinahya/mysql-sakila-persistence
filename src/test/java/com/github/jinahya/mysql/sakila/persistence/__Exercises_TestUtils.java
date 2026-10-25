@@ -48,7 +48,7 @@ final class __Exercises_TestUtils {
                 _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, function);
     }
 
-    // ----------------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------------------
     // CONSTRUCTORS
     private __Exercises_TestUtils() {
         throw new AssertionError("instantiation is not allowed");
