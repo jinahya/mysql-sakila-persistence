@@ -10,7 +10,7 @@
 
   <groupId>io.github.jinahya</groupId>
   <artifactId>mysql-sakila-persistence</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.6.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
@@ -105,7 +105,7 @@
          argLine appends the Mockito agent to it through the late-bound @{argLine}. Empty, rather than absent, so that
          @{argLine} still resolves when jacoco is skipped. -->
     <argLine/>
-    <version.jinahya-persistence>0.6.7</version.jinahya-persistence>
+    <version.jinahya-persistence>0.6.8-SNAPSHOT</version.jinahya-persistence>
     <!-- https://central.sonatype.com/artifact/uk.co.jemos.podam/podam/versions -->
     <version.uk.co.jemos.podam>8.0.2.RELEASE</version.uk.co.jemos.podam>
     <!-- https://dev.mysql.com/downloads/connector/j/ -->
