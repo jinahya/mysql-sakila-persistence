@@ -97,6 +97,11 @@ public class BetterEmploymentId {
 
     // ------------------------------------------------------------------------------------- storeId
 
+    /**
+     * Returns the id of the store.
+     *
+     * @return the id of the store.
+     */
     public Long getStoreId() {
         return storeId;
     }
@@ -107,6 +112,11 @@ public class BetterEmploymentId {
 
     // ------------------------------------------------------------------------------------- staffId
 
+    /**
+     * Returns the id of the staff member.
+     *
+     * @return the id of the staff member.
+     */
     public Long getStaffId() {
         return staffId;
     }

@@ -224,6 +224,12 @@ public class BetterStore {
         this.employments = staffs;
     }
 
+    /**
+     * Hires the specified staff member at this store, firing them first from the store they work
+     * at, if any; does nothing when they work at this store already.
+     *
+     * @param staff the staff member to hire.
+     */
     public void addStaff(final BetterStaff staff) {
         // the row which links the staff to their store; null when they work at none
         final var employment = staff.getEmployment();
@@ -243,6 +249,12 @@ public class BetterStore {
         employments.add(created);
     }
 
+    /**
+     * Fires the specified staff member from this store; does nothing when they do not work at
+     * this store.
+     *
+     * @param staff the staff member to fire.
+     */
     public void removeStaff(final BetterStaff staff) {
         // the row which links the staff to their store; null when they work at none
         final var employment = staff.getEmployment();
