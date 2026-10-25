@@ -10,7 +10,7 @@
 
   <groupId>io.github.jinahya</groupId>
   <artifactId>mysql-sakila-persistence</artifactId>
-  <version>0.6.8-SNAPSHOT</version>
+  <version>0.6.8</version>
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
@@ -60,7 +60,7 @@
     <connection>scm:git:git@github.com:jinahya/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/${project.artifactId}.git</developerConnection>
     <url>https://github.com:jinahya/${project.artifactId}</url>
-    <tag>HEAD</tag>
+    <tag>0.6.8</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -104,7 +104,7 @@
     <!-- the agents of the test JVMs; jacoco:prepare-agent replaces this with its own, and the surefire/failsafe
          argLine appends the Mockito agent to it through the late-bound @{argLine}. Empty, rather than absent, so that
          @{argLine} still resolves when jacoco is skipped. -->
-    <argLine/>
+    <argLine />
     <version.jinahya-persistence>0.6.8</version.jinahya-persistence>
     <!-- https://central.sonatype.com/artifact/uk.co.jemos.podam/podam/versions -->
     <version.uk.co.jemos.podam>8.0.2.RELEASE</version.uk.co.jemos.podam>
