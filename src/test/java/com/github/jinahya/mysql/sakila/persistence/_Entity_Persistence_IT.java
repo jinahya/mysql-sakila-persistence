@@ -57,7 +57,7 @@ abstract class _Entity_Persistence_IT<T> {
     /**
      * The name of the persistence unit this class bootstraps. The value is {@value}.
      */
-    static final String PERSISTENCE_UNIT_NAME = "sakila-it";
+    static final String PERSISTENCE_UNIT_NAME = "it";
 
     // ---------------------------------------------------------------------------------------------
 

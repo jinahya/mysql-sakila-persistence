@@ -64,7 +64,7 @@ around that:
 Neither is in place: the generated schema starts empty, and the unit tests which need a store or a staff member are
 skipped (see [The tests](#the-tests)).
 
-The seed this project once carried, as `src/test/resources/META-INF/sakila/load-test.sql`, named by the `sakila-test`
+The seed this project once carried, as `src/test/resources/META-INF/sakila/load-test.sql`, named by the `test`
 unit's `jakarta.persistence.sql-load-script-source` beside
 `jakarta.persistence.schema-generation.database.action=drop-and-create`. It ran right after the schema was generated,
 into an empty database, so every generated key is `1`; one statement per line, and no comments, for both providers'
@@ -240,8 +240,8 @@ Notes on the column types Jakarta Persistence has no type for:
 ## The tests
 
 Each mapped class has a `*_Test` (`toString`, `equals`/`hashCode`, accessors), a `*_Randomizer`, and, for an entity, a
-`*_Persistence_Test` against the `sakila-test` unit (H2, schema generated from the mappings) and a
-`*_Persistence_IT` against the `sakila-it` unit (the database above). A table also has a `*_Persister`, which persists
+`*_Persistence_Test` against the `test` unit (H2, schema generated from the mappings) and a
+`*_Persistence_IT` against the `it` unit (the database above). A table also has a `*_Persister`, which persists
 whatever the instance references first. Every test runs in a transaction which is rolled back.
 
 There is no CDI container. `__Persistence_TestUtils` bootstraps a unit, by name, the Java SE way, through
