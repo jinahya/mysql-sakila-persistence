@@ -26,7 +26,7 @@ import java.util.function.Function;
 
 /**
  * Helpers for the {@code *_Exercises_*_PersistenceIT} classes, which answer the exercises of
- * {@code src/test/sql}.
+ * {@code src/test/sql/exercises}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */

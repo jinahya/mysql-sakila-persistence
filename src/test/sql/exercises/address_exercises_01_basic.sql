@@ -1,0 +1,87 @@
+-- -
+-- #%L
+-- mysql-sakila-persistence
+-- %%
+-- Copyright (C) 2026 Jinahya, Inc.
+-- %%
+-- Licensed under the Apache License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+-- 
+--      http://www.apache.org/licenses/LICENSE-2.0
+-- 
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+-- #L%
+-- -
+--
+-- Exercises at the basic level on address: one table: a filter, a sort, a count or an aggregate. Each poses a question,
+-- answers it, and shows what the installed data gives back.
+--
+-- Run the file as a whole:
+--   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/address_exercises_01_basic.sql
+--
+
+
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_B_01
+-- how many addresses are in the district of California.
+-- +-----------+
+-- | addresses |
+-- +-----------+
+-- |         9 |
+-- +-----------+
+SELECT COUNT(*) AS addresses
+FROM address
+WHERE district = 'California'
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_B_02
+-- the five districts with the most addresses.
+-- +--------------+-----------+
+-- | district     | addresses |
+-- +--------------+-----------+
+-- | Buenos Aires |        10 |
+-- | California   |         9 |
+-- | Shandong     |         9 |
+-- | West Bengali |         9 |
+-- | São Paulo    |         8 |
+-- +--------------+-----------+
+SELECT district, COUNT(*) AS addresses
+FROM address
+GROUP BY district
+ORDER BY addresses DESC, district LIMIT 5
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_B_03
+-- the addresses whose address2 is NULL.
+-- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+
+-- | address_id | address              | address2 | district | city_id | postal_code | phone       | last_update         |
+-- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+
+-- |          1 | 47 MySakila Drive    | NULL     | Alberta  |     300 |             |             | 2014-09-25 22:30:27 |
+-- |          2 | 28 MySQL Boulevard   | NULL     | QLD      |     576 |             |             | 2014-09-25 22:30:09 |
+-- |          3 | 23 Workhaven Lane    | NULL     | Alberta  |     300 |             | 14033335568 | 2014-09-25 22:30:27 |
+-- |          4 | 1411 Lillydale Drive | NULL     | QLD      |     576 |             | 6172235589  | 2014-09-25 22:30:09 |
+-- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+
+SELECT address_id, address, address2, district, city_id, postal_code, phone, last_update -- every column but location, a GEOMETRY which does not print
+FROM address
+WHERE address2 IS NULL
+ORDER BY address_id
+;
+
+-- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_B_04
+-- the addresses with an empty district.
+-- +------------+---------------------------+----------+----------+---------+-------------+--------------+---------------------+
+-- | address_id | address                   | address2 | district | city_id | postal_code | phone        | last_update         |
+-- +------------+---------------------------+----------+----------+---------+-------------+--------------+---------------------+
+-- |         30 | 18 Duisburg Boulevard     |          |          |     121 | 58327       | 998009777982 | 2014-09-25 22:31:08 |
+-- |        386 | 1368 Maracaíbo Boulevard  |          |          |     493 | 32716       | 934352415130 | 2014-09-25 22:30:03 |
+-- |        519 | 962 Tama Loop             |          |          |     583 | 65952       | 282667506728 | 2014-09-25 22:32:19 |
+-- +------------+---------------------------+----------+----------+---------+-------------+--------------+---------------------+
+SELECT address_id, address, address2, district, city_id, postal_code, phone, last_update -- every column but location, a GEOMETRY which does not print
+FROM address
+WHERE district = ''
+ORDER BY address_id
+;

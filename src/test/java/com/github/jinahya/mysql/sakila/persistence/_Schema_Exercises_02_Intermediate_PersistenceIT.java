@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/_schema_exercises_02_intermediate.sql}, against the
+ * Answers the exercises of {@code src/test/sql/exercises/_schema_exercises_02_intermediate.sql}, against the
  * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
  * with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
