@@ -20,7 +20,10 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import com.github.jinahya.persistence.metamodel.util.JinayaManagedTypeUtils;
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
+import com.github.jinahya.persistence.util.JinahyaEntityManagerUtils;
+import com.github.jinahya.persistence.util.JinahyaPersistenceUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.ManagedType;
 import lombok.extern.slf4j.Slf4j;
@@ -126,16 +129,16 @@ abstract class _Entity_Persistence_Test<T> {
      *         fails. A name is resolved as a path of one segment; a path into an embedded attribute
      *         is declared as an {@code ATTRIBUTE_PATH_*} constant and checked by
      *         {@link #_Resolvable_ATTRIBUTE_PATH_()}.
-     * @see __Persistence_TestUtils#resolveAttributePath(ManagedType, String)
+     * @see JinayaManagedTypeUtils#resolveAttributePath(ManagedType, String)
      */
     @DisplayName("every ATTRIBUTE_NAME_* constant names a managed attribute")
     @Test
     void _Resolvable_ATTRIBUTE_NAME_() {
-        __Persistence_TestUtils.applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
+        JinahyaPersistenceUtils.applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
             final var managedType = emf.getMetamodel().managedType(targetClass);
             constantsPrefixed(ATTRIBUTE_NAME_CONSTANT_PREFIX).forEach(
                     (constantName, name) -> assertThatCode(
-                            () -> __Persistence_TestUtils.resolveAttributePath(managedType, name))
+                            () -> JinayaManagedTypeUtils.resolveAttributePath(managedType, name))
                             .as("%s.%s = \"%s\" names a managed attribute of %s",
                                 targetClass.getSimpleName(), constantName,
                                 name, managedType.getJavaType().getSimpleName())
@@ -149,19 +152,19 @@ abstract class _Entity_Persistence_Test<T> {
      * path which resolves through the metamodel, segment by segment, to an attribute whose name is
      * the path's last segment.
      *
-     * @see __Persistence_TestUtils#resolveAttributePath(ManagedType, String)
+     * @see JinayaManagedTypeUtils#resolveAttributePath(ManagedType, String)
      */
     @DisplayName("every ATTRIBUTE_PATH_* constant resolves through the metamodel")
     @Test
     void _Resolvable_ATTRIBUTE_PATH_() {
-        __Persistence_TestUtils.applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
+        JinahyaPersistenceUtils.applyEntityManagerFactory(PERSISTENCE_UNIT_NAME, emf -> {
             final var managedType = emf.getMetamodel().managedType(targetClass);
             constantsPrefixed(ATTRIBUTE_PATH_CONSTANT_PREFIX).forEach((constantName, path) -> {
                 assertThat(path)
                         .as("%s.%s is a dotted path", targetClass.getSimpleName(), constantName)
                         .contains(".");
                 final var resolved =
-                        __Persistence_TestUtils.resolveAttributePath(managedType, path);
+                        JinayaManagedTypeUtils.resolveAttributePath(managedType, path);
                 assertThat(resolved.getName())
                         .as("%s.%s = \"%s\" resolves to its last segment",
                             targetClass.getSimpleName(), constantName,
@@ -291,10 +294,10 @@ abstract class _Entity_Persistence_Test<T> {
      * @return the result of the {@code function}.
      * @implNote The transaction is left to the {@code function}: the unit is
      *         {@code RESOURCE_LOCAL}, so there is no container transaction to join.
-     * @see __Persistence_TestUtils#applyEntityManager(String, Function)
+     * @see JinahyaPersistenceUtils#applyEntityManager(String, Function)
      */
     <R> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
-        return __Persistence_TestUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
+        return JinahyaPersistenceUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
     }
 
     /**
@@ -306,12 +309,14 @@ abstract class _Entity_Persistence_Test<T> {
      * @return the result of the {@code function}.
      * @implNote The rollback is what keeps one test from being visible to the next, on a
      *         schema which is recreated per factory anyway.
-     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndRollback(String, Function)
+     * @see JinahyaEntityManagerUtils#applyInTransaction(EntityManager, Function, boolean)
      */
     <R> R applyEntityManagerInTransactionAndRollback(
             final Function<? super EntityManager, ? extends R> function) {
-        return __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
-                PERSISTENCE_UNIT_NAME, function);
+        return JinahyaPersistenceUtils.applyEntityManager(
+                PERSISTENCE_UNIT_NAME,
+                m -> JinahyaEntityManagerUtils.applyInTransaction(m, function, true)
+        );
     }
 
     /**
@@ -323,12 +328,14 @@ abstract class _Entity_Persistence_Test<T> {
      * @return the result of the {@code function}.
      * @implNote What this writes survives the transaction, but not the factory: the schema
      *         is generated per factory and the in-memory database goes with it.
-     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndCommit(String, Function)
+     * @see JinahyaEntityManagerUtils#applyInTransaction(EntityManager, Function, boolean)
      */
     <R> R applyEntityManagerInTransactionAndCommit(
             final Function<? super EntityManager, ? extends R> function) {
-        return __Persistence_TestUtils.applyEntityManagerInTransactionAndCommit(
-                PERSISTENCE_UNIT_NAME, function);
+        return JinahyaPersistenceUtils.applyEntityManager(
+                PERSISTENCE_UNIT_NAME,
+                m -> JinahyaEntityManagerUtils.applyInTransaction(m, function, false)
+        );
     }
 
     // ---------------------------------------------------------------------------------------------

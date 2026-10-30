@@ -21,6 +21,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
+import com.github.jinahya.persistence.test.util.JinahyaEntityManagerTestUtils;
+import com.github.jinahya.persistence.util.JinahyaEntityManagerUtils;
+import com.github.jinahya.persistence.util.JinahyaPersistenceUtils;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -86,8 +89,7 @@ abstract class _Entity_Persistence_IT<T> {
      *         The identifier is read with
      *         {@link jakarta.persistence.PersistenceUnitUtil#getIdentifier(Object)}; see
      *         {@link
-     *         __Persistence_TestUtils#getEntityIdentifier(jakarta.persistence.EntityManagerFactory,
-     *         Object)}.
+     *         JinahyaEntityManagerUtils#getEntityIdentifier(EntityManager, Object)}.
      * @implSpec The identifier has to be a single attribute, basic or an
      *         {@link jakarta.persistence.EmbeddedId EmbeddedId}; a subclass whose entity is mapped
      *         with an {@link jakarta.persistence.IdClass IdClass} overrides this method, without
@@ -97,9 +99,10 @@ abstract class _Entity_Persistence_IT<T> {
     @Test
     void find_RandomlySelected_ContextCleared() {
         applyEntityManagerInTransactionAndRollback(em -> {
-            final var selected = __Persistence_TestUtils.selectRandomEntity(em, targetClass);
+            final var selected = JinahyaEntityManagerTestUtils.selectRandomEntity(em, targetClass);
             assumeTrue(selected.isPresent(), () -> "no row of " + targetClass + " is installed");
-            final var identifier = __Persistence_TestUtils.getEntityIdentifier(em, selected.get());
+            final var identifier =
+                    JinahyaEntityManagerUtils.<Object>getEntityIdentifier(em, selected.get());
             em.clear();
             final var found = em.find(targetClass, identifier);
             assertThat(found)
@@ -107,7 +110,7 @@ abstract class _Entity_Persistence_IT<T> {
                         targetClass.getSimpleName())
                     .isNotNull()
                     .isNotSameAs(selected.get());
-            assertThat(__Persistence_TestUtils.getEntityIdentifier(em, found))
+            assertThat(JinahyaEntityManagerUtils.<Object>getEntityIdentifier(em, found))
                     .as("the identifier of the %s found", targetClass.getSimpleName())
                     .isEqualTo(identifier);
             return null;
@@ -155,7 +158,7 @@ abstract class _Entity_Persistence_IT<T> {
     @Test
     void selectRandomTargetInstance() {
         applyEntityManagerInTransactionAndRollback(em -> {
-            __Persistence_TestUtils.selectRandomEntity(em, targetClass)
+            JinahyaEntityManagerTestUtils.selectRandomEntity(em, targetClass)
                     .ifPresent(this::randomTargetInstanceSelected);
             return null;
         });
@@ -184,10 +187,10 @@ abstract class _Entity_Persistence_IT<T> {
      * @return the result of the {@code function}.
      * @implNote The transaction is left to the {@code function}: the unit is
      *         {@code RESOURCE_LOCAL}, so there is no container transaction to join.
-     * @see __Persistence_TestUtils#applyEntityManager(String, Function)
+     * @see JinahyaPersistenceUtils#applyEntityManager(String, Function)
      */
     <R> R applyEntityManager(final Function<? super EntityManager, ? extends R> function) {
-        return __Persistence_TestUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
+        return JinahyaPersistenceUtils.applyEntityManager(PERSISTENCE_UNIT_NAME, function);
     }
 
     /**
@@ -199,12 +202,14 @@ abstract class _Entity_Persistence_IT<T> {
      * @return the result of the {@code function}.
      * @implNote The rollback is what keeps one test from being visible to the next, and,
      *         here, what keeps the sample data as the installer left it.
-     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndRollback(String, Function)
+     * @see JinahyaEntityManagerUtils#applyInTransaction(EntityManager, Function, boolean)
      */
     <R> R applyEntityManagerInTransactionAndRollback(
             final Function<? super EntityManager, ? extends R> function) {
-        return __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
-                PERSISTENCE_UNIT_NAME, function);
+        return JinahyaPersistenceUtils.applyEntityManager(
+                PERSISTENCE_UNIT_NAME,
+                m -> JinahyaEntityManagerUtils.applyInTransaction(m, function, true)
+        );
     }
 
     /**
@@ -217,12 +222,14 @@ abstract class _Entity_Persistence_IT<T> {
      * @implNote What this writes reaches the installed sample data and stays there, which
      *         no test here wants by accident. Use it only for a row the test cannot do without, and
      *         clean it up; otherwise take the rolled-back one.
-     * @see __Persistence_TestUtils#applyEntityManagerInTransactionAndCommit(String, Function)
+     * @see JinahyaEntityManagerUtils#applyInTransaction(EntityManager, Function, boolean)
      */
     <R> R applyEntityManagerInTransactionAndCommit(
             final Function<? super EntityManager, ? extends R> function) {
-        return __Persistence_TestUtils.applyEntityManagerInTransactionAndCommit(
-                PERSISTENCE_UNIT_NAME, function);
+        return JinahyaPersistenceUtils.applyEntityManager(
+                PERSISTENCE_UNIT_NAME,
+                m -> JinahyaEntityManagerUtils.applyInTransaction(m, function, false)
+        );
     }
 
     // ---------------------------------------------------------------------------------------------

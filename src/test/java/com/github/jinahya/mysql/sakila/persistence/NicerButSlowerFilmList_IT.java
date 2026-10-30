@@ -20,6 +20,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import com.github.jinahya.persistence.util.JinahyaPersistenceUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -63,7 +64,7 @@ class NicerButSlowerFilmList_IT {
     @Test
     void readAll_() {
         @SuppressWarnings("unchecked")
-        final List<Object[]> rows = __Persistence_TestUtils.applyEntityManager(
+        final List<Object[]> rows = JinahyaPersistenceUtils.applyEntityManager(
                 _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
                         "SELECT " + String.join(", ",
                                                 NicerButSlowerFilmList.COLUMN_NAME_FID,

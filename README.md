@@ -244,10 +244,11 @@ Each mapped class has a `*_Test` (`toString`, `equals`/`hashCode`, accessors), a
 `*_Persistence_IT` against the `it` unit (the database above). A table also has a `*_Persister`, which persists
 whatever the instance references first. Every test runs in a transaction which is rolled back.
 
-There is no CDI container. `__Persistence_TestUtils` bootstraps a unit, by name, the Java SE way, through
-`Persistence.createEntityManagerFactory`; each of its `apply...` methods opens a factory and an entity manager, and
-closes both, around the work it is given. `_Entity_Persistence_Test` and `_Entity_Persistence_IT` call them with their
-own unit's name, and a test which extends neither, `FilmList_IT` say, calls them directly.
+There is no CDI container. `JinahyaPersistenceUtils`, from `jinahya-persistence-utils`, bootstraps a unit, by name,
+the Java SE way, through `Persistence.createEntityManagerFactory`; its `applyEntityManager` opens a factory and an
+entity manager, and closes both, around the work it is given, and `JinahyaEntityManagerUtils.applyInTransaction` runs
+that work in a transaction which it rolls back or commits. `_Entity_Persistence_Test` and `_Entity_Persistence_IT` call
+them with their own unit's name, and a test which extends neither, `FilmList_IT` say, calls them directly.
 
 `store` and `staff` reference each other (see [Integrity checks during the load](#integrity-checks-during-the-load)),
 so a persister gives a new row the first existing store or staff member, and the first existing language too: those

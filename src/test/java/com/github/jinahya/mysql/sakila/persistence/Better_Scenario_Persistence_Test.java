@@ -21,6 +21,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import com.github.jinahya.persistence.test.util.EntityPersisterUtils;
+import com.github.jinahya.persistence.util.JinahyaEntityManagerUtils;
+import com.github.jinahya.persistence.util.JinahyaPersistenceUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,8 +44,9 @@ class Better_Scenario_Persistence_Test {
         @DisplayName("moves the staff to store2")
         @Test
         void _addStaff_Store1ThenStore2() {
-            __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
-                    _Entity_Persistence_Test.PERSISTENCE_UNIT_NAME, em -> {
+            JinahyaPersistenceUtils.applyEntityManager(
+                    _Entity_Persistence_Test.PERSISTENCE_UNIT_NAME,
+                    m -> JinahyaEntityManagerUtils.applyInTransaction(m, em -> {
                         // one staff, and two stores
                         final var staff =
                                 EntityPersisterUtils.newPersistedInstanceOf(em, BetterStaff.class);
@@ -70,7 +73,7 @@ class Better_Scenario_Persistence_Test {
                                 .as("store id of %s", employment)
                                 .isEqualTo(store2.getId());
                         return null;
-                    });
+                    }, true));
         }
     }
 
@@ -81,8 +84,9 @@ class Better_Scenario_Persistence_Test {
         @DisplayName("replaces staff1 with staff2 as the manager")
         @Test
         void _setManager_Staff1ThenStaff2() {
-            __Persistence_TestUtils.applyEntityManagerInTransactionAndRollback(
-                    _Entity_Persistence_Test.PERSISTENCE_UNIT_NAME, em -> {
+            JinahyaPersistenceUtils.applyEntityManager(
+                    _Entity_Persistence_Test.PERSISTENCE_UNIT_NAME,
+                    m -> JinahyaEntityManagerUtils.applyInTransaction(m, em -> {
                         // one store, and two staff of it
                         final var store =
                                 EntityPersisterUtils.newPersistedInstanceOf(em, BetterStore.class);
@@ -108,7 +112,7 @@ class Better_Scenario_Persistence_Test {
                                 .as("staff id of the manager of %s", found)
                                 .isEqualTo(staff2.getId());
                         return null;
-                    });
+                    }, true));
         }
     }
 }

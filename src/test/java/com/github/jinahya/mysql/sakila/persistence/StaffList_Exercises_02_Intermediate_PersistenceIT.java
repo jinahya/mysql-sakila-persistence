@@ -20,6 +20,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import com.github.jinahya.persistence.util.JinahyaEntityManagerUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -62,8 +63,8 @@ class StaffList_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void __CriteriaApi() {
             final var list = __Exercises_TestUtils.apply(em -> List.<Object[]>of(new Object[]{
-                    __Persistence_TestUtils.selectEntityCount(em, StaffList.class),
-                    __Persistence_TestUtils.selectEntityCount(em, Staff.class)}));
+                    JinahyaEntityManagerUtils.selectEntityCount(em, StaffList.class),
+                    JinahyaEntityManagerUtils.selectEntityCount(em, Staff.class)}));
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
                     .extracting(r -> ((Number) r[0]).longValue(), r -> ((Number) r[1]).longValue())
