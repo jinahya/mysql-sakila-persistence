@@ -1,0 +1,177 @@
+# The logical model of the MySQL Sakila sample database, from docker-entrypoint-initdb.d/01-sakila-schema.sql and
+# 88-better-employment.sql: each table's keys, each view's sources, and the logical groups.
+schema = "sakila"
+title = "sakila"
+output = "docs/erd"
+
+[[group]]
+name = "films"
+title = "영화"
+tables = ["film", "film_text", "film_actor", "film_category", "actor", "category", "language"]
+
+[[group]]
+name = "stores_and_people"
+title = "가게와 사람"
+tables = ["store", "staff", "customer", "address", "city", "country"]
+
+[[group]]
+name = "operations"
+title = "업무"
+tables = ["inventory", "rental", "payment"]
+
+[[group]]
+name = "better_stores_and_staff"
+title = "더 나은 가게와 직원"
+tables = ["better_store", "better_staff", "better_employment"]
+
+[table.actor]
+pk = ["actor_id"]
+
+[table.address]
+pk = ["address_id"]
+[[table.address.fk]]
+columns = ["city_id"]
+references = "city"
+
+[table.category]
+pk = ["category_id"]
+
+[table.city]
+pk = ["city_id"]
+[[table.city.fk]]
+columns = ["country_id"]
+references = "country"
+
+[table.country]
+pk = ["country_id"]
+
+[table.customer]
+pk = ["customer_id"]
+[[table.customer.fk]]
+columns = ["store_id"]
+references = "store"
+[[table.customer.fk]]
+columns = ["address_id"]
+references = "address"
+
+[table.film]
+pk = ["film_id"]
+[[table.film.fk]]
+columns = ["language_id"]
+references = "language"
+[[table.film.fk]]
+columns = ["original_language_id"]
+references = "language"
+nullable = true
+
+[table.film_actor]
+pk = ["actor_id", "film_id"]
+[[table.film_actor.fk]]
+columns = ["actor_id"]
+references = "actor"
+[[table.film_actor.fk]]
+columns = ["film_id"]
+references = "film"
+
+[table.film_category]
+pk = ["film_id", "category_id"]
+[[table.film_category.fk]]
+columns = ["film_id"]
+references = "film"
+[[table.film_category.fk]]
+columns = ["category_id"]
+references = "category"
+
+[table.film_text]
+pk = ["film_id"]
+
+[table.inventory]
+pk = ["inventory_id"]
+[[table.inventory.fk]]
+columns = ["film_id"]
+references = "film"
+[[table.inventory.fk]]
+columns = ["store_id"]
+references = "store"
+
+[table.language]
+pk = ["language_id"]
+
+[table.payment]
+pk = ["payment_id"]
+[[table.payment.fk]]
+columns = ["customer_id"]
+references = "customer"
+[[table.payment.fk]]
+columns = ["staff_id"]
+references = "staff"
+[[table.payment.fk]]
+columns = ["rental_id"]
+references = "rental"
+nullable = true
+
+[table.rental]
+pk = ["rental_id"]
+[[table.rental.fk]]
+columns = ["inventory_id"]
+references = "inventory"
+[[table.rental.fk]]
+columns = ["customer_id"]
+references = "customer"
+[[table.rental.fk]]
+columns = ["staff_id"]
+references = "staff"
+
+[table.staff]
+pk = ["staff_id"]
+[[table.staff.fk]]
+columns = ["address_id"]
+references = "address"
+[[table.staff.fk]]
+columns = ["store_id"]
+references = "store"
+
+[table.store]
+pk = ["store_id"]
+[[table.store.fk]]
+columns = ["manager_staff_id"]
+references = "staff"
+[[table.store.fk]]
+columns = ["address_id"]
+references = "address"
+
+[table.better_store]
+pk = ["id"]
+
+[table.better_staff]
+pk = ["id"]
+
+[table.better_employment]
+pk = ["store_id", "staff_id"]
+[[table.better_employment.fk]]
+columns = ["store_id"]
+references = "better_store"
+[[table.better_employment.fk]]
+columns = ["staff_id"]
+references = "better_staff"
+
+[view.actor_info]
+sources = ["actor", "film_actor", "film_category", "category", "film"]
+
+[view.customer_list]
+sources = ["customer", "address", "city", "country"]
+
+[view.film_list]
+sources = ["film", "film_category", "category", "film_actor", "actor"]
+
+[view.nicer_but_slower_film_list]
+sources = ["film", "film_category", "category", "film_actor", "actor"]
+
+[view.sales_by_film_category]
+sources = ["payment", "rental", "inventory", "film", "film_category", "category"]
+
+[view.sales_by_store]
+sources = ["payment", "rental", "inventory", "store", "address", "city", "country", "staff"]
+
+[view.staff_list]
+sources = ["staff", "address", "city", "country"]
