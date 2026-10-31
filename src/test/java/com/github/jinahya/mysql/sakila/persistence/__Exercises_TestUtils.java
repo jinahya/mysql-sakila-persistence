@@ -46,7 +46,7 @@ final class __Exercises_TestUtils {
      */
     static <R> R apply(final Function<? super EntityManager, ? extends R> function) {
         return JinahyaPersistenceUtils.applyEntityManager(
-                _Entity_Persistence_IT.PERSISTENCE_UNIT_NAME, function);
+                _Entity_PersistenceIT.PERSISTENCE_UNIT_NAME, function);
     }
 
     // ---------------------------------------------------------------------------------------------

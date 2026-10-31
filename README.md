@@ -188,7 +188,7 @@ What one provider does and the other does not, as far as these mappings and test
   whatever those read off a proxy, they read through a getter which is not `private`. That is why
   `FilmCategory.getFilmId()` and `getCategoryId()` are package-private: made `private`, they answer the proxy's `null`,
   and `persisted.equals(reference)` and `reference.equals(persisted)` both come out `false`, with no exception.
-  `_Entity_Persistence_Test#_persist_EqualsReference` and `#_persist_ReferenceEquals` check both directions, against a
+  `_Entity_PersistenceTest#_persist_EqualsReference` and `#_persist_ReferenceEquals` check both directions, against a
   real proxy, for every entity with a randomizer and a persister; no bytecode enhancement is configured, which would
   change this.
 - An identifier from an `IDENTITY` column is written, and readable, as `persist` is called.
@@ -240,20 +240,20 @@ Notes on the column types Jakarta Persistence has no type for:
 ## The tests
 
 Each mapped class has a `*_Test` (`toString`, `equals`/`hashCode`, accessors), a `*_Randomizer`, and, for an entity, a
-`*_Persistence_Test` against the `test` unit (H2, schema generated from the mappings) and a
-`*_Persistence_IT` against the `it` unit (the database above). A table also has a `*_Persister`, which persists
+`*_PersistenceTest` against the `test` unit (H2, schema generated from the mappings) and a
+`*_PersistenceIT` against the `it` unit (the database above). A table also has a `*_Persister`, which persists
 whatever the instance references first. Every test runs in a transaction which is rolled back.
 
 There is no CDI container. `JinahyaPersistenceUtils`, from `jinahya-persistence-utils`, bootstraps a unit, by name,
 the Java SE way, through `Persistence.createEntityManagerFactory`; its `applyEntityManager` opens a factory and an
 entity manager, and closes both, around the work it is given, and `JinahyaEntityManagerUtils.applyInTransaction` runs
-that work in a transaction which it rolls back or commits. `_Entity_Persistence_Test` and `_Entity_Persistence_IT` call
-them with their own unit's name, and a test which extends neither, `FilmList_IT` say, calls them directly.
+that work in a transaction which it rolls back or commits. `_Entity_PersistenceTest` and `_Entity_PersistenceIT` call
+them with their own unit's name, and a test which extends neither, `FilmList_PersistenceIT` say, calls them directly.
 
 `store` and `staff` reference each other (see [Integrity checks during the load](#integrity-checks-during-the-load)),
 so a persister gives a new row the first existing store or staff member, and the first existing language too: those
 keys are `TINYINT UNSIGNED`, and MySQL does not give back an `AUTO_INCREMENT` value a rolled-back insert used, so new
-ones would run out within a few runs. The schema the unit tests generate starts empty, so the `*_Persistence_Test` of
-`Staff`, `Store`, `Customer`, `Inventory`, `Rental` and `Payment` are skipped there, and run as `*_Persistence_IT`
+ones would run out within a few runs. The schema the unit tests generate starts empty, so the `*_PersistenceTest` of
+`Staff`, `Store`, `Customer`, `Inventory`, `Rental` and `Payment` are skipped there, and run as `*_PersistenceIT`
 against the installed data; `Film_Persister` persists a language when there is none. Every IT run still uses up a few
 of those keys; `./compose.sh` starts from an empty database each time.

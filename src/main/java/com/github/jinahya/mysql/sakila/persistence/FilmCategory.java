@@ -268,8 +268,8 @@ public class FilmCategory {
      *         are never populated. The proxy can intercept a package-private method, and delegate
      *         it to the loaded instance; it cannot intercept a {@code private} one, which would
      *         read the proxy's {@code null} instead.
-     *         {@code _Entity_Persistence_Test#_persist_EqualsReference()} and
-     *         {@code _Entity_Persistence_Test#_persist_ReferenceEquals()} fail when this method is
+     *         {@code _Entity_PersistenceTest#_persist_EqualsReference()} and
+     *         {@code _Entity_PersistenceTest#_persist_ReferenceEquals()} fail when this method is
      *         {@code private}.
      */
     Integer getFilmId() {
