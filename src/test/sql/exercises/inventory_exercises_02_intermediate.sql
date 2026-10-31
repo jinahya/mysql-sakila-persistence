@@ -96,3 +96,23 @@ FROM inventory i
 GROUP BY st.store_id, f.rating
 ORDER BY st.store_id, f.rating
 ;
+
+-- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_I_05
+-- the copies of the film 1 on the shelf right now.
+-- +--------------+---------+----------+---------------------+
+-- | inventory_id | film_id | store_id | last_update         |
+-- +--------------+---------+----------+---------------------+
+-- |            1 |       1 |        1 | 2006-02-15 05:09:17 |
+-- |            2 |       1 |        1 | 2006-02-15 05:09:17 |
+-- |            3 |       1 |        1 | 2006-02-15 05:09:17 |
+-- |            4 |       1 |        1 | 2006-02-15 05:09:17 |
+-- |            5 |       1 |        2 | 2006-02-15 05:09:17 |
+-- |            7 |       1 |        2 | 2006-02-15 05:09:17 |
+-- |            8 |       1 |        2 | 2006-02-15 05:09:17 |
+-- +--------------+---------+----------+---------------------+
+SELECT i.*
+FROM inventory i
+WHERE i.film_id = 1
+  AND NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)
+ORDER BY i.store_id, i.inventory_id
+;

@@ -90,7 +90,7 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_ACTOR_I_02: the five actors who appear in the most films")
+    @DisplayName("SAKILA_ACTOR_I_02: the top n actors by their number of films")
     @Nested
     class SAKILA_ACTOR_I_02_Test {
 
@@ -238,60 +238,6 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_ACTOR_I_05: the five most common last names")
-    @Nested
-    class SAKILA_ACTOR_I_05_Test {
-
-        @Test
-        void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(
-                    em -> em.createQuery(
-                                    """
-                                            SELECT a.lastName, COUNT(a)
-                                            FROM Actor a
-                                            GROUP BY a.lastName
-                                            ORDER BY COUNT(a) DESC, a.lastName""",
-                                    Object[].class
-                            )
-                            .setMaxResults(5)
-                            .getResultList()
-            );
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
-                    .containsExactly(
-                            tuple("KILMER", 5L),
-                            tuple("NOLTE", 4L),
-                            tuple("TEMPLE", 4L),
-                            tuple("AKROYD", 3L),
-                            tuple("ALLEN", 3L));
-        }
-
-        @Test
-        void __CriteriaApi() {
-            final var list = __Exercises_TestUtils.apply(em -> {
-                final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
-                final var a = cq.from(Actor.class);
-                cq.select(cb.array(a.get(Actor_.lastName), cb.count(a)))
-                        .groupBy(a.get(Actor_.lastName))
-                        .orderBy(cb.desc(cb.count(a)), cb.asc(a.get(Actor_.lastName)));
-                return em.createQuery(cq)
-                        .setMaxResults(5)
-                        .getResultList();
-            });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list)
-                    .extracting(r -> r[0], r -> ((Number) r[1]).longValue())
-                    .containsExactly(
-                            tuple("KILMER", 5L),
-                            tuple("NOLTE", 4L),
-                            tuple("TEMPLE", 4L),
-                            tuple("AKROYD", 3L),
-                            tuple("ALLEN", 3L));
-        }
-    }
-
     @DisplayName("SAKILA_ACTOR_I_06: the five actors whose films are, on average, the longest")
     @Nested
     class SAKILA_ACTOR_I_06_Test {
@@ -422,6 +368,60 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
                             tuple(3, "ED", "CHASE", 2L, 5L, 5L, 5L, 5L),
                             tuple(4, "JENNIFER", "DAVIS", 3L, 5L, 5L, 4L, 5L),
                             tuple(5, "JOHNNY", "LOLLOBRIGIDA", 7L, 4L, 4L, 7L, 7L));
+        }
+    }
+
+    @DisplayName("SAKILA_ACTOR_I_08: the actors who never appeared in a G-rated film")
+    @Nested
+    class SAKILA_ACTOR_I_08_Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT a
+                                            FROM Actor a
+                                            WHERE NOT EXISTS (SELECT fa
+                                                              FROM FilmActor fa
+                                                                       JOIN fa.film f
+                                                              WHERE fa.actor = a
+                                                                AND f.rating = :rating)
+                                            ORDER BY a.actorId""",
+                                    Actor.class
+                            )
+                            .setParameter("rating", Film.Rating.G)
+                            .getResultList()
+            );
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Actor::getActorId, Actor::getFirstName, Actor::getLastName)
+                    .containsExactly(tuple(194, "MERYL", "ALLEN"));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Actor.class);
+                final var a = cq.from(Actor.class);
+                final var g = cq.subquery(FilmActor.class);
+                final var fa = g.from(FilmActor.class);
+                final var f = fa.join(FilmActor_.film);
+                g.select(fa)
+                        .where(cb.equal(fa.get(FilmActor_.actor), a),
+                               cb.equal(f.get(Film_.rating), cb.parameter(Film.Rating.class, "rating")));
+                cq.select(a)
+                        .where(cb.not(cb.exists(g)))
+                        .orderBy(cb.asc(a.get(Actor_.actorId)));
+                return em.createQuery(cq)
+                        .setParameter("rating", Film.Rating.G)
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Actor::getActorId, Actor::getFirstName, Actor::getLastName)
+                    .containsExactly(tuple(194, "MERYL", "ALLEN"));
         }
     }
 }

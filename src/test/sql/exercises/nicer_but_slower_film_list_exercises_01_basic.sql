@@ -49,18 +49,3 @@ SELECT COUNT(*) AS films
 FROM nicer_but_slower_film_list
 WHERE actors LIKE '%Penelope Guiness%'
 ;
-
--- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03
--- the films which have no actors.
--- +-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
--- | FID | title            | description                                                                                                    | category | price | length | rating | actors |
--- +-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
--- | 257 | DRUMLINE CYCLONE | A Insightful Panorama of a Monkey And a Sumo Wrestler who must Outrace a Mad Scientist in The Canadian Rockies | Travel   |  0.99 |    110 | G      | NULL   |
--- | 323 | FLIGHT LIES      | A Stunning Character Study of a Crocodile And a Pioneer who must Pursue a Teacher in New Orleans               | Sports   |  4.99 |    179 | R      | NULL   |
--- | 803 | SLACKER LIAISONS | A Fast-Paced Tale of a A Shark And a Student who must Meet a Crocodile in Ancient China                        | Drama    |  4.99 |    179 | R      | NULL   |
--- +-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
-SELECT *
-FROM nicer_but_slower_film_list
-WHERE actors IS NULL
-ORDER BY FID
-;

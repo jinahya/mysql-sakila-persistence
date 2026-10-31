@@ -69,17 +69,3 @@ WHERE n.length = (SELECT MAX(m.length) FROM nicer_but_slower_film_list m WHERE m
 GROUP BY n.category, n.length
 ORDER BY n.category
 ;
-
--- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03
--- whether the actors string names as many actors as film_actor has.
--- +------------+
--- | mismatched |
--- +------------+
--- |          0 |
--- +------------+
-SELECT COUNT(*) AS mismatched
-FROM nicer_but_slower_film_list n
-WHERE n.actors IS NOT NULL
-  AND CHAR_LENGTH(n.actors) - CHAR_LENGTH(REPLACE(n.actors, ',', '')) + 1
-      <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = n.FID)
-;

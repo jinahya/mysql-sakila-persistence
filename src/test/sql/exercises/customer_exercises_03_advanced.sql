@@ -68,3 +68,25 @@ WHERE p1.paid > (SELECT AVG(p2.paid) FROM paid p2 WHERE p2.store_id = p1.store_i
 GROUP BY p1.store_id
 ORDER BY p1.store_id
 ;
+
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_A_03
+-- the customers in four bands by what they paid.
+-- +------+-----------+------------+-----------+----------+
+-- | band | customers | least_paid | most_paid | total    |
+-- +------+-----------+------------+-----------+----------+
+-- |    1 |       150 |     128.71 |    221.55 | 21876.45 |
+-- |    2 |       150 |     110.73 |    128.70 | 17818.77 |
+-- |    3 |       150 |      94.78 |    110.73 | 15425.27 |
+-- |    4 |       149 |      50.85 |     94.77 | 12286.07 |
+-- +------+-----------+------------+-----------+----------+
+WITH paid AS (SELECT c.customer_id, SUM(p.amount) AS paid
+              FROM customer c
+                       JOIN payment p ON p.customer_id = c.customer_id
+              GROUP BY c.customer_id),
+     banded AS (SELECT paid.*, NTILE(4) OVER (ORDER BY paid DESC, customer_id) AS band
+                FROM paid)
+SELECT band, COUNT(*) AS customers, MIN(paid) AS least_paid, MAX(paid) AS most_paid, SUM(paid) AS total
+FROM banded
+GROUP BY band
+ORDER BY band
+;

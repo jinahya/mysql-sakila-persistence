@@ -43,19 +43,3 @@ GROUP BY category
 ORDER BY average_length DESC, category
 LIMIT 5
 ;
-
--- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02
--- how many films are short, medium and long.
--- +--------+-------+----------+---------+
--- | band   | films | shortest | longest |
--- +--------+-------+----------+---------+
--- | short  |    96 |       46 |      59 |
--- | medium |   447 |       60 |     120 |
--- | long   |   457 |      121 |     185 |
--- +--------+-------+----------+---------+
-SELECT CASE WHEN length < 60 THEN 'short' WHEN length <= 120 THEN 'medium' ELSE 'long' END AS band,
-       COUNT(*) AS films, MIN(length) AS shortest, MAX(length) AS longest
-FROM nicer_but_slower_film_list
-GROUP BY band
-ORDER BY shortest
-;

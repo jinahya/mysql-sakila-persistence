@@ -223,37 +223,4 @@ class Customer_Exercises_01_Basic_PersistenceIT {
                             tuple(592, "TERRANCE", "ROUSH", 1));
         }
     }
-
-    @DisplayName("SAKILA_CUSTOMER_B_05: how many customers have the same initial in both names")
-    @Nested
-    class SAKILA_CUSTOMER_B_05_Test {
-
-        // EclipseLink's JPQL parser does not know LEFT; SUBSTRING(x, 1, 1) takes the initial
-        @Test
-        void __QueryLanguage() {
-            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                       SELECT COUNT(c)
-                                                                                       FROM Customer c
-                                                                                       WHERE SUBSTRING(c.firstName, 1, 1) = SUBSTRING(c.lastName, 1, 1)""",
-                                                                               Long.class)
-                    .getSingleResult());
-            log.debug("{}", value);
-            assertThat(value).isEqualTo(30L);
-        }
-
-        @Test
-        void __CriteriaApi() {
-            final var value = __Exercises_TestUtils.apply(em -> {
-                final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Long.class);
-                final var c = cq.from(Customer.class);
-                cq.select(cb.count(c))
-                        .where(cb.equal(cb.substring(c.get(Customer_.firstName), 1, 1),
-                                        cb.substring(c.get(Customer_.lastName), 1, 1)));
-                return em.createQuery(cq).getSingleResult();
-            });
-            log.debug("{}", value);
-            assertThat(value).isEqualTo(30L);
-        }
-    }
 }

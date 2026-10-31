@@ -92,3 +92,28 @@ GROUP BY c.customer_id
 ORDER BY unreturned DESC, c.customer_id
 LIMIT 5
 ;
+
+-- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_05
+-- the first ten customers of the store 1, each with the rentals they have out, zero included.
+-- +-------------+------------+-----------+-------------+
+-- | customer_id | first_name | last_name | rentals_out |
+-- +-------------+------------+-----------+-------------+
+-- |           1 | MARY       | SMITH     |           0 |
+-- |           2 | PATRICIA   | JOHNSON   |           0 |
+-- |           3 | LINDA      | WILLIAMS  |           0 |
+-- |           5 | ELIZABETH  | BROWN     |           1 |
+-- |           7 | MARIA      | MILLER    |           0 |
+-- |          10 | DOROTHY    | TAYLOR    |           0 |
+-- |          12 | NANCY      | THOMAS    |           0 |
+-- |          15 | HELEN      | HARRIS    |           2 |
+-- |          17 | DONNA      | THOMPSON  |           0 |
+-- |          19 | RUTH       | MARTINEZ  |           0 |
+-- +-------------+------------+-----------+-------------+
+SELECT c.customer_id, c.first_name, c.last_name, COUNT(r.rental_id) AS rentals_out
+FROM customer c
+         LEFT JOIN rental r ON r.customer_id = c.customer_id AND r.return_date IS NULL
+WHERE c.store_id = 1
+GROUP BY c.customer_id
+ORDER BY c.customer_id
+LIMIT 10
+;

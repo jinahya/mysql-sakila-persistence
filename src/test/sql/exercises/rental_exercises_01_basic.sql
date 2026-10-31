@@ -80,3 +80,15 @@ GROUP BY day
 ORDER BY rentals DESC
     LIMIT 1
 ;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_B_05
+-- how many rentals were returned on the day they were made.
+-- +---------+
+-- | rentals |
+-- +---------+
+-- |     105 |
+-- +---------+
+SELECT COUNT(*) AS rentals
+FROM rental
+WHERE DATE(return_date) = DATE(rental_date)
+;

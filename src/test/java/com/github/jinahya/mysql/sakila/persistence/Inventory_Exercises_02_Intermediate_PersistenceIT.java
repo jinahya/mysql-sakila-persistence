@@ -237,4 +237,62 @@ class Inventory_Exercises_02_Intermediate_PersistenceIT {
                             tuple(2, Film.Rating.NC_17, 479L));
         }
     }
+
+    @DisplayName("SAKILA_INVENTORY_I_05: the copies of the film 1 on the shelf right now")
+    @Nested
+    class SAKILA_INVENTORY_I_05_Test {
+
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT i
+                                            FROM Inventory i
+                                            WHERE i.filmId = :filmId
+                                              AND NOT EXISTS (SELECT r
+                                                              FROM Rental r
+                                                              WHERE r.inventory = i
+                                                                AND r.returnDate IS NULL)
+                                            ORDER BY i.storeId, i.inventoryId""",
+                                    Inventory.class
+                            )
+                            .setParameter("filmId", 1)
+                            .getResultList()
+            );
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Inventory::getInventoryId, Inventory::getStoreId)
+                    .containsExactly(tuple(1, 1), tuple(2, 1), tuple(3, 1), tuple(4, 1),
+                                     tuple(5, 2), tuple(7, 2), tuple(8, 2));
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Inventory.class);
+                final var i = cq.from(Inventory.class);
+                final var out = cq.subquery(Rental.class);
+                final var r = out.from(Rental.class);
+                out.select(r)
+                        .where(cb.equal(r.get(Rental_.inventory), i),
+                               cb.isNull(r.get(Rental_.returnDate)));
+                cq.select(i)
+                        .where(cb.equal(i.get(Inventory_.filmId),
+                                        cb.parameter(Integer.class, "filmId")),
+                               cb.not(cb.exists(out)))
+                        .orderBy(cb.asc(i.get(Inventory_.storeId)),
+                                 cb.asc(i.get(Inventory_.inventoryId)));
+                return em.createQuery(cq)
+                        .setParameter("filmId", 1)
+                        .getResultList();
+            });
+            list.forEach(e -> log.debug("{}", e));
+            assertThat(list)
+                    .extracting(Inventory::getInventoryId, Inventory::getStoreId)
+                    .containsExactly(tuple(1, 1), tuple(2, 1), tuple(3, 1), tuple(4, 1),
+                                     tuple(5, 2), tuple(7, 2), tuple(8, 2));
+        }
+    }
 }

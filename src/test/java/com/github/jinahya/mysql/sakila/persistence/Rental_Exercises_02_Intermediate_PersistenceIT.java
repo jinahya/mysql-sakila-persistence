@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -40,53 +41,6 @@ import static org.assertj.core.api.Assertions.tuple;
  */
 @Slf4j
 class Rental_Exercises_02_Intermediate_PersistenceIT {
-
-    @DisplayName("SAKILA_RENTAL_I_01: how many rentals are not returned yet, at each store")
-    @Nested
-    class SAKILA_RENTAL_I_01_Test {
-
-        @Test
-        void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT st, COUNT(r)
-                                                                                      FROM Rental r
-                                                                                               JOIN r.inventory i
-                                                                                               JOIN i.store st
-                                                                                      WHERE r.returnDate IS NULL
-                                                                                      GROUP BY st
-                                                                                      ORDER BY st.storeId""",
-                                                                              Object[].class)
-                    .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list)
-                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
-                    .containsExactly(
-                            tuple(1, 92L),
-                            tuple(2, 91L));
-        }
-
-        @Test
-        void __CriteriaApi() {
-            final var list = __Exercises_TestUtils.apply(em -> {
-                final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
-                final var r = cq.from(Rental.class);
-                final var st = r.join(Rental_.inventory).join(Inventory_.store);
-                cq.select(cb.array(st, cb.count(r)))
-                        .where(cb.isNull(r.get(Rental_.returnDate)))
-                        .groupBy(st)
-                        .orderBy(cb.asc(st.get(Store_.storeId)));
-                return em.createQuery(cq)
-                        .getResultList();
-            });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list)
-                    .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue())
-                    .containsExactly(
-                            tuple(1, 92L),
-                            tuple(2, 91L));
-        }
-    }
 
     @DisplayName("SAKILA_RENTAL_I_02: on which days the rentals not returned yet were made")
     @Nested
@@ -134,6 +88,32 @@ class Rental_Exercises_02_Intermediate_PersistenceIT {
                     .containsExactly(
                             tuple("2005-08-21", 1L),
                             tuple("2006-02-14", 182L));
+        }
+    }
+
+    @DisplayName("SAKILA_RENTAL_I_03: the rentals overdue at the end of the data")
+    @Nested
+    class SAKILA_RENTAL_I_03_Test {
+
+        // JPQL and the Criteria API have no difference of two dates; DATEDIFF is MySQL's own
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                    SELECT r.*, f.title, f.rental_duration, DATEDIFF('2006-02-15', r.rental_date) - f.rental_duration AS days_overdue
+                    FROM rental r
+                             JOIN inventory i ON i.inventory_id = r.inventory_id
+                             JOIN film f ON f.film_id = i.film_id
+                    WHERE r.return_date IS NULL
+                      AND DATEDIFF('2006-02-15', r.rental_date) > f.rental_duration
+                    ORDER BY days_overdue DESC, r.rental_id""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
+                                r -> ((Number) ((Object[]) r)[3]).intValue(),
+                                r -> ((Object[]) r)[7],
+                                r -> ((Number) ((Object[]) r)[9]).longValue())
+                    .containsExactly(tuple(14098, 554, "ACADEMY DINOSAUR", 172L));
         }
     }
 }

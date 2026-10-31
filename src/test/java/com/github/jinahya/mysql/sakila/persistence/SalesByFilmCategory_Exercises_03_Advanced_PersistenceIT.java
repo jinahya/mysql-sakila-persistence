@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -41,89 +42,6 @@ import static org.assertj.core.api.Assertions.tuple;
  */
 @Slf4j
 class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
-
-    @DisplayName(
-            "SAKILA_SALES_BY_FILM_CATEGORY_A_01: the running total of the categories' sales, and its share of all sales")
-    @Nested
-    class SAKILA_SALES_BY_FILM_CATEGORY_A_01_Test {
-
-        // JPQL has no window function; a self-join sums, for each category, the categories up to it
-        // and all of them
-        @Test
-        void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT s,
-                                                                                             SUM(CASE WHEN t.totalSales > s.totalSales
-                                                                                                           OR (t.totalSales = s.totalSales AND t.category <= s.category)
-                                                                                                      THEN t.totalSales ELSE 0 END),
-                                                                                             ROUND(100 * SUM(CASE WHEN t.totalSales > s.totalSales
-                                                                                                                       OR (t.totalSales = s.totalSales AND t.category <= s.category)
-                                                                                                                  THEN t.totalSales ELSE 0 END) / SUM(t.totalSales), 2)
-                                                                                      FROM SalesByFilmCategory s, SalesByFilmCategory t
-                                                                                      GROUP BY s
-                                                                                      ORDER BY s.totalSales DESC, s.category""",
-                                                                              Object[].class)
-                    .getResultList());
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list).hasSize(16)
-                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
-                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
-                                r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((Number) r[2]).doubleValue())
-                    .startsWith(
-                            tuple("Sports", "5314.21", "5314.21", 7.88d),
-                            tuple("Sci-Fi", "4756.98", "10071.19", 14.94d),
-                            tuple("Animation", "4656.30", "14727.49", 21.85d))
-                    .endsWith(
-                            tuple("Travel", "3549.64", "63988.84", 94.93d),
-                            tuple("Music", "3417.72", "67406.56", 100.00d));
-        }
-
-        @Test
-        void __CriteriaApi() {
-            final var list = __Exercises_TestUtils.apply(em -> {
-                final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Object[].class);
-                final var s = cq.from(SalesByFilmCategory.class);
-                final var t = cq.from(SalesByFilmCategory.class);
-                final var category = s.get(SalesByFilmCategory_.category);
-                final var totalSales = s.get(SalesByFilmCategory_.totalSales);
-                final var tTotalSales = t.get(SalesByFilmCategory_.totalSales);
-                final var upTo = cb.or(
-                        cb.gt(tTotalSales, totalSales),
-                        cb.and(cb.equal(tTotalSales, totalSales),
-                               cb.lessThanOrEqualTo(t.get(SalesByFilmCategory_.category),
-                                                    category)));
-                final var runningTotal = cb.sum(cb.<BigDecimal>selectCase()
-                                                        .when(upTo, tTotalSales)
-                                                        .otherwise(BigDecimal.ZERO));
-                final var runningPercent = cb.round(
-                        cb.quot(cb.prod(runningTotal, BigDecimal.valueOf(100)),
-                                cb.sum(tTotalSales)), 2);
-                cq.select(cb.array(s, runningTotal, runningPercent))
-                        // keeps nothing out; without a WHERE clause on both roots, EclipseLink
-                        // renders the s inside the CASE as a third, unjoined table
-                        .where(cb.isNotNull(totalSales), cb.isNotNull(tTotalSales))
-                        .groupBy(s)
-                        .orderBy(cb.desc(totalSales), cb.asc(category));
-                return em.createQuery(cq)
-                        .getResultList();
-            });
-            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
-            assertThat(list).hasSize(16)
-                    .extracting(r -> ((SalesByFilmCategory) r[0]).getCategory(),
-                                r -> ((SalesByFilmCategory) r[0]).getTotalSales().toPlainString(),
-                                r -> ((BigDecimal) r[1]).toPlainString(),
-                                r -> ((Number) r[2]).doubleValue())
-                    .startsWith(
-                            tuple("Sports", "5314.21", "5314.21", 7.88d),
-                            tuple("Sci-Fi", "4756.98", "10071.19", 14.94d),
-                            tuple("Animation", "4656.30", "14727.49", 21.85d))
-                    .endsWith(
-                            tuple("Travel", "3549.64", "63988.84", 94.93d),
-                            tuple("Music", "3417.72", "67406.56", 100.00d));
-        }
-    }
 
     @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_A_02: the three largest gaps between a category and the next one down")
     @Nested
@@ -202,6 +120,54 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
                             tuple("Sports", "5314.21", "Sci-Fi", "557.23"),
                             tuple("Documentary", "4217.52", "Horror", "494.98"),
                             tuple("Drama", "4587.39", "Comedy", "203.81"));
+        }
+    }
+
+    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_A_03: each category's rank by sales, next to its rank by rentals")
+    @Nested
+    class SAKILA_SALES_BY_FILM_CATEGORY_A_03_Test {
+
+        // JPQL has no window functions; RANK() OVER (...) is SQL's
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                    WITH rented AS (SELECT c.name AS category, COUNT(*) AS rentals
+                                    FROM rental r
+                                             JOIN inventory i ON i.inventory_id = r.inventory_id
+                                             JOIN film_category fc ON fc.film_id = i.film_id
+                                             JOIN category c ON c.category_id = fc.category_id
+                                    GROUP BY c.name)
+                    SELECT s.*,
+                           RANK() OVER (ORDER BY s.total_sales DESC) AS sales_rank,
+                           rd.rentals,
+                           RANK() OVER (ORDER BY rd.rentals DESC)    AS rentals_rank
+                    FROM sales_by_film_category s
+                             JOIN rented rd ON rd.category = s.category
+                    ORDER BY sales_rank, s.category""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0],
+                                r -> ((Number) ((Object[]) r)[2]).intValue(),
+                                r -> ((Number) ((Object[]) r)[3]).longValue(),
+                                r -> ((Number) ((Object[]) r)[4]).intValue())
+                    .containsExactly(
+                            tuple("Sports", 1, 1179L, 1),
+                            tuple("Sci-Fi", 2, 1101L, 4),
+                            tuple("Animation", 3, 1166L, 2),
+                            tuple("Drama", 4, 1060L, 6),
+                            tuple("Comedy", 5, 941L, 11),
+                            tuple("Action", 6, 1112L, 3),
+                            tuple("New", 7, 940L, 12),
+                            tuple("Games", 8, 969L, 9),
+                            tuple("Foreign", 9, 1033L, 8),
+                            tuple("Family", 10, 1096L, 5),
+                            tuple("Documentary", 11, 1050L, 7),
+                            tuple("Horror", 12, 846L, 14),
+                            tuple("Children", 13, 945L, 10),
+                            tuple("Classics", 14, 939L, 13),
+                            tuple("Travel", 15, 837L, 15),
+                            tuple("Music", 16, 830L, 16));
         }
     }
 }

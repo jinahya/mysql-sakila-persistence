@@ -93,15 +93,3 @@ FROM customer
 WHERE active = 0
 ORDER BY customer_id
 ;
-
--- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_B_05
--- how many customers have the same initial in both names.
--- +-----------+
--- | customers |
--- +-----------+
--- |        30 |
--- +-----------+
-SELECT COUNT(*) AS customers
-FROM customer
-WHERE LEFT(first_name, 1) = LEFT(last_name, 1)
-;

@@ -81,36 +81,6 @@ ORDER BY first_name, actor_id
 ....
 ====
 
-[[SAKILA_ACTOR_B_03]]
-==== SAKILA_ACTOR_B_03: the actors whose last name starts with WA, ordered by last name
-
-Find every actor whose `last_name` starts with `WA`.
-Show the whole rows, ordered by `last_name`; actors with the same last name are ordered by `actor_id`.
-The same query as the one before, on the other name.
-
-.`actor_exercises_01_basic.sql`, SAKILA_ACTOR_B_03
-[%collapsible]
-====
-[source,sql]
-----
-SELECT *
-FROM actor
-WHERE last_name LIKE 'WA%'
-ORDER BY last_name, actor_id
-----
-
-....
-+----------+------------+-----------+---------------------+
-| actor_id | first_name | last_name | last_update         |
-+----------+------------+-----------+---------------------+
-|        2 | NICK       | WAHLBERG  | 2006-02-15 04:34:33 |
-|       95 | DARYL      | WAHLBERG  | 2006-02-15 04:34:33 |
-|      196 | BELA       | WALKEN    | 2006-02-15 04:34:33 |
-|       29 | ALEC       | WAYNE     | 2006-02-15 04:34:33 |
-+----------+------------+-----------+---------------------+
-....
-====
-
 [[SAKILA_ACTOR_B_04]]
 ==== SAKILA_ACTOR_B_04: the actors whose first and last names start with the same letter
 
@@ -296,38 +266,6 @@ LIMIT 5
 ....
 ====
 
-[[SAKILA_ACTOR_I_05]]
-==== SAKILA_ACTOR_I_05: the five most common last names
-
-Count the actors who share each last name.
-Show the five last names that occur most often, with their counts, the most first; break ties by the name.
-Unlike SAKILA_ACTOR_I_01, which keeps every group above a count, this keeps a fixed number of groups.
-
-.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_05
-[%collapsible]
-====
-[source,sql]
-----
-SELECT last_name, COUNT(*) AS actors
-FROM actor
-GROUP BY last_name
-ORDER BY actors DESC, last_name
-LIMIT 5
-----
-
-....
-+-----------+--------+
-| last_name | actors |
-+-----------+--------+
-| KILMER    |      5 |
-| NOLTE     |      4 |
-| TEMPLE    |      4 |
-| AKROYD    |      3 |
-| ALLEN     |      3 |
-+-----------+--------+
-....
-====
-
 [[SAKILA_ACTOR_I_06]]
 ==== SAKILA_ACTOR_I_06: the five actors whose films are, on average, the longest
 
@@ -398,6 +336,37 @@ ORDER BY a.actor_id
 |        4 | JENNIFER   | DAVIS        | 2006-02-15 04:34:33 |    3 |    5 |     5 |    4 |     5 |
 |        5 | JOHNNY     | LOLLOBRIGIDA | 2006-02-15 04:34:33 |    7 |    4 |     4 |    7 |     7 |
 +----------+------------+--------------+---------------------+------+------+-------+------+-------+
+....
+====
+
+[[SAKILA_ACTOR_I_08]]
+==== SAKILA_ACTOR_I_08: the actors who never appeared in a G-rated film
+
+A family promotion shows only actors of `G`-rated films; find the actors it cannot use.
+Find the actors none of whose films is rated `G`, the whole rows, ordered by `actor_id`.
+A `NOT EXISTS` whose subquery joins `film_actor` to `film`, so that the condition on the rating is inside the subquery, not on the outer row.
+
+.`actor_exercises_02_intermediate.sql`, SAKILA_ACTOR_I_08
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.*
+FROM actor a
+WHERE NOT EXISTS (SELECT 1
+                  FROM film_actor fa
+                           JOIN film f ON f.film_id = fa.film_id
+                  WHERE fa.actor_id = a.actor_id
+                    AND f.rating = 'G')
+ORDER BY a.actor_id
+----
+
+....
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|      194 | MERYL      | ALLEN     | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
 ....
 ====
 
@@ -1518,36 +1487,6 @@ WHERE city LIKE '% %'
 ....
 ====
 
-[[SAKILA_CITY_B_03]]
-==== SAKILA_CITY_B_03: the five longest city names
-
-Measure each city name in characters.
-Show the five longest: the `city_id`, the `city` and the length, the longest first; names of the same length are ordered by the name.
-
-.`city_exercises_01_basic.sql`, SAKILA_CITY_B_03
-[%collapsible]
-====
-[source,sql]
-----
-SELECT *, CHAR_LENGTH(city) AS city_length
-FROM city
-ORDER BY city_length DESC, city
-LIMIT 5
-----
-
-....
-+---------+----------------------------+------------+---------------------+-------------+
-| city_id | city                       | country_id | last_update         | city_length |
-+---------+----------------------------+------------+---------------------+-------------+
-|     450 | San Felipe de Puerto Plata |         27 | 2006-02-15 04:45:25 |          26 |
-|     452 | San Juan Bautista Tuxtepec |         60 | 2006-02-15 04:45:25 |          26 |
-|     460 | Santiago de los Caballeros |         27 | 2006-02-15 04:45:25 |          26 |
-|      41 | Augusta-Richmond County    |        103 | 2006-02-15 04:45:25 |          23 |
-|      71 | Berhampore (Baharampur)    |         44 | 2006-02-15 04:45:25 |          23 |
-+---------+----------------------------+------------+---------------------+-------------+
-....
-====
-
 Answered by `City_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
@@ -2226,31 +2165,6 @@ ORDER BY customer_id
 ....
 ====
 
-[[SAKILA_CUSTOMER_B_05]]
-==== SAKILA_CUSTOMER_B_05: how many customers have the same initial in both names
-
-Count the customers whose `first_name` and `last_name` start with the same letter.
-The condition compares two expressions of the same row, `LEFT(first_name, 1)` and `LEFT(last_name, 1)`.
-
-.`customer_exercises_01_basic.sql`, SAKILA_CUSTOMER_B_05
-[%collapsible]
-====
-[source,sql]
-----
-SELECT COUNT(*) AS customers
-FROM customer
-WHERE LEFT(first_name, 1) = LEFT(last_name, 1)
-----
-
-....
-+-----------+
-| customers |
-+-----------+
-|        30 |
-+-----------+
-....
-====
-
 Answered by `Customer_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
@@ -2378,6 +2292,45 @@ LIMIT 5
 ....
 ====
 
+[[SAKILA_CUSTOMER_I_05]]
+==== SAKILA_CUSTOMER_I_05: the first ten customers of the store 1, each with the rentals they have out, zero included
+
+For the first ten customers of the store `1` by `customer_id`, count the rentals they have not returned yet.
+Show the `customer_id`, the `first_name`, the `last_name` and the count; a customer with nothing out shows `0`.
+The join is an outer one, and the condition on `return_date` is in its `ON`; in `WHERE` it would drop the customers with nothing out.
+
+.`customer_exercises_02_intermediate.sql`, SAKILA_CUSTOMER_I_05
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.customer_id, c.first_name, c.last_name, COUNT(r.rental_id) AS rentals_out
+FROM customer c
+         LEFT JOIN rental r ON r.customer_id = c.customer_id AND r.return_date IS NULL
+WHERE c.store_id = 1
+GROUP BY c.customer_id
+ORDER BY c.customer_id
+LIMIT 10
+----
+
+....
++-------------+------------+-----------+-------------+
+| customer_id | first_name | last_name | rentals_out |
++-------------+------------+-----------+-------------+
+|           1 | MARY       | SMITH     |           0 |
+|           2 | PATRICIA   | JOHNSON   |           0 |
+|           3 | LINDA      | WILLIAMS  |           0 |
+|           5 | ELIZABETH  | BROWN     |           1 |
+|           7 | MARIA      | MILLER    |           0 |
+|          10 | DOROTHY    | TAYLOR    |           0 |
+|          12 | NANCY      | THOMAS    |           0 |
+|          15 | HELEN      | HARRIS    |           2 |
+|          17 | DONNA      | THOMPSON  |           0 |
+|          19 | RUTH       | MARTINEZ  |           0 |
++-------------+------------+-----------+-------------+
+....
+====
+
 Answered by `Customer_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
@@ -2449,6 +2402,42 @@ ORDER BY p1.store_id
 |        1 |       154 |       113.49 |
 |        2 |       126 |       111.39 |
 +----------+-----------+--------------+
+....
+====
+
+[[SAKILA_CUSTOMER_A_03]]
+==== SAKILA_CUSTOMER_A_03: the customers in four bands by what they paid
+
+Sum the payments of each customer, and split the customers into four bands of nearly the same size, those who paid the most in the first, with `NTILE(4) OVER (ORDER BY ...)`; ties are ordered by `customer_id`.
+Show each band with its number of customers, the least and the most paid in it, and its total, ordered by the band.
+The 599 customers do not split evenly, so the last band has one fewer.
+
+.`customer_exercises_03_advanced.sql`, SAKILA_CUSTOMER_A_03
+[%collapsible]
+====
+[source,sql]
+----
+WITH paid AS (SELECT c.customer_id, SUM(p.amount) AS paid
+              FROM customer c
+                       JOIN payment p ON p.customer_id = c.customer_id
+              GROUP BY c.customer_id),
+     banded AS (SELECT paid.*, NTILE(4) OVER (ORDER BY paid DESC, customer_id) AS band
+                FROM paid)
+SELECT band, COUNT(*) AS customers, MIN(paid) AS least_paid, MAX(paid) AS most_paid, SUM(paid) AS total
+FROM banded
+GROUP BY band
+ORDER BY band
+----
+
+....
++------+-----------+------------+-----------+----------+
+| band | customers | least_paid | most_paid | total    |
++------+-----------+------------+-----------+----------+
+|    1 |       150 |     128.71 |    221.55 | 21876.45 |
+|    2 |       150 |     110.73 |    128.70 | 17818.77 |
+|    3 |       150 |      94.78 |    110.73 | 15425.27 |
+|    4 |       149 |      50.85 |     94.77 | 12286.07 |
++------+-----------+------------+-----------+----------+
 ....
 ====
 
@@ -2840,35 +2829,6 @@ WHERE FIND_IN_SET('Behind the Scenes', special_features) > 0
 +-------+
 |   538 |
 +-------+
-....
-====
-
-[[SAKILA_FILM_B_05]]
-==== SAKILA_FILM_B_05: the five shortest films
-
-Show the five films with the smallest `length`: their `film_id`, `title` and `length`, the shortest first; ties are ordered by title.
-
-.`film_exercises_01_basic.sql`, SAKILA_FILM_B_05
-[%collapsible]
-====
-[source,sql]
-----
-SELECT *
-FROM film
-ORDER BY length, title
-LIMIT 5
-----
-
-....
-+---------+---------------------+--------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+
-| film_id | title               | description                                                                                      | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                              | last_update         |
-+---------+---------------------+--------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+
-|      15 | ALIEN CENTER        | A Brilliant Drama of a Cat And a Mad Scientist who must Battle a Feminist in A MySQL Convention  |         2006 |           1 |                 NULL |               5 |        2.99 |     46 |            10.99 | NC-17  | Trailers,Commentaries,Behind the Scenes       | 2006-02-15 05:03:42 |
-|     469 | IRON MOON           | A Fast-Paced Documentary of a Mad Cow And a Boy who must Pursue a Dentist in A Baloon            |         2006 |           1 |                 NULL |               7 |        4.99 |     46 |            27.99 | PG     | Commentaries,Behind the Scenes                | 2006-02-15 05:03:42 |
-|     504 | KWAI HOMEWARD       | A Amazing Drama of a Car And a Squirrel who must Pursue a Car in Soviet Georgia                  |         2006 |           1 |                 NULL |               5 |        0.99 |     46 |            25.99 | PG-13  | Trailers,Commentaries                         | 2006-02-15 05:03:42 |
-|     505 | LABYRINTH LEAGUE    | A Awe-Inspiring Saga of a Composer And a Frisbee who must Succumb a Pioneer in The Sahara Desert |         2006 |           1 |                 NULL |               6 |        2.99 |     46 |            24.99 | PG-13  | Commentaries,Behind the Scenes                | 2006-02-15 05:03:42 |
-|     730 | RIDGEMONT SUBMARINE | A Unbelieveable Drama of a Waitress And a Composer who must Sink a Mad Cow in Ancient Japan      |         2006 |           1 |                 NULL |               3 |        0.99 |     46 |            28.99 | PG-13  | Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
-+---------+---------------------+--------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+
 ....
 ====
 
@@ -3547,43 +3507,6 @@ ORDER BY c.name
 ....
 ====
 
-[[SAKILA_FILM_CATEGORY_I_04]]
-==== SAKILA_FILM_CATEGORY_I_04: the categories whose films cost more to replace than the average film
-
-Find the categories whose films' average `replacement_cost` is higher than the average `replacement_cost` of all films.
-Show each category's name with its average, the highest first; ties are ordered by the name.
-The average of all films is a subquery in the `HAVING` clause.
-
-.`film_category_exercises_02_intermediate.sql`, SAKILA_FILM_CATEGORY_I_04
-[%collapsible]
-====
-[source,sql]
-----
-SELECT c.*, AVG(f.replacement_cost) AS average_replacement_cost
-FROM film_category fc
-         JOIN category c ON c.category_id = fc.category_id
-         JOIN film f ON f.film_id = fc.film_id
-GROUP BY c.category_id
-HAVING AVG(f.replacement_cost) > (SELECT AVG(replacement_cost) FROM film)
-ORDER BY average_replacement_cost DESC, c.name
-----
-
-....
-+-------------+-----------+---------------------+--------------------------+
-| category_id | name      | last_update         | average_replacement_cost |
-+-------------+-----------+---------------------+--------------------------+
-|          14 | Sci-Fi    | 2006-02-15 04:46:27 |                21.153934 |
-|           7 | Drama     | 2006-02-15 04:46:27 |                21.086774 |
-|           4 | Classics  | 2006-02-15 04:46:27 |                21.007544 |
-|           1 | Action    | 2006-02-15 04:46:27 |                20.911875 |
-|          15 | Sports    | 2006-02-15 04:46:27 |                20.395405 |
-|          10 | Games     | 2006-02-15 04:46:27 |                20.285082 |
-|           2 | Animation | 2006-02-15 04:46:27 |                20.126364 |
-|           3 | Children  | 2006-02-15 04:46:27 |                20.056667 |
-+-------------+-----------+---------------------+--------------------------+
-....
-====
-
 Answered by `FilmCategory_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
@@ -3877,53 +3800,6 @@ no rows.
 ====
 
 Answered by `FilmList_Exercises_02_Intermediate_PersistenceIT`.
-
-=== Advanced
-
-[[SAKILA_FILM_LIST_A_01]]
-==== SAKILA_FILM_LIST_A_01: how many films of each category are longer than their category's average
-
-For each category, count the films which are longer than the average length of the films of that same category.
-Show the category with its count, the largest count first; ties are ordered by the category.
-The average is a correlated subquery on the view, matched to the outer row by `category`.
-
-.`film_list_exercises_03_advanced.sql`, SAKILA_FILM_LIST_A_01
-[%collapsible]
-====
-[source,sql]
-----
-SELECT l.category, COUNT(*) AS longer_than_average
-FROM film_list l
-WHERE l.length > (SELECT AVG(o.length) FROM film_list o WHERE o.category = l.category)
-GROUP BY l.category
-ORDER BY longer_than_average DESC, l.category
-----
-
-....
-+-------------+---------------------+
-| category    | longer_than_average |
-+-------------+---------------------+
-| Sports      |                  42 |
-| Foreign     |                  37 |
-| Family      |                  36 |
-| New         |                  34 |
-| Animation   |                  32 |
-| Documentary |                  31 |
-| Drama       |                  31 |
-| Sci-Fi      |                  31 |
-| Action      |                  30 |
-| Games       |                  30 |
-| Travel      |                  30 |
-| Children    |                  28 |
-| Comedy      |                  28 |
-| Horror      |                  28 |
-| Classics    |                  27 |
-| Music       |                  25 |
-+-------------+---------------------+
-....
-====
-
-Answered by `FilmList_Exercises_03_Advanced_PersistenceIT`.
 
 == film_text
 
@@ -4457,6 +4333,41 @@ ORDER BY st.store_id, f.rating
 ....
 ====
 
+[[SAKILA_INVENTORY_I_05]]
+==== SAKILA_INVENTORY_I_05: the copies of the film 1 on the shelf right now
+
+A customer asks for `ACADEMY DINOSAUR`, the film `1`.
+Find its copies which are in, that is, which have no rental without a `return_date`.
+Show the whole rows, ordered by `store_id` and then by `inventory_id`; the copy `6` is out, so it is missing.
+A `NOT EXISTS` on the copy's rentals.
+
+.`inventory_exercises_02_intermediate.sql`, SAKILA_INVENTORY_I_05
+[%collapsible]
+====
+[source,sql]
+----
+SELECT i.*
+FROM inventory i
+WHERE i.film_id = 1
+  AND NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)
+ORDER BY i.store_id, i.inventory_id
+----
+
+....
++--------------+---------+----------+---------------------+
+| inventory_id | film_id | store_id | last_update         |
++--------------+---------+----------+---------------------+
+|            1 |       1 |        1 | 2006-02-15 05:09:17 |
+|            2 |       1 |        1 | 2006-02-15 05:09:17 |
+|            3 |       1 |        1 | 2006-02-15 05:09:17 |
+|            4 |       1 |        1 | 2006-02-15 05:09:17 |
+|            5 |       1 |        2 | 2006-02-15 05:09:17 |
+|            7 |       1 |        2 | 2006-02-15 05:09:17 |
+|            8 |       1 |        2 | 2006-02-15 05:09:17 |
++--------------+---------+----------+---------------------+
+....
+====
+
 Answered by `Inventory_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
@@ -4777,34 +4688,6 @@ WHERE actors LIKE '%Penelope Guiness%'
 ....
 ====
 
-[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03]]
-==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03: the films which have no actors
-
-A film with no row in `film_actor` is still in the view, with `actors` `NULL`.
-Show the `FID`, `title` and `category` of those films, ordered by `FID`.
-
-.`nicer_but_slower_film_list_exercises_01_basic.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03
-[%collapsible]
-====
-[source,sql]
-----
-SELECT *
-FROM nicer_but_slower_film_list
-WHERE actors IS NULL
-ORDER BY FID
-----
-
-....
-+-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
-| FID | title            | description                                                                                                    | category | price | length | rating | actors |
-+-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
-| 257 | DRUMLINE CYCLONE | A Insightful Panorama of a Monkey And a Sumo Wrestler who must Outrace a Mad Scientist in The Canadian Rockies | Travel   |  0.99 |    110 | G      | NULL   |
-| 323 | FLIGHT LIES      | A Stunning Character Study of a Crocodile And a Pioneer who must Pursue a Teacher in New Orleans               | Sports   |  4.99 |    179 | R      | NULL   |
-| 803 | SLACKER LIAISONS | A Fast-Paced Tale of a A Shark And a Student who must Meet a Crocodile in Ancient China                        | Drama    |  4.99 |    179 | R      | NULL   |
-+-----+------------------+----------------------------------------------------------------------------------------------------------------+----------+-------+--------+--------+--------+
-....
-====
-
 Answered by `NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
@@ -4838,36 +4721,6 @@ LIMIT 5
 | Drama    |    62 |         120.84 |
 | Comedy   |    58 |         115.83 |
 +----------+-------+----------------+
-....
-====
-
-[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02]]
-==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02: how many films are short, medium and long
-
-Put each film in a band by its `length`: `short` under 60 minutes, `medium` from 60 to 120, and `long` over 120.
-Show each band with the number of its films and the shortest and the longest length in it, ordered by the shortest length.
-The band is a `CASE` expression, and the query groups by it.
-
-.`nicer_but_slower_film_list_exercises_02_intermediate.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02
-[%collapsible]
-====
-[source,sql]
-----
-SELECT CASE WHEN length < 60 THEN 'short' WHEN length <= 120 THEN 'medium' ELSE 'long' END AS band,
-       COUNT(*) AS films, MIN(length) AS shortest, MAX(length) AS longest
-FROM nicer_but_slower_film_list
-GROUP BY band
-ORDER BY shortest
-----
-
-....
-+--------+-------+----------+---------+
-| band   | films | shortest | longest |
-+--------+-------+----------+---------+
-| short  |    96 |       46 |      59 |
-| medium |   447 |       60 |     120 |
-| long   |   457 |      121 |     185 |
-+--------+-------+----------+---------+
 ....
 ====
 
@@ -4945,34 +4798,6 @@ ORDER BY n.category
 | Sports      |     184 |     1 |
 | Travel      |     185 |     2 |
 +-------------+---------+-------+
-....
-====
-
-[[SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03]]
-==== SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03: whether the actors string names as many actors as film_actor has
-
-The view joins the actors of a film into one string, separated by commas.
-For each row which has actors, count the names in `actors` (the number of commas plus one), and compare it with the number of the film's rows in `film_actor`.
-Count the rows where the two differ; the answer is `0`.
-
-.`nicer_but_slower_film_list_exercises_03_advanced.sql`, SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03
-[%collapsible]
-====
-[source,sql]
-----
-SELECT COUNT(*) AS mismatched
-FROM nicer_but_slower_film_list n
-WHERE n.actors IS NOT NULL
-  AND CHAR_LENGTH(n.actors) - CHAR_LENGTH(REPLACE(n.actors, ',', '')) + 1
-      <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = n.FID)
-----
-
-....
-+------------+
-| mismatched |
-+------------+
-|          0 |
-+------------+
 ....
 ====
 
@@ -5428,39 +5253,34 @@ LIMIT 1
 ....
 ====
 
-Answered by `Rental_Exercises_01_Basic_PersistenceIT`.
+[[SAKILA_RENTAL_B_05]]
+==== SAKILA_RENTAL_B_05: how many rentals were returned on the day they were made
 
-=== Intermediate
+Count the rentals whose `return_date` falls on the same day as their `rental_date`.
+Both columns have a time, so compare their dates, taken with `DATE`; a rental not returned yet has a `NULL` `return_date`, which equals nothing, so the comparison leaves it out.
 
-[[SAKILA_RENTAL_I_01]]
-==== SAKILA_RENTAL_I_01: how many rentals are not returned yet, at each store
-
-A rental reaches a store through the copy it rented.
-Count the rentals not returned yet (no `return_date`) at each store, and show the `store_id` with the count, ordered by `store_id`.
-
-.`rental_exercises_02_intermediate.sql`, SAKILA_RENTAL_I_01
+.`rental_exercises_01_basic.sql`, SAKILA_RENTAL_B_05
 [%collapsible]
 ====
 [source,sql]
 ----
-SELECT st.*, COUNT(*) AS rentals
-FROM rental r
-         JOIN inventory i ON i.inventory_id = r.inventory_id
-         JOIN store st ON st.store_id = i.store_id
-WHERE r.return_date IS NULL
-GROUP BY st.store_id
-ORDER BY st.store_id
+SELECT COUNT(*) AS rentals
+FROM rental
+WHERE DATE(return_date) = DATE(rental_date)
 ----
 
 ....
-+----------+------------------+------------+---------------------+---------+
-| store_id | manager_staff_id | address_id | last_update         | rentals |
-+----------+------------------+------------+---------------------+---------+
-|        1 |                1 |          1 | 2006-02-15 04:57:12 |      92 |
-|        2 |                2 |          2 | 2006-02-15 04:57:12 |      91 |
-+----------+------------------+------------+---------------------+---------+
++---------+
+| rentals |
++---------+
+|     105 |
++---------+
 ....
 ====
+
+Answered by `Rental_Exercises_01_Basic_PersistenceIT`.
+
+=== Intermediate
 
 [[SAKILA_RENTAL_I_02]]
 ==== SAKILA_RENTAL_I_02: on which days the rentals not returned yet were made
@@ -5488,6 +5308,36 @@ ORDER BY day
 | 2005-08-21 |       1 |
 | 2006-02-14 |     182 |
 +------------+---------+
+....
+====
+
+[[SAKILA_RENTAL_I_03]]
+==== SAKILA_RENTAL_I_03: the rentals overdue at the end of the data
+
+The last rental of the data was made on 2006-02-14, so take 2006-02-15 as today.
+Find the rentals not returned yet which have been out longer than the film's `rental_duration`, counting the days with `DATEDIFF`.
+Show the whole rows of the rentals, the film's `title` and `rental_duration`, and the days each is overdue, the most first; on a tie, by `rental_id`.
+
+.`rental_exercises_02_intermediate.sql`, SAKILA_RENTAL_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT r.*, f.title, f.rental_duration, DATEDIFF('2006-02-15', r.rental_date) - f.rental_duration AS days_overdue
+FROM rental r
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+WHERE r.return_date IS NULL
+  AND DATEDIFF('2006-02-15', r.rental_date) > f.rental_duration
+ORDER BY days_overdue DESC, r.rental_id
+----
+
+....
++-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
+| rental_id | rental_date         | inventory_id | customer_id | return_date | staff_id | last_update         | title            | rental_duration | days_overdue |
++-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
+|     14098 | 2005-08-21 00:30:32 |            6 |         554 | NULL        |        2 | 2006-02-23 04:12:08 | ACADEMY DINOSAUR |               6 |          172 |
++-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
 ....
 ====
 
@@ -5777,50 +5627,6 @@ Answered by `SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT`.
 
 === Advanced
 
-[[SAKILA_SALES_BY_FILM_CATEGORY_A_01]]
-==== SAKILA_SALES_BY_FILM_CATEGORY_A_01: the running total of the categories' sales, and its share of all sales
-
-Order the categories by `total_sales`, the most first; on a tie, by `category`.
-Show each with its `total_sales`, the sum of the sales so far, and that sum as a percent of all sales, rounded to two decimal places.
-Both are window functions: `SUM(...) OVER (ORDER BY ...)` for the sum so far, and `SUM(...) OVER ()` for all sales.
-
-.`sales_by_film_category_exercises_03_advanced.sql`, SAKILA_SALES_BY_FILM_CATEGORY_A_01
-[%collapsible]
-====
-[source,sql]
-----
-SELECT *,
-       SUM(total_sales) OVER (ORDER BY total_sales DESC, category) AS running_total,
-       ROUND(100 * SUM(total_sales) OVER (ORDER BY total_sales DESC, category) / SUM(total_sales) OVER (), 2)
-           AS running_percent
-FROM sales_by_film_category
-ORDER BY total_sales DESC, category
-----
-
-....
-+-------------+-------------+---------------+-----------------+
-| category    | total_sales | running_total | running_percent |
-+-------------+-------------+---------------+-----------------+
-| Sports      |     5314.21 |       5314.21 |            7.88 |
-| Sci-Fi      |     4756.98 |      10071.19 |           14.94 |
-| Animation   |     4656.30 |      14727.49 |           21.85 |
-| Drama       |     4587.39 |      19314.88 |           28.65 |
-| Comedy      |     4383.58 |      23698.46 |           35.16 |
-| Action      |     4375.85 |      28074.31 |           41.65 |
-| New         |     4351.62 |      32425.93 |           48.11 |
-| Games       |     4281.33 |      36707.26 |           54.46 |
-| Foreign     |     4270.67 |      40977.93 |           60.79 |
-| Family      |     4226.07 |      45204.00 |           67.06 |
-| Documentary |     4217.52 |      49421.52 |           73.32 |
-| Horror      |     3722.54 |      53144.06 |           78.84 |
-| Children    |     3655.55 |      56799.61 |           84.26 |
-| Classics    |     3639.59 |      60439.20 |           89.66 |
-| Travel      |     3549.64 |      63988.84 |           94.93 |
-| Music       |     3417.72 |      67406.56 |          100.00 |
-+-------------+-------------+---------------+-----------------+
-....
-====
-
 [[SAKILA_SALES_BY_FILM_CATEGORY_A_02]]
 ==== SAKILA_SALES_BY_FILM_CATEGORY_A_02: the three largest gaps between a category and the next one down
 
@@ -5852,6 +5658,57 @@ LIMIT 3
 | Documentary |     4217.52 | Horror        | 494.98 |
 | Drama       |     4587.39 | Comedy        | 203.81 |
 +-------------+-------------+---------------+--------+
+....
+====
+
+[[SAKILA_SALES_BY_FILM_CATEGORY_A_03]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_A_03: each category's rank by sales, next to its rank by rentals
+
+A category may sell much because its films rent for more, not because they are rented more.
+Count the rentals of each category, through the copy and `film_category`, and join the counts to the view by the category's name.
+Rank the categories twice with `RANK()`, by `total_sales` and by the rentals, and show each category's `total_sales`, its rank, its rentals and that rank, ordered by the sales rank; on a tie, by `category`.
+
+.`sales_by_film_category_exercises_03_advanced.sql`, SAKILA_SALES_BY_FILM_CATEGORY_A_03
+[%collapsible]
+====
+[source,sql]
+----
+WITH rented AS (SELECT c.name AS category, COUNT(*) AS rentals
+                FROM rental r
+                         JOIN inventory i ON i.inventory_id = r.inventory_id
+                         JOIN film_category fc ON fc.film_id = i.film_id
+                         JOIN category c ON c.category_id = fc.category_id
+                GROUP BY c.name)
+SELECT s.*,
+       RANK() OVER (ORDER BY s.total_sales DESC) AS sales_rank,
+       rd.rentals,
+       RANK() OVER (ORDER BY rd.rentals DESC)    AS rentals_rank
+FROM sales_by_film_category s
+         JOIN rented rd ON rd.category = s.category
+ORDER BY sales_rank, s.category
+----
+
+....
++-------------+-------------+------------+---------+--------------+
+| category    | total_sales | sales_rank | rentals | rentals_rank |
++-------------+-------------+------------+---------+--------------+
+| Sports      |     5314.21 |          1 |    1179 |            1 |
+| Sci-Fi      |     4756.98 |          2 |    1101 |            4 |
+| Animation   |     4656.30 |          3 |    1166 |            2 |
+| Drama       |     4587.39 |          4 |    1060 |            6 |
+| Comedy      |     4383.58 |          5 |     941 |           11 |
+| Action      |     4375.85 |          6 |    1112 |            3 |
+| New         |     4351.62 |          7 |     940 |           12 |
+| Games       |     4281.33 |          8 |     969 |            9 |
+| Foreign     |     4270.67 |          9 |    1033 |            8 |
+| Family      |     4226.07 |         10 |    1096 |            5 |
+| Documentary |     4217.52 |         11 |    1050 |            7 |
+| Horror      |     3722.54 |         12 |     846 |           14 |
+| Children    |     3655.55 |         13 |     945 |           10 |
+| Classics    |     3639.59 |         14 |     939 |           13 |
+| Travel      |     3549.64 |         15 |     837 |           15 |
+| Music       |     3417.72 |         16 |     830 |           16 |
++-------------+-------------+------------+---------+--------------+
 ....
 ====
 
@@ -6787,6 +6644,53 @@ ORDER BY table_name, index_name, seq_in_index
 ....
 ====
 
+[[SAKILA_SCHEMA_B_12]]
+==== SAKILA_SCHEMA_B_12: the columns of the tables which allow NULL
+
+List the columns of the tables, not the views, which allow `NULL`, from `information_schema.columns`, joined with `information_schema.tables` for the type of the table.
+Show the table, the column and its type, ordered by the table and the column's position.
+Each of them is a field which its mapping must let be `null`.
+
+.`_schema_exercises_01_basic.sql`, SAKILA_SCHEMA_B_12
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.table_name, c.column_name, c.column_type
+FROM information_schema.columns c
+         JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+WHERE c.table_schema = 'sakila'
+  AND t.table_type = 'BASE TABLE'
+  AND c.is_nullable = 'YES'
+ORDER BY c.table_name, c.ordinal_position
+----
+
+....
++-------------------+----------------------+---------------------------------------------------------------------+
+| TABLE_NAME        | COLUMN_NAME          | COLUMN_TYPE                                                         |
++-------------------+----------------------+---------------------------------------------------------------------+
+| address           | address2             | varchar(50)                                                         |
+| address           | postal_code          | varchar(10)                                                         |
+| better_employment | manager              | tinyint(1)                                                          |
+| customer          | email                | varchar(50)                                                         |
+| customer          | last_update          | timestamp                                                           |
+| film              | description          | text                                                                |
+| film              | release_year         | year                                                                |
+| film              | original_language_id | tinyint unsigned                                                    |
+| film              | length               | smallint unsigned                                                   |
+| film              | rating               | enum('G','PG','PG-13','R','NC-17')                                  |
+| film              | special_features     | set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') |
+| film_text         | description          | text                                                                |
+| payment           | rental_id            | int                                                                 |
+| payment           | last_update          | timestamp                                                           |
+| rental            | return_date          | datetime                                                            |
+| staff             | picture              | blob                                                                |
+| staff             | email                | varchar(50)                                                         |
+| staff             | password             | varchar(40)                                                         |
++-------------------+----------------------+---------------------------------------------------------------------+
+....
+====
+
 Answered by `_Schema_Exercises_01_Basic_PersistenceIT`.
 
 === Intermediate
@@ -7203,6 +7107,43 @@ ORDER BY average_payment DESC, c.name
 |          14 | Sci-Fi | 2006-02-15 04:46:27 |            4.32 |
 |          16 | Travel | 2006-02-15 04:46:27 |            4.24 |
 +-------------+--------+---------------------+-----------------+
+....
+====
+
+[[SAKILA_SCHEMA_I_13]]
+==== SAKILA_SCHEMA_I_13: the five customer and film pairs rented the most often
+
+A customer may rent the same film again.
+Count the rentals of each pair of a customer and a film, through the copy, and keep the pairs rented more than once.
+Show the five pairs rented the most: the customer's `customer_id`, `first_name` and `last_name`, the film's `film_id` and `title`, and the count, the most first; ties are ordered by `customer_id` and then by `film_id`.
+The groups are pairs, so the query groups by two keys.
+
+.`_schema_exercises_02_intermediate.sql`, SAKILA_SCHEMA_I_13
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.customer_id, c.first_name, c.last_name, f.film_id, f.title, COUNT(*) AS rentals
+FROM rental r
+         JOIN customer c ON c.customer_id = r.customer_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+GROUP BY c.customer_id, f.film_id
+HAVING COUNT(*) > 1
+ORDER BY rentals DESC, c.customer_id, f.film_id
+LIMIT 5
+----
+
+....
++-------------+------------+-----------+---------+-----------------------+---------+
+| customer_id | first_name | last_name | film_id | title                 | rentals |
++-------------+------------+-----------+---------+-----------------------+---------+
+|         122 | THELMA     | MURRAY    |     233 | DISCIPLE MOTHER       |       3 |
+|         314 | GEORGE     | LINTON    |     111 | CADDYSHACK JEDI       |       3 |
+|         317 | EDWARD     | BAUGH     |     322 | FLATLINERS KILLER     |       3 |
+|         376 | RANDY      | GAITHER   |     228 | DETECTIVE VISION      |       3 |
+|           1 | MARY       | SMITH     |     317 | FIREBALL PHILADELPHIA |       2 |
++-------------+------------+-----------+---------+-----------------------+---------+
 ....
 ====
 

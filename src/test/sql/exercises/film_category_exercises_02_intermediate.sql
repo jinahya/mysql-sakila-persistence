@@ -79,26 +79,3 @@ FROM film_category fc
 GROUP BY c.category_id
 ORDER BY c.name
 ;
-
--- ------------------------------------------------------------------------------------------- SAKILA_FILM_CATEGORY_I_04
--- the categories whose films cost more to replace than the average film.
--- +-------------+-----------+---------------------+--------------------------+
--- | category_id | name      | last_update         | average_replacement_cost |
--- +-------------+-----------+---------------------+--------------------------+
--- |          14 | Sci-Fi    | 2006-02-15 04:46:27 |                21.153934 |
--- |           7 | Drama     | 2006-02-15 04:46:27 |                21.086774 |
--- |           4 | Classics  | 2006-02-15 04:46:27 |                21.007544 |
--- |           1 | Action    | 2006-02-15 04:46:27 |                20.911875 |
--- |          15 | Sports    | 2006-02-15 04:46:27 |                20.395405 |
--- |          10 | Games     | 2006-02-15 04:46:27 |                20.285082 |
--- |           2 | Animation | 2006-02-15 04:46:27 |                20.126364 |
--- |           3 | Children  | 2006-02-15 04:46:27 |                20.056667 |
--- +-------------+-----------+---------------------+--------------------------+
-SELECT c.*, AVG(f.replacement_cost) AS average_replacement_cost
-FROM film_category fc
-         JOIN category c ON c.category_id = fc.category_id
-         JOIN film f ON f.film_id = fc.film_id
-GROUP BY c.category_id
-HAVING AVG(f.replacement_cost) > (SELECT AVG(replacement_cost) FROM film)
-ORDER BY average_replacement_cost DESC, c.name
-;

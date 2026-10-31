@@ -60,22 +60,6 @@ WHERE first_name LIKE 'JU%'
 ORDER BY first_name, actor_id
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_B_03
--- the actors whose last name starts with WA, ordered by last name.
--- +----------+------------+-----------+---------------------+
--- | actor_id | first_name | last_name | last_update         |
--- +----------+------------+-----------+---------------------+
--- |        2 | NICK       | WAHLBERG  | 2006-02-15 04:34:33 |
--- |       95 | DARYL      | WAHLBERG  | 2006-02-15 04:34:33 |
--- |      196 | BELA       | WALKEN    | 2006-02-15 04:34:33 |
--- |       29 | ALEC       | WAYNE     | 2006-02-15 04:34:33 |
--- +----------+------------+-----------+---------------------+
-SELECT *
-FROM actor
-WHERE last_name LIKE 'WA%'
-ORDER BY last_name, actor_id
-;
-
 -- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_B_04
 -- the actors whose first and last names start with the same letter.
 -- +----------+------------+-------------+---------------------+

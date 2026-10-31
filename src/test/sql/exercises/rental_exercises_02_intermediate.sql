@@ -26,23 +26,6 @@
 --
 
 
--- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_I_01
--- how many rentals are not returned yet, at each store.
--- +----------+------------------+------------+---------------------+---------+
--- | store_id | manager_staff_id | address_id | last_update         | rentals |
--- +----------+------------------+------------+---------------------+---------+
--- |        1 |                1 |          1 | 2006-02-15 04:57:12 |      92 |
--- |        2 |                2 |          2 | 2006-02-15 04:57:12 |      91 |
--- +----------+------------------+------------+---------------------+---------+
-SELECT st.*, COUNT(*) AS rentals
-FROM rental r
-         JOIN inventory i ON i.inventory_id = r.inventory_id
-         JOIN store st ON st.store_id = i.store_id
-WHERE r.return_date IS NULL
-GROUP BY st.store_id
-ORDER BY st.store_id
-;
-
 -- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_I_02
 -- on which days the rentals not returned yet were made.
 -- +------------+---------+
@@ -56,4 +39,20 @@ FROM rental
 WHERE return_date IS NULL
 GROUP BY day
 ORDER BY day
+;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_I_03
+-- the rentals overdue at the end of the data.
+-- +-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
+-- | rental_id | rental_date         | inventory_id | customer_id | return_date | staff_id | last_update         | title            | rental_duration | days_overdue |
+-- +-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
+-- |     14098 | 2005-08-21 00:30:32 |            6 |         554 | NULL        |        2 | 2006-02-23 04:12:08 | ACADEMY DINOSAUR |               6 |          172 |
+-- +-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
+SELECT r.*, f.title, f.rental_duration, DATEDIFF('2006-02-15', r.rental_date) - f.rental_duration AS days_overdue
+FROM rental r
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+WHERE r.return_date IS NULL
+  AND DATEDIFF('2006-02-15', r.rental_date) > f.rental_duration
+ORDER BY days_overdue DESC, r.rental_id
 ;

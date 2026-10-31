@@ -20,6 +20,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.criteria.JoinType;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -251,6 +253,77 @@ class Customer_Exercises_02_Intermediate_PersistenceIT {
                             tuple(42, "CAROLYN", "PEREZ", 2L),
                             tuple(43, "CHRISTINE", "ROBERTS", 2L),
                             tuple(53, "HEATHER", "MORRIS", 2L));
+        }
+    }
+
+    @DisplayName(
+            "SAKILA_CUSTOMER_I_05: the first ten customers of the store 1, each with the rentals they " +
+            "have out, zero included")
+    @Nested
+    class SAKILA_CUSTOMER_I_05_Test {
+
+        // the condition on the rental is in the ON of the outer join; in WHERE it would drop the
+        // customers with nothing out
+        @Test
+        void __QueryLanguage() {
+            final var list = __Exercises_TestUtils.apply(
+                    em -> em.createQuery(
+                                    """
+                                            SELECT c.customerId, c.firstName, c.lastName, COUNT(r)
+                                            FROM Customer c
+                                                     LEFT JOIN c.rentals r ON r.returnDate IS NULL
+                                            WHERE c.store.storeId = :storeId
+                                            GROUP BY c.customerId, c.firstName, c.lastName
+                                            ORDER BY c.customerId""",
+                                    Object[].class
+                            )
+                            .setParameter("storeId", 1)
+                            .setMaxResults(10)
+                            .getResultList()
+            );
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertRows(list);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var list = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Object[].class);
+                final var c = cq.from(Customer.class);
+                final var r = c.join(Customer_.rentals, JoinType.LEFT);
+                r.on(cb.isNull(r.get(Rental_.returnDate)));
+                cq.select(cb.array(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                   c.get(Customer_.lastName), cb.count(r)))
+                        .where(cb.equal(c.get(Customer_.store).get(Store_.storeId),
+                                        cb.parameter(Integer.class, "storeId")))
+                        .groupBy(c.get(Customer_.customerId), c.get(Customer_.firstName),
+                                 c.get(Customer_.lastName))
+                        .orderBy(cb.asc(c.get(Customer_.customerId)));
+                return em.createQuery(cq)
+                        .setParameter("storeId", 1)
+                        .setMaxResults(10)
+                        .getResultList();
+            });
+            list.forEach(r -> log.debug("{}", Arrays.toString(r)));
+            assertRows(list);
+        }
+
+        private static void assertRows(final List<Object[]> list) {
+            assertThat(list)
+                    .extracting(r -> ((Number) r[0]).intValue(), r -> r[1], r -> r[2],
+                                r -> ((Number) r[3]).longValue())
+                    .containsExactly(
+                            tuple(1, "MARY", "SMITH", 0L),
+                            tuple(2, "PATRICIA", "JOHNSON", 0L),
+                            tuple(3, "LINDA", "WILLIAMS", 0L),
+                            tuple(5, "ELIZABETH", "BROWN", 1L),
+                            tuple(7, "MARIA", "MILLER", 0L),
+                            tuple(10, "DOROTHY", "TAYLOR", 0L),
+                            tuple(12, "NANCY", "THOMAS", 0L),
+                            tuple(15, "HELEN", "HARRIS", 2L),
+                            tuple(17, "DONNA", "THOMPSON", 0L),
+                            tuple(19, "RUTH", "MARTINEZ", 0L));
         }
     }
 }

@@ -227,54 +227,6 @@ class Film_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_FILM_B_05: the five shortest films")
-    @Nested
-    class SAKILA_FILM_B_05_Test {
-
-        @Test
-        void __QueryLanguage() {
-            final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                      SELECT f
-                                                                                      FROM Film f
-                                                                                      ORDER BY f.length, f.title""",
-                                                                              Film.class)
-                    .setMaxResults(5)
-                    .getResultList());
-            list.forEach(e -> log.debug("{}", e));
-            assertThat(list)
-                    .extracting(Film::getFilmId, Film::getTitle, Film::getLength)
-                    .containsExactly(
-                            tuple(15, "ALIEN CENTER", 46),
-                            tuple(469, "IRON MOON", 46),
-                            tuple(504, "KWAI HOMEWARD", 46),
-                            tuple(505, "LABYRINTH LEAGUE", 46),
-                            tuple(730, "RIDGEMONT SUBMARINE", 46));
-        }
-
-        @Test
-        void __CriteriaApi() {
-            final var list = __Exercises_TestUtils.apply(em -> {
-                final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Film.class);
-                final var f = cq.from(Film.class);
-                cq.select(f)
-                        .orderBy(cb.asc(f.get(Film_.length)), cb.asc(f.get(Film_.title)));
-                return em.createQuery(cq)
-                        .setMaxResults(5)
-                        .getResultList();
-            });
-            list.forEach(e -> log.debug("{}", e));
-            assertThat(list)
-                    .extracting(Film::getFilmId, Film::getTitle, Film::getLength)
-                    .containsExactly(
-                            tuple(15, "ALIEN CENTER", 46),
-                            tuple(469, "IRON MOON", 46),
-                            tuple(504, "KWAI HOMEWARD", 46),
-                            tuple(505, "LABYRINTH LEAGUE", 46),
-                            tuple(730, "RIDGEMONT SUBMARINE", 46));
-        }
-    }
-
     @DisplayName("SAKILA_FILM_B_06: the films cheapest to rent and dearest to replace")
     @Nested
     class SAKILA_FILM_B_06_Test {

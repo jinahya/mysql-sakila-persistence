@@ -344,4 +344,49 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
                             tuple("store", "idx_unique_manager", 1, "manager_staff_id"));
         }
     }
+
+    @DisplayName("SAKILA_SCHEMA_B_12: the columns of the tables which allow NULL")
+    @Nested
+    class SAKILA_SCHEMA_B_12_Test {
+
+        // information_schema describes the database, not the entities; JPQL and the Criteria API
+        // cannot read it
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                    SELECT c.table_name, c.column_name, c.column_type
+                    FROM information_schema.columns c
+                             JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+                    WHERE c.table_schema = ?1
+                      AND t.table_type = ?2
+                      AND c.is_nullable = ?3
+                    ORDER BY c.table_name, c.ordinal_position""")
+                    .setParameter(1, "sakila")
+                    .setParameter(2, "BASE TABLE")
+                    .setParameter(3, "YES")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Object[]) r)[0], r -> ((Object[]) r)[1])
+                    .containsExactly(
+                            tuple("address", "address2"),
+                            tuple("address", "postal_code"),
+                            tuple("better_employment", "manager"),
+                            tuple("customer", "email"),
+                            tuple("customer", "last_update"),
+                            tuple("film", "description"),
+                            tuple("film", "release_year"),
+                            tuple("film", "original_language_id"),
+                            tuple("film", "length"),
+                            tuple("film", "rating"),
+                            tuple("film", "special_features"),
+                            tuple("film_text", "description"),
+                            tuple("payment", "rental_id"),
+                            tuple("payment", "last_update"),
+                            tuple("rental", "return_date"),
+                            tuple("staff", "picture"),
+                            tuple("staff", "email"),
+                            tuple("staff", "password"));
+        }
+    }
 }

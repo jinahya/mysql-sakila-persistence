@@ -153,4 +153,38 @@ class Customer_Exercises_03_Advanced_PersistenceIT {
                             tuple(2, 126L, 111.39));
         }
     }
+
+    @DisplayName("SAKILA_CUSTOMER_A_03: the customers in four bands by what they paid")
+    @Nested
+    class SAKILA_CUSTOMER_A_03_Test {
+
+        // JPQL has no window functions; NTILE() OVER (...) is SQL's
+        @Test
+        void nativeQuery() {
+            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
+                    WITH paid AS (SELECT c.customer_id, SUM(p.amount) AS paid
+                                  FROM customer c
+                                           JOIN payment p ON p.customer_id = c.customer_id
+                                  GROUP BY c.customer_id),
+                         banded AS (SELECT paid.*, NTILE(4) OVER (ORDER BY paid DESC, customer_id) AS band
+                                    FROM paid)
+                    SELECT band, COUNT(*) AS customers, MIN(paid) AS least_paid, MAX(paid) AS most_paid, SUM(paid) AS total
+                    FROM banded
+                    GROUP BY band
+                    ORDER BY band""")
+                    .getResultList());
+            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
+            assertThat(list)
+                    .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
+                                r -> ((Number) ((Object[]) r)[1]).longValue(),
+                                r -> ((BigDecimal) ((Object[]) r)[2]).toPlainString(),
+                                r -> ((BigDecimal) ((Object[]) r)[3]).toPlainString(),
+                                r -> ((BigDecimal) ((Object[]) r)[4]).toPlainString())
+                    .containsExactly(
+                            tuple(1, 150L, "128.71", "221.55", "21876.45"),
+                            tuple(2, 150L, "110.73", "128.70", "17818.77"),
+                            tuple(3, 150L, "94.78", "110.73", "15425.27"),
+                            tuple(4, 149L, "50.85", "94.77", "12286.07"));
+        }
+    }
 }

@@ -139,55 +139,6 @@ class Actor_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_ACTOR_B_03: the actors whose last name starts with WA, ordered by last name")
-    @Nested
-    class SAKILA_ACTOR_B_03_Test {
-
-        @ParameterizedTest
-        @ValueSource(strings = {"WA", "GU", "KI"})
-        void __QueryLanguage(final String prefix) {
-            final var list = __Exercises_TestUtils.apply(
-                    em -> em.createQuery(
-                                    """
-                                            SELECT a
-                                            FROM Actor a
-                                            WHERE a.lastName LIKE :pattern
-                                            ORDER BY a.lastName, a.actorId""",
-                                    Actor.class
-                            )
-                            .setParameter("pattern", prefix + '%')
-                            .getResultList()
-            );
-            list.forEach(e -> log.debug("{}", e));
-            assertThat(list).isNotEmpty()
-                    .allSatisfy(a -> assertThat(a.getLastName()).startsWith(prefix))
-                    .isSortedAccordingTo(Comparator.comparing(Actor::getLastName)
-                                                 .thenComparing(Actor::getActorId));
-        }
-
-        @ParameterizedTest
-        @ValueSource(strings = {"WA", "GU", "KI"})
-        void __CriteriaApi(final String prefix) {
-            final var list = __Exercises_TestUtils.apply(em -> {
-                final var cb = em.getCriteriaBuilder();
-                final var cq = cb.createQuery(Actor.class);
-                final var a = cq.from(Actor.class);
-                cq.select(a)
-                        .where(cb.like(a.get(Actor_.lastName),
-                                       cb.parameter(String.class, "pattern")))
-                        .orderBy(cb.asc(a.get(Actor_.lastName)), cb.asc(a.get(Actor_.actorId)));
-                return em.createQuery(cq)
-                        .setParameter("pattern", prefix + '%')
-                        .getResultList();
-            });
-            list.forEach(e -> log.debug("{}", e));
-            assertThat(list).isNotEmpty()
-                    .allSatisfy(a -> assertThat(a.getLastName()).startsWith(prefix))
-                    .isSortedAccordingTo(Comparator.comparing(Actor::getLastName)
-                                                 .thenComparing(Actor::getActorId));
-        }
-    }
-
     @DisplayName("SAKILA_ACTOR_B_04: the actors whose first and last names start with the same letter")
     @Nested
     class SAKILA_ACTOR_B_04_Test {

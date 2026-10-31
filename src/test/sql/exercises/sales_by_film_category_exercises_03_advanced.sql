@@ -27,36 +27,6 @@
 --
 
 
--- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_A_01
--- the running total of the categories' sales, and its share of all sales.
--- +-------------+-------------+---------------+-----------------+
--- | category    | total_sales | running_total | running_percent |
--- +-------------+-------------+---------------+-----------------+
--- | Sports      |     5314.21 |       5314.21 |            7.88 |
--- | Sci-Fi      |     4756.98 |      10071.19 |           14.94 |
--- | Animation   |     4656.30 |      14727.49 |           21.85 |
--- | Drama       |     4587.39 |      19314.88 |           28.65 |
--- | Comedy      |     4383.58 |      23698.46 |           35.16 |
--- | Action      |     4375.85 |      28074.31 |           41.65 |
--- | New         |     4351.62 |      32425.93 |           48.11 |
--- | Games       |     4281.33 |      36707.26 |           54.46 |
--- | Foreign     |     4270.67 |      40977.93 |           60.79 |
--- | Family      |     4226.07 |      45204.00 |           67.06 |
--- | Documentary |     4217.52 |      49421.52 |           73.32 |
--- | Horror      |     3722.54 |      53144.06 |           78.84 |
--- | Children    |     3655.55 |      56799.61 |           84.26 |
--- | Classics    |     3639.59 |      60439.20 |           89.66 |
--- | Travel      |     3549.64 |      63988.84 |           94.93 |
--- | Music       |     3417.72 |      67406.56 |          100.00 |
--- +-------------+-------------+---------------+-----------------+
-SELECT *,
-       SUM(total_sales) OVER (ORDER BY total_sales DESC, category) AS running_total,
-       ROUND(100 * SUM(total_sales) OVER (ORDER BY total_sales DESC, category) / SUM(total_sales) OVER (), 2)
-           AS running_percent
-FROM sales_by_film_category
-ORDER BY total_sales DESC, category
-;
-
 -- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_A_02
 -- the three largest gaps between a category and the next one down.
 -- +-------------+-------------+---------------+--------+
@@ -74,4 +44,41 @@ FROM (SELECT category, total_sales,
 WHERE next_category IS NOT NULL
 ORDER BY gap DESC, category
 LIMIT 3
+;
+
+-- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_A_03
+-- each category's rank by sales, next to its rank by rentals.
+-- +-------------+-------------+------------+---------+--------------+
+-- | category    | total_sales | sales_rank | rentals | rentals_rank |
+-- +-------------+-------------+------------+---------+--------------+
+-- | Sports      |     5314.21 |          1 |    1179 |            1 |
+-- | Sci-Fi      |     4756.98 |          2 |    1101 |            4 |
+-- | Animation   |     4656.30 |          3 |    1166 |            2 |
+-- | Drama       |     4587.39 |          4 |    1060 |            6 |
+-- | Comedy      |     4383.58 |          5 |     941 |           11 |
+-- | Action      |     4375.85 |          6 |    1112 |            3 |
+-- | New         |     4351.62 |          7 |     940 |           12 |
+-- | Games       |     4281.33 |          8 |     969 |            9 |
+-- | Foreign     |     4270.67 |          9 |    1033 |            8 |
+-- | Family      |     4226.07 |         10 |    1096 |            5 |
+-- | Documentary |     4217.52 |         11 |    1050 |            7 |
+-- | Horror      |     3722.54 |         12 |     846 |           14 |
+-- | Children    |     3655.55 |         13 |     945 |           10 |
+-- | Classics    |     3639.59 |         14 |     939 |           13 |
+-- | Travel      |     3549.64 |         15 |     837 |           15 |
+-- | Music       |     3417.72 |         16 |     830 |           16 |
+-- +-------------+-------------+------------+---------+--------------+
+WITH rented AS (SELECT c.name AS category, COUNT(*) AS rentals
+                FROM rental r
+                         JOIN inventory i ON i.inventory_id = r.inventory_id
+                         JOIN film_category fc ON fc.film_id = i.film_id
+                         JOIN category c ON c.category_id = fc.category_id
+                GROUP BY c.name)
+SELECT s.*,
+       RANK() OVER (ORDER BY s.total_sales DESC) AS sales_rank,
+       rd.rentals,
+       RANK() OVER (ORDER BY rd.rentals DESC)    AS rentals_rank
+FROM sales_by_film_category s
+         JOIN rented rd ON rd.category = s.category
+ORDER BY sales_rank, s.category
 ;

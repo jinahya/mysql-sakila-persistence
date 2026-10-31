@@ -271,3 +271,36 @@ WHERE table_schema = 'sakila'
   AND index_name <> 'PRIMARY'
 ORDER BY table_name, index_name, seq_in_index
 ;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_12
+-- the columns of the tables which allow NULL.
+-- +-------------------+----------------------+---------------------------------------------------------------------+
+-- | TABLE_NAME        | COLUMN_NAME          | COLUMN_TYPE                                                         |
+-- +-------------------+----------------------+---------------------------------------------------------------------+
+-- | address           | address2             | varchar(50)                                                         |
+-- | address           | postal_code          | varchar(10)                                                         |
+-- | better_employment | manager              | tinyint(1)                                                          |
+-- | customer          | email                | varchar(50)                                                         |
+-- | customer          | last_update          | timestamp                                                           |
+-- | film              | description          | text                                                                |
+-- | film              | release_year         | year                                                                |
+-- | film              | original_language_id | tinyint unsigned                                                    |
+-- | film              | length               | smallint unsigned                                                   |
+-- | film              | rating               | enum('G','PG','PG-13','R','NC-17')                                  |
+-- | film              | special_features     | set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') |
+-- | film_text         | description          | text                                                                |
+-- | payment           | rental_id            | int                                                                 |
+-- | payment           | last_update          | timestamp                                                           |
+-- | rental            | return_date          | datetime                                                            |
+-- | staff             | picture              | blob                                                                |
+-- | staff             | email                | varchar(50)                                                         |
+-- | staff             | password             | varchar(40)                                                         |
+-- +-------------------+----------------------+---------------------------------------------------------------------+
+SELECT c.table_name, c.column_name, c.column_type
+FROM information_schema.columns c
+         JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+WHERE c.table_schema = 'sakila'
+  AND t.table_type = 'BASE TABLE'
+  AND c.is_nullable = 'YES'
+ORDER BY c.table_name, c.ordinal_position
+;

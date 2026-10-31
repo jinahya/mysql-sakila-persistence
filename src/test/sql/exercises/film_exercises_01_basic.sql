@@ -89,23 +89,6 @@ FROM film
 WHERE FIND_IN_SET('Behind the Scenes', special_features) > 0
 ;
 
--- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_B_05
--- the five shortest films.
--- +---------+---------------------+--------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+
--- | film_id | title               | description                                                                                      | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                              | last_update         |
--- +---------+---------------------+--------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+
--- |      15 | ALIEN CENTER        | A Brilliant Drama of a Cat And a Mad Scientist who must Battle a Feminist in A MySQL Convention  |         2006 |           1 |                 NULL |               5 |        2.99 |     46 |            10.99 | NC-17  | Trailers,Commentaries,Behind the Scenes       | 2006-02-15 05:03:42 |
--- |     469 | IRON MOON           | A Fast-Paced Documentary of a Mad Cow And a Boy who must Pursue a Dentist in A Baloon            |         2006 |           1 |                 NULL |               7 |        4.99 |     46 |            27.99 | PG     | Commentaries,Behind the Scenes                | 2006-02-15 05:03:42 |
--- |     504 | KWAI HOMEWARD       | A Amazing Drama of a Car And a Squirrel who must Pursue a Car in Soviet Georgia                  |         2006 |           1 |                 NULL |               5 |        0.99 |     46 |            25.99 | PG-13  | Trailers,Commentaries                         | 2006-02-15 05:03:42 |
--- |     505 | LABYRINTH LEAGUE    | A Awe-Inspiring Saga of a Composer And a Frisbee who must Succumb a Pioneer in The Sahara Desert |         2006 |           1 |                 NULL |               6 |        2.99 |     46 |            24.99 | PG-13  | Commentaries,Behind the Scenes                | 2006-02-15 05:03:42 |
--- |     730 | RIDGEMONT SUBMARINE | A Unbelieveable Drama of a Waitress And a Composer who must Sink a Mad Cow in Ancient Japan      |         2006 |           1 |                 NULL |               3 |        0.99 |     46 |            28.99 | PG-13  | Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
--- +---------+---------------------+--------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+
-SELECT *
-FROM film
-ORDER BY length, title
-LIMIT 5
-;
-
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_B_06
 -- the films cheapest to rent and dearest to replace.
 -- +---------+----------------------+-----------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+

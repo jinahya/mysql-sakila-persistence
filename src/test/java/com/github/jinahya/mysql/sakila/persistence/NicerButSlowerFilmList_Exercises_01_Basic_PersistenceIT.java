@@ -84,29 +84,4 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
                     .satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(19L));
         }
     }
-
-    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03: the films which have no actors")
-    @Nested
-    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03_Test {
-
-        // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
-        // native query
-        @Test
-        void nativeQuery() {
-            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT *
-                                                                                                      FROM nicer_but_slower_film_list
-                                                                                                      WHERE actors IS NULL
-                                                                                                      ORDER BY FID""")
-                    .getResultList());
-            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list)
-                    .extracting(r -> ((Number) ((Object[]) r)[0]).intValue(),
-                                r -> ((Object[]) r)[1], r -> ((Object[]) r)[3])
-                    .containsExactly(
-                            tuple(257, "DRUMLINE CYCLONE", "Travel"),
-                            tuple(323, "FLIGHT LIES", "Sports"),
-                            tuple(803, "SLACKER LIAISONS", "Drama"));
-        }
-    }
 }

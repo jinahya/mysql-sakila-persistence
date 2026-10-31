@@ -70,32 +70,4 @@ class NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT {
                             tuple("Comedy", 58L, 115.83d));
         }
     }
-
-    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02: how many films are short, medium and long")
-    @Nested
-    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02_Test {
-
-        // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
-        // native query
-        @Test
-        void nativeQuery() {
-            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT CASE WHEN length < 60 THEN 'short' WHEN length <= 120 THEN 'medium' ELSE 'long' END AS band,
-                                                                                                             COUNT(*) AS films, MIN(length) AS shortest, MAX(length) AS longest
-                                                                                                      FROM nicer_but_slower_film_list
-                                                                                                      GROUP BY band
-                                                                                                      ORDER BY shortest""")
-                    .getResultList());
-            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list)
-                    .extracting(r -> ((Object[]) r)[0],
-                                r -> ((Number) ((Object[]) r)[1]).longValue(),
-                                r -> ((Number) ((Object[]) r)[2]).intValue(),
-                                r -> ((Number) ((Object[]) r)[3]).intValue())
-                    .containsExactly(
-                            tuple("short", 96L, 46, 59),
-                            tuple("medium", 447L, 60, 120),
-                            tuple("long", 457L, 121, 185));
-        }
-    }
 }

@@ -277,3 +277,25 @@ GROUP BY c.category_id
 HAVING AVG(p.amount) > (SELECT AVG(amount) FROM payment)
 ORDER BY average_payment DESC, c.name
 ;
+
+-- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_13
+-- the five customer and film pairs rented the most often.
+-- +-------------+------------+-----------+---------+-----------------------+---------+
+-- | customer_id | first_name | last_name | film_id | title                 | rentals |
+-- +-------------+------------+-----------+---------+-----------------------+---------+
+-- |         122 | THELMA     | MURRAY    |     233 | DISCIPLE MOTHER       |       3 |
+-- |         314 | GEORGE     | LINTON    |     111 | CADDYSHACK JEDI       |       3 |
+-- |         317 | EDWARD     | BAUGH     |     322 | FLATLINERS KILLER     |       3 |
+-- |         376 | RANDY      | GAITHER   |     228 | DETECTIVE VISION      |       3 |
+-- |           1 | MARY       | SMITH     |     317 | FIREBALL PHILADELPHIA |       2 |
+-- +-------------+------------+-----------+---------+-----------------------+---------+
+SELECT c.customer_id, c.first_name, c.last_name, f.film_id, f.title, COUNT(*) AS rentals
+FROM rental r
+         JOIN customer c ON c.customer_id = r.customer_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+GROUP BY c.customer_id, f.film_id
+HAVING COUNT(*) > 1
+ORDER BY rentals DESC, c.customer_id, f.film_id
+LIMIT 5
+;

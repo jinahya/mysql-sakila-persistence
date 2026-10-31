@@ -169,4 +169,39 @@ class Rental_Exercises_01_Basic_PersistenceIT {
                     .satisfies(r -> assertThat((Object[]) r).containsExactly("Tuesday", 2463L));
         }
     }
+
+    @DisplayName("SAKILA_RENTAL_B_05: how many rentals were returned on the day they were made")
+    @Nested
+    class SAKILA_RENTAL_B_05_Test {
+
+        // a NULL return date equals nothing, so a rental not returned yet is left out
+        @Test
+        void __QueryLanguage() {
+            final var value = __Exercises_TestUtils.apply(em -> em.createQuery("""
+                                                                                       SELECT COUNT(r)
+                                                                                       FROM Rental r
+                                                                                       WHERE EXTRACT(DATE FROM r.returnDate) = EXTRACT(DATE FROM r.rentalDate)""",
+                                                                               Long.class)
+                    .getSingleResult());
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(105L);
+        }
+
+        @Test
+        void __CriteriaApi() {
+            final var value = __Exercises_TestUtils.apply(em -> {
+                final var cb = em.getCriteriaBuilder();
+                final var cq = cb.createQuery(Long.class);
+                final var r = cq.from(Rental.class);
+                cq.select(cb.count(r))
+                        .where(cb.equal(
+                                cb.extract(LocalDateTimeField.DATE, r.get(Rental_.returnDate)),
+                                cb.extract(LocalDateTimeField.DATE, r.get(Rental_.rentalDate))));
+                return em.createQuery(cq)
+                        .getSingleResult();
+            });
+            log.debug("{}", value);
+            assertThat(value).isEqualTo(105L);
+        }
+    }
 }

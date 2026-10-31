@@ -94,25 +94,4 @@ class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
                             tuple("Travel", 185, 2L));
         }
     }
-
-    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03: whether the actors string names as many actors as film_actor has")
-    @Nested
-    class SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03_Test {
-
-        // the view is not an entity; the NicerButSlowerFilmList class is a plain class, read with a
-        // native query
-        @Test
-        void nativeQuery() {
-            final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                                                                                                      SELECT COUNT(*) AS mismatched
-                                                                                                      FROM nicer_but_slower_film_list n
-                                                                                                      WHERE n.actors IS NOT NULL
-                                                                                                        AND CHAR_LENGTH(n.actors) - CHAR_LENGTH(REPLACE(n.actors, ',', '')) + 1
-                                                                                                            <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = n.FID)""")
-                    .getResultList());
-            list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
-            assertThat(list).singleElement()
-                    .satisfies(v -> assertThat(((Number) v).longValue()).isEqualTo(0L));
-        }
-    }
 }

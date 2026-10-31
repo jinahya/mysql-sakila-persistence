@@ -85,23 +85,6 @@ GROUP BY first_name
 ORDER BY actors DESC, first_name LIMIT 5
 ;
 
--- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_05
--- the five most common last names.
--- +-----------+--------+
--- | last_name | actors |
--- +-----------+--------+
--- | KILMER    |      5 |
--- | NOLTE     |      4 |
--- | TEMPLE    |      4 |
--- | AKROYD    |      3 |
--- | ALLEN     |      3 |
--- +-----------+--------+
-SELECT last_name, COUNT(*) AS actors
-FROM actor
-GROUP BY last_name
-ORDER BY actors DESC, last_name LIMIT 5
-;
-
 -- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_06
 -- the five actors whose films are, on average, the longest.
 -- +----------+------------+-----------+---------------------+----------------+
@@ -144,5 +127,22 @@ FROM actor a
          JOIN film f ON f.film_id = fa.film_id
 WHERE a.actor_id BETWEEN 1 AND 5
 GROUP BY a.actor_id
+ORDER BY a.actor_id
+;
+
+-- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_08
+-- the actors who never appeared in a G-rated film.
+-- +----------+------------+-----------+---------------------+
+-- | actor_id | first_name | last_name | last_update         |
+-- +----------+------------+-----------+---------------------+
+-- |      194 | MERYL      | ALLEN     | 2006-02-15 04:34:33 |
+-- +----------+------------+-----------+---------------------+
+SELECT a.*
+FROM actor a
+WHERE NOT EXISTS (SELECT 1
+                  FROM film_actor fa
+                           JOIN film f ON f.film_id = fa.film_id
+                  WHERE fa.actor_id = a.actor_id
+                    AND f.rating = 'G')
 ORDER BY a.actor_id
 ;
