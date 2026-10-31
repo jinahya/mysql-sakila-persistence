@@ -5,96 +5,95 @@
  -->
 <!-- Title: erd Pages: 1 -->
 <!-- sakila, 업무: inventory, rental, payment; the foreign keys among them only -->
-<svg width="267pt" height="457pt"
- viewBox="0.00 0.00 267.00 457.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="276pt" height="457pt"
+ viewBox="0.00 0.00 276.00 457.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 450.2)">
 <title>erd</title>
-<polygon fill="white" stroke="none" points="-7.2,7.2 -7.2,-450.2 259.95,-450.2 259.95,7.2 -7.2,7.2"/>
 <!-- inventory -->
 <g id="node1" class="node">
 <title>inventory</title>
-<polygon fill="#d9e2ec" stroke="none" points="168,-76.5 168,-102 252.75,-102 252.75,-76.5 168,-76.5"/>
-<polygon fill="none" stroke="#000000" points="168,-76.5 168,-102 252.75,-102 252.75,-76.5 168,-76.5"/>
-<text xml:space="preserve" text-anchor="start" x="188.25" y="-88.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">inventory</text>
-<polygon fill="none" stroke="#000000" points="168,-51 168,-76.5 231.75,-76.5 231.75,-51 168,-51"/>
-<text xml:space="preserve" text-anchor="start" x="174" y="-62.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">inventory_id</text>
-<polygon fill="none" stroke="#000000" points="231.75,-51 231.75,-76.5 252.75,-76.5 252.75,-51 231.75,-51"/>
-<text xml:space="preserve" text-anchor="start" x="237.75" y="-60.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">PK</text>
-<polygon fill="none" stroke="#000000" points="168,-25.5 168,-51 231.75,-51 231.75,-25.5 168,-25.5"/>
-<text xml:space="preserve" text-anchor="start" x="174" y="-34.5" font-family="Noto Sans KR" font-size="9.00">film_id</text>
-<polygon fill="none" stroke="#000000" points="231.75,-25.5 231.75,-51 252.75,-51 252.75,-25.5 231.75,-25.5"/>
-<text xml:space="preserve" text-anchor="start" x="237.75" y="-35.25" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
-<polygon fill="none" stroke="#000000" points="168,0 168,-25.5 231.75,-25.5 231.75,0 168,0"/>
-<text xml:space="preserve" text-anchor="start" x="174" y="-9" font-family="Noto Sans KR" font-size="9.00">store_id</text>
-<polygon fill="none" stroke="#000000" points="231.75,0 231.75,-25.5 252.75,-25.5 252.75,0 231.75,0"/>
-<text xml:space="preserve" text-anchor="start" x="237.75" y="-9.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
+<polygon fill="#d9e2ec" stroke="none" points="174,-76.5 174,-102 261.75,-102 261.75,-76.5 174,-76.5"/>
+<polygon fill="none" stroke="#000000" points="174,-76.5 174,-102 261.75,-102 261.75,-76.5 174,-76.5"/>
+<text xml:space="preserve" text-anchor="start" x="195.75" y="-88.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">inventory</text>
+<polygon fill="none" stroke="#000000" points="174,-51 174,-76.5 237.75,-76.5 237.75,-51 174,-51"/>
+<text xml:space="preserve" text-anchor="start" x="180" y="-62.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">inventory_id</text>
+<polygon fill="none" stroke="#000000" points="237.75,-51 237.75,-76.5 261.75,-76.5 261.75,-51 237.75,-51"/>
+<text xml:space="preserve" text-anchor="start" x="243.75" y="-60" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="174,-25.5 174,-51 237.75,-51 237.75,-25.5 174,-25.5"/>
+<text xml:space="preserve" text-anchor="start" x="180" y="-34.5" font-family="Noto Sans KR" font-size="9.00">film_id</text>
+<polygon fill="none" stroke="#000000" points="237.75,-25.5 237.75,-51 261.75,-51 261.75,-25.5 237.75,-25.5"/>
+<text xml:space="preserve" text-anchor="start" x="243.75" y="-34.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="174,0 174,-25.5 237.75,-25.5 237.75,0 174,0"/>
+<text xml:space="preserve" text-anchor="start" x="180" y="-9" font-family="Noto Sans KR" font-size="9.00">store_id</text>
+<polygon fill="none" stroke="#000000" points="237.75,0 237.75,-25.5 261.75,-25.5 261.75,0 237.75,0"/>
+<text xml:space="preserve" text-anchor="start" x="243.75" y="-9" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
 </g>
 <!-- rental -->
 <g id="node2" class="node">
 <title>rental</title>
-<polygon fill="#d9e2ec" stroke="none" points="84,-247 84,-272.5 168.75,-272.5 168.75,-247 84,-247"/>
-<polygon fill="none" stroke="#000000" points="84,-247 84,-272.5 168.75,-272.5 168.75,-247 84,-247"/>
-<text xml:space="preserve" text-anchor="start" x="112.88" y="-258.95" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">rental</text>
-<polygon fill="none" stroke="#000000" points="84,-221.5 84,-247 147.75,-247 147.75,-221.5 84,-221.5"/>
-<text xml:space="preserve" text-anchor="start" x="90" y="-233.45" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">rental_id</text>
-<polygon fill="none" stroke="#000000" points="147.75,-221.5 147.75,-247 168.75,-247 168.75,-221.5 147.75,-221.5"/>
-<text xml:space="preserve" text-anchor="start" x="153.75" y="-231.25" font-family="Noto Sans KR" font-size="7.00" fill="#555555">PK</text>
-<polygon fill="none" stroke="#000000" points="84,-196 84,-221.5 147.75,-221.5 147.75,-196 84,-196"/>
-<text xml:space="preserve" text-anchor="start" x="90" y="-205" font-family="Noto Sans KR" font-size="9.00">inventory_id</text>
-<polygon fill="none" stroke="#000000" points="147.75,-196 147.75,-221.5 168.75,-221.5 168.75,-196 147.75,-196"/>
-<text xml:space="preserve" text-anchor="start" x="153.75" y="-205.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
-<polygon fill="none" stroke="#000000" points="84,-170.5 84,-196 147.75,-196 147.75,-170.5 84,-170.5"/>
-<text xml:space="preserve" text-anchor="start" x="90" y="-179.5" font-family="Noto Sans KR" font-size="9.00">customer_id</text>
-<polygon fill="none" stroke="#000000" points="147.75,-170.5 147.75,-196 168.75,-196 168.75,-170.5 147.75,-170.5"/>
-<text xml:space="preserve" text-anchor="start" x="153.75" y="-180.25" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
-<polygon fill="none" stroke="#000000" points="84,-145 84,-170.5 147.75,-170.5 147.75,-145 84,-145"/>
-<text xml:space="preserve" text-anchor="start" x="90" y="-154" font-family="Noto Sans KR" font-size="9.00">staff_id</text>
-<polygon fill="none" stroke="#000000" points="147.75,-145 147.75,-170.5 168.75,-170.5 168.75,-145 147.75,-145"/>
-<text xml:space="preserve" text-anchor="start" x="153.75" y="-154.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
+<polygon fill="#d9e2ec" stroke="none" points="87,-247 87,-272.5 174.75,-272.5 174.75,-247 87,-247"/>
+<polygon fill="none" stroke="#000000" points="87,-247 87,-272.5 174.75,-272.5 174.75,-247 87,-247"/>
+<text xml:space="preserve" text-anchor="start" x="117.38" y="-258.95" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">rental</text>
+<polygon fill="none" stroke="#000000" points="87,-221.5 87,-247 150.75,-247 150.75,-221.5 87,-221.5"/>
+<text xml:space="preserve" text-anchor="start" x="93" y="-233.45" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">rental_id</text>
+<polygon fill="none" stroke="#000000" points="150.75,-221.5 150.75,-247 174.75,-247 174.75,-221.5 150.75,-221.5"/>
+<text xml:space="preserve" text-anchor="start" x="156.75" y="-230.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="87,-196 87,-221.5 150.75,-221.5 150.75,-196 87,-196"/>
+<text xml:space="preserve" text-anchor="start" x="93" y="-205" font-family="Noto Sans KR" font-size="9.00">inventory_id</text>
+<polygon fill="none" stroke="#000000" points="150.75,-196 150.75,-221.5 174.75,-221.5 174.75,-196 150.75,-196"/>
+<text xml:space="preserve" text-anchor="start" x="156.75" y="-205" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="87,-170.5 87,-196 150.75,-196 150.75,-170.5 87,-170.5"/>
+<text xml:space="preserve" text-anchor="start" x="93" y="-179.5" font-family="Noto Sans KR" font-size="9.00">customer_id</text>
+<polygon fill="none" stroke="#000000" points="150.75,-170.5 150.75,-196 174.75,-196 174.75,-170.5 150.75,-170.5"/>
+<text xml:space="preserve" text-anchor="start" x="156.75" y="-179.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="87,-145 87,-170.5 150.75,-170.5 150.75,-145 87,-145"/>
+<text xml:space="preserve" text-anchor="start" x="93" y="-154" font-family="Noto Sans KR" font-size="9.00">staff_id</text>
+<polygon fill="none" stroke="#000000" points="150.75,-145 150.75,-170.5 174.75,-170.5 174.75,-145 150.75,-145"/>
+<text xml:space="preserve" text-anchor="start" x="156.75" y="-154" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
 </g>
 <!-- rental&#45;&gt;inventory -->
 <g id="edge1" class="edge">
 <title>rental:e&#45;&gt;inventory:w</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M184.68,-203.59C205.76,-179.07 119.39,-75.1 159.45,-64.61"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="177.69,-206 168.95,-205.22 173.53,-207.44 170.51,-208.49 170.51,-208.49 170.51,-208.49 173.53,-207.44 171.31,-212.02 177.69,-206"/>
-<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="182.66" cy="-204.28" rx="3.2" ry="3.2"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="165.75,-59.87 166.66,-67.81 165.07,-67.99 164.16,-60.05 165.75,-59.87"/>
-<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="167,-63.75 163.03,-64.2"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="161.78,-60.32 162.68,-68.27 161.09,-68.45 160.19,-60.5 161.78,-60.32"/>
-<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="163.03,-64.2 159.05,-64.65"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M190.68,-203.59C211.76,-179.07 125.39,-75.1 165.45,-64.61"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="183.69,-206 174.95,-205.22 179.53,-207.44 176.51,-208.49 176.51,-208.49 176.51,-208.49 179.53,-207.44 177.31,-212.02 183.69,-206"/>
+<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="188.66" cy="-204.28" rx="3.2" ry="3.2"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="171.75,-59.87 172.66,-67.81 171.07,-67.99 170.16,-60.05 171.75,-59.87"/>
+<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="173,-63.75 169.03,-64.2"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="167.78,-60.32 168.68,-68.27 167.09,-68.45 166.19,-60.5 167.78,-60.32"/>
+<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="169.03,-64.2 165.05,-64.65"/>
 </g>
 <!-- payment -->
 <g id="node3" class="node">
 <title>payment</title>
-<polygon fill="#d9e2ec" stroke="none" points="0,-417.5 0,-443 84.75,-443 84.75,-417.5 0,-417.5"/>
-<polygon fill="none" stroke="#000000" points="0,-417.5 0,-443 84.75,-443 84.75,-417.5 0,-417.5"/>
-<text xml:space="preserve" text-anchor="start" x="22.5" y="-429.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">payment</text>
+<polygon fill="#d9e2ec" stroke="none" points="0,-417.5 0,-443 87.75,-443 87.75,-417.5 0,-417.5"/>
+<polygon fill="none" stroke="#000000" points="0,-417.5 0,-443 87.75,-443 87.75,-417.5 0,-417.5"/>
+<text xml:space="preserve" text-anchor="start" x="24" y="-429.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">payment</text>
 <polygon fill="none" stroke="#000000" points="0,-392 0,-417.5 63.75,-417.5 63.75,-392 0,-392"/>
 <text xml:space="preserve" text-anchor="start" x="6" y="-403.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">payment_id</text>
-<polygon fill="none" stroke="#000000" points="63.75,-392 63.75,-417.5 84.75,-417.5 84.75,-392 63.75,-392"/>
-<text xml:space="preserve" text-anchor="start" x="69.75" y="-401.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="63.75,-392 63.75,-417.5 87.75,-417.5 87.75,-392 63.75,-392"/>
+<text xml:space="preserve" text-anchor="start" x="69.75" y="-401" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
 <polygon fill="none" stroke="#000000" points="0,-366.5 0,-392 63.75,-392 63.75,-366.5 0,-366.5"/>
 <text xml:space="preserve" text-anchor="start" x="6" y="-375.5" font-family="Noto Sans KR" font-size="9.00">customer_id</text>
-<polygon fill="none" stroke="#000000" points="63.75,-366.5 63.75,-392 84.75,-392 84.75,-366.5 63.75,-366.5"/>
-<text xml:space="preserve" text-anchor="start" x="69.75" y="-376.25" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="63.75,-366.5 63.75,-392 87.75,-392 87.75,-366.5 63.75,-366.5"/>
+<text xml:space="preserve" text-anchor="start" x="69.75" y="-375.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
 <polygon fill="none" stroke="#000000" points="0,-341 0,-366.5 63.75,-366.5 63.75,-341 0,-341"/>
 <text xml:space="preserve" text-anchor="start" x="6" y="-350" font-family="Noto Sans KR" font-size="9.00">staff_id</text>
-<polygon fill="none" stroke="#000000" points="63.75,-341 63.75,-366.5 84.75,-366.5 84.75,-341 63.75,-341"/>
-<text xml:space="preserve" text-anchor="start" x="69.75" y="-350.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="63.75,-341 63.75,-366.5 87.75,-366.5 87.75,-341 63.75,-341"/>
+<text xml:space="preserve" text-anchor="start" x="69.75" y="-350" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
 <polygon fill="none" stroke="#000000" points="0,-315.5 0,-341 63.75,-341 63.75,-315.5 0,-315.5"/>
 <text xml:space="preserve" text-anchor="start" x="6" y="-327.45" font-family="Noto Sans KR" font-style="italic" font-size="9.00">rental_id</text>
-<polygon fill="none" stroke="#000000" points="63.75,-315.5 63.75,-341 84.75,-341 84.75,-315.5 63.75,-315.5"/>
-<text xml:space="preserve" text-anchor="start" x="69.75" y="-325.25" font-family="Noto Sans KR" font-size="7.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="63.75,-315.5 63.75,-341 87.75,-341 87.75,-315.5 63.75,-315.5"/>
+<text xml:space="preserve" text-anchor="start" x="69.75" y="-324.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
 </g>
 <!-- payment&#45;&gt;rental -->
 <g id="edge2" class="edge">
 <title>payment:e&#45;&gt;rental:w</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M97.5,-317.47C96.94,-297.02 64.75,-253.37 72.43,-238.97"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="91.94,-322.57 83.61,-325.33 88.7,-325.55 86.34,-327.71 86.34,-327.71 86.34,-327.71 88.7,-325.55 88.48,-330.63 91.94,-322.57"/>
-<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="95.82" cy="-319.01" rx="3.2" ry="3.2"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="80.64,-230.92 83.9,-238.23 82.44,-238.88 79.18,-231.58 80.64,-230.92"/>
-<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="83,-234.25 79.35,-235.88"/>
-<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="75.88" cy="-237.43" rx="3.2" ry="3.2"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M100.5,-317.47C99.94,-297.02 67.75,-253.37 75.43,-238.97"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="94.94,-322.57 86.61,-325.33 91.7,-325.55 89.34,-327.71 89.34,-327.71 89.34,-327.71 91.7,-325.55 91.48,-330.63 94.94,-322.57"/>
+<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="98.82" cy="-319.01" rx="3.2" ry="3.2"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="83.64,-230.92 86.9,-238.23 85.44,-238.88 82.18,-231.58 83.64,-230.92"/>
+<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="86,-234.25 82.35,-235.88"/>
+<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="78.88" cy="-237.43" rx="3.2" ry="3.2"/>
 </g>
 </g>
 </svg>

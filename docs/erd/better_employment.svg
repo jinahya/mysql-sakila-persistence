@@ -9,21 +9,20 @@
  viewBox="0.00 0.00 228.00 145.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 138.2)">
 <title>erd</title>
-<polygon fill="white" stroke="none" points="-7.2,7.2 -7.2,-138.2 221.2,-138.2 221.2,7.2 -7.2,7.2"/>
 <!-- better_employment -->
 <g id="node1" class="node">
 <title>better_employment</title>
 <polygon fill="#1f4e79" stroke="none" points="0,-78.25 0,-103.75 102.75,-103.75 102.75,-78.25 0,-78.25"/>
 <polygon fill="none" stroke="#000000" points="0,-78.25 0,-103.75 102.75,-103.75 102.75,-78.25 0,-78.25"/>
 <text xml:space="preserve" text-anchor="start" x="6" y="-90.2" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#ffffff">better_employment</text>
-<polygon fill="none" stroke="#000000" points="0,-52.75 0,-78.25 58.12,-78.25 58.12,-52.75 0,-52.75"/>
+<polygon fill="none" stroke="#000000" points="0,-52.75 0,-78.25 55.12,-78.25 55.12,-52.75 0,-52.75"/>
 <text xml:space="preserve" text-anchor="start" x="6" y="-64.7" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">store_id</text>
-<polygon fill="none" stroke="#000000" points="58.12,-52.75 58.12,-78.25 102.75,-78.25 102.75,-52.75 58.12,-52.75"/>
-<text xml:space="preserve" text-anchor="start" x="64.12" y="-62.5" font-family="Noto Sans KR" font-size="7.00" fill="#555555">PK,FK</text>
-<polygon fill="none" stroke="#000000" points="0,-27.25 0,-52.75 58.12,-52.75 58.12,-27.25 0,-27.25"/>
+<polygon fill="none" stroke="#000000" points="55.12,-52.75 55.12,-78.25 102.75,-78.25 102.75,-52.75 55.12,-52.75"/>
+<text xml:space="preserve" text-anchor="start" x="61.12" y="-61.75" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK,FK</text>
+<polygon fill="none" stroke="#000000" points="0,-27.25 0,-52.75 55.12,-52.75 55.12,-27.25 0,-27.25"/>
 <text xml:space="preserve" text-anchor="start" x="6" y="-39.2" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">staff_id</text>
-<polygon fill="none" stroke="#000000" points="58.12,-27.25 58.12,-52.75 102.75,-52.75 102.75,-27.25 58.12,-27.25"/>
-<text xml:space="preserve" text-anchor="start" x="64.12" y="-37" font-family="Noto Sans KR" font-size="7.00" fill="#555555">PK,FK</text>
+<polygon fill="none" stroke="#000000" points="55.12,-27.25 55.12,-52.75 102.75,-52.75 102.75,-27.25 55.12,-27.25"/>
+<text xml:space="preserve" text-anchor="start" x="61.12" y="-36.25" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK,FK</text>
 </g>
 <!-- better_store -->
 <g id="node2" class="node">
@@ -31,10 +30,10 @@
 <polygon fill="#d9e2ec" stroke="none" points="145.75,-105.5 145.75,-131 214,-131 214,-105.5 145.75,-105.5"/>
 <polygon fill="none" stroke="#000000" points="145.75,-105.5 145.75,-131 214,-131 214,-105.5 145.75,-105.5"/>
 <text xml:space="preserve" text-anchor="start" x="151.75" y="-117.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">better_store</text>
-<polygon fill="none" stroke="#000000" points="145.75,-80 145.75,-105.5 179.12,-105.5 179.12,-80 145.75,-80"/>
+<polygon fill="none" stroke="#000000" points="145.75,-80 145.75,-105.5 177.62,-105.5 177.62,-80 145.75,-80"/>
 <text xml:space="preserve" text-anchor="start" x="151.75" y="-91.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">id</text>
-<polygon fill="none" stroke="#000000" points="179.12,-80 179.12,-105.5 214,-105.5 214,-80 179.12,-80"/>
-<text xml:space="preserve" text-anchor="start" x="185.12" y="-89.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="177.62,-80 177.62,-105.5 214,-105.5 214,-80 177.62,-80"/>
+<text xml:space="preserve" text-anchor="start" x="183.62" y="-89" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
 </g>
 <!-- better_employment&#45;&gt;better_store -->
 <g id="edge1" class="edge">
@@ -53,10 +52,10 @@
 <polygon fill="#d9e2ec" stroke="none" points="147.25,-25.5 147.25,-51 212.5,-51 212.5,-25.5 147.25,-25.5"/>
 <polygon fill="none" stroke="#000000" points="147.25,-25.5 147.25,-51 212.5,-51 212.5,-25.5 147.25,-25.5"/>
 <text xml:space="preserve" text-anchor="start" x="153.25" y="-37.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">better_staff</text>
-<polygon fill="none" stroke="#000000" points="147.25,0 147.25,-25.5 179.12,-25.5 179.12,0 147.25,0"/>
+<polygon fill="none" stroke="#000000" points="147.25,0 147.25,-25.5 177.62,-25.5 177.62,0 147.25,0"/>
 <text xml:space="preserve" text-anchor="start" x="153.25" y="-11.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">id</text>
-<polygon fill="none" stroke="#000000" points="179.12,0 179.12,-25.5 212.5,-25.5 212.5,0 179.12,0"/>
-<text xml:space="preserve" text-anchor="start" x="185.12" y="-9.75" font-family="Noto Sans KR" font-size="7.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="177.62,0 177.62,-25.5 212.5,-25.5 212.5,0 177.62,0"/>
+<text xml:space="preserve" text-anchor="start" x="183.62" y="-9" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
 </g>
 <!-- better_employment&#45;&gt;better_staff -->
 <g id="edge2" class="edge">
