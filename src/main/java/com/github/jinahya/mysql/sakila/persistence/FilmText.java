@@ -32,8 +32,6 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -112,18 +110,6 @@ public class FilmText {
      * {@value}.
      */
     public static final String ATTRIBUTE_NAME_FILM_ID = "filmId";
-
-    /**
-     * The minimum value of the {@value #ATTRIBUTE_NAME_FILM_ID} attribute; the column is a
-     * {@code SMALLINT UNSIGNED}. The value is {@value}.
-     */
-    public static final int ATTRIBUTE_MIN_FILM_ID = 0;
-
-    /**
-     * The maximum value of the {@value #ATTRIBUTE_NAME_FILM_ID} attribute; the column is a
-     * {@code SMALLINT UNSIGNED}. The value is {@value}.
-     */
-    public static final int ATTRIBUTE_MAX_FILM_ID = 65535;
 
     // ---------------------------------------------------------------------------------------- film
 
@@ -298,8 +284,6 @@ public class FilmText {
     }
 
     // ---------------------------------------------------------------------------------------------
-    @Max(ATTRIBUTE_MAX_FILM_ID)
-    @Min(ATTRIBUTE_MIN_FILM_ID)
     @NotNull
     @Id
     // insertable=true is the JPA default; it is spelled out because EclipseLink rejects

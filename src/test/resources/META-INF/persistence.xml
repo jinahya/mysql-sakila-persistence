@@ -125,7 +125,7 @@
     <validation-mode>CALLBACK</validation-mode>
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-      <!-- the database from compose.yaml; see _docker_compose_up.sh
+      <!-- the database from compose.yaml; see compose.sh
            yearIsDateType=false: Connector/J reads a YEAR column as a java.sql.Date otherwise, which EclipseLink,
            reading through getObject, cannot convert into Film.releaseYear's Integer -->
       <property name="jakarta.persistence.jdbc.url"

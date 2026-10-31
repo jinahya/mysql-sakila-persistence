@@ -5,7 +5,7 @@ Jakarta Persistence mappings for the [MySQL Sakila Sample Database](https://dev.
 ## The database
 
 ```shell
-$ ./_docker_compose_up.sh
+$ ./compose.sh
 ```
 
 Brings up `mysql:9.7` (the current LTS) on `localhost:3306`, as `root` / `password`, and follows its log; Ctrl-C
@@ -256,4 +256,4 @@ keys are `TINYINT UNSIGNED`, and MySQL does not give back an `AUTO_INCREMENT` va
 ones would run out within a few runs. The schema the unit tests generate starts empty, so the `*_Persistence_Test` of
 `Staff`, `Store`, `Customer`, `Inventory`, `Rental` and `Payment` are skipped there, and run as `*_Persistence_IT`
 against the installed data; `Film_Persister` persists a language when there is none. Every IT run still uses up a few
-of those keys; `./_docker_compose_up.sh` starts from an empty database each time.
+of those keys; `./compose.sh` starts from an empty database each time.
