@@ -35,10 +35,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmActor_Test
-        extends _Entity_Test<FilmActor> {
+        extends _Entity_Test<FilmActor, FilmActorId> {
 
     FilmActor_Test() {
-        super(FilmActor.class);
+        super(FilmActor.class, FilmActorId.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -77,8 +77,8 @@ class FilmActor_Test
      *         state; hence the {@link Warning#SURROGATE_KEY} is suppressed.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<FilmActor> equalsVerifier() {
-        return super.equalsVerifier()
+    public SingleTypeEqualsVerifierApi<FilmActor> equals_verifier_() {
+        return super.equals_verifier_()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

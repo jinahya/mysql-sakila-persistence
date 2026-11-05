@@ -23,7 +23,7 @@
 -- installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_text_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_text_exercises_03_advanced.sql
 --
 
 
@@ -49,14 +49,16 @@
 -- | Sports      | Character   |    11 |
 -- | Travel      | Drama       |     9 |
 -- +-------------+-------------+-------+
-WITH kinds AS (SELECT c.name AS category,
+WITH kinds AS (SELECT c.name                                                            AS category,
                       SUBSTRING_INDEX(SUBSTRING_INDEX(ft.description, ' ', 3), ' ', -1) AS kind,
-                      COUNT(*) AS films
+                      COUNT(*)                                                          AS films
                FROM film_text ft
                         JOIN film_category fc ON fc.film_id = ft.film_id
                         JOIN category c ON c.category_id = fc.category_id
                GROUP BY c.name, kind),
-     ranked AS (SELECT category, kind, films,
+     ranked AS (SELECT category,
+                       kind,
+                       films,
                        ROW_NUMBER() OVER (PARTITION BY category ORDER BY films DESC, kind) AS rn
                 FROM kinds)
 SELECT category, kind, films
@@ -87,7 +89,8 @@ WITH RECURSIVE chain AS (SELECT 1 AS step, film_id, title
                          UNION ALL
                          SELECT c.step + 1, ft.film_id, ft.title
                          FROM chain c
-                                  JOIN film_text ft ON SUBSTRING_INDEX(ft.title, ' ', 1) = SUBSTRING_INDEX(c.title, ' ', -1)
+                                  JOIN film_text ft ON SUBSTRING_INDEX(ft.title, ' ', 1) =
+                                                       SUBSTRING_INDEX(c.title, ' ', -1)
                          WHERE c.step < 10)
 SELECT step, film_id, title
 FROM chain

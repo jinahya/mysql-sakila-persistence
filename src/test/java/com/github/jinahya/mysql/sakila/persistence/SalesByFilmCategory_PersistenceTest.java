@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class SalesByFilmCategory_PersistenceTest
-        extends _Entity_PersistenceTest<SalesByFilmCategory> {
+        extends _Entity_PersistenceTest<SalesByFilmCategory, String> {
 
     SalesByFilmCategory_PersistenceTest() {
-        super(SalesByFilmCategory.class);
+        super(SalesByFilmCategory.class, String.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,33 +46,39 @@ class SalesByFilmCategory_PersistenceTest
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
     /**
-     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
+     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
      * persist.
      */
+    @Disabled("a view: nothing is inserted into it")
     @Override
+    @Test
     void _persist_EqualsReference() {
         // empty
     }
 
     /**
-     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
+     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
      * persist.
      */
+    @Disabled("a view: nothing is inserted into it")
     @Override
+    @Test
     void _persist_ReferenceEquals() {
         // empty
     }
 
     /**
-     * Not a test here; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
+     * Does nothing; {@value SalesByFilmCategory#TABLE_NAME} is a view, so there is nothing to
      * persist.
      */
+    @Disabled("a view: nothing is inserted into it")
     @Override
+    @Test
     void _persist_HashSetMembership() {
         // empty
     }

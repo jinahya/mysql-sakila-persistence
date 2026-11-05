@@ -29,7 +29,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -75,29 +74,6 @@ import java.util.Objects;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-store.html">The
  *         store Table</a>
  */
-@NamedQuery(name = "Store.selectOneByStoreId",
-            query = """
-                    SELECT e
-                    FROM Store e
-                    WHERE e.storeId = :storeId"""
-)
-@NamedQuery(name = "Store.selectListOrderByStoreIdAsc",
-            query = """
-                    SELECT e
-                    FROM Store e
-                    ORDER BY e.storeId ASC"""
-)
-@NamedQuery(name = "Store.selectOneByManagerStaff",
-            query = """
-                    SELECT e
-                    FROM Store e
-                    WHERE e.managerStaff = :managerStaff"""
-)
-@NamedQuery(name = "Store.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Store e"""
-)
 @Entity
 @Table(name = Store.TABLE_NAME,
        uniqueConstraints = {@UniqueConstraint(columnNames = {Store.COLUMN_NAME_MANAGER_STAFF_ID})})

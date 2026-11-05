@@ -29,7 +29,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -73,65 +72,6 @@ import java.util.List;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-rental.html">The
  *         rental Table</a>
  */
-@NamedQuery(name = "Rental.selectOneByRentalId",
-            query = """
-                    SELECT e
-                    FROM Rental e
-                    WHERE e.rentalId = :rentalId"""
-)
-@NamedQuery(name = "Rental.selectListOrderByRentalIdAsc",
-            query = """
-                    SELECT e
-                    FROM Rental e
-                    ORDER BY e.rentalId ASC"""
-)
-@NamedQuery(name = "Rental.selectListOrderByRentalIdAscRentalIdGt",
-            query = """
-                    SELECT e
-                    FROM Rental e
-                    WHERE e.rentalId > :rentalIdMinExclusive
-                    ORDER BY e.rentalId ASC"""
-)
-@NamedQuery(name = "Rental.selectOneByRentalDateAndInventoryAndCustomer",
-            query = """
-                    SELECT e
-                    FROM Rental e
-                    WHERE e.rentalDate = :rentalDate
-                      AND e.inventory = :inventory
-                      AND e.customer = :customer"""
-)
-@NamedQuery(name = "Rental.selectListByCustomerOrderByRentalDateDesc",
-            query = """
-                    SELECT e
-                    FROM Rental e
-                    WHERE e.customer = :customer
-                    ORDER BY e.rentalDate DESC"""
-)
-@NamedQuery(name = "Rental.selectListByInventoryOrderByRentalDateDesc",
-            query = """
-                    SELECT e
-                    FROM Rental e
-                    WHERE e.inventory = :inventory
-                    ORDER BY e.rentalDate DESC"""
-)
-@NamedQuery(name = "Rental.selectListWhereReturnDateIsNullOrderByRentalDateAsc",
-            query = """
-                    SELECT e
-                    FROM Rental e
-                    WHERE e.returnDate IS NULL
-                    ORDER BY e.rentalDate ASC"""
-)
-@NamedQuery(name = "Rental.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Rental e"""
-)
-@NamedQuery(name = "Rental.countByCustomer",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Rental e
-                    WHERE e.customer = :customer"""
-)
 @Entity
 @Table(name = Rental.TABLE_NAME, uniqueConstraints = {@UniqueConstraint(
         columnNames = {Rental.COLUMN_NAME_RENTAL_DATE, Rental.COLUMN_NAME_INVENTORY_ID,

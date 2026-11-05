@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Country_PersistenceIT
-        extends _Entity_PersistenceIT<Country> {
+        extends _Entity_PersistenceIT<Country, Integer> {
 
     Country_PersistenceIT() {
-        super(Country.class);
+        super(Country.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -43,7 +46,9 @@ class Country_PersistenceIT
      * @implNote The name is there, and so is the {@code last_update} the database fills.
      */
     @Override
-    void randomTargetInstanceSelected(final Country instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Country instance) {
         assertThat(instance.getCountry()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
     }

@@ -23,7 +23,7 @@
 -- data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_exercises_03_advanced.sql
 --
 
 

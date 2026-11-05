@@ -22,7 +22,7 @@
 -- a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_exercises_02_intermediate.sql
 --
 
 
@@ -54,7 +54,8 @@ FROM film f
          JOIN inventory i ON i.film_id = f.film_id
          JOIN rental r ON r.inventory_id = i.inventory_id
 GROUP BY f.film_id
-ORDER BY rentals DESC, f.film_id LIMIT 5
+ORDER BY rentals DESC, f.film_id
+LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_I_03
@@ -67,7 +68,7 @@ ORDER BY rentals DESC, f.film_id LIMIT 5
 -- | long   |   457 |
 -- +--------+-------+
 SELECT CASE WHEN length < 60 THEN 'short' WHEN length <= 120 THEN 'medium' ELSE 'long' END AS size,
-       COUNT(*) AS films
+       COUNT(*)                                                                            AS films
 FROM film
 GROUP BY size
 ORDER BY MIN(length)

@@ -23,7 +23,7 @@
 -- and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/sales_by_film_category_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/sales_by_film_category_exercises_03_advanced.sql
 --
 
 
@@ -37,8 +37,9 @@
 -- | Drama       |     4587.39 | Comedy        | 203.81 |
 -- +-------------+-------------+---------------+--------+
 SELECT category, total_sales, next_category, total_sales - next_sales AS gap
-FROM (SELECT category, total_sales,
-             LEAD(category) OVER (ORDER BY total_sales DESC, category) AS next_category,
+FROM (SELECT category,
+             total_sales,
+             LEAD(category) OVER (ORDER BY total_sales DESC, category)    AS next_category,
              LEAD(total_sales) OVER (ORDER BY total_sales DESC, category) AS next_sales
       FROM sales_by_film_category) g
 WHERE next_category IS NOT NULL

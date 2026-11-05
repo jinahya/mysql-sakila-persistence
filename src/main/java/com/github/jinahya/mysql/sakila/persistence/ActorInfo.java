@@ -24,7 +24,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -79,30 +78,6 @@ import java.util.regex.Pattern;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-actor_info.html">The
  *         actor_info View</a>
  */
-@NamedQuery(name = "ActorInfo.selectOneByActorId",
-            query = """
-                    SELECT e
-                    FROM ActorInfo e
-                    WHERE e.actorId = :actorId"""
-)
-@NamedQuery(name = "ActorInfo.selectListOrderByActorIdAsc",
-            query = """
-                    SELECT e
-                    FROM ActorInfo e
-                    ORDER BY e.actorId ASC"""
-)
-@NamedQuery(name = "ActorInfo.selectListOrderByActorIdAscActorIdGt",
-            query = """
-                    SELECT e
-                    FROM ActorInfo e
-                    WHERE e.actorId > :actorIdMinExclusive
-                    ORDER BY e.actorId ASC"""
-)
-@NamedQuery(name = "ActorInfo.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM ActorInfo e"""
-)
 @Entity
 @Table(name = ActorInfo.TABLE_NAME)
 public class ActorInfo {

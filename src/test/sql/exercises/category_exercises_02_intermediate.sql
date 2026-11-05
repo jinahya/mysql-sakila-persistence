@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/category_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/category_exercises_02_intermediate.sql
 --
 
 
@@ -57,7 +57,8 @@ FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
          JOIN film f ON f.film_id = fc.film_id
 GROUP BY c.category_id
-ORDER BY average_length DESC LIMIT 1
+ORDER BY average_length DESC
+LIMIT 1
 ;
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_03

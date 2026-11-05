@@ -27,7 +27,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -59,30 +58,6 @@ import java.util.Locale;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-language.html">The
  *         language Table</a>
  */
-@NamedQuery(name = "Language.selectOneByLanguageId",
-            query = """
-                    SELECT e
-                    FROM Language e
-                    WHERE e.languageId = :languageId"""
-)
-@NamedQuery(name = "Language.selectListOrderByLanguageIdAsc",
-            query = """
-                    SELECT e
-                    FROM Language e
-                    ORDER BY e.languageId ASC"""
-)
-@NamedQuery(name = "Language.selectListByNameOrderByLanguageIdAsc",
-            query = """
-                    SELECT e
-                    FROM Language e
-                    WHERE e.name = :name
-                    ORDER BY e.languageId ASC"""
-)
-@NamedQuery(name = "Language.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Language e"""
-)
 @Entity
 @Table(name = Language.TABLE_NAME)
 public class Language {

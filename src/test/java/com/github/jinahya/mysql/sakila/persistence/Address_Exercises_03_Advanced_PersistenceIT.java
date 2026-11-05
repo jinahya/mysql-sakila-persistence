@@ -32,9 +32,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/address_exercises_03_advanced.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/address_exercises_03_advanced.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -150,7 +151,8 @@ class Address_Exercises_03_Advanced_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_ADDRESS_A_03: the three districts with the most addresses in each of India, China and " +
+            "SAKILA_ADDRESS_A_03: the three districts with the most addresses in each of India, " +
+            "China and " +
             "the United States")
     @Nested
     class SAKILA_ADDRESS_A_03_Test {

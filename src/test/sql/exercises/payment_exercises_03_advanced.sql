@@ -23,7 +23,7 @@
 -- data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/payment_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/payment_exercises_03_advanced.sql
 --
 
 
@@ -64,7 +64,8 @@ LIMIT 10
 -- | 2006-02-14 | 2006-02-14 |    1 |
 -- +------------+------------+------+
 WITH days AS (SELECT DISTINCT DATE(payment_date) AS day FROM payment),
-     islands AS (SELECT day, DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (ORDER BY day) DAY) AS island FROM days)
+     islands AS (SELECT day, DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (ORDER BY day) DAY) AS island
+                 FROM days)
 SELECT MIN(day) AS first_day, MAX(day) AS last_day, COUNT(*) AS days
 FROM islands
 GROUP BY island

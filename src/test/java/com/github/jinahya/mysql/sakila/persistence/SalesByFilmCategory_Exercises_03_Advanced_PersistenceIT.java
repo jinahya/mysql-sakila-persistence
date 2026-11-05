@@ -34,16 +34,18 @@ import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of
- * {@code src/test/sql/exercises/sales_by_film_category_exercises_03_advanced.sql}, against the installed
- * {@code sakila} database; a nested class per exercise, which answers it with JPQL and with the
- * Criteria API, or with a native query where neither can, and logs what it gives.
+ * {@code src/test/sql/exercises/sales_by_film_category_exercises_03_advanced.sql}, against the
+ * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
+ * with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_A_02: the three largest gaps between a category and the next one down")
+    @DisplayName(
+            "SAKILA_SALES_BY_FILM_CATEGORY_A_02: the three largest gaps between a category and " +
+            "the next one down")
     @Nested
     class SAKILA_SALES_BY_FILM_CATEGORY_A_02_Test {
 
@@ -123,7 +125,9 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_A_03: each category's rank by sales, next to its rank by rentals")
+    @DisplayName(
+            "SAKILA_SALES_BY_FILM_CATEGORY_A_03: each category's rank by sales, next to its rank " +
+            "by rentals")
     @Nested
     class SAKILA_SALES_BY_FILM_CATEGORY_A_03_Test {
 
@@ -131,19 +135,19 @@ class SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    WITH rented AS (SELECT c.name AS category, COUNT(*) AS rentals
-                                    FROM rental r
-                                             JOIN inventory i ON i.inventory_id = r.inventory_id
-                                             JOIN film_category fc ON fc.film_id = i.film_id
-                                             JOIN category c ON c.category_id = fc.category_id
-                                    GROUP BY c.name)
-                    SELECT s.*,
-                           RANK() OVER (ORDER BY s.total_sales DESC) AS sales_rank,
-                           rd.rentals,
-                           RANK() OVER (ORDER BY rd.rentals DESC)    AS rentals_rank
-                    FROM sales_by_film_category s
-                             JOIN rented rd ON rd.category = s.category
-                    ORDER BY sales_rank, s.category""")
+                                                                                                      WITH rented AS (SELECT c.name AS category, COUNT(*) AS rentals
+                                                                                                                      FROM rental r
+                                                                                                                               JOIN inventory i ON i.inventory_id = r.inventory_id
+                                                                                                                               JOIN film_category fc ON fc.film_id = i.film_id
+                                                                                                                               JOIN category c ON c.category_id = fc.category_id
+                                                                                                                      GROUP BY c.name)
+                                                                                                      SELECT s.*,
+                                                                                                             RANK() OVER (ORDER BY s.total_sales DESC) AS sales_rank,
+                                                                                                             rd.rentals,
+                                                                                                             RANK() OVER (ORDER BY rd.rentals DESC)    AS rentals_rank
+                                                                                                      FROM sales_by_film_category s
+                                                                                                               JOIN rented rd ON rd.category = s.category
+                                                                                                      ORDER BY sales_rank, s.category""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list)

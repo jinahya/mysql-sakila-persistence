@@ -22,7 +22,7 @@
 -- answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/staff_exercises_01_basic.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/staff_exercises_01_basic.sql
 --
 
 
@@ -34,7 +34,16 @@
 -- |        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |
 -- |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |
 -- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+
-SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update -- every column but picture, a BLOB which does not print
+SELECT s.staff_id,
+       s.first_name,
+       s.last_name,
+       s.address_id,
+       s.email,
+       s.store_id,
+       s.active,
+       s.username,
+       s.password,
+       s.last_update -- every column but picture, a BLOB which does not print
 FROM staff s
 ORDER BY s.staff_id
 ;
@@ -46,7 +55,16 @@ ORDER BY s.staff_id
 -- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+----------+---------------------+
 -- |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL     | 2006-02-15 03:57:16 |
 -- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+----------+---------------------+
-SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update -- every column but picture, a BLOB which does not print
+SELECT s.staff_id,
+       s.first_name,
+       s.last_name,
+       s.address_id,
+       s.email,
+       s.store_id,
+       s.active,
+       s.username,
+       s.password,
+       s.last_update -- every column but picture, a BLOB which does not print
 FROM staff s
 WHERE s.password IS NULL
 ORDER BY s.staff_id

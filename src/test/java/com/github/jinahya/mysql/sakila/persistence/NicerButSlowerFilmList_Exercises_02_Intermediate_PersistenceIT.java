@@ -33,16 +33,18 @@ import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of
- * {@code src/test/sql/exercises/nicer_but_slower_film_list_exercises_02_intermediate.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * {@code src/test/sql/exercises/nicer_but_slower_film_list_exercises_02_intermediate.sql}, against
+ * the installed {@code sakila} database; a nested class per exercise, which answers it with JPQL
+ * and with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01: the five categories whose films are the longest, on average")
+    @DisplayName(
+            "SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01: the five categories whose films are the " +
+            "longest, on average")
     @Nested
     class SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01_Test {
 

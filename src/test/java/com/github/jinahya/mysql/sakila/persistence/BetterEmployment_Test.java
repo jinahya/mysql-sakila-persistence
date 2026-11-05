@@ -29,17 +29,17 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class BetterEmployment_Test
-        extends _Entity_Test<BetterEmployment> {
+        extends _Entity_Test<BetterEmployment, BetterEmploymentId> {
 
     BetterEmployment_Test() {
-        super(BetterEmployment.class);
+        super(BetterEmployment.class, BetterEmploymentId.class);
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode
 
     @Override
-    public SingleTypeEqualsVerifierApi<BetterEmployment> equalsVerifier() {
-        return super.equalsVerifier()
+    public SingleTypeEqualsVerifierApi<BetterEmployment> equals_verifier_() {
+        return super.equals_verifier_()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

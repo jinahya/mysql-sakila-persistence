@@ -28,7 +28,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -59,35 +58,6 @@ import jakarta.validation.constraints.Size;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_text.html">The
  *         film_text Table</a>
  */
-@NamedQuery(name = "FilmText.selectOneByFilmId",
-            query = """
-                    SELECT e
-                    FROM FilmText e
-                    WHERE e.filmId = :filmId"""
-)
-@NamedQuery(name = "FilmText.selectListOrderByFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM FilmText e
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "FilmText.selectListOrderByFilmIdAscFilmIdGt",
-            query = """
-                    SELECT e
-                    FROM FilmText e
-                    WHERE e.filmId > :filmIdMinExclusive
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "FilmText.selectMaxFilmId",
-            query = """
-                    SELECT MAX(e.filmId)
-                    FROM FilmText e"""
-)
-@NamedQuery(name = "FilmText.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM FilmText e"""
-)
 @Entity
 @Table(name = FilmText.TABLE_NAME)
 public class FilmText {

@@ -23,7 +23,7 @@
 -- what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/_schema_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/_schema_exercises_02_intermediate.sql
 --
 
 
@@ -138,7 +138,8 @@ SELECT COUNT(*) AS customers
 FROM customer c
 WHERE NOT EXISTS (SELECT 1
                   FROM rental r
-                  WHERE r.customer_id = c.customer_id AND r.return_date IS NULL)
+                  WHERE r.customer_id = c.customer_id
+                    AND r.return_date IS NULL)
 ;
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_07
@@ -187,8 +188,8 @@ SELECT CASE
            WHEN f.length < 60 THEN 'short'
            WHEN f.length <= 120 THEN 'medium'
            ELSE 'long'
-           END AS length_group,
-       COUNT(*) AS rentals,
+           END       AS length_group,
+       COUNT(*)      AS rentals,
        SUM(p.amount) AS total
 FROM rental r
          JOIN inventory i ON i.inventory_id = r.inventory_id
@@ -296,6 +297,5 @@ FROM rental r
          JOIN film f ON f.film_id = i.film_id
 GROUP BY c.customer_id, f.film_id
 HAVING COUNT(*) > 1
-ORDER BY rentals DESC, c.customer_id, f.film_id
-LIMIT 5
+ORDER BY rentals DESC, c.customer_id, f.film_id LIMIT 5
 ;

@@ -27,9 +27,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Language_PersistenceTest
-        extends _Entity_PersistenceTest<Language> {
+        extends _Entity_PersistenceTest<Language, Integer> {
 
     Language_PersistenceTest() {
-        super(Language.class);
+        super(Language.class, Integer.class);
     }
 }

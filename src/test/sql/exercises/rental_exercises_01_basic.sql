@@ -22,7 +22,7 @@
 -- answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/rental_exercises_01_basic.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/rental_exercises_01_basic.sql
 --
 
 
@@ -78,7 +78,7 @@ SELECT DAYNAME(rental_date) AS day, COUNT(*) AS rentals
 FROM rental
 GROUP BY day
 ORDER BY rentals DESC
-    LIMIT 1
+LIMIT 1
 ;
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_B_05

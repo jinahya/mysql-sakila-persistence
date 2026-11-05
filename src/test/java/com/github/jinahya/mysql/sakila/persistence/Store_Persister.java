@@ -53,7 +53,10 @@ class Store_Persister
      */
     static Optional<Store> selectFirst(final EntityManager entityManager) {
         return entityManager
-                .createNamedQuery("Store.selectListOrderByStoreIdAsc", Store.class)
+                .createQuery("""
+                                     SELECT e
+                                     FROM Store e
+                                     ORDER BY e.storeId ASC""", Store.class)
                 .setMaxResults(1)
                 .getResultStream()
                 .findFirst();

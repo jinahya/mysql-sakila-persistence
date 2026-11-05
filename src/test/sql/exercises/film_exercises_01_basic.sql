@@ -22,7 +22,7 @@
 -- answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_exercises_01_basic.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_exercises_01_basic.sql
 --
 
 
@@ -57,7 +57,8 @@ ORDER BY rating
 SELECT *
 FROM film
 WHERE length > 180
-ORDER BY length DESC, title LIMIT 5
+ORDER BY length DESC, title
+LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_B_03

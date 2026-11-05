@@ -20,7 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import com.github.jinahya.persistence.util.JinahyaPersistenceUtils;
 import jakarta.persistence.EntityManager;
 
 import java.util.function.Function;
@@ -45,8 +44,7 @@ final class __Exercises_TestUtils {
      * @return the result of the {@code function}.
      */
     static <R> R apply(final Function<? super EntityManager, ? extends R> function) {
-        return JinahyaPersistenceUtils.applyEntityManager(
-                _Entity_PersistenceIT.PERSISTENCE_UNIT_NAME, function);
+        return ___PersistenceIT_Utils.applyEntityManager_(emf -> function);
     }
 
     // ---------------------------------------------------------------------------------------------

@@ -32,16 +32,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/customer_list_exercises_03_advanced.sql}, against
- * the installed {@code sakila} database; a nested class per exercise, which answers it with JPQL
- * and with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/customer_list_exercises_03_advanced.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class CustomerList_Exercises_03_Advanced_PersistenceIT {
 
-    @DisplayName("SAKILA_CUSTOMER_LIST_A_01: the three countries with the most customers of each store")
+    @DisplayName(
+            "SAKILA_CUSTOMER_LIST_A_01: the three countries with the most customers of each store")
     @Nested
     class SAKILA_CUSTOMER_LIST_A_01_Test {
 

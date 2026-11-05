@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class StaffList_PersistenceIT
-        extends _Entity_PersistenceIT<StaffList> {
+        extends _Entity_PersistenceIT<StaffList, Integer> {
 
     StaffList_PersistenceIT() {
-        super(StaffList.class);
+        super(StaffList.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ class StaffList_PersistenceIT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void persistTargetInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
@@ -59,7 +61,9 @@ class StaffList_PersistenceIT
      * @implNote The name is there.
      */
     @Override
-    void randomTargetInstanceSelected(final StaffList instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final StaffList instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
     }
 }

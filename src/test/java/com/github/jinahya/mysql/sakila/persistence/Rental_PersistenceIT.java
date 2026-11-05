@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Rental_PersistenceIT
-        extends _Entity_PersistenceIT<Rental> {
+        extends _Entity_PersistenceIT<Rental, Integer> {
 
     Rental_PersistenceIT() {
-        super(Rental.class);
+        super(Rental.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -44,7 +47,9 @@ class Rental_PersistenceIT
      *         inventory, the customer, and the staff member, lazy associations, resolve.
      */
     @Override
-    void randomTargetInstanceSelected(final Rental instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Rental instance) {
         assertThat(instance.isReturnDateNotBeforeRentalDate()).as("return date of %s", instance)
                 .isTrue();
         assertThat(instance.getInventory().getLastUpdate()).as("last update of the inventory of %s",

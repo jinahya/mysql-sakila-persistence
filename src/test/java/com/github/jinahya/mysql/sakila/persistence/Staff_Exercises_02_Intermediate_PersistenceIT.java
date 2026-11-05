@@ -32,9 +32,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/staff_exercises_02_intermediate.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/staff_exercises_02_intermediate.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -138,7 +139,8 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_STAFF_I_03: how many rentals each staff member handled for their own store's copies, " +
+            "SAKILA_STAFF_I_03: how many rentals each staff member handled for their own store's " +
+            "copies, " +
             "and for the other's")
     @Nested
     class SAKILA_STAFF_I_03_Test {
@@ -167,7 +169,7 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
                                               ORDER BY s.staffId""", Object[].class)
                         .getResultStream()
                         .map(r -> new Object[]{r[0], r[1], r[2],
-                                               otherStore.get(((Staff) r[0]).getStaffId())})
+                                otherStore.get(((Staff) r[0]).getStaffId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -206,7 +208,7 @@ class Staff_Exercises_02_Intermediate_PersistenceIT {
                         .orderBy(cb.asc(s.get(Staff_.staffId)));
                 return em.createQuery(cq).getResultStream()
                         .map(e -> new Object[]{e[0], e[1], e[2],
-                                               otherStore.get(((Staff) e[0]).getStaffId())})
+                                otherStore.get(((Staff) e[0]).getStaffId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));

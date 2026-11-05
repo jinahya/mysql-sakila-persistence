@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Actor_PersistenceIT
-        extends _Entity_PersistenceIT<Actor> {
+        extends _Entity_PersistenceIT<Actor, Integer> {
 
     Actor_PersistenceIT() {
-        super(Actor.class);
+        super(Actor.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -44,7 +47,9 @@ class Actor_PersistenceIT
      *         fills.
      */
     @Override
-    void randomTargetInstanceSelected(final Actor instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Actor instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();

@@ -23,7 +23,7 @@
 -- and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/nicer_but_slower_film_list_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/nicer_but_slower_film_list_exercises_03_advanced.sql
 --
 
 
@@ -38,7 +38,7 @@ SELECT COUNT(*) AS differing
 FROM nicer_but_slower_film_list n
          JOIN film_list l ON l.FID = n.FID AND l.category = n.category
 WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <=> l.price
-           AND n.length <=> l.length AND n.rating <=> l.rating)
+    AND n.length <=> l.length AND n.rating <=> l.rating)
 ;
 
 -- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02
@@ -65,7 +65,8 @@ WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <
 -- +-------------+---------+-------+
 SELECT n.category, n.length AS longest, COUNT(*) AS films
 FROM nicer_but_slower_film_list n
-WHERE n.length = (SELECT MAX(m.length) FROM nicer_but_slower_film_list m WHERE m.category = n.category)
+WHERE n.length =
+      (SELECT MAX(m.length) FROM nicer_but_slower_film_list m WHERE m.category = n.category)
 GROUP BY n.category, n.length
 ORDER BY n.category
 ;

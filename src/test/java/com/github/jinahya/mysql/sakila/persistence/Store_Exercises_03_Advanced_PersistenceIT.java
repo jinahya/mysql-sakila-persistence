@@ -36,9 +36,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/store_exercises_03_advanced.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/store_exercises_03_advanced.sql}, against
+ * the installed {@code sakila} database; a nested class per exercise, which answers it with JPQL
+ * and with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -46,7 +46,8 @@ import static org.assertj.core.api.Assertions.tuple;
 class Store_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "SAKILA_STORE_A_01: how many films each store has a copy of, and how many of them only that " +
+            "SAKILA_STORE_A_01: how many films each store has a copy of, and how many of them " +
+            "only that " +
             "store has")
     @Nested
     class SAKILA_STORE_A_01_Test {
@@ -71,7 +72,7 @@ class Store_Exercises_03_Advanced_PersistenceIT {
                                               ORDER BY st.storeId""", Object[].class)
                         .getResultStream()
                         .map(r -> new Object[]{r[0], r[1],
-                                               onlyHere.get(((Store) r[0]).getStoreId())})
+                                onlyHere.get(((Store) r[0]).getStoreId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -108,7 +109,7 @@ class Store_Exercises_03_Advanced_PersistenceIT {
                         .orderBy(cb.asc(st.get(Store_.storeId)));
                 return em.createQuery(cq).getResultStream()
                         .map(r -> new Object[]{r[0], r[1],
-                                               onlyHere.get(((Store) r[0]).getStoreId())})
+                                onlyHere.get(((Store) r[0]).getStoreId())})
                         .toList();
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
@@ -121,7 +122,8 @@ class Store_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_STORE_A_02: each store's rentals in each month, and its share of the month")
+    @DisplayName(
+            "SAKILA_STORE_A_02: each store's rentals in each month, and its share of the month")
     @Nested
     class SAKILA_STORE_A_02_Test {
 

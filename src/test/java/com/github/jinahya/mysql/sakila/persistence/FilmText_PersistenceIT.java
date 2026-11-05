@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmText_PersistenceIT
-        extends _Entity_PersistenceIT<FilmText> {
+        extends _Entity_PersistenceIT<FilmText, Integer> {
 
     FilmText_PersistenceIT() {
-        super(FilmText.class);
+        super(FilmText.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ class FilmText_PersistenceIT
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    void persistTargetInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
@@ -60,7 +62,9 @@ class FilmText_PersistenceIT
      *         of the same {@code filmId}, with the same title.
      */
     @Override
-    void randomTargetInstanceSelected(final FilmText instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final FilmText instance) {
         assertThat(instance.getTitle()).as("title of %s", instance).isNotBlank();
         assertThat(instance.getFilm().getFilmId()).as("film id of the film of %s", instance)
                 .isEqualTo(instance.getFilmId());

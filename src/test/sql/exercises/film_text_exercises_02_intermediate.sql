@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_text_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_text_exercises_02_intermediate.sql
 --
 
 
@@ -45,7 +45,7 @@ SELECT (SELECT COUNT(*) FROM film_text) AS film_text, (SELECT COUNT(*) FROM film
 -- +-------+
 SELECT COUNT(*) AS films
 FROM film_text
-WHERE MATCH (title, description) AGAINST ('drama')
+WHERE MATCH(title, description) AGAINST('drama')
 ;
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_03
@@ -66,7 +66,7 @@ WHERE ft.title <> f.title
 -- +-------+
 SELECT COUNT(*) AS films
 FROM film_text
-WHERE MATCH(title, description) AGAINST ('+boat -shark' IN BOOLEAN MODE)
+WHERE MATCH(title, description) AGAINST('+boat -shark' IN BOOLEAN MODE)
 ;
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_05
@@ -76,8 +76,10 @@ WHERE MATCH(title, description) AGAINST ('+boat -shark' IN BOOLEAN MODE)
 -- +-------------+------------+
 -- |         203 |         10 |
 -- +-------------+------------+
-SELECT (SELECT COUNT(*) FROM film_text WHERE MATCH(title, description) AGAINST ('crocodile shark')) AS either_word,
+SELECT (SELECT COUNT(*)
+        FROM film_text
+        WHERE MATCH(title, description) AGAINST('crocodile shark'))                   AS either_word,
        (SELECT COUNT(*)
         FROM film_text
-        WHERE MATCH(title, description) AGAINST ('+crocodile +shark' IN BOOLEAN MODE)) AS both_words
+        WHERE MATCH(title, description) AGAINST('+crocodile +shark' IN BOOLEAN MODE)) AS both_words
 ;

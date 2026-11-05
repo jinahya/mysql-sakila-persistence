@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/rental_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/rental_exercises_02_intermediate.sql
 --
 
 
@@ -48,7 +48,10 @@ ORDER BY day
 -- +-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
 -- |     14098 | 2005-08-21 00:30:32 |            6 |         554 | NULL        |        2 | 2006-02-23 04:12:08 | ACADEMY DINOSAUR |               6 |          172 |
 -- +-----------+---------------------+--------------+-------------+-------------+----------+---------------------+------------------+-----------------+--------------+
-SELECT r.*, f.title, f.rental_duration, DATEDIFF('2006-02-15', r.rental_date) - f.rental_duration AS days_overdue
+SELECT r.*,
+       f.title,
+       f.rental_duration,
+       DATEDIFF('2006-02-15', r.rental_date) - f.rental_duration AS days_overdue
 FROM rental r
          JOIN inventory i ON i.inventory_id = r.inventory_id
          JOIN film f ON f.film_id = i.film_id

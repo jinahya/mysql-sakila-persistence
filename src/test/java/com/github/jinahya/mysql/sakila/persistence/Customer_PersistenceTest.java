@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 /**
  * Verifies the mappings of {@link Customer} against the schema generated into the in-memory
  * database.
@@ -27,50 +30,58 @@ package com.github.jinahya.mysql.sakila.persistence;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Customer_PersistenceTest
-        extends _Entity_PersistenceTest<Customer> {
+        extends _Entity_PersistenceTest<Customer, Integer> {
 
     Customer_PersistenceTest() {
-        super(Customer.class);
+        super(Customer.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * Does nothing; the persister of {@link Customer} takes an existing {@link Store} or
      * {@link Staff}, which the in-memory database never has, for neither is persisted; see
      * {@link Store}.
      */
+    @Disabled("needs an existing store or staff, and neither is persisted")
     @Override
-    void _persist_RandomizedInstance() {
+    @Test
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * Does nothing; the persister of {@link Customer} takes an existing {@link Store} or
      * {@link Staff}, which the in-memory database never has, for neither is persisted; see
      * {@link Store}.
      */
+    @Disabled("needs an existing store or staff, and neither is persisted")
     @Override
+    @Test
     void _persist_EqualsReference() {
         // empty
     }
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * Does nothing; the persister of {@link Customer} takes an existing {@link Store} or
      * {@link Staff}, which the in-memory database never has, for neither is persisted; see
      * {@link Store}.
      */
+    @Disabled("needs an existing store or staff, and neither is persisted")
     @Override
+    @Test
     void _persist_ReferenceEquals() {
         // empty
     }
 
     /**
-     * Not a test here; the persister of {@link Customer} takes an existing {@link Store} or
+     * Does nothing; the persister of {@link Customer} takes an existing {@link Store} or
      * {@link Staff}, which the in-memory database never has, for neither is persisted; see
      * {@link Store}.
      */
+    @Disabled("needs an existing store or staff, and neither is persisted")
     @Override
+    @Test
     void _persist_HashSetMembership() {
         // empty
     }

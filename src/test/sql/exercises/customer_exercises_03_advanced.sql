@@ -23,7 +23,7 @@
 -- installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/customer_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/customer_exercises_03_advanced.sql
 --
 
 
@@ -40,7 +40,11 @@
 -- |        2 |         178 | MARION     | SNYDER    | 194.61 |
 -- +----------+-------------+------------+-----------+--------+
 SELECT store_id, customer_id, first_name, last_name, paid
-FROM (SELECT c.store_id, c.customer_id, c.first_name, c.last_name, SUM(p.amount) AS paid,
+FROM (SELECT c.store_id,
+             c.customer_id,
+             c.first_name,
+             c.last_name,
+             SUM(p.amount)                                                                          AS paid,
              ROW_NUMBER() OVER (PARTITION BY c.store_id ORDER BY SUM(p.amount) DESC, c.customer_id) AS n
       FROM customer c
                JOIN payment p ON p.customer_id = c.customer_id
@@ -61,7 +65,8 @@ WITH paid AS (SELECT c.customer_id, c.store_id, SUM(p.amount) AS paid
               FROM customer c
                        JOIN payment p ON p.customer_id = c.customer_id
               GROUP BY c.customer_id, c.store_id)
-SELECT p1.store_id, COUNT(*) AS customers,
+SELECT p1.store_id,
+       COUNT(*)                                                                     AS customers,
        (SELECT ROUND(AVG(p2.paid), 2) FROM paid p2 WHERE p2.store_id = p1.store_id) AS average_paid
 FROM paid p1
 WHERE p1.paid > (SELECT AVG(p2.paid) FROM paid p2 WHERE p2.store_id = p1.store_id)
@@ -85,7 +90,11 @@ WITH paid AS (SELECT c.customer_id, SUM(p.amount) AS paid
               GROUP BY c.customer_id),
      banded AS (SELECT paid.*, NTILE(4) OVER (ORDER BY paid DESC, customer_id) AS band
                 FROM paid)
-SELECT band, COUNT(*) AS customers, MIN(paid) AS least_paid, MAX(paid) AS most_paid, SUM(paid) AS total
+SELECT band,
+       COUNT(*)  AS customers,
+       MIN(paid) AS least_paid,
+       MAX(paid) AS most_paid,
+       SUM(paid) AS total
 FROM banded
 GROUP BY band
 ORDER BY band

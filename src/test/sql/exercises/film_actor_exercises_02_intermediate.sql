@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_actor_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_actor_exercises_02_intermediate.sql
 --
 
 
@@ -41,7 +41,8 @@ SELECT f.*, COUNT(*) AS actors
 FROM film f
          JOIN film_actor fa ON fa.film_id = f.film_id
 GROUP BY f.film_id
-ORDER BY actors DESC, f.film_id LIMIT 5
+ORDER BY actors DESC, f.film_id
+LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_I_02

@@ -29,7 +29,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -78,56 +77,6 @@ import java.util.List;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-customer.html">The
  *         customer Table</a>
  */
-@NamedQuery(name = "Customer.selectOneByCustomerId",
-            query = """
-                    SELECT e
-                    FROM Customer e
-                    WHERE e.customerId = :customerId"""
-)
-@NamedQuery(name = "Customer.selectListOrderByCustomerIdAsc",
-            query = """
-                    SELECT e
-                    FROM Customer e
-                    ORDER BY e.customerId ASC"""
-)
-@NamedQuery(name = "Customer.selectListOrderByCustomerIdAscCustomerIdGt",
-            query = """
-                    SELECT e
-                    FROM Customer e
-                    WHERE e.customerId > :customerIdMinExclusive
-                    ORDER BY e.customerId ASC"""
-)
-@NamedQuery(name = "Customer.selectListByStoreOrderByCustomerIdAsc",
-            query = """
-                    SELECT e
-                    FROM Customer e
-                    WHERE e.store = :store
-                    ORDER BY e.customerId ASC"""
-)
-@NamedQuery(name = "Customer.selectListByLastNameOrderByFirstNameAsc",
-            query = """
-                    SELECT e
-                    FROM Customer e
-                    WHERE e.lastName = :lastName
-                    ORDER BY e.firstName ASC"""
-)
-@NamedQuery(name = "Customer.selectListByEmail",
-            query = """
-                    SELECT e
-                    FROM Customer e
-                    WHERE e.email = :email"""
-)
-@NamedQuery(name = "Customer.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Customer e"""
-)
-@NamedQuery(name = "Customer.countByStore",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Customer e
-                    WHERE e.store = :store"""
-)
 @Entity
 @Table(name = Customer.TABLE_NAME)
 public class Customer {

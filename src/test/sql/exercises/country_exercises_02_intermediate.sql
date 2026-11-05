@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/country_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/country_exercises_02_intermediate.sql
 --
 
 
@@ -51,7 +51,8 @@ FROM country co
          JOIN address a ON a.city_id = ci.city_id
          JOIN customer cu ON cu.address_id = a.address_id
 GROUP BY co.country_id
-ORDER BY customers DESC, co.country LIMIT 5
+ORDER BY customers DESC, co.country
+LIMIT 5
 ;
 
 -- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_I_03

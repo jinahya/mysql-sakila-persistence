@@ -23,7 +23,7 @@
 -- question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/_schema_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/_schema_exercises_03_advanced.sql
 --
 
 
@@ -86,8 +86,8 @@ ORDER BY c.customer_id LIMIT 5
 -- | 2005-05-27 | 684.34 |       2042.15 |
 -- | 2005-05-28 | 804.04 |       2846.19 |
 -- +------------+--------+---------------+
-SELECT day, total, SUM(total) OVER (ORDER BY day) AS running_total
-FROM (SELECT DATE(payment_date) AS day, SUM(amount) AS total FROM payment GROUP BY day) t
+SELECT day, total, SUM (total) OVER (ORDER BY day) AS running_total
+FROM (SELECT DATE (payment_date) AS day, SUM (amount) AS total FROM payment GROUP BY day) t
 ORDER BY day
     LIMIT 5
 ;
@@ -104,7 +104,7 @@ ORDER BY day
 -- | 2006-02 |   514.18 |            -23555.96 |
 -- +---------+----------+----------------------+
 SELECT month, total, total - LAG(total) OVER (ORDER BY month) AS change_from_previous
-FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM(amount) AS total FROM payment GROUP BY month) t
+FROM (SELECT DATE_FORMAT(payment_date, '%Y-%m') AS month, SUM (amount) AS total FROM payment GROUP BY month) t
 ORDER BY month
 ;
 
@@ -169,7 +169,8 @@ FROM film f
 GROUP BY f.film_id
 HAVING SUM(EXISTS (SELECT 1
                    FROM rental r
-                   WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)) = COUNT(*)
+                   WHERE r.inventory_id = i.inventory_id
+                     AND r.return_date IS NULL)) = COUNT(*)
 ORDER BY f.film_id
 ;
 
@@ -184,17 +185,15 @@ ORDER BY f.film_id
 -- |         306 |        1 | CHARLES    | KOWALSKI  | CHARLES.KOWALSKI@sakilacustomer.org  |        311 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 2005-07-26 | 2005-08-02 |    8 |
 -- |         373 |        1 | LOUIS      | LEONE     | LOUIS.LEONE@sakilacustomer.org       |        378 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 2005-07-26 | 2005-08-02 |    8 |
 -- +-------------+----------+------------+-----------+--------------------------------------+------------+--------+---------------------+---------------------+------------+------------+------+
-WITH days AS (SELECT DISTINCT customer_id, DATE(rental_date) AS day
-              FROM rental),
-     islands AS (SELECT customer_id, day,
-                        DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY day) DAY) AS island
-                 FROM days)
+WITH days AS (SELECT DISTINCT customer_id, DATE (rental_date) AS day
+FROM rental), islands AS (
+SELECT customer_id, day, DATE_SUB(day, INTERVAL ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY day) DAY) AS island
+FROM days)
 SELECT c.*, MIN(i.day) AS first_day, MAX(i.day) AS last_day, COUNT(*) AS days
 FROM islands i
          JOIN customer c ON c.customer_id = i.customer_id
 GROUP BY c.customer_id, i.island
-ORDER BY days DESC, c.customer_id, first_day
-LIMIT 5
+ORDER BY days DESC, c.customer_id, first_day LIMIT 5
 ;
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_09

@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Inventory_PersistenceIT
-        extends _Entity_PersistenceIT<Inventory> {
+        extends _Entity_PersistenceIT<Inventory, Integer> {
 
     Inventory_PersistenceIT() {
-        super(Inventory.class);
+        super(Inventory.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -43,7 +46,9 @@ class Inventory_PersistenceIT
      * @implNote The film and the store, lazy associations, resolve.
      */
     @Override
-    void randomTargetInstanceSelected(final Inventory instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Inventory instance) {
         assertThat(instance.getFilm().getTitle()).as("title of the film of %s", instance)
                 .isNotBlank();
         assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s",

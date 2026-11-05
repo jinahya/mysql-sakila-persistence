@@ -22,7 +22,7 @@
 -- a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/store_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/store_exercises_02_intermediate.sql
 --
 
 
@@ -34,7 +34,18 @@
 -- |        1 |                1 |          1 | 2006-02-15 04:57:12 |        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |
 -- |        2 |                2 |          2 | 2006-02-15 04:57:12 |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |
 -- +----------+------------------+------------+---------------------+----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+------------+------------+---------------------+
-SELECT st.*, s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, ci.* -- every column but picture, a BLOB which does not print
+SELECT st.*,
+       s.staff_id,
+       s.first_name,
+       s.last_name,
+       s.address_id,
+       s.email,
+       s.store_id,
+       s.active,
+       s.username,
+       s.password,
+       s.last_update,
+       ci.* -- every column but picture, a BLOB which does not print
 FROM store st
          JOIN staff s ON s.staff_id = st.manager_staff_id
          JOIN address a ON a.address_id = st.address_id

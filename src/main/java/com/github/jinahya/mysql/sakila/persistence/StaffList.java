@@ -24,7 +24,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -55,30 +54,6 @@ import jakarta.validation.constraints.Size;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-staff-list.html">The
  *         staff_list View</a>
  */
-@NamedQuery(name = "StaffList.selectOneById",
-            query = """
-                    SELECT e
-                    FROM StaffList e
-                    WHERE e.id = :id"""
-)
-@NamedQuery(name = "StaffList.selectListOrderByIdAsc",
-            query = """
-                    SELECT e
-                    FROM StaffList e
-                    ORDER BY e.id ASC"""
-)
-@NamedQuery(name = "StaffList.selectListOrderByIdAscIdGt",
-            query = """
-                    SELECT e
-                    FROM StaffList e
-                    WHERE e.id > :idMinExclusive
-                    ORDER BY e.id ASC"""
-)
-@NamedQuery(name = "StaffList.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM StaffList e"""
-)
 @Entity
 @Table(name = StaffList.TABLE_NAME)
 public class StaffList {

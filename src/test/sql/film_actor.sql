@@ -22,7 +22,7 @@
 -- 'no rows' marks a check that passes when nothing comes back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/film_actor.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/film_actor.sql
 --
 
 
@@ -40,7 +40,8 @@ WHERE NOT EXISTS (SELECT 1
 SELECT actor_id, COUNT(*) AS films
 FROM film_actor
 GROUP BY actor_id
-ORDER BY films DESC, actor_id ASC LIMIT 5
+ORDER BY films DESC, actor_id ASC
+LIMIT 5
 ;
 
 
@@ -58,7 +59,8 @@ WHERE NOT EXISTS (SELECT 1
 SELECT film_id, COUNT(*) AS actors
 FROM film_actor
 GROUP BY film_id
-ORDER BY actors DESC, film_id ASC LIMIT 5
+ORDER BY actors DESC, film_id ASC
+LIMIT 5
 ;
 
 

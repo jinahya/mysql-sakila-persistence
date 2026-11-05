@@ -32,7 +32,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -96,57 +95,6 @@ import java.util.stream.Collectors;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film.html">The film
  *         Table</a>
  */
-@NamedQuery(name = "Film.selectOneByFilmId",
-            query = """
-                    SELECT e
-                    FROM Film e
-                    WHERE e.filmId = :filmId"""
-)
-@NamedQuery(name = "Film.selectListOrderByFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM Film e
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "Film.selectListOrderByFilmIdAscFilmIdGt",
-            query = """
-                    SELECT e
-                    FROM Film e
-                    WHERE e.filmId > :filmIdMinExclusive
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "Film.selectListByTitleOrderByFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM Film e
-                    WHERE e.title = :title
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "Film.selectListByLanguageOrderByFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM Film e
-                    WHERE e.language = :language
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "Film.selectListByRatingOrderByFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM Film e
-                    WHERE e.rating = :rating
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "Film.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Film e"""
-)
-@NamedQuery(name = "Film.countByLanguage",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Film e
-                    WHERE e.language = :language"""
-)
 @Entity
 @Table(name = Film.TABLE_NAME)
 public class Film {

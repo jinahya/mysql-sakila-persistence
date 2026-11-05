@@ -29,7 +29,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -63,52 +62,6 @@ import java.util.List;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-inventory.html">The
  *         inventory Table</a>
  */
-@NamedQuery(name = "Inventory.selectOneByInventoryId",
-            query = """
-                    SELECT e
-                    FROM Inventory e
-                    WHERE e.inventoryId = :inventoryId"""
-)
-@NamedQuery(name = "Inventory.selectListOrderByInventoryIdAsc",
-            query = """
-                    SELECT e
-                    FROM Inventory e
-                    ORDER BY e.inventoryId ASC"""
-)
-@NamedQuery(name = "Inventory.selectListOrderByInventoryIdAscInventoryIdGt",
-            query = """
-                    SELECT e
-                    FROM Inventory e
-                    WHERE e.inventoryId > :inventoryIdMinExclusive
-                    ORDER BY e.inventoryId ASC"""
-)
-@NamedQuery(name = "Inventory.selectListByFilmOrderByInventoryIdAsc",
-            query = """
-                    SELECT e
-                    FROM Inventory e
-                    WHERE e.film = :film
-                    ORDER BY e.inventoryId ASC"""
-)
-@NamedQuery(name = "Inventory.selectListByStoreAndFilmOrderByInventoryIdAsc",
-            query = """
-                    SELECT e
-                    FROM Inventory e
-                    WHERE e.store = :store
-                      AND e.film = :film
-                    ORDER BY e.inventoryId ASC"""
-)
-@NamedQuery(name = "Inventory.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Inventory e"""
-)
-@NamedQuery(name = "Inventory.countByStoreAndFilm",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Inventory e
-                    WHERE e.store = :store
-                      AND e.film = :film"""
-)
 @Entity
 @Table(name = Inventory.TABLE_NAME)
 public class Inventory {

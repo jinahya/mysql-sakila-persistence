@@ -29,10 +29,10 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Staff_Test
-        extends _Entity_Test<Staff> {
+        extends _Entity_Test<Staff, Integer> {
 
     Staff_Test() {
-        super(Staff.class);
+        super(Staff.class, Integer.class);
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode
@@ -44,8 +44,8 @@ class Staff_Test
      *         every other attribute is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<Staff> equalsVerifier() {
-        return super.equalsVerifier()
+    public SingleTypeEqualsVerifierApi<Staff> equals_verifier_() {
+        return super.equals_verifier_()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class NicerButSlowerFilmList_Test
-        extends _Entity_Test<NicerButSlowerFilmList> {
+        extends _Entity_Test<NicerButSlowerFilmList, Void> {
 
     NicerButSlowerFilmList_Test() {
-        super(NicerButSlowerFilmList.class);
+        super(NicerButSlowerFilmList.class, Void.class);
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode

@@ -23,7 +23,7 @@
 -- installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/inventory_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/inventory_exercises_03_advanced.sql
 --
 
 
@@ -38,11 +38,16 @@
 -- |          517 | 2005-07-14 15:12:22 | 2005-08-22 04:10:49 |        39 |
 -- |          934 | 2005-07-12 12:13:44 | 2005-08-20 20:29:46 |        39 |
 -- +--------------+---------------------+---------------------+-----------+
-WITH rentals AS (SELECT r.inventory_id, r.rental_date, r.return_date,
-                        LEAD(r.rental_date) OVER (PARTITION BY r.inventory_id ORDER BY r.rental_date, r.rental_id) AS next_rental_date
+WITH rentals AS (SELECT r.inventory_id,
+                        r.rental_date,
+                        r.return_date,
+                        LEAD(r.rental_date)
+                             OVER (PARTITION BY r.inventory_id ORDER BY r.rental_date, r.rental_id) AS next_rental_date
                  FROM rental r
                  WHERE r.rental_date < '2006-01-01')
-SELECT inventory_id, return_date, next_rental_date,
+SELECT inventory_id,
+       return_date,
+       next_rental_date,
        DATEDIFF(next_rental_date, return_date) AS idle_days
 FROM rentals
 WHERE return_date IS NOT NULL
@@ -58,11 +63,13 @@ LIMIT 5
 -- +--------------------+-------------------+
 -- |                958 |               957 |
 -- +--------------------+-------------------+
-SELECT (SELECT COUNT(DISTINCT film_id) FROM inventory) AS films_in_inventory,
+SELECT (SELECT COUNT(DISTINCT film_id) FROM inventory)                               AS films_in_inventory,
        (SELECT COUNT(DISTINCT i.film_id)
         FROM inventory i
         WHERE NOT EXISTS (SELECT 1
                           FROM inventory o
                           WHERE o.film_id = i.film_id
-                            AND NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = o.inventory_id))) AS every_copy_rented
+                            AND NOT EXISTS (SELECT 1
+                                            FROM rental r
+                                            WHERE r.inventory_id = o.inventory_id))) AS every_copy_rented
 ;

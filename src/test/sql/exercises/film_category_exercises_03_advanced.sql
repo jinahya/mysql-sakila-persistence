@@ -23,7 +23,7 @@
 -- installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_category_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_category_exercises_03_advanced.sql
 --
 
 
@@ -50,7 +50,10 @@
 -- | Travel      |     609 | MUSCLE BRIGHT      |    185 |
 -- +-------------+---------+--------------------+--------+
 SELECT name, film_id, title, length
-FROM (SELECT c.name, f.film_id, f.title, f.length,
+FROM (SELECT c.name,
+             f.film_id,
+             f.title,
+             f.length,
              ROW_NUMBER() OVER (PARTITION BY c.category_id ORDER BY f.length DESC, f.film_id) AS rn
       FROM film_category fc
                JOIN category c ON c.category_id = fc.category_id
@@ -67,7 +70,8 @@ ORDER BY name
 -- |          10 | Games    | 2006-02-15 04:46:27 |          14 | Sci-Fi | 2006-02-15 04:46:27 |    61 |
 -- |           4 | Classics | 2006-02-15 04:46:27 |          16 | Travel | 2006-02-15 04:46:27 |    57 |
 -- +-------------+----------+---------------------+-------------+--------+---------------------+-------+
-SELECT c1.*, c2.*,
+SELECT c1.*,
+       c2.*,
        (SELECT COUNT(*) FROM film_category fc WHERE fc.category_id = c1.category_id) AS films
 FROM category c1
          JOIN category c2 ON c1.name < c2.name

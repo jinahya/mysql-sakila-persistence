@@ -22,7 +22,7 @@
 -- answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/address_exercises_01_basic.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/address_exercises_01_basic.sql
 --
 
 
@@ -52,7 +52,8 @@ WHERE district = 'California'
 SELECT district, COUNT(*) AS addresses
 FROM address
 GROUP BY district
-ORDER BY addresses DESC, district LIMIT 5
+ORDER BY addresses DESC, district
+LIMIT 5
 ;
 
 -- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_B_03
@@ -65,7 +66,14 @@ ORDER BY addresses DESC, district LIMIT 5
 -- |          3 | 23 Workhaven Lane    | NULL     | Alberta  |     300 |             | 14033335568 | 2014-09-25 22:30:27 |
 -- |          4 | 1411 Lillydale Drive | NULL     | QLD      |     576 |             | 6172235589  | 2014-09-25 22:30:09 |
 -- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+
-SELECT address_id, address, address2, district, city_id, postal_code, phone, last_update -- every column but location, a GEOMETRY which does not print
+SELECT address_id,
+       address,
+       address2,
+       district,
+       city_id,
+       postal_code,
+       phone,
+       last_update -- every column but location, a GEOMETRY which does not print
 FROM address
 WHERE address2 IS NULL
 ORDER BY address_id
@@ -80,7 +88,14 @@ ORDER BY address_id
 -- |        386 | 1368 Maracaíbo Boulevard  |          |          |     493 | 32716       | 934352415130 | 2014-09-25 22:30:03 |
 -- |        519 | 962 Tama Loop             |          |          |     583 | 65952       | 282667506728 | 2014-09-25 22:32:19 |
 -- +------------+---------------------------+----------+----------+---------+-------------+--------------+---------------------+
-SELECT address_id, address, address2, district, city_id, postal_code, phone, last_update -- every column but location, a GEOMETRY which does not print
+SELECT address_id,
+       address,
+       address2,
+       district,
+       city_id,
+       postal_code,
+       phone,
+       last_update -- every column but location, a GEOMETRY which does not print
 FROM address
 WHERE district = ''
 ORDER BY address_id

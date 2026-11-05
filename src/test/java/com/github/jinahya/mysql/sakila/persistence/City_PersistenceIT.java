@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class City_PersistenceIT
-        extends _Entity_PersistenceIT<City> {
+        extends _Entity_PersistenceIT<City, Integer> {
 
     City_PersistenceIT() {
-        super(City.class);
+        super(City.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -43,7 +46,9 @@ class City_PersistenceIT
      * @implNote The name is there, and the country, a lazy association, resolves.
      */
     @Override
-    void randomTargetInstanceSelected(final City instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final City instance) {
         assertThat(instance.getCity()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getCountry().getCountry()).as("name of the country of %s", instance)
                 .isNotBlank();

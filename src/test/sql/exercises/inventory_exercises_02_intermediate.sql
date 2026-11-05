@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/inventory_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/inventory_exercises_02_intermediate.sql
 --
 
 
@@ -41,7 +41,8 @@ SELECT f.*, COUNT(*) AS copies
 FROM film f
          JOIN inventory i ON i.film_id = f.film_id
 GROUP BY f.film_id
-ORDER BY copies DESC, f.film_id LIMIT 5
+ORDER BY copies DESC, f.film_id
+LIMIT 5
 ;
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_I_02
@@ -113,6 +114,8 @@ ORDER BY st.store_id, f.rating
 SELECT i.*
 FROM inventory i
 WHERE i.film_id = 1
-  AND NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)
+  AND NOT EXISTS (SELECT 1
+                  FROM rental r
+                  WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)
 ORDER BY i.store_id, i.inventory_id
 ;

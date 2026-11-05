@@ -22,7 +22,7 @@
 -- EXISTS. Each poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/actor_info_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/actor_info_exercises_02_intermediate.sql
 --
 
 
@@ -55,7 +55,8 @@ SELECT (SELECT COUNT(*) FROM actor_info) AS actor_info, (SELECT COUNT(*) FROM ac
 -- +----------+------------+-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 SELECT *
 FROM actor_info
-WHERE CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')) = (SELECT COUNT(*) FROM category)
+WHERE CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')) =
+      (SELECT COUNT(*) FROM category)
 ORDER BY actor_id
 ;
 
@@ -74,7 +75,8 @@ ORDER BY actor_id
 -- |          9 |      2 |
 -- |          8 |      2 |
 -- +------------+--------+
-SELECT CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')) AS categories, COUNT(*) AS actors
+SELECT CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')) AS categories,
+       COUNT(*)                                                          AS actors
 FROM actor_info
 GROUP BY categories
 ORDER BY categories DESC

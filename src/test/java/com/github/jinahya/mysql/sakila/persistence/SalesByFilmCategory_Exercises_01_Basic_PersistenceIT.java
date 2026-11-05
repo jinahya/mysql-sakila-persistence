@@ -32,10 +32,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/sales_by_film_category_exercises_01_basic.sql},
- * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
- * gives.
+ * Answers the exercises of
+ * {@code src/test/sql/exercises/sales_by_film_category_exercises_01_basic.sql}, against the
+ * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
+ * with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -88,7 +88,8 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_B_02: the categories which sold between 4000 and 4500")
+    @DisplayName(
+            "SAKILA_SALES_BY_FILM_CATEGORY_B_02: the categories which sold between 4000 and 4500")
     @Nested
     class SAKILA_SALES_BY_FILM_CATEGORY_B_02_Test {
 
@@ -149,7 +150,8 @@ class SalesByFilmCategory_Exercises_01_Basic_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_SALES_BY_FILM_CATEGORY_B_03: how many categories sold less than 4000, and how much they sold together")
+            "SAKILA_SALES_BY_FILM_CATEGORY_B_03: how many categories sold less than 4000, and how" +
+            " much they sold together")
     @Nested
     class SAKILA_SALES_BY_FILM_CATEGORY_B_03_Test {
 

@@ -23,7 +23,7 @@
 -- data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/country_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/country_exercises_03_advanced.sql
 --
 
 
@@ -50,7 +50,7 @@ WITH counted AS (SELECT co.country, COUNT(*) AS customers
                  GROUP BY co.country_id, co.country),
      running AS (SELECT counted.*,
                         SUM(customers) OVER (ORDER BY customers DESC, country) AS running_total,
-                        SUM(customers) OVER () AS total
+                        SUM(customers) OVER ()                                 AS total
                  FROM counted)
 SELECT country, customers, running_total, ROUND(100 * running_total / total, 2) AS running_percent
 FROM running

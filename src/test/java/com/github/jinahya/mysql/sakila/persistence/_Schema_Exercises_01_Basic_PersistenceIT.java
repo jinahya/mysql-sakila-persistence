@@ -34,9 +34,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/_schema_exercises_01_basic.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/_schema_exercises_01_basic.sql}, against
+ * the installed {@code sakila} database; a nested class per exercise, which answers it with JPQL
+ * and with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -310,7 +310,8 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SCHEMA_B_11: the unique keys other than the primary keys, column by column")
+    @DisplayName(
+            "SAKILA_SCHEMA_B_11: the unique keys other than the primary keys, column by column")
     @Nested
     class SAKILA_SCHEMA_B_11_Test {
 
@@ -354,13 +355,13 @@ class _Schema_Exercises_01_Basic_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT c.table_name, c.column_name, c.column_type
-                    FROM information_schema.columns c
-                             JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name
-                    WHERE c.table_schema = ?1
-                      AND t.table_type = ?2
-                      AND c.is_nullable = ?3
-                    ORDER BY c.table_name, c.ordinal_position""")
+                                                                                                      SELECT c.table_name, c.column_name, c.column_type
+                                                                                                      FROM information_schema.columns c
+                                                                                                               JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+                                                                                                      WHERE c.table_schema = ?1
+                                                                                                        AND t.table_type = ?2
+                                                                                                        AND c.is_nullable = ?3
+                                                                                                      ORDER BY c.table_name, c.ordinal_position""")
                     .setParameter(1, "sakila")
                     .setParameter(2, "BASE TABLE")
                     .setParameter(3, "YES")

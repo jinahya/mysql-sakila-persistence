@@ -26,9 +26,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Film_PersistenceTest
-        extends _Entity_PersistenceTest<Film> {
+        extends _Entity_PersistenceTest<Film, Integer> {
 
     Film_PersistenceTest() {
-        super(Film.class);
+        super(Film.class, Integer.class);
     }
 }

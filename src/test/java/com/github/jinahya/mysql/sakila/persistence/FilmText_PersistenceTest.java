@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmText_PersistenceTest
-        extends _Entity_PersistenceTest<FilmText> {
+        extends _Entity_PersistenceTest<FilmText, Integer> {
 
     FilmText_PersistenceTest() {
-        super(FilmText.class);
+        super(FilmText.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ class FilmText_PersistenceTest
     @Disabled("written by the film table's triggers: nothing else inserts into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 

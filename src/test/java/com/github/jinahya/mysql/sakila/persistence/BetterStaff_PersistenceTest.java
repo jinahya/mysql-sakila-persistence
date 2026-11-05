@@ -27,9 +27,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class BetterStaff_PersistenceTest
-        extends _Entity_PersistenceTest<BetterStaff> {
+        extends _Entity_PersistenceTest<BetterStaff, Long> {
 
     BetterStaff_PersistenceTest() {
-        super(BetterStaff.class);
+        super(BetterStaff.class, Long.class);
     }
 }

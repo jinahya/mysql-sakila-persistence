@@ -33,9 +33,9 @@ import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of
- * {@code src/test/sql/exercises/nicer_but_slower_film_list_exercises_03_advanced.sql}, against the installed
- * {@code sakila} database; a nested class per exercise, which answers it with JPQL and with the
- * Criteria API, or with a native query where neither can, and logs what it gives.
+ * {@code src/test/sql/exercises/nicer_but_slower_film_list_exercises_03_advanced.sql}, against the
+ * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
+ * with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -43,7 +43,8 @@ import static org.assertj.core.api.Assertions.tuple;
 class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01: how many rows differ from film_list, column by column, but for the actors")
+            "SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01: how many rows differ from film_list, column " +
+            "by column, but for the actors")
     @Nested
     class SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01_Test {
 
@@ -64,7 +65,9 @@ class NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02: the longest length in each category, and how many films have it")
+    @DisplayName(
+            "SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02: the longest length in each category, and how" +
+            " many films have it")
     @Nested
     class SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02_Test {
 

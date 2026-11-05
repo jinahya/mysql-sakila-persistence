@@ -33,9 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/staff_list_exercises_02_intermediate.sql}, against
- * the installed {@code sakila} database; a nested class per exercise, which answers it with JPQL
- * and with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/staff_list_exercises_02_intermediate.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -73,7 +74,8 @@ class StaffList_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_STAFF_LIST_I_02: whether each staff member lives in the city of their store")
+    @DisplayName(
+            "SAKILA_STAFF_LIST_I_02: whether each staff member lives in the city of their store")
     @Nested
     class SAKILA_STAFF_LIST_I_02_Test {
 

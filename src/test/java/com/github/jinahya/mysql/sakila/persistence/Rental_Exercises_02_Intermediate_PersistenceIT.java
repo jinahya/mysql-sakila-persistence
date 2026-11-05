@@ -33,9 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/rental_exercises_02_intermediate.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/rental_exercises_02_intermediate.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -99,13 +100,13 @@ class Rental_Exercises_02_Intermediate_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    SELECT r.*, f.title, f.rental_duration, DATEDIFF('2006-02-15', r.rental_date) - f.rental_duration AS days_overdue
-                    FROM rental r
-                             JOIN inventory i ON i.inventory_id = r.inventory_id
-                             JOIN film f ON f.film_id = i.film_id
-                    WHERE r.return_date IS NULL
-                      AND DATEDIFF('2006-02-15', r.rental_date) > f.rental_duration
-                    ORDER BY days_overdue DESC, r.rental_id""")
+                                                                                                      SELECT r.*, f.title, f.rental_duration, DATEDIFF('2006-02-15', r.rental_date) - f.rental_duration AS days_overdue
+                                                                                                      FROM rental r
+                                                                                                               JOIN inventory i ON i.inventory_id = r.inventory_id
+                                                                                                               JOIN film f ON f.film_id = i.film_id
+                                                                                                      WHERE r.return_date IS NULL
+                                                                                                        AND DATEDIFF('2006-02-15', r.rental_date) > f.rental_duration
+                                                                                                      ORDER BY days_overdue DESC, r.rental_id""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list)

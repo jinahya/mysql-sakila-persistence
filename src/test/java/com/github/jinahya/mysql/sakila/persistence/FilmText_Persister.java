@@ -41,7 +41,9 @@ class FilmText_Persister
     // ---------------------------------------------------------------------------------------------
     @Override
     public FilmText apply(final EntityManager entityManager, final FilmText entityInstance) {
-        final var max = entityManager.createNamedQuery("FilmText.selectMaxFilmId", Integer.class)
+        final var max = entityManager.createQuery("""
+                                                          SELECT MAX(e.filmId)
+                                                          FROM FilmText e""", Integer.class)
                 .getSingleResult();
         entityInstance.setFilmId(max == null ? 1 : max + 1);
         return super.apply(entityManager, entityInstance);

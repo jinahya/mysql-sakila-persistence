@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -32,10 +34,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class SalesByFilmCategory_PersistenceIT
-        extends _Entity_PersistenceIT<SalesByFilmCategory> {
+        extends _Entity_PersistenceIT<SalesByFilmCategory, String> {
 
     SalesByFilmCategory_PersistenceIT() {
-        super(SalesByFilmCategory.class);
+        super(SalesByFilmCategory.class, String.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -47,7 +49,7 @@ class SalesByFilmCategory_PersistenceIT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void persistTargetInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
@@ -60,7 +62,9 @@ class SalesByFilmCategory_PersistenceIT
      * @implNote The category is there, and its total is not negative.
      */
     @Override
-    void randomTargetInstanceSelected(final SalesByFilmCategory instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final SalesByFilmCategory instance) {
         assertThat(instance.getCategory()).as("category of %s", instance).isNotBlank();
         assertThat(instance.getTotalSales()).as("total sales of %s", instance).isNotNegative();
     }

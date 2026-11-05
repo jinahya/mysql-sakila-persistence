@@ -33,9 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/customer_exercises_03_advanced.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/customer_exercises_03_advanced.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -76,7 +77,8 @@ class Customer_Exercises_03_Advanced_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_CUSTOMER_A_02: how many customers of each store paid more than that store's average " +
+            "SAKILA_CUSTOMER_A_02: how many customers of each store paid more than that store's " +
+            "average " +
             "customer")
     @Nested
     class SAKILA_CUSTOMER_A_02_Test {
@@ -162,16 +164,16 @@ class Customer_Exercises_03_Advanced_PersistenceIT {
         @Test
         void nativeQuery() {
             final var list = __Exercises_TestUtils.apply(em -> (List<?>) em.createNativeQuery("""
-                    WITH paid AS (SELECT c.customer_id, SUM(p.amount) AS paid
-                                  FROM customer c
-                                           JOIN payment p ON p.customer_id = c.customer_id
-                                  GROUP BY c.customer_id),
-                         banded AS (SELECT paid.*, NTILE(4) OVER (ORDER BY paid DESC, customer_id) AS band
-                                    FROM paid)
-                    SELECT band, COUNT(*) AS customers, MIN(paid) AS least_paid, MAX(paid) AS most_paid, SUM(paid) AS total
-                    FROM banded
-                    GROUP BY band
-                    ORDER BY band""")
+                                                                                                      WITH paid AS (SELECT c.customer_id, SUM(p.amount) AS paid
+                                                                                                                    FROM customer c
+                                                                                                                             JOIN payment p ON p.customer_id = c.customer_id
+                                                                                                                    GROUP BY c.customer_id),
+                                                                                                           banded AS (SELECT paid.*, NTILE(4) OVER (ORDER BY paid DESC, customer_id) AS band
+                                                                                                                      FROM paid)
+                                                                                                      SELECT band, COUNT(*) AS customers, MIN(paid) AS least_paid, MAX(paid) AS most_paid, SUM(paid) AS total
+                                                                                                      FROM banded
+                                                                                                      GROUP BY band
+                                                                                                      ORDER BY band""")
                     .getResultList());
             list.forEach(r -> log.debug("{}", r instanceof Object[] a ? Arrays.toString(a) : r));
             assertThat(list)

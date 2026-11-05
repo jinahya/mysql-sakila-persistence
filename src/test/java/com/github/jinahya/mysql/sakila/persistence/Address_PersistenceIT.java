@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.geolatte.geom.GeometryType;
 import org.geolatte.geom.Point;
@@ -37,10 +39,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Slf4j
 class Address_PersistenceIT
-        extends _Entity_PersistenceIT<Address> {
+        extends _Entity_PersistenceIT<Address, Integer> {
 
     Address_PersistenceIT() {
-        super(Address.class);
+        super(Address.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -59,7 +61,9 @@ class Address_PersistenceIT
      *         millions.
      */
     @Override
-    void randomTargetInstanceSelected(final Address instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Address instance) {
         {
             final var location = instance.getLocation();
             assertThat(location)

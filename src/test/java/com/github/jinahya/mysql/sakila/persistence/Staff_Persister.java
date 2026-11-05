@@ -54,7 +54,10 @@ class Staff_Persister
      */
     static Optional<Staff> selectFirst(final EntityManager entityManager) {
         return entityManager
-                .createNamedQuery("Staff.selectListOrderByStaffIdAsc", Staff.class)
+                .createQuery("""
+                                     SELECT e
+                                     FROM Staff e
+                                     ORDER BY e.staffId ASC""", Staff.class)
                 .setMaxResults(1)
                 .getResultStream()
                 .findFirst();

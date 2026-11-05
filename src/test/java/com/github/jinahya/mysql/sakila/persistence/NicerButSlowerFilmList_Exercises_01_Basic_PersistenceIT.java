@@ -31,20 +31,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/nicer_but_slower_film_list_exercises_01_basic.sql},
- * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
- * gives.
+ * Answers the exercises of
+ * {@code src/test/sql/exercises/nicer_but_slower_film_list_exercises_01_basic.sql}, against the
+ * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
+ * with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01: the actors of the film 1, as this view writes them")
+    @DisplayName(
+            "SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01: the actors of the film 1, as this view " +
+            "writes them")
     @Nested
     class SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01_Test {
 
@@ -65,7 +66,9 @@ class NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02: how many films PENELOPE GUINESS plays in, by the view's actors")
+    @DisplayName(
+            "SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02: how many films PENELOPE GUINESS plays in, by" +
+            " the view's actors")
     @Nested
     class SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02_Test {
 

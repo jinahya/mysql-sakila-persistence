@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Store_PersistenceIT
-        extends _Entity_PersistenceIT<Store> {
+        extends _Entity_PersistenceIT<Store, Integer> {
 
     Store_PersistenceIT() {
-        super(Store.class);
+        super(Store.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ class Store_PersistenceIT
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    void persistTargetInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
@@ -60,7 +62,9 @@ class Store_PersistenceIT
      *         another, resolves.
      */
     @Override
-    void randomTargetInstanceSelected(final Store instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Store instance) {
         assertThat(instance.getManagerStaff().getStore().getStoreId())
                 .as("store id of the manager of %s", instance)
                 .isEqualTo(instance.getStoreId());

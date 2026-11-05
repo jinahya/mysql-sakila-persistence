@@ -24,7 +24,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -60,26 +59,11 @@ import java.math.BigDecimal;
  * requires of an {@link Id @Id}.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html">
+ * @see <a
+ *         href="https://dev.mysql
+ *         .com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html">
  *         The sales_by_film_category View</a>
  */
-@NamedQuery(name = "SalesByFilmCategory.selectOneByCategory",
-            query = """
-                    SELECT e
-                    FROM SalesByFilmCategory e
-                    WHERE e.category = :category"""
-)
-@NamedQuery(name = "SalesByFilmCategory.selectListOrderByCategoryAsc",
-            query = """
-                    SELECT e
-                    FROM SalesByFilmCategory e
-                    ORDER BY e.category ASC"""
-)
-@NamedQuery(name = "SalesByFilmCategory.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM SalesByFilmCategory e"""
-)
 @Entity
 @Table(name = SalesByFilmCategory.TABLE_NAME)
 public class SalesByFilmCategory {

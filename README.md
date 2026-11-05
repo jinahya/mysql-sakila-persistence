@@ -8,7 +8,7 @@ Jakarta Persistence mappings for the [MySQL Sakila Sample Database](https://dev.
 $ ./compose.sh
 ```
 
-Brings up `mysql:9.7` (the current LTS) on `localhost:3306`, as `root` / `password`, and follows its log; Ctrl-C
+Brings up `mysql:9.7` (the current LTS) on `localhost:3306`, as `root` / `Passw0rd!`, and follows its log; Ctrl-C
 takes it down again. Every run starts from an empty database: the image loads
 [`docker-entrypoint-initdb.d`](docker-entrypoint-initdb.d) in name order,
 
@@ -20,7 +20,7 @@ takes it down again. Every run starts from an empty database: the image loads
 both unchanged.
 
 ```shell
-$ docker exec -it mysql-sakila mysql -uroot -ppassword -Dsakila
+$ docker exec -it mysql-sakila mysql -uroot -p'Passw0rd!' -Dsakila
 ```
 
 ### Integrity checks during the load
@@ -87,7 +87,7 @@ SET REFERENTIAL_INTEGRITY TRUE;
 what it looks for and what the installed data gives back.
 
 ```shell
-$ docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/payment.sql
+$ docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/payment.sql
 ```
 
 Some of what they find is a rule of the schema, and some only a habit of the generated data; the mappings follow the

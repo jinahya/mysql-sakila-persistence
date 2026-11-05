@@ -30,10 +30,10 @@ import org.junit.jupiter.api.Test;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class ActorInfo_PersistenceTest
-        extends _Entity_PersistenceTest<ActorInfo> {
+        extends _Entity_PersistenceTest<ActorInfo, Integer> {
 
     ActorInfo_PersistenceTest() {
-        super(ActorInfo.class);
+        super(ActorInfo.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,30 +46,36 @@ class ActorInfo_PersistenceTest
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
     /**
-     * Not a test here; {@value ActorInfo#TABLE_NAME} is a view, so there is nothing to persist.
+     * Does nothing; {@value ActorInfo#TABLE_NAME} is a view, so there is nothing to persist.
      */
+    @Disabled("a view: nothing is inserted into it")
     @Override
+    @Test
     void _persist_EqualsReference() {
         // empty
     }
 
     /**
-     * Not a test here; {@value ActorInfo#TABLE_NAME} is a view, so there is nothing to persist.
+     * Does nothing; {@value ActorInfo#TABLE_NAME} is a view, so there is nothing to persist.
      */
+    @Disabled("a view: nothing is inserted into it")
     @Override
+    @Test
     void _persist_ReferenceEquals() {
         // empty
     }
 
     /**
-     * Not a test here; {@value ActorInfo#TABLE_NAME} is a view, so there is nothing to persist.
+     * Does nothing; {@value ActorInfo#TABLE_NAME} is a view, so there is nothing to persist.
      */
+    @Disabled("a view: nothing is inserted into it")
     @Override
+    @Test
     void _persist_HashSetMembership() {
         // empty
     }

@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Staff_PersistenceIT
-        extends _Entity_PersistenceIT<Staff> {
+        extends _Entity_PersistenceIT<Staff, Integer> {
 
     Staff_PersistenceIT() {
-        super(Staff.class);
+        super(Staff.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ class Staff_PersistenceIT
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    void persistTargetInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
@@ -60,7 +62,9 @@ class Staff_PersistenceIT
      *         resolves.
      */
     @Override
-    void randomTargetInstanceSelected(final Staff instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Staff instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getUsername()).as("username of %s", instance).isNotBlank();

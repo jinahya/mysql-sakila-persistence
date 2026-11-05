@@ -32,16 +32,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/film_list_exercises_02_intermediate.sql}, against
- * the installed {@code sakila} database; a nested class per exercise, which answers it with JPQL
- * and with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/film_list_exercises_02_intermediate.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class FilmList_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("SAKILA_FILM_LIST_I_01: whether the view has a row for every film which has a category")
+    @DisplayName(
+            "SAKILA_FILM_LIST_I_01: whether the view has a row for every film which has a category")
     @Nested
     class SAKILA_FILM_LIST_I_01_Test {
 
@@ -91,7 +93,8 @@ class FilmList_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_FILM_LIST_I_03: the films whose actors string lists a different number of actors than film_actor")
+            "SAKILA_FILM_LIST_I_03: the films whose actors string lists a different number of " +
+            "actors than film_actor")
     @Nested
     class SAKILA_FILM_LIST_I_03_Test {
 

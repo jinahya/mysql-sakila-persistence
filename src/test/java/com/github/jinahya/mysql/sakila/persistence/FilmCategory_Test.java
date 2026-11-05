@@ -35,10 +35,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmCategory_Test
-        extends _Entity_Test<FilmCategory> {
+        extends _Entity_Test<FilmCategory, FilmCategoryId> {
 
     FilmCategory_Test() {
-        super(FilmCategory.class);
+        super(FilmCategory.class, FilmCategoryId.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -91,8 +91,8 @@ class FilmCategory_Test
      *         hides the field from the verifier's check of which fields equality uses.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<FilmCategory> equalsVerifier() {
-        return super.equalsVerifier()
+    public SingleTypeEqualsVerifierApi<FilmCategory> equals_verifier_() {
+        return super.equals_verifier_()
                 .suppress(Warning.SURROGATE_OR_BUSINESS_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE)

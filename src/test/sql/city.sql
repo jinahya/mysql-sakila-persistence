@@ -22,7 +22,7 @@
 -- 'no rows' marks a check that passes when nothing comes back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/city.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/city.sql
 --
 
 
@@ -88,7 +88,8 @@ WHERE NOT EXISTS (SELECT 1
 SELECT country_id, COUNT(*) AS cities
 FROM city
 GROUP BY country_id
-ORDER BY cities DESC, country_id ASC LIMIT 5
+ORDER BY cities DESC, country_id ASC
+LIMIT 5
 ;
 
 

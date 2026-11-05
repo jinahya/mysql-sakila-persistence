@@ -22,7 +22,7 @@
 -- EXISTS. Each poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_list_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_list_exercises_02_intermediate.sql
 --
 
 
@@ -64,6 +64,6 @@ SELECT l.*
 FROM film_list l
 WHERE l.actors IS NOT NULL
   AND LENGTH(l.actors) - LENGTH(REPLACE(l.actors, ',', '')) + 1
-          <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = l.FID)
+    <> (SELECT COUNT(*) FROM film_actor fa WHERE fa.film_id = l.FID)
 ORDER BY l.FID
 ;

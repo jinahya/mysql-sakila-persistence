@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,22 +31,24 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmCategory_PersistenceIT
-        extends _Entity_PersistenceIT<FilmCategory> {
+        extends _Entity_PersistenceIT<FilmCategory, FilmCategoryId> {
 
     FilmCategory_PersistenceIT() {
-        super(FilmCategory.class);
+        super(FilmCategory.class, FilmCategoryId.class);
     }
 
     // ---------------------------------------------------------------------------------------------
 
-    /**
-     * Not a test here; {@link FilmCategory} is mapped with an
-     * {@link jakarta.persistence.IdClass IdClass}, which the generic test does not assemble.
-     */
-    @Override
-    void find_RandomlySelected_ContextCleared() {
-        // empty
-    }
+//    /**
+//     * Does nothing; {@link FilmCategory} is mapped with an
+//     * {@link jakarta.persistence.IdClass IdClass}, which the generic test does not assemble.
+//     */
+//    @Disabled("mapped with an @IdClass, which the generic test does not assemble")
+//    @Override
+//    @Test
+//    void find_RandomlySelected_ContextCleared() {
+//        // empty
+//    }
 
     // ---------------------------------------------------------------------------------------------
 
@@ -55,7 +60,9 @@ class FilmCategory_PersistenceIT
      *         identifiers of the film and of the category, lazy associations which resolve.
      */
     @Override
-    void randomTargetInstanceSelected(final FilmCategory instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final FilmCategory instance) {
         assertThat(instance.getFilmId())
                 .as("film id of %s", instance)
                 .isEqualTo(instance.getFilm().getFilmId());

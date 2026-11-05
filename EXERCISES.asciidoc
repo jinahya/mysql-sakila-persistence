@@ -9,7 +9,7 @@ Run a file as a whole:
 
 [source,sh]
 ----
-docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/<file>.sql
+docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/<file>.sql
 ----
 
 == actor

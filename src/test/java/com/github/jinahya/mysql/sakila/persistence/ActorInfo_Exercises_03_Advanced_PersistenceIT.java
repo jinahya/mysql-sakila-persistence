@@ -28,9 +28,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/actor_info_exercises_03_advanced.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/actor_info_exercises_03_advanced.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -38,7 +39,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ActorInfo_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "SAKILA_ACTOR_INFO_A_01: the actors whose film_info disagrees with the tables on the number of " +
+            "SAKILA_ACTOR_INFO_A_01: the actors whose film_info disagrees with the tables on the " +
+            "number of " +
             "categories")
     @Nested
     class SAKILA_ACTOR_INFO_A_01_Test {

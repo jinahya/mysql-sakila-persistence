@@ -27,7 +27,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -55,37 +54,6 @@ import java.util.List;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-actor.html">The
  *         actor Table</a>
  */
-@NamedQuery(name = "Actor.selectOneByActorId",
-            query = """
-                    SELECT e
-                    FROM Actor e
-                    WHERE e.actorId = :actorId"""
-)
-@NamedQuery(name = "Actor.selectListOrderByActorIdAsc",
-            query = """
-                    SELECT e
-                    FROM Actor e
-                    ORDER BY e.actorId ASC"""
-)
-@NamedQuery(name = "Actor.selectListOrderByActorIdAscActorIdGt",
-            query = """
-                    SELECT e
-                    FROM Actor e
-                    WHERE e.actorId > :actorIdMinExclusive
-                    ORDER BY e.actorId ASC"""
-)
-@NamedQuery(name = "Actor.selectListByLastNameOrderByFirstNameAsc",
-            query = """
-                    SELECT e
-                    FROM Actor e
-                    WHERE e.lastName = :lastName
-                    ORDER BY e.firstName ASC"""
-)
-@NamedQuery(name = "Actor.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Actor e"""
-)
 @Entity
 @Table(name = Actor.TABLE_NAME)
 public class Actor {

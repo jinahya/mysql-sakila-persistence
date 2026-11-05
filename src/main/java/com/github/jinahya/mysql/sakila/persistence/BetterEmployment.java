@@ -28,7 +28,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
@@ -66,43 +65,6 @@ import jakarta.validation.constraints.NotNull;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-@NamedQuery(name = "BetterEmployment.selectOneById",
-            query = """
-                    SELECT e
-                    FROM BetterEmployment e
-                    WHERE e.id = :id"""
-)
-@NamedQuery(name = "BetterEmployment.selectListOrderByIdAsc",
-            query = """
-                    SELECT e
-                    FROM BetterEmployment e
-                    ORDER BY e.id.storeId ASC, e.id.staffId ASC"""
-)
-@NamedQuery(name = "BetterEmployment.selectOneByStaff",
-            query = """
-                    SELECT e
-                    FROM BetterEmployment e
-                    WHERE e.staff = :staff"""
-)
-@NamedQuery(name = "BetterEmployment.selectListByStoreOrderByIdAsc",
-            query = """
-                    SELECT e
-                    FROM BetterEmployment e
-                    WHERE e.store = :store
-                    ORDER BY e.id.staffId ASC"""
-)
-@NamedQuery(name = "BetterEmployment.selectOneManagerByStore",
-            query = """
-                    SELECT e
-                    FROM BetterEmployment e
-                    WHERE e.store = :store
-                      AND e.manager = TRUE"""
-)
-@NamedQuery(name = "BetterEmployment.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM BetterEmployment e"""
-)
 @Entity
 @Table(name = BetterEmployment.TABLE_NAME, uniqueConstraints = {@UniqueConstraint(
         columnNames = {BetterEmployment.COLUMN_NAME_MANAGER,

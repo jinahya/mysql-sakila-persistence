@@ -24,7 +24,6 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -55,30 +54,6 @@ import jakarta.validation.constraints.Size;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-customer_list.html">
  *         The customer_list View</a>
  */
-@NamedQuery(name = "CustomerList.selectOneById",
-            query = """
-                    SELECT e
-                    FROM CustomerList e
-                    WHERE e.id = :id"""
-)
-@NamedQuery(name = "CustomerList.selectListOrderByIdAsc",
-            query = """
-                    SELECT e
-                    FROM CustomerList e
-                    ORDER BY e.id ASC"""
-)
-@NamedQuery(name = "CustomerList.selectListOrderByIdAscIdGt",
-            query = """
-                    SELECT e
-                    FROM CustomerList e
-                    WHERE e.id > :idMinExclusive
-                    ORDER BY e.id ASC"""
-)
-@NamedQuery(name = "CustomerList.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM CustomerList e"""
-)
 @Entity
 @Table(name = CustomerList.TABLE_NAME)
 public class CustomerList {

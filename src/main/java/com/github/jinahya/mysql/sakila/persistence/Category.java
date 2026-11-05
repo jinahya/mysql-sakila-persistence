@@ -27,7 +27,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -53,30 +52,6 @@ import java.util.List;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-category.html">The
  *         category Table</a>
  */
-@NamedQuery(name = "Category.selectOneByCategoryId",
-            query = """
-                    SELECT e
-                    FROM Category e
-                    WHERE e.categoryId = :categoryId"""
-)
-@NamedQuery(name = "Category.selectListOrderByCategoryIdAsc",
-            query = """
-                    SELECT e
-                    FROM Category e
-                    ORDER BY e.categoryId ASC"""
-)
-@NamedQuery(name = "Category.selectListByNameOrderByCategoryIdAsc",
-            query = """
-                    SELECT e
-                    FROM Category e
-                    WHERE e.name = :name
-                    ORDER BY e.categoryId ASC"""
-)
-@NamedQuery(name = "Category.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Category e"""
-)
 @Entity
 @Table(name = Category.TABLE_NAME)
 public class Category {

@@ -28,7 +28,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -57,23 +56,6 @@ import java.util.List;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see BetterEmployment
  */
-@NamedQuery(name = "BetterStore.selectOneById",
-            query = """
-                    SELECT e
-                    FROM BetterStore e
-                    WHERE e.id = :id"""
-)
-@NamedQuery(name = "BetterStore.selectListOrderByIdAsc",
-            query = """
-                    SELECT e
-                    FROM BetterStore e
-                    ORDER BY e.id ASC"""
-)
-@NamedQuery(name = "BetterStore.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM BetterStore e"""
-)
 @Entity
 @Table(name = BetterStore.TABLE_NAME)
 public class BetterStore {
@@ -250,8 +232,8 @@ public class BetterStore {
     }
 
     /**
-     * Fires the specified staff member from this store; does nothing when they do not work at
-     * this store.
+     * Fires the specified staff member from this store; does nothing when they do not work at this
+     * store.
      *
      * @param staff the staff member to fire.
      */

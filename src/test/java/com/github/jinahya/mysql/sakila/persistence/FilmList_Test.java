@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmList_Test
-        extends _Entity_Test<FilmList> {
+        extends _Entity_Test<FilmList, Void> {
 
     FilmList_Test() {
-        super(FilmList.class);
+        super(FilmList.class, Void.class);
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode

@@ -29,7 +29,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
@@ -71,50 +70,6 @@ import java.util.Objects;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-payment.html">The
  *         payment Table</a>
  */
-@NamedQuery(name = "Payment.selectOneByPaymentId",
-            query = """
-                    SELECT e
-                    FROM Payment e
-                    WHERE e.paymentId = :paymentId"""
-)
-@NamedQuery(name = "Payment.selectListOrderByPaymentIdAsc",
-            query = """
-                    SELECT e
-                    FROM Payment e
-                    ORDER BY e.paymentId ASC"""
-)
-@NamedQuery(name = "Payment.selectListOrderByPaymentIdAscPaymentIdGt",
-            query = """
-                    SELECT e
-                    FROM Payment e
-                    WHERE e.paymentId > :paymentIdMinExclusive
-                    ORDER BY e.paymentId ASC"""
-)
-@NamedQuery(name = "Payment.selectListByCustomerOrderByPaymentDateDesc",
-            query = """
-                    SELECT e
-                    FROM Payment e
-                    WHERE e.customer = :customer
-                    ORDER BY e.paymentDate DESC"""
-)
-@NamedQuery(name = "Payment.selectListByRentalOrderByPaymentIdAsc",
-            query = """
-                    SELECT e
-                    FROM Payment e
-                    WHERE e.rental = :rental
-                    ORDER BY e.paymentId ASC"""
-)
-@NamedQuery(name = "Payment.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Payment e"""
-)
-@NamedQuery(name = "Payment.sumAmountByCustomer",
-            query = """
-                    SELECT SUM(e.amount)
-                    FROM Payment e
-                    WHERE e.customer = :customer"""
-)
 @Entity
 @Table(name = Payment.TABLE_NAME)
 public class Payment {

@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Staff_PersistenceTest
-        extends _Entity_PersistenceTest<Staff> {
+        extends _Entity_PersistenceTest<Staff, Integer> {
 
     Staff_PersistenceTest() {
-        super(Staff.class);
+        super(Staff.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ class Staff_PersistenceTest
     @Disabled("a store and its manager refer to each other: neither is persisted")
     @Override
     @Test
-    void _persist_RandomizedInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 

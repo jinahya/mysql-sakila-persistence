@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmActor_PersistenceIT
-        extends _Entity_PersistenceIT<FilmActor> {
+        extends _Entity_PersistenceIT<FilmActor, FilmActorId> {
 
     FilmActor_PersistenceIT() {
-        super(FilmActor.class);
+        super(FilmActor.class, FilmActorId.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -44,7 +47,9 @@ class FilmActor_PersistenceIT
      *         identifiers of the actor and of the film, lazy associations which resolve.
      */
     @Override
-    void randomTargetInstanceSelected(final FilmActor instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final FilmActor instance) {
         assertThat(instance.getId().getActorId())
                 .as("actor id of the id of %s", instance)
                 .isEqualTo(instance.getActor().getActorId());

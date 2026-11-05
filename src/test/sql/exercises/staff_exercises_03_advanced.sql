@@ -23,7 +23,7 @@
 -- data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/staff_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/staff_exercises_03_advanced.sql
 --
 
 
@@ -36,7 +36,10 @@
 -- |        2 | 2005-07-31 |      351 | 1517.49 |
 -- +----------+------------+----------+---------+
 SELECT staff_id, day, payments, total
-FROM (SELECT staff_id, DATE(payment_date) AS day, COUNT(*) AS payments, SUM(amount) AS total,
+FROM (SELECT staff_id,
+             DATE(payment_date)                                                                      AS day,
+             COUNT(*)                                                                                AS payments,
+             SUM(amount)                                                                             AS total,
              ROW_NUMBER() OVER (PARTITION BY staff_id ORDER BY SUM(amount) DESC, DATE(payment_date)) AS rn
       FROM payment
       GROUP BY staff_id, DATE(payment_date)) d

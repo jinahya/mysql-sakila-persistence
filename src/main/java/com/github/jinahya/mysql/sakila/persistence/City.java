@@ -29,7 +29,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -59,43 +58,6 @@ import java.util.List;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-city.html">The city
  *         Table</a>
  */
-@NamedQuery(name = "City.selectOneByCityId",
-            query = """
-                    SELECT e
-                    FROM City e
-                    WHERE e.cityId = :cityId"""
-)
-@NamedQuery(name = "City.selectListOrderByCityIdAsc",
-            query = """
-                    SELECT e
-                    FROM City e
-                    ORDER BY e.cityId ASC"""
-)
-@NamedQuery(name = "City.selectListOrderByCityIdAscCityIdGt",
-            query = """
-                    SELECT e
-                    FROM City e
-                    WHERE e.cityId > :cityIdMinExclusive
-                    ORDER BY e.cityId ASC"""
-)
-@NamedQuery(name = "City.selectListByCountryOrderByCityIdAsc",
-            query = """
-                    SELECT e
-                    FROM City e
-                    WHERE e.country = :country
-                    ORDER BY e.cityId ASC"""
-)
-@NamedQuery(name = "City.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM City e"""
-)
-@NamedQuery(name = "City.countByCountry",
-            query = """
-                    SELECT COUNT(e)
-                    FROM City e
-                    WHERE e.country = :country"""
-)
 @Entity
 @Table(name = City.TABLE_NAME)
 public class City {

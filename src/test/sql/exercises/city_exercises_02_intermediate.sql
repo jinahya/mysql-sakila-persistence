@@ -22,7 +22,7 @@
 -- a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/city_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/city_exercises_02_intermediate.sql
 --
 
 
@@ -61,7 +61,8 @@ SELECT co.*, COUNT(*) AS cities
 FROM country co
          JOIN city ci ON ci.country_id = co.country_id
 GROUP BY co.country_id
-ORDER BY cities DESC, co.country LIMIT 5
+ORDER BY cities DESC, co.country
+LIMIT 5
 ;
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_CITY_I_03

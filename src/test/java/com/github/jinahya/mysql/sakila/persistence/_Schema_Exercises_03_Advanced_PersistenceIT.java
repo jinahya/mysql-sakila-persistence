@@ -50,7 +50,8 @@ import static org.assertj.core.api.Assertions.tuple;
 class _Schema_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName(
-            "SAKILA_SCHEMA_A_01: the customer who paid the most in each of the five countries which paid " +
+            "SAKILA_SCHEMA_A_01: the customer who paid the most in each of the five countries " +
+            "which paid " +
             "the most")
     @Nested
     class SAKILA_SCHEMA_A_01_Test {
@@ -214,7 +215,8 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_SCHEMA_A_06: how many actors are one film, and how many two films, away from KEVIN " +
+            "SAKILA_SCHEMA_A_06: how many actors are one film, and how many two films, away from " +
+            "KEVIN " +
             "BLOOM; a Bacon number, Sakila having no KEVIN BACON")
     @Nested
     class SAKILA_SCHEMA_A_06_Test {
@@ -297,7 +299,9 @@ class _Schema_Exercises_03_Advanced_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SCHEMA_A_08: the five longest runs of days on which a customer rented every day")
+    @DisplayName(
+            "SAKILA_SCHEMA_A_08: the five longest runs of days on which a customer rented every " +
+            "day")
     @Nested
     class SAKILA_SCHEMA_A_08_Test {
 

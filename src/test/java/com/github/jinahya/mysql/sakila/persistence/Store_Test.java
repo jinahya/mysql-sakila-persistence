@@ -29,10 +29,10 @@ import org.junit.platform.commons.util.ReflectionUtils;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Store_Test
-        extends _Entity_Test<Store> {
+        extends _Entity_Test<Store, Integer> {
 
     Store_Test() {
-        super(Store.class);
+        super(Store.class, Integer.class);
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode
@@ -46,8 +46,8 @@ class Store_Test
      *         which is null until the row is inserted.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<Store> equalsVerifier() {
-        return super.equalsVerifier()
+    public SingleTypeEqualsVerifierApi<Store> equals_verifier_() {
+        return super.equals_verifier_()
                 .withPrefabValues(Staff.class,
                                   newInstanceWithId(Staff.class, Staff.ATTRIBUTE_NAME_STAFF_ID, 1),
                                   newInstanceWithId(Staff.class, Staff.ATTRIBUTE_NAME_STAFF_ID, 2))

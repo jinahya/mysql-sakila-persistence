@@ -26,9 +26,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class City_PersistenceTest
-        extends _Entity_PersistenceTest<City> {
+        extends _Entity_PersistenceTest<City, Integer> {
 
     City_PersistenceTest() {
-        super(City.class);
+        super(City.class, Integer.class);
     }
 }

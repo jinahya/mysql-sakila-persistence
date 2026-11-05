@@ -14,13 +14,13 @@ services:
       # the image's locale is C, under which `docker exec ... mysql` mangles the non-ASCII rows of address, city, ...
       # on the terminal; as sakila-persistence's .docker.run.sh does
       LANG: C.UTF-8
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: Passw0rd!
     volumes:
       # run once, in name order, against an empty data directory: 01- the schema, 02- the data
       # https://dev.mysql.com/doc/sakila/en/sakila-installation.html
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-ppassword" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pPassw0rd!" ]
       interval: 2s
       timeout: 5s
       retries: 60

@@ -20,7 +20,6 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import com.github.jinahya.persistence.util.JinahyaPersistenceUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -50,8 +49,8 @@ class SalesByStore_PersistenceIT {
     @Test
     void readAll_() {
         @SuppressWarnings("unchecked")
-        final List<Object[]> rows = JinahyaPersistenceUtils.applyEntityManager(
-                _Entity_PersistenceIT.PERSISTENCE_UNIT_NAME, em -> em.createNativeQuery(
+        final List<Object[]> rows = ___PersistenceIT_Utils.applyEntityManager_(
+                emf -> em -> em.createNativeQuery(
                         "SELECT " + SalesByStore.COLUMN_NAME_STORE + ", " +
                         SalesByStore.COLUMN_NAME_MANAGER
                         + ", " + SalesByStore.COLUMN_NAME_TOTAL_SALES

@@ -20,6 +20,8 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -31,10 +33,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class CustomerList_PersistenceIT
-        extends _Entity_PersistenceIT<CustomerList> {
+        extends _Entity_PersistenceIT<CustomerList, Integer> {
 
     CustomerList_PersistenceIT() {
-        super(CustomerList.class);
+        super(CustomerList.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,7 +48,7 @@ class CustomerList_PersistenceIT
     @Disabled("a view: nothing is inserted into it")
     @Override
     @Test
-    void persistTargetInstance() {
+    protected void persistRandomizedEntityInstance__() {
         // empty
     }
 
@@ -60,7 +62,9 @@ class CustomerList_PersistenceIT
      *         {@code "active"}, or empty.
      */
     @Override
-    void randomTargetInstanceSelected(final CustomerList instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final CustomerList instance) {
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
         assertThat(instance.getNotes()).as("notes of %s", instance).isIn("active", "");
     }

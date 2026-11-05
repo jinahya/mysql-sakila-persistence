@@ -51,7 +51,10 @@ class Language_Persister
      */
     static Optional<Language> selectFirst(final EntityManager entityManager) {
         return entityManager
-                .createNamedQuery("Language.selectListOrderByLanguageIdAsc", Language.class)
+                .createQuery("""
+                                     SELECT e
+                                     FROM Language e
+                                     ORDER BY e.languageId ASC""", Language.class)
                 .setMaxResults(1)
                 .getResultStream()
                 .findFirst();

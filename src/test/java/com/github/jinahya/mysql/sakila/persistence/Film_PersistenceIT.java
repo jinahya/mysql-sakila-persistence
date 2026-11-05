@@ -21,8 +21,13 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.Test;
 
+import static com.github.jinahya.mysql.sakila.persistence.___PersistenceIT_Utils.applyEntityManagerFactory;
+import static com.github.jinahya.persistence.test.util.EntityPersisterUtils.newPersistedInstanceOf;
+import static com.github.jinahya.persistence.util.JinahyaEntityManagerFactoryUtils.applyEntityManager;
+import static com.github.jinahya.persistence.util.JinahyaEntityManagerUtils.applyInTransactionAndRollback;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
@@ -32,10 +37,10 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Film_PersistenceIT
-        extends _Entity_PersistenceIT<Film> {
+        extends _Entity_PersistenceIT<Film, Integer> {
 
     Film_PersistenceIT() {
-        super(Film.class);
+        super(Film.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -50,7 +55,10 @@ class Film_PersistenceIT
      *         description are the film's.
      */
     @Override
-    void targetInstancePersisted(final EntityManager entityManager, final Film entityInstance) {
+    protected void randomizedEntityInstancePersisted__(
+            final EntityManagerFactory entityManagerFactory,
+            final EntityManager entityManager,
+            final Film entityInstance) {
         final var filmText = entityManager.find(FilmText.class, entityInstance.getFilmId());
         assertThat(filmText).as("film text of %s", entityInstance).isNotNull();
         assertThat(filmText.getTitle()).as("title of %s", filmText)
@@ -71,7 +79,9 @@ class Film_PersistenceIT
      *         the language, a lazy association, resolves.
      */
     @Override
-    void randomTargetInstanceSelected(final Film instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Film instance) {
         assertThatCode(() -> Film.SpecialFeature.parse(instance.getSpecialFeatures()))
                 .as("special features of %s", instance)
                 .doesNotThrowAnyException();
@@ -90,18 +100,23 @@ class Film_PersistenceIT
      */
     @Test
     void _update_FilmTextUpdated() {
-        applyNewPersistedTargetInstanceAndRollback((em, v) -> {
-            em.flush();
-            v.setTitle("UPDATED " + v.getFilmId());
-            v.setDescription("updated description of " + v.getFilmId());
-            em.flush();
-            final var filmText = em.find(FilmText.class, v.getFilmId());
-            assertThat(filmText).as("film text of %s", v).isNotNull();
-            assertThat(filmText.getTitle()).as("title of %s", filmText).isEqualTo(v.getTitle());
-            assertThat(filmText.getDescription()).as("description of %s", filmText)
-                    .isEqualTo(v.getDescription());
-            return null;
-        });
+        applyEntityManagerFactory(emf -> applyEntityManager(
+                emf,
+                m -> applyInTransactionAndRollback(m, em -> {
+                    final var v = newPersistedInstanceOf(em, entityClass);
+                    em.flush();
+                    v.setTitle("UPDATED " + v.getFilmId());
+                    v.setDescription("updated description of " + v.getFilmId());
+                    em.flush();
+                    final var filmText = em.find(FilmText.class, v.getFilmId());
+                    assertThat(filmText).as("film text of %s", v).isNotNull();
+                    assertThat(filmText.getTitle()).as("title of %s", filmText)
+                            .isEqualTo(v.getTitle());
+                    assertThat(filmText.getDescription()).as("description of %s", filmText)
+                            .isEqualTo(v.getDescription());
+                    return null;
+                })
+        ));
     }
 
     /**
@@ -109,14 +124,19 @@ class Film_PersistenceIT
      */
     @Test
     void _delete_FilmTextDeleted() {
-        applyNewPersistedTargetInstanceAndRollback((em, v) -> {
-            em.flush();
-            final var filmId = v.getFilmId();
-            em.remove(v);
-            em.flush();
-            assertThat(em.find(FilmText.class, filmId)).as("film text of the deleted film %s",
-                                                           filmId).isNull();
-            return null;
-        });
+        applyEntityManagerFactory(emf -> applyEntityManager(
+                emf,
+                m -> applyInTransactionAndRollback(m, em -> {
+                    final var v = newPersistedInstanceOf(em, entityClass);
+                    em.flush();
+                    final var filmId = v.getFilmId();
+                    em.remove(v);
+                    em.flush();
+                    assertThat(em.find(FilmText.class, filmId))
+                            .as("film text of the deleted film %s", filmId)
+                            .isNull();
+                    return null;
+                })
+        ));
     }
 }

@@ -23,7 +23,7 @@
 -- it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/_schema_exercises_01_basic.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/_schema_exercises_01_basic.sql
 --
 
 
@@ -298,7 +298,8 @@ ORDER BY table_name, index_name, seq_in_index
 -- +-------------------+----------------------+---------------------------------------------------------------------+
 SELECT c.table_name, c.column_name, c.column_type
 FROM information_schema.columns c
-         JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+         JOIN information_schema.tables t
+              ON t.table_schema = c.table_schema AND t.table_name = c.table_name
 WHERE c.table_schema = 'sakila'
   AND t.table_type = 'BASE TABLE'
   AND c.is_nullable = 'YES'

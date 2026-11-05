@@ -22,7 +22,7 @@
 -- 'no rows' marks a check that passes when nothing comes back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/staff.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/staff.sql
 --
 
 

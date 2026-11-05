@@ -23,7 +23,7 @@
 -- data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/city_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/city_exercises_03_advanced.sql
 --
 
 
@@ -46,7 +46,9 @@
 SELECT ci.*, co.*
 FROM city ci
          JOIN country co ON co.country_id = ci.country_id
-WHERE NOT EXISTS (SELECT 1 FROM city other WHERE other.country_id = ci.country_id AND other.city_id <> ci.city_id)
+WHERE NOT EXISTS (SELECT 1
+                  FROM city other
+                  WHERE other.country_id = ci.country_id AND other.city_id <> ci.city_id)
 ORDER BY co.country, ci.city_id
 LIMIT 10
 ;

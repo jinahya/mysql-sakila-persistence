@@ -29,10 +29,10 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Rental_Test
-        extends _Entity_Test<Rental> {
+        extends _Entity_Test<Rental, Integer> {
 
     Rental_Test() {
-        super(Rental.class);
+        super(Rental.class, Integer.class);
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode
@@ -45,8 +45,8 @@ class Rental_Test
      *         trigger, and every other attribute is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<Rental> equalsVerifier() {
-        return super.equalsVerifier()
+    public SingleTypeEqualsVerifierApi<Rental> equals_verifier_() {
+        return super.equals_verifier_()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

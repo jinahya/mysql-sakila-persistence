@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/customer_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/customer_exercises_02_intermediate.sql
 --
 
 
@@ -41,7 +41,8 @@ SELECT c.*, SUM(p.amount) AS paid
 FROM customer c
          JOIN payment p ON p.customer_id = c.customer_id
 GROUP BY c.customer_id
-ORDER BY paid DESC, c.customer_id LIMIT 5
+ORDER BY paid DESC, c.customer_id
+LIMIT 5
 ;
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_02

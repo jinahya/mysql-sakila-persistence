@@ -22,7 +22,7 @@
 -- aggregate. Each poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/sales_by_film_category_exercises_01_basic.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/sales_by_film_category_exercises_01_basic.sql
 --
 
 
@@ -36,7 +36,8 @@
 -- | Animation |     4656.30 |
 -- +-----------+-------------+
 SELECT *
-FROM sales_by_film_category LIMIT 3
+FROM sales_by_film_category
+LIMIT 3
 ;
 
 -- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_B_02

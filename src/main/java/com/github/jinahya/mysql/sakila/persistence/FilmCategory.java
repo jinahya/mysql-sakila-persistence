@@ -28,7 +28,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -66,49 +65,10 @@ import java.time.LocalDateTime;
  * {@link jakarta.persistence.EmbeddedId @EmbeddedId} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a
- *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
+ * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
  *         The film_category Table</a>
  * @see FilmCategoryId
  */
-@NamedQuery(name = "FilmCategory.selectOneByFilmIdAndCategoryId",
-            query = """
-                    SELECT e
-                    FROM FilmCategory e
-                    WHERE e.filmId = :filmId
-                      AND e.categoryId = :categoryId"""
-)
-@NamedQuery(name = "FilmCategory.selectListOrderByFilmIdAscCategoryIdAsc",
-            query = """
-                    SELECT e
-                    FROM FilmCategory e
-                    ORDER BY e.filmId ASC, e.categoryId ASC"""
-)
-@NamedQuery(name = "FilmCategory.selectListByFilmOrderByCategoryIdAsc",
-            query = """
-                    SELECT e
-                    FROM FilmCategory e
-                    WHERE e.film = :film
-                    ORDER BY e.categoryId ASC"""
-)
-@NamedQuery(name = "FilmCategory.selectListByCategoryOrderByFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM FilmCategory e
-                    WHERE e.category = :category
-                    ORDER BY e.filmId ASC"""
-)
-@NamedQuery(name = "FilmCategory.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM FilmCategory e"""
-)
-@NamedQuery(name = "FilmCategory.countByCategory",
-            query = """
-                    SELECT COUNT(e)
-                    FROM FilmCategory e
-                    WHERE e.category = :category"""
-)
 @Entity
 @IdClass(FilmCategoryId.class)
 @Table(name = FilmCategory.TABLE_NAME)

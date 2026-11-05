@@ -34,16 +34,17 @@ import static org.assertj.core.api.Assertions.tuple;
 
 /**
  * Answers the exercises of
- * {@code src/test/sql/exercises/sales_by_film_category_exercises_02_intermediate.sql}, against the installed
- * {@code sakila} database; a nested class per exercise, which answers it with JPQL and with the
- * Criteria API, or with a native query where neither can, and logs what it gives.
+ * {@code src/test/sql/exercises/sales_by_film_category_exercises_02_intermediate.sql}, against the
+ * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
+ * with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_I_01: whether the view's sales add up to every payment")
+    @DisplayName(
+            "SAKILA_SALES_BY_FILM_CATEGORY_I_01: whether the view's sales add up to every payment")
     @Nested
     class SAKILA_SALES_BY_FILM_CATEGORY_I_01_Test {
 
@@ -87,7 +88,8 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_SALES_BY_FILM_CATEGORY_I_02: the five categories which sold the most, and their share of all sales")
+            "SAKILA_SALES_BY_FILM_CATEGORY_I_02: the five categories which sold the most, and " +
+            "their share of all sales")
     @Nested
     class SAKILA_SALES_BY_FILM_CATEGORY_I_02_Test {
 
@@ -148,7 +150,8 @@ class SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SALES_BY_FILM_CATEGORY_I_03: the five categories which sold the most per film")
+    @DisplayName(
+            "SAKILA_SALES_BY_FILM_CATEGORY_I_03: the five categories which sold the most per film")
     @Nested
     class SAKILA_SALES_BY_FILM_CATEGORY_I_03_Test {
 

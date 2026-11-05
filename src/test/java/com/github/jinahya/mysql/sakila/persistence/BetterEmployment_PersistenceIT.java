@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -29,10 +32,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class BetterEmployment_PersistenceIT
-        extends _Entity_PersistenceIT<BetterEmployment> {
+        extends _Entity_PersistenceIT<BetterEmployment, BetterEmploymentId> {
 
     BetterEmployment_PersistenceIT() {
-        super(BetterEmployment.class);
+        super(BetterEmployment.class, BetterEmploymentId.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -45,7 +48,9 @@ class BetterEmployment_PersistenceIT
      *         flag is {@code TRUE} or {@code null}, never {@code FALSE}.
      */
     @Override
-    void randomTargetInstanceSelected(final BetterEmployment instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final BetterEmployment instance) {
         assertThat(instance.getStore().getId()).as("id of the store of %s", instance).isNotNull();
         assertThat(instance.getStaff().getId()).as("id of the staff of %s", instance).isNotNull();
         assertThat(instance.getManager()).as("manager of %s", instance).isNotEqualTo(Boolean.FALSE);

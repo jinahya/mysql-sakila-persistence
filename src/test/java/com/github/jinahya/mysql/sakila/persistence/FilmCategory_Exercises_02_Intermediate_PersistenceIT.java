@@ -27,18 +27,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/film_category_exercises_02_intermediate.sql},
- * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
- * gives.
+ * Answers the exercises of
+ * {@code src/test/sql/exercises/film_category_exercises_02_intermediate.sql}, against the installed
+ * {@code sakila} database; a nested class per exercise, which answers it with JPQL and with the
+ * Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -119,7 +117,9 @@ class FilmCategory_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_FILM_CATEGORY_I_03: how many films each category has, and how many of them are rated R")
+    @DisplayName(
+            "SAKILA_FILM_CATEGORY_I_03: how many films each category has, and how many of them " +
+            "are rated R")
     @Nested
     class SAKILA_FILM_CATEGORY_I_03_Test {
 

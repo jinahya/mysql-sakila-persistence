@@ -23,7 +23,7 @@
 -- installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/category_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/category_exercises_03_advanced.sql
 --
 
 
@@ -50,10 +50,10 @@
 -- |          12 | Music       | 2006-02-15 04:46:27 |    51 |          1000 |           100.0 |
 -- +-------------+-------------+---------------------+-------+---------------+-----------------+
 SELECT c.*,
-       COUNT(*)                                                         AS films,
-       SUM(COUNT(*)) OVER (ORDER BY COUNT(*) DESC, c.name)              AS running_films,
+       COUNT(*)                                            AS films,
+       SUM(COUNT(*)) OVER (ORDER BY COUNT(*) DESC, c.name) AS running_films,
        ROUND(100 * SUM(COUNT(*)) OVER (ORDER BY COUNT(*) DESC, c.name)
-                 / SUM(COUNT(*)) OVER (), 1)                            AS running_percent
+                 / SUM(COUNT(*)) OVER (), 1)               AS running_percent
 FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
 GROUP BY c.category_id
@@ -85,7 +85,7 @@ ORDER BY films DESC, c.name
 SELECT name, title, rentals
 FROM (SELECT c.name,
              f.title,
-             COUNT(*)                                                                    AS rentals,
+             COUNT(*)                                                                       AS rentals,
              ROW_NUMBER() OVER (PARTITION BY c.category_id ORDER BY COUNT(*) DESC, f.title) AS film_rank
       FROM category c
                JOIN film_category fc ON fc.category_id = c.category_id

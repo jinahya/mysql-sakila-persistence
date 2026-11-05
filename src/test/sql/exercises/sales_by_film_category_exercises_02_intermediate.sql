@@ -22,7 +22,7 @@
 -- or a NOT EXISTS. Each poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/sales_by_film_category_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/sales_by_film_category_exercises_02_intermediate.sql
 --
 
 
@@ -49,7 +49,8 @@ SELECT (SELECT SUM(total_sales) FROM sales_by_film_category) AS by_category,
 -- | Comedy    |     4383.58 |    6.50 |
 -- +-----------+-------------+---------+
 SELECT *,
-       ROUND(100 * total_sales / (SELECT SUM(total_sales) FROM sales_by_film_category), 2) AS percent
+       ROUND(100 * total_sales / (SELECT SUM(total_sales) FROM sales_by_film_category),
+             2) AS percent
 FROM sales_by_film_category
 ORDER BY total_sales DESC, category
 LIMIT 5

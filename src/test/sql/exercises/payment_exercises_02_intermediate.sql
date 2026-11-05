@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/payment_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/payment_exercises_02_intermediate.sql
 --
 
 
@@ -71,7 +71,7 @@ SELECT CASE
            WHEN p.amount < f.rental_rate THEN 'less'
            WHEN p.amount = f.rental_rate THEN 'the rate'
            ELSE 'more' END AS paid,
-       COUNT(*) AS payments
+       COUNT(*)            AS payments
 FROM payment p
          JOIN rental r ON r.rental_id = p.rental_id
          JOIN inventory i ON i.inventory_id = r.inventory_id

@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Customer_PersistenceIT
-        extends _Entity_PersistenceIT<Customer> {
+        extends _Entity_PersistenceIT<Customer, Integer> {
 
     Customer_PersistenceIT() {
-        super(Customer.class);
+        super(Customer.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -44,7 +47,9 @@ class Customer_PersistenceIT
      *         and the address, lazy associations, resolve.
      */
     @Override
-    void randomTargetInstanceSelected(final Customer instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Customer instance) {
         assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
         assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
         assertThat(instance.getActive()).as("activeness of %s", instance).isNotNull();

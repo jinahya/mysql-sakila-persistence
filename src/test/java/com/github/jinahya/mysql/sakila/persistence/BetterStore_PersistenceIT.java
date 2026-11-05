@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -29,10 +32,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class BetterStore_PersistenceIT
-        extends _Entity_PersistenceIT<BetterStore> {
+        extends _Entity_PersistenceIT<BetterStore, Long> {
 
     BetterStore_PersistenceIT() {
-        super(BetterStore.class);
+        super(BetterStore.class, Long.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -44,7 +47,9 @@ class BetterStore_PersistenceIT
      * @implNote The identifier and the name are there.
      */
     @Override
-    void randomTargetInstanceSelected(final BetterStore instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final BetterStore instance) {
         assertThat(instance.getId()).as("id of %s", instance).isNotNull();
         assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
     }

@@ -26,6 +26,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 
+import static com.github.jinahya.mysql.sakila.persistence.___PersistenceTest_Utils.applyEntityManagerFactory;
+import static com.github.jinahya.persistence.test.util.EntityPersisterUtils.newPersistedInstanceOf;
+import static com.github.jinahya.persistence.util.JinahyaEntityManagerFactoryUtils.applyEntityManager;
+import static com.github.jinahya.persistence.util.JinahyaEntityManagerUtils.applyInTransactionAndRollback;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -40,10 +44,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FilmCategory_PersistenceTest
-        extends _Entity_PersistenceTest<FilmCategory> {
+        extends _Entity_PersistenceTest<FilmCategory, FilmCategoryId> {
 
     FilmCategory_PersistenceTest() {
-        super(FilmCategory.class);
+        super(FilmCategory.class, FilmCategoryId.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -58,19 +62,24 @@ class FilmCategory_PersistenceTest
     @Test
     @Override
     void _persist_EqualsReference() {
-        applyNewPersistedEntityInstanceAndRollback((em, v) -> {
-            final var loaded = flushClearAndLoad(em, v);
-            em.clear();
-            final var reference = em.getReference(loaded);
-            assertThat(loaded.equals(reference))
-                    .as("loaded.equals(reference); reference: %s", reference.getClass())
-                    .isTrue();
-            assertThat(loaded.hashCode())
-                    .as("loaded.hashCode() == reference.hashCode(); reference: %s",
-                        reference.getClass())
-                    .isEqualTo(reference.hashCode());
-            return reference;
-        });
+        assumeReferenceable();
+        applyEntityManagerFactory(emf -> applyEntityManager(
+                emf,
+                m -> applyInTransactionAndRollback(m, em -> {
+                    final var v = newPersistedInstanceOf(em, targetClass);
+                    final var loaded = flushClearAndLoad(em, v);
+                    em.clear();
+                    final var reference = em.getReference(loaded);
+                    assertThat(loaded.equals(reference))
+                            .as("loaded.equals(reference); reference: %s", reference.getClass())
+                            .isTrue();
+                    assertThat(loaded.hashCode())
+                            .as("loaded.hashCode() == reference.hashCode(); reference: %s",
+                                reference.getClass())
+                            .isEqualTo(reference.hashCode());
+                    return reference;
+                })
+        ));
     }
 
     /**
@@ -83,15 +92,20 @@ class FilmCategory_PersistenceTest
     @Test
     @Override
     void _persist_ReferenceEquals() {
-        applyNewPersistedEntityInstanceAndRollback((em, v) -> {
-            final var loaded = flushClearAndLoad(em, v);
-            em.clear();
-            final var reference = em.getReference(loaded);
-            assertThat(reference.equals(loaded))
-                    .as("reference.equals(loaded); reference: %s", reference.getClass())
-                    .isTrue();
-            return reference;
-        });
+        assumeReferenceable();
+        applyEntityManagerFactory(emf -> applyEntityManager(
+                emf,
+                m -> applyInTransactionAndRollback(m, em -> {
+                    final var v = newPersistedInstanceOf(em, targetClass);
+                    final var loaded = flushClearAndLoad(em, v);
+                    em.clear();
+                    final var reference = em.getReference(loaded);
+                    assertThat(reference.equals(loaded))
+                            .as("reference.equals(loaded); reference: %s", reference.getClass())
+                            .isTrue();
+                    return reference;
+                })
+        ));
     }
 
     /**
@@ -104,22 +118,28 @@ class FilmCategory_PersistenceTest
     @Test
     @Override
     void _persist_HashSetMembership() {
-        applyNewPersistedEntityInstanceAndRollback((em, v) -> {
-            final var loaded = flushClearAndLoad(em, v);
-            final var set = new HashSet<FilmCategory>();
-            set.add(loaded);
-            em.clear();
-            final var merged = em.merge(loaded);
-            assertThat(set)
-                    .as("the set, of the instance merged into a cleared context")
-                    .contains(merged);
-            em.clear();
-            final var reference = em.getReference(loaded);
-            assertThat(set)
-                    .as("the set, of the reference to the row; reference: %s", reference.getClass())
-                    .contains(reference);
-            return set;
-        });
+        assumeReferenceable();
+        applyEntityManagerFactory(emf -> applyEntityManager(
+                emf,
+                m -> applyInTransactionAndRollback(m, em -> {
+                    final var v = newPersistedInstanceOf(em, targetClass);
+                    final var loaded = flushClearAndLoad(em, v);
+                    final var set = new HashSet<FilmCategory>();
+                    set.add(loaded);
+                    em.clear();
+                    final var merged = em.merge(loaded);
+                    assertThat(set)
+                            .as("the set, of the instance merged into a cleared context")
+                            .contains(merged);
+                    em.clear();
+                    final var reference = em.getReference(loaded);
+                    assertThat(set)
+                            .as("the set, of the reference to the row; reference: %s",
+                                reference.getClass())
+                            .contains(reference);
+                    return set;
+                })
+        ));
     }
 
     /**
@@ -133,8 +153,12 @@ class FilmCategory_PersistenceTest
     private static FilmCategory flushClearAndLoad(final EntityManager em, final FilmCategory v) {
         em.flush();
         em.clear();
-        return em.createNamedQuery("FilmCategory.selectOneByFilmIdAndCategoryId",
-                                   FilmCategory.class)
+        return em.createQuery("""
+                                      SELECT e
+                                      FROM FilmCategory e
+                                      WHERE e.filmId = :filmId
+                                      AND e.categoryId = :categoryId""",
+                              FilmCategory.class)
                 .setParameter("filmId", v.getFilmId())
                 .setParameter("categoryId", v.getCategory().getCategoryId())
                 .getSingleResult();

@@ -56,7 +56,10 @@ class Payment_Persister
 
     private static Staff selectAnyStaff(final EntityManager entityManager) {
         final var staff = entityManager
-                .createNamedQuery("Staff.selectListOrderByStaffIdAsc", Staff.class)
+                .createQuery("""
+                                     SELECT e
+                                     FROM Staff e
+                                     ORDER BY e.staffId ASC""", Staff.class)
                 .getResultList();
         if (staff.isEmpty()) {
             throw new IllegalStateException("no staff in the database");

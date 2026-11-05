@@ -35,9 +35,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/actor_exercises_02_intermediate.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/actor_exercises_02_intermediate.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -45,7 +46,8 @@ import static org.assertj.core.api.Assertions.tuple;
 class Actor_Exercises_02_Intermediate_PersistenceIT {
 
     @DisplayName(
-            "SAKILA_ACTOR_I_01: the last names shared by more than three actors, the most shared first")
+            "SAKILA_ACTOR_I_01: the last names shared by more than three actors, the most shared " +
+            "first")
     @Nested
     class SAKILA_ACTOR_I_01_Test {
 
@@ -111,7 +113,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
                                 r -> ((Actor) r[0]).getLastName(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", 42L),
@@ -137,7 +140,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
                                 r -> ((Actor) r[0]).getLastName(), r -> ((Number) r[1]).longValue())
                     .containsExactly(
                             tuple(107, "GINA", "DEGENERES", 42L),
@@ -260,7 +264,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
                                 r -> ((Actor) r[0]).getLastName(),
                                 r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
@@ -288,7 +293,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
                                 r -> ((Actor) r[0]).getLastName(),
                                 r -> ((Number) r[1]).doubleValue())
                     .containsExactly(
@@ -328,11 +334,12 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
                                             ORDER BY a.actorId""",
                                     Object[].class
                             )
-                            .getResultList())
+                                        .getResultList())
             );
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
                                 r -> ((Actor) r[0]).getLastName(), r -> r[1], r -> r[2], r -> r[3],
                                 r -> r[4], r -> r[5])
                     .containsExactly(
@@ -359,7 +366,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
             });
             list.forEach(r -> log.debug("{}", Arrays.toString(r)));
             assertThat(list)
-                    .extracting(r -> ((Actor) r[0]).getActorId(), r -> ((Actor) r[0]).getFirstName(),
+                    .extracting(r -> ((Actor) r[0]).getActorId(),
+                                r -> ((Actor) r[0]).getFirstName(),
                                 r -> ((Actor) r[0]).getLastName(), r -> r[1], r -> r[2], r -> r[3],
                                 r -> r[4], r -> r[5])
                     .containsExactly(
@@ -410,7 +418,8 @@ class Actor_Exercises_02_Intermediate_PersistenceIT {
                 final var f = fa.join(FilmActor_.film);
                 g.select(fa)
                         .where(cb.equal(fa.get(FilmActor_.actor), a),
-                               cb.equal(f.get(Film_.rating), cb.parameter(Film.Rating.class, "rating")));
+                               cb.equal(f.get(Film_.rating),
+                                        cb.parameter(Film.Rating.class, "rating")));
                 cq.select(a)
                         .where(cb.not(cb.exists(g)))
                         .orderBy(cb.asc(a.get(Actor_.actorId)));

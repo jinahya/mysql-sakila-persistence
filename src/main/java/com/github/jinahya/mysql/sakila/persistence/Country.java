@@ -27,7 +27,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -57,37 +56,6 @@ import java.util.function.Function;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-country.html">The
  *         country Table</a>
  */
-@NamedQuery(name = "Country.selectOneByCountryId",
-            query = """
-                    SELECT e
-                    FROM Country e
-                    WHERE e.countryId = :countryId"""
-)
-@NamedQuery(name = "Country.selectListOrderByCountryIdAsc",
-            query = """
-                    SELECT e
-                    FROM Country e
-                    ORDER BY e.countryId ASC"""
-)
-@NamedQuery(name = "Country.selectListOrderByCountryIdAscCountryIdGt",
-            query = """
-                    SELECT e
-                    FROM Country e
-                    WHERE e.countryId > :countryIdMinExclusive
-                    ORDER BY e.countryId ASC"""
-)
-@NamedQuery(name = "Country.selectListByCountryOrderByCountryIdAsc",
-            query = """
-                    SELECT e
-                    FROM Country e
-                    WHERE e.country = :country
-                    ORDER BY e.countryId ASC"""
-)
-@NamedQuery(name = "Country.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Country e"""
-)
 @Entity
 @Table(name = Country.TABLE_NAME)
 public class Country {

@@ -20,6 +20,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,10 +31,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Payment_PersistenceIT
-        extends _Entity_PersistenceIT<Payment> {
+        extends _Entity_PersistenceIT<Payment, Integer> {
 
     Payment_PersistenceIT() {
-        super(Payment.class);
+        super(Payment.class, Integer.class);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -44,7 +47,9 @@ class Payment_PersistenceIT
      *         associations, resolve; the rental, when there is one, is of the same customer.
      */
     @Override
-    void randomTargetInstanceSelected(final Payment instance) {
+    protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
+                                                  final EntityManager entityManager,
+                                                  final Payment instance) {
         assertThat(instance.getAmount()).as("amount of %s", instance).isNotNegative();
         assertThat(instance.getStaff().getUsername()).as("username of the staff of %s", instance)
                 .isNotBlank();

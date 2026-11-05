@@ -27,7 +27,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -55,23 +54,6 @@ import java.util.List;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see BetterEmployment
  */
-@NamedQuery(name = "BetterStaff.selectOneById",
-            query = """
-                    SELECT e
-                    FROM BetterStaff e
-                    WHERE e.id = :id"""
-)
-@NamedQuery(name = "BetterStaff.selectListOrderByIdAsc",
-            query = """
-                    SELECT e
-                    FROM BetterStaff e
-                    ORDER BY e.id ASC"""
-)
-@NamedQuery(name = "BetterStaff.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM BetterStaff e"""
-)
 @Entity
 @Table(name = BetterStaff.TABLE_NAME)
 public class BetterStaff {

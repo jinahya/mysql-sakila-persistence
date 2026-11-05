@@ -35,9 +35,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/_schema_exercises_02_intermediate.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/_schema_exercises_02_intermediate.sql},
+ * against the installed {@code sakila} database; a nested class per exercise, which answers it with
+ * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
+ * gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
@@ -325,7 +326,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SCHEMA_I_06: the customers who have returned everything they rented, how many")
+    @DisplayName(
+            "SAKILA_SCHEMA_I_06: the customers who have returned everything they rented, how many")
     @Nested
     class SAKILA_SCHEMA_I_06_Test {
 
@@ -423,7 +425,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SCHEMA_I_08: the customers who rented from a store other than their own, how many")
+    @DisplayName(
+            "SAKILA_SCHEMA_I_08: the customers who rented from a store other than their own, how " +
+            "many")
     @Nested
     class SAKILA_SCHEMA_I_08_Test {
 
@@ -460,7 +464,8 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
     }
 
     @DisplayName(
-            "SAKILA_SCHEMA_I_09: how many rentals, and how much was paid, for short, medium and long " +
+            "SAKILA_SCHEMA_I_09: how many rentals, and how much was paid, for short, medium and " +
+            "long " +
             "films")
     @Nested
     class SAKILA_SCHEMA_I_09_Test {
@@ -594,7 +599,9 @@ class _Schema_Exercises_02_Intermediate_PersistenceIT {
         }
     }
 
-    @DisplayName("SAKILA_SCHEMA_I_11: the actors who appear in both a Comedy and a Horror film, how many")
+    @DisplayName(
+            "SAKILA_SCHEMA_I_11: the actors who appear in both a Comedy and a Horror film, how " +
+            "many")
     @Nested
     class SAKILA_SCHEMA_I_11_Test {
 

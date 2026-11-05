@@ -28,7 +28,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -59,54 +58,11 @@ import java.time.LocalDateTime;
  * maps its key with an {@link jakarta.persistence.IdClass @IdClass} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The
+ * @see <a
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_actor.html">The
  *         film_actor Table</a>
  * @see FilmActorId
  */
-@NamedQuery(name = "FilmActor.selectOneByActorIdAndFilmId",
-            query = """
-                    SELECT e
-                    FROM FilmActor e
-                    WHERE e.id.actorId = :actorId
-                      AND e.id.filmId = :filmId"""
-)
-@NamedQuery(name = "FilmActor.selectListOrderByActorIdAscFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM FilmActor e
-                    ORDER BY e.id.actorId ASC, e.id.filmId ASC"""
-)
-@NamedQuery(name = "FilmActor.selectListByActorOrderByFilmIdAsc",
-            query = """
-                    SELECT e
-                    FROM FilmActor e
-                    WHERE e.actor = :actor
-                    ORDER BY e.id.filmId ASC"""
-)
-@NamedQuery(name = "FilmActor.selectListByFilmOrderByActorIdAsc",
-            query = """
-                    SELECT e
-                    FROM FilmActor e
-                    WHERE e.film = :film
-                    ORDER BY e.id.actorId ASC"""
-)
-@NamedQuery(name = "FilmActor.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM FilmActor e"""
-)
-@NamedQuery(name = "FilmActor.countByActor",
-            query = """
-                    SELECT COUNT(e)
-                    FROM FilmActor e
-                    WHERE e.actor = :actor"""
-)
-@NamedQuery(name = "FilmActor.countByFilm",
-            query = """
-                    SELECT COUNT(e)
-                    FROM FilmActor e
-                    WHERE e.film = :film"""
-)
 @Entity
 @Table(name = FilmActor.TABLE_NAME)
 public class FilmActor {

@@ -22,7 +22,7 @@
 -- Each poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_category_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_category_exercises_02_intermediate.sql
 --
 
 
@@ -71,7 +71,7 @@ WHERE NOT EXISTS (SELECT 1 FROM film_category fc WHERE fc.film_id = f.film_id)
 -- |          16 | Travel      | 2006-02-15 04:46:27 |    57 |      10 |
 -- +-------------+-------------+---------------------+-------+---------+
 SELECT c.*,
-       COUNT(*) AS films,
+       COUNT(*)                                        AS films,
        SUM(CASE WHEN f.rating = 'R' THEN 1 ELSE 0 END) AS r_rated
 FROM film_category fc
          JOIN category c ON c.category_id = fc.category_id

@@ -29,10 +29,10 @@ import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class SalesByFilmCategory_Test
-        extends _Entity_Test<SalesByFilmCategory> {
+        extends _Entity_Test<SalesByFilmCategory, String> {
 
     SalesByFilmCategory_Test() {
-        super(SalesByFilmCategory.class);
+        super(SalesByFilmCategory.class, String.class);
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode
@@ -44,8 +44,8 @@ class SalesByFilmCategory_Test
      *         {@code @Id}, because every other attribute is mutable state.
      */
     @Override
-    public SingleTypeEqualsVerifierApi<SalesByFilmCategory> equalsVerifier() {
-        return super.equalsVerifier()
+    public SingleTypeEqualsVerifierApi<SalesByFilmCategory> equals_verifier_() {
+        return super.equals_verifier_()
                 .suppress(Warning.SURROGATE_KEY,
                           Warning.IDENTICAL_COPY_FOR_VERSIONED_ENTITY,
                           Warning.STRICT_HASHCODE);

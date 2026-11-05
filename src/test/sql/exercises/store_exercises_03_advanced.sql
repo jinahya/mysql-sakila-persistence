@@ -23,7 +23,7 @@
 -- data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/store_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/store_exercises_03_advanced.sql
 --
 
 
@@ -65,8 +65,11 @@ ORDER BY st.store_id
 -- | 2006-02 |        1 |                1 |          1 | 2006-02-15 04:57:12 |      92 |   50.55 |
 -- | 2006-02 |        2 |                2 |          2 | 2006-02-15 04:57:12 |      90 |   49.45 |
 -- +---------+----------+------------------+------------+---------------------+---------+---------+
-SELECT DATE_FORMAT(r.rental_date, '%Y-%m') AS month, st.*, COUNT(*) AS rentals,
-       ROUND(100 * COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY DATE_FORMAT(r.rental_date, '%Y-%m')), 2) AS percent
+SELECT DATE_FORMAT(r.rental_date, '%Y-%m') AS month,
+       st.*,
+       COUNT(*)                            AS rentals,
+       ROUND(100 * COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY DATE_FORMAT(r.rental_date, '%Y-%m')),
+             2)                            AS percent
 FROM rental r
          JOIN inventory i ON i.inventory_id = r.inventory_id
          JOIN store st ON st.store_id = i.store_id

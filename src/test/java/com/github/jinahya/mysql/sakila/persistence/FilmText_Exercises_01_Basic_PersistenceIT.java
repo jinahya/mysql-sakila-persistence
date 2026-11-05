@@ -31,16 +31,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/film_text_exercises_01_basic.sql}, against the
- * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
- * with the Criteria API, or with a native query where neither can, and logs what it gives.
+ * Answers the exercises of {@code src/test/sql/exercises/film_text_exercises_01_basic.sql}, against
+ * the installed {@code sakila} database; a nested class per exercise, which answers it with JPQL
+ * and with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class FilmText_Exercises_01_Basic_PersistenceIT {
 
-    @DisplayName("SAKILA_FILM_TEXT_B_01: the films whose description has both a Crocodile and a Shark")
+    @DisplayName(
+            "SAKILA_FILM_TEXT_B_01: the films whose description has both a Crocodile and a Shark")
     @Nested
     class SAKILA_FILM_TEXT_B_01_Test {
 

@@ -33,17 +33,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
 /**
- * Answers the exercises of {@code src/test/sql/exercises/sales_by_store_exercises_02_intermediate.sql},
- * against the installed {@code sakila} database; a nested class per exercise, which answers it with
- * JPQL and with the Criteria API, or with a native query where neither can, and logs what it
- * gives.
+ * Answers the exercises of
+ * {@code src/test/sql/exercises/sales_by_store_exercises_02_intermediate.sql}, against the
+ * installed {@code sakila} database; a nested class per exercise, which answers it with JPQL and
+ * with the Criteria API, or with a native query where neither can, and logs what it gives.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 @Slf4j
 class SalesByStore_Exercises_02_Intermediate_PersistenceIT {
 
-    @DisplayName("SAKILA_SALES_BY_STORE_I_01: whether the stores' sales add up to every payment with a rental")
+    @DisplayName(
+            "SAKILA_SALES_BY_STORE_I_01: whether the stores' sales add up to every payment with a" +
+            " rental")
     @Nested
     class SAKILA_SALES_BY_STORE_I_01_Test {
 

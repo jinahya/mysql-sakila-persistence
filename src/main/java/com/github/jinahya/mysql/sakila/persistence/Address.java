@@ -29,7 +29,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -73,53 +72,10 @@ import java.util.function.Function;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-address.html">The
  *         address Table</a>
- * @see <a href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats.html#gis-internal-format">
+ * @see <a
+ *         href="https://dev.mysql.com/doc/refman/9.7/en/gis-data-formats.html#gis-internal-format">
  *         Internal Geometry Storage Format</a>
  */
-@NamedQuery(name = "Address.selectOneByAddressId",
-            query = """
-                    SELECT e
-                    FROM Address e
-                    WHERE e.addressId = :addressId"""
-)
-@NamedQuery(name = "Address.selectListOrderByAddressIdAsc",
-            query = """
-                    SELECT e
-                    FROM Address e
-                    ORDER BY e.addressId ASC"""
-)
-@NamedQuery(name = "Address.selectListOrderByAddressIdAscAddressIdGt",
-            query = """
-                    SELECT e
-                    FROM Address e
-                    WHERE e.addressId > :addressIdMinExclusive
-                    ORDER BY e.addressId ASC"""
-)
-@NamedQuery(name = "Address.selectListByCityOrderByAddressIdAsc",
-            query = """
-                    SELECT e
-                    FROM Address e
-                    WHERE e.city = :city
-                    ORDER BY e.addressId ASC"""
-)
-@NamedQuery(name = "Address.selectListByPostalCodeOrderByAddressIdAsc",
-            query = """
-                    SELECT e
-                    FROM Address e
-                    WHERE e.postalCode = :postalCode
-                    ORDER BY e.addressId ASC"""
-)
-@NamedQuery(name = "Address.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Address e"""
-)
-@NamedQuery(name = "Address.countByCity",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Address e
-                    WHERE e.city = :city"""
-)
 @Entity
 @Table(name = Address.TABLE_NAME)
 public class Address {

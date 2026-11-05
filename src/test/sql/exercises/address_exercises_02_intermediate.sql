@@ -22,7 +22,7 @@
 -- poses a question, answers it, and shows what the installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/address_exercises_02_intermediate.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/address_exercises_02_intermediate.sql
 --
 
 
@@ -37,11 +37,21 @@
 -- |          4 | 1411 Lillydale Drive | NULL     | QLD      |     576 |             | 6172235589  | 2014-09-25 22:30:09 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |          8 | Australia | 2006-02-15 04:44:00 |
 -- |          5 | 1913 Hanoi Way       |          | Nagasaki |     463 | 35200       | 28303384290 | 2014-09-25 22:31:53 |     463 | Sasebo     |         50 | 2006-02-15 04:45:25 |         50 | Japan     | 2006-02-15 04:44:00 |
 -- +------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
-SELECT a.address_id, a.address, a.address2, a.district, a.city_id, a.postal_code, a.phone, a.last_update, ci.*, co.* -- every column but location, a GEOMETRY which does not print
+SELECT a.address_id,
+       a.address,
+       a.address2,
+       a.district,
+       a.city_id,
+       a.postal_code,
+       a.phone,
+       a.last_update,
+       ci.*,
+       co.* -- every column but location, a GEOMETRY which does not print
 FROM address a
          JOIN city ci ON ci.city_id = a.city_id
          JOIN country co ON co.country_id = ci.country_id
-ORDER BY a.address_id LIMIT 5
+ORDER BY a.address_id
+LIMIT 5
 ;
 
 -- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_I_02

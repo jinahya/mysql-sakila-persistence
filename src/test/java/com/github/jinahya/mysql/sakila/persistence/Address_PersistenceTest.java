@@ -27,9 +27,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Address_PersistenceTest
-        extends _Entity_PersistenceTest<Address> {
+        extends _Entity_PersistenceTest<Address, Integer> {
 
     Address_PersistenceTest() {
-        super(Address.class);
+        super(Address.class, Integer.class);
     }
 }

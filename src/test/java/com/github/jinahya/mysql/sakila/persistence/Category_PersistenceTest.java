@@ -27,9 +27,9 @@ package com.github.jinahya.mysql.sakila.persistence;
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class Category_PersistenceTest
-        extends _Entity_PersistenceTest<Category> {
+        extends _Entity_PersistenceTest<Category, Integer> {
 
     Category_PersistenceTest() {
-        super(Category.class);
+        super(Category.class, Integer.class);
     }
 }

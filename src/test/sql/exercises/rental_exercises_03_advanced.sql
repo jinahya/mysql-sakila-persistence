@@ -23,7 +23,7 @@
 -- data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/rental_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/rental_exercises_03_advanced.sql
 --
 
 
@@ -53,8 +53,10 @@ WHERE r.return_date > r.rental_date + INTERVAL f.rental_duration DAY
 -- |         433 | 2005-05-29 01:01:26 | 2005-07-07 05:30:56 |   39 |
 -- +-------------+---------------------+---------------------+------+
 SELECT customer_id, previous_rental, rental_date, DATEDIFF(rental_date, previous_rental) AS days
-FROM (SELECT customer_id, rental_date,
-             LAG(rental_date) OVER (PARTITION BY customer_id ORDER BY rental_date, rental_id) AS previous_rental
+FROM (SELECT customer_id,
+             rental_date,
+             LAG(rental_date)
+                 OVER (PARTITION BY customer_id ORDER BY rental_date, rental_id) AS previous_rental
       FROM rental
       WHERE rental_date < '2006-01-01') g
 WHERE previous_rental IS NOT NULL

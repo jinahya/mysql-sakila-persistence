@@ -30,7 +30,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -70,36 +69,6 @@ import java.time.LocalDateTime;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-staff.html">The
  *         staff Table</a>
  */
-@NamedQuery(name = "Staff.selectOneByStaffId",
-            query = """
-                    SELECT e
-                    FROM Staff e
-                    WHERE e.staffId = :staffId"""
-)
-@NamedQuery(name = "Staff.selectListOrderByStaffIdAsc",
-            query = """
-                    SELECT e
-                    FROM Staff e
-                    ORDER BY e.staffId ASC"""
-)
-@NamedQuery(name = "Staff.selectListByStoreOrderByStaffIdAsc",
-            query = """
-                    SELECT e
-                    FROM Staff e
-                    WHERE e.store = :store
-                    ORDER BY e.staffId ASC"""
-)
-@NamedQuery(name = "Staff.selectListByUsername",
-            query = """
-                    SELECT e
-                    FROM Staff e
-                    WHERE e.username = :username"""
-)
-@NamedQuery(name = "Staff.countAll",
-            query = """
-                    SELECT COUNT(e)
-                    FROM Staff e"""
-)
 @Entity
 @Table(name = Staff.TABLE_NAME)
 public class Staff {

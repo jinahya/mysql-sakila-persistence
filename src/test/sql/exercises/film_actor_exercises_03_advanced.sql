@@ -23,7 +23,7 @@
 -- installed data gives back.
 --
 -- Run the file as a whole:
---   docker exec -i mysql-sakila mysql -uroot -ppassword -t sakila < src/test/sql/exercises/film_actor_exercises_03_advanced.sql
+--   docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql/exercises/film_actor_exercises_03_advanced.sql
 --
 
 
@@ -42,7 +42,8 @@ FROM film_actor fa1
          JOIN actor a1 ON a1.actor_id = fa1.actor_id
          JOIN actor a2 ON a2.actor_id = fa2.actor_id
 GROUP BY a1.actor_id, a2.actor_id
-ORDER BY films DESC, a1.actor_id, a2.actor_id LIMIT 3
+ORDER BY films DESC, a1.actor_id, a2.actor_id
+LIMIT 3
 ;
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_FILM_ACTOR_A_02
@@ -68,7 +69,11 @@ ORDER BY films DESC, a1.actor_id, a2.actor_id LIMIT 3
 -- | Travel      |       44 | NICK       | STALLONE  |     5 |
 -- +-------------+----------+------------+-----------+-------+
 SELECT name, actor_id, first_name, last_name, films
-FROM (SELECT c.name, a.actor_id, a.first_name, a.last_name, COUNT(*) AS films,
+FROM (SELECT c.name,
+             a.actor_id,
+             a.first_name,
+             a.last_name,
+             COUNT(*)                                                                          AS films,
              ROW_NUMBER() OVER (PARTITION BY c.category_id ORDER BY COUNT(*) DESC, a.actor_id) AS n
       FROM film_actor fa
                JOIN film_category fc ON fc.film_id = fa.film_id
