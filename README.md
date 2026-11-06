@@ -93,8 +93,8 @@ $ docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sq
 Some of what they find is a rule of the schema, and some only a habit of the generated data; the mappings follow the
 former and leave the latter alone.
 
-The exercises are listed, with their ids, in [EXERCISES.asciidoc](EXERCISES.asciidoc), and registered in
-[EXERCISES.yaml](EXERCISES.yaml); the `*_exercises_*.sql` files, in [`src/test/sql/exercises`](src/test/sql/exercises),
+The exercises are listed, with their ids, in [EXERCISES.asciidoc](src/test/sql-exercises/EXERCISES.asciidoc), and registered in
+[EXERCISES.yaml](src/test/sql-exercises/EXERCISES.yaml); the `<section>/<NN>_<level>.sql` files, in [`src/test/sql-exercises`](src/test/sql-exercises),
 answer them in SQL, and the `*_Exercises_*_PersistenceIT` classes in JPQL and with the Criteria API.
 
 ### A payment, and its rental

@@ -156,10 +156,10 @@
     <version.org.slf4j>2.0.20</version.org.slf4j>
     <eclipselink.woven>false</eclipselink.woven>
 
-    <!-- Pinned to PROJECTS_VERSIONS.asciidoc at the book's root. -->
+    <!-- Pinned to PROJECTS_VERSIONS.asciidoc of jakarta-persistence-applied-book-projects. -->
     <!-- https://central.sonatype.com/artifact/io.github.jinahya/jinahya-object-randomizer/versions -->
     <version.jinahya-object-randomizer>0.0.7</version.jinahya-object-randomizer>
-    <!-- Transitive only; pinned to PROJECTS_VERSIONS.asciidoc at the book's root. -->
+    <!-- Transitive only; pinned to PROJECTS_VERSIONS.asciidoc of jakarta-persistence-applied-book-projects. -->
     <!-- https://central.sonatype.com/artifact/org.locationtech.jts/jts-core/versions -->
     <version.org.locationtech.jts>1.20.0</version.org.locationtech.jts>
   </properties>
@@ -574,6 +574,26 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <!-- src/test/java-exercises holds the tests that answer the exercises of src/test/sql-exercises, a class per
+           .sql file; src/test/java keeps to the persistence tests. -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-exercises-test-source</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/test/java-exercises</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -954,7 +974,7 @@
            under target/ and the jars stay unwoven. The agent goes in its own property, not in argLine: surefire and
            failsafe substitute @{argLine} as it stands, so an expression in it would reach the JVM unresolved; the
            jar's path is the one dependency:properties sets, as for the Mockito agent.
-           See the book's PERSISTENCE_PROVIDERS.asciidoc, EclipseLink, Weaving. -->
+           See PERSISTENCE_PROVIDERS.asciidoc of jakarta-persistence-applied-book-projects, EclipseLink, Weaving. -->
       <properties>
         <eclipselink.javaagent>-javaagent:${org.eclipse.persistence:org.eclipse.persistence.jpa:jar}</eclipselink.javaagent>
         <eclipselink.woven>true</eclipselink.woven>
