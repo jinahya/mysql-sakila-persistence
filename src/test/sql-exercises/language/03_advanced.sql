@@ -28,7 +28,16 @@
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_LANGUAGE_A_01
 -- how many films use each language, as language and as original language.
--- NOT YET RUN
+-- +-------------+----------+---------------------+-------------+----------------------+
+-- | language_id | name     | last_update         | as_language | as_original_language |
+-- +-------------+----------+---------------------+-------------+----------------------+
+-- |           1 | English  | 2006-02-15 05:02:19 |        1000 |                    0 |
+-- |           2 | Italian  | 2006-02-15 05:02:19 |           0 |                    0 |
+-- |           3 | Japanese | 2006-02-15 05:02:19 |           0 |                    0 |
+-- |           4 | Mandarin | 2006-02-15 05:02:19 |           0 |                    0 |
+-- |           5 | French   | 2006-02-15 05:02:19 |           0 |                    0 |
+-- |           6 | German   | 2006-02-15 05:02:19 |           0 |                    0 |
+-- +-------------+----------+---------------------+-------------+----------------------+
 SELECT l.*,
        COUNT(CASE WHEN u.role = 'language' THEN 1 END) AS as_language,
        COUNT(CASE WHEN u.role = 'original' THEN 1 END) AS as_original_language

@@ -29,7 +29,15 @@
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_01
 -- the customer who paid the most in each of the five countries which paid the most.
--- NOT YET RUN
+-- +---------------+-------------+------------+-----------+--------+---------------+
+-- | country       | customer_id | first_name | last_name | total  | country_total |
+-- +---------------+-------------+------------+-----------+--------+---------------+
+-- | India         |         468 | TIM        | CARY      | 175.61 |       6628.28 |
+-- | China         |         550 | GUY        | BROWNLEE  | 159.68 |       5798.74 |
+-- | United States |         526 | KARL       | SEAL      | 221.55 |       4110.32 |
+-- | Japan         |         337 | JERRY      | JORDON    | 143.71 |       3470.75 |
+-- | Mexico        |         273 | PRISCILLA  | LOWE      | 157.65 |       3307.04 |
+-- +---------------+-------------+------------+-----------+--------+---------------+
 WITH paid AS (SELECT co.country_id, co.country, cu.customer_id, cu.first_name, cu.last_name, SUM(p.amount) AS total
               FROM payment p
                        JOIN customer cu ON cu.customer_id = p.customer_id
@@ -71,7 +79,20 @@ ORDER BY c.customer_id LIMIT 5
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_04
 -- each month's payments, and the change from the month before.
--- NOT YET RUN
+-- +---------+----------+----------------------+
+-- | month   | total    | change_from_previous |
+-- +---------+----------+----------------------+
+-- | 2005-05 |  4823.44 |                 NULL |
+-- | 2005-06 |  9629.89 |              4806.45 |
+-- | 2005-07 | 28368.91 |             18739.02 |
+-- | 2005-08 | 24070.14 |             -4298.77 |
+-- | 2005-09 |     0.00 |            -24070.14 |
+-- | 2005-10 |     0.00 |                 0.00 |
+-- | 2005-11 |     0.00 |                 0.00 |
+-- | 2005-12 |     0.00 |                 0.00 |
+-- | 2006-01 |     0.00 |                 0.00 |
+-- | 2006-02 |   514.18 |               514.18 |
+-- +---------+----------+----------------------+
 WITH RECURSIVE monthly AS (SELECT CAST(DATE_FORMAT(payment_date, '%Y-%m-01') AS DATE) AS month, SUM(amount) AS total
                            FROM payment
                            GROUP BY month),
@@ -215,7 +236,15 @@ ORDER BY co.country
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_A_10
 -- the five customers who owed the most at the end of the data.
--- NOT YET RUN
+-- +-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+---------+
+-- | customer_id | store_id | first_name | last_name | email                               | address_id | active | create_date         | last_update         | balance |
+-- +-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+---------+
+-- |           1 |        1 | MARY       | SMITH     | MARY.SMITH@sakilacustomer.org       |          5 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+-- |           2 |        1 | PATRICIA   | JOHNSON   | PATRICIA.JOHNSON@sakilacustomer.org |          6 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+-- |           3 |        1 | LINDA      | WILLIAMS  | LINDA.WILLIAMS@sakilacustomer.org   |          7 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+-- |           4 |        2 | BARBARA    | JONES     | BARBARA.JONES@sakilacustomer.org    |          8 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+-- |           5 |        1 | ELIZABETH  | BROWN     | ELIZABETH.BROWN@sakilacustomer.org  |          9 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+-- +-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+---------+
 SELECT c.*, get_customer_balance(c.customer_id, '2006-02-15') AS balance
 FROM customer c
 ORDER BY balance DESC, c.customer_id

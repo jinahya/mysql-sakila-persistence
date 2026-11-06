@@ -47,7 +47,26 @@ ORDER BY table_type, table_name
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_02
 -- how many rows each table has.
--- NOT YET RUN
+-- +---------------+-----------+
+-- | table_name    | row_count |
+-- +---------------+-----------+
+-- | actor         |       200 |
+-- | address       |       603 |
+-- | category      |        16 |
+-- | city          |       600 |
+-- | country       |       109 |
+-- | customer      |       599 |
+-- | film          |      1000 |
+-- | film_actor    |      5462 |
+-- | film_category |      1000 |
+-- | film_text     |      1000 |
+-- | inventory     |      4581 |
+-- | language      |         6 |
+-- | payment       |     16044 |
+-- | rental        |     16044 |
+-- | staff         |         2 |
+-- | store         |         2 |
+-- +---------------+-----------+
 SELECT 'actor' AS table_name, COUNT(*) AS row_count FROM actor
 UNION ALL SELECT 'address', COUNT(*) FROM address
 UNION ALL SELECT 'category', COUNT(*) FROM category

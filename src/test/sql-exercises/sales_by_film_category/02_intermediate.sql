@@ -78,7 +78,7 @@ LIMIT 5
 
 -- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_I_04
 -- the payments which reach no category, or more than one.
--- NOT YET RUN
+-- no rows.
 SELECT p.payment_id, p.amount, COUNT(fc.category_id) AS categories
 FROM payment p
          LEFT JOIN rental r ON r.rental_id = p.rental_id

@@ -38,7 +38,12 @@ SELECT (SELECT COUNT(*) FROM staff_list) AS staff_list, (SELECT COUNT(*) FROM st
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_STAFF_LIST_I_02
 -- whether each staff member lives in the city of their store.
--- NOT YET RUN
+-- +----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+-- | ID | name         | address              | zip code | phone       | city       | country   | SID | store_city | store_country | lives_in_store_city |
+-- +----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+-- |  1 | Mike Hillyer | 23 Workhaven Lane    |          | 14033335568 | Lethbridge | Canada    |   1 | Lethbridge | Canada        |                   1 |
+-- |  2 | Jon Stephens | 1411 Lillydale Drive |          | 6172235589  | Woodridge  | Australia |   2 | Woodridge  | Australia     |                   1 |
+-- +----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
 SELECT l.*,
        ci.city                                        AS store_city,
        co.country                                     AS store_country,

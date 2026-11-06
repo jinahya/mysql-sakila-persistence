@@ -47,7 +47,14 @@ ORDER BY f1.rating
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_A_02
 -- how many films have each special feature.
--- NOT YET RUN
+-- +-------------------+-------+
+-- | feature           | films |
+-- +-------------------+-------+
+-- | Commentaries      |   539 |
+-- | Behind the Scenes |   538 |
+-- | Trailers          |   535 |
+-- | Deleted Scenes    |   503 |
+-- +-------------------+-------+
 SELECT sf.feature, COUNT(f.film_id) AS films
 FROM (SELECT 'Trailers' AS feature
       UNION ALL

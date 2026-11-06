@@ -67,7 +67,15 @@ ORDER BY rentals DESC, c.name
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_03
 -- the five countries whose customers paid the most.
--- NOT YET RUN
+-- +------------+---------------+---------------------+-----------+---------+
+-- | country_id | country       | last_update         | customers | total   |
+-- +------------+---------------+---------------------+-----------+---------+
+-- |         44 | India         | 2006-02-15 04:44:00 |        60 | 6628.28 |
+-- |         23 | China         | 2006-02-15 04:44:00 |        53 | 5798.74 |
+-- |        103 | United States | 2006-02-15 04:44:00 |        36 | 4110.32 |
+-- |         50 | Japan         | 2006-02-15 04:44:00 |        31 | 3470.75 |
+-- |         60 | Mexico        | 2006-02-15 04:44:00 |        30 | 3307.04 |
+-- +------------+---------------+---------------------+-----------+---------+
 SELECT co.*, COUNT(DISTINCT cu.customer_id) AS customers, SUM(p.amount) AS total
 FROM payment p
          JOIN customer cu ON cu.customer_id = p.customer_id
@@ -170,7 +178,13 @@ WHERE i.store_id <> c.store_id
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_09
 -- how many rentals, and how much was paid, for short, medium and long films.
--- NOT YET RUN
+-- +--------------+---------+----------+
+-- | length_group | rentals | total    |
+-- +--------------+---------+----------+
+-- | short        |    1531 |  6191.68 |
+-- | medium       |    7213 | 30346.87 |
+-- | long         |    7300 | 30868.01 |
+-- +--------------+---------+----------+
 SELECT CASE
            WHEN f.length IS NULL THEN 'unknown'
            WHEN f.length < 60 THEN 'short'
@@ -290,7 +304,7 @@ ORDER BY rentals DESC, c.customer_id, f.film_id LIMIT 5
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_I_14
 -- the manager names of sales_by_store which more than one staff member has.
--- NOT YET RUN
+-- no rows.
 SELECT CONCAT(s.first_name, ' ', s.last_name) AS manager, COUNT(*) AS staff_members
 FROM staff s
 WHERE EXISTS (SELECT 1 FROM sales_by_store v WHERE v.manager = CONCAT(s.first_name, ' ', s.last_name))

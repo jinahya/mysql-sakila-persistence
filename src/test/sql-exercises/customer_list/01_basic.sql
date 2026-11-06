@@ -112,7 +112,20 @@ WHERE address LIKE '% Avenue'
 
 -- ------------------------------------------------------------------------------------------- SAKILA_CUSTOMER_LIST_B_05
 -- the first ten customers in the United States by zip code.
--- NOT YET RUN
+-- +-----+------------------+---------------------------------+----------+--------------+----------------+---------------+--------+-----+
+-- | ID  | name             | address                         | zip code | phone        | city           | country       | notes  | SID |
+-- +-----+------------------+---------------------------------+----------+--------------+----------------+---------------+--------+-----+
+-- | 400 | BRYAN HARDISON   | 530 Lausanne Lane               | 11067    | 775235029633 | Dallas         | United States | active |   2 |
+-- | 140 | EVA RAMOS        | 1666 Beni-Mellal Place          | 13377    | 9099941466   | Clarksville    | United States | active |   1 |
+-- |  14 | BETTY WHITE      | 770 Bydgoszcz Avenue            | 16266    | 517338314235 | Citrus Heights | United States | active |   2 |
+-- |   2 | PATRICIA JOHNSON | 1121 Loja Avenue                | 17886    | 838635286649 | San Bernardino | United States | active |   1 |
+-- |   6 | JENNIFER DAVIS   | 1795 Santiago de Compostela Way | 18743    | 860452626434 | Laredo         | United States | active |   2 |
+-- | 214 | KRISTIN JOHNSTON | 226 Brest Manor                 | 2299     | 785881412500 | Sunnyvale      | United States | active |   1 |
+-- | 276 | BRANDY GRAVES    | 1944 Bamenda Way                | 24645    | 75975221996  | Warren         | United States | active |   1 |
+-- | 382 | VICTOR BARKLEY   | 401 Sucre Boulevard             | 25007    | 486395999608 | Manchester     | United States | active |   2 |
+-- | 212 | WILMA RICHARDS   | 660 Jedda Boulevard             | 25053    | 168758068397 | Bellevue       | United States | active |   2 |
+-- | 149 | VALERIE BLACK    | 782 Mosul Street                | 25545    | 885899703621 | Brockton       | United States | active |   1 |
+-- +-----+------------------+---------------------------------+----------+--------------+----------------+---------------+--------+-----+
 SELECT *
 FROM customer_list
 WHERE country = 'United States'

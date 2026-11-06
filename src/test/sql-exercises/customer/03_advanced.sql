@@ -102,7 +102,15 @@ ORDER BY band
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_A_04
 -- the five customers with the longest gap between two rentals.
--- NOT YET RUN
+-- +-------------+----------+------------+-----------+------------------------------------+------------+--------+---------------------+---------------------+-------------+
+-- | customer_id | store_id | first_name | last_name | email                              | address_id | active | create_date         | last_update         | longest_gap |
+-- +-------------+----------+------------+-----------+------------------------------------+------------+--------+---------------------+---------------------+-------------+
+-- |         208 |        1 | LUCY       | WHEELER   | LUCY.WHEELER@sakilacustomer.org    |        212 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |         181 |
+-- |          99 |        2 | EMILY      | DIAZ      | EMILY.DIAZ@sakilacustomer.org      |        103 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |         179 |
+-- |         330 |        1 | SCOTT      | SHELLEY   | SCOTT.SHELLEY@sakilacustomer.org   |        335 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |         179 |
+-- |         228 |        2 | ALLISON    | STANLEY   | ALLISON.STANLEY@sakilacustomer.org |        232 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |         178 |
+-- |         479 |        1 | ZACHARY    | HITE      | ZACHARY.HITE@sakilacustomer.org    |        484 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |         178 |
+-- +-------------+----------+------------+-----------+------------------------------------+------------+--------+---------------------+---------------------+-------------+
 WITH gaps AS (SELECT r.customer_id,
                      DATEDIFF(r.rental_date,
                               LAG(r.rental_date) OVER (PARTITION BY r.customer_id ORDER BY r.rental_date, r.rental_id)) AS gap_days

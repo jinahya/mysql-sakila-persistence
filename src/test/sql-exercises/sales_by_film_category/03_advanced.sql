@@ -86,7 +86,16 @@ ORDER BY sales_rank, s.category
 
 -- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_A_04
 -- each category's sales at each store, with the view's total beside them.
--- NOT YET RUN
+-- +-------------+----------+----------+-------------+
+-- | category    | store_id | sales    | total_sales |
+-- +-------------+----------+----------+-------------+
+-- | Action      |        1 |  2342.04 |        NULL |
+-- | Action      |        2 |  2033.81 |        NULL |
+-- | Action      |     NULL |  4375.85 |     4375.85 |
+-- | Animation   |        1 |  2297.29 |        NULL |
+-- | Animation   |        2 |  2359.01 |        NULL |
+-- +-------------+----------+----------+-------------+
+-- ... 49 rows in all.
 SELECT g.category, g.store_id, g.sales, s.total_sales
 FROM (SELECT c.name                AS category,
              i.store_id,

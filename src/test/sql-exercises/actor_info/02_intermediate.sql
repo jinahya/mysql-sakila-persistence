@@ -62,7 +62,19 @@ ORDER BY actor_id
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_ACTOR_INFO_I_03
 -- how many actors cover how many categories.
--- NOT YET RUN
+-- +------------+--------+
+-- | categories | actors |
+-- +------------+--------+
+-- |         16 |     11 |
+-- |         15 |     19 |
+-- |         14 |     49 |
+-- |         13 |     57 |
+-- |         12 |     33 |
+-- |         11 |     19 |
+-- |         10 |      8 |
+-- |          9 |      2 |
+-- |          8 |      2 |
+-- +------------+--------+
 SELECT COALESCE(CHAR_LENGTH(film_info) - CHAR_LENGTH(REPLACE(film_info, ':', '')), 0) AS categories, COUNT(*) AS actors
 FROM actor_info
 GROUP BY categories
@@ -71,7 +83,7 @@ ORDER BY categories DESC
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_ACTOR_INFO_I_04
 -- the actors whose film_info may be cut by GROUP_CONCAT.
--- NOT YET RUN
+-- no rows.
 SELECT actor_id, first_name, last_name, LENGTH(film_info) AS film_info_bytes
 FROM actor_info
 WHERE LENGTH(film_info) >= @@group_concat_max_len

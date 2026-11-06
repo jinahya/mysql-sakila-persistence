@@ -28,7 +28,11 @@
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_LIST_I_01
 -- whether the view has a row for every film which has a category.
--- NOT YET RUN
+-- +-----------+-----------------------+------------------------------+
+-- | film_list | films_with_a_category | film_list_without_a_category |
+-- +-----------+-----------------------+------------------------------+
+-- |      1000 |                  1000 |                            0 |
+-- +-----------+-----------------------+------------------------------+
 SELECT (SELECT COUNT(DISTINCT FID) FROM film_list WHERE category IS NOT NULL) AS film_list,
        (SELECT COUNT(DISTINCT film_id) FROM film_category)                    AS films_with_a_category,
        (SELECT COUNT(*) FROM film_list WHERE category IS NULL)                AS film_list_without_a_category

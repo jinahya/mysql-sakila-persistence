@@ -28,7 +28,12 @@
 
 -- ------------------------------------------------------------------------------------------ SAKILA_SALES_BY_STORE_A_01
 -- each store's share of all sales.
--- NOT YET RUN
+-- +---------------------+--------------+-------------+---------+
+-- | store               | manager      | total_sales | percent |
+-- +---------------------+--------------+-------------+---------+
+-- | Woodridge,Australia | Jon Stephens |    33726.77 |   50.03 |
+-- | Lethbridge,Canada   | Mike Hillyer |    33679.79 |   49.97 |
+-- +---------------------+--------------+-------------+---------+
 SELECT v.*, ROUND(100 * v.total_sales / SUM(v.total_sales) OVER (), 2) AS percent
 FROM sales_by_store v
 ORDER BY v.total_sales DESC, v.store

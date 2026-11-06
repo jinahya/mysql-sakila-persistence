@@ -28,7 +28,11 @@
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_01
 -- whether film_text has a row for every film.
--- NOT YET RUN
+-- +-----------+------+--------------+--------------+
+-- | film_text | film | without_text | without_film |
+-- +-----------+------+--------------+--------------+
+-- |      1000 | 1000 |            0 |            0 |
+-- +-----------+------+--------------+--------------+
 SELECT (SELECT COUNT(*) FROM film_text) AS film_text,
        (SELECT COUNT(*) FROM film)      AS film,
        (SELECT COUNT(*)
@@ -53,7 +57,7 @@ WHERE MATCH(title, description) AGAINST('drama')
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_03
 -- the films whose film_text title differs from their title.
--- NOT YET RUN
+-- no rows.
 SELECT f.*, ft.*
 FROM film f
          JOIN film_text ft ON ft.film_id = f.film_id
@@ -90,7 +94,7 @@ SELECT (SELECT COUNT(*)
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_06
 -- the films whose film_text description differs from their description.
--- NOT YET RUN
+-- no rows.
 SELECT f.*, ft.*
 FROM film f
          JOIN film_text ft ON ft.film_id = f.film_id
@@ -100,7 +104,7 @@ ORDER BY f.film_id
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_I_07
 -- the first words that start more than one title.
--- NOT YET RUN
+-- no rows.
 SELECT SUBSTRING_INDEX(title, ' ', 1) AS first_word, COUNT(*) AS titles
 FROM film_text
 GROUP BY first_word

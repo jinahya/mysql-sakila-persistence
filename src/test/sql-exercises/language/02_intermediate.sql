@@ -67,7 +67,15 @@ ORDER BY l.language_id
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_LANGUAGE_I_03
 -- the first five films with the names of their language and original language.
--- NOT YET RUN
+-- +---------+------------------+----------+-------------------+
+-- | film_id | title            | language | original_language |
+-- +---------+------------------+----------+-------------------+
+-- |       1 | ACADEMY DINOSAUR | English  | NULL              |
+-- |       2 | ACE GOLDFINGER   | English  | NULL              |
+-- |       3 | ADAPTATION HOLES | English  | NULL              |
+-- |       4 | AFFAIR PREJUDICE | English  | NULL              |
+-- |       5 | AFRICAN EGG      | English  | NULL              |
+-- +---------+------------------+----------+-------------------+
 SELECT f.film_id, f.title, l.name AS language, ol.name AS original_language
 FROM film f
          JOIN language l ON l.language_id = f.language_id

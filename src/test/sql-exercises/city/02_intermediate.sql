@@ -79,7 +79,14 @@ WHERE NOT EXISTS (SELECT 1 FROM address a WHERE a.city_id = ci.city_id)
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_CITY_I_04
 -- the cities with more than one address.
--- NOT YET RUN
+-- +---------+------------+------------+---------------------+-----------+
+-- | city_id | city       | country_id | last_update         | addresses |
+-- +---------+------------+------------+---------------------+-----------+
+-- |      42 | Aurora     |        103 | 2006-02-15 04:45:25 |         2 |
+-- |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         2 |
+-- |     312 | London     |        102 | 2006-02-15 04:45:25 |         2 |
+-- |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |         2 |
+-- +---------+------------+------------+---------------------+-----------+
 SELECT ci.*, COUNT(*) AS addresses
 FROM city ci
          JOIN address a ON a.city_id = ci.city_id
@@ -104,7 +111,7 @@ ORDER BY countries DESC, city
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_CITY_I_06
 -- the city names found more than once in a country.
--- NOT YET RUN
+-- no rows.
 SELECT country_id, city, COUNT(*) AS cities
 FROM city
 GROUP BY country_id, city

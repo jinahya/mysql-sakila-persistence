@@ -51,7 +51,15 @@ ORDER BY film_id
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_TEXT_B_02
 -- the five longest descriptions.
--- NOT YET RUN
+-- +---------+---------------------+------------+
+-- | film_id | title               | characters |
+-- +---------+---------------------+------------+
+-- |     116 | CANDIDATE PERDITION |        130 |
+-- |     217 | DAZED PUNK          |        130 |
+-- |     274 | EGG IGBY            |        129 |
+-- |     569 | MENAGERIE RUSHMORE  |        128 |
+-- |      51 | BALLOON HOMEWARD    |        127 |
+-- +---------+---------------------+------------+
 SELECT film_id, title, CHAR_LENGTH(description) AS characters
 FROM film_text
 ORDER BY characters DESC, film_id

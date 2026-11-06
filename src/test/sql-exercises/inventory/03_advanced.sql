@@ -76,7 +76,11 @@ SELECT (SELECT COUNT(DISTINCT film_id) FROM inventory)                          
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_A_03
 -- the ten copies most overdue, as of the last rental.
--- NOT YET RUN
+-- +-----------+--------------+------------------+---------------------+--------------+
+-- | rental_id | inventory_id | title            | rental_date         | days_overdue |
+-- +-----------+--------------+------------------+---------------------+--------------+
+-- |     14098 |            6 | ACADEMY DINOSAUR | 2005-08-21 00:30:32 |          171 |
+-- +-----------+--------------+------------------+---------------------+--------------+
 SELECT r.rental_id,
        i.inventory_id,
        f.title,

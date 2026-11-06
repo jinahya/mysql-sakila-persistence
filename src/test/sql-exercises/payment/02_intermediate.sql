@@ -82,7 +82,11 @@ ORDER BY paid
 
 -- ------------------------------------------------------------------------------------------------- SAKILA_PAYMENT_I_04
 -- the payments which do not agree with their rental.
--- NOT YET RUN
+-- +----------------+---------------+
+-- | other_customer | before_rental |
+-- +----------------+---------------+
+-- |              0 |             0 |
+-- +----------------+---------------+
 SELECT SUM(CASE WHEN p.customer_id <> r.customer_id THEN 1 ELSE 0 END) AS other_customer,
        SUM(CASE WHEN p.payment_date < r.rental_date THEN 1 ELSE 0 END) AS before_rental
 FROM payment p

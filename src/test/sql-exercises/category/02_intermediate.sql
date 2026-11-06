@@ -28,7 +28,26 @@
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_01
 -- how many films each category has, the most first.
--- NOT YET RUN
+-- +-------------+-------------+---------------------+-------+
+-- | category_id | name        | last_update         | films |
+-- +-------------+-------------+---------------------+-------+
+-- |          15 | Sports      | 2006-02-15 04:46:27 |    74 |
+-- |           9 | Foreign     | 2006-02-15 04:46:27 |    73 |
+-- |           8 | Family      | 2006-02-15 04:46:27 |    69 |
+-- |           6 | Documentary | 2006-02-15 04:46:27 |    68 |
+-- |           2 | Animation   | 2006-02-15 04:46:27 |    66 |
+-- |           1 | Action      | 2006-02-15 04:46:27 |    64 |
+-- |          13 | New         | 2006-02-15 04:46:27 |    63 |
+-- |           7 | Drama       | 2006-02-15 04:46:27 |    62 |
+-- |          10 | Games       | 2006-02-15 04:46:27 |    61 |
+-- |          14 | Sci-Fi      | 2006-02-15 04:46:27 |    61 |
+-- |           3 | Children    | 2006-02-15 04:46:27 |    60 |
+-- |           5 | Comedy      | 2006-02-15 04:46:27 |    58 |
+-- |           4 | Classics    | 2006-02-15 04:46:27 |    57 |
+-- |          16 | Travel      | 2006-02-15 04:46:27 |    57 |
+-- |          11 | Horror      | 2006-02-15 04:46:27 |    56 |
+-- |          12 | Music       | 2006-02-15 04:46:27 |    51 |
+-- +-------------+-------------+---------------------+-------+
 SELECT c.*, COUNT(fc.film_id) AS films
 FROM category c
          LEFT JOIN film_category fc ON fc.category_id = c.category_id
@@ -38,7 +57,11 @@ ORDER BY films DESC, c.name
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_02
 -- the category whose films are, on average, the longest.
--- NOT YET RUN
+-- +-------------+--------+---------------------+----------------+
+-- | category_id | name   | last_update         | average_length |
+-- +-------------+--------+---------------------+----------------+
+-- |          15 | Sports | 2006-02-15 04:46:27 |         128.20 |
+-- +-------------+--------+---------------------+----------------+
 SELECT c.*, ROUND(AVG(f.length), 2) AS average_length
 FROM category c
          JOIN film_category fc ON fc.category_id = c.category_id
@@ -102,7 +125,7 @@ LIMIT 5
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CATEGORY_I_06
 -- the category names which more than one category has.
--- NOT YET RUN
+-- no rows.
 SELECT name, COUNT(*) AS categories
 FROM category
 GROUP BY name

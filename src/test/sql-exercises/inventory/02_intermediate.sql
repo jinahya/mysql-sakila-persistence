@@ -122,7 +122,7 @@ ORDER BY i.store_id, i.inventory_id
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_INVENTORY_I_06
 -- the copies which are out on more than one rental at once.
--- NOT YET RUN
+-- no rows.
 SELECT i.*, COUNT(*) AS open_rentals
 FROM inventory i
          JOIN rental r ON r.inventory_id = i.inventory_id

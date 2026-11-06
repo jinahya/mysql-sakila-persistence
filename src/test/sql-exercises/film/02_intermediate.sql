@@ -60,7 +60,13 @@ LIMIT 5
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_I_03
 -- how many films are short, medium, long, or of unknown length.
--- NOT YET RUN
+-- +--------+-------+
+-- | size   | films |
+-- +--------+-------+
+-- | short  |    96 |
+-- | medium |   447 |
+-- | long   |   457 |
+-- +--------+-------+
 SELECT CASE
            WHEN length IS NULL THEN 'unknown'
            WHEN length < 60 THEN 'short'
@@ -90,7 +96,12 @@ ORDER BY rating
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_I_05
 -- the copies of a film at each store, and how many are in.
--- NOT YET RUN
+-- +----------+--------+-----------+
+-- | store_id | copies | copies_in |
+-- +----------+--------+-----------+
+-- |        1 |      4 |         4 |
+-- |        2 |      4 |         3 |
+-- +----------+--------+-----------+
 SELECT s.store_id,
        COUNT(i.inventory_id) AS copies,
        COUNT(CASE

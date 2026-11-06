@@ -29,7 +29,11 @@
 
 -- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01
 -- how many rows differ from film_list, column by column, but for the actors.
--- NOT YET RUN
+-- +-----------+
+-- | differing |
+-- +-----------+
+-- |         0 |
+-- +-----------+
 SELECT COUNT(*) AS differing
 FROM nicer_but_slower_film_list n
          JOIN film_list l ON l.FID = n.FID AND l.category <=> n.category
@@ -39,7 +43,26 @@ WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <
 
 -- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02
 -- the longest length in each category, and how many films have it.
--- NOT YET RUN
+-- +-------------+---------+-------+
+-- | category    | longest | films |
+-- +-------------+---------+-------+
+-- | Action      |     185 |     2 |
+-- | Animation   |     185 |     2 |
+-- | Children    |     178 |     2 |
+-- | Classics    |     184 |     1 |
+-- | Comedy      |     185 |     1 |
+-- | Documentary |     183 |     2 |
+-- | Drama       |     181 |     1 |
+-- | Family      |     184 |     1 |
+-- | Foreign     |     184 |     2 |
+-- | Games       |     185 |     1 |
+-- | Horror      |     181 |     2 |
+-- | Music       |     185 |     1 |
+-- | New         |     183 |     1 |
+-- | Sci-Fi      |     185 |     1 |
+-- | Sports      |     184 |     1 |
+-- | Travel      |     185 |     2 |
+-- +-------------+---------+-------+
 SELECT n.category, n.length AS longest, COUNT(*) AS films
 FROM nicer_but_slower_film_list n
 WHERE n.length = (SELECT MAX(m.length) FROM nicer_but_slower_film_list m WHERE m.category <=> n.category)

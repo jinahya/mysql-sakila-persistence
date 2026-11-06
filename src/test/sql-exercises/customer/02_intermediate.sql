@@ -121,7 +121,7 @@ LIMIT 10
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_06
 -- the customers with no payment.
--- NOT YET RUN
+-- no rows.
 SELECT c.customer_id, c.first_name, c.last_name
 FROM customer c
 WHERE NOT EXISTS (SELECT 1 FROM payment p WHERE p.customer_id = c.customer_id)
@@ -130,7 +130,15 @@ ORDER BY c.customer_id
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_I_07
 -- the five customers who returned late most often.
--- NOT YET RUN
+-- +-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------------+
+-- | customer_id | store_id | first_name | last_name | email                             | address_id | active | create_date         | last_update         | late_returns |
+-- +-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------------+
+-- |         526 |        2 | KARL       | SEAL      | KARL.SEAL@sakilacustomer.org      |        532 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |           25 |
+-- |         295 |        1 | DAISY      | BATES     | DAISY.BATES@sakilacustomer.org    |        300 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |           24 |
+-- |         469 |        2 | WESLEY     | BULL      | WESLEY.BULL@sakilacustomer.org    |        474 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |           24 |
+-- |         148 |        1 | ELEANOR    | HUNT      | ELEANOR.HUNT@sakilacustomer.org   |        152 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |           23 |
+-- |         137 |        2 | RHONDA     | KENNEDY   | RHONDA.KENNEDY@sakilacustomer.org |        141 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |           22 |
+-- +-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------------+
 SELECT c.*, COUNT(*) AS late_returns
 FROM customer c
          JOIN rental r ON r.customer_id = c.customer_id

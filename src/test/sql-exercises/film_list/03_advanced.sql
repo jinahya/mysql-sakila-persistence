@@ -28,7 +28,30 @@
 
 -- ----------------------------------------------------------------------------------------------- SAKILA_FILM_LIST_A_02
 -- the films with the most actors in each category.
--- NOT YET RUN
+-- +-------------+-----+---------------------+-------------+
+-- | category    | FID | title               | actor_count |
+-- +-------------+-----+---------------------+-------------+
+-- | Action      | 802 | SKY MIRACLE         |          12 |
+-- | Animation   | 892 | TITANIC BOONDOCK    |          12 |
+-- | Children    | 553 | MAKER GABLES        |          11 |
+-- | Classics    | 249 | DRACULA CRYSTAL     |          13 |
+-- | Comedy      | 188 | CRAZY HOME          |          13 |
+-- | Documentary |   1 | ACADEMY DINOSAUR    |          10 |
+-- | Documentary | 164 | COAST RAINBOW       |          10 |
+-- | Documentary | 966 | WEDDING APOLLO      |          10 |
+-- | Drama       | 146 | CHITTY LOCK         |          13 |
+-- | Family      | 458 | INDIAN LOVE         |          10 |
+-- | Family      | 832 | SPLASH GUMP         |          10 |
+-- | Foreign     | 414 | HELLFIGHTERS SIERRA |          12 |
+-- | Games       | 508 | LAMBS CINCINATTI    |          15 |
+-- | Horror      |  34 | ARABIA DOGMA        |          12 |
+-- | Music       | 540 | LUCKY FLYING        |          10 |
+-- | Music       | 636 | OLEANDER CLUE       |          10 |
+-- | New         | 561 | MASK PEACH          |          11 |
+-- | Sci-Fi      | 714 | RANDOM GO           |          13 |
+-- | Sports      | 606 | MUMMY CREATURES     |          13 |
+-- | Travel      |  87 | BOONDOCK BALLROOM   |          13 |
+-- +-------------+-----+---------------------+-------------+
 WITH counted AS (SELECT category,
                         FID,
                         title,

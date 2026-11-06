@@ -87,7 +87,7 @@ ORDER BY co.country
 
 -- ------------------------------------------------------------------------------------------------- SAKILA_COUNTRY_I_05
 -- the country names found more than once.
--- NOT YET RUN
+-- no rows.
 SELECT country, COUNT(*) AS countries
 FROM country
 GROUP BY country

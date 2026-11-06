@@ -28,7 +28,12 @@
 
 -- ------------------------------------------------------------------------------------------ SAKILA_SALES_BY_STORE_B_01
 -- every store's sales.
--- NOT YET RUN
+-- +---------------------+--------------+-------------+
+-- | store               | manager      | total_sales |
+-- +---------------------+--------------+-------------+
+-- | Lethbridge,Canada   | Mike Hillyer |    33679.79 |
+-- | Woodridge,Australia | Jon Stephens |    33726.77 |
+-- +---------------------+--------------+-------------+
 SELECT *
 FROM sales_by_store
 ORDER BY store

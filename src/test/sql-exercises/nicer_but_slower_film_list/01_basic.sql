@@ -28,7 +28,12 @@
 
 -- ------------------------------------------------------------------------------ SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01
 -- the actors of the film 1, as this view writes them.
--- NOT YET RUN
+-- +----------------------------+-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+-- | view                       | FID | title            | actors                                                                                                                                         |
+-- +----------------------------+-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+-- | nicer_but_slower_film_list |   1 | ACADEMY DINOSAUR | Penelope Guiness, Christian Gable, Lucille Tracy, Sandra Peck, Johnny Cage, Mena Temple, Warren Nolte, Oprah Kilmer, Rock Dukakis, Mary Keitel |
+-- | film_list                  |   1 | ACADEMY DINOSAUR | PENELOPE GUINESS, CHRISTIAN GABLE, LUCILLE TRACY, SANDRA PECK, JOHNNY CAGE, MENA TEMPLE, WARREN NOLTE, OPRAH KILMER, ROCK DUKAKIS, MARY KEITEL |
+-- +----------------------------+-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
 SELECT 'nicer_but_slower_film_list' AS view, FID, title, actors
 FROM nicer_but_slower_film_list
 WHERE FID = 1

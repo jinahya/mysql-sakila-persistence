@@ -103,7 +103,11 @@ ORDER BY address_id
 
 -- ------------------------------------------------------------------------------------------------- SAKILA_ADDRESS_B_05
 -- how many addresses have no postal code, as NULL and as an empty string.
--- NOT YET RUN
+-- +-------------------+--------------------+
+-- | null_postal_codes | empty_postal_codes |
+-- +-------------------+--------------------+
+-- |                 0 |                  4 |
+-- +-------------------+--------------------+
 SELECT SUM(postal_code IS NULL) AS null_postal_codes,
        SUM(postal_code = '')    AS empty_postal_codes
 FROM address

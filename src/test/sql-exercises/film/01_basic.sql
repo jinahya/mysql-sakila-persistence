@@ -92,7 +92,20 @@ WHERE FIND_IN_SET('Behind the Scenes', special_features) > 0
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_B_06
 -- the films cheapest to rent and dearest to replace.
--- NOT YET RUN
+-- +---------+----------------------+-----------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+-- | film_id | title                | description                                                                                                     | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                                       | last_update         |
+-- +---------+----------------------+-----------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+-- |      34 | ARABIA DOGMA         | A Touching Epistle of a Madman And a Mad Cow who must Defeat a Student in Nigeria                               |         2006 |           1 |                 NULL |               6 |        0.99 |     62 |            29.99 | NC-17  | Commentaries,Deleted Scenes                            | 2006-02-15 05:03:42 |
+-- |      52 | BALLROOM MOCKINGBIRD | A Thrilling Documentary of a Composer And a Monkey who must Find a Feminist in California                       |         2006 |           1 |                 NULL |               6 |        0.99 |    173 |            29.99 | G      | Commentaries,Deleted Scenes                            | 2006-02-15 05:03:42 |
+-- |      85 | BONNIE HOLOCAUST     | A Fast-Paced Story of a Crocodile And a Robot who must Find a Moose in Ancient Japan                            |         2006 |           1 |                 NULL |               4 |        0.99 |     63 |            29.99 | G      | Deleted Scenes                                         | 2006-02-15 05:03:42 |
+-- |     157 | CLOCKWORK PARADISE   | A Insightful Documentary of a Technical Writer And a Feminist who must Challenge a Cat in A Baloon              |         2006 |           1 |                 NULL |               7 |        0.99 |    143 |            29.99 | PG-13  | Trailers,Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
+-- |     163 | CLYDE THEORY         | A Beautiful Yarn of a Astronaut And a Frisbee who must Overcome a Explorer in A Jet Boat                        |         2006 |           1 |                 NULL |               4 |        0.99 |    139 |            29.99 | PG-13  | Commentaries,Deleted Scenes,Behind the Scenes          | 2006-02-15 05:03:42 |
+-- |     196 | CRUELTY UNFORGIVEN   | A Brilliant Tale of a Car And a Moose who must Battle a Dentist in Nigeria                                      |         2006 |           1 |                 NULL |               7 |        0.99 |     69 |            29.99 | G      | Deleted Scenes,Behind the Scenes                       | 2006-02-15 05:03:42 |
+-- |     270 | EARTH VISION         | A Stunning Drama of a Butler And a Madman who must Outrace a Womanizer in Ancient India                         |         2006 |           1 |                 NULL |               7 |        0.99 |     85 |            29.99 | NC-17  | Trailers,Commentaries,Deleted Scenes                   | 2006-02-15 05:03:42 |
+-- |     290 | EVERYONE CRAFT       | A Fateful Display of a Waitress And a Dentist who must Reach a Butler in Nigeria                                |         2006 |           1 |                 NULL |               4 |        0.99 |    163 |            29.99 | PG     | Trailers,Commentaries                                  | 2006-02-15 05:03:42 |
+-- |     309 | FEUD FROGMEN         | A Brilliant Reflection of a Database Administrator And a Mad Cow who must Chase a Woman in The Canadian Rockies |         2006 |           1 |                 NULL |               6 |        0.99 |     98 |            29.99 | R      | Trailers,Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
+-- |     358 | GILMORE BOILED       | A Unbelieveable Documentary of a Boat And a Husband who must Succumb a Student in A U-Boat                      |         2006 |           1 |                 NULL |               5 |        0.99 |    163 |            29.99 | R      | Trailers,Behind the Scenes                             | 2006-02-15 05:03:42 |
+-- +---------+----------------------+-----------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
 SELECT *
 FROM film
 WHERE rental_rate = (SELECT MIN(rental_rate) FROM film)
@@ -103,7 +116,11 @@ LIMIT 10
 
 -- ---------------------------------------------------------------------------------------------------- SAKILA_FILM_B_07
 -- how many films lack each optional value.
--- NOT YET RUN
+-- +-------+----------------+-----------------+-----------+-----------+---------------------+
+-- | films | no_description | no_release_year | no_length | no_rating | no_special_features |
+-- +-------+----------------+-----------------+-----------+-----------+---------------------+
+-- |  1000 |              0 |               0 |         0 |         0 |                   0 |
+-- +-------+----------------+-----------------+-----------+-----------+---------------------+
 SELECT COUNT(*)                           AS films,
        COUNT(*) - COUNT(description)      AS no_description,
        COUNT(*) - COUNT(release_year)     AS no_release_year,

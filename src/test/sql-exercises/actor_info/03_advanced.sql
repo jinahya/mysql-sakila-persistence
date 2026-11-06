@@ -29,7 +29,7 @@
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_ACTOR_INFO_A_01
 -- the actors whose film_info disagrees with the tables on the number of categories.
--- NOT YET RUN
+-- no rows.
 SELECT ai.*
 FROM actor_info ai
 WHERE COALESCE(CHAR_LENGTH(ai.film_info) - CHAR_LENGTH(REPLACE(ai.film_info, ':', '')), 0)

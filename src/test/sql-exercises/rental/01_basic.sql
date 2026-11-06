@@ -69,7 +69,11 @@ WHERE return_date IS NOT NULL
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_B_04
 -- on which day of the week the most rentals were made.
--- NOT YET RUN
+-- +---------+---------+
+-- | day     | rentals |
+-- +---------+---------+
+-- | Tuesday |    2463 |
+-- +---------+---------+
 SELECT DAYNAME(rental_date) AS day, COUNT(*) AS rentals
 FROM rental
 GROUP BY day

@@ -89,7 +89,15 @@ LIMIT 5
 
 -- --------------------------------------------------------------------------------------------------- SAKILA_ACTOR_I_06
 -- the five actors whose films are, on average, the longest.
--- NOT YET RUN
+-- +----------+------------+-----------+---------------------+----------------+
+-- | actor_id | first_name | last_name | last_update         | average_length |
+-- +----------+------------+-----------+---------------------+----------------+
+-- |       35 | JUDY       | DEAN      | 2006-02-15 04:34:33 |         137.73 |
+-- |      156 | FAY        | WOOD      | 2006-02-15 04:34:33 |         133.82 |
+-- |       16 | FRED       | COSTNER   | 2006-02-15 04:34:33 |         131.56 |
+-- |       95 | DARYL      | WAHLBERG  | 2006-02-15 04:34:33 |         130.94 |
+-- |        8 | MATTHEW    | JOHANSSON | 2006-02-15 04:34:33 |         130.85 |
+-- +----------+------------+-----------+---------------------+----------------+
 SELECT a.*, ROUND(AVG(f.length), 2) AS average_length
 FROM actor a
          JOIN film_actor fa ON fa.actor_id = a.actor_id

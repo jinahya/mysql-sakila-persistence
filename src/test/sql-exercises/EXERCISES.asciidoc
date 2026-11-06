@@ -287,8 +287,17 @@ ORDER BY AVG(f.length) DESC, a.actor_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++----------+------------+-----------+---------------------+----------------+
+| actor_id | first_name | last_name | last_update         | average_length |
++----------+------------+-----------+---------------------+----------------+
+|       35 | JUDY       | DEAN      | 2006-02-15 04:34:33 |         137.73 |
+|      156 | FAY        | WOOD      | 2006-02-15 04:34:33 |         133.82 |
+|       16 | FRED       | COSTNER   | 2006-02-15 04:34:33 |         131.56 |
+|       95 | DARYL      | WAHLBERG  | 2006-02-15 04:34:33 |         130.94 |
+|        8 | MATTHEW    | JOHANSSON | 2006-02-15 04:34:33 |         130.85 |
++----------+------------+-----------+---------------------+----------------+
+....
 ====
 
 [[SAKILA_ACTOR_I_07]]
@@ -508,8 +517,13 @@ FROM actor_info
 WHERE actor_id = 1
 ----
 
-// NOT YET RUN
-
+....
++----------+------------+-----------+----------------------------------------------------------------------------------+
+| actor_id | first_name | last_name | film_info                                                                        |
++----------+------------+-----------+----------------------------------------------------------------------------------+
+|        1 | PENELOPE   | GUINESS   | Animation: ANACONDA CONFESSIONS; Children: LANGUAGE COWBOY; Classics: COLOR PHIL |
++----------+------------+-----------+----------------------------------------------------------------------------------+
+....
 ====
 
 [[SAKILA_ACTOR_INFO_B_02]]
@@ -687,8 +701,21 @@ GROUP BY categories
 ORDER BY categories DESC
 ----
 
-// NOT YET RUN
-
+....
++------------+--------+
+| categories | actors |
++------------+--------+
+|         16 |     11 |
+|         15 |     19 |
+|         14 |     49 |
+|         13 |     57 |
+|         12 |     33 |
+|         11 |     19 |
+|         10 |      8 |
+|          9 |      2 |
+|          8 |      2 |
++------------+--------+
+....
 ====
 
 Answered by `ActorInfo_Exercises_02_Intermediate_PersistenceIT`.
@@ -711,8 +738,9 @@ WHERE LENGTH(film_info) >= @@group_concat_max_len
 ORDER BY actor_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -740,8 +768,9 @@ WHERE COALESCE(CHAR_LENGTH(ai.film_info) - CHAR_LENGTH(REPLACE(ai.film_info, ':'
 ORDER BY ai.actor_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 Answered by `ActorInfo_Exercises_03_Advanced_PersistenceIT`.
@@ -886,8 +915,13 @@ SELECT SUM(postal_code IS NULL) AS null_postal_codes,
 FROM address
 ----
 
-// NOT YET RUN
-
+....
++-------------------+--------------------+
+| null_postal_codes | empty_postal_codes |
++-------------------+--------------------+
+|                 0 |                  4 |
++-------------------+--------------------+
+....
 ====
 
 === Intermediate
@@ -1172,8 +1206,28 @@ GROUP BY c.category_id
 ORDER BY films DESC, c.name
 ----
 
-// NOT YET RUN
-
+....
++-------------+-------------+---------------------+-------+
+| category_id | name        | last_update         | films |
++-------------+-------------+---------------------+-------+
+|          15 | Sports      | 2006-02-15 04:46:27 |    74 |
+|           9 | Foreign     | 2006-02-15 04:46:27 |    73 |
+|           8 | Family      | 2006-02-15 04:46:27 |    69 |
+|           6 | Documentary | 2006-02-15 04:46:27 |    68 |
+|           2 | Animation   | 2006-02-15 04:46:27 |    66 |
+|           1 | Action      | 2006-02-15 04:46:27 |    64 |
+|          13 | New         | 2006-02-15 04:46:27 |    63 |
+|           7 | Drama       | 2006-02-15 04:46:27 |    62 |
+|          10 | Games       | 2006-02-15 04:46:27 |    61 |
+|          14 | Sci-Fi      | 2006-02-15 04:46:27 |    61 |
+|           3 | Children    | 2006-02-15 04:46:27 |    60 |
+|           5 | Comedy      | 2006-02-15 04:46:27 |    58 |
+|           4 | Classics    | 2006-02-15 04:46:27 |    57 |
+|          16 | Travel      | 2006-02-15 04:46:27 |    57 |
+|          11 | Horror      | 2006-02-15 04:46:27 |    56 |
+|          12 | Music       | 2006-02-15 04:46:27 |    51 |
++-------------+-------------+---------------------+-------+
+....
 ====
 
 [[SAKILA_CATEGORY_I_02]]
@@ -1197,8 +1251,13 @@ ORDER BY AVG(f.length) DESC, c.name
 LIMIT 1
 ----
 
-// NOT YET RUN
-
+....
++-------------+--------+---------------------+----------------+
+| category_id | name   | last_update         | average_length |
++-------------+--------+---------------------+----------------+
+|          15 | Sports | 2006-02-15 04:46:27 |         128.20 |
++-------------+--------+---------------------+----------------+
+....
 ====
 
 [[SAKILA_CATEGORY_I_03]]
@@ -1316,8 +1375,9 @@ HAVING COUNT(*) > 1
 ORDER BY name
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -1446,8 +1506,16 @@ WHERE city LIKE 'Q%'
 ORDER BY city, city_id
 ----
 
-// NOT YET RUN
-
+....
++---------+-------------+------------+---------------------+
+| city_id | city        | country_id | last_update         |
++---------+-------------+------------+---------------------+
+|     421 | Qalyub      |         29 | 2006-02-15 04:45:25 |
+|     422 | Qinhuangdao |         23 | 2006-02-15 04:45:25 |
+|     423 | Qomsheh     |         46 | 2006-02-15 04:45:25 |
+|     424 | Quilmes     |          6 | 2006-02-15 04:45:25 |
++---------+-------------+------------+---------------------+
+....
 ====
 
 [[SAKILA_CITY_B_02]]
@@ -1589,8 +1657,16 @@ HAVING COUNT(*) > 1
 ORDER BY addresses DESC, ci.city, ci.city_id
 ----
 
-// NOT YET RUN
-
+....
++---------+------------+------------+---------------------+-----------+
+| city_id | city       | country_id | last_update         | addresses |
++---------+------------+------------+---------------------+-----------+
+|      42 | Aurora     |        103 | 2006-02-15 04:45:25 |         2 |
+|     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         2 |
+|     312 | London     |        102 | 2006-02-15 04:45:25 |         2 |
+|     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |         2 |
++---------+------------+------------+---------------------+-----------+
+....
 ====
 
 [[SAKILA_CITY_I_05]]
@@ -1640,8 +1716,9 @@ HAVING COUNT(*) > 1
 ORDER BY country_id, city
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -1968,8 +2045,9 @@ HAVING COUNT(*) > 1
 ORDER BY country
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -2141,8 +2219,13 @@ GROUP BY domain
 ORDER BY customers DESC, domain
 ----
 
-// NOT YET RUN
-
+....
++--------------------+-----------+
+| domain             | customers |
++--------------------+-----------+
+| sakilacustomer.org |       599 |
++--------------------+-----------+
+....
 ====
 
 [[SAKILA_CUSTOMER_B_04]]
@@ -2207,8 +2290,9 @@ WHERE email IS NULL
 ORDER BY customer_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Intermediate
@@ -2394,8 +2478,9 @@ WHERE NOT EXISTS (SELECT 1 FROM payment p WHERE p.customer_id = c.customer_id)
 ORDER BY c.customer_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 [[SAKILA_CUSTOMER_I_07]]
@@ -2421,8 +2506,17 @@ ORDER BY late_returns DESC, c.customer_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------------+
+| customer_id | store_id | first_name | last_name | email                             | address_id | active | create_date         | last_update         | late_returns |
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------------+
+|         526 |        2 | KARL       | SEAL      | KARL.SEAL@sakilacustomer.org      |        532 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |           25 |
+|         295 |        1 | DAISY      | BATES     | DAISY.BATES@sakilacustomer.org    |        300 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |           24 |
+|         469 |        2 | WESLEY     | BULL      | WESLEY.BULL@sakilacustomer.org    |        474 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |           24 |
+|         148 |        1 | ELEANOR    | HUNT      | ELEANOR.HUNT@sakilacustomer.org   |        152 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |           23 |
+|         137 |        2 | RHONDA     | KENNEDY   | RHONDA.KENNEDY@sakilacustomer.org |        141 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |           22 |
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------------+
+....
 ====
 
 === Advanced
@@ -2559,8 +2653,17 @@ ORDER BY longest_gap DESC, c.customer_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++-------------+----------+------------+-----------+------------------------------------+------------+--------+---------------------+---------------------+-------------+
+| customer_id | store_id | first_name | last_name | email                              | address_id | active | create_date         | last_update         | longest_gap |
++-------------+----------+------------+-----------+------------------------------------+------------+--------+---------------------+---------------------+-------------+
+|         208 |        1 | LUCY       | WHEELER   | LUCY.WHEELER@sakilacustomer.org    |        212 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |         181 |
+|          99 |        2 | EMILY      | DIAZ      | EMILY.DIAZ@sakilacustomer.org      |        103 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |         179 |
+|         330 |        1 | SCOTT      | SHELLEY   | SCOTT.SHELLEY@sakilacustomer.org   |        335 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |         179 |
+|         228 |        2 | ALLISON    | STANLEY   | ALLISON.STANLEY@sakilacustomer.org |        232 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |         178 |
+|         479 |        1 | ZACHARY    | HITE      | ZACHARY.HITE@sakilacustomer.org    |        484 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |         178 |
++-------------+----------+------------+-----------+------------------------------------+------------+--------+---------------------+---------------------+-------------+
+....
 ====
 
 == customer_list (view)
@@ -2727,8 +2830,22 @@ ORDER BY `zip code`, ID
 LIMIT 10
 ----
 
-// NOT YET RUN
-
+....
++-----+------------------+---------------------------------+----------+--------------+----------------+---------------+--------+-----+
+| ID  | name             | address                         | zip code | phone        | city           | country       | notes  | SID |
++-----+------------------+---------------------------------+----------+--------------+----------------+---------------+--------+-----+
+| 400 | BRYAN HARDISON   | 530 Lausanne Lane               | 11067    | 775235029633 | Dallas         | United States | active |   2 |
+| 140 | EVA RAMOS        | 1666 Beni-Mellal Place          | 13377    | 9099941466   | Clarksville    | United States | active |   1 |
+|  14 | BETTY WHITE      | 770 Bydgoszcz Avenue            | 16266    | 517338314235 | Citrus Heights | United States | active |   2 |
+|   2 | PATRICIA JOHNSON | 1121 Loja Avenue                | 17886    | 838635286649 | San Bernardino | United States | active |   1 |
+|   6 | JENNIFER DAVIS   | 1795 Santiago de Compostela Way | 18743    | 860452626434 | Laredo         | United States | active |   2 |
+| 214 | KRISTIN JOHNSTON | 226 Brest Manor                 | 2299     | 785881412500 | Sunnyvale      | United States | active |   1 |
+| 276 | BRANDY GRAVES    | 1944 Bamenda Way                | 24645    | 75975221996  | Warren         | United States | active |   1 |
+| 382 | VICTOR BARKLEY   | 401 Sucre Boulevard             | 25007    | 486395999608 | Manchester     | United States | active |   2 |
+| 212 | WILMA RICHARDS   | 660 Jedda Boulevard             | 25053    | 168758068397 | Bellevue       | United States | active |   2 |
+| 149 | VALERIE BLACK    | 782 Mosul Street                | 25545    | 885899703621 | Brockton       | United States | active |   1 |
++-----+------------------+---------------------------------+----------+--------------+----------------+---------------+--------+-----+
+....
 ====
 
 === Intermediate
@@ -2967,8 +3084,22 @@ ORDER BY title, film_id
 LIMIT 10
 ----
 
-// NOT YET RUN
-
+....
++---------+----------------------+-----------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+| film_id | title                | description                                                                                                     | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                                       | last_update         |
++---------+----------------------+-----------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+|      34 | ARABIA DOGMA         | A Touching Epistle of a Madman And a Mad Cow who must Defeat a Student in Nigeria                               |         2006 |           1 |                 NULL |               6 |        0.99 |     62 |            29.99 | NC-17  | Commentaries,Deleted Scenes                            | 2006-02-15 05:03:42 |
+|      52 | BALLROOM MOCKINGBIRD | A Thrilling Documentary of a Composer And a Monkey who must Find a Feminist in California                       |         2006 |           1 |                 NULL |               6 |        0.99 |    173 |            29.99 | G      | Commentaries,Deleted Scenes                            | 2006-02-15 05:03:42 |
+|      85 | BONNIE HOLOCAUST     | A Fast-Paced Story of a Crocodile And a Robot who must Find a Moose in Ancient Japan                            |         2006 |           1 |                 NULL |               4 |        0.99 |     63 |            29.99 | G      | Deleted Scenes                                         | 2006-02-15 05:03:42 |
+|     157 | CLOCKWORK PARADISE   | A Insightful Documentary of a Technical Writer And a Feminist who must Challenge a Cat in A Baloon              |         2006 |           1 |                 NULL |               7 |        0.99 |    143 |            29.99 | PG-13  | Trailers,Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
+|     163 | CLYDE THEORY         | A Beautiful Yarn of a Astronaut And a Frisbee who must Overcome a Explorer in A Jet Boat                        |         2006 |           1 |                 NULL |               4 |        0.99 |    139 |            29.99 | PG-13  | Commentaries,Deleted Scenes,Behind the Scenes          | 2006-02-15 05:03:42 |
+|     196 | CRUELTY UNFORGIVEN   | A Brilliant Tale of a Car And a Moose who must Battle a Dentist in Nigeria                                      |         2006 |           1 |                 NULL |               7 |        0.99 |     69 |            29.99 | G      | Deleted Scenes,Behind the Scenes                       | 2006-02-15 05:03:42 |
+|     270 | EARTH VISION         | A Stunning Drama of a Butler And a Madman who must Outrace a Womanizer in Ancient India                         |         2006 |           1 |                 NULL |               7 |        0.99 |     85 |            29.99 | NC-17  | Trailers,Commentaries,Deleted Scenes                   | 2006-02-15 05:03:42 |
+|     290 | EVERYONE CRAFT       | A Fateful Display of a Waitress And a Dentist who must Reach a Butler in Nigeria                                |         2006 |           1 |                 NULL |               4 |        0.99 |    163 |            29.99 | PG     | Trailers,Commentaries                                  | 2006-02-15 05:03:42 |
+|     309 | FEUD FROGMEN         | A Brilliant Reflection of a Database Administrator And a Mad Cow who must Chase a Woman in The Canadian Rockies |         2006 |           1 |                 NULL |               6 |        0.99 |     98 |            29.99 | R      | Trailers,Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
+|     358 | GILMORE BOILED       | A Unbelieveable Documentary of a Boat And a Husband who must Succumb a Student in A U-Boat                      |         2006 |           1 |                 NULL |               5 |        0.99 |    163 |            29.99 | R      | Trailers,Behind the Scenes                             | 2006-02-15 05:03:42 |
++---------+----------------------+-----------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+....
 ====
 
 Answered by `Film_Exercises_01_Basic_PersistenceIT`.
@@ -2994,8 +3125,13 @@ SELECT COUNT(*)                           AS films,
 FROM film
 ----
 
-// NOT YET RUN
-
+....
++-------+----------------+-----------------+-----------+-----------+---------------------+
+| films | no_description | no_release_year | no_length | no_rating | no_special_features |
++-------+----------------+-----------------+-----------+-----------+---------------------+
+|  1000 |              0 |               0 |         0 |         0 |                   0 |
++-------+----------------+-----------------+-----------+-----------+---------------------+
+....
 ====
 
 === Intermediate
@@ -3085,8 +3221,15 @@ GROUP BY size
 ORDER BY CASE size WHEN 'short' THEN 1 WHEN 'medium' THEN 2 WHEN 'long' THEN 3 ELSE 4 END
 ----
 
-// NOT YET RUN
-
+....
++--------+-------+
+| size   | films |
++--------+-------+
+| short  |    96 |
+| medium |   447 |
+| long   |   457 |
++--------+-------+
+....
 ====
 
 [[SAKILA_FILM_I_04]]
@@ -3147,8 +3290,14 @@ GROUP BY s.store_id
 ORDER BY s.store_id
 ----
 
-// NOT YET RUN
-
+....
++----------+--------+-----------+
+| store_id | copies | copies_in |
++----------+--------+-----------+
+|        1 |      4 |         4 |
+|        2 |      4 |         3 |
++----------+--------+-----------+
+....
 ====
 
 === Advanced
@@ -3212,8 +3361,16 @@ GROUP BY sf.feature
 ORDER BY films DESC, sf.feature
 ----
 
-// NOT YET RUN
-
+....
++-------------------+-------+
+| feature           | films |
++-------------------+-------+
+| Commentaries      |   539 |
+| Behind the Scenes |   538 |
+| Trailers          |   535 |
+| Deleted Scenes    |   503 |
++-------------------+-------+
+....
 ====
 
 == film_actor
@@ -3614,8 +3771,18 @@ WHERE c.name = 'Comedy'
 ORDER BY f.title, f.film_id
 ----
 
-// NOT YET RUN
-
+....
++---------+-------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+| film_id | title                   | description                                                                                                              | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                                       | last_update         |
++---------+-------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+|       7 | AIRPLANE SIERRA         | A Touching Saga of a Hunter And a Butler who must Discover a Butler in A Jet Boat                                        |         2006 |           1 |                 NULL |               6 |        4.99 |     62 |            28.99 | PG-13  | Trailers,Deleted Scenes                                | 2006-02-15 05:03:42 |
+|      28 | ANTHEM LUKE             | A Touching Panorama of a Waitress And a Woman who must Outrace a Dog in An Abandoned Amusement Park                      |         2006 |           1 |                 NULL |               5 |        4.99 |     91 |            16.99 | PG-13  | Deleted Scenes,Behind the Scenes                       | 2006-02-15 05:03:42 |
+|      99 | BRINGING HYSTERICAL     | A Fateful Saga of a A Shark And a Technical Writer who must Find a Woman in A Jet Boat                                   |         2006 |           1 |                 NULL |               7 |        2.99 |    136 |            14.99 | PG     | Trailers                                               | 2006-02-15 05:03:42 |
+|     119 | CAPER MOTIONS           | A Fateful Saga of a Moose And a Car who must Pursue a Woman in A MySQL Convention                                        |         2006 |           1 |                 NULL |               6 |        0.99 |    176 |            22.99 | G      | Trailers,Commentaries,Deleted Scenes                   | 2006-02-15 05:03:42 |
+|     127 | CAT CONEHEADS           | A Fast-Paced Panorama of a Girl And a A Shark who must Confront a Boy in Ancient India                                   |         2006 |           1 |                 NULL |               5 |        4.99 |    112 |            14.99 | G      | Commentaries,Deleted Scenes                            | 2006-02-15 05:03:42 |
++---------+-------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+... 58 rows in all.
+....
 ====
 
 === Intermediate
@@ -3691,8 +3858,28 @@ GROUP BY c.category_id
 ORDER BY c.name
 ----
 
-// NOT YET RUN
-
+....
++-------------+-------------+---------------------+-------+---------+
+| category_id | name        | last_update         | films | r_rated |
++-------------+-------------+---------------------+-------+---------+
+|           1 | Action      | 2006-02-15 04:46:27 |    64 |      14 |
+|           2 | Animation   | 2006-02-15 04:46:27 |    66 |       8 |
+|           3 | Children    | 2006-02-15 04:46:27 |    60 |       9 |
+|           4 | Classics    | 2006-02-15 04:46:27 |    57 |      14 |
+|           5 | Comedy      | 2006-02-15 04:46:27 |    58 |       8 |
+|           6 | Documentary | 2006-02-15 04:46:27 |    68 |      13 |
+|           7 | Drama       | 2006-02-15 04:46:27 |    62 |       6 |
+|           8 | Family      | 2006-02-15 04:46:27 |    69 |      16 |
+|           9 | Foreign     | 2006-02-15 04:46:27 |    73 |      15 |
+|          10 | Games       | 2006-02-15 04:46:27 |    61 |      15 |
+|          11 | Horror      | 2006-02-15 04:46:27 |    56 |      14 |
+|          12 | Music       | 2006-02-15 04:46:27 |    51 |      11 |
+|          13 | New         | 2006-02-15 04:46:27 |    63 |       9 |
+|          14 | Sci-Fi      | 2006-02-15 04:46:27 |    61 |      17 |
+|          15 | Sports      | 2006-02-15 04:46:27 |    74 |      16 |
+|          16 | Travel      | 2006-02-15 04:46:27 |    57 |      10 |
++-------------+-------------+---------------------+-------+---------+
+....
 ====
 
 Answered by `FilmCategory_Exercises_02_Intermediate_PersistenceIT`.
@@ -3918,8 +4105,13 @@ SELECT (SELECT COUNT(DISTINCT FID) FROM film_list WHERE category IS NOT NULL) AS
        (SELECT COUNT(*) FROM film_list WHERE category IS NULL)                AS film_list_without_a_category
 ----
 
-// NOT YET RUN
-
+....
++-----------+-----------------------+------------------------------+
+| film_list | films_with_a_category | film_list_without_a_category |
++-----------+-----------------------+------------------------------+
+|      1000 |                  1000 |                            0 |
++-----------+-----------------------+------------------------------+
+....
 ====
 
 [[SAKILA_FILM_LIST_I_02]]
@@ -4012,8 +4204,32 @@ WHERE actor_rank = 1
 ORDER BY category, FID
 ----
 
-// NOT YET RUN
-
+....
++-------------+-----+---------------------+-------------+
+| category    | FID | title               | actor_count |
++-------------+-----+---------------------+-------------+
+| Action      | 802 | SKY MIRACLE         |          12 |
+| Animation   | 892 | TITANIC BOONDOCK    |          12 |
+| Children    | 553 | MAKER GABLES        |          11 |
+| Classics    | 249 | DRACULA CRYSTAL     |          13 |
+| Comedy      | 188 | CRAZY HOME          |          13 |
+| Documentary |   1 | ACADEMY DINOSAUR    |          10 |
+| Documentary | 164 | COAST RAINBOW       |          10 |
+| Documentary | 966 | WEDDING APOLLO      |          10 |
+| Drama       | 146 | CHITTY LOCK         |          13 |
+| Family      | 458 | INDIAN LOVE         |          10 |
+| Family      | 832 | SPLASH GUMP         |          10 |
+| Foreign     | 414 | HELLFIGHTERS SIERRA |          12 |
+| Games       | 508 | LAMBS CINCINATTI    |          15 |
+| Horror      |  34 | ARABIA DOGMA        |          12 |
+| Music       | 540 | LUCKY FLYING        |          10 |
+| Music       | 636 | OLEANDER CLUE       |          10 |
+| New         | 561 | MASK PEACH          |          11 |
+| Sci-Fi      | 714 | RANDOM GO           |          13 |
+| Sports      | 606 | MUMMY CREATURES     |          13 |
+| Travel      |  87 | BOONDOCK BALLROOM   |          13 |
++-------------+-----+---------------------+-------------+
+....
 ====
 
 == film_text
@@ -4075,8 +4291,17 @@ ORDER BY characters DESC, film_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++---------+---------------------+------------+
+| film_id | title               | characters |
++---------+---------------------+------------+
+|     116 | CANDIDATE PERDITION |        130 |
+|     217 | DAZED PUNK          |        130 |
+|     274 | EGG IGBY            |        129 |
+|     569 | MENAGERIE RUSHMORE  |        128 |
+|      51 | BALLOON HOMEWARD    |        127 |
++---------+---------------------+------------+
+....
 ====
 
 Answered by `FilmText_Exercises_01_Basic_PersistenceIT`.
@@ -4105,8 +4330,13 @@ SELECT (SELECT COUNT(*) FROM film_text) AS film_text,
         WHERE NOT EXISTS (SELECT 1 FROM film f WHERE f.film_id = ft.film_id)) AS without_film
 ----
 
-// NOT YET RUN
-
+....
++-----------+------+--------------+--------------+
+| film_text | film | without_text | without_film |
++-----------+------+--------------+--------------+
+|      1000 | 1000 |            0 |            0 |
++-----------+------+--------------+--------------+
+....
 ====
 
 [[SAKILA_FILM_TEXT_I_02]]
@@ -4154,8 +4384,9 @@ WHERE ft.title COLLATE utf8mb4_bin <> f.title
 ORDER BY f.film_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 [[SAKILA_FILM_TEXT_I_04]]
@@ -4230,8 +4461,9 @@ WHERE NOT (ft.description COLLATE utf8mb4_bin <=> f.description)
 ORDER BY f.film_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 [[SAKILA_FILM_TEXT_I_07]]
@@ -4252,8 +4484,9 @@ HAVING COUNT(*) > 1
 ORDER BY first_word
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -4645,8 +4878,9 @@ HAVING COUNT(*) > 1
 ORDER BY i.inventory_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -4748,8 +4982,13 @@ ORDER BY days_overdue DESC, r.rental_id
 LIMIT 10
 ----
 
-// NOT YET RUN
-
+....
++-----------+--------------+------------------+---------------------+--------------+
+| rental_id | inventory_id | title            | rental_date         | days_overdue |
++-----------+--------------+------------------+---------------------+--------------+
+|     14098 |            6 | ACADEMY DINOSAUR | 2005-08-21 00:30:32 |          171 |
++-----------+--------------+------------------+---------------------+--------------+
+....
 ====
 
 == language
@@ -4960,8 +5199,17 @@ ORDER BY f.film_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++---------+------------------+----------+-------------------+
+| film_id | title            | language | original_language |
++---------+------------------+----------+-------------------+
+|       1 | ACADEMY DINOSAUR | English  | NULL              |
+|       2 | ACE GOLDFINGER   | English  | NULL              |
+|       3 | ADAPTATION HOLES | English  | NULL              |
+|       4 | AFFAIR PREJUDICE | English  | NULL              |
+|       5 | AFRICAN EGG      | English  | NULL              |
++---------+------------------+----------+-------------------+
+....
 ====
 
 === Advanced
@@ -4991,8 +5239,18 @@ GROUP BY l.language_id
 ORDER BY l.language_id
 ----
 
-// NOT YET RUN
-
+....
++-------------+----------+---------------------+-------------+----------------------+
+| language_id | name     | last_update         | as_language | as_original_language |
++-------------+----------+---------------------+-------------+----------------------+
+|           1 | English  | 2006-02-15 05:02:19 |        1000 |                    0 |
+|           2 | Italian  | 2006-02-15 05:02:19 |           0 |                    0 |
+|           3 | Japanese | 2006-02-15 05:02:19 |           0 |                    0 |
+|           4 | Mandarin | 2006-02-15 05:02:19 |           0 |                    0 |
+|           5 | French   | 2006-02-15 05:02:19 |           0 |                    0 |
+|           6 | German   | 2006-02-15 05:02:19 |           0 |                    0 |
++-------------+----------+---------------------+-------------+----------------------+
+....
 ====
 
 == nicer_but_slower_film_list (view)
@@ -5021,8 +5279,14 @@ FROM film_list
 WHERE FID = 1
 ----
 
-// NOT YET RUN
-
+....
++----------------------------+-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+| view                       | FID | title            | actors                                                                                                                                         |
++----------------------------+-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+| nicer_but_slower_film_list |   1 | ACADEMY DINOSAUR | Penelope Guiness, Christian Gable, Lucille Tracy, Sandra Peck, Johnny Cage, Mena Temple, Warren Nolte, Oprah Kilmer, Rock Dukakis, Mary Keitel |
+| film_list                  |   1 | ACADEMY DINOSAUR | PENELOPE GUINESS, CHRISTIAN GABLE, LUCILLE TRACY, SANDRA PECK, JOHNNY CAGE, MENA TEMPLE, WARREN NOLTE, OPRAH KILMER, ROCK DUKAKIS, MARY KEITEL |
++----------------------------+-----+------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+....
 ====
 
 [[SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02]]
@@ -5111,8 +5375,13 @@ WHERE NOT (n.title <=> l.title AND n.description <=> l.description AND n.price <
            AND n.length <=> l.length AND n.rating <=> l.rating)
 ----
 
-// NOT YET RUN
-
+....
++-----------+
+| differing |
++-----------+
+|         0 |
++-----------+
+....
 ====
 
 [[SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02]]
@@ -5134,8 +5403,28 @@ GROUP BY n.category, n.length
 ORDER BY n.category
 ----
 
-// NOT YET RUN
-
+....
++-------------+---------+-------+
+| category    | longest | films |
++-------------+---------+-------+
+| Action      |     185 |     2 |
+| Animation   |     185 |     2 |
+| Children    |     178 |     2 |
+| Classics    |     184 |     1 |
+| Comedy      |     185 |     1 |
+| Documentary |     183 |     2 |
+| Drama       |     181 |     1 |
+| Family      |     184 |     1 |
+| Foreign     |     184 |     2 |
+| Games       |     185 |     1 |
+| Horror      |     181 |     2 |
+| Music       |     185 |     1 |
+| New         |     183 |     1 |
+| Sci-Fi      |     185 |     1 |
+| Sports      |     184 |     1 |
+| Travel      |     185 |     2 |
++-------------+---------+-------+
+....
 ====
 
 Answered by `NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT`.
@@ -5281,8 +5570,24 @@ WHERE customer_id = 1
 ORDER BY payment_date, payment_id
 ----
 
-// NOT YET RUN
-
+....
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+| payment_id | customer_id | staff_id | rental_id | amount | payment_date        | last_update         |
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+|         10 |           1 |        2 |      4526 |   5.99 | 2005-07-08 03:17:05 | 2006-02-15 22:12:30 |
+|         11 |           1 |        1 |      4611 |   5.99 | 2005-07-08 07:33:56 | 2006-02-15 22:12:30 |
+|         12 |           1 |        1 |      5244 |   4.99 | 2005-07-09 13:24:07 | 2006-02-15 22:12:30 |
+|         13 |           1 |        1 |      5326 |   4.99 | 2005-07-09 16:38:01 | 2006-02-15 22:12:30 |
+|         14 |           1 |        1 |      6163 |   7.99 | 2005-07-11 10:13:46 | 2006-02-15 22:12:30 |
+|         15 |           1 |        2 |      7273 |   2.99 | 2005-07-27 11:31:22 | 2006-02-15 22:12:30 |
+|         16 |           1 |        1 |      7841 |   4.99 | 2005-07-28 09:04:45 | 2006-02-15 22:12:30 |
+|         17 |           1 |        2 |      8033 |   4.99 | 2005-07-28 16:18:23 | 2006-02-15 22:12:30 |
+|         18 |           1 |        1 |      8074 |   0.99 | 2005-07-28 17:33:39 | 2006-02-15 22:12:30 |
+|         19 |           1 |        2 |      8116 |   0.99 | 2005-07-28 19:20:07 | 2006-02-15 22:12:30 |
+|         20 |           1 |        2 |      8326 |   2.99 | 2005-07-29 03:58:49 | 2006-02-15 22:12:30 |
+|         21 |           1 |        2 |      9571 |   2.99 | 2005-07-31 02:42:18 | 2006-02-15 22:12:30 |
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+....
 ====
 
 Answered by `Payment_Exercises_01_Basic_PersistenceIT`.
@@ -5306,8 +5611,9 @@ HAVING COUNT(*) > 1
 ORDER BY rental_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Intermediate
@@ -5425,8 +5731,13 @@ FROM payment p
          JOIN rental r ON r.rental_id = p.rental_id
 ----
 
-// NOT YET RUN
-
+....
++----------------+---------------+
+| other_customer | before_rental |
++----------------+---------------+
+|              0 |             0 |
++----------------+---------------+
+....
 ====
 
 === Advanced
@@ -5609,8 +5920,13 @@ ORDER BY rentals DESC, day
 LIMIT 1
 ----
 
-// NOT YET RUN
-
+....
++---------+---------+
+| day     | rentals |
++---------+---------+
+| Tuesday |    2463 |
++---------+---------+
+....
 ====
 
 [[SAKILA_RENTAL_B_05]]
@@ -5724,8 +6040,13 @@ FROM rental r
 WHERE DATEDIFF(r.return_date, r.rental_date) > f.rental_duration
 ----
 
-// NOT YET RUN
-
+....
++------+
+| late |
++------+
+| 7269 |
++------+
+....
 ====
 
 [[SAKILA_RENTAL_A_02]]
@@ -5753,8 +6074,17 @@ ORDER BY days DESC, customer_id, rental_date, rental_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++-------------+---------------------+---------------------+------+
+| customer_id | previous_rental     | rental_date         | days |
++-------------+---------------------+---------------------+------+
+|          61 | 2005-05-31 22:47:45 | 2005-07-27 02:50:15 |   57 |
+|         101 | 2005-05-27 21:13:10 | 2005-07-09 00:02:46 |   43 |
+|           4 | 2005-06-19 09:39:01 | 2005-07-28 02:10:10 |   39 |
+|         401 | 2005-05-29 19:30:42 | 2005-07-07 04:04:26 |   39 |
+|         433 | 2005-05-29 01:01:26 | 2005-07-07 05:30:56 |   39 |
++-------------+---------------------+---------------------+------+
+....
 ====
 
 [[SAKILA_RENTAL_A_03]]
@@ -5812,8 +6142,15 @@ ORDER BY total_sales DESC, category
 LIMIT 3
 ----
 
-// NOT YET RUN
-
+....
++-----------+-------------+
+| category  | total_sales |
++-----------+-------------+
+| Sports    |     5314.21 |
+| Sci-Fi    |     4756.98 |
+| Animation |     4656.30 |
++-----------+-------------+
+....
 ====
 
 [[SAKILA_SALES_BY_FILM_CATEGORY_B_02]]
@@ -5989,8 +6326,9 @@ HAVING COUNT(fc.category_id) <> 1
 ORDER BY p.payment_id
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -6112,8 +6450,18 @@ FROM (SELECT c.name                AS category,
 ORDER BY g.g_category, g.category, g.g_store, g.store_id
 ----
 
-// NOT YET RUN
-
+....
++-------------+----------+----------+-------------+
+| category    | store_id | sales    | total_sales |
++-------------+----------+----------+-------------+
+| Action      |        1 |  2342.04 |        NULL |
+| Action      |        2 |  2033.81 |        NULL |
+| Action      |     NULL |  4375.85 |     4375.85 |
+| Animation   |        1 |  2297.29 |        NULL |
+| Animation   |        2 |  2359.01 |        NULL |
++-------------+----------+----------+-------------+
+... 49 rows in all.
+....
 ====
 
 == sales_by_store (view)
@@ -6138,8 +6486,14 @@ FROM sales_by_store
 ORDER BY store
 ----
 
-// NOT YET RUN
-
+....
++---------------------+--------------+-------------+
+| store               | manager      | total_sales |
++---------------------+--------------+-------------+
+| Lethbridge,Canada   | Mike Hillyer |    33679.79 |
+| Woodridge,Australia | Jon Stephens |    33726.77 |
++---------------------+--------------+-------------+
+....
 ====
 
 [[SAKILA_SALES_BY_STORE_B_02]]
@@ -6244,8 +6598,14 @@ FROM sales_by_store v
 ORDER BY v.total_sales DESC, v.store
 ----
 
-// NOT YET RUN
-
+....
++---------------------+--------------+-------------+---------+
+| store               | manager      | total_sales | percent |
++---------------------+--------------+-------------+---------+
+| Woodridge,Australia | Jon Stephens |    33726.77 |   50.03 |
+| Lethbridge,Canada   | Mike Hillyer |    33679.79 |   49.97 |
++---------------------+--------------+-------------+---------+
+....
 ====
 
 == staff
@@ -6328,8 +6688,14 @@ GROUP BY s.staff_id
 ORDER BY s.staff_id
 ----
 
-// NOT YET RUN
-
+....
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+| staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | rentals |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+|        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |    8040 |
+|        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |    8004 |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+....
 ====
 
 [[SAKILA_STAFF_I_02]]
@@ -6383,8 +6749,14 @@ GROUP BY s.staff_id
 ORDER BY s.staff_id
 ----
 
-// NOT YET RUN
-
+....
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+-----------+-------------+
+| staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | own_store | other_store |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+-----------+-------------+
+|        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |      3991 |        4049 |
+|        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |      4072 |        3932 |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+-----------+-------------+
+....
 ====
 
 Answered by `Staff_Exercises_02_Intermediate_PersistenceIT`.
@@ -6507,8 +6879,14 @@ FROM staff_list l
 ORDER BY l.ID
 ----
 
-// NOT YET RUN
-
+....
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+| ID | name         | address              | zip code | phone       | city       | country   | SID | store_city | store_country | lives_in_store_city |
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+|  1 | Mike Hillyer | 23 Workhaven Lane    |          | 14033335568 | Lethbridge | Canada    |   1 | Lethbridge | Canada        |                   1 |
+|  2 | Jon Stephens | 1411 Lillydale Drive |          | 6172235589  | Woodridge  | Australia |   2 | Woodridge  | Australia     |                   1 |
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+....
 ====
 
 Answered by `StaffList_Exercises_02_Intermediate_PersistenceIT`.
@@ -6540,8 +6918,14 @@ WHERE EXISTS (SELECT 1
 ORDER BY l.ID
 ----
 
-// NOT YET RUN
-
+....
++----+--------------+-----------+
+| ID | name         | country   |
++----+--------------+-----------+
+|  1 | Mike Hillyer | Canada    |
+|  2 | Jon Stephens | Australia |
++----+--------------+-----------+
+....
 ====
 
 == store
@@ -6667,8 +7051,14 @@ GROUP BY st.store_id
 ORDER BY st.store_id
 ----
 
-// NOT YET RUN
-
+....
++----------+------------------+------------+---------------------+-------+-----------------+
+| store_id | manager_staff_id | address_id | last_update         | films | films_only_here |
++----------+------------------+------------+---------------------+-------+-----------------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |   759 |             196 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |   762 |             199 |
++----------+------------------+------------+---------------------+-------+-----------------+
+....
 ====
 
 [[SAKILA_STORE_A_02]]
@@ -6779,8 +7169,28 @@ UNION ALL SELECT 'store', COUNT(*) FROM store
 ORDER BY table_name
 ----
 
-// NOT YET RUN
-
+....
++---------------+-----------+
+| table_name    | row_count |
++---------------+-----------+
+| actor         |       200 |
+| address       |       603 |
+| category      |        16 |
+| city          |       600 |
+| country       |       109 |
+| customer      |       599 |
+| film          |      1000 |
+| film_actor    |      5462 |
+| film_category |      1000 |
+| film_text     |      1000 |
+| inventory     |      4581 |
+| language      |         6 |
+| payment       |     16044 |
+| rental        |     16044 |
+| staff         |         2 |
+| store         |         2 |
++---------------+-----------+
+....
 ====
 
 [[SAKILA_SCHEMA_B_03]]
@@ -7205,8 +7615,17 @@ ORDER BY total DESC, co.country_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++------------+---------------+---------------------+-----------+---------+
+| country_id | country       | last_update         | customers | total   |
++------------+---------------+---------------------+-----------+---------+
+|         44 | India         | 2006-02-15 04:44:00 |        60 | 6628.28 |
+|         23 | China         | 2006-02-15 04:44:00 |        53 | 5798.74 |
+|        103 | United States | 2006-02-15 04:44:00 |        36 | 4110.32 |
+|         50 | Japan         | 2006-02-15 04:44:00 |        31 | 3470.75 |
+|         60 | Mexico        | 2006-02-15 04:44:00 |        30 | 3307.04 |
++------------+---------------+---------------------+-----------+---------+
+....
 ====
 
 [[SAKILA_SCHEMA_I_04]]
@@ -7391,8 +7810,15 @@ GROUP BY length_group
 ORDER BY CASE length_group WHEN 'short' THEN 1 WHEN 'medium' THEN 2 WHEN 'long' THEN 3 ELSE 4 END
 ----
 
-// NOT YET RUN
-
+....
++--------------+---------+----------+
+| length_group | rentals | total    |
++--------------+---------+----------+
+| short        |    1531 |  6191.68 |
+| medium       |    7213 | 30346.87 |
+| long         |    7300 | 30868.01 |
++--------------+---------+----------+
+....
 ====
 
 [[SAKILA_SCHEMA_I_10]]
@@ -7574,8 +8000,9 @@ HAVING COUNT(*) > 1
 ORDER BY manager
 ----
 
-// NOT YET RUN
-
+....
+no rows.
+....
 ====
 
 === Advanced
@@ -7611,8 +8038,17 @@ ORDER BY country_total DESC, country_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++---------------+-------------+------------+-----------+--------+---------------+
+| country       | customer_id | first_name | last_name | total  | country_total |
++---------------+-------------+------------+-----------+--------+---------------+
+| India         |         468 | TIM        | CARY      | 175.61 |       6628.28 |
+| China         |         550 | GUY        | BROWNLEE  | 159.68 |       5798.74 |
+| United States |         526 | KARL       | SEAL      | 221.55 |       4110.32 |
+| Japan         |         337 | JERRY      | JORDON    | 143.71 |       3470.75 |
+| Mexico        |         273 | PRISCILLA  | LOWE      | 157.65 |       3307.04 |
++---------------+-------------+------------+-----------+--------+---------------+
+....
 ====
 
 [[SAKILA_SCHEMA_A_02]]
@@ -7682,8 +8118,22 @@ FROM months m
 ORDER BY m.month
 ----
 
-// NOT YET RUN
-
+....
++---------+----------+----------------------+
+| month   | total    | change_from_previous |
++---------+----------+----------------------+
+| 2005-05 |  4823.44 |                 NULL |
+| 2005-06 |  9629.89 |              4806.45 |
+| 2005-07 | 28368.91 |             18739.02 |
+| 2005-08 | 24070.14 |             -4298.77 |
+| 2005-09 |     0.00 |            -24070.14 |
+| 2005-10 |     0.00 |                 0.00 |
+| 2005-11 |     0.00 |                 0.00 |
+| 2005-12 |     0.00 |                 0.00 |
+| 2006-01 |     0.00 |                 0.00 |
+| 2006-02 |   514.18 |               514.18 |
++---------+----------+----------------------+
+....
 ====
 
 [[SAKILA_SCHEMA_A_05]]
@@ -7898,7 +8348,16 @@ ORDER BY balance DESC, c.customer_id
 LIMIT 5
 ----
 
-// NOT YET RUN
-
+....
++-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+---------+
+| customer_id | store_id | first_name | last_name | email                               | address_id | active | create_date         | last_update         | balance |
++-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+---------+
+|           1 |        1 | MARY       | SMITH     | MARY.SMITH@sakilacustomer.org       |          5 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+|           2 |        1 | PATRICIA   | JOHNSON   | PATRICIA.JOHNSON@sakilacustomer.org |          6 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+|           3 |        1 | LINDA      | WILLIAMS  | LINDA.WILLIAMS@sakilacustomer.org   |          7 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+|           4 |        2 | BARBARA    | JONES     | BARBARA.JONES@sakilacustomer.org    |          8 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
+|           5 |        1 | ELIZABETH  | BROWN     | ELIZABETH.BROWN@sakilacustomer.org  |          9 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |    0.00 |
++-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+---------+
+....
 ====
 

@@ -57,7 +57,11 @@ ORDER BY st.store_id
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_B_03
 -- the domains of the customers' emails.
--- NOT YET RUN
+-- +--------------------+-----------+
+-- | domain             | customers |
+-- +--------------------+-----------+
+-- | sakilacustomer.org |       599 |
+-- +--------------------+-----------+
 SELECT SUBSTRING_INDEX(email, '@', -1) AS domain, COUNT(*) AS customers
 FROM customer
 GROUP BY domain
@@ -93,7 +97,7 @@ ORDER BY customer_id
 
 -- ------------------------------------------------------------------------------------------------ SAKILA_CUSTOMER_B_06
 -- the customers whose email is missing or not one address.
--- NOT YET RUN
+-- no rows.
 SELECT customer_id, first_name, last_name, email
 FROM customer
 WHERE email IS NULL

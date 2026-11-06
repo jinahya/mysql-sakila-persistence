@@ -28,7 +28,13 @@
 
 -- ---------------------------------------------------------------------------------- SAKILA_SALES_BY_FILM_CATEGORY_B_01
 -- the three categories which sold the most.
--- NOT YET RUN
+-- +-----------+-------------+
+-- | category  | total_sales |
+-- +-----------+-------------+
+-- | Sports    |     5314.21 |
+-- | Sci-Fi    |     4756.98 |
+-- | Animation |     4656.30 |
+-- +-----------+-------------+
 SELECT *
 FROM sales_by_film_category
 ORDER BY total_sales DESC, category

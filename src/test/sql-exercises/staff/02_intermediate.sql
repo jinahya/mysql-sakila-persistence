@@ -28,7 +28,12 @@
 
 -- --------------------------------------------------------------------------------------------------- SAKILA_STAFF_I_01
 -- how many rentals each staff member handled.
--- NOT YET RUN
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+-- | staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | rentals |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+-- |        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |    8040 |
+-- |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |    8004 |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
 SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, COUNT(r.rental_id) AS rentals -- every column but picture, a BLOB which does not print
 FROM staff s
          LEFT JOIN rental r ON r.staff_id = s.staff_id
@@ -63,7 +68,12 @@ ORDER BY s.staff_id
 
 -- --------------------------------------------------------------------------------------------------- SAKILA_STAFF_I_03
 -- how many rentals each staff member handled for their own store's copies, and for the other's.
--- NOT YET RUN
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+-----------+-------------+
+-- | staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | own_store | other_store |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+-----------+-------------+
+-- |        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |      3991 |        4049 |
+-- |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |      4072 |        3932 |
+-- +----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+-----------+-------------+
 SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, -- every column but picture, a BLOB which does not print
        SUM(CASE WHEN i.store_id = s.store_id THEN 1 ELSE 0 END) AS own_store,
        SUM(CASE WHEN i.store_id <> s.store_id THEN 1 ELSE 0 END) AS other_store

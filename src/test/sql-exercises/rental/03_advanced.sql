@@ -29,7 +29,11 @@
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_A_01
 -- how many rentals came back later than the film's rental duration allows.
--- NOT YET RUN
+-- +------+
+-- | late |
+-- +------+
+-- | 7269 |
+-- +------+
 SELECT COUNT(*) AS late
 FROM rental r
          JOIN inventory i ON i.inventory_id = r.inventory_id
@@ -39,7 +43,15 @@ WHERE DATEDIFF(r.return_date, r.rental_date) > f.rental_duration
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_RENTAL_A_02
 -- the five longest waits between a customer's two rentals in 2005.
--- NOT YET RUN
+-- +-------------+---------------------+---------------------+------+
+-- | customer_id | previous_rental     | rental_date         | days |
+-- +-------------+---------------------+---------------------+------+
+-- |          61 | 2005-05-31 22:47:45 | 2005-07-27 02:50:15 |   57 |
+-- |         101 | 2005-05-27 21:13:10 | 2005-07-09 00:02:46 |   43 |
+-- |           4 | 2005-06-19 09:39:01 | 2005-07-28 02:10:10 |   39 |
+-- |         401 | 2005-05-29 19:30:42 | 2005-07-07 04:04:26 |   39 |
+-- |         433 | 2005-05-29 01:01:26 | 2005-07-07 05:30:56 |   39 |
+-- +-------------+---------------------+---------------------+------+
 SELECT customer_id, previous_rental, rental_date, DATEDIFF(rental_date, previous_rental) AS days
 FROM (SELECT rental_id,
              customer_id,

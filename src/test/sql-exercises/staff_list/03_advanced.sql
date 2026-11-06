@@ -28,7 +28,12 @@
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_STAFF_LIST_A_01
 -- the staff members who served a customer living outside their own country.
--- NOT YET RUN
+-- +----+--------------+-----------+
+-- | ID | name         | country   |
+-- +----+--------------+-----------+
+-- |  1 | Mike Hillyer | Canada    |
+-- |  2 | Jon Stephens | Australia |
+-- +----+--------------+-----------+
 SELECT l.ID, l.name, l.country
 FROM staff_list l
 WHERE EXISTS (SELECT 1

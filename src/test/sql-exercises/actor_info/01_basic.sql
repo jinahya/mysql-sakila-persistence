@@ -28,7 +28,11 @@
 
 -- ---------------------------------------------------------------------------------------------- SAKILA_ACTOR_INFO_B_01
 -- the film_info of the actor 1.
--- NOT YET RUN
+-- +----------+------------+-----------+----------------------------------------------------------------------------------+
+-- | actor_id | first_name | last_name | film_info                                                                        |
+-- +----------+------------+-----------+----------------------------------------------------------------------------------+
+-- |        1 | PENELOPE   | GUINESS   | Animation: ANACONDA CONFESSIONS; Children: LANGUAGE COWBOY; Classics: COLOR PHIL |
+-- +----------+------------+-----------+----------------------------------------------------------------------------------+
 SELECT actor_id, first_name, last_name, LEFT(film_info, 80) AS film_info
 FROM actor_info
 WHERE actor_id = 1
