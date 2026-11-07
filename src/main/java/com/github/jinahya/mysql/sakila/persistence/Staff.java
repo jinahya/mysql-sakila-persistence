@@ -606,9 +606,11 @@ public class Staff {
     private Address address;
 
     // ---------------------------------------------------------------------------------------------
+    // EAGER: a BLOB holds 65,535 bytes at most, and LAZY on a basic attribute is a hint which
+    // neither provider follows without bytecode enhancement or weaving
     @Size(max = SIZE_MAX_PICTURE)
     @Lob
-    @Basic(optional = true, fetch = FetchType.LAZY)
+    @Basic(optional = true, fetch = FetchType.EAGER)
     @Column(name = COLUMN_NAME_PICTURE, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_PICTURE)
     private byte[] picture;
