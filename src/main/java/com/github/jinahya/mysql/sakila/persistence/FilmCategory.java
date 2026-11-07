@@ -155,9 +155,6 @@ public class FilmCategory {
         final var instance = new FilmCategory();
         instance.setFilm(film);
         instance.setCategory(category);
-        instance.categoryId = Optional.ofNullable(instance.getCategory())
-                .map(Category::getCategoryId)
-                .orElse(null);
         return instance;
     }
 
@@ -289,13 +286,16 @@ public class FilmCategory {
 
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute, which is what writes
-     * the column, with the specified value. The read-only {@value #ATTRIBUTE_NAME_CATEGORY_ID}
-     * attribute is not touched; it is read from the database.
+     * the column, with the specified value, along with the read-only
+     * {@value #ATTRIBUTE_NAME_CATEGORY_ID} attribute.
      *
      * @param category new value for {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
      */
     void setCategory(final Category category) {
         this.category = category;
+        this.categoryId = Optional.ofNullable(category)
+                .map(Category::getCategoryId)
+                .orElse(null);
     }
 
     // ---------------------------------------------------------------------------------- lastUpdate
@@ -324,8 +324,8 @@ public class FilmCategory {
     private Film film;
 
     // ---------------------------------------------------------------------------------------------
-    // no @NotNull: read-only, null until of(Film, Category) sets it or the instance is read from
-    // the database; the category carries the constraint
+    // no @NotNull: read-only, null until setCategory(Category) sets it or the instance is read
+    // from the database; the category carries the constraint
     @Column(name = COLUMN_NAME_CATEGORY_ID, nullable = false, insertable = false, updatable = false)
     private Integer categoryId;
 
