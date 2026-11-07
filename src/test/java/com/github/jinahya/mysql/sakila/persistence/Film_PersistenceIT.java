@@ -22,6 +22,7 @@ package com.github.jinahya.mysql.sakila.persistence;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import static com.github.jinahya.mysql.sakila.persistence.___PersistenceIT_Utils.applyEntityManagerFactory;
@@ -36,6 +37,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
+@Slf4j
 class Film_PersistenceIT
         extends _Entity_PersistenceIT<Film, Integer> {
 

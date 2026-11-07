@@ -21,6 +21,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  */
 
 import jakarta.persistence.EntityManager;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -43,6 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
+@Slf4j
 class FilmCategory_PersistenceTest
         extends _Entity_PersistenceTest<FilmCategory, FilmCategoryId> {
 

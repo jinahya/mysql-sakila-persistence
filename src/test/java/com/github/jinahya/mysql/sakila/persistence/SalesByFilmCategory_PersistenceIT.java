@@ -22,6 +22,7 @@ package com.github.jinahya.mysql.sakila.persistence;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
+@Slf4j
 class SalesByFilmCategory_PersistenceIT
         extends _Entity_PersistenceIT<SalesByFilmCategory, String> {
 

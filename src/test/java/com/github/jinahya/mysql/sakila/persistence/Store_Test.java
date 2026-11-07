@@ -20,6 +20,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import lombok.extern.slf4j.Slf4j;
 import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
 import org.junit.platform.commons.util.ReflectionUtils;
 
@@ -28,6 +29,7 @@ import org.junit.platform.commons.util.ReflectionUtils;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
+@Slf4j
 class Store_Test
         extends _Entity_Test<Store, Integer> {
 

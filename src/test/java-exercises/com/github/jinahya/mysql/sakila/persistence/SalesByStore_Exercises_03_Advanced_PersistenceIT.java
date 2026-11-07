@@ -20,6 +20,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.Nested;
 @SuppressWarnings({
         "java:S101" // Class names should comply with a naming convention
 })
+@Slf4j
 class SalesByStore_Exercises_03_Advanced_PersistenceIT {
 
     @DisplayName("SAKILA_SALES_BY_STORE_A_01: each store's share of all sales")

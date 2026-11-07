@@ -20,12 +20,15 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Verifies the mappings of {@link FilmActor} against the schema generated into the in-memory
  * database.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
+@Slf4j
 class FilmActor_PersistenceTest
         extends _Entity_PersistenceTest<FilmActor, FilmActorId> {
 
