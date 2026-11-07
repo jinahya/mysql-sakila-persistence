@@ -23,10 +23,10 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 /**
  * A class for testing the {@link FilmCategoryId} composite primary key class.
@@ -88,9 +88,9 @@ class FilmCategoryId_Test
          */
         @Test
         void __() {
-            final var film = Mockito.mock(Film.class);
+            final var film = mock(Film.class);
             doReturn(1).when(film).getFilmId();
-            final var category = Mockito.mock(Category.class);
+            final var category = mock(Category.class);
             doReturn(2).when(category).getCategoryId();
             final var instance = FilmCategoryId.from(film, category);
             assertThat(instance).isNotNull().satisfies(v -> {
@@ -126,11 +126,11 @@ class FilmCategoryId_Test
          */
         @Test
         void __() {
-            final var film = Mockito.mock(Film.class);
+            final var film = mock(Film.class);
             doReturn(1).when(film).getFilmId();
-            final var category = Mockito.mock(Category.class);
+            final var category = mock(Category.class);
             doReturn(2).when(category).getCategoryId();
-            final var filmCategory = Mockito.mock(FilmCategory.class);
+            final var filmCategory = mock(FilmCategory.class);
             doReturn(film).when(filmCategory).getFilm();
             doReturn(category).when(filmCategory).getCategory();
             final var instance = FilmCategoryId.from(filmCategory);
@@ -146,7 +146,7 @@ class FilmCategoryId_Test
          */
         @Test
         void __nullAssociations() {
-            final var filmCategory = Mockito.mock(FilmCategory.class);
+            final var filmCategory = mock(FilmCategory.class);
             final var instance = FilmCategoryId.from(filmCategory);
             assertThat(instance).isNotNull().satisfies(v -> {
                 assertThat(v.filmId()).isNull();

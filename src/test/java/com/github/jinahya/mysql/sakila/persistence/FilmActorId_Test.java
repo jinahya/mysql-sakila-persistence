@@ -23,9 +23,10 @@ package com.github.jinahya.mysql.sakila.persistence;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 /**
  * A class for testing the {@link FilmActorId} composite primary key class.
@@ -87,10 +88,10 @@ class FilmActorId_Test
          */
         @Test
         void __() {
-            final var actor = Mockito.mock(Actor.class);
-            Mockito.doReturn(1).when(actor).getActorId();
-            final var film = Mockito.mock(Film.class);
-            Mockito.doReturn(2).when(film).getFilmId();
+            final var actor = mock(Actor.class);
+            doReturn(1).when(actor).getActorId();
+            final var film = mock(Film.class);
+            doReturn(2).when(film).getFilmId();
             final var instance = FilmActorId.from(actor, film);
             assertThat(instance).isNotNull().satisfies(v -> {
                 assertThat(v.getActorId()).isEqualTo(1);
@@ -125,13 +126,13 @@ class FilmActorId_Test
          */
         @Test
         void __() {
-            final var actor = Mockito.mock(Actor.class);
-            Mockito.doReturn(1).when(actor).getActorId();
-            final var film = Mockito.mock(Film.class);
-            Mockito.doReturn(2).when(film).getFilmId();
-            final var filmActor = Mockito.mock(FilmActor.class);
-            Mockito.doReturn(actor).when(filmActor).getActor();
-            Mockito.doReturn(film).when(filmActor).getFilm();
+            final var actor = mock(Actor.class);
+            doReturn(1).when(actor).getActorId();
+            final var film = mock(Film.class);
+            doReturn(2).when(film).getFilmId();
+            final var filmActor = mock(FilmActor.class);
+            doReturn(actor).when(filmActor).getActor();
+            doReturn(film).when(filmActor).getFilm();
             final var instance = FilmActorId.from(filmActor);
             assertThat(instance).isNotNull().satisfies(v -> {
                 assertThat(v.getActorId()).isEqualTo(1);
@@ -145,7 +146,7 @@ class FilmActorId_Test
          */
         @Test
         void __nullAssociations() {
-            final var filmActor = Mockito.mock(FilmActor.class);
+            final var filmActor = mock(FilmActor.class);
             final var instance = FilmActorId.from(filmActor);
             assertThat(instance).isNotNull().satisfies(v -> {
                 assertThat(v.getActorId()).isNull();
