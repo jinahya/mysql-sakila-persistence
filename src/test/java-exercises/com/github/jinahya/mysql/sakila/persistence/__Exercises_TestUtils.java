@@ -33,7 +33,7 @@ import java.util.function.Function;
 @SuppressWarnings({
         "java:S101" // Class names should comply with a naming convention
 })
-final class __Exercises_TestUtils {
+public final class __Exercises_TestUtils {
 
     /**
      * Applies the specified function to an entity manager of the installed {@code sakila} database,
@@ -43,7 +43,7 @@ final class __Exercises_TestUtils {
      * @param <R>      the type of the result.
      * @return the result of the {@code function}.
      */
-    static <R> R apply(final Function<? super EntityManager, ? extends R> function) {
+    public static <R> R apply(final Function<? super EntityManager, ? extends R> function) {
         return ___PersistenceIT_Utils.applyEntityManager_(emf -> function);
     }
 

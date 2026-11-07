@@ -8,9 +8,8 @@
 # carries each id as the anchor and the prefix of the exercise's heading, and the .sql file repeats it in the marker
 # above the statement.
 #
-# `sql` is the file that answers the exercise in SQL; `test` is the integration test, and its nested class, that
-# answers it in JPQL and with the Criteria API. The nested class is numbered by the exercise's place in its file, which
-# may change; the id does not.
+# `sql` is the file that answers the exercise in SQL; `test` is the integration test that answers it in JPQL and with
+# the Criteria API, a class of its own, `sakila.<section>.<ID>_PersistenceIT` in the module's test package.
 
 # ---- actor
 
@@ -19,13 +18,13 @@
   tier: Basic
   title: "the actors of a given last name, ordered by actor_id"
   sql: src/test/sql-exercises/actor/01_basic.sql
-  test: Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_01_Test
+  test: sakila.actor.SAKILA_ACTOR_B_01_PersistenceIT
 - id: SAKILA_ACTOR_B_02
   section: "ACTOR"
   tier: Basic
   title: "the actors whose first name starts with JU, ordered by first name"
   sql: src/test/sql-exercises/actor/01_basic.sql
-  test: Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_02_Test
+  test: sakila.actor.SAKILA_ACTOR_B_02_PersistenceIT
 - id: SAKILA_ACTOR_B_03
   section: "ACTOR"
   tier: Basic
@@ -36,37 +35,37 @@
   tier: Basic
   title: "the actors whose first and last names start with the same letter"
   sql: src/test/sql-exercises/actor/01_basic.sql
-  test: Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_04_Test
+  test: sakila.actor.SAKILA_ACTOR_B_04_PersistenceIT
 - id: SAKILA_ACTOR_B_05
   section: "ACTOR"
   tier: Basic
   title: "how many different first names and last names there are"
   sql: src/test/sql-exercises/actor/01_basic.sql
-  test: Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_05_Test
+  test: sakila.actor.SAKILA_ACTOR_B_05_PersistenceIT
 - id: SAKILA_ACTOR_I_01
   section: "ACTOR"
   tier: Intermediate
   title: "the last names shared by more than three actors, the most shared first"
   sql: src/test/sql-exercises/actor/02_intermediate.sql
-  test: Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_01_Test
+  test: sakila.actor.SAKILA_ACTOR_I_01_PersistenceIT
 - id: SAKILA_ACTOR_I_02
   section: "ACTOR"
   tier: Intermediate
   title: "the top n actors by their number of films"
   sql: src/test/sql-exercises/actor/02_intermediate.sql
-  test: Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_02_Test
+  test: sakila.actor.SAKILA_ACTOR_I_02_PersistenceIT
 - id: SAKILA_ACTOR_I_03
   section: "ACTOR"
   tier: Intermediate
   title: "the actors who appear in no film"
   sql: src/test/sql-exercises/actor/02_intermediate.sql
-  test: Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_03_Test
+  test: sakila.actor.SAKILA_ACTOR_I_03_PersistenceIT
 - id: SAKILA_ACTOR_I_04
   section: "ACTOR"
   tier: Intermediate
   title: "the five most common first names"
   sql: src/test/sql-exercises/actor/02_intermediate.sql
-  test: Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_04_Test
+  test: sakila.actor.SAKILA_ACTOR_I_04_PersistenceIT
 - id: SAKILA_ACTOR_I_05
   section: "ACTOR"
   tier: Intermediate
@@ -77,37 +76,37 @@
   tier: Intermediate
   title: "the five actors whose films are, on average, the longest"
   sql: src/test/sql-exercises/actor/02_intermediate.sql
-  test: Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_06_Test
+  test: sakila.actor.SAKILA_ACTOR_I_06_PersistenceIT
 - id: SAKILA_ACTOR_I_07
   section: "ACTOR"
   tier: Intermediate
   title: "the films of the first five actors, counted by rating"
   sql: src/test/sql-exercises/actor/02_intermediate.sql
-  test: Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_07_Test
+  test: sakila.actor.SAKILA_ACTOR_I_07_PersistenceIT
 - id: SAKILA_ACTOR_I_08
   section: "ACTOR"
   tier: Intermediate
   title: "the actors who never appeared in a G-rated film"
   sql: src/test/sql-exercises/actor/02_intermediate.sql
-  test: Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_08_Test
+  test: sakila.actor.SAKILA_ACTOR_I_08_PersistenceIT
 - id: SAKILA_ACTOR_A_01
   section: "ACTOR"
   tier: Advanced
   title: "the actors who appear in a film of every rating"
   sql: src/test/sql-exercises/actor/03_advanced.sql
-  test: Actor_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_A_01_Test
+  test: sakila.actor.SAKILA_ACTOR_A_01_PersistenceIT
 - id: SAKILA_ACTOR_A_02
   section: "ACTOR"
   tier: Advanced
   title: "the actors in the top seven film counts, ties included"
   sql: src/test/sql-exercises/actor/03_advanced.sql
-  test: Actor_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_A_02_Test
+  test: sakila.actor.SAKILA_ACTOR_A_02_PersistenceIT
 - id: SAKILA_ACTOR_A_03
   section: "ACTOR"
   tier: Advanced
   title: "the longest film of each of the first five actors"
   sql: src/test/sql-exercises/actor/03_advanced.sql
-  test: Actor_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_A_03_Test
+  test: sakila.actor.SAKILA_ACTOR_A_03_PersistenceIT
 
 # ---- actor_info
 
@@ -116,56 +115,56 @@
   tier: Basic
   title: "the film_info of the actor 1"
   sql: src/test/sql-exercises/actor_info/01_basic.sql
-  test: ActorInfo_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_INFO_B_01_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_B_01_PersistenceIT
 - id: SAKILA_ACTOR_INFO_B_02
   section: "ACTOR_INFO"
   tier: Basic
   title: "how many actors appear in a Horror film, as film_info says"
   sql: src/test/sql-exercises/actor_info/01_basic.sql
-  test: ActorInfo_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_INFO_B_02_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_B_02_PersistenceIT
 - id: SAKILA_ACTOR_INFO_B_03
   section: "ACTOR_INFO"
   tier: Basic
   title: "the actors of ACADEMY DINOSAUR, as film_info says"
   sql: src/test/sql-exercises/actor_info/01_basic.sql
-  test: ActorInfo_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_INFO_B_03_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_B_03_PersistenceIT
 - id: SAKILA_ACTOR_INFO_B_04
   section: "ACTOR_INFO"
   tier: Basic
   title: "the five actors with the longest film_info"
   sql: src/test/sql-exercises/actor_info/01_basic.sql
-  test: ActorInfo_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_INFO_B_04_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_B_04_PersistenceIT
 - id: SAKILA_ACTOR_INFO_I_01
   section: "ACTOR_INFO"
   tier: Intermediate
   title: "whether the view has a row for every actor"
   sql: src/test/sql-exercises/actor_info/02_intermediate.sql
-  test: ActorInfo_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_INFO_I_01_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_I_01_PersistenceIT
 - id: SAKILA_ACTOR_INFO_I_02
   section: "ACTOR_INFO"
   tier: Intermediate
   title: "the actors whose film_info covers every category"
   sql: src/test/sql-exercises/actor_info/02_intermediate.sql
-  test: ActorInfo_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_INFO_I_02_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_I_02_PersistenceIT
 - id: SAKILA_ACTOR_INFO_I_03
   section: "ACTOR_INFO"
   tier: Intermediate
   title: "how many actors cover how many categories"
   sql: src/test/sql-exercises/actor_info/02_intermediate.sql
-  test: ActorInfo_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_INFO_I_03_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_I_03_PersistenceIT
   native-only: true
 - id: SAKILA_ACTOR_INFO_I_04
   section: "ACTOR_INFO"
   tier: Intermediate
   title: "the actors whose film_info may be cut by GROUP_CONCAT"
   sql: src/test/sql-exercises/actor_info/02_intermediate.sql
-  test: ActorInfo_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_INFO_I_04_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_I_04_PersistenceIT
 - id: SAKILA_ACTOR_INFO_A_01
   section: "ACTOR_INFO"
   tier: Advanced
   title: "the actors whose film_info disagrees with the tables on the number of categories"
   sql: src/test/sql-exercises/actor_info/03_advanced.sql
-  test: ActorInfo_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_INFO_A_01_Test
+  test: sakila.actor_info.SAKILA_ACTOR_INFO_A_01_PersistenceIT
 
 # ---- address
 
@@ -174,68 +173,67 @@
   tier: Basic
   title: "how many addresses are in the district of California"
   sql: src/test/sql-exercises/address/01_basic.sql
-  test: Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_01_Test
+  test: sakila.address.SAKILA_ADDRESS_B_01_PersistenceIT
 - id: SAKILA_ADDRESS_B_02
   section: "ADDRESS"
   tier: Basic
   title: "the five districts with the most addresses"
   sql: src/test/sql-exercises/address/01_basic.sql
-  test: Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_02_Test
+  test: sakila.address.SAKILA_ADDRESS_B_02_PersistenceIT
 - id: SAKILA_ADDRESS_B_03
   section: "ADDRESS"
   tier: Basic
   title: "the addresses whose address2 is NULL"
   sql: src/test/sql-exercises/address/01_basic.sql
-  test: Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_03_Test
+  test: sakila.address.SAKILA_ADDRESS_B_03_PersistenceIT
 - id: SAKILA_ADDRESS_B_04
   section: "ADDRESS"
   tier: Basic
   title: "the addresses with an empty district"
   sql: src/test/sql-exercises/address/01_basic.sql
-  test: Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_04_Test
+  test: sakila.address.SAKILA_ADDRESS_B_04_PersistenceIT
 - id: SAKILA_ADDRESS_B_05
   section: "ADDRESS"
   tier: Basic
   title: "how many addresses have no postal code, as NULL and as an empty string"
   sql: src/test/sql-exercises/address/01_basic.sql
-  test: Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_05_Test
+  test: sakila.address.SAKILA_ADDRESS_B_05_PersistenceIT
 - id: SAKILA_ADDRESS_I_01
   section: "ADDRESS"
   tier: Intermediate
   title: "the first five addresses, with their city and country"
   sql: src/test/sql-exercises/address/02_intermediate.sql
-  test: Address_Exercises_02_Intermediate_PersistenceIT.SAKILA_ADDRESS_I_01_Test
+  test: sakila.address.SAKILA_ADDRESS_I_01_PersistenceIT
 - id: SAKILA_ADDRESS_I_02
   section: "ADDRESS"
   tier: Intermediate
   title: "the district names found in more than one country"
   sql: src/test/sql-exercises/address/02_intermediate.sql
-  test: Address_Exercises_02_Intermediate_PersistenceIT.SAKILA_ADDRESS_I_02_Test
+  test: sakila.address.SAKILA_ADDRESS_I_02_PersistenceIT
 - id: SAKILA_ADDRESS_I_03
   section: "ADDRESS"
   tier: Intermediate
   title: "how many addresses belong to a store, a staff member or a customer"
   sql: src/test/sql-exercises/address/02_intermediate.sql
-  test: Address_Exercises_02_Intermediate_PersistenceIT.SAKILA_ADDRESS_I_03_Test
+  test: sakila.address.SAKILA_ADDRESS_I_03_PersistenceIT
 - id: SAKILA_ADDRESS_A_01
   section: "ADDRESS"
   tier: Advanced
   title: "the addresses no customer, staff member or store has"
   sql: src/test/sql-exercises/address/03_advanced.sql
-  test: Address_Exercises_03_Advanced_PersistenceIT.SAKILA_ADDRESS_A_01_Test
   retired: true
 - id: SAKILA_ADDRESS_A_02
   section: "ADDRESS"
   tier: Advanced
   title: "the pairs of addresses which share a postal code"
   sql: src/test/sql-exercises/address/03_advanced.sql
-  test: Address_Exercises_03_Advanced_PersistenceIT.SAKILA_ADDRESS_A_02_Test
+  test: sakila.address.SAKILA_ADDRESS_A_02_PersistenceIT
 - id: SAKILA_ADDRESS_A_03
   section: "ADDRESS"
   tier: Advanced
   title: "the three districts with the most addresses in each of India, China and the United States"
   sql: src/test/sql-exercises/address/03_advanced.sql
-  test: Address_Exercises_03_Advanced_PersistenceIT.SAKILA_ADDRESS_A_03_Test
+  test: sakila.address.SAKILA_ADDRESS_A_03_PersistenceIT
   native-only: true
 
 # ---- category
@@ -245,61 +243,61 @@
   tier: Basic
   title: "every category, by name"
   sql: src/test/sql-exercises/category/01_basic.sql
-  test: Category_Exercises_01_Basic_PersistenceIT.SAKILA_CATEGORY_B_01_Test
+  test: sakila.category.SAKILA_CATEGORY_B_01_PersistenceIT
 - id: SAKILA_CATEGORY_B_02
   section: "CATEGORY"
   tier: Basic
   title: "the categories whose names fall between D and H"
   sql: src/test/sql-exercises/category/01_basic.sql
-  test: Category_Exercises_01_Basic_PersistenceIT.SAKILA_CATEGORY_B_02_Test
+  test: sakila.category.SAKILA_CATEGORY_B_02_PersistenceIT
 - id: SAKILA_CATEGORY_I_01
   section: "CATEGORY"
   tier: Intermediate
   title: "how many films each category has, the most first"
   sql: src/test/sql-exercises/category/02_intermediate.sql
-  test: Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_01_Test
+  test: sakila.category.SAKILA_CATEGORY_I_01_PersistenceIT
 - id: SAKILA_CATEGORY_I_02
   section: "CATEGORY"
   tier: Intermediate
   title: "the category whose films are, on average, the longest"
   sql: src/test/sql-exercises/category/02_intermediate.sql
-  test: Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_02_Test
+  test: sakila.category.SAKILA_CATEGORY_I_02_PersistenceIT
 - id: SAKILA_CATEGORY_I_03
   section: "CATEGORY"
   tier: Intermediate
   title: "the categories with no film"
   sql: src/test/sql-exercises/category/02_intermediate.sql
-  test: Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_03_Test
+  test: sakila.category.SAKILA_CATEGORY_I_03_PersistenceIT
 - id: SAKILA_CATEGORY_I_04
   section: "CATEGORY"
   tier: Intermediate
   title: "the categories whose films rent for more than the average"
   sql: src/test/sql-exercises/category/02_intermediate.sql
-  test: Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_04_Test
+  test: sakila.category.SAKILA_CATEGORY_I_04_PersistenceIT
 - id: SAKILA_CATEGORY_I_05
   section: "CATEGORY"
   tier: Intermediate
   title: "the five categories with the most different actors"
   sql: src/test/sql-exercises/category/02_intermediate.sql
-  test: Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_05_Test
+  test: sakila.category.SAKILA_CATEGORY_I_05_PersistenceIT
 - id: SAKILA_CATEGORY_I_06
   section: "CATEGORY"
   tier: Intermediate
   title: "the category names which more than one category has"
   sql: src/test/sql-exercises/category/02_intermediate.sql
-  test: Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_06_Test
+  test: sakila.category.SAKILA_CATEGORY_I_06_PersistenceIT
 - id: SAKILA_CATEGORY_A_01
   section: "CATEGORY"
   tier: Advanced
   title: "the running total of the films, category by category"
   sql: src/test/sql-exercises/category/03_advanced.sql
-  test: Category_Exercises_03_Advanced_PersistenceIT.SAKILA_CATEGORY_A_01_Test
+  test: sakila.category.SAKILA_CATEGORY_A_01_PersistenceIT
 - id: SAKILA_CATEGORY_A_02
   section: "CATEGORY"
   tier: Advanced
   title: "the film rented the most in each category"
   sql: src/test/sql-exercises/category/03_advanced.sql
-  test: Category_Exercises_03_Advanced_PersistenceIT.SAKILA_CATEGORY_A_02_Test
+  test: sakila.category.SAKILA_CATEGORY_A_02_PersistenceIT
 
 # ---- city
 
@@ -308,13 +306,13 @@
   tier: Basic
   title: "the cities whose name starts with Q"
   sql: src/test/sql-exercises/city/01_basic.sql
-  test: City_Exercises_01_Basic_PersistenceIT.SAKILA_CITY_B_01_Test
+  test: sakila.city.SAKILA_CITY_B_01_PersistenceIT
 - id: SAKILA_CITY_B_02
   section: "CITY"
   tier: Basic
   title: "how many city names have more than one word"
   sql: src/test/sql-exercises/city/01_basic.sql
-  test: City_Exercises_01_Basic_PersistenceIT.SAKILA_CITY_B_02_Test
+  test: sakila.city.SAKILA_CITY_B_02_PersistenceIT
 - id: SAKILA_CITY_B_03
   section: "CITY"
   tier: Basic
@@ -325,49 +323,49 @@
   tier: Intermediate
   title: "the cities of Canada"
   sql: src/test/sql-exercises/city/02_intermediate.sql
-  test: City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_01_Test
+  test: sakila.city.SAKILA_CITY_I_01_PersistenceIT
 - id: SAKILA_CITY_I_02
   section: "CITY"
   tier: Intermediate
   title: "the five countries with the most cities"
   sql: src/test/sql-exercises/city/02_intermediate.sql
-  test: City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_02_Test
+  test: sakila.city.SAKILA_CITY_I_02_PersistenceIT
 - id: SAKILA_CITY_I_03
   section: "CITY"
   tier: Intermediate
   title: "how many cities have no address"
   sql: src/test/sql-exercises/city/02_intermediate.sql
-  test: City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_03_Test
+  test: sakila.city.SAKILA_CITY_I_03_PersistenceIT
 - id: SAKILA_CITY_I_04
   section: "CITY"
   tier: Intermediate
   title: "the cities with more than one address"
   sql: src/test/sql-exercises/city/02_intermediate.sql
-  test: City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_04_Test
+  test: sakila.city.SAKILA_CITY_I_04_PersistenceIT
 - id: SAKILA_CITY_I_05
   section: "CITY"
   tier: Intermediate
   title: "the city names found in more than one country"
   sql: src/test/sql-exercises/city/02_intermediate.sql
-  test: City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_05_Test
+  test: sakila.city.SAKILA_CITY_I_05_PersistenceIT
 - id: SAKILA_CITY_I_06
   section: "CITY"
   tier: Intermediate
   title: "the city names found more than once in a country"
   sql: src/test/sql-exercises/city/02_intermediate.sql
-  test: City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_06_Test
+  test: sakila.city.SAKILA_CITY_I_06_PersistenceIT
 - id: SAKILA_CITY_A_01
   section: "CITY"
   tier: Advanced
   title: "the first ten cities which are the only city of their country"
   sql: src/test/sql-exercises/city/03_advanced.sql
-  test: City_Exercises_03_Advanced_PersistenceIT.SAKILA_CITY_A_01_Test
+  test: sakila.city.SAKILA_CITY_A_01_PersistenceIT
 - id: SAKILA_CITY_A_02
   section: "CITY"
   tier: Advanced
   title: "the cities whose customers are all inactive"
   sql: src/test/sql-exercises/city/03_advanced.sql
-  test: City_Exercises_03_Advanced_PersistenceIT.SAKILA_CITY_A_02_Test
+  test: sakila.city.SAKILA_CITY_A_02_PersistenceIT
 
 # ---- country
 
@@ -376,62 +374,62 @@
   tier: Basic
   title: "how many countries there are"
   sql: src/test/sql-exercises/country/01_basic.sql
-  test: Country_Exercises_01_Basic_PersistenceIT.SAKILA_COUNTRY_B_01_Test
+  test: sakila.country.SAKILA_COUNTRY_B_01_PersistenceIT
 - id: SAKILA_COUNTRY_B_02
   section: "COUNTRY"
   tier: Basic
   title: "the countries whose name starts with S, ordered by name"
   sql: src/test/sql-exercises/country/01_basic.sql
-  test: Country_Exercises_01_Basic_PersistenceIT.SAKILA_COUNTRY_B_02_Test
+  test: sakila.country.SAKILA_COUNTRY_B_02_PersistenceIT
 - id: SAKILA_COUNTRY_B_03
   section: "COUNTRY"
   tier: Basic
   title: "the five countries with the longest names"
   sql: src/test/sql-exercises/country/01_basic.sql
-  test: Country_Exercises_01_Basic_PersistenceIT.SAKILA_COUNTRY_B_03_Test
+  test: sakila.country.SAKILA_COUNTRY_B_03_PersistenceIT
 - id: SAKILA_COUNTRY_I_01
   section: "COUNTRY"
   tier: Intermediate
   title: "the countries with no city"
   sql: src/test/sql-exercises/country/02_intermediate.sql
-  test: Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_01_Test
+  test: sakila.country.SAKILA_COUNTRY_I_01_PersistenceIT
 - id: SAKILA_COUNTRY_I_02
   section: "COUNTRY"
   tier: Intermediate
   title: "the five countries with the most customers"
   sql: src/test/sql-exercises/country/02_intermediate.sql
-  test: Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_02_Test
+  test: sakila.country.SAKILA_COUNTRY_I_02_PersistenceIT
 - id: SAKILA_COUNTRY_I_03
   section: "COUNTRY"
   tier: Intermediate
   title: "how many countries have exactly one city"
   sql: src/test/sql-exercises/country/02_intermediate.sql
-  test: Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_03_Test
+  test: sakila.country.SAKILA_COUNTRY_I_03_PersistenceIT
 - id: SAKILA_COUNTRY_I_04
   section: "COUNTRY"
   tier: Intermediate
   title: "the countries which have a city but no customer"
   sql: src/test/sql-exercises/country/02_intermediate.sql
-  test: Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_04_Test
+  test: sakila.country.SAKILA_COUNTRY_I_04_PersistenceIT
 - id: SAKILA_COUNTRY_I_05
   section: "COUNTRY"
   tier: Intermediate
   title: "the country names found more than once"
   sql: src/test/sql-exercises/country/02_intermediate.sql
-  test: Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_05_Test
+  test: sakila.country.SAKILA_COUNTRY_I_05_PersistenceIT
 - id: SAKILA_COUNTRY_A_01
   section: "COUNTRY"
   tier: Advanced
   title: "the fewest countries which hold half of the customers"
   sql: src/test/sql-exercises/country/03_advanced.sql
-  test: Country_Exercises_03_Advanced_PersistenceIT.SAKILA_COUNTRY_A_01_Test
+  test: sakila.country.SAKILA_COUNTRY_A_01_PersistenceIT
   native-only: true
 - id: SAKILA_COUNTRY_A_02
   section: "COUNTRY"
   tier: Advanced
   title: "the countries ranked in the top ten by customers, ties sharing a rank"
   sql: src/test/sql-exercises/country/03_advanced.sql
-  test: Country_Exercises_03_Advanced_PersistenceIT.SAKILA_COUNTRY_A_02_Test
+  test: sakila.country.SAKILA_COUNTRY_A_02_PersistenceIT
   native-only: true
 
 # ---- customer
@@ -441,31 +439,31 @@
   tier: Basic
   title: "how many customers are active, and how many are not"
   sql: src/test/sql-exercises/customer/01_basic.sql
-  test: Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_01_Test
+  test: sakila.customer.SAKILA_CUSTOMER_B_01_PersistenceIT
 - id: SAKILA_CUSTOMER_B_02
   section: "CUSTOMER"
   tier: Basic
   title: "how many customers each store has"
   sql: src/test/sql-exercises/customer/01_basic.sql
-  test: Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_02_Test
+  test: sakila.customer.SAKILA_CUSTOMER_B_02_PersistenceIT
 - id: SAKILA_CUSTOMER_B_03
   section: "CUSTOMER"
   tier: Basic
   title: "the domains of the customers' emails"
   sql: src/test/sql-exercises/customer/01_basic.sql
-  test: Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_03_Test
+  test: sakila.customer.SAKILA_CUSTOMER_B_03_PersistenceIT
 - id: SAKILA_CUSTOMER_B_04
   section: "CUSTOMER"
   tier: Basic
   title: "the customers who are not active"
   sql: src/test/sql-exercises/customer/01_basic.sql
-  test: Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_04_Test
+  test: sakila.customer.SAKILA_CUSTOMER_B_04_PersistenceIT
 - id: SAKILA_CUSTOMER_B_06
   section: "CUSTOMER"
   tier: Basic
   title: "the customers whose email is missing or not one address"
   sql: src/test/sql-exercises/customer/01_basic.sql
-  test: Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_06_Test
+  test: sakila.customer.SAKILA_CUSTOMER_B_06_PersistenceIT
 - id: SAKILA_CUSTOMER_B_05
   section: "CUSTOMER"
   tier: Basic
@@ -476,62 +474,62 @@
   tier: Intermediate
   title: "the five customers who paid the most"
   sql: src/test/sql-exercises/customer/02_intermediate.sql
-  test: Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_01_Test
+  test: sakila.customer.SAKILA_CUSTOMER_I_01_PersistenceIT
 - id: SAKILA_CUSTOMER_I_02
   section: "CUSTOMER"
   tier: Intermediate
   title: "the customers who never rented"
   sql: src/test/sql-exercises/customer/02_intermediate.sql
-  test: Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_02_Test
+  test: sakila.customer.SAKILA_CUSTOMER_I_02_PersistenceIT
 - id: SAKILA_CUSTOMER_I_03
   section: "CUSTOMER"
   tier: Intermediate
   title: "the customers who rented forty times or more"
   sql: src/test/sql-exercises/customer/02_intermediate.sql
-  test: Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_03_Test
+  test: sakila.customer.SAKILA_CUSTOMER_I_03_PersistenceIT
 - id: SAKILA_CUSTOMER_I_04
   section: "CUSTOMER"
   tier: Intermediate
   title: "the five customers holding the most rentals not returned yet"
   sql: src/test/sql-exercises/customer/02_intermediate.sql
-  test: Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_04_Test
+  test: sakila.customer.SAKILA_CUSTOMER_I_04_PersistenceIT
 - id: SAKILA_CUSTOMER_I_05
   section: "CUSTOMER"
   tier: Intermediate
   title: "the first ten customers of the store 1, each with the rentals they have out, zero included"
   sql: src/test/sql-exercises/customer/02_intermediate.sql
-  test: Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_05_Test
+  test: sakila.customer.SAKILA_CUSTOMER_I_05_PersistenceIT
 - id: SAKILA_CUSTOMER_I_06
   section: "CUSTOMER"
   tier: Intermediate
   title: "the customers with no payment"
   sql: src/test/sql-exercises/customer/02_intermediate.sql
-  test: Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_06_Test
+  test: sakila.customer.SAKILA_CUSTOMER_I_06_PersistenceIT
 - id: SAKILA_CUSTOMER_I_07
   section: "CUSTOMER"
   tier: Intermediate
   title: "the five customers who returned late most often"
   sql: src/test/sql-exercises/customer/02_intermediate.sql
-  test: Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_07_Test
+  test: sakila.customer.SAKILA_CUSTOMER_I_07_PersistenceIT
 - id: SAKILA_CUSTOMER_A_01
   section: "CUSTOMER"
   tier: Advanced
   title: "the three customers who paid the most at each store"
   sql: src/test/sql-exercises/customer/03_advanced.sql
-  test: Customer_Exercises_03_Advanced_PersistenceIT.SAKILA_CUSTOMER_A_01_Test
+  test: sakila.customer.SAKILA_CUSTOMER_A_01_PersistenceIT
   native-only: true
 - id: SAKILA_CUSTOMER_A_02
   section: "CUSTOMER"
   tier: Advanced
   title: "how many customers of each store paid more than that store's average customer"
   sql: src/test/sql-exercises/customer/03_advanced.sql
-  test: Customer_Exercises_03_Advanced_PersistenceIT.SAKILA_CUSTOMER_A_02_Test
+  test: sakila.customer.SAKILA_CUSTOMER_A_02_PersistenceIT
 - id: SAKILA_CUSTOMER_A_03
   section: "CUSTOMER"
   tier: Advanced
   title: "the customers in four bands by what they paid"
   sql: src/test/sql-exercises/customer/03_advanced.sql
-  test: Customer_Exercises_03_Advanced_PersistenceIT.SAKILA_CUSTOMER_A_03_Test
+  test: sakila.customer.SAKILA_CUSTOMER_A_03_PersistenceIT
   native-only: true
 
 - id: SAKILA_CUSTOMER_A_04
@@ -539,7 +537,7 @@
   tier: Advanced
   title: "the five customers with the longest gap between two rentals"
   sql: src/test/sql-exercises/customer/03_advanced.sql
-  test: Customer_Exercises_03_Advanced_PersistenceIT.SAKILA_CUSTOMER_A_04_Test
+  test: sakila.customer.SAKILA_CUSTOMER_A_04_PersistenceIT
 # ---- customer_list
 
 - id: SAKILA_CUSTOMER_LIST_B_01
@@ -547,56 +545,55 @@
   tier: Basic
   title: "the customers in Japan"
   sql: src/test/sql-exercises/customer_list/01_basic.sql
-  test: CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_01_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_B_01_PersistenceIT
 - id: SAKILA_CUSTOMER_LIST_B_02
   section: "CUSTOMER_LIST"
   tier: Basic
   title: "how many customers each store has, as the view's SID says"
   sql: src/test/sql-exercises/customer_list/01_basic.sql
-  test: CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_02_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_B_02_PersistenceIT
 - id: SAKILA_CUSTOMER_LIST_B_03
   section: "CUSTOMER_LIST"
   tier: Basic
   title: "how many customers the view's notes call active"
   sql: src/test/sql-exercises/customer_list/01_basic.sql
-  test: CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_03_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_B_03_PersistenceIT
 - id: SAKILA_CUSTOMER_LIST_B_04
   section: "CUSTOMER_LIST"
   tier: Basic
   title: "how many customers live on an Avenue"
   sql: src/test/sql-exercises/customer_list/01_basic.sql
-  test: CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_04_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_B_04_PersistenceIT
 - id: SAKILA_CUSTOMER_LIST_B_05
   section: "CUSTOMER_LIST"
   tier: Basic
   title: "the first ten customers in the United States by zip code"
   sql: src/test/sql-exercises/customer_list/01_basic.sql
-  test: CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_05_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_B_05_PersistenceIT
 - id: SAKILA_CUSTOMER_LIST_I_01
   section: "CUSTOMER_LIST"
   tier: Intermediate
   title: "whether the view has a row for every customer"
   sql: src/test/sql-exercises/customer_list/02_intermediate.sql
-  test: CustomerList_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_LIST_I_01_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_I_01_PersistenceIT
 - id: SAKILA_CUSTOMER_LIST_I_02
   section: "CUSTOMER_LIST"
   tier: Intermediate
   title: "the cities with more than one customer"
   sql: src/test/sql-exercises/customer_list/02_intermediate.sql
-  test: CustomerList_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_LIST_I_02_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_I_02_PersistenceIT
 - id: SAKILA_CUSTOMER_LIST_I_03
   section: "CUSTOMER_LIST"
   tier: Intermediate
   title: "the rows whose name is not the customer's first and last name"
   sql: src/test/sql-exercises/customer_list/02_intermediate.sql
-  test: CustomerList_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_LIST_I_03_Test
   retired: true
 - id: SAKILA_CUSTOMER_LIST_A_01
   section: "CUSTOMER_LIST"
   tier: Advanced
   title: "the three countries with the most customers of each store"
   sql: src/test/sql-exercises/customer_list/03_advanced.sql
-  test: CustomerList_Exercises_03_Advanced_PersistenceIT.SAKILA_CUSTOMER_LIST_A_01_Test
+  test: sakila.customer_list.SAKILA_CUSTOMER_LIST_A_01_PersistenceIT
   native-only: true
 
 # ---- film
@@ -606,25 +603,25 @@
   tier: Basic
   title: "how many films each rating has"
   sql: src/test/sql-exercises/film/01_basic.sql
-  test: Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_01_Test
+  test: sakila.film.SAKILA_FILM_B_01_PersistenceIT
 - id: SAKILA_FILM_B_02
   section: "FILM"
   tier: Basic
   title: "the films longer than three hours, the longest first"
   sql: src/test/sql-exercises/film/01_basic.sql
-  test: Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_02_Test
+  test: sakila.film.SAKILA_FILM_B_02_PersistenceIT
 - id: SAKILA_FILM_B_03
   section: "FILM"
   tier: Basic
   title: "the average rental rate of each rating"
   sql: src/test/sql-exercises/film/01_basic.sql
-  test: Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_03_Test
+  test: sakila.film.SAKILA_FILM_B_03_PersistenceIT
 - id: SAKILA_FILM_B_04
   section: "FILM"
   tier: Basic
   title: "how many films have Behind the Scenes among their special features"
   sql: src/test/sql-exercises/film/01_basic.sql
-  test: Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_04_Test
+  test: sakila.film.SAKILA_FILM_B_04_PersistenceIT
 - id: SAKILA_FILM_B_05
   section: "FILM"
   tier: Basic
@@ -635,56 +632,56 @@
   tier: Basic
   title: "the films cheapest to rent and dearest to replace"
   sql: src/test/sql-exercises/film/01_basic.sql
-  test: Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_06_Test
+  test: sakila.film.SAKILA_FILM_B_06_PersistenceIT
 - id: SAKILA_FILM_B_07
   section: "FILM"
   tier: Basic
   title: "how many films lack each optional value"
   sql: src/test/sql-exercises/film/01_basic.sql
-  test: Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_07_Test
+  test: sakila.film.SAKILA_FILM_B_07_PersistenceIT
 - id: SAKILA_FILM_I_01
   section: "FILM"
   tier: Intermediate
   title: "how many films have no copy in the inventory"
   sql: src/test/sql-exercises/film/02_intermediate.sql
-  test: Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_01_Test
+  test: sakila.film.SAKILA_FILM_I_01_PersistenceIT
 - id: SAKILA_FILM_I_02
   section: "FILM"
   tier: Intermediate
   title: "the five films rented the most"
   sql: src/test/sql-exercises/film/02_intermediate.sql
-  test: Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_02_Test
+  test: sakila.film.SAKILA_FILM_I_02_PersistenceIT
 - id: SAKILA_FILM_I_03
   section: "FILM"
   tier: Intermediate
   title: "how many films are short, medium, long, or of unknown length"
   sql: src/test/sql-exercises/film/02_intermediate.sql
-  test: Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_03_Test
+  test: sakila.film.SAKILA_FILM_I_03_PersistenceIT
 - id: SAKILA_FILM_I_04
   section: "FILM"
   tier: Intermediate
   title: "the ratings whose films are longer than the average film"
   sql: src/test/sql-exercises/film/02_intermediate.sql
-  test: Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_04_Test
+  test: sakila.film.SAKILA_FILM_I_04_PersistenceIT
 - id: SAKILA_FILM_I_05
   section: "FILM"
   tier: Intermediate
   title: "the copies of a film at each store, and how many are in"
   sql: src/test/sql-exercises/film/02_intermediate.sql
-  test: Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_05_Test
+  test: sakila.film.SAKILA_FILM_I_05_PersistenceIT
 - id: SAKILA_FILM_A_01
   section: "FILM"
   tier: Advanced
   title: "how many films of each rating are longer than their rating's average"
   sql: src/test/sql-exercises/film/03_advanced.sql
-  test: Film_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_A_01_Test
+  test: sakila.film.SAKILA_FILM_A_01_PersistenceIT
 
 - id: SAKILA_FILM_A_02
   section: "FILM"
   tier: Advanced
   title: "how many films have each special feature"
   sql: src/test/sql-exercises/film/03_advanced.sql
-  test: Film_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_A_02_Test
+  test: sakila.film.SAKILA_FILM_A_02_PersistenceIT
 # ---- film_actor
 
 - id: SAKILA_FILM_ACTOR_B_01
@@ -692,56 +689,56 @@
   tier: Basic
   title: "how many films the actor 1 appears in"
   sql: src/test/sql-exercises/film_actor/01_basic.sql
-  test: FilmActor_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_ACTOR_B_01_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_B_01_PersistenceIT
 - id: SAKILA_FILM_ACTOR_B_02
   section: "FILM_ACTOR"
   tier: Basic
   title: "how many castings, actors and films the table has"
   sql: src/test/sql-exercises/film_actor/01_basic.sql
-  test: FilmActor_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_ACTOR_B_02_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_B_02_PersistenceIT
 - id: SAKILA_FILM_ACTOR_I_01
   section: "FILM_ACTOR"
   tier: Intermediate
   title: "the five films with the most actors"
   sql: src/test/sql-exercises/film_actor/02_intermediate.sql
-  test: FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_01_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_I_01_PersistenceIT
 - id: SAKILA_FILM_ACTOR_I_02
   section: "FILM_ACTOR"
   tier: Intermediate
   title: "how many actors a film has, on average"
   sql: src/test/sql-exercises/film_actor/02_intermediate.sql
-  test: FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_02_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_I_02_PersistenceIT
 - id: SAKILA_FILM_ACTOR_I_03
   section: "FILM_ACTOR"
   tier: Intermediate
   title: "the five actors who appear most often with the actor 1"
   sql: src/test/sql-exercises/film_actor/02_intermediate.sql
-  test: FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_03_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_I_03_PersistenceIT
 - id: SAKILA_FILM_ACTOR_I_04
   section: "FILM_ACTOR"
   tier: Intermediate
   title: "how many films have one actor, two actors, and so on"
   sql: src/test/sql-exercises/film_actor/02_intermediate.sql
-  test: FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_04_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_I_04_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_ACTOR_A_01
   section: "FILM_ACTOR"
   tier: Advanced
   title: "the three pairs of actors who appear together the most"
   sql: src/test/sql-exercises/film_actor/03_advanced.sql
-  test: FilmActor_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_ACTOR_A_01_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_A_01_PersistenceIT
 - id: SAKILA_FILM_ACTOR_A_02
   section: "FILM_ACTOR"
   tier: Advanced
   title: "the actor who appears in the most films of each category"
   sql: src/test/sql-exercises/film_actor/03_advanced.sql
-  test: FilmActor_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_ACTOR_A_02_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_A_02_PersistenceIT
 - id: SAKILA_FILM_ACTOR_A_03
   section: "FILM_ACTOR"
   tier: Advanced
   title: "the pairs of films which have exactly the same actors"
   sql: src/test/sql-exercises/film_actor/03_advanced.sql
-  test: FilmActor_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_ACTOR_A_03_Test
+  test: sakila.film_actor.SAKILA_FILM_ACTOR_A_03_PersistenceIT
 
 # ---- film_category
 
@@ -750,37 +747,37 @@
   tier: Basic
   title: "how many categories the films are in"
   sql: src/test/sql-exercises/film_category/01_basic.sql
-  test: FilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_CATEGORY_B_01_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_B_01_PersistenceIT
 - id: SAKILA_FILM_CATEGORY_B_02
   section: "FILM_CATEGORY"
   tier: Basic
   title: "the categories of the films 1 to 10"
   sql: src/test/sql-exercises/film_category/01_basic.sql
-  test: FilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_CATEGORY_B_02_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_B_02_PersistenceIT
 - id: SAKILA_FILM_CATEGORY_B_03
   section: "FILM_CATEGORY"
   tier: Basic
   title: "the films of the Comedy category"
   sql: src/test/sql-exercises/film_category/01_basic.sql
-  test: FilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_CATEGORY_B_03_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_B_03_PersistenceIT
 - id: SAKILA_FILM_CATEGORY_I_01
   section: "FILM_CATEGORY"
   tier: Intermediate
   title: "the films with more than one category"
   sql: src/test/sql-exercises/film_category/02_intermediate.sql
-  test: FilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_CATEGORY_I_01_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_I_01_PersistenceIT
 - id: SAKILA_FILM_CATEGORY_I_02
   section: "FILM_CATEGORY"
   tier: Intermediate
   title: "how many films have no category"
   sql: src/test/sql-exercises/film_category/02_intermediate.sql
-  test: FilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_CATEGORY_I_02_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_I_02_PersistenceIT
 - id: SAKILA_FILM_CATEGORY_I_03
   section: "FILM_CATEGORY"
   tier: Intermediate
   title: "how many films each category has, and how many of them are rated R"
   sql: src/test/sql-exercises/film_category/02_intermediate.sql
-  test: FilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_CATEGORY_I_03_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_I_03_PersistenceIT
 - id: SAKILA_FILM_CATEGORY_I_04
   section: "FILM_CATEGORY"
   tier: Intermediate
@@ -791,13 +788,13 @@
   tier: Advanced
   title: "the longest film of each category"
   sql: src/test/sql-exercises/film_category/03_advanced.sql
-  test: FilmCategory_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_CATEGORY_A_01_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_A_01_PersistenceIT
 - id: SAKILA_FILM_CATEGORY_A_02
   section: "FILM_CATEGORY"
   tier: Advanced
   title: "the pairs of categories which have the same number of films"
   sql: src/test/sql-exercises/film_category/03_advanced.sql
-  test: FilmCategory_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_CATEGORY_A_02_Test
+  test: sakila.film_category.SAKILA_FILM_CATEGORY_A_02_PersistenceIT
 
 # ---- film_list
 
@@ -806,56 +803,56 @@
   tier: Basic
   title: "how many Action films there are"
   sql: src/test/sql-exercises/film_list/01_basic.sql
-  test: FilmList_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_LIST_B_01_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_B_01_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_LIST_B_02
   section: "FILM_LIST"
   tier: Basic
   title: "the actors of the film 1"
   sql: src/test/sql-exercises/film_list/01_basic.sql
-  test: FilmList_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_LIST_B_02_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_B_02_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_LIST_B_03
   section: "FILM_LIST"
   tier: Basic
   title: "the Children films rated G"
   sql: src/test/sql-exercises/film_list/01_basic.sql
-  test: FilmList_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_LIST_B_03_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_B_03_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_LIST_B_04
   section: "FILM_LIST"
   tier: Basic
   title: "the films with no actor"
   sql: src/test/sql-exercises/film_list/01_basic.sql
-  test: FilmList_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_LIST_B_04_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_B_04_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_LIST_I_01
   section: "FILM_LIST"
   tier: Intermediate
   title: "whether the view has a row for every film which has a category"
   sql: src/test/sql-exercises/film_list/02_intermediate.sql
-  test: FilmList_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_LIST_I_01_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_I_01_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_LIST_I_02
   section: "FILM_LIST"
   tier: Intermediate
   title: "how many films of each rating there are at each price"
   sql: src/test/sql-exercises/film_list/02_intermediate.sql
-  test: FilmList_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_LIST_I_02_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_I_02_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_LIST_I_03
   section: "FILM_LIST"
   tier: Intermediate
   title: "the films whose actors string lists a different number of actors than film_actor"
   sql: src/test/sql-exercises/film_list/02_intermediate.sql
-  test: FilmList_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_LIST_I_03_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_I_03_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_LIST_A_02
   section: "FILM_LIST"
   tier: Advanced
   title: "the films with the most actors in each category"
   sql: src/test/sql-exercises/film_list/03_advanced.sql
-  test: FilmList_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_LIST_A_02_Test
+  test: sakila.film_list.SAKILA_FILM_LIST_A_02_PersistenceIT
 - id: SAKILA_FILM_LIST_A_01
   section: "FILM_LIST"
   tier: Advanced
@@ -869,70 +866,70 @@
   tier: Basic
   title: "the films whose description has both a Crocodile and a Shark"
   sql: src/test/sql-exercises/film_text/01_basic.sql
-  test: FilmText_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_TEXT_B_01_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_B_01_PersistenceIT
 - id: SAKILA_FILM_TEXT_B_02
   section: "FILM_TEXT"
   tier: Basic
   title: "the five longest descriptions"
   sql: src/test/sql-exercises/film_text/01_basic.sql
-  test: FilmText_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_TEXT_B_02_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_B_02_PersistenceIT
 - id: SAKILA_FILM_TEXT_I_01
   section: "FILM_TEXT"
   tier: Intermediate
   title: "whether film_text has a row for every film"
   sql: src/test/sql-exercises/film_text/02_intermediate.sql
-  test: FilmText_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_TEXT_I_01_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_I_01_PersistenceIT
 - id: SAKILA_FILM_TEXT_I_02
   section: "FILM_TEXT"
   tier: Intermediate
   title: "how many films mention a Drama, by the full-text index"
   sql: src/test/sql-exercises/film_text/02_intermediate.sql
-  test: FilmText_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_TEXT_I_02_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_I_02_PersistenceIT
 - id: SAKILA_FILM_TEXT_I_03
   section: "FILM_TEXT"
   tier: Intermediate
   title: "the films whose film_text title differs from their title"
   sql: src/test/sql-exercises/film_text/02_intermediate.sql
-  test: FilmText_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_TEXT_I_03_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_I_03_PersistenceIT
 - id: SAKILA_FILM_TEXT_I_04
   section: "FILM_TEXT"
   tier: Intermediate
   title: "how many films mention a Boat but not a Shark, by the full-text index"
   sql: src/test/sql-exercises/film_text/02_intermediate.sql
-  test: FilmText_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_TEXT_I_04_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_I_04_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_TEXT_I_05
   section: "FILM_TEXT"
   tier: Intermediate
   title: "how many films mention a Crocodile or a Shark, and how many mention both"
   sql: src/test/sql-exercises/film_text/02_intermediate.sql
-  test: FilmText_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_TEXT_I_05_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_I_05_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_TEXT_I_06
   section: "FILM_TEXT"
   tier: Intermediate
   title: "the films whose film_text description differs from their description"
   sql: src/test/sql-exercises/film_text/02_intermediate.sql
-  test: FilmText_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_TEXT_I_06_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_I_06_PersistenceIT
 - id: SAKILA_FILM_TEXT_I_07
   section: "FILM_TEXT"
   tier: Intermediate
   title: "the first words that start more than one title"
   sql: src/test/sql-exercises/film_text/02_intermediate.sql
-  test: FilmText_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_TEXT_I_07_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_I_07_PersistenceIT
 - id: SAKILA_FILM_TEXT_A_01
   section: "FILM_TEXT"
   tier: Advanced
   title: "the most common kind of story in each category"
   sql: src/test/sql-exercises/film_text/03_advanced.sql
-  test: FilmText_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_TEXT_A_01_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_A_01_PersistenceIT
   native-only: true
 - id: SAKILA_FILM_TEXT_A_02
   section: "FILM_TEXT"
   tier: Advanced
   title: "the chain of titles from ACADEMY DINOSAUR"
   sql: src/test/sql-exercises/film_text/03_advanced.sql
-  test: FilmText_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_TEXT_A_02_Test
+  test: sakila.film_text.SAKILA_FILM_TEXT_A_02_PersistenceIT
   native-only: true
 
 # ---- inventory
@@ -942,75 +939,75 @@
   tier: Basic
   title: "how many copies each store has"
   sql: src/test/sql-exercises/inventory/01_basic.sql
-  test: Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_01_Test
+  test: sakila.inventory.SAKILA_INVENTORY_B_01_PersistenceIT
 - id: SAKILA_INVENTORY_B_02
   section: "INVENTORY"
   tier: Basic
   title: "the copies of the film 1"
   sql: src/test/sql-exercises/inventory/01_basic.sql
-  test: Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_02_Test
+  test: sakila.inventory.SAKILA_INVENTORY_B_02_PersistenceIT
 - id: SAKILA_INVENTORY_B_03
   section: "INVENTORY"
   tier: Basic
   title: "how many copies of the films 1 to 5 each store has"
   sql: src/test/sql-exercises/inventory/01_basic.sql
-  test: Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_03_Test
+  test: sakila.inventory.SAKILA_INVENTORY_B_03_PersistenceIT
 - id: SAKILA_INVENTORY_I_01
   section: "INVENTORY"
   tier: Intermediate
   title: "the five films with the most copies"
   sql: src/test/sql-exercises/inventory/02_intermediate.sql
-  test: Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_01_Test
+  test: sakila.inventory.SAKILA_INVENTORY_I_01_PersistenceIT
 - id: SAKILA_INVENTORY_I_02
   section: "INVENTORY"
   tier: Intermediate
   title: "how many copies were never rented"
   sql: src/test/sql-exercises/inventory/02_intermediate.sql
-  test: Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_02_Test
+  test: sakila.inventory.SAKILA_INVENTORY_I_02_PersistenceIT
 - id: SAKILA_INVENTORY_I_03
   section: "INVENTORY"
   tier: Intermediate
   title: "how many copies each store has out right now"
   sql: src/test/sql-exercises/inventory/02_intermediate.sql
-  test: Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_03_Test
+  test: sakila.inventory.SAKILA_INVENTORY_I_03_PersistenceIT
 - id: SAKILA_INVENTORY_I_04
   section: "INVENTORY"
   tier: Intermediate
   title: "how many copies of each rating each store has"
   sql: src/test/sql-exercises/inventory/02_intermediate.sql
-  test: Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_04_Test
+  test: sakila.inventory.SAKILA_INVENTORY_I_04_PersistenceIT
 - id: SAKILA_INVENTORY_I_05
   section: "INVENTORY"
   tier: Intermediate
   title: "the copies of the film 1 on the shelf right now"
   sql: src/test/sql-exercises/inventory/02_intermediate.sql
-  test: Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_05_Test
+  test: sakila.inventory.SAKILA_INVENTORY_I_05_PersistenceIT
 - id: SAKILA_INVENTORY_I_06
   section: "INVENTORY"
   tier: Intermediate
   title: "the copies which are out on more than one rental at once"
   sql: src/test/sql-exercises/inventory/02_intermediate.sql
-  test: Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_06_Test
+  test: sakila.inventory.SAKILA_INVENTORY_I_06_PersistenceIT
 - id: SAKILA_INVENTORY_A_01
   section: "INVENTORY"
   tier: Advanced
   title: "the five longest times a copy sat on the shelf between two rentals"
   sql: src/test/sql-exercises/inventory/03_advanced.sql
-  test: Inventory_Exercises_03_Advanced_PersistenceIT.SAKILA_INVENTORY_A_01_Test
+  test: sakila.inventory.SAKILA_INVENTORY_A_01_PersistenceIT
   native-only: true
 - id: SAKILA_INVENTORY_A_02
   section: "INVENTORY"
   tier: Advanced
   title: "how many films have had every one of their copies rented"
   sql: src/test/sql-exercises/inventory/03_advanced.sql
-  test: Inventory_Exercises_03_Advanced_PersistenceIT.SAKILA_INVENTORY_A_02_Test
+  test: sakila.inventory.SAKILA_INVENTORY_A_02_PersistenceIT
 
 - id: SAKILA_INVENTORY_A_03
   section: "INVENTORY"
   tier: Advanced
   title: "the ten copies most overdue, as of the last rental"
   sql: src/test/sql-exercises/inventory/03_advanced.sql
-  test: Inventory_Exercises_03_Advanced_PersistenceIT.SAKILA_INVENTORY_A_03_Test
+  test: sakila.inventory.SAKILA_INVENTORY_A_03_PersistenceIT
 # ---- language
 
 - id: SAKILA_LANGUAGE_B_01
@@ -1018,50 +1015,50 @@
   tier: Basic
   title: "every language"
   sql: src/test/sql-exercises/language/01_basic.sql
-  test: Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_01_Test
+  test: sakila.language.SAKILA_LANGUAGE_B_01_PersistenceIT
 - id: SAKILA_LANGUAGE_B_02
   section: "LANGUAGE"
   tier: Basic
   title: "how many films have an original language"
   sql: src/test/sql-exercises/language/01_basic.sql
-  test: Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_02_Test
+  test: sakila.language.SAKILA_LANGUAGE_B_02_PersistenceIT
 - id: SAKILA_LANGUAGE_B_03
   section: "LANGUAGE"
   tier: Basic
   title: "which of four languages the table has"
   sql: src/test/sql-exercises/language/01_basic.sql
-  test: Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_03_Test
+  test: sakila.language.SAKILA_LANGUAGE_B_03_PersistenceIT
 - id: SAKILA_LANGUAGE_B_04
   section: "LANGUAGE"
   tier: Basic
   title: "the languages whose name ends with an or ese"
   sql: src/test/sql-exercises/language/01_basic.sql
-  test: Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_04_Test
+  test: sakila.language.SAKILA_LANGUAGE_B_04_PersistenceIT
 - id: SAKILA_LANGUAGE_I_01
   section: "LANGUAGE"
   tier: Intermediate
   title: "how many films each language has"
   sql: src/test/sql-exercises/language/02_intermediate.sql
-  test: Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_01_Test
+  test: sakila.language.SAKILA_LANGUAGE_I_01_PersistenceIT
 - id: SAKILA_LANGUAGE_I_02
   section: "LANGUAGE"
   tier: Intermediate
   title: "the languages no film uses, either as its language or as its original language"
   sql: src/test/sql-exercises/language/02_intermediate.sql
-  test: Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_02_Test
+  test: sakila.language.SAKILA_LANGUAGE_I_02_PersistenceIT
 
 - id: SAKILA_LANGUAGE_I_03
   section: "LANGUAGE"
   tier: Intermediate
   title: "the first five films with the names of their language and original language"
   sql: src/test/sql-exercises/language/02_intermediate.sql
-  test: Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_03_Test
+  test: sakila.language.SAKILA_LANGUAGE_I_03_PersistenceIT
 - id: SAKILA_LANGUAGE_A_01
   section: "LANGUAGE"
   tier: Advanced
   title: "how many films use each language, as language and as original language"
   sql: src/test/sql-exercises/language/03_advanced.sql
-  test: Language_Exercises_03_Advanced_PersistenceIT.SAKILA_LANGUAGE_A_01_Test
+  test: sakila.language.SAKILA_LANGUAGE_A_01_PersistenceIT
 # ---- nicer_but_slower_film_list
 
 - id: SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01
@@ -1069,14 +1066,14 @@
   tier: Basic
   title: "the actors of the film 1, as this view writes them"
   sql: src/test/sql-exercises/nicer_but_slower_film_list/01_basic.sql
-  test: NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT.SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01_Test
+  test: sakila.nicer_but_slower_film_list.SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01_PersistenceIT
   native-only: true
 - id: SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Basic
   title: "how many films PENELOPE GUINESS plays in, by the view's actors"
   sql: src/test/sql-exercises/nicer_but_slower_film_list/01_basic.sql
-  test: NicerButSlowerFilmList_Exercises_01_Basic_PersistenceIT.SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02_Test
+  test: sakila.nicer_but_slower_film_list.SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02_PersistenceIT
   native-only: true
 - id: SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_03
   section: "NICER_BUT_SLOWER_FILM_LIST"
@@ -1088,7 +1085,7 @@
   tier: Intermediate
   title: "the five categories whose films are the longest, on average"
   sql: src/test/sql-exercises/nicer_but_slower_film_list/02_intermediate.sql
-  test: NicerButSlowerFilmList_Exercises_02_Intermediate_PersistenceIT.SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01_Test
+  test: sakila.nicer_but_slower_film_list.SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01_PersistenceIT
   native-only: true
 - id: SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_02
   section: "NICER_BUT_SLOWER_FILM_LIST"
@@ -1100,14 +1097,14 @@
   tier: Advanced
   title: "how many rows differ from film_list, column by column, but for the actors"
   sql: src/test/sql-exercises/nicer_but_slower_film_list/03_advanced.sql
-  test: NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT.SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01_Test
+  test: sakila.nicer_but_slower_film_list.SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01_PersistenceIT
   native-only: true
 - id: SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02
   section: "NICER_BUT_SLOWER_FILM_LIST"
   tier: Advanced
   title: "the longest length in each category, and how many films have it"
   sql: src/test/sql-exercises/nicer_but_slower_film_list/03_advanced.sql
-  test: NicerButSlowerFilmList_Exercises_03_Advanced_PersistenceIT.SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02_Test
+  test: sakila.nicer_but_slower_film_list.SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02_PersistenceIT
   native-only: true
 - id: SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_03
   section: "NICER_BUT_SLOWER_FILM_LIST"
@@ -1122,73 +1119,73 @@
   tier: Basic
   title: "how much each staff member took"
   sql: src/test/sql-exercises/payment/01_basic.sql
-  test: Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_01_Test
+  test: sakila.payment.SAKILA_PAYMENT_B_01_PersistenceIT
 - id: SAKILA_PAYMENT_B_02
   section: "PAYMENT"
   tier: Basic
   title: "how much was paid in each month"
   sql: src/test/sql-exercises/payment/01_basic.sql
-  test: Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_02_Test
+  test: sakila.payment.SAKILA_PAYMENT_B_02_PersistenceIT
 - id: SAKILA_PAYMENT_B_03
   section: "PAYMENT"
   tier: Basic
   title: "how many payments have no rental"
   sql: src/test/sql-exercises/payment/01_basic.sql
-  test: Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_03_Test
+  test: sakila.payment.SAKILA_PAYMENT_B_03_PersistenceIT
 - id: SAKILA_PAYMENT_B_04
   section: "PAYMENT"
   tier: Basic
   title: "the five amounts paid most often"
   sql: src/test/sql-exercises/payment/01_basic.sql
-  test: Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_04_Test
+  test: sakila.payment.SAKILA_PAYMENT_B_04_PersistenceIT
 - id: SAKILA_PAYMENT_B_05
   section: "PAYMENT"
   tier: Basic
   title: "the payments of the customer 1 in July 2005"
   sql: src/test/sql-exercises/payment/01_basic.sql
-  test: Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_05_Test
+  test: sakila.payment.SAKILA_PAYMENT_B_05_PersistenceIT
 - id: SAKILA_PAYMENT_B_06
   section: "PAYMENT"
   tier: Basic
   title: "the rentals paid more than once"
   sql: src/test/sql-exercises/payment/01_basic.sql
-  test: Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_06_Test
+  test: sakila.payment.SAKILA_PAYMENT_B_06_PersistenceIT
 - id: SAKILA_PAYMENT_I_01
   section: "PAYMENT"
   tier: Intermediate
   title: "the largest payment, and how many payments are that large"
   sql: src/test/sql-exercises/payment/02_intermediate.sql
-  test: Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_01_Test
+  test: sakila.payment.SAKILA_PAYMENT_I_01_PersistenceIT
 - id: SAKILA_PAYMENT_I_02
   section: "PAYMENT"
   tier: Intermediate
   title: "the customers who paid more than 180 in all"
   sql: src/test/sql-exercises/payment/02_intermediate.sql
-  test: Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_02_Test
+  test: sakila.payment.SAKILA_PAYMENT_I_02_PersistenceIT
 - id: SAKILA_PAYMENT_I_03
   section: "PAYMENT"
   tier: Intermediate
   title: "how many payments were less than, equal to, or more than the film's rental rate"
   sql: src/test/sql-exercises/payment/02_intermediate.sql
-  test: Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_03_Test
+  test: sakila.payment.SAKILA_PAYMENT_I_03_PersistenceIT
 - id: SAKILA_PAYMENT_I_04
   section: "PAYMENT"
   tier: Intermediate
   title: "the payments which do not agree with their rental"
   sql: src/test/sql-exercises/payment/02_intermediate.sql
-  test: Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_04_Test
+  test: sakila.payment.SAKILA_PAYMENT_I_04_PersistenceIT
 - id: SAKILA_PAYMENT_A_01
   section: "PAYMENT"
   tier: Advanced
   title: "the running total of the customer 1's payments, the first ten"
   sql: src/test/sql-exercises/payment/03_advanced.sql
-  test: Payment_Exercises_03_Advanced_PersistenceIT.SAKILA_PAYMENT_A_01_Test
+  test: sakila.payment.SAKILA_PAYMENT_A_01_PersistenceIT
 - id: SAKILA_PAYMENT_A_02
   section: "PAYMENT"
   tier: Advanced
   title: "the runs of consecutive days on which payments were made"
   sql: src/test/sql-exercises/payment/03_advanced.sql
-  test: Payment_Exercises_03_Advanced_PersistenceIT.SAKILA_PAYMENT_A_02_Test
+  test: sakila.payment.SAKILA_PAYMENT_A_02_PersistenceIT
   native-only: true
 
 # ---- rental
@@ -1198,31 +1195,31 @@
   tier: Basic
   title: "how many rentals are not returned yet"
   sql: src/test/sql-exercises/rental/01_basic.sql
-  test: Rental_Exercises_01_Basic_PersistenceIT.SAKILA_RENTAL_B_01_Test
+  test: sakila.rental.SAKILA_RENTAL_B_01_PersistenceIT
 - id: SAKILA_RENTAL_B_02
   section: "RENTAL"
   tier: Basic
   title: "how many rentals were made in each month"
   sql: src/test/sql-exercises/rental/01_basic.sql
-  test: Rental_Exercises_01_Basic_PersistenceIT.SAKILA_RENTAL_B_02_Test
+  test: sakila.rental.SAKILA_RENTAL_B_02_PersistenceIT
 - id: SAKILA_RENTAL_B_03
   section: "RENTAL"
   tier: Basic
   title: "how many days a returned rental lasts, on average"
   sql: src/test/sql-exercises/rental/01_basic.sql
-  test: Rental_Exercises_01_Basic_PersistenceIT.SAKILA_RENTAL_B_03_Test
+  test: sakila.rental.SAKILA_RENTAL_B_03_PersistenceIT
 - id: SAKILA_RENTAL_B_04
   section: "RENTAL"
   tier: Basic
   title: "on which day of the week the most rentals were made"
   sql: src/test/sql-exercises/rental/01_basic.sql
-  test: Rental_Exercises_01_Basic_PersistenceIT.SAKILA_RENTAL_B_04_Test
+  test: sakila.rental.SAKILA_RENTAL_B_04_PersistenceIT
 - id: SAKILA_RENTAL_B_05
   section: "RENTAL"
   tier: Basic
   title: "how many rentals were returned on the day they were made"
   sql: src/test/sql-exercises/rental/01_basic.sql
-  test: Rental_Exercises_01_Basic_PersistenceIT.SAKILA_RENTAL_B_05_Test
+  test: sakila.rental.SAKILA_RENTAL_B_05_PersistenceIT
 - id: SAKILA_RENTAL_I_01
   section: "RENTAL"
   tier: Intermediate
@@ -1233,33 +1230,33 @@
   tier: Intermediate
   title: "on which days the rentals not returned yet were made"
   sql: src/test/sql-exercises/rental/02_intermediate.sql
-  test: Rental_Exercises_02_Intermediate_PersistenceIT.SAKILA_RENTAL_I_02_Test
+  test: sakila.rental.SAKILA_RENTAL_I_02_PersistenceIT
 - id: SAKILA_RENTAL_I_03
   section: "RENTAL"
   tier: Intermediate
   title: "the rentals overdue at the end of the data"
   sql: src/test/sql-exercises/rental/02_intermediate.sql
-  test: Rental_Exercises_02_Intermediate_PersistenceIT.SAKILA_RENTAL_I_03_Test
+  test: sakila.rental.SAKILA_RENTAL_I_03_PersistenceIT
   native-only: true
 - id: SAKILA_RENTAL_A_01
   section: "RENTAL"
   tier: Advanced
   title: "how many rentals came back later than the film's rental duration allows"
   sql: src/test/sql-exercises/rental/03_advanced.sql
-  test: Rental_Exercises_03_Advanced_PersistenceIT.SAKILA_RENTAL_A_01_Test
+  test: sakila.rental.SAKILA_RENTAL_A_01_PersistenceIT
 - id: SAKILA_RENTAL_A_02
   section: "RENTAL"
   tier: Advanced
   title: "the five longest waits between a customer's two rentals in 2005"
   sql: src/test/sql-exercises/rental/03_advanced.sql
-  test: Rental_Exercises_03_Advanced_PersistenceIT.SAKILA_RENTAL_A_02_Test
+  test: sakila.rental.SAKILA_RENTAL_A_02_PersistenceIT
   native-only: true
 - id: SAKILA_RENTAL_A_03
   section: "RENTAL"
   tier: Advanced
   title: "whether a copy was ever rented out twice at the same time"
   sql: src/test/sql-exercises/rental/03_advanced.sql
-  test: Rental_Exercises_03_Advanced_PersistenceIT.SAKILA_RENTAL_A_03_Test
+  test: sakila.rental.SAKILA_RENTAL_A_03_PersistenceIT
 
 # ---- sales_by_film_category
 
@@ -1268,43 +1265,43 @@
   tier: Basic
   title: "the three categories which sold the most"
   sql: src/test/sql-exercises/sales_by_film_category/01_basic.sql
-  test: SalesByFilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_B_01_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_B_01_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_B_02
   section: "SALES_BY_FILM_CATEGORY"
   tier: Basic
   title: "the categories which sold between 4000 and 4500"
   sql: src/test/sql-exercises/sales_by_film_category/01_basic.sql
-  test: SalesByFilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_B_02_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_B_02_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_B_03
   section: "SALES_BY_FILM_CATEGORY"
   tier: Basic
   title: "how many categories sold less than 4000, and how much they sold together"
   sql: src/test/sql-exercises/sales_by_film_category/01_basic.sql
-  test: SalesByFilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_B_03_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_B_03_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_I_01
   section: "SALES_BY_FILM_CATEGORY"
   tier: Intermediate
   title: "whether the view's sales add up to every payment"
   sql: src/test/sql-exercises/sales_by_film_category/02_intermediate.sql
-  test: SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_I_01_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_I_01_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_I_02
   section: "SALES_BY_FILM_CATEGORY"
   tier: Intermediate
   title: "the five categories which sold the most, and their share of all sales"
   sql: src/test/sql-exercises/sales_by_film_category/02_intermediate.sql
-  test: SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_I_02_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_I_02_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_I_03
   section: "SALES_BY_FILM_CATEGORY"
   tier: Intermediate
   title: "the five categories which sold the most per film"
   sql: src/test/sql-exercises/sales_by_film_category/02_intermediate.sql
-  test: SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_I_03_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_I_03_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_I_04
   section: "SALES_BY_FILM_CATEGORY"
   tier: Intermediate
   title: "the payments which reach no category, or more than one"
   sql: src/test/sql-exercises/sales_by_film_category/02_intermediate.sql
-  test: SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_I_04_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_I_04_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_A_01
   section: "SALES_BY_FILM_CATEGORY"
   tier: Advanced
@@ -1315,13 +1312,13 @@
   tier: Advanced
   title: "the three largest gaps between a category and the next one down"
   sql: src/test/sql-exercises/sales_by_film_category/03_advanced.sql
-  test: SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_A_02_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_A_02_PersistenceIT
 - id: SAKILA_SALES_BY_FILM_CATEGORY_A_03
   section: "SALES_BY_FILM_CATEGORY"
   tier: Advanced
   title: "each category's rank by sales, next to its rank by rentals"
   sql: src/test/sql-exercises/sales_by_film_category/03_advanced.sql
-  test: SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_A_03_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_A_03_PersistenceIT
   native-only: true
 
 - id: SAKILA_SALES_BY_FILM_CATEGORY_A_04
@@ -1329,7 +1326,7 @@
   tier: Advanced
   title: "each category's sales at each store, with the view's total beside them"
   sql: src/test/sql-exercises/sales_by_film_category/03_advanced.sql
-  test: SalesByFilmCategory_Exercises_03_Advanced_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_A_04_Test
+  test: sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_A_04_PersistenceIT
 # ---- sales_by_store
 
 - id: SAKILA_SALES_BY_STORE_B_01
@@ -1337,28 +1334,28 @@
   tier: Basic
   title: "every store's sales"
   sql: src/test/sql-exercises/sales_by_store/01_basic.sql
-  test: SalesByStore_Exercises_01_Basic_PersistenceIT.SAKILA_SALES_BY_STORE_B_01_Test
+  test: sakila.sales_by_store.SAKILA_SALES_BY_STORE_B_01_PersistenceIT
   native-only: true
 - id: SAKILA_SALES_BY_STORE_B_02
   section: "SALES_BY_STORE"
   tier: Basic
   title: "how far apart the two stores' sales are"
   sql: src/test/sql-exercises/sales_by_store/01_basic.sql
-  test: SalesByStore_Exercises_01_Basic_PersistenceIT.SAKILA_SALES_BY_STORE_B_02_Test
+  test: sakila.sales_by_store.SAKILA_SALES_BY_STORE_B_02_PersistenceIT
   native-only: true
 - id: SAKILA_SALES_BY_STORE_I_01
   section: "SALES_BY_STORE"
   tier: Intermediate
   title: "whether the stores' sales add up to every payment with a rental"
   sql: src/test/sql-exercises/sales_by_store/02_intermediate.sql
-  test: SalesByStore_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_STORE_I_01_Test
+  test: sakila.sales_by_store.SAKILA_SALES_BY_STORE_I_01_PersistenceIT
   native-only: true
 - id: SAKILA_SALES_BY_STORE_I_02
   section: "SALES_BY_STORE"
   tier: Intermediate
   title: "each store's sales, next to what its manager took"
   sql: src/test/sql-exercises/sales_by_store/02_intermediate.sql
-  test: SalesByStore_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_STORE_I_02_Test
+  test: sakila.sales_by_store.SAKILA_SALES_BY_STORE_I_02_PersistenceIT
   native-only: true
 
 - id: SAKILA_SALES_BY_STORE_A_01
@@ -1366,7 +1363,7 @@
   tier: Advanced
   title: "each store's share of all sales"
   sql: src/test/sql-exercises/sales_by_store/03_advanced.sql
-  test: SalesByStore_Exercises_03_Advanced_PersistenceIT.SAKILA_SALES_BY_STORE_A_01_Test
+  test: sakila.sales_by_store.SAKILA_SALES_BY_STORE_A_01_PersistenceIT
 # ---- staff
 
 - id: SAKILA_STAFF_B_01
@@ -1374,37 +1371,37 @@
   tier: Basic
   title: "every staff member, with their store"
   sql: src/test/sql-exercises/staff/01_basic.sql
-  test: Staff_Exercises_01_Basic_PersistenceIT.SAKILA_STAFF_B_01_Test
+  test: sakila.staff.SAKILA_STAFF_B_01_PersistenceIT
 - id: SAKILA_STAFF_B_02
   section: "STAFF"
   tier: Basic
   title: "the staff members who have no password"
   sql: src/test/sql-exercises/staff/01_basic.sql
-  test: Staff_Exercises_01_Basic_PersistenceIT.SAKILA_STAFF_B_02_Test
+  test: sakila.staff.SAKILA_STAFF_B_02_PersistenceIT
 - id: SAKILA_STAFF_I_01
   section: "STAFF"
   tier: Intermediate
   title: "how many rentals each staff member handled"
   sql: src/test/sql-exercises/staff/02_intermediate.sql
-  test: Staff_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_I_01_Test
+  test: sakila.staff.SAKILA_STAFF_I_01_PersistenceIT
 - id: SAKILA_STAFF_I_02
   section: "STAFF"
   tier: Intermediate
   title: "the staff members who manage the store they work at"
   sql: src/test/sql-exercises/staff/02_intermediate.sql
-  test: Staff_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_I_02_Test
+  test: sakila.staff.SAKILA_STAFF_I_02_PersistenceIT
 - id: SAKILA_STAFF_I_03
   section: "STAFF"
   tier: Intermediate
   title: "how many rentals each staff member handled for their own store's copies, and for the other's"
   sql: src/test/sql-exercises/staff/02_intermediate.sql
-  test: Staff_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_I_03_Test
+  test: sakila.staff.SAKILA_STAFF_I_03_PersistenceIT
 - id: SAKILA_STAFF_A_01
   section: "STAFF"
   tier: Advanced
   title: "the day on which each staff member took the most"
   sql: src/test/sql-exercises/staff/03_advanced.sql
-  test: Staff_Exercises_03_Advanced_PersistenceIT.SAKILA_STAFF_A_01_Test
+  test: sakila.staff.SAKILA_STAFF_A_01_PersistenceIT
 
 # ---- staff_list
 
@@ -1413,26 +1410,26 @@
   tier: Basic
   title: "every row of the view"
   sql: src/test/sql-exercises/staff_list/01_basic.sql
-  test: StaffList_Exercises_01_Basic_PersistenceIT.SAKILA_STAFF_LIST_B_01_Test
+  test: sakila.staff_list.SAKILA_STAFF_LIST_B_01_PersistenceIT
 - id: SAKILA_STAFF_LIST_I_01
   section: "STAFF_LIST"
   tier: Intermediate
   title: "whether the view has a row for every staff member"
   sql: src/test/sql-exercises/staff_list/02_intermediate.sql
-  test: StaffList_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_LIST_I_01_Test
+  test: sakila.staff_list.SAKILA_STAFF_LIST_I_01_PersistenceIT
 - id: SAKILA_STAFF_LIST_I_02
   section: "STAFF_LIST"
   tier: Intermediate
   title: "whether each staff member lives in the city of their store"
   sql: src/test/sql-exercises/staff_list/02_intermediate.sql
-  test: StaffList_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_LIST_I_02_Test
+  test: sakila.staff_list.SAKILA_STAFF_LIST_I_02_PersistenceIT
 
 - id: SAKILA_STAFF_LIST_A_01
   section: "STAFF_LIST"
   tier: Advanced
   title: "the staff members who served a customer living outside their own country"
   sql: src/test/sql-exercises/staff_list/03_advanced.sql
-  test: StaffList_Exercises_03_Advanced_PersistenceIT.SAKILA_STAFF_LIST_A_01_Test
+  test: sakila.staff_list.SAKILA_STAFF_LIST_A_01_PersistenceIT
 # ---- store
 
 - id: SAKILA_STORE_B_01
@@ -1440,31 +1437,31 @@
   tier: Basic
   title: "every store, with its manager and address ids"
   sql: src/test/sql-exercises/store/01_basic.sql
-  test: Store_Exercises_01_Basic_PersistenceIT.SAKILA_STORE_B_01_Test
+  test: sakila.store.SAKILA_STORE_B_01_PersistenceIT
 - id: SAKILA_STORE_I_01
   section: "STORE"
   tier: Intermediate
   title: "every store, with its manager and city"
   sql: src/test/sql-exercises/store/02_intermediate.sql
-  test: Store_Exercises_02_Intermediate_PersistenceIT.SAKILA_STORE_I_01_Test
+  test: sakila.store.SAKILA_STORE_I_01_PersistenceIT
 - id: SAKILA_STORE_I_02
   section: "STORE"
   tier: Intermediate
   title: "how many customers, copies and staff members each store has"
   sql: src/test/sql-exercises/store/02_intermediate.sql
-  test: Store_Exercises_02_Intermediate_PersistenceIT.SAKILA_STORE_I_02_Test
+  test: sakila.store.SAKILA_STORE_I_02_PersistenceIT
 - id: SAKILA_STORE_A_01
   section: "STORE"
   tier: Advanced
   title: "how many films each store has a copy of, and how many of them only that store has"
   sql: src/test/sql-exercises/store/03_advanced.sql
-  test: Store_Exercises_03_Advanced_PersistenceIT.SAKILA_STORE_A_01_Test
+  test: sakila.store.SAKILA_STORE_A_01_PersistenceIT
 - id: SAKILA_STORE_A_02
   section: "STORE"
   tier: Advanced
   title: "each store's rentals in each month, and its share of the month"
   sql: src/test/sql-exercises/store/03_advanced.sql
-  test: Store_Exercises_03_Advanced_PersistenceIT.SAKILA_STORE_A_02_Test
+  test: sakila.store.SAKILA_STORE_A_02_PersistenceIT
 
 # ---- schema
 
@@ -1473,222 +1470,221 @@
   tier: Basic
   title: "the tables and the views of the schema"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_01_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_01_PersistenceIT
 - id: SAKILA_SCHEMA_B_02
   section: "SCHEMA"
   tier: Basic
   title: "how many rows each table has"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_02_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_02_PersistenceIT
 - id: SAKILA_SCHEMA_B_03
   section: "SCHEMA"
   tier: Basic
   title: "every foreign key: the column, and the column it refers to"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_03_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_03_PersistenceIT
 - id: SAKILA_SCHEMA_B_04
   section: "SCHEMA"
   tier: Basic
   title: "the tables which have a last_update column"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_04_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_04_PersistenceIT
 - id: SAKILA_SCHEMA_B_05
   section: "SCHEMA"
   tier: Basic
   title: "the triggers, and the table and the event each fires on"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_05_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_05_PersistenceIT
 - id: SAKILA_SCHEMA_B_06
   section: "SCHEMA"
   tier: Basic
   title: "the stored procedures and functions"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_06_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_06_PersistenceIT
 - id: SAKILA_SCHEMA_B_07
   section: "SCHEMA"
   tier: Basic
   title: "the views, and whether each is updatable"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_07_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_07_PersistenceIT
   native-only: true
 - id: SAKILA_SCHEMA_B_08
   section: "SCHEMA"
   tier: Basic
   title: "the tables whose primary key has more than one column"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_08_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_08_PersistenceIT
   native-only: true
 - id: SAKILA_SCHEMA_B_09
   section: "SCHEMA"
   tier: Basic
   title: "the ENUM and SET columns"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_09_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_09_PersistenceIT
   native-only: true
 - id: SAKILA_SCHEMA_B_10
   section: "SCHEMA"
   tier: Basic
   title: "the foreign keys which do not restrict a delete"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_10_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_10_PersistenceIT
   native-only: true
 - id: SAKILA_SCHEMA_B_11
   section: "SCHEMA"
   tier: Basic
   title: "the unique keys other than the primary keys, column by column"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_11_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_11_PersistenceIT
   native-only: true
 - id: SAKILA_SCHEMA_B_12
   section: "SCHEMA"
   tier: Basic
   title: "the columns of the tables which allow NULL"
   sql: src/test/sql-exercises/__/01_basic.sql
-  test: __Exercises_01_Basic_PersistenceIT.SAKILA_SCHEMA_B_12_Test
+  test: sakila.schema.SAKILA_SCHEMA_B_12_PersistenceIT
   native-only: true
 - id: SAKILA_SCHEMA_I_01
   section: "SCHEMA"
   tier: Intermediate
   title: "how much each store took, through the copies it rented out"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_01_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_01_PersistenceIT
 - id: SAKILA_SCHEMA_I_02
   section: "SCHEMA"
   tier: Intermediate
   title: "how many rentals each category had, the most first"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_02_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_02_PersistenceIT
 - id: SAKILA_SCHEMA_I_03
   section: "SCHEMA"
   tier: Intermediate
   title: "the five countries whose customers paid the most"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_03_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_03_PersistenceIT
 - id: SAKILA_SCHEMA_I_04
   section: "SCHEMA"
   tier: Intermediate
   title: "the average payment of each rating"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_04_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_04_PersistenceIT
 - id: SAKILA_SCHEMA_I_05
   section: "SCHEMA"
   tier: Intermediate
   title: "the five actors whose films took the most"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_05_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_05_PersistenceIT
 - id: SAKILA_SCHEMA_I_06
   section: "SCHEMA"
   tier: Intermediate
   title: "the customers who have returned everything they rented, how many"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_06_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_06_PersistenceIT
 - id: SAKILA_SCHEMA_I_07
   section: "SCHEMA"
   tier: Intermediate
   title: "how many rentals, and how much was paid, in each month"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_07_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_07_PersistenceIT
 - id: SAKILA_SCHEMA_I_08
   section: "SCHEMA"
   tier: Intermediate
   title: "the customers who rented from a store other than their own, how many"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_08_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_08_PersistenceIT
 - id: SAKILA_SCHEMA_I_09
   section: "SCHEMA"
   tier: Intermediate
   title: "how many rentals, and how much was paid, for short, medium and long films"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_09_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_09_PersistenceIT
 - id: SAKILA_SCHEMA_I_10
   section: "SCHEMA"
   tier: Intermediate
   title: "how many films of each category were never rented"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_10_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_10_PersistenceIT
 - id: SAKILA_SCHEMA_I_11
   section: "SCHEMA"
   tier: Intermediate
   title: "the actors who appear in both a Comedy and a Horror film, how many"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_11_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_11_PersistenceIT
 - id: SAKILA_SCHEMA_I_12
   section: "SCHEMA"
   tier: Intermediate
   title: "the categories whose payments are, on average, larger than all payments"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_12_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_12_PersistenceIT
 - id: SAKILA_SCHEMA_I_13
   section: "SCHEMA"
   tier: Intermediate
   title: "the five customer and film pairs rented the most often"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_13_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_13_PersistenceIT
 - id: SAKILA_SCHEMA_I_14
   section: "SCHEMA"
   tier: Intermediate
   title: "the manager names of sales_by_store which more than one staff member has"
   sql: src/test/sql-exercises/__/02_intermediate.sql
-  test: __Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_14_Test
+  test: sakila.schema.SAKILA_SCHEMA_I_14_PersistenceIT
 - id: SAKILA_SCHEMA_A_01
   section: "SCHEMA"
   tier: Advanced
   title: "the customer who paid the most in each of the five countries which paid the most"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_01_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_01_PersistenceIT
 - id: SAKILA_SCHEMA_A_02
   section: "SCHEMA"
   tier: Advanced
   title: "the customers who rented a film of every category"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_02_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_02_PersistenceIT
 - id: SAKILA_SCHEMA_A_03
   section: "SCHEMA"
   tier: Advanced
   title: "the running total of the payments, on the first five days"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_03_Test
   retired: true
 - id: SAKILA_SCHEMA_A_04
   section: "SCHEMA"
   tier: Advanced
   title: "each month's payments, and the change from the month before"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_04_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_04_PersistenceIT
 - id: SAKILA_SCHEMA_A_05
   section: "SCHEMA"
   tier: Advanced
   title: "the three films rented the most at each store"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_05_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_05_PersistenceIT
 - id: SAKILA_SCHEMA_A_06
   section: "SCHEMA"
   tier: Advanced
   title: "how many actors are one film, and how many two films, away from KEVIN BLOOM; a Bacon number, Sakila having no KEVIN BACON"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_06_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_06_PersistenceIT
 - id: SAKILA_SCHEMA_A_07
   section: "SCHEMA"
   tier: Advanced
   title: "the films none of whose copies is in, right now"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_07_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_07_PersistenceIT
 - id: SAKILA_SCHEMA_A_08
   section: "SCHEMA"
   tier: Advanced
   title: "the five longest runs of days on which a customer rented every day"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_08_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_08_PersistenceIT
   native-only: true
 - id: SAKILA_SCHEMA_A_09
   section: "SCHEMA"
   tier: Advanced
   title: "the countries none of whose customers rented a Music film"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_09_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_09_PersistenceIT
 - id: SAKILA_SCHEMA_A_10
   section: "SCHEMA"
   tier: Advanced
   title: "the five customers who owed the most at the end of the data"
   sql: src/test/sql-exercises/__/03_advanced.sql
-  test: __Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_10_Test
+  test: sakila.schema.SAKILA_SCHEMA_A_10_PersistenceIT

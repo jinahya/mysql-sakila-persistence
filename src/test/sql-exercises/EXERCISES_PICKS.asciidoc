@@ -43,7 +43,7 @@ The `actor` table, mapped by `Actor`.
 
 // AI: Pick SAKILA_ACTOR_B_01: Entity selection by an equality parameter.
 // AI: Copied from EXERCISES.asciidoc:21, anchor SAKILA_ACTOR_B_01; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR; tier=Basic; sql=src/test/sql-exercises/actor/01_basic.sql; test=Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_01_Test.
+// AI: Registry: section=ACTOR; tier=Basic; sql=src/test/sql-exercises/actor/01_basic.sql; test=sakila.actor.SAKILA_ACTOR_B_01_PersistenceIT.
 [[SAKILA_ACTOR_B_01]]
 ==== SAKILA_ACTOR_B_01: the actors of a given last name, ordered by actor_id
 
@@ -76,7 +76,7 @@ ORDER BY actor_id
 
 // AI: Pick SAKILA_ACTOR_B_02: LIKE and deterministic ordering on two attributes.
 // AI: Copied from EXERCISES.asciidoc:51, anchor SAKILA_ACTOR_B_02; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR; tier=Basic; sql=src/test/sql-exercises/actor/01_basic.sql; test=Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_02_Test.
+// AI: Registry: section=ACTOR; tier=Basic; sql=src/test/sql-exercises/actor/01_basic.sql; test=sakila.actor.SAKILA_ACTOR_B_02_PersistenceIT.
 [[SAKILA_ACTOR_B_02]]
 ==== SAKILA_ACTOR_B_02: the actors whose first name starts with JU, ordered by first name
 
@@ -117,7 +117,7 @@ ORDER BY first_name, actor_id
 
 // AI: Pick SAKILA_ACTOR_I_01: A compact introduction to GROUP BY and HAVING.
 // AI: Copied from EXERCISES.asciidoc:149, anchor SAKILA_ACTOR_I_01; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_01_Test.
+// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=sakila.actor.SAKILA_ACTOR_I_01_PersistenceIT.
 [[SAKILA_ACTOR_I_01]]
 ==== SAKILA_ACTOR_I_01: the last names shared by more than three actors, the most shared first
 
@@ -152,7 +152,7 @@ ORDER BY actors DESC, last_name
 
 // AI: Pick SAKILA_ACTOR_I_02: Count an association and apply a deterministic top-n limit.
 // AI: Copied from EXERCISES.asciidoc:181, anchor SAKILA_ACTOR_I_02; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_02_Test.
+// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=sakila.actor.SAKILA_ACTOR_I_02_PersistenceIT.
 [[SAKILA_ACTOR_I_02]]
 ==== SAKILA_ACTOR_I_02: the top n actors by their number of films
 
@@ -189,7 +189,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_ACTOR_I_08: A useful NOT EXISTS predicate over film associations.
 // AI: Copied from EXERCISES.asciidoc:342, anchor SAKILA_ACTOR_I_08; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_08_Test.
+// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=sakila.actor.SAKILA_ACTOR_I_08_PersistenceIT.
 [[SAKILA_ACTOR_I_08]]
 ==== SAKILA_ACTOR_I_08: the actors who never appeared in a G-rated film
 
@@ -221,7 +221,7 @@ ORDER BY a.actor_id
 ....
 ====
 
-Answered by `Actor_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -230,7 +230,7 @@ Answered by `Actor_Exercises_02_Intermediate_PersistenceIT`.
 
 // AI: Pick SAKILA_ACTOR_A_01: Relational division by COUNT DISTINCT and a subquery.
 // AI: Copied from EXERCISES.asciidoc:377, anchor SAKILA_ACTOR_A_01; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR; tier=Advanced; sql=src/test/sql-exercises/actor/03_advanced.sql; test=Actor_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_A_01_Test.
+// AI: Registry: section=ACTOR; tier=Advanced; sql=src/test/sql-exercises/actor/03_advanced.sql; test=sakila.actor.SAKILA_ACTOR_A_01_PersistenceIT.
 [[SAKILA_ACTOR_A_01]]
 ==== SAKILA_ACTOR_A_01: the actors who appear in a film of every rating
 
@@ -268,7 +268,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_ACTOR_A_03: A correlated maximum per actor, retaining ties.
 // AI: Copied from EXERCISES.asciidoc:457, anchor SAKILA_ACTOR_A_03; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR; tier=Advanced; sql=src/test/sql-exercises/actor/03_advanced.sql; test=Actor_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_A_03_Test.
+// AI: Registry: section=ACTOR; tier=Advanced; sql=src/test/sql-exercises/actor/03_advanced.sql; test=sakila.actor.SAKILA_ACTOR_A_03_PersistenceIT.
 [[SAKILA_ACTOR_A_03]]
 ==== SAKILA_ACTOR_A_03: the longest film of each of the first five actors
 
@@ -306,7 +306,7 @@ ORDER BY a.actor_id, f.title
 ....
 ====
 
-Answered by `Actor_Exercises_03_Advanced_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 == actor_info (view)
 
@@ -320,7 +320,7 @@ The `actor_info` view, mapped by `ActorInfo`.
 
 // AI: Pick SAKILA_ACTOR_INFO_B_01: Read a computed view attribute without rebuilding the view in Java.
 // AI: Copied from EXERCISES.asciidoc:502, anchor SAKILA_ACTOR_INFO_B_01; retain the permanent ID when revising.
-// AI: Registry: section=ACTOR_INFO; tier=Basic; sql=src/test/sql-exercises/actor_info/01_basic.sql; test=ActorInfo_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_INFO_B_01_Test.
+// AI: Registry: section=ACTOR_INFO; tier=Basic; sql=src/test/sql-exercises/actor_info/01_basic.sql; test=sakila.actor_info.SAKILA_ACTOR_INFO_B_01_PersistenceIT.
 [[SAKILA_ACTOR_INFO_B_01]]
 ==== SAKILA_ACTOR_INFO_B_01: the film_info of the actor 1
 
@@ -374,7 +374,7 @@ The `address` table, mapped by `Address`.
 
 // AI: Pick SAKILA_ADDRESS_B_03: IS NULL on an optional mapped attribute.
 // AI: Copied from EXERCISES.asciidoc:840, anchor SAKILA_ADDRESS_B_03; retain the permanent ID when revising.
-// AI: Registry: section=ADDRESS; tier=Basic; sql=src/test/sql-exercises/address/01_basic.sql; test=Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_03_Test.
+// AI: Registry: section=ADDRESS; tier=Basic; sql=src/test/sql-exercises/address/01_basic.sql; test=sakila.address.SAKILA_ADDRESS_B_03_PersistenceIT.
 [[SAKILA_ADDRESS_B_03]]
 ==== SAKILA_ADDRESS_B_03: the addresses whose address2 is NULL
 
@@ -407,7 +407,7 @@ ORDER BY address_id
 
 // AI: Pick SAKILA_ADDRESS_B_04: Contrast an empty string with NULL on MySQL.
 // AI: Copied from EXERCISES.asciidoc:870, anchor SAKILA_ADDRESS_B_04; retain the permanent ID when revising.
-// AI: Registry: section=ADDRESS; tier=Basic; sql=src/test/sql-exercises/address/01_basic.sql; test=Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_04_Test.
+// AI: Registry: section=ADDRESS; tier=Basic; sql=src/test/sql-exercises/address/01_basic.sql; test=sakila.address.SAKILA_ADDRESS_B_04_PersistenceIT.
 [[SAKILA_ADDRESS_B_04]]
 ==== SAKILA_ADDRESS_B_04: the addresses with an empty district
 
@@ -437,7 +437,7 @@ ORDER BY address_id
 ....
 ====
 
-Answered by `Address_Exercises_01_Basic_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Intermediate
 
@@ -447,7 +447,7 @@ Answered by `Address_Exercises_01_Basic_PersistenceIT`.
 
 // AI: Pick SAKILA_ADDRESS_I_01: Navigate address, city, and country associations with pagination.
 // AI: Copied from EXERCISES.asciidoc:929, anchor SAKILA_ADDRESS_I_01; retain the permanent ID when revising.
-// AI: Registry: section=ADDRESS; tier=Intermediate; sql=src/test/sql-exercises/address/02_intermediate.sql; test=Address_Exercises_02_Intermediate_PersistenceIT.SAKILA_ADDRESS_I_01_Test.
+// AI: Registry: section=ADDRESS; tier=Intermediate; sql=src/test/sql-exercises/address/02_intermediate.sql; test=sakila.address.SAKILA_ADDRESS_I_01_PersistenceIT.
 [[SAKILA_ADDRESS_I_01]]
 ==== SAKILA_ADDRESS_I_01: the first five addresses, with their city and country
 
@@ -482,7 +482,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_ADDRESS_I_02: GROUP BY and COUNT DISTINCT across an association.
 // AI: Copied from EXERCISES.asciidoc:961, anchor SAKILA_ADDRESS_I_02; retain the permanent ID when revising.
-// AI: Registry: section=ADDRESS; tier=Intermediate; sql=src/test/sql-exercises/address/02_intermediate.sql; test=Address_Exercises_02_Intermediate_PersistenceIT.SAKILA_ADDRESS_I_02_Test.
+// AI: Registry: section=ADDRESS; tier=Intermediate; sql=src/test/sql-exercises/address/02_intermediate.sql; test=sakila.address.SAKILA_ADDRESS_I_02_PersistenceIT.
 [[SAKILA_ADDRESS_I_02]]
 ==== SAKILA_ADDRESS_I_02: the district names found in more than one country
 
@@ -537,7 +537,7 @@ The `category` table, mapped by `Category`.
 
 // AI: Pick SAKILA_CATEGORY_B_01: A complete entity list with a meaningful alphabetical order.
 // AI: Copied from EXERCISES.asciidoc:1117, anchor SAKILA_CATEGORY_B_01; retain the permanent ID when revising.
-// AI: Registry: section=CATEGORY; tier=Basic; sql=src/test/sql-exercises/category/01_basic.sql; test=Category_Exercises_01_Basic_PersistenceIT.SAKILA_CATEGORY_B_01_Test.
+// AI: Registry: section=CATEGORY; tier=Basic; sql=src/test/sql-exercises/category/01_basic.sql; test=sakila.category.SAKILA_CATEGORY_B_01_PersistenceIT.
 [[SAKILA_CATEGORY_B_01]]
 ==== SAKILA_CATEGORY_B_01: every category, by name
 
@@ -585,7 +585,7 @@ ORDER BY name
 
 // AI: Pick SAKILA_CATEGORY_I_01: LEFT JOIN and COUNT of the child preserve empty categories.
 // AI: Copied from EXERCISES.asciidoc:1191, anchor SAKILA_CATEGORY_I_01; retain the permanent ID when revising.
-// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_01_Test.
+// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=sakila.category.SAKILA_CATEGORY_I_01_PersistenceIT.
 [[SAKILA_CATEGORY_I_01]]
 ==== SAKILA_CATEGORY_I_01: how many films each category has, the most first
 
@@ -630,7 +630,7 @@ ORDER BY films DESC, c.name
 
 // AI: Pick SAKILA_CATEGORY_I_02: AVG across film associations with a one-row result limit.
 // AI: Copied from EXERCISES.asciidoc:1233, anchor SAKILA_CATEGORY_I_02; retain the permanent ID when revising.
-// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_02_Test.
+// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=sakila.category.SAKILA_CATEGORY_I_02_PersistenceIT.
 [[SAKILA_CATEGORY_I_02]]
 ==== SAKILA_CATEGORY_I_02: the category whose films are, on average, the longest
 
@@ -663,7 +663,7 @@ LIMIT 1
 
 // AI: Pick SAKILA_CATEGORY_I_04: HAVING compares a group average with an overall average.
 // AI: Copied from EXERCISES.asciidoc:1286, anchor SAKILA_CATEGORY_I_04; retain the permanent ID when revising.
-// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_04_Test.
+// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=sakila.category.SAKILA_CATEGORY_I_04_PersistenceIT.
 [[SAKILA_CATEGORY_I_04]]
 ==== SAKILA_CATEGORY_I_04: the categories whose films rent for more than the average
 
@@ -721,7 +721,7 @@ The `city` table, mapped by `City`.
 
 // AI: Pick SAKILA_CITY_B_01: A small LIKE-filtered list.
 // AI: Copied from EXERCISES.asciidoc:1491, anchor SAKILA_CITY_B_01; retain the permanent ID when revising.
-// AI: Registry: section=CITY; tier=Basic; sql=src/test/sql-exercises/city/01_basic.sql; test=City_Exercises_01_Basic_PersistenceIT.SAKILA_CITY_B_01_Test.
+// AI: Registry: section=CITY; tier=Basic; sql=src/test/sql-exercises/city/01_basic.sql; test=sakila.city.SAKILA_CITY_B_01_PersistenceIT.
 [[SAKILA_CITY_B_01]]
 ==== SAKILA_CITY_B_01: the cities whose name starts with Q
 
@@ -760,7 +760,7 @@ ORDER BY city, city_id
 
 // AI: Pick SAKILA_CITY_I_01: Filter an entity through its country association.
 // AI: Copied from EXERCISES.asciidoc:1550, anchor SAKILA_CITY_I_01; retain the permanent ID when revising.
-// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_01_Test.
+// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=sakila.city.SAKILA_CITY_I_01_PersistenceIT.
 [[SAKILA_CITY_I_01]]
 ==== SAKILA_CITY_I_01: the cities of Canada
 
@@ -796,7 +796,7 @@ ORDER BY ci.city
 
 // AI: Pick SAKILA_CITY_I_02: Group by a related country and page a count ranking.
 // AI: Copied from EXERCISES.asciidoc:1583, anchor SAKILA_CITY_I_02; retain the permanent ID when revising.
-// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_02_Test.
+// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=sakila.city.SAKILA_CITY_I_02_PersistenceIT.
 [[SAKILA_CITY_I_02]]
 ==== SAKILA_CITY_I_02: the five countries with the most cities
 
@@ -831,7 +831,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_CITY_I_04: HAVING filters cities by the size of their address collection.
 // AI: Copied from EXERCISES.asciidoc:1641, anchor SAKILA_CITY_I_04; retain the permanent ID when revising.
-// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_04_Test.
+// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=sakila.city.SAKILA_CITY_I_04_PersistenceIT.
 [[SAKILA_CITY_I_04]]
 ==== SAKILA_CITY_I_04: the cities with more than one address
 
@@ -871,7 +871,7 @@ ORDER BY addresses DESC, ci.city, ci.city_id
 
 // AI: Pick SAKILA_CITY_A_01: A correlated NOT EXISTS identifies the only city of a country.
 // AI: Copied from EXERCISES.asciidoc:1726, anchor SAKILA_CITY_A_01; retain the permanent ID when revising.
-// AI: Registry: section=CITY; tier=Advanced; sql=src/test/sql-exercises/city/03_advanced.sql; test=City_Exercises_03_Advanced_PersistenceIT.SAKILA_CITY_A_01_Test.
+// AI: Registry: section=CITY; tier=Advanced; sql=src/test/sql-exercises/city/03_advanced.sql; test=sakila.city.SAKILA_CITY_A_01_PersistenceIT.
 [[SAKILA_CITY_A_01]]
 ==== SAKILA_CITY_A_01: the first ten cities which are the only city of their country
 
@@ -922,7 +922,7 @@ The `country` table, mapped by `Country`.
 
 // AI: Pick SAKILA_COUNTRY_B_02: An elementary prefix filter over a lookup entity.
 // AI: Copied from EXERCISES.asciidoc:1844, anchor SAKILA_COUNTRY_B_02; retain the permanent ID when revising.
-// AI: Registry: section=COUNTRY; tier=Basic; sql=src/test/sql-exercises/country/01_basic.sql; test=Country_Exercises_01_Basic_PersistenceIT.SAKILA_COUNTRY_B_02_Test.
+// AI: Registry: section=COUNTRY; tier=Basic; sql=src/test/sql-exercises/country/01_basic.sql; test=sakila.country.SAKILA_COUNTRY_B_02_PersistenceIT.
 [[SAKILA_COUNTRY_B_02]]
 ==== SAKILA_COUNTRY_B_02: the countries whose name starts with S, ordered by name
 
@@ -967,7 +967,7 @@ ORDER BY country
 
 // AI: Pick SAKILA_COUNTRY_I_02: A country-to-customer association chain with count and limit.
 // AI: Copied from EXERCISES.asciidoc:1936, anchor SAKILA_COUNTRY_I_02; retain the permanent ID when revising.
-// AI: Registry: section=COUNTRY; tier=Intermediate; sql=src/test/sql-exercises/country/02_intermediate.sql; test=Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_02_Test.
+// AI: Registry: section=COUNTRY; tier=Intermediate; sql=src/test/sql-exercises/country/02_intermediate.sql; test=sakila.country.SAKILA_COUNTRY_I_02_PersistenceIT.
 [[SAKILA_COUNTRY_I_02]]
 ==== SAKILA_COUNTRY_I_02: the five countries with the most customers
 
@@ -1005,7 +1005,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_COUNTRY_I_04: Combine EXISTS and NOT EXISTS without confusing no city with no customer.
 // AI: Copied from EXERCISES.asciidoc:1996, anchor SAKILA_COUNTRY_I_04; retain the permanent ID when revising.
-// AI: Registry: section=COUNTRY; tier=Intermediate; sql=src/test/sql-exercises/country/02_intermediate.sql; test=Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_04_Test.
+// AI: Registry: section=COUNTRY; tier=Intermediate; sql=src/test/sql-exercises/country/02_intermediate.sql; test=sakila.country.SAKILA_COUNTRY_I_04_PersistenceIT.
 [[SAKILA_COUNTRY_I_04]]
 ==== SAKILA_COUNTRY_I_04: the countries which have a city but no customer
 
@@ -1038,7 +1038,7 @@ ORDER BY co.country
 ....
 ====
 
-Answered by `Country_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -1058,7 +1058,7 @@ The `customer` table, mapped by `Customer`.
 
 // AI: Pick SAKILA_CUSTOMER_B_01: Group by the active flag.
 // AI: Copied from EXERCISES.asciidoc:2149, anchor SAKILA_CUSTOMER_B_01; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_01_Test.
+// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=sakila.customer.SAKILA_CUSTOMER_B_01_PersistenceIT.
 [[SAKILA_CUSTOMER_B_01]]
 ==== SAKILA_CUSTOMER_B_01: how many customers are active, and how many are not
 
@@ -1088,7 +1088,7 @@ ORDER BY active
 
 // AI: Pick SAKILA_CUSTOMER_B_02: Group customers by their store association.
 // AI: Copied from EXERCISES.asciidoc:2176, anchor SAKILA_CUSTOMER_B_02; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_02_Test.
+// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=sakila.customer.SAKILA_CUSTOMER_B_02_PersistenceIT.
 [[SAKILA_CUSTOMER_B_02]]
 ==== SAKILA_CUSTOMER_B_02: how many customers each store has
 
@@ -1119,7 +1119,7 @@ ORDER BY st.store_id
 
 // AI: Pick SAKILA_CUSTOMER_B_04: A direct predicate on the mapped active flag.
 // AI: Copied from EXERCISES.asciidoc:2231, anchor SAKILA_CUSTOMER_B_04; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_04_Test.
+// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=sakila.customer.SAKILA_CUSTOMER_B_04_PersistenceIT.
 [[SAKILA_CUSTOMER_B_04]]
 ==== SAKILA_CUSTOMER_B_04: the customers who are not active
 
@@ -1160,7 +1160,7 @@ ORDER BY customer_id
 ....
 ====
 
-Answered by `Customer_Exercises_01_Basic_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Intermediate
 
@@ -1169,7 +1169,7 @@ Answered by `Customer_Exercises_01_Basic_PersistenceIT`.
 
 // AI: Pick SAKILA_CUSTOMER_I_01: SUM over payments with a deterministic top-n limit.
 // AI: Copied from EXERCISES.asciidoc:2300, anchor SAKILA_CUSTOMER_I_01; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_01_Test.
+// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=sakila.customer.SAKILA_CUSTOMER_I_01_PersistenceIT.
 [[SAKILA_CUSTOMER_I_01]]
 ==== SAKILA_CUSTOMER_I_01: the five customers who paid the most
 
@@ -1205,7 +1205,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_CUSTOMER_I_03: HAVING over a customer's rentals.
 // AI: Copied from EXERCISES.asciidoc:2355, anchor SAKILA_CUSTOMER_I_03; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_03_Test.
+// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=sakila.customer.SAKILA_CUSTOMER_I_03_PersistenceIT.
 [[SAKILA_CUSTOMER_I_03]]
 ==== SAKILA_CUSTOMER_I_03: the customers who rented forty times or more
 
@@ -1243,7 +1243,7 @@ ORDER BY rentals DESC, c.customer_id
 
 // AI: Pick SAKILA_CUSTOMER_I_05: A LEFT JOIN ON condition counts unreturned rentals while retaining zero.
 // AI: Copied from EXERCISES.asciidoc:2423, anchor SAKILA_CUSTOMER_I_05; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_05_Test.
+// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=sakila.customer.SAKILA_CUSTOMER_I_05_PersistenceIT.
 [[SAKILA_CUSTOMER_I_05]]
 ==== SAKILA_CUSTOMER_I_05: the first ten customers of the store 1, each with the rentals they have out, zero included
 
@@ -1283,7 +1283,7 @@ LIMIT 10
 ....
 ====
 
-Answered by `Customer_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -1292,7 +1292,7 @@ Answered by `Customer_Exercises_02_Intermediate_PersistenceIT`.
 
 // AI: Pick SAKILA_CUSTOMER_A_02: Compare a customer total with the average for the customer's own store.
 // AI: Copied from EXERCISES.asciidoc:2560, anchor SAKILA_CUSTOMER_A_02; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER; tier=Advanced; sql=src/test/sql-exercises/customer/03_advanced.sql; test=Customer_Exercises_03_Advanced_PersistenceIT.SAKILA_CUSTOMER_A_02_Test.
+// AI: Registry: section=CUSTOMER; tier=Advanced; sql=src/test/sql-exercises/customer/03_advanced.sql; test=sakila.customer.SAKILA_CUSTOMER_A_02_PersistenceIT.
 [[SAKILA_CUSTOMER_A_02]]
 ==== SAKILA_CUSTOMER_A_02: how many customers of each store paid more than that store's average customer
 
@@ -1338,7 +1338,7 @@ The `customer_list` view, mapped by `CustomerList`.
 
 // AI: Pick SAKILA_CUSTOMER_LIST_B_01: Filter a mapped reporting view without repeating its joins.
 // AI: Copied from EXERCISES.asciidoc:2675, anchor SAKILA_CUSTOMER_LIST_B_01; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER_LIST; tier=Basic; sql=src/test/sql-exercises/customer_list/01_basic.sql; test=CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_01_Test.
+// AI: Registry: section=CUSTOMER_LIST; tier=Basic; sql=src/test/sql-exercises/customer_list/01_basic.sql; test=sakila.customer_list.SAKILA_CUSTOMER_LIST_B_01_PersistenceIT.
 [[SAKILA_CUSTOMER_LIST_B_01]]
 ==== SAKILA_CUSTOMER_LIST_B_01: the customers in Japan
 
@@ -1397,7 +1397,7 @@ ORDER BY ID
 
 // AI: Pick SAKILA_CUSTOMER_LIST_B_03: Group a derived view attribute.
 // AI: Copied from EXERCISES.asciidoc:2761, anchor SAKILA_CUSTOMER_LIST_B_03; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER_LIST; tier=Basic; sql=src/test/sql-exercises/customer_list/01_basic.sql; test=CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_03_Test.
+// AI: Registry: section=CUSTOMER_LIST; tier=Basic; sql=src/test/sql-exercises/customer_list/01_basic.sql; test=sakila.customer_list.SAKILA_CUSTOMER_LIST_B_03_PersistenceIT.
 [[SAKILA_CUSTOMER_LIST_B_03]]
 ==== SAKILA_CUSTOMER_LIST_B_03: how many customers the view's notes call active
 
@@ -1433,7 +1433,7 @@ ORDER BY notes
 
 // AI: Pick SAKILA_CUSTOMER_LIST_I_02: Group by city and country together to avoid name collisions.
 // AI: Copied from EXERCISES.asciidoc:2877, anchor SAKILA_CUSTOMER_LIST_I_02; retain the permanent ID when revising.
-// AI: Registry: section=CUSTOMER_LIST; tier=Intermediate; sql=src/test/sql-exercises/customer_list/02_intermediate.sql; test=CustomerList_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_LIST_I_02_Test.
+// AI: Registry: section=CUSTOMER_LIST; tier=Intermediate; sql=src/test/sql-exercises/customer_list/02_intermediate.sql; test=sakila.customer_list.SAKILA_CUSTOMER_LIST_I_02_PersistenceIT.
 [[SAKILA_CUSTOMER_LIST_I_02]]
 ==== SAKILA_CUSTOMER_LIST_I_02: the cities with more than one customer
 
@@ -1479,7 +1479,7 @@ The `film` table, mapped by `Film`.
 
 // AI: Pick SAKILA_FILM_B_01: Group by the mapped rating enum.
 // AI: Copied from EXERCISES.asciidoc:2950, anchor SAKILA_FILM_B_01; retain the permanent ID when revising.
-// AI: Registry: section=FILM; tier=Basic; sql=src/test/sql-exercises/film/01_basic.sql; test=Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_01_Test.
+// AI: Registry: section=FILM; tier=Basic; sql=src/test/sql-exercises/film/01_basic.sql; test=sakila.film.SAKILA_FILM_B_01_PersistenceIT.
 [[SAKILA_FILM_B_01]]
 ==== SAKILA_FILM_B_01: how many films each rating has
 
@@ -1513,7 +1513,7 @@ ORDER BY rating
 
 // AI: Pick SAKILA_FILM_B_03: AVG of a monetary attribute grouped by rating.
 // AI: Copied from EXERCISES.asciidoc:3012, anchor SAKILA_FILM_B_03; retain the permanent ID when revising.
-// AI: Registry: section=FILM; tier=Basic; sql=src/test/sql-exercises/film/01_basic.sql; test=Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_03_Test.
+// AI: Registry: section=FILM; tier=Basic; sql=src/test/sql-exercises/film/01_basic.sql; test=sakila.film.SAKILA_FILM_B_03_PersistenceIT.
 [[SAKILA_FILM_B_03]]
 ==== SAKILA_FILM_B_03: the average rental rate of each rating
 
@@ -1551,7 +1551,7 @@ ORDER BY rating
 
 // AI: Pick SAKILA_FILM_I_01: NOT EXISTS identifies films with no inventory association.
 // AI: Copied from EXERCISES.asciidoc:3139, anchor SAKILA_FILM_I_01; retain the permanent ID when revising.
-// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_01_Test.
+// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=sakila.film.SAKILA_FILM_I_01_PersistenceIT.
 [[SAKILA_FILM_I_01]]
 ==== SAKILA_FILM_I_01: how many films have no copy in the inventory
 
@@ -1580,7 +1580,7 @@ WHERE NOT EXISTS (SELECT 1 FROM inventory i WHERE i.film_id = f.film_id)
 
 // AI: Pick SAKILA_FILM_I_02: Traverse copies and rentals to rank films with pagination.
 // AI: Copied from EXERCISES.asciidoc:3165, anchor SAKILA_FILM_I_02; retain the permanent ID when revising.
-// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_02_Test.
+// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=sakila.film.SAKILA_FILM_I_02_PersistenceIT.
 [[SAKILA_FILM_I_02]]
 ==== SAKILA_FILM_I_02: the five films rented the most
 
@@ -1618,7 +1618,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_FILM_I_04: Compare rating-group averages with an overall film average.
 // AI: Copied from EXERCISES.asciidoc:3235, anchor SAKILA_FILM_I_04; retain the permanent ID when revising.
-// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_04_Test.
+// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=sakila.film.SAKILA_FILM_I_04_PersistenceIT.
 [[SAKILA_FILM_I_04]]
 ==== SAKILA_FILM_I_04: the ratings whose films are longer than the average film
 
@@ -1648,7 +1648,7 @@ ORDER BY rating
 ....
 ====
 
-Answered by `Film_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -1657,7 +1657,7 @@ Answered by `Film_Exercises_02_Intermediate_PersistenceIT`.
 
 // AI: Pick SAKILA_FILM_A_01: A correlated average per rating.
 // AI: Copied from EXERCISES.asciidoc:3305, anchor SAKILA_FILM_A_01; retain the permanent ID when revising.
-// AI: Registry: section=FILM; tier=Advanced; sql=src/test/sql-exercises/film/03_advanced.sql; test=Film_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_A_01_Test.
+// AI: Registry: section=FILM; tier=Advanced; sql=src/test/sql-exercises/film/03_advanced.sql; test=sakila.film.SAKILA_FILM_A_01_PersistenceIT.
 [[SAKILA_FILM_A_01]]
 ==== SAKILA_FILM_A_01: how many films of each rating are longer than their rating's average
 
@@ -1690,7 +1690,7 @@ ORDER BY f1.rating
 ....
 ====
 
-Answered by `Film_Exercises_03_Advanced_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 == film_actor
 
@@ -1703,7 +1703,7 @@ The `film_actor` table, mapped by `FilmActor`.
 
 // AI: Pick SAKILA_FILM_ACTOR_B_01: Count rows of a link entity using one side of its key.
 // AI: Copied from EXERCISES.asciidoc:3382, anchor SAKILA_FILM_ACTOR_B_01; retain the permanent ID when revising.
-// AI: Registry: section=FILM_ACTOR; tier=Basic; sql=src/test/sql-exercises/film_actor/01_basic.sql; test=FilmActor_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_ACTOR_B_01_Test.
+// AI: Registry: section=FILM_ACTOR; tier=Basic; sql=src/test/sql-exercises/film_actor/01_basic.sql; test=sakila.film_actor.SAKILA_FILM_ACTOR_B_01_PersistenceIT.
 [[SAKILA_FILM_ACTOR_B_01]]
 ==== SAKILA_FILM_ACTOR_B_01: how many films the actor 1 appears in
 
@@ -1736,7 +1736,7 @@ WHERE actor_id = 1
 
 // AI: Pick SAKILA_FILM_ACTOR_I_01: Group the link entity by its film association.
 // AI: Copied from EXERCISES.asciidoc:3435, anchor SAKILA_FILM_ACTOR_I_01; retain the permanent ID when revising.
-// AI: Registry: section=FILM_ACTOR; tier=Intermediate; sql=src/test/sql-exercises/film_actor/02_intermediate.sql; test=FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_01_Test.
+// AI: Registry: section=FILM_ACTOR; tier=Intermediate; sql=src/test/sql-exercises/film_actor/02_intermediate.sql; test=sakila.film_actor.SAKILA_FILM_ACTOR_I_01_PersistenceIT.
 [[SAKILA_FILM_ACTOR_I_01]]
 ==== SAKILA_FILM_ACTOR_I_01: the five films with the most actors
 
@@ -1772,7 +1772,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_FILM_ACTOR_I_03: A self-join of the link entity answers a co-star question.
 // AI: Copied from EXERCISES.asciidoc:3492, anchor SAKILA_FILM_ACTOR_I_03; retain the permanent ID when revising.
-// AI: Registry: section=FILM_ACTOR; tier=Intermediate; sql=src/test/sql-exercises/film_actor/02_intermediate.sql; test=FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_03_Test.
+// AI: Registry: section=FILM_ACTOR; tier=Intermediate; sql=src/test/sql-exercises/film_actor/02_intermediate.sql; test=sakila.film_actor.SAKILA_FILM_ACTOR_I_03_PersistenceIT.
 [[SAKILA_FILM_ACTOR_I_03]]
 ==== SAKILA_FILM_ACTOR_I_03: the five actors who appear most often with the actor 1
 
@@ -1814,7 +1814,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_FILM_ACTOR_A_01: Pair ordering removes reversed duplicates in a link-entity self-join.
 // AI: Copied from EXERCISES.asciidoc:3570, anchor SAKILA_FILM_ACTOR_A_01; retain the permanent ID when revising.
-// AI: Registry: section=FILM_ACTOR; tier=Advanced; sql=src/test/sql-exercises/film_actor/03_advanced.sql; test=FilmActor_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_ACTOR_A_01_Test.
+// AI: Registry: section=FILM_ACTOR; tier=Advanced; sql=src/test/sql-exercises/film_actor/03_advanced.sql; test=sakila.film_actor.SAKILA_FILM_ACTOR_A_01_PersistenceIT.
 [[SAKILA_FILM_ACTOR_A_01]]
 ==== SAKILA_FILM_ACTOR_A_01: the three pairs of actors who appear together the most
 
@@ -1861,7 +1861,7 @@ The `film_category` table, mapped by `FilmCategory`.
 
 // AI: Pick SAKILA_FILM_CATEGORY_B_02: Read the link entity and order by its film key.
 // AI: Copied from EXERCISES.asciidoc:3718, anchor SAKILA_FILM_CATEGORY_B_02; retain the permanent ID when revising.
-// AI: Registry: section=FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/film_category/01_basic.sql; test=FilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_CATEGORY_B_02_Test.
+// AI: Registry: section=FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/film_category/01_basic.sql; test=sakila.film_category.SAKILA_FILM_CATEGORY_B_02_PersistenceIT.
 [[SAKILA_FILM_CATEGORY_B_02]]
 ==== SAKILA_FILM_CATEGORY_B_02: the categories of the films 1 to 10
 
@@ -1897,11 +1897,11 @@ ORDER BY film_id
 ....
 ====
 
-Answered by `FilmCategory_Exercises_01_Basic_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 // AI: Pick SAKILA_FILM_CATEGORY_B_03: Navigate the category and film associations of a composite-key link.
 // AI: Copied from EXERCISES.asciidoc:3755, anchor SAKILA_FILM_CATEGORY_B_03; retain the permanent ID when revising.
-// AI: Registry: section=FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/film_category/01_basic.sql; test=FilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_CATEGORY_B_03_Test.
+// AI: Registry: section=FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/film_category/01_basic.sql; test=sakila.film_category.SAKILA_FILM_CATEGORY_B_03_PersistenceIT.
 [[SAKILA_FILM_CATEGORY_B_03]]
 ==== SAKILA_FILM_CATEGORY_B_03: the films of the Comedy category
 
@@ -1942,7 +1942,7 @@ ORDER BY f.title, f.film_id
 
 // AI: Pick SAKILA_FILM_CATEGORY_I_03: Outer joins and conditional aggregation count R-rated films per category.
 // AI: Copied from EXERCISES.asciidoc:3839, anchor SAKILA_FILM_CATEGORY_I_03; retain the permanent ID when revising.
-// AI: Registry: section=FILM_CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/film_category/02_intermediate.sql; test=FilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_CATEGORY_I_03_Test.
+// AI: Registry: section=FILM_CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/film_category/02_intermediate.sql; test=sakila.film_category.SAKILA_FILM_CATEGORY_I_03_PersistenceIT.
 [[SAKILA_FILM_CATEGORY_I_03]]
 ==== SAKILA_FILM_CATEGORY_I_03: how many films each category has, and how many of them are rated R
 
@@ -1989,7 +1989,7 @@ ORDER BY c.name
 ....
 ====
 
-Answered by `FilmCategory_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -2034,7 +2034,7 @@ The `film_text` table, mapped by `FilmText`.
 
 // AI: Pick SAKILA_FILM_TEXT_B_01: A portable text-search baseline using two LIKE predicates.
 // AI: Copied from EXERCISES.asciidoc:4241, anchor SAKILA_FILM_TEXT_B_01; retain the permanent ID when revising.
-// AI: Registry: section=FILM_TEXT; tier=Basic; sql=src/test/sql-exercises/film_text/01_basic.sql; test=FilmText_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_TEXT_B_01_Test.
+// AI: Registry: section=FILM_TEXT; tier=Basic; sql=src/test/sql-exercises/film_text/01_basic.sql; test=sakila.film_text.SAKILA_FILM_TEXT_B_01_PersistenceIT.
 [[SAKILA_FILM_TEXT_B_01]]
 ==== SAKILA_FILM_TEXT_B_01: the films whose description has both a Crocodile and a Shark
 
@@ -2095,7 +2095,7 @@ The `inventory` table, mapped by `Inventory`.
 
 // AI: Pick SAKILA_INVENTORY_B_01: Group inventory by its store association.
 // AI: Copied from EXERCISES.asciidoc:4599, anchor SAKILA_INVENTORY_B_01; retain the permanent ID when revising.
-// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_01_Test.
+// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=sakila.inventory.SAKILA_INVENTORY_B_01_PersistenceIT.
 [[SAKILA_INVENTORY_B_01]]
 ==== SAKILA_INVENTORY_B_01: how many copies each store has
 
@@ -2127,7 +2127,7 @@ ORDER BY st.store_id
 
 // AI: Pick SAKILA_INVENTORY_B_02: Select copies by their film association.
 // AI: Copied from EXERCISES.asciidoc:4628, anchor SAKILA_INVENTORY_B_02; retain the permanent ID when revising.
-// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_02_Test.
+// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=sakila.inventory.SAKILA_INVENTORY_B_02_PersistenceIT.
 [[SAKILA_INVENTORY_B_02]]
 ==== SAKILA_INVENTORY_B_02: the copies of the film 1
 
@@ -2163,7 +2163,7 @@ ORDER BY inventory_id
 
 // AI: Pick SAKILA_INVENTORY_B_03: Group by two associated entities without losing the composite group.
 // AI: Copied from EXERCISES.asciidoc:4661, anchor SAKILA_INVENTORY_B_03; retain the permanent ID when revising.
-// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_03_Test.
+// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=sakila.inventory.SAKILA_INVENTORY_B_03_PersistenceIT.
 [[SAKILA_INVENTORY_B_03]]
 ==== SAKILA_INVENTORY_B_03: how many copies of the films 1 to 5 each store has
 
@@ -2200,7 +2200,7 @@ ORDER BY f.film_id, st.store_id
 ....
 ====
 
-Answered by `Inventory_Exercises_01_Basic_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Intermediate
 
@@ -2209,7 +2209,7 @@ Answered by `Inventory_Exercises_01_Basic_PersistenceIT`.
 
 // AI: Pick SAKILA_INVENTORY_I_01: A top-n count over a film's copies.
 // AI: Copied from EXERCISES.asciidoc:4701, anchor SAKILA_INVENTORY_I_01; retain the permanent ID when revising.
-// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_01_Test.
+// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=sakila.inventory.SAKILA_INVENTORY_I_01_PersistenceIT.
 [[SAKILA_INVENTORY_I_01]]
 ==== SAKILA_INVENTORY_I_01: the five films with the most copies
 
@@ -2244,7 +2244,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_INVENTORY_I_03: Join to open rentals to count copies out per store.
 // AI: Copied from EXERCISES.asciidoc:4757, anchor SAKILA_INVENTORY_I_03; retain the permanent ID when revising.
-// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_03_Test.
+// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=sakila.inventory.SAKILA_INVENTORY_I_03_PersistenceIT.
 [[SAKILA_INVENTORY_I_03]]
 ==== SAKILA_INVENTORY_I_03: how many copies each store has out right now
 
@@ -2277,7 +2277,7 @@ ORDER BY st.store_id
 
 // AI: Pick SAKILA_INVENTORY_I_05: A practical availability query using correlated NOT EXISTS.
 // AI: Copied from EXERCISES.asciidoc:4824, anchor SAKILA_INVENTORY_I_05; retain the permanent ID when revising.
-// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_05_Test.
+// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=sakila.inventory.SAKILA_INVENTORY_I_05_PersistenceIT.
 [[SAKILA_INVENTORY_I_05]]
 ==== SAKILA_INVENTORY_I_05: the copies of the film 1 on the shelf right now
 
@@ -2313,7 +2313,7 @@ ORDER BY i.store_id, i.inventory_id
 ....
 ====
 
-Answered by `Inventory_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -2322,7 +2322,7 @@ Answered by `Inventory_Exercises_02_Intermediate_PersistenceIT`.
 
 // AI: Pick SAKILA_INVENTORY_A_02: Nested NOT EXISTS expresses that every copy has been rented.
 // AI: Copied from EXERCISES.asciidoc:4927, anchor SAKILA_INVENTORY_A_02; retain the permanent ID when revising.
-// AI: Registry: section=INVENTORY; tier=Advanced; sql=src/test/sql-exercises/inventory/03_advanced.sql; test=Inventory_Exercises_03_Advanced_PersistenceIT.SAKILA_INVENTORY_A_02_Test.
+// AI: Registry: section=INVENTORY; tier=Advanced; sql=src/test/sql-exercises/inventory/03_advanced.sql; test=sakila.inventory.SAKILA_INVENTORY_A_02_PersistenceIT.
 [[SAKILA_INVENTORY_A_02]]
 ==== SAKILA_INVENTORY_A_02: how many films have had every one of their copies rented
 
@@ -2352,7 +2352,7 @@ SELECT (SELECT COUNT(DISTINCT film_id) FROM inventory) AS films_in_inventory,
 ....
 ====
 
-Answered by `Inventory_Exercises_03_Advanced_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 == language
 
@@ -2365,7 +2365,7 @@ The `language` table, mapped by `Language`.
 
 // AI: Pick SAKILA_LANGUAGE_B_01: Read a lookup entity in identifier order.
 // AI: Copied from EXERCISES.asciidoc:5000, anchor SAKILA_LANGUAGE_B_01; retain the permanent ID when revising.
-// AI: Registry: section=LANGUAGE; tier=Basic; sql=src/test/sql-exercises/language/01_basic.sql; test=Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_01_Test.
+// AI: Registry: section=LANGUAGE; tier=Basic; sql=src/test/sql-exercises/language/01_basic.sql; test=sakila.language.SAKILA_LANGUAGE_B_01_PersistenceIT.
 [[SAKILA_LANGUAGE_B_01]]
 ==== SAKILA_LANGUAGE_B_01: every language
 
@@ -2397,7 +2397,7 @@ ORDER BY language_id
 
 // AI: Pick SAKILA_LANGUAGE_B_03: IN with a collection of language names.
 // AI: Copied from EXERCISES.asciidoc:5054, anchor SAKILA_LANGUAGE_B_03; retain the permanent ID when revising.
-// AI: Registry: section=LANGUAGE; tier=Basic; sql=src/test/sql-exercises/language/01_basic.sql; test=Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_03_Test.
+// AI: Registry: section=LANGUAGE; tier=Basic; sql=src/test/sql-exercises/language/01_basic.sql; test=sakila.language.SAKILA_LANGUAGE_B_03_PersistenceIT.
 [[SAKILA_LANGUAGE_B_03]]
 ==== SAKILA_LANGUAGE_B_03: which of four languages the table has
 
@@ -2432,7 +2432,7 @@ ORDER BY name
 
 // AI: Pick SAKILA_LANGUAGE_I_01: An outer join retains unused languages with a zero count.
 // AI: Copied from EXERCISES.asciidoc:5115, anchor SAKILA_LANGUAGE_I_01; retain the permanent ID when revising.
-// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_01_Test.
+// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=sakila.language.SAKILA_LANGUAGE_I_01_PersistenceIT.
 [[SAKILA_LANGUAGE_I_01]]
 ==== SAKILA_LANGUAGE_I_01: how many films each language has
 
@@ -2467,7 +2467,7 @@ ORDER BY l.language_id
 
 // AI: Pick SAKILA_LANGUAGE_I_02: Two foreign-key roles target the same language entity.
 // AI: Copied from EXERCISES.asciidoc:5147, anchor SAKILA_LANGUAGE_I_02; retain the permanent ID when revising.
-// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_02_Test.
+// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=sakila.language.SAKILA_LANGUAGE_I_02_PersistenceIT.
 [[SAKILA_LANGUAGE_I_02]]
 ==== SAKILA_LANGUAGE_I_02: the languages no film uses, either as its language or as its original language
 
@@ -2501,11 +2501,11 @@ ORDER BY l.language_id
 ....
 ====
 
-Answered by `Language_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 // AI: Pick SAKILA_LANGUAGE_I_03: Contrast mandatory language and optional original-language joins.
 // AI: Copied from EXERCISES.asciidoc:5182, anchor SAKILA_LANGUAGE_I_03; retain the permanent ID when revising.
-// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_03_Test.
+// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=sakila.language.SAKILA_LANGUAGE_I_03_PersistenceIT.
 [[SAKILA_LANGUAGE_I_03]]
 ==== SAKILA_LANGUAGE_I_03: the first five films with the names of their language and original language
 
@@ -2581,7 +2581,7 @@ The `payment` table, mapped by `Payment`.
 
 // AI: Pick SAKILA_PAYMENT_B_01: SUM payment amounts by the staff association.
 // AI: Copied from EXERCISES.asciidoc:5438, anchor SAKILA_PAYMENT_B_01; retain the permanent ID when revising.
-// AI: Registry: section=PAYMENT; tier=Basic; sql=src/test/sql-exercises/payment/01_basic.sql; test=Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_01_Test.
+// AI: Registry: section=PAYMENT; tier=Basic; sql=src/test/sql-exercises/payment/01_basic.sql; test=sakila.payment.SAKILA_PAYMENT_B_01_PersistenceIT.
 [[SAKILA_PAYMENT_B_01]]
 ==== SAKILA_PAYMENT_B_01: how much each staff member took
 
@@ -2613,7 +2613,7 @@ ORDER BY s.staff_id
 
 // AI: Pick SAKILA_PAYMENT_B_05: A half-open timestamp interval and a customer parameter.
 // AI: Copied from EXERCISES.asciidoc:5553, anchor SAKILA_PAYMENT_B_05; retain the permanent ID when revising.
-// AI: Registry: section=PAYMENT; tier=Basic; sql=src/test/sql-exercises/payment/01_basic.sql; test=Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_05_Test.
+// AI: Registry: section=PAYMENT; tier=Basic; sql=src/test/sql-exercises/payment/01_basic.sql; test=sakila.payment.SAKILA_PAYMENT_B_05_PersistenceIT.
 [[SAKILA_PAYMENT_B_05]]
 ==== SAKILA_PAYMENT_B_05: the payments of the customer 1 in July 2005
 
@@ -2654,7 +2654,7 @@ ORDER BY payment_date, payment_id
 ....
 ====
 
-Answered by `Payment_Exercises_01_Basic_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Intermediate
 
@@ -2663,7 +2663,7 @@ Answered by `Payment_Exercises_01_Basic_PersistenceIT`.
 
 // AI: Pick SAKILA_PAYMENT_I_02: HAVING filters grouped monetary totals.
 // AI: Copied from EXERCISES.asciidoc:5646, anchor SAKILA_PAYMENT_I_02; retain the permanent ID when revising.
-// AI: Registry: section=PAYMENT; tier=Intermediate; sql=src/test/sql-exercises/payment/02_intermediate.sql; test=Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_02_Test.
+// AI: Registry: section=PAYMENT; tier=Intermediate; sql=src/test/sql-exercises/payment/02_intermediate.sql; test=sakila.payment.SAKILA_PAYMENT_I_02_PersistenceIT.
 [[SAKILA_PAYMENT_I_02]]
 ==== SAKILA_PAYMENT_I_02: the customers who paid more than 180 in all
 
@@ -2699,7 +2699,7 @@ ORDER BY total DESC, c.customer_id
 
 // AI: Pick SAKILA_PAYMENT_I_03: Compare a payment with the rental's film rate through associations.
 // AI: Copied from EXERCISES.asciidoc:5679, anchor SAKILA_PAYMENT_I_03; retain the permanent ID when revising.
-// AI: Registry: section=PAYMENT; tier=Intermediate; sql=src/test/sql-exercises/payment/02_intermediate.sql; test=Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_03_Test.
+// AI: Registry: section=PAYMENT; tier=Intermediate; sql=src/test/sql-exercises/payment/02_intermediate.sql; test=sakila.payment.SAKILA_PAYMENT_I_03_PersistenceIT.
 [[SAKILA_PAYMENT_I_03]]
 ==== SAKILA_PAYMENT_I_03: how many payments were less than, equal to, or more than the film's rental rate
 
@@ -2736,7 +2736,7 @@ ORDER BY paid
 ....
 ====
 
-Answered by `Payment_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -2755,7 +2755,7 @@ The `rental` table, mapped by `Rental`.
 
 // AI: Pick SAKILA_RENTAL_B_01: IS NULL distinguishes an open rental.
 // AI: Copied from EXERCISES.asciidoc:5824, anchor SAKILA_RENTAL_B_01; retain the permanent ID when revising.
-// AI: Registry: section=RENTAL; tier=Basic; sql=src/test/sql-exercises/rental/01_basic.sql; test=Rental_Exercises_01_Basic_PersistenceIT.SAKILA_RENTAL_B_01_Test.
+// AI: Registry: section=RENTAL; tier=Basic; sql=src/test/sql-exercises/rental/01_basic.sql; test=sakila.rental.SAKILA_RENTAL_B_01_PersistenceIT.
 [[SAKILA_RENTAL_B_01]]
 ==== SAKILA_RENTAL_B_01: how many rentals are not returned yet
 
@@ -2788,7 +2788,7 @@ WHERE return_date IS NULL
 
 // AI: Pick SAKILA_RENTAL_I_02: Combine an open-rental predicate with grouping by rental day.
 // AI: Copied from EXERCISES.asciidoc:5961, anchor SAKILA_RENTAL_I_02; retain the permanent ID when revising.
-// AI: Registry: section=RENTAL; tier=Intermediate; sql=src/test/sql-exercises/rental/02_intermediate.sql; test=Rental_Exercises_02_Intermediate_PersistenceIT.SAKILA_RENTAL_I_02_Test.
+// AI: Registry: section=RENTAL; tier=Intermediate; sql=src/test/sql-exercises/rental/02_intermediate.sql; test=sakila.rental.SAKILA_RENTAL_I_02_PersistenceIT.
 [[SAKILA_RENTAL_I_02]]
 ==== SAKILA_RENTAL_I_02: on which days the rentals not returned yet were made
 
@@ -2836,7 +2836,7 @@ The `sales_by_film_category` view, mapped by `SalesByFilmCategory`.
 
 // AI: Pick SAKILA_SALES_BY_FILM_CATEGORY_B_02: A range filter over a reporting view's sales value.
 // AI: Copied from EXERCISES.asciidoc:6156, anchor SAKILA_SALES_BY_FILM_CATEGORY_B_02; retain the permanent ID when revising.
-// AI: Registry: section=SALES_BY_FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/sales_by_film_category/01_basic.sql; test=SalesByFilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_B_02_Test.
+// AI: Registry: section=SALES_BY_FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/sales_by_film_category/01_basic.sql; test=sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_B_02_PersistenceIT.
 [[SAKILA_SALES_BY_FILM_CATEGORY_B_02]]
 ==== SAKILA_SALES_BY_FILM_CATEGORY_B_02: the categories which sold between 4000 and 4500
 
@@ -2876,7 +2876,7 @@ ORDER BY category
 
 // AI: Pick SAKILA_SALES_BY_FILM_CATEGORY_I_03: Combine a reporting view and mapped film/category associations.
 // AI: Copied from EXERCISES.asciidoc:6272, anchor SAKILA_SALES_BY_FILM_CATEGORY_I_03; retain the permanent ID when revising.
-// AI: Registry: section=SALES_BY_FILM_CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/sales_by_film_category/02_intermediate.sql; test=SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_I_03_Test.
+// AI: Registry: section=SALES_BY_FILM_CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/sales_by_film_category/02_intermediate.sql; test=sakila.sales_by_film_category.SAKILA_SALES_BY_FILM_CATEGORY_I_03_PersistenceIT.
 [[SAKILA_SALES_BY_FILM_CATEGORY_I_03]]
 ==== SAKILA_SALES_BY_FILM_CATEGORY_I_03: the five categories which sold the most per film
 
@@ -2911,7 +2911,7 @@ LIMIT 5
 ....
 ====
 
-Answered by `SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -2956,7 +2956,7 @@ The `staff` table, mapped by `Staff`.
 
 // AI: Pick SAKILA_STAFF_B_01: Read staff while making the BLOB projection exception explicit.
 // AI: Copied from EXERCISES.asciidoc:6617, anchor SAKILA_STAFF_B_01; retain the permanent ID when revising.
-// AI: Registry: section=STAFF; tier=Basic; sql=src/test/sql-exercises/staff/01_basic.sql; test=Staff_Exercises_01_Basic_PersistenceIT.SAKILA_STAFF_B_01_Test.
+// AI: Registry: section=STAFF; tier=Basic; sql=src/test/sql-exercises/staff/01_basic.sql; test=sakila.staff.SAKILA_STAFF_B_01_PersistenceIT.
 [[SAKILA_STAFF_B_01]]
 ==== SAKILA_STAFF_B_01: every staff member, with their store
 
@@ -2990,7 +2990,7 @@ ORDER BY s.staff_id
 
 // AI: Pick SAKILA_STAFF_I_01: An outer join counts rentals and retains staff with none.
 // AI: Copied from EXERCISES.asciidoc:6673, anchor SAKILA_STAFF_I_01; retain the permanent ID when revising.
-// AI: Registry: section=STAFF; tier=Intermediate; sql=src/test/sql-exercises/staff/02_intermediate.sql; test=Staff_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_I_01_Test.
+// AI: Registry: section=STAFF; tier=Intermediate; sql=src/test/sql-exercises/staff/02_intermediate.sql; test=sakila.staff.SAKILA_STAFF_I_01_PersistenceIT.
 [[SAKILA_STAFF_I_01]]
 ==== SAKILA_STAFF_I_01: how many rentals each staff member handled
 
@@ -3021,7 +3021,7 @@ ORDER BY s.staff_id
 
 // AI: Pick SAKILA_STAFF_I_02: Distinguish the staff member's workplace from the store they manage.
 // AI: Copied from EXERCISES.asciidoc:6701, anchor SAKILA_STAFF_I_02; retain the permanent ID when revising.
-// AI: Registry: section=STAFF; tier=Intermediate; sql=src/test/sql-exercises/staff/02_intermediate.sql; test=Staff_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_I_02_Test.
+// AI: Registry: section=STAFF; tier=Intermediate; sql=src/test/sql-exercises/staff/02_intermediate.sql; test=sakila.staff.SAKILA_STAFF_I_02_PersistenceIT.
 [[SAKILA_STAFF_I_02]]
 ==== SAKILA_STAFF_I_02: the staff members who manage the store they work at
 
@@ -3067,7 +3067,7 @@ The `staff_list` view, mapped by `StaffList`.
 
 // AI: Pick SAKILA_STAFF_LIST_B_01: Read a mapped view as a result list.
 // AI: Copied from EXERCISES.asciidoc:6805, anchor SAKILA_STAFF_LIST_B_01; retain the permanent ID when revising.
-// AI: Registry: section=STAFF_LIST; tier=Basic; sql=src/test/sql-exercises/staff_list/01_basic.sql; test=StaffList_Exercises_01_Basic_PersistenceIT.SAKILA_STAFF_LIST_B_01_Test.
+// AI: Registry: section=STAFF_LIST; tier=Basic; sql=src/test/sql-exercises/staff_list/01_basic.sql; test=sakila.staff_list.SAKILA_STAFF_LIST_B_01_PersistenceIT.
 [[SAKILA_STAFF_LIST_B_01]]
 ==== SAKILA_STAFF_LIST_B_01: every row of the view
 
@@ -3094,7 +3094,7 @@ ORDER BY ID
 ....
 ====
 
-Answered by `StaffList_Exercises_01_Basic_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Intermediate
 
@@ -3103,7 +3103,7 @@ Answered by `StaffList_Exercises_01_Basic_PersistenceIT`.
 
 // AI: Pick SAKILA_STAFF_LIST_I_02: Navigate from a view's store key and compare home and work locations.
 // AI: Copied from EXERCISES.asciidoc:6858, anchor SAKILA_STAFF_LIST_I_02; retain the permanent ID when revising.
-// AI: Registry: section=STAFF_LIST; tier=Intermediate; sql=src/test/sql-exercises/staff_list/02_intermediate.sql; test=StaffList_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_LIST_I_02_Test.
+// AI: Registry: section=STAFF_LIST; tier=Intermediate; sql=src/test/sql-exercises/staff_list/02_intermediate.sql; test=sakila.staff_list.SAKILA_STAFF_LIST_I_02_PersistenceIT.
 [[SAKILA_STAFF_LIST_I_02]]
 ==== SAKILA_STAFF_LIST_I_02: whether each staff member lives in the city of their store
 
@@ -3138,7 +3138,7 @@ ORDER BY l.ID
 ....
 ====
 
-Answered by `StaffList_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -3146,7 +3146,7 @@ Answered by `StaffList_Exercises_02_Intermediate_PersistenceIT`.
 
 // AI: Pick SAKILA_STAFF_LIST_A_01: A correlated EXISTS follows rentals to the customer's country.
 // AI: Copied from EXERCISES.asciidoc:6896, anchor SAKILA_STAFF_LIST_A_01; retain the permanent ID when revising.
-// AI: Registry: section=STAFF_LIST; tier=Advanced; sql=src/test/sql-exercises/staff_list/03_advanced.sql; test=StaffList_Exercises_03_Advanced_PersistenceIT.SAKILA_STAFF_LIST_A_01_Test.
+// AI: Registry: section=STAFF_LIST; tier=Advanced; sql=src/test/sql-exercises/staff_list/03_advanced.sql; test=sakila.staff_list.SAKILA_STAFF_LIST_A_01_PersistenceIT.
 [[SAKILA_STAFF_LIST_A_01]]
 ==== SAKILA_STAFF_LIST_A_01: the staff members who served a customer living outside their own country
 
@@ -3192,7 +3192,7 @@ The `store` table, mapped by `Store`.
 
 // AI: Pick SAKILA_STORE_B_01: Introduce the store entity and its manager and address keys.
 // AI: Copied from EXERCISES.asciidoc:6937, anchor SAKILA_STORE_B_01; retain the permanent ID when revising.
-// AI: Registry: section=STORE; tier=Basic; sql=src/test/sql-exercises/store/01_basic.sql; test=Store_Exercises_01_Basic_PersistenceIT.SAKILA_STORE_B_01_Test.
+// AI: Registry: section=STORE; tier=Basic; sql=src/test/sql-exercises/store/01_basic.sql; test=sakila.store.SAKILA_STORE_B_01_PersistenceIT.
 [[SAKILA_STORE_B_01]]
 ==== SAKILA_STORE_B_01: every store, with its manager and address ids
 
@@ -3218,7 +3218,7 @@ ORDER BY store_id
 ....
 ====
 
-Answered by `Store_Exercises_01_Basic_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Intermediate
 
@@ -3226,7 +3226,7 @@ Answered by `Store_Exercises_01_Basic_PersistenceIT`.
 
 // AI: Pick SAKILA_STORE_I_01: Two association paths retrieve the manager and the store's city.
 // AI: Copied from EXERCISES.asciidoc:6966, anchor SAKILA_STORE_I_01; retain the permanent ID when revising.
-// AI: Registry: section=STORE; tier=Intermediate; sql=src/test/sql-exercises/store/02_intermediate.sql; test=Store_Exercises_02_Intermediate_PersistenceIT.SAKILA_STORE_I_01_Test.
+// AI: Registry: section=STORE; tier=Intermediate; sql=src/test/sql-exercises/store/02_intermediate.sql; test=sakila.store.SAKILA_STORE_I_01_PersistenceIT.
 [[SAKILA_STORE_I_01]]
 ==== SAKILA_STORE_I_01: every store, with its manager and city
 
@@ -3258,7 +3258,7 @@ ORDER BY st.store_id
 
 // AI: Pick SAKILA_STORE_I_02: Independent counts avoid multiplying three to-many joins.
 // AI: Copied from EXERCISES.asciidoc:6995, anchor SAKILA_STORE_I_02; retain the permanent ID when revising.
-// AI: Registry: section=STORE; tier=Intermediate; sql=src/test/sql-exercises/store/02_intermediate.sql; test=Store_Exercises_02_Intermediate_PersistenceIT.SAKILA_STORE_I_02_Test.
+// AI: Registry: section=STORE; tier=Intermediate; sql=src/test/sql-exercises/store/02_intermediate.sql; test=sakila.store.SAKILA_STORE_I_02_PersistenceIT.
 [[SAKILA_STORE_I_02]]
 ==== SAKILA_STORE_I_02: how many customers, copies and staff members each store has
 
@@ -3288,7 +3288,7 @@ ORDER BY st.store_id
 ....
 ====
 
-Answered by `Store_Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -3313,7 +3313,7 @@ Exercises on the schema as a whole, not on a single table.
 
 // AI: Pick SAKILA_SCHEMA_I_01: Follow the payment-rental-inventory-store path and aggregate by store.
 // AI: Copied from EXERCISES.asciidoc:7525, anchor SAKILA_SCHEMA_I_01; retain the permanent ID when revising.
-// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=__Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_01_Test.
+// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=sakila.schema.SAKILA_SCHEMA_I_01_PersistenceIT.
 [[SAKILA_SCHEMA_I_01]]
 ==== SAKILA_SCHEMA_I_01: how much each store took, through the copies it rented out
 
@@ -3348,7 +3348,7 @@ ORDER BY st.store_id
 
 // AI: Pick SAKILA_SCHEMA_I_03: A multi-hop association query with SUM, COUNT DISTINCT, and top-n.
 // AI: Copied from EXERCISES.asciidoc:7592, anchor SAKILA_SCHEMA_I_03; retain the permanent ID when revising.
-// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=__Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_03_Test.
+// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=sakila.schema.SAKILA_SCHEMA_I_03_PersistenceIT.
 [[SAKILA_SCHEMA_I_03]]
 ==== SAKILA_SCHEMA_I_03: the five countries whose customers paid the most
 
@@ -3386,7 +3386,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_SCHEMA_I_13: Group by customer and film together and apply HAVING and pagination.
 // AI: Copied from EXERCISES.asciidoc:7941, anchor SAKILA_SCHEMA_I_13; retain the permanent ID when revising.
-// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=__Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_13_Test.
+// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=sakila.schema.SAKILA_SCHEMA_I_13_PersistenceIT.
 [[SAKILA_SCHEMA_I_13]]
 ==== SAKILA_SCHEMA_I_13: the five customer and film pairs rented the most often
 
@@ -3424,7 +3424,7 @@ LIMIT 5
 ....
 ====
 
-Answered by `__Exercises_02_Intermediate_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
 === Advanced
 
@@ -3433,7 +3433,7 @@ Answered by `__Exercises_02_Intermediate_PersistenceIT`.
 
 // AI: Pick SAKILA_SCHEMA_A_02: Relational division across the rental model.
 // AI: Copied from EXERCISES.asciidoc:8050, anchor SAKILA_SCHEMA_A_02; retain the permanent ID when revising.
-// AI: Registry: section=SCHEMA; tier=Advanced; sql=src/test/sql-exercises/__/03_advanced.sql; test=__Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_02_Test.
+// AI: Registry: section=SCHEMA; tier=Advanced; sql=src/test/sql-exercises/__/03_advanced.sql; test=sakila.schema.SAKILA_SCHEMA_A_02_PersistenceIT.
 [[SAKILA_SCHEMA_A_02]]
 ==== SAKILA_SCHEMA_A_02: the customers who rented a film of every category
 
@@ -3473,7 +3473,7 @@ LIMIT 5
 
 // AI: Pick SAKILA_SCHEMA_A_09: A nested anti-existence condition over the full association graph.
 // AI: Copied from EXERCISES.asciidoc:8277, anchor SAKILA_SCHEMA_A_09; retain the permanent ID when revising.
-// AI: Registry: section=SCHEMA; tier=Advanced; sql=src/test/sql-exercises/__/03_advanced.sql; test=__Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_09_Test.
+// AI: Registry: section=SCHEMA; tier=Advanced; sql=src/test/sql-exercises/__/03_advanced.sql; test=sakila.schema.SAKILA_SCHEMA_A_09_PersistenceIT.
 [[SAKILA_SCHEMA_A_09]]
 ==== SAKILA_SCHEMA_A_09: the countries none of whose customers rented a Music film
 
@@ -3524,5 +3524,5 @@ ORDER BY co.country
 ....
 ====
 
-Answered by `__Exercises_03_Advanced_PersistenceIT`.
+Answered by a `<ID>_PersistenceIT` per exercise.
 
