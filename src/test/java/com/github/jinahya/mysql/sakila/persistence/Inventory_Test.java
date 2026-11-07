@@ -22,6 +22,13 @@ package com.github.jinahya.mysql.sakila.persistence;
 
 import nl.jqno.equalsverifier.Warning;
 import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 
 /**
  * A class for testing the {@link Inventory} entity class.
@@ -33,6 +40,38 @@ class Inventory_Test
 
     Inventory_Test() {
         super(Inventory.class, Integer.class);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    /**
+     * Tests {@link Inventory#of(Film, Store)}.
+     */
+    @DisplayName("of(film, store)")
+    @Nested
+    class OfTest {
+
+        /**
+         * Verifies that {@link Inventory#of(Film, Store) of} returns an instance whose
+         * {@value Inventory#ATTRIBUTE_NAME_FILM} and {@value Inventory#ATTRIBUTE_NAME_STORE} are
+         * the very instances it was given, and whose {@value Inventory#ATTRIBUTE_NAME_FILM_ID} and
+         * {@value Inventory#ATTRIBUTE_NAME_STORE_ID} are their identifiers.
+         */
+        @Test
+        void __() {
+            final var film = mock(Film.class);
+            doReturn(1).when(film).getFilmId();
+            final var store = mock(Store.class);
+            doReturn(2).when(store).getStoreId();
+            final var instance = Inventory.of(film, store);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getFilm()).isSameAs(film);
+                assertThat(v.getStore()).isSameAs(store);
+                assertThat(v.getFilmId()).isEqualTo(1);
+                assertThat(v.getStoreId()).isEqualTo(2);
+                assertThat(v.getInventoryId()).isNull();
+            });
+        }
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode

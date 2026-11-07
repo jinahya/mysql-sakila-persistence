@@ -36,6 +36,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * An entity class for mapping the {@value Inventory#TABLE_NAME} table.
@@ -149,6 +150,27 @@ public class Inventory {
      */
     public static final String ATTRIBUTE_NAME_RENTALS = "rentals";
 
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
+
+    /**
+     * Returns a new instance of the specified film in the specified store.
+     * <p>
+     * This is the only way to set the {@value #ATTRIBUTE_NAME_FILM} and the
+     * {@value #ATTRIBUTE_NAME_STORE} from outside the package. An inventory is a copy of a film in
+     * a store, and neither changes once it is made; for another film, or another store, persist a
+     * new instance.
+     *
+     * @param film  a value for the {@value #ATTRIBUTE_NAME_FILM} attribute.
+     * @param store a value for the {@value #ATTRIBUTE_NAME_STORE} attribute.
+     * @return a new instance of {@code film} and {@code store}.
+     */
+    public static Inventory of(final Film film, final Store store) {
+        final var instance = new Inventory();
+        instance.setFilm(film);
+        instance.setStore(store);
+        return instance;
+    }
+
     // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -245,9 +267,11 @@ public class Inventory {
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
      */
-    public void setFilm(final Film film) {
+    void setFilm(final Film film) {
         this.film = film;
-        this.filmId = film == null ? null : film.getFilmId();
+        this.filmId = Optional.ofNullable(film)
+                .map(Film::getFilmId)
+                .orElse(null);
     }
 
     // ------------------------------------------------------------------------------------- storeId
@@ -280,9 +304,11 @@ public class Inventory {
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
-    public void setStore(final Store store) {
+    void setStore(final Store store) {
         this.store = store;
-        this.storeId = store == null ? null : store.getStoreId();
+        this.storeId = Optional.ofNullable(store)
+                .map(Store::getStoreId)
+                .orElse(null);
     }
 
     // ---------------------------------------------------------------------------------- lastUpdate
@@ -298,7 +324,18 @@ public class Inventory {
     }
 
     // ------------------------------------------------------------------------------------- rentals
-    List<Rental> getRentals() {
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_RENTALS} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link Rental#getInventory()}, mapped by
+     * {@value Rental#ATTRIBUTE_NAME_INVENTORY}, so a change to the list does not reach the
+     * database; a rental is linked to an inventory through the rental.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_RENTALS} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<Rental> getRentals() {
         return rentals;
     }
 
