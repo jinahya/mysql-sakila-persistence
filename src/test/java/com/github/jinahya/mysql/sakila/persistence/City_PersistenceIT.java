@@ -44,15 +44,18 @@ class City_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The name is there, and the country, a lazy association, resolves.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final City instance) {
-        assertThat(instance.getCity()).as("name of %s", instance).isNotBlank();
-        assertThat(instance.getCountry().getCountry()).as("name of the country of %s", instance)
+                                                  final City entityInstance) {
+        assertThat(entityInstance.getCity())
+                .as("name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getCountry().getCountry())
+                .as("name of the country of %s", entityInstance)
                 .isNotBlank();
     }
 }

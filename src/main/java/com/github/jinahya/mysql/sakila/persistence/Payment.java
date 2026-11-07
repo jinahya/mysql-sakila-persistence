@@ -242,8 +242,7 @@ public class Payment {
      * @return a new instance of {@code staff} for {@code customer}, of {@code amount}.
      * @see #of(Staff, Rental, BigDecimal)
      */
-    public static Payment of(final Staff staff, final Customer customer,
-                             final BigDecimal amount) {
+    public static Payment of(final Staff staff, final Customer customer, final BigDecimal amount) {
         final var instance = new Payment();
         instance.setCustomer(customer);
         instance.setStaff(staff);
@@ -333,8 +332,8 @@ public class Payment {
      * value.
      *
      * @param customer new value for {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
-     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} sets the
-     *         customer, as the one of the rental, from outside the package, and
+     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} sets
+     *         the customer, as the one of the rental, from outside the package, and
      *         {@link #of(Staff, Customer, BigDecimal)} sets it as given.
      */
     void setCustomer(final Customer customer) {
@@ -379,9 +378,9 @@ public class Payment {
      * value.
      *
      * @param rental new value for {@value #ATTRIBUTE_NAME_RENTAL} attribute.
-     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} sets the
-     *         rental from outside the package. The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it
-     *         is; the customer of the rental should be the customer of this payment.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} sets
+     *         the rental from outside the package. The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as
+     *         it is; the customer of the rental should be the customer of this payment.
      */
     void setRental(final Rental rental) {
         this.rental = rental;

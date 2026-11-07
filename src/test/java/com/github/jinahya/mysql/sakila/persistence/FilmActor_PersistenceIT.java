@@ -44,19 +44,19 @@ class FilmActor_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The two components of the identifier, which the provider derives, are the
      *         identifiers of the actor and of the film, lazy associations which resolve.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final FilmActor instance) {
-        assertThat(instance.getId().getActorId())
-                .as("actor id of the id of %s", instance)
-                .isEqualTo(instance.getActor().getActorId());
-        assertThat(instance.getId().getFilmId())
-                .as("film id of the id of %s", instance)
-                .isEqualTo(instance.getFilm().getFilmId());
+                                                  final FilmActor entityInstance) {
+        assertThat(entityInstance.getId().getActorId())
+                .as("actor id of the id of %s", entityInstance)
+                .isEqualTo(entityInstance.getActor().getActorId());
+        assertThat(entityInstance.getId().getFilmId())
+                .as("film id of the id of %s", entityInstance)
+                .isEqualTo(entityInstance.getFilm().getFilmId());
     }
 }

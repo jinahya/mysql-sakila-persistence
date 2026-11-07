@@ -57,34 +57,6 @@ WHERE TRIM(address) = ''
    OR CHAR_LENGTH(address) <> CHAR_LENGTH(TRIM(address))
 ;
 
--- the distinct SRIDs, read from the first 4 bytes of the stored value (little-endian), which precede its WKB.
--- 0: every location is in SRID 0.
-SELECT CONV(HEX(REVERSE(SUBSTRING(location, 1, 4))), 16, 10) AS srid, COUNT(*) AS addresses
-FROM address
-GROUP BY 1
-ORDER BY 1 ASC
-;
-
--- the distinct byte orders of the WKB, its first byte; 00 is big-endian, 01 little-endian.
--- 01: every WKB is little-endian.
-SELECT HEX(SUBSTRING(location, 5, 1)) AS byte_order, COUNT(*) AS addresses
-FROM address
-GROUP BY 1
-ORDER BY 1 ASC
-;
-
--- the distinct shape types of the WKB, the 4 bytes after its byte order, read in that order.
--- 1: every WKB is a Point.
-SELECT CASE HEX(SUBSTRING(location, 5, 1))
-           WHEN '01' THEN CONV(HEX(REVERSE(SUBSTRING(location, 6, 4))), 16, 10)
-           ELSE CONV(HEX(SUBSTRING(location, 6, 4)), 16, 10)
-           END  AS shape_type,
-       COUNT(*) AS addresses
-FROM address
-GROUP BY 1
-ORDER BY 1 ASC
-;
-
 
 -- ------------------------------------------------------------------------------------------------------------ address2
 -- address2 is nullable; how many rows have none, how many have an empty one, and how many have a value.
@@ -184,6 +156,34 @@ WHERE NOT REGEXP_LIKE(phone, '^[0-9]+$')
 SELECT ST_GeometryType(location) AS type, ST_SRID(location) AS srid, COUNT(*) AS addresses
 FROM address
 GROUP BY 1, 2
+;
+
+-- the distinct SRIDs, read from the first 4 bytes of the stored value (little-endian), which precede its WKB.
+-- 0: every location is in SRID 0.
+SELECT CONV(HEX(REVERSE(SUBSTRING(location, 1, 4))), 16, 10) AS srid, COUNT(*) AS addresses
+FROM address
+GROUP BY 1
+ORDER BY 1 ASC
+;
+
+-- the distinct byte orders of the WKB, its first byte; 00 is big-endian, 01 little-endian.
+-- 01: every WKB is little-endian.
+SELECT HEX(SUBSTRING(location, 5, 1)) AS byte_order, COUNT(*) AS addresses
+FROM address
+GROUP BY 1
+ORDER BY 1 ASC
+;
+
+-- the distinct shape types of the WKB, the 4 bytes after its byte order, read in that order.
+-- 1: every WKB is a Point.
+SELECT CASE HEX(SUBSTRING(location, 5, 1))
+           WHEN '01' THEN CONV(HEX(REVERSE(SUBSTRING(location, 6, 4))), 16, 10)
+           ELSE CONV(HEX(SUBSTRING(location, 6, 4)), 16, 10)
+           END  AS shape_type,
+       COUNT(*) AS addresses
+FROM address
+GROUP BY 1
+ORDER BY 1 ASC
 ;
 
 -- the SRID the column declares; a geometry in any other SRID is rejected.

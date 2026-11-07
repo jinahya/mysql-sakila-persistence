@@ -59,15 +59,19 @@ class CustomerList_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The name is there, and the notes are what the view makes of the activeness:
      *         {@code "active"}, or empty.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final CustomerList instance) {
-        assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
-        assertThat(instance.getNotes()).as("notes of %s", instance).isIn("active", "");
+                                                  final CustomerList entityInstance) {
+        assertThat(entityInstance.getName())
+                .as("name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getNotes())
+                .as("notes of %s", entityInstance)
+                .isIn("active", "");
     }
 }

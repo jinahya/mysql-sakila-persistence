@@ -248,7 +248,7 @@ See link:{refman}/char.html[The CHAR and VARCHAR Types].
 
 See link:{refman}/blob.html[The BLOB and TEXT Types].
 
-`text` is a `String`, and `blob` a `byte[]`; `staff.picture` is `@Lob`, and fetched lazily.
+`text` is a `String`, and `blob` a `byte[]`; `staff.picture` is `@Lob`, and fetched eagerly; a `blob` holds 65,535 bytes at most.
 
 [cols="2,2,1,6",options="header"]
 |===

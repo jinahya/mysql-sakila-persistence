@@ -44,21 +44,31 @@ class Customer_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote Both names, the activeness, and the creation date are there, and the store
      *         and the address, lazy associations, resolve.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Customer instance) {
-        assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
-        assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
-        assertThat(instance.getActive()).as("activeness of %s", instance).isNotNull();
-        assertThat(instance.getCreateDate()).as("create date of %s", instance).isNotNull();
-        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s",
-                                                           instance).isNotNull();
-        assertThat(instance.getAddress().getLastUpdate()).as("last update of the address of %s",
-                                                             instance).isNotNull();
+                                                  final Customer entityInstance) {
+        assertThat(entityInstance.getFirstName())
+                .as("first name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getLastName())
+                .as("last name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getActive())
+                .as("activeness of %s", entityInstance)
+                .isNotNull();
+        assertThat(entityInstance.getCreateDate())
+                .as("create date of %s", entityInstance)
+                .isNotNull();
+        assertThat(entityInstance.getStore().getLastUpdate())
+                .as("last update of the store of %s", entityInstance)
+                .isNotNull();
+        assertThat(entityInstance.getAddress().getLastUpdate())
+                .as("last update of the address of %s", entityInstance)
+                .isNotNull();
     }
 }

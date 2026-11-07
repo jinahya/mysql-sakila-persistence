@@ -50,7 +50,7 @@ class Address_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote Every installed location is a point of {@code SRID}
      *         {@value Address#COLUMN_SRID_LOCATION}, in the internal format
      *         {@link Address#newLocation(int, double, double)} writes, which is decoded with
@@ -63,26 +63,26 @@ class Address_PersistenceIT
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Address instance) {
+                                                  final Address entityInstance) {
         {
-            final var location = instance.getLocation();
+            final var location = entityInstance.getLocation();
             assertThat(location)
-                    .as("location of %s", instance)
+                    .as("location of %s", entityInstance)
                     .hasSize(Address.LOCATION_POINT_BYTES);
-            final var srid = instance.getLocationAs(
+            final var srid = entityInstance.getLocationAs(
                     v -> ByteBuffer.wrap(v).order(ByteOrder.LITTLE_ENDIAN).getInt());
             assertThat(srid)
-                    .as("SRID of the location of %s", instance)
+                    .as("SRID of the location of %s", entityInstance)
                     .isEqualTo(Address.COLUMN_SRID_LOCATION);
-            final var geometry = instance.getLocationAs(
+            final var geometry = entityInstance.getLocationAs(
                     v -> Wkb.fromWkb(org.geolatte.geom.ByteBuffer.from(v), Wkb.Dialect.MYSQL_WKB)
             );
             log.debug("geometry: {}", geometry);
             assertThat(geometry.getGeometryType())
-                    .as("geometry type of the location of %s", instance)
+                    .as("geometry type of the location of %s", entityInstance)
                     .isEqualTo(GeometryType.POINT);
             assertThat(geometry)
-                    .as("location of %s", instance)
+                    .as("location of %s", entityInstance)
                     .isInstanceOf(Point.class)
                     .satisfies(g -> assertThat(g.isEmpty()).as("empty?").isFalse());
         }

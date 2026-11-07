@@ -44,14 +44,18 @@ class Category_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The name is there, and so is the {@code last_update} the database fills.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Category instance) {
-        assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
-        assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
+                                                  final Category entityInstance) {
+        assertThat(entityInstance.getName())
+                .as("name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getLastUpdate())
+                .as("last update of %s", entityInstance)
+                .isNotNull();
     }
 }

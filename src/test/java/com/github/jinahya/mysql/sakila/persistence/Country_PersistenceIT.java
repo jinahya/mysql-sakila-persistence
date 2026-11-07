@@ -44,14 +44,18 @@ class Country_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The name is there, and so is the {@code last_update} the database fills.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Country instance) {
-        assertThat(instance.getCountry()).as("name of %s", instance).isNotBlank();
-        assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
+                                                  final Country entityInstance) {
+        assertThat(entityInstance.getCountry())
+                .as("name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getLastUpdate())
+                .as("last update of %s", entityInstance)
+                .isNotNull();
     }
 }

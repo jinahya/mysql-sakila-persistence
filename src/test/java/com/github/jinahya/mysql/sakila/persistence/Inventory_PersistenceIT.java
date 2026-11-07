@@ -44,16 +44,18 @@ class Inventory_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The film and the store, lazy associations, resolve.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Inventory instance) {
-        assertThat(instance.getFilm().getTitle()).as("title of the film of %s", instance)
+                                                  final Inventory entityInstance) {
+        assertThat(entityInstance.getFilm().getTitle())
+                .as("title of the film of %s", entityInstance)
                 .isNotBlank();
-        assertThat(instance.getStore().getLastUpdate()).as("last update of the store of %s",
-                                                           instance).isNotNull();
+        assertThat(entityInstance.getStore().getLastUpdate())
+                .as("last update of the store of %s", entityInstance)
+                .isNotNull();
     }
 }

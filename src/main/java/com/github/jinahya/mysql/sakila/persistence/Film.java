@@ -20,12 +20,12 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumeratedValue;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -39,6 +39,7 @@ import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -89,7 +90,9 @@ import java.util.stream.Collectors;
  * <p>
  * Every column with a {@code DEFAULT} is written with whatever the instance holds, {@code null}
  * included; the defaults apply only to an {@code INSERT} which leaves the column out, which a
- * provider never does.
+ * provider never does. A new instance starts with {@link Rating#G} as its
+ * {@value #ATTRIBUTE_NAME_RATING}, as such an {@code INSERT} would; an instance the provider loads
+ * holds the column's value, {@code null} included.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film.html">The film
@@ -433,12 +436,12 @@ public class Film {
         /**
          * A constant for the {@code G} value.
          */
-        G,
+        G("G"),
 
         /**
          * A constant for the {@code PG} value.
          */
-        PG,
+        PG("PG"),
 
         /**
          * A constant for the {@code PG-13} value. Note that the column value is not this constant's
@@ -449,7 +452,7 @@ public class Film {
         /**
          * A constant for the {@code R} value.
          */
-        R,
+        R("R"),
 
         /**
          * A constant for the {@code NC-17} value. Note that the column value is not this constant's
@@ -478,11 +481,7 @@ public class Film {
 
         // -----------------------------------------------------------------------------------------
         Rating(final String columnValue) {
-            this.columnValue = columnValue;
-        }
-
-        Rating() {
-            this(null);
+            this.columnValue = Objects.requireNonNull(columnValue, "columnValue is null");
         }
 
         // -----------------------------------------------------------------------------------------
@@ -491,60 +490,16 @@ public class Film {
          * Returns the value of the {@value Film#COLUMN_NAME_RATING} column which this constant
          * represents.
          *
-         * @return the column value of this constant; the constant's {@link Enum#name() name} unless
-         *         it declares its own.
+         * @return the column value of this constant.
          */
         public String columnValue() {
-            if (columnValue != null) {
-                return columnValue;
-            }
-            return name();
+            return columnValue;
         }
 
         // -----------------------------------------------------------------------------------------
+        @EnumeratedValue
+        @NotBlank
         private final String columnValue;
-    }
-
-    /**
-     * A converter between {@link Rating} and the {@value #COLUMN_NAME_RATING} column, by
-     * {@link Rating#columnValue()} rather than {@link Enum#name()}.
-     *
-     * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
-     */
-    @Converter(autoApply = false)
-    public static class RatingConverter
-            implements AttributeConverter<Rating, String> {
-
-        /**
-         * Creates a new instance.
-         */
-        public RatingConverter() {
-            super();
-        }
-
-        @Override
-        public String convertToDatabaseColumn(final Rating attribute) {
-            if (attribute == null) {
-                return null;
-            }
-            return attribute.columnValue();
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @param dbData {@inheritDoc}
-         * @return {@inheritDoc}
-         * @throws IllegalArgumentException if {@code dbData} is the column value of no
-         *                                  {@link Rating} constant.
-         */
-        @Override
-        public Rating convertToEntityAttribute(final String dbData) {
-            if (dbData == null) {
-                return null;
-            }
-            return Rating.valueOfColumnValue(dbData);
-        }
     }
 
     /**
@@ -1119,11 +1074,15 @@ public class Film {
     private BigDecimal replacementCost;
 
     // ---------------------------------------------------------------------------------------------
-    @Convert(converter = RatingConverter.class)
+    // the specification infers STRING from Rating's @EnumeratedValue String field, without @Enumerated;
+    // Hibernate ORM 7 does not, and takes it as ORDINAL
+    // https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2#a14719
+    // https://hibernate.atlassian.net/browse/HHH-20410
+    @Enumerated(EnumType.STRING)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RATING, nullable = true, insertable = true, updatable = true,
             length = COLUMN_LENGTH_RATING)
-    private Rating rating;
+    private Rating rating = Rating.G;
 
     // ---------------------------------------------------------------------------------------------
     @Size(max = SIZE_MAX_SPECIAL_FEATURES)

@@ -59,18 +59,22 @@ class FilmText_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The title is there, and the film, a lazy association, resolves to the one
      *         of the same {@code filmId}, with the same title.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final FilmText instance) {
-        assertThat(instance.getTitle()).as("title of %s", instance).isNotBlank();
-        assertThat(instance.getFilm().getFilmId()).as("film id of the film of %s", instance)
-                .isEqualTo(instance.getFilmId());
-        assertThat(instance.getFilm().getTitle()).as("title of the film of %s", instance)
-                .isEqualTo(instance.getTitle());
+                                                  final FilmText entityInstance) {
+        assertThat(entityInstance.getTitle())
+                .as("title of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getFilm().getFilmId())
+                .as("film id of the film of %s", entityInstance)
+                .isEqualTo(entityInstance.getFilmId());
+        assertThat(entityInstance.getFilm().getTitle())
+                .as("title of the film of %s", entityInstance)
+                .isEqualTo(entityInstance.getTitle());
     }
 }

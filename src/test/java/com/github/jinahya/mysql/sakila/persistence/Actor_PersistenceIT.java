@@ -44,16 +44,22 @@ class Actor_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote Both names are there, and so is the {@code last_update} the database
      *         fills.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Actor instance) {
-        assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
-        assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
-        assertThat(instance.getLastUpdate()).as("last update of %s", instance).isNotNull();
+                                                  final Actor entityInstance) {
+        assertThat(entityInstance.getFirstName())
+                .as("first name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getLastName())
+                .as("last name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getLastUpdate())
+                .as("last update of %s", entityInstance)
+                .isNotNull();
     }
 }

@@ -38,7 +38,6 @@
     <class>com.github.jinahya.mysql.sakila.persistence.Customer</class>
     <class>com.github.jinahya.mysql.sakila.persistence.CustomerList</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Film</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.Film$RatingConverter</class>
     <class>com.github.jinahya.mysql.sakila.persistence.FilmActor</class>
     <class>com.github.jinahya.mysql.sakila.persistence.FilmActorId</class>
     <class>com.github.jinahya.mysql.sakila.persistence.FilmCategory</class>
@@ -99,7 +98,6 @@
     <class>com.github.jinahya.mysql.sakila.persistence.Customer</class>
     <class>com.github.jinahya.mysql.sakila.persistence.CustomerList</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Film</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.Film$RatingConverter</class>
     <class>com.github.jinahya.mysql.sakila.persistence.FilmActor</class>
     <class>com.github.jinahya.mysql.sakila.persistence.FilmActorId</class>
     <class>com.github.jinahya.mysql.sakila.persistence.FilmCategory</class>

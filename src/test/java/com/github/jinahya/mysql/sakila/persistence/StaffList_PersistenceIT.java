@@ -59,13 +59,15 @@ class StaffList_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The name is there.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final StaffList instance) {
-        assertThat(instance.getName()).as("name of %s", instance).isNotBlank();
+                                                  final StaffList entityInstance) {
+        assertThat(entityInstance.getName())
+                .as("name of %s", entityInstance)
+                .isNotBlank();
     }
 }

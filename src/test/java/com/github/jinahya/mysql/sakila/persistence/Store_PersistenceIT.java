@@ -59,18 +59,19 @@ class Store_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The manager, a lazy association, works at the store, and the address,
      *         another, resolves.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Store instance) {
-        assertThat(instance.getManagerStaff().getStore().getStoreId())
-                .as("store id of the manager of %s", instance)
-                .isEqualTo(instance.getStoreId());
-        assertThat(instance.getAddress().getLastUpdate()).as("last update of the address of %s",
-                                                             instance).isNotNull();
+                                                  final Store entityInstance) {
+        assertThat(entityInstance.getManagerStaff().getStore().getStoreId())
+                .as("store id of the manager of %s", entityInstance)
+                .isEqualTo(entityInstance.getStoreId());
+        assertThat(entityInstance.getAddress().getLastUpdate())
+                .as("last update of the address of %s", entityInstance)
+                .isNotNull();
     }
 }

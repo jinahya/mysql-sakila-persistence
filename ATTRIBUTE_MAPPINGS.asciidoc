@@ -252,8 +252,9 @@ and `category_id` by the association `category`; both are `@Id`s of `FilmCategor
 [[large-objects]]
 == Large objects
 
-`staff.picture`, a `blob`, is the one `@Lob`: `@Lob @Basic(fetch = LAZY) byte[] picture` in `Staff`. A `text`
-column is a plain `String`, which Connector/J reads and writes whole.
+`staff.picture`, a `blob`, is the one `@Lob`: `@Lob @Basic(fetch = EAGER) byte[] picture` in `Staff`; a `blob`
+holds 65,535 bytes at most, and `LAZY` on a basic attribute is a hint neither provider follows without bytecode
+enhancement or weaving. A `text` column is a plain `String`, which Connector/J reads and writes whole.
 
 [[spatial]]
 == Spatial

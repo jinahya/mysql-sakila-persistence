@@ -44,22 +44,25 @@ class Rental_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The return date, when there is one, is not before the rental date, and the
      *         inventory, the customer, and the staff member, lazy associations, resolve.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Rental instance) {
-        assertThat(instance.isReturnDateNotBeforeRentalDate()).as("return date of %s", instance)
+                                                  final Rental entityInstance) {
+        assertThat(entityInstance.isReturnDateNotBeforeRentalDate())
+                .as("return date of %s", entityInstance)
                 .isTrue();
-        assertThat(instance.getInventory().getLastUpdate()).as("last update of the inventory of %s",
-                                                               instance)
+        assertThat(entityInstance.getInventory().getLastUpdate())
+                .as("last update of the inventory of %s", entityInstance)
                 .isNotNull();
-        assertThat(instance.getCustomer().getLastName()).as("last name of the customer of %s",
-                                                            instance).isNotBlank();
-        assertThat(instance.getStaff().getUsername()).as("username of the staff of %s", instance)
+        assertThat(entityInstance.getCustomer().getLastName())
+                .as("last name of the customer of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getStaff().getUsername())
+                .as("username of the staff of %s", entityInstance)
                 .isNotBlank();
     }
 }

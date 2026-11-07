@@ -74,21 +74,21 @@ class Film_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote Reading the instance at all already proves that
-     *         {@link Film.RatingConverter} knows the installed rating; this also checks that the
+     *         {@link Film.Rating} knows the installed rating; this also checks that the
      *         installed special features are members {@link Film.SpecialFeature} knows, and that
      *         the language, a lazy association, resolves.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Film instance) {
-        assertThatCode(() -> Film.SpecialFeature.parse(instance.getSpecialFeatures()))
-                .as("special features of %s", instance)
+                                                  final Film entityInstance) {
+        assertThatCode(() -> Film.SpecialFeature.parse(entityInstance.getSpecialFeatures()))
+                .as("special features of %s", entityInstance)
                 .doesNotThrowAnyException();
-        assertThat(instance.getLanguage().getName())
-                .as("name of the language of %s", instance)
+        assertThat(entityInstance.getLanguage().getName())
+                .as("name of the language of %s", entityInstance)
                 .isNotBlank();
     }
 

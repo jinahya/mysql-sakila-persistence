@@ -59,14 +59,18 @@ class ActorInfo_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote Both names are there.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final ActorInfo instance) {
-        assertThat(instance.getFirstName()).as("first name of %s", instance).isNotBlank();
-        assertThat(instance.getLastName()).as("last name of %s", instance).isNotBlank();
+                                                  final ActorInfo entityInstance) {
+        assertThat(entityInstance.getFirstName())
+                .as("first name of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getLastName())
+                .as("last name of %s", entityInstance)
+                .isNotBlank();
     }
 }

@@ -60,14 +60,18 @@ class SalesByFilmCategory_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The category is there, and its total is not negative.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final SalesByFilmCategory instance) {
-        assertThat(instance.getCategory()).as("category of %s", instance).isNotBlank();
-        assertThat(instance.getTotalSales()).as("total sales of %s", instance).isNotNegative();
+                                                  final SalesByFilmCategory entityInstance) {
+        assertThat(entityInstance.getCategory())
+                .as("category of %s", entityInstance)
+                .isNotBlank();
+        assertThat(entityInstance.getTotalSales())
+                .as("total sales of %s", entityInstance)
+                .isNotNegative();
     }
 }

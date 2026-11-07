@@ -44,22 +44,25 @@ class Payment_PersistenceIT
     /**
      * {@inheritDoc}
      *
-     * @param instance {@inheritDoc}
+     * @param entityInstance {@inheritDoc}
      * @implNote The amount is not negative, and the customer and the staff member, lazy
      *         associations, resolve; the rental, when there is one, is of the same customer.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
                                                   final EntityManager entityManager,
-                                                  final Payment instance) {
-        assertThat(instance.getAmount()).as("amount of %s", instance).isNotNegative();
-        assertThat(instance.getStaff().getUsername()).as("username of the staff of %s", instance)
+                                                  final Payment entityInstance) {
+        assertThat(entityInstance.getAmount())
+                .as("amount of %s", entityInstance)
+                .isNotNegative();
+        assertThat(entityInstance.getStaff().getUsername())
+                .as("username of the staff of %s", entityInstance)
                 .isNotBlank();
-        final var customerId = instance.getCustomer().getCustomerId();
-        final var rental = instance.getRental();
+        final var customerId = entityInstance.getCustomer().getCustomerId();
+        final var rental = entityInstance.getRental();
         if (rental != null) {
             assertThat(rental.getCustomer().getCustomerId())
-                    .as("customer id of the rental of %s", instance)
+                    .as("customer id of the rental of %s", entityInstance)
                     .isEqualTo(customerId);
         }
     }

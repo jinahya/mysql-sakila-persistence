@@ -43,7 +43,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class Film_Static_Test {
 
     /**
-     * Tests {@link Film.Rating} and {@link Film.RatingConverter}.
+     * Tests {@link Film.Rating}.
      */
     @Nested
     class Rating_Test {
@@ -68,18 +68,6 @@ class Film_Static_Test {
         void valueOfColumnValue_Throws_Unknown() {
             assertThatThrownBy(() -> Film.Rating.valueOfColumnValue("PG_13"))
                     .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @DisplayName("the converter round-trips every constant, and null")
-        @EnumSource(Film.Rating.class)
-        @ParameterizedTest
-        void converter_RoundTrips_(final Film.Rating rating) {
-            final var converter = new Film.RatingConverter();
-            assertThat(
-                    converter.convertToEntityAttribute(converter.convertToDatabaseColumn(rating)))
-                    .isSameAs(rating);
-            assertThat(converter.convertToDatabaseColumn(null)).isNull();
-            assertThat(converter.convertToEntityAttribute(null)).isNull();
         }
     }
 
