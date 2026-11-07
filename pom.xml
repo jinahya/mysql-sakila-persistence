@@ -112,6 +112,9 @@
     <!-- https://dev.mysql.com/downloads/connector/j/ -->
     <!-- https://central.sonatype.com/artifact/com.mysql/mysql-connector-j/versions -->
     <version.com.mysql>26.10.0</version.com.mysql>
+    <!-- https://central.sonatype.com/artifact/ch.qos.logback/logback-classic/versions -->
+    <!-- https://central.sonatype.com/artifact/ch.qos.logback/logback-parent -->
+    <version.ch.qos.logback>1.6.6</version.ch.qos.logback>
     <!-- https://central.sonatype.com/artifact/com.h2database/h2/versions -->
     <version.com.h2database>2.5.252</version.com.h2database>
     <!-- https://jakarta.ee/specifications/platform/11/ -->
@@ -207,6 +210,11 @@
         <version>${version.org.locationtech.jts}</version>
       </dependency>
 
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${version.ch.qos.logback}</version>
+      </dependency>
       <dependency><!-- https://central.sonatype.com/artifact/com.fasterxml.jackson/jackson-bom/versions -->
         <groupId>com.fasterxml.jackson</groupId>
         <artifactId>jackson-bom</artifactId>
@@ -295,6 +303,11 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
@@ -716,8 +729,8 @@
         The randomizers and persisters are compiled with the tests, which use them, and packaged here as a second jar,
         classified test-companion, which a consumer takes at <scope>test</scope>. A classified jar shares this pom, in
         which the libraries they need, podam and jinahya-persistence-test-utils, are test-scoped, so it brings none of
-        them; the consumer declares its own. The includes are what keep the tests and persistence.xml out
-        of it.
+        them; the consumer declares its own. The includes are what keep the tests, persistence.xml and logback-test.xml
+        out of it.
       -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
