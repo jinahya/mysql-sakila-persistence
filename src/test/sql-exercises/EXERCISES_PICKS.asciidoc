@@ -1,0 +1,3528 @@
+= Exercises picks
+:toc: left
+:toclevels: 3
+
+// AI: Editorial review dated 2026-11-08. Source: sibling EXERCISES.asciidoc and EXERCISES.yaml.
+// AI: Reviewed every exercise in this module against Jakarta Persistence Applied, master src/main/asciidoc/00_book.asciidoc.
+// AI: This is a candidate shortlist, not a change to the official PROJECTS_EXERCISES.asciidoc picks or the manuscript.
+// AI: Preserve source scope order, level classifications, permanent IDs, statements, SQL, JPQL, and existing answer blocks.
+// AI: At most three candidates per original scope and level; fewer or zero is intentional. Do not fill slots mechanically.
+// AI: Prefer mapped attributes, identifiers, enum/converter behavior, associations, joins, aggregates, subqueries, fetching, and paging.
+// AI: Omit contrived name/string puzzles, redundant integrity audits, arbitrary rankings, and unrelated SQL analytics.
+// AI: Native-only candidates are explicit chapter-specific exceptions, not permission to replace portable solutions elsewhere.
+// AI: Agent handoff: read each rationale and TODO, resolve the registry sql/test paths, inspect the mapped types and actual tests,
+// AI: reconcile stale solutions, and run the relevant database/provider tests before promoting any candidate to the book.
+// AI: Existing output blocks below are archival copies from the source, not fresh test results or verified publication output.
+// AI: For manuscript output, rerun the query, retain // AI: provenance, and use the current mappings and provider policy.
+// AI: Source SHA-256 at review: 0cb8e96d0e61d4908fd4e9ddfdc536542690eae27a534bef9642bbce92c694f2.
+
+Selected exercises for a persistence-focused teaching sequence.
+The original scope and difficulty headings are retained; an empty level intentionally has no suitable pick.
+Statements and answers are copied from link:EXERCISES.asciidoc[the complete exercise collection].
+Selection is an editorial recommendation; implementation notes in the source comments identify follow-up work.
+
+// AI: Original source conventions below apply to the copied subset.
+The exercises on the installed `sakila` database: a section for each table and view, with a section for each level, and, at the end, a section for the schema as a whole.
+Each exercise poses a problem; its answer, and what the installed data gives back, are in the `.sql` file, and are checked by an integration test.
+
+Run a file as a whole:
+
+[source,sh]
+----
+docker exec -i mysql-sakila mysql -uroot -p'Passw0rd!' -t sakila < src/test/sql-exercises/<section>/<NN>_<level>.sql
+----
+
+== actor
+
+The `actor` table, mapped by `Actor`.
+
+=== Basic
+
+// AI: Basic: selected 2 of 4 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_ACTOR_B_04, SAKILA_ACTOR_B_05.
+
+// AI: Pick SAKILA_ACTOR_B_01: Entity selection by an equality parameter.
+// AI: Copied from EXERCISES.asciidoc:21, anchor SAKILA_ACTOR_B_01; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR; tier=Basic; sql=src/test/sql-exercises/actor/01_basic.sql; test=Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_01_Test.
+[[SAKILA_ACTOR_B_01]]
+==== SAKILA_ACTOR_B_01: the actors of a given last name, ordered by actor_id
+
+Find every actor whose `last_name` is exactly a given name; here the name is `GUINESS`.
+Show the whole rows, ordered by
+`actor_id`.
+A single table and an equality filter; no join.
+
+.`actor/01_basic.sql`, SAKILA_ACTOR_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM actor
+WHERE last_name = 'GUINESS'
+ORDER BY actor_id
+----
+
+....
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|        1 | PENELOPE   | GUINESS   | 2006-02-15 04:34:33 |
+|       90 | SEAN       | GUINESS   | 2006-02-15 04:34:33 |
+|      179 | ED         | GUINESS   | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_ACTOR_B_02: LIKE and deterministic ordering on two attributes.
+// AI: Copied from EXERCISES.asciidoc:51, anchor SAKILA_ACTOR_B_02; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR; tier=Basic; sql=src/test/sql-exercises/actor/01_basic.sql; test=Actor_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_B_02_Test.
+[[SAKILA_ACTOR_B_02]]
+==== SAKILA_ACTOR_B_02: the actors whose first name starts with JU, ordered by first name
+
+Find every actor whose `first_name` starts with `JU`.
+Show the whole rows, ordered by `first_name`; actors with the same first name are ordered by `actor_id`, so the order is always the same.
+A single table, a `LIKE` filter and a sort on two columns; no join.
+
+.`actor/01_basic.sql`, SAKILA_ACTOR_B_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM actor
+WHERE first_name LIKE 'JU%'
+ORDER BY first_name, actor_id
+----
+
+....
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|       57 | JUDE       | CRUISE    | 2006-02-15 04:34:33 |
+|       35 | JUDY       | DEAN      | 2006-02-15 04:34:33 |
+|       27 | JULIA      | MCQUEEN   | 2006-02-15 04:34:33 |
+|       47 | JULIA      | BARRYMORE | 2006-02-15 04:34:33 |
+|      186 | JULIA      | ZELLWEGER | 2006-02-15 04:34:33 |
+|      199 | JULIA      | FAWCETT   | 2006-02-15 04:34:33 |
+|      123 | JULIANNE   | DENCH     | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 7 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_ACTOR_I_03, SAKILA_ACTOR_I_04, SAKILA_ACTOR_I_06, SAKILA_ACTOR_I_07.
+
+// AI: Pick SAKILA_ACTOR_I_01: A compact introduction to GROUP BY and HAVING.
+// AI: Copied from EXERCISES.asciidoc:149, anchor SAKILA_ACTOR_I_01; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_01_Test.
+[[SAKILA_ACTOR_I_01]]
+==== SAKILA_ACTOR_I_01: the last names shared by more than three actors, the most shared first
+
+Some last names are shared by several actors.
+Group the actors by
+`last_name`, count them, and keep only the groups with more than three actors.
+Show each last name with its count, the most shared name first; names with the same count are ordered by the name.
+The filter is on the groups, not on the rows, so it belongs in `HAVING`, not in `WHERE`.
+
+.`actor/02_intermediate.sql`, SAKILA_ACTOR_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT last_name, COUNT(*) AS actors
+FROM actor
+GROUP BY last_name
+HAVING COUNT(*) > 3
+ORDER BY actors DESC, last_name
+----
+
+....
++-----------+--------+
+| last_name | actors |
++-----------+--------+
+| KILMER    |      5 |
+| NOLTE     |      4 |
+| TEMPLE    |      4 |
++-----------+--------+
+....
+====
+
+// AI: Pick SAKILA_ACTOR_I_02: Count an association and apply a deterministic top-n limit.
+// AI: Copied from EXERCISES.asciidoc:181, anchor SAKILA_ACTOR_I_02; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_02_Test.
+[[SAKILA_ACTOR_I_02]]
+==== SAKILA_ACTOR_I_02: the top n actors by their number of films
+
+Count, for each actor, the films they appear in, through the `film_actor`
+link table.
+Show the top n actors by that number, the most first, each with its number of films; here n is five.
+Break ties by `actor_id`, so the n are always the same n.
+
+.`actor/02_intermediate.sql`, SAKILA_ACTOR_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.*, COUNT(*) AS films
+FROM actor a
+         JOIN film_actor fa ON fa.actor_id = a.actor_id
+GROUP BY a.actor_id
+ORDER BY films DESC, a.actor_id
+LIMIT 5
+----
+
+....
++----------+------------+-----------+---------------------+-------+
+| actor_id | first_name | last_name | last_update         | films |
++----------+------------+-----------+---------------------+-------+
+|      107 | GINA       | DEGENERES | 2006-02-15 04:34:33 |    42 |
+|      102 | WALTER     | TORN      | 2006-02-15 04:34:33 |    41 |
+|      198 | MARY       | KEITEL    | 2006-02-15 04:34:33 |    40 |
+|      181 | MATTHEW    | CARREY    | 2006-02-15 04:34:33 |    39 |
+|       23 | SANDRA     | KILMER    | 2006-02-15 04:34:33 |    37 |
++----------+------------+-----------+---------------------+-------+
+....
+====
+
+// AI: Pick SAKILA_ACTOR_I_08: A useful NOT EXISTS predicate over film associations.
+// AI: Copied from EXERCISES.asciidoc:342, anchor SAKILA_ACTOR_I_08; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR; tier=Intermediate; sql=src/test/sql-exercises/actor/02_intermediate.sql; test=Actor_Exercises_02_Intermediate_PersistenceIT.SAKILA_ACTOR_I_08_Test.
+[[SAKILA_ACTOR_I_08]]
+==== SAKILA_ACTOR_I_08: the actors who never appeared in a G-rated film
+
+A family promotion shows only actors of `G`-rated films; find the actors it cannot use.
+Find the actors none of whose films is rated `G`, the whole rows, ordered by `actor_id`.
+A `NOT EXISTS` whose subquery joins `film_actor` to `film`, so that the condition on the rating is inside the subquery, not on the outer row.
+
+.`actor/02_intermediate.sql`, SAKILA_ACTOR_I_08
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.*
+FROM actor a
+WHERE NOT EXISTS (SELECT 1
+                  FROM film_actor fa
+                           JOIN film f ON f.film_id = fa.film_id
+                  WHERE fa.actor_id = a.actor_id
+                    AND f.rating = 'G')
+ORDER BY a.actor_id
+----
+
+....
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|      194 | MERYL      | ALLEN     | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
+....
+====
+
+Answered by `Actor_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 2 of 3 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_ACTOR_A_02.
+
+// AI: Pick SAKILA_ACTOR_A_01: Relational division by COUNT DISTINCT and a subquery.
+// AI: Copied from EXERCISES.asciidoc:377, anchor SAKILA_ACTOR_A_01; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR; tier=Advanced; sql=src/test/sql-exercises/actor/03_advanced.sql; test=Actor_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_A_01_Test.
+[[SAKILA_ACTOR_A_01]]
+==== SAKILA_ACTOR_A_01: the actors who appear in a film of every rating
+
+Find the actors who have appeared in at least one film of each rating (`G`, `PG`, `PG-13`, `R`, `NC-17`).
+This is a relational division: for each actor, count the distinct ratings of their films, and compare that count with the number of distinct ratings over all films, taken by a subquery, so the query does not hard-code the five ratings.
+Show the whole rows of the first five such actors by `actor_id`.
+
+.`actor/03_advanced.sql`, SAKILA_ACTOR_A_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.*
+FROM actor a
+         JOIN film_actor fa ON fa.actor_id = a.actor_id
+         JOIN film f ON f.film_id = fa.film_id
+GROUP BY a.actor_id, a.first_name, a.last_name
+HAVING COUNT(DISTINCT f.rating) = (SELECT COUNT(DISTINCT rating) FROM film)
+ORDER BY a.actor_id
+LIMIT 5
+----
+
+....
++----------+------------+--------------+---------------------+
+| actor_id | first_name | last_name    | last_update         |
++----------+------------+--------------+---------------------+
+|        1 | PENELOPE   | GUINESS      | 2006-02-15 04:34:33 |
+|        2 | NICK       | WAHLBERG     | 2006-02-15 04:34:33 |
+|        3 | ED         | CHASE        | 2006-02-15 04:34:33 |
+|        4 | JENNIFER   | DAVIS        | 2006-02-15 04:34:33 |
+|        5 | JOHNNY     | LOLLOBRIGIDA | 2006-02-15 04:34:33 |
++----------+------------+--------------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_ACTOR_A_03: A correlated maximum per actor, retaining ties.
+// AI: Copied from EXERCISES.asciidoc:457, anchor SAKILA_ACTOR_A_03; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR; tier=Advanced; sql=src/test/sql-exercises/actor/03_advanced.sql; test=Actor_Exercises_03_Advanced_PersistenceIT.SAKILA_ACTOR_A_03_Test.
+[[SAKILA_ACTOR_A_03]]
+==== SAKILA_ACTOR_A_03: the longest film of each of the first five actors
+
+For each of the actors `1` to `5`, find the longest film they appear in.
+Show the `actor_id`, the `first_name`, the `last_name`, the film's `title` and its `length`, ordered by `actor_id`; if two films of an actor share the longest length, both are shown, ordered by `title`.
+A correlated subquery takes the longest length of the actor of the outer row.
+
+.`actor/03_advanced.sql`, SAKILA_ACTOR_A_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.*, f.*
+FROM actor a
+         JOIN film_actor fa ON fa.actor_id = a.actor_id
+         JOIN film f ON f.film_id = fa.film_id
+WHERE a.actor_id BETWEEN 1 AND 5
+  AND f.length = (SELECT MAX(f2.length)
+                  FROM film_actor fa2
+                           JOIN film f2 ON f2.film_id = fa2.film_id
+                  WHERE fa2.actor_id = a.actor_id)
+ORDER BY a.actor_id, f.title
+----
+
+....
++----------+------------+--------------+---------------------+---------+--------------------+-------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+| actor_id | first_name | last_name    | last_update         | film_id | title              | description                                                                                                       | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                                       | last_update         |
++----------+------------+--------------+---------------------+---------+--------------------+-------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+|        1 | PENELOPE   | GUINESS      | 2006-02-15 04:34:33 |     499 | KING EVOLUTION     | A Action-Packed Tale of a Boy And a Lumberjack who must Chase a Madman in A Baloon                                |         2006 |           1 |                 NULL |               3 |        4.99 |    184 |            24.99 | NC-17  | Trailers,Deleted Scenes,Behind the Scenes              | 2006-02-15 05:03:42 |
+|        2 | NICK       | WAHLBERG     | 2006-02-15 04:34:33 |     958 | WARDROBE PHANTOM   | A Action-Packed Display of a Mad Cow And a Astronaut who must Kill a Car in Ancient India                         |         2006 |           1 |                 NULL |               6 |        2.99 |    178 |            19.99 | G      | Trailers,Commentaries                                  | 2006-02-15 05:03:42 |
+|        3 | ED         | CHASE        | 2006-02-15 04:34:33 |     996 | YOUNG LANGUAGE     | A Unbelieveable Yarn of a Boat And a Database Administrator who must Meet a Boy in The First Manned Space Station |         2006 |           1 |                 NULL |               6 |        0.99 |    183 |             9.99 | G      | Trailers,Behind the Scenes                             | 2006-02-15 05:03:42 |
+|        4 | JENNIFER   | DAVIS        | 2006-02-15 04:34:33 |     721 | REDS POCUS         | A Lacklusture Yarn of a Sumo Wrestler And a Squirrel who must Redeem a Monkey in Soviet Georgia                   |         2006 |           1 |                 NULL |               7 |        4.99 |    182 |            23.99 | PG-13  | Trailers,Behind the Scenes                             | 2006-02-15 05:03:42 |
+|        5 | JOHNNY     | LOLLOBRIGIDA | 2006-02-15 04:34:33 |     817 | SOLDIERS EVOLUTION | A Lacklusture Panorama of a A Shark And a Pioneer who must Confront a Student in The First Manned Space Station   |         2006 |           1 |                 NULL |               7 |        4.99 |    185 |            27.99 | R      | Trailers,Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |
++----------+------------+--------------+---------------------+---------+--------------------+-------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+....
+====
+
+Answered by `Actor_Exercises_03_Advanced_PersistenceIT`.
+
+== actor_info (view)
+
+The `actor_info` view, mapped by `ActorInfo`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 4 reviewed candidates in this original scope.
+// AI: Selection boundary: Read film_info as display text; colon counting and substring membership are brittle substitutes for associations.
+// AI: Not selected: SAKILA_ACTOR_INFO_B_02, SAKILA_ACTOR_INFO_B_03, SAKILA_ACTOR_INFO_B_04.
+
+// AI: Pick SAKILA_ACTOR_INFO_B_01: Read a computed view attribute without rebuilding the view in Java.
+// AI: Copied from EXERCISES.asciidoc:502, anchor SAKILA_ACTOR_INFO_B_01; retain the permanent ID when revising.
+// AI: Registry: section=ACTOR_INFO; tier=Basic; sql=src/test/sql-exercises/actor_info/01_basic.sql; test=ActorInfo_Exercises_01_Basic_PersistenceIT.SAKILA_ACTOR_INFO_B_01_Test.
+[[SAKILA_ACTOR_INFO_B_01]]
+==== SAKILA_ACTOR_INFO_B_01: the film_info of the actor 1
+
+The `actor_info` view puts, for each actor, all of their films into one
+`film_info` string, grouped by category (`Animation: ...; Comedy: ...`).
+Show the row of the actor `1`: the
+`actor_id`, the `first_name`, the `last_name` and the first 80 characters of `film_info`, which is long.
+
+.`actor_info/01_basic.sql`, SAKILA_ACTOR_INFO_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT actor_id, first_name, last_name, LEFT(film_info, 80) AS film_info
+FROM actor_info
+WHERE actor_id = 1
+----
+
+....
++----------+------------+-----------+----------------------------------------------------------------------------------+
+| actor_id | first_name | last_name | film_info                                                                        |
++----------+------------+-----------+----------------------------------------------------------------------------------+
+|        1 | PENELOPE   | GUINESS   | Animation: ANACONDA CONFESSIONS; Children: LANGUAGE COWBOY; Classics: COLOR PHIL |
++----------+------------+-----------+----------------------------------------------------------------------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 0 of 4 reviewed candidates in this original scope.
+// AI: Selection boundary: Read film_info as display text; colon counting and substring membership are brittle substitutes for associations.
+// AI: Not selected: SAKILA_ACTOR_INFO_I_01, SAKILA_ACTOR_INFO_I_02, SAKILA_ACTOR_INFO_I_03, SAKILA_ACTOR_INFO_I_04.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 1 reviewed candidates in this original scope.
+// AI: Selection boundary: Read film_info as display text; colon counting and substring membership are brittle substitutes for associations.
+// AI: Not selected: SAKILA_ACTOR_INFO_A_01.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== address
+
+The `address` table, mapped by `Address`.
+
+=== Basic
+
+// AI: Basic: selected 2 of 5 reviewed candidates in this original scope.
+// AI: Selection boundary: Postal-code equality alone is not address equivalence; cross-country pairs are a poor domain example.
+// AI: Not selected: SAKILA_ADDRESS_B_01, SAKILA_ADDRESS_B_02, SAKILA_ADDRESS_B_05.
+
+// AI: Pick SAKILA_ADDRESS_B_03: IS NULL on an optional mapped attribute.
+// AI: Copied from EXERCISES.asciidoc:840, anchor SAKILA_ADDRESS_B_03; retain the permanent ID when revising.
+// AI: Registry: section=ADDRESS; tier=Basic; sql=src/test/sql-exercises/address/01_basic.sql; test=Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_03_Test.
+[[SAKILA_ADDRESS_B_03]]
+==== SAKILA_ADDRESS_B_03: the addresses whose address2 is NULL
+
+Most addresses have an empty `address2`, but a few have none at all.
+Find the addresses whose `address2` is `NULL`, and show the `address_id`, the `address` and the `district`, ordered by `address_id`.
+`= NULL` matches nothing; the test is `IS NULL`, and an empty string is not `NULL`.
+
+.`address/01_basic.sql`, SAKILA_ADDRESS_B_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT address_id, address, address2, district, city_id, postal_code, phone, last_update -- every column but location, a GEOMETRY which does not print
+FROM address
+WHERE address2 IS NULL
+ORDER BY address_id
+----
+
+....
++------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+
+| address_id | address              | address2 | district | city_id | postal_code | phone       | last_update         |
++------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+
+|          1 | 47 MySakila Drive    | NULL     | Alberta  |     300 |             |             | 2014-09-25 22:30:27 |
+|          2 | 28 MySQL Boulevard   | NULL     | QLD      |     576 |             |             | 2014-09-25 22:30:09 |
+|          3 | 23 Workhaven Lane    | NULL     | Alberta  |     300 |             | 14033335568 | 2014-09-25 22:30:27 |
+|          4 | 1411 Lillydale Drive | NULL     | QLD      |     576 |             | 6172235589  | 2014-09-25 22:30:09 |
++------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_ADDRESS_B_04: Contrast an empty string with NULL on MySQL.
+// AI: Copied from EXERCISES.asciidoc:870, anchor SAKILA_ADDRESS_B_04; retain the permanent ID when revising.
+// AI: Registry: section=ADDRESS; tier=Basic; sql=src/test/sql-exercises/address/01_basic.sql; test=Address_Exercises_01_Basic_PersistenceIT.SAKILA_ADDRESS_B_04_Test.
+[[SAKILA_ADDRESS_B_04]]
+==== SAKILA_ADDRESS_B_04: the addresses with an empty district
+
+Find the addresses whose `district` is the empty string.
+Show the `address_id`, the `address`, the `postal_code` and the `phone`, ordered by `address_id`.
+The column is `NOT NULL`, so a missing district is stored as `''`, and the filter compares with it.
+
+.`address/01_basic.sql`, SAKILA_ADDRESS_B_04
+[%collapsible]
+====
+[source,sql]
+----
+SELECT address_id, address, address2, district, city_id, postal_code, phone, last_update -- every column but location, a GEOMETRY which does not print
+FROM address
+WHERE district = ''
+ORDER BY address_id
+----
+
+....
++------------+---------------------------+----------+----------+---------+-------------+--------------+---------------------+
+| address_id | address                   | address2 | district | city_id | postal_code | phone        | last_update         |
++------------+---------------------------+----------+----------+---------+-------------+--------------+---------------------+
+|         30 | 18 Duisburg Boulevard     |          |          |     121 | 58327       | 998009777982 | 2014-09-25 22:31:08 |
+|        386 | 1368 Maracaíbo Boulevard  |          |          |     493 | 32716       | 934352415130 | 2014-09-25 22:30:03 |
+|        519 | 962 Tama Loop             |          |          |     583 | 65952       | 282667506728 | 2014-09-25 22:32:19 |
++------------+---------------------------+----------+----------+---------+-------------+--------------+---------------------+
+....
+====
+
+Answered by `Address_Exercises_01_Basic_PersistenceIT`.
+
+=== Intermediate
+
+// AI: Intermediate: selected 2 of 3 reviewed candidates in this original scope.
+// AI: Selection boundary: Postal-code equality alone is not address equivalence; cross-country pairs are a poor domain example.
+// AI: Not selected: SAKILA_ADDRESS_I_03.
+
+// AI: Pick SAKILA_ADDRESS_I_01: Navigate address, city, and country associations with pagination.
+// AI: Copied from EXERCISES.asciidoc:929, anchor SAKILA_ADDRESS_I_01; retain the permanent ID when revising.
+// AI: Registry: section=ADDRESS; tier=Intermediate; sql=src/test/sql-exercises/address/02_intermediate.sql; test=Address_Exercises_02_Intermediate_PersistenceIT.SAKILA_ADDRESS_I_01_Test.
+[[SAKILA_ADDRESS_I_01]]
+==== SAKILA_ADDRESS_I_01: the first five addresses, with their city and country
+
+Show the first five addresses by `address_id`, each with the name of its city and the name of that city's country.
+An address refers to a city (`city_id`), and a city to a country (`country_id`), so the query joins three tables in a chain.
+
+.`address/02_intermediate.sql`, SAKILA_ADDRESS_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.address_id, a.address, a.address2, a.district, a.city_id, a.postal_code, a.phone, a.last_update, ci.*, co.* -- every column but location, a GEOMETRY which does not print
+FROM address a
+         JOIN city ci ON ci.city_id = a.city_id
+         JOIN country co ON co.country_id = ci.country_id
+ORDER BY a.address_id
+LIMIT 5
+----
+
+....
++------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
+| address_id | address              | address2 | district | city_id | postal_code | phone       | last_update         | city_id | city       | country_id | last_update         | country_id | country   | last_update         |
++------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
+|          1 | 47 MySakila Drive    | NULL     | Alberta  |     300 |             |             | 2014-09-25 22:30:27 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         20 | Canada    | 2006-02-15 04:44:00 |
+|          2 | 28 MySQL Boulevard   | NULL     | QLD      |     576 |             |             | 2014-09-25 22:30:09 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |          8 | Australia | 2006-02-15 04:44:00 |
+|          3 | 23 Workhaven Lane    | NULL     | Alberta  |     300 |             | 14033335568 | 2014-09-25 22:30:27 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         20 | Canada    | 2006-02-15 04:44:00 |
+|          4 | 1411 Lillydale Drive | NULL     | QLD      |     576 |             | 6172235589  | 2014-09-25 22:30:09 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |          8 | Australia | 2006-02-15 04:44:00 |
+|          5 | 1913 Hanoi Way       |          | Nagasaki |     463 | 35200       | 28303384290 | 2014-09-25 22:31:53 |     463 | Sasebo     |         50 | 2006-02-15 04:45:25 |         50 | Japan     | 2006-02-15 04:44:00 |
++------------+----------------------+----------+----------+---------+-------------+-------------+---------------------+---------+------------+------------+---------------------+------------+-----------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_ADDRESS_I_02: GROUP BY and COUNT DISTINCT across an association.
+// AI: Copied from EXERCISES.asciidoc:961, anchor SAKILA_ADDRESS_I_02; retain the permanent ID when revising.
+// AI: Registry: section=ADDRESS; tier=Intermediate; sql=src/test/sql-exercises/address/02_intermediate.sql; test=Address_Exercises_02_Intermediate_PersistenceIT.SAKILA_ADDRESS_I_02_Test.
+[[SAKILA_ADDRESS_I_02]]
+==== SAKILA_ADDRESS_I_02: the district names found in more than one country
+
+The same district name may appear in different countries.
+Group the addresses by `district`, join `city` to reach the country, and keep the districts whose addresses lie in more than one country; leave out the empty district.
+Show each district with its number of countries, the most first; districts with the same number are ordered by name.
+
+.`address/02_intermediate.sql`, SAKILA_ADDRESS_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.district, COUNT(DISTINCT ci.country_id) AS countries
+FROM address a
+         JOIN city ci ON ci.city_id = a.city_id
+WHERE a.district <> ''
+GROUP BY a.district
+HAVING COUNT(DISTINCT ci.country_id) > 1
+ORDER BY countries DESC, a.district
+----
+
+....
++------------------+-----------+
+| district         | countries |
++------------------+-----------+
+| Central          |         3 |
+| al-Sharqiya      |         2 |
+| Distrito Federal |         2 |
+| Ontario          |         2 |
+| Punjab           |         2 |
+| Sucre            |         2 |
++------------------+-----------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Postal-code equality alone is not address equivalence; cross-country pairs are a poor domain example.
+// AI: Not selected: SAKILA_ADDRESS_A_02, SAKILA_ADDRESS_A_03.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== category
+
+The `category` table, mapped by `Category`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Do not add a running total in arbitrary category order merely to demonstrate a window function.
+// AI: Not selected: SAKILA_CATEGORY_B_02.
+
+// AI: Pick SAKILA_CATEGORY_B_01: A complete entity list with a meaningful alphabetical order.
+// AI: Copied from EXERCISES.asciidoc:1117, anchor SAKILA_CATEGORY_B_01; retain the permanent ID when revising.
+// AI: Registry: section=CATEGORY; tier=Basic; sql=src/test/sql-exercises/category/01_basic.sql; test=Category_Exercises_01_Basic_PersistenceIT.SAKILA_CATEGORY_B_01_Test.
+[[SAKILA_CATEGORY_B_01]]
+==== SAKILA_CATEGORY_B_01: every category, by name
+
+Show every category, the whole rows, ordered by the name.
+
+.`category/01_basic.sql`, SAKILA_CATEGORY_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM category
+ORDER BY name
+----
+
+....
++-------------+-------------+---------------------+
+| category_id | name        | last_update         |
++-------------+-------------+---------------------+
+|           1 | Action      | 2006-02-15 04:46:27 |
+|           2 | Animation   | 2006-02-15 04:46:27 |
+|           3 | Children    | 2006-02-15 04:46:27 |
+|           4 | Classics    | 2006-02-15 04:46:27 |
+|           5 | Comedy      | 2006-02-15 04:46:27 |
+|           6 | Documentary | 2006-02-15 04:46:27 |
+|           7 | Drama       | 2006-02-15 04:46:27 |
+|           8 | Family      | 2006-02-15 04:46:27 |
+|           9 | Foreign     | 2006-02-15 04:46:27 |
+|          10 | Games       | 2006-02-15 04:46:27 |
+|          11 | Horror      | 2006-02-15 04:46:27 |
+|          12 | Music       | 2006-02-15 04:46:27 |
+|          13 | New         | 2006-02-15 04:46:27 |
+|          14 | Sci-Fi      | 2006-02-15 04:46:27 |
+|          15 | Sports      | 2006-02-15 04:46:27 |
+|          16 | Travel      | 2006-02-15 04:46:27 |
++-------------+-------------+---------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 6 reviewed candidates in this original scope.
+// AI: Selection boundary: Do not add a running total in arbitrary category order merely to demonstrate a window function.
+// AI: Not selected: SAKILA_CATEGORY_I_03, SAKILA_CATEGORY_I_05, SAKILA_CATEGORY_I_06.
+
+// AI: Pick SAKILA_CATEGORY_I_01: LEFT JOIN and COUNT of the child preserve empty categories.
+// AI: Copied from EXERCISES.asciidoc:1191, anchor SAKILA_CATEGORY_I_01; retain the permanent ID when revising.
+// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_01_Test.
+[[SAKILA_CATEGORY_I_01]]
+==== SAKILA_CATEGORY_I_01: how many films each category has, the most first
+
+Count the films of each category through the `film_category` link table, a category without a film included, with `0`.
+Show each category's name and its number of films, the most first; categories with the same count are ordered by name.
+
+.`category/02_intermediate.sql`, SAKILA_CATEGORY_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.*, COUNT(fc.film_id) AS films
+FROM category c
+         LEFT JOIN film_category fc ON fc.category_id = c.category_id
+GROUP BY c.category_id
+ORDER BY films DESC, c.name
+----
+
+....
++-------------+-------------+---------------------+-------+
+| category_id | name        | last_update         | films |
++-------------+-------------+---------------------+-------+
+|          15 | Sports      | 2006-02-15 04:46:27 |    74 |
+|           9 | Foreign     | 2006-02-15 04:46:27 |    73 |
+|           8 | Family      | 2006-02-15 04:46:27 |    69 |
+|           6 | Documentary | 2006-02-15 04:46:27 |    68 |
+|           2 | Animation   | 2006-02-15 04:46:27 |    66 |
+|           1 | Action      | 2006-02-15 04:46:27 |    64 |
+|          13 | New         | 2006-02-15 04:46:27 |    63 |
+|           7 | Drama       | 2006-02-15 04:46:27 |    62 |
+|          10 | Games       | 2006-02-15 04:46:27 |    61 |
+|          14 | Sci-Fi      | 2006-02-15 04:46:27 |    61 |
+|           3 | Children    | 2006-02-15 04:46:27 |    60 |
+|           5 | Comedy      | 2006-02-15 04:46:27 |    58 |
+|           4 | Classics    | 2006-02-15 04:46:27 |    57 |
+|          16 | Travel      | 2006-02-15 04:46:27 |    57 |
+|          11 | Horror      | 2006-02-15 04:46:27 |    56 |
+|          12 | Music       | 2006-02-15 04:46:27 |    51 |
++-------------+-------------+---------------------+-------+
+....
+====
+
+// AI: Pick SAKILA_CATEGORY_I_02: AVG across film associations with a one-row result limit.
+// AI: Copied from EXERCISES.asciidoc:1233, anchor SAKILA_CATEGORY_I_02; retain the permanent ID when revising.
+// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_02_Test.
+[[SAKILA_CATEGORY_I_02]]
+==== SAKILA_CATEGORY_I_02: the category whose films are, on average, the longest
+
+For each category, take the average `length` of its films, and find the category whose average is the largest.
+Show its name and the average, rounded to two decimal places.
+Order the groups by the average itself, not the rounded one, then by name, and keep only the first.
+
+.`category/02_intermediate.sql`, SAKILA_CATEGORY_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.*, ROUND(AVG(f.length), 2) AS average_length
+FROM category c
+         JOIN film_category fc ON fc.category_id = c.category_id
+         JOIN film f ON f.film_id = fc.film_id
+GROUP BY c.category_id
+ORDER BY AVG(f.length) DESC, c.name
+LIMIT 1
+----
+
+....
++-------------+--------+---------------------+----------------+
+| category_id | name   | last_update         | average_length |
++-------------+--------+---------------------+----------------+
+|          15 | Sports | 2006-02-15 04:46:27 |         128.20 |
++-------------+--------+---------------------+----------------+
+....
+====
+
+// AI: Pick SAKILA_CATEGORY_I_04: HAVING compares a group average with an overall average.
+// AI: Copied from EXERCISES.asciidoc:1286, anchor SAKILA_CATEGORY_I_04; retain the permanent ID when revising.
+// AI: Registry: section=CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/category/02_intermediate.sql; test=Category_Exercises_02_Intermediate_PersistenceIT.SAKILA_CATEGORY_I_04_Test.
+[[SAKILA_CATEGORY_I_04]]
+==== SAKILA_CATEGORY_I_04: the categories whose films rent for more than the average
+
+For each category, take the average `rental_rate` of its films, and keep the categories whose average is higher than the average over all films.
+Show each such category's name and its average rounded to two decimal places, the highest first; categories with the same rounded average are ordered by name.
+The overall average comes from a subquery in `HAVING`.
+
+.`category/02_intermediate.sql`, SAKILA_CATEGORY_I_04
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.*, ROUND(AVG(f.rental_rate), 2) AS average_rental_rate
+FROM category c
+         JOIN film_category fc ON fc.category_id = c.category_id
+         JOIN film f ON f.film_id = fc.film_id
+GROUP BY c.category_id
+HAVING AVG(f.rental_rate) > (SELECT AVG(rental_rate) FROM film)
+ORDER BY average_rental_rate DESC, c.name
+----
+
+....
++-------------+---------+---------------------+---------------------+
+| category_id | name    | last_update         | average_rental_rate |
++-------------+---------+---------------------+---------------------+
+|          10 | Games   | 2006-02-15 04:46:27 |                3.25 |
+|          16 | Travel  | 2006-02-15 04:46:27 |                3.24 |
+|          14 | Sci-Fi  | 2006-02-15 04:46:27 |                3.22 |
+|           5 | Comedy  | 2006-02-15 04:46:27 |                3.16 |
+|          15 | Sports  | 2006-02-15 04:46:27 |                3.13 |
+|          13 | New     | 2006-02-15 04:46:27 |                3.12 |
+|           9 | Foreign | 2006-02-15 04:46:27 |                3.10 |
+|          11 | Horror  | 2006-02-15 04:46:27 |                3.03 |
+|           7 | Drama   | 2006-02-15 04:46:27 |                3.02 |
++-------------+---------+---------------------+---------------------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Do not add a running total in arbitrary category order merely to demonstrate a window function.
+// AI: Not selected: SAKILA_CATEGORY_A_01, SAKILA_CATEGORY_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== city
+
+The `city` table, mapped by `City`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Avoid empty integrity checks and arbitrary duplicate-name puzzles as additional picks.
+// AI: Not selected: SAKILA_CITY_B_02.
+
+// AI: Pick SAKILA_CITY_B_01: A small LIKE-filtered list.
+// AI: Copied from EXERCISES.asciidoc:1491, anchor SAKILA_CITY_B_01; retain the permanent ID when revising.
+// AI: Registry: section=CITY; tier=Basic; sql=src/test/sql-exercises/city/01_basic.sql; test=City_Exercises_01_Basic_PersistenceIT.SAKILA_CITY_B_01_Test.
+[[SAKILA_CITY_B_01]]
+==== SAKILA_CITY_B_01: the cities whose name starts with Q
+
+Find the cities whose name starts with the letter `Q`.
+Show the whole rows, ordered by the name, then by `city_id`; names repeat across countries.
+A `LIKE` with a trailing wildcard.
+
+.`city/01_basic.sql`, SAKILA_CITY_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM city
+WHERE city LIKE 'Q%'
+ORDER BY city, city_id
+----
+
+....
++---------+-------------+------------+---------------------+
+| city_id | city        | country_id | last_update         |
++---------+-------------+------------+---------------------+
+|     421 | Qalyub      |         29 | 2006-02-15 04:45:25 |
+|     422 | Qinhuangdao |         23 | 2006-02-15 04:45:25 |
+|     423 | Qomsheh     |         46 | 2006-02-15 04:45:25 |
+|     424 | Quilmes     |          6 | 2006-02-15 04:45:25 |
++---------+-------------+------------+---------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 6 reviewed candidates in this original scope.
+// AI: Selection boundary: Avoid empty integrity checks and arbitrary duplicate-name puzzles as additional picks.
+// AI: Not selected: SAKILA_CITY_I_03, SAKILA_CITY_I_05, SAKILA_CITY_I_06.
+
+// AI: Pick SAKILA_CITY_I_01: Filter an entity through its country association.
+// AI: Copied from EXERCISES.asciidoc:1550, anchor SAKILA_CITY_I_01; retain the permanent ID when revising.
+// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_01_Test.
+[[SAKILA_CITY_I_01]]
+==== SAKILA_CITY_I_01: the cities of Canada
+
+Show the cities of Canada, the whole rows, ordered by the name.
+The country is known only by its name, so join `country` and filter on `country.country`.
+
+.`city/02_intermediate.sql`, SAKILA_CITY_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT ci.*
+FROM city ci
+         JOIN country co ON co.country_id = ci.country_id
+WHERE co.country = 'Canada'
+ORDER BY ci.city
+----
+
+....
++---------+---------------+------------+---------------------+
+| city_id | city          | country_id | last_update         |
++---------+---------------+------------+---------------------+
+|     179 | Gatineau      |         20 | 2006-02-15 04:45:25 |
+|     196 | Halifax       |         20 | 2006-02-15 04:45:25 |
+|     300 | Lethbridge    |         20 | 2006-02-15 04:45:25 |
+|     313 | London        |         20 | 2006-02-15 04:45:25 |
+|     383 | Oshawa        |         20 | 2006-02-15 04:45:25 |
+|     430 | Richmond Hill |         20 | 2006-02-15 04:45:25 |
+|     565 | Vancouver     |         20 | 2006-02-15 04:45:25 |
++---------+---------------+------------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_CITY_I_02: Group by a related country and page a count ranking.
+// AI: Copied from EXERCISES.asciidoc:1583, anchor SAKILA_CITY_I_02; retain the permanent ID when revising.
+// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_02_Test.
+[[SAKILA_CITY_I_02]]
+==== SAKILA_CITY_I_02: the five countries with the most cities
+
+Count the cities of each country.
+Show the five countries with the most cities, with their counts, the most first; countries with the same count are ordered by name.
+
+.`city/02_intermediate.sql`, SAKILA_CITY_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT co.*, COUNT(*) AS cities
+FROM country co
+         JOIN city ci ON ci.country_id = co.country_id
+GROUP BY co.country_id
+ORDER BY cities DESC, co.country
+LIMIT 5
+----
+
+....
++------------+---------------+---------------------+--------+
+| country_id | country       | last_update         | cities |
++------------+---------------+---------------------+--------+
+|         44 | India         | 2006-02-15 04:44:00 |     60 |
+|         23 | China         | 2006-02-15 04:44:00 |     53 |
+|        103 | United States | 2006-02-15 04:44:00 |     35 |
+|         50 | Japan         | 2006-02-15 04:44:00 |     31 |
+|         60 | Mexico        | 2006-02-15 04:44:00 |     30 |
++------------+---------------+---------------------+--------+
+....
+====
+
+// AI: Pick SAKILA_CITY_I_04: HAVING filters cities by the size of their address collection.
+// AI: Copied from EXERCISES.asciidoc:1641, anchor SAKILA_CITY_I_04; retain the permanent ID when revising.
+// AI: Registry: section=CITY; tier=Intermediate; sql=src/test/sql-exercises/city/02_intermediate.sql; test=City_Exercises_02_Intermediate_PersistenceIT.SAKILA_CITY_I_04_Test.
+[[SAKILA_CITY_I_04]]
+==== SAKILA_CITY_I_04: the cities with more than one address
+
+Count the addresses of each city, and keep the cities with more than one.
+Show the `city_id`, the `city` and the count, the most first; cities with the same count are ordered by the name, then by `city_id`.
+
+.`city/02_intermediate.sql`, SAKILA_CITY_I_04
+[%collapsible]
+====
+[source,sql]
+----
+SELECT ci.*, COUNT(*) AS addresses
+FROM city ci
+         JOIN address a ON a.city_id = ci.city_id
+GROUP BY ci.city_id
+HAVING COUNT(*) > 1
+ORDER BY addresses DESC, ci.city, ci.city_id
+----
+
+....
++---------+------------+------------+---------------------+-----------+
+| city_id | city       | country_id | last_update         | addresses |
++---------+------------+------------+---------------------+-----------+
+|      42 | Aurora     |        103 | 2006-02-15 04:45:25 |         2 |
+|     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |         2 |
+|     312 | London     |        102 | 2006-02-15 04:45:25 |         2 |
+|     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |         2 |
++---------+------------+------------+---------------------+-----------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Avoid empty integrity checks and arbitrary duplicate-name puzzles as additional picks.
+// AI: Not selected: SAKILA_CITY_A_02.
+
+// AI: Pick SAKILA_CITY_A_01: A correlated NOT EXISTS identifies the only city of a country.
+// AI: Copied from EXERCISES.asciidoc:1726, anchor SAKILA_CITY_A_01; retain the permanent ID when revising.
+// AI: Registry: section=CITY; tier=Advanced; sql=src/test/sql-exercises/city/03_advanced.sql; test=City_Exercises_03_Advanced_PersistenceIT.SAKILA_CITY_A_01_Test.
+[[SAKILA_CITY_A_01]]
+==== SAKILA_CITY_A_01: the first ten cities which are the only city of their country
+
+Find the cities for which no other city has the same `country_id`.
+Show the `city_id`, the `city` and the name of its country for the first ten such cities, ordered by the country's name and then by `city_id`.
+A correlated `NOT EXISTS` on `city` itself: the subquery looks for another city of the same country.
+
+.`city/03_advanced.sql`, SAKILA_CITY_A_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT ci.*, co.*
+FROM city ci
+         JOIN country co ON co.country_id = ci.country_id
+WHERE NOT EXISTS (SELECT 1 FROM city other WHERE other.country_id = ci.country_id AND other.city_id <> ci.city_id)
+ORDER BY co.country, ci.city_id
+LIMIT 10
+----
+
+....
++---------+---------------------+------------+---------------------+------------+----------------+---------------------+
+| city_id | city                | country_id | last_update         | country_id | country        | last_update         |
++---------+---------------------+------------+---------------------+------------+----------------+---------------------+
+|     251 | Kabul               |          1 | 2006-02-15 04:45:25 |          1 | Afghanistan    | 2006-02-15 04:44:00 |
+|     516 | Tafuna              |          3 | 2006-02-15 04:45:25 |          3 | American Samoa | 2006-02-15 04:44:00 |
+|     493 | South Hill          |          5 | 2006-02-15 04:45:25 |          5 | Anguilla       | 2006-02-15 04:44:00 |
+|     586 | Yerevan             |          7 | 2006-02-15 04:45:25 |          7 | Armenia        | 2006-02-15 04:44:00 |
+|     576 | Woodridge           |          8 | 2006-02-15 04:45:25 |          8 | Australia      | 2006-02-15 04:44:00 |
+|      14 | al-Manama           |         11 | 2006-02-15 04:45:25 |         11 | Bahrain        | 2006-02-15 04:44:00 |
+|      53 | Bandar Seri Begawan |         16 | 2006-02-15 04:45:25 |         16 | Brunei         | 2006-02-15 04:44:00 |
+|     363 | NDjamna             |         21 | 2006-02-15 04:45:25 |         21 | Chad           | 2006-02-15 04:44:00 |
+|     378 | Olomouc             |         26 | 2006-02-15 04:45:25 |         26 | Czech Republic | 2006-02-15 04:44:00 |
+|     530 | Tartu               |         30 | 2006-02-15 04:45:25 |         30 | Estonia        | 2006-02-15 04:44:00 |
++---------+---------------------+------------+---------------------+------------+----------------+---------------------+
+....
+====
+
+== country
+
+The `country` table, mapped by `Country`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 3 reviewed candidates in this original scope.
+// AI: Selection boundary: Customer-share windows add SQL analytics rather than a new persistence lesson here.
+// AI: Not selected: SAKILA_COUNTRY_B_01, SAKILA_COUNTRY_B_03.
+
+// AI: Pick SAKILA_COUNTRY_B_02: An elementary prefix filter over a lookup entity.
+// AI: Copied from EXERCISES.asciidoc:1844, anchor SAKILA_COUNTRY_B_02; retain the permanent ID when revising.
+// AI: Registry: section=COUNTRY; tier=Basic; sql=src/test/sql-exercises/country/01_basic.sql; test=Country_Exercises_01_Basic_PersistenceIT.SAKILA_COUNTRY_B_02_Test.
+[[SAKILA_COUNTRY_B_02]]
+==== SAKILA_COUNTRY_B_02: the countries whose name starts with S, ordered by name
+
+Find the countries whose `country` starts with `S`.
+Show the whole rows, ordered by the name; the names are unique, so no tie-break is needed.
+
+.`country/01_basic.sql`, SAKILA_COUNTRY_B_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM country
+WHERE country LIKE 'S%'
+ORDER BY country
+----
+
+....
++------------+----------------------------------+---------------------+
+| country_id | country                          | last_update         |
++------------+----------------------------------+---------------------+
+|         81 | Saint Vincent and the Grenadines | 2006-02-15 04:44:00 |
+|         82 | Saudi Arabia                     | 2006-02-15 04:44:00 |
+|         83 | Senegal                          | 2006-02-15 04:44:00 |
+|         84 | Slovakia                         | 2006-02-15 04:44:00 |
+|         85 | South Africa                     | 2006-02-15 04:44:00 |
+|         86 | South Korea                      | 2006-02-15 04:44:00 |
+|         87 | Spain                            | 2006-02-15 04:44:00 |
+|         88 | Sri Lanka                        | 2006-02-15 04:44:00 |
+|         89 | Sudan                            | 2006-02-15 04:44:00 |
+|         90 | Sweden                           | 2006-02-15 04:44:00 |
+|         91 | Switzerland                      | 2006-02-15 04:44:00 |
++------------+----------------------------------+---------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 2 of 5 reviewed candidates in this original scope.
+// AI: Selection boundary: Customer-share windows add SQL analytics rather than a new persistence lesson here.
+// AI: Not selected: SAKILA_COUNTRY_I_01, SAKILA_COUNTRY_I_03, SAKILA_COUNTRY_I_05.
+
+// AI: Pick SAKILA_COUNTRY_I_02: A country-to-customer association chain with count and limit.
+// AI: Copied from EXERCISES.asciidoc:1936, anchor SAKILA_COUNTRY_I_02; retain the permanent ID when revising.
+// AI: Registry: section=COUNTRY; tier=Intermediate; sql=src/test/sql-exercises/country/02_intermediate.sql; test=Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_02_Test.
+[[SAKILA_COUNTRY_I_02]]
+==== SAKILA_COUNTRY_I_02: the five countries with the most customers
+
+Count the customers who live in each country.
+A customer has an address, an address a city, and a city a country, so the query walks four tables.
+Show the five countries with the most customers, with their counts, the most first; ties are ordered by the country's name.
+
+.`country/02_intermediate.sql`, SAKILA_COUNTRY_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT co.*, COUNT(*) AS customers
+FROM country co
+         JOIN city ci ON ci.country_id = co.country_id
+         JOIN address a ON a.city_id = ci.city_id
+         JOIN customer cu ON cu.address_id = a.address_id
+GROUP BY co.country_id
+ORDER BY customers DESC, co.country
+LIMIT 5
+----
+
+....
++------------+---------------+---------------------+-----------+
+| country_id | country       | last_update         | customers |
++------------+---------------+---------------------+-----------+
+|         44 | India         | 2006-02-15 04:44:00 |        60 |
+|         23 | China         | 2006-02-15 04:44:00 |        53 |
+|        103 | United States | 2006-02-15 04:44:00 |        36 |
+|         50 | Japan         | 2006-02-15 04:44:00 |        31 |
+|         60 | Mexico        | 2006-02-15 04:44:00 |        30 |
++------------+---------------+---------------------+-----------+
+....
+====
+
+// AI: Pick SAKILA_COUNTRY_I_04: Combine EXISTS and NOT EXISTS without confusing no city with no customer.
+// AI: Copied from EXERCISES.asciidoc:1996, anchor SAKILA_COUNTRY_I_04; retain the permanent ID when revising.
+// AI: Registry: section=COUNTRY; tier=Intermediate; sql=src/test/sql-exercises/country/02_intermediate.sql; test=Country_Exercises_02_Intermediate_PersistenceIT.SAKILA_COUNTRY_I_04_Test.
+[[SAKILA_COUNTRY_I_04]]
+==== SAKILA_COUNTRY_I_04: the countries which have a city but no customer
+
+Find the countries which have at least one city, yet no customer lives in any of their cities.
+Show the whole rows, ordered by the name.
+One `EXISTS` and one `NOT EXISTS`, the second walking city, address and customer.
+
+.`country/02_intermediate.sql`, SAKILA_COUNTRY_I_04
+[%collapsible]
+====
+[source,sql]
+----
+SELECT co.*
+FROM country co
+WHERE EXISTS (SELECT 1 FROM city ci WHERE ci.country_id = co.country_id)
+  AND NOT EXISTS (SELECT 1
+                  FROM city ci
+                           JOIN address a ON a.city_id = ci.city_id
+                           JOIN customer cu ON cu.address_id = a.address_id
+                  WHERE ci.country_id = co.country_id)
+ORDER BY co.country
+----
+
+....
++------------+-----------+---------------------+
+| country_id | country   | last_update         |
++------------+-----------+---------------------+
+|          8 | Australia | 2006-02-15 04:44:00 |
++------------+-----------+---------------------+
+....
+====
+
+Answered by `Country_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Customer-share windows add SQL analytics rather than a new persistence lesson here.
+// AI: Not selected: SAKILA_COUNTRY_A_01, SAKILA_COUNTRY_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== customer
+
+The `customer` table, mapped by `Customer`.
+
+=== Basic
+
+// AI: Basic: selected 3 of 5 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_CUSTOMER_B_03, SAKILA_CUSTOMER_B_06.
+
+// AI: Pick SAKILA_CUSTOMER_B_01: Group by the active flag.
+// AI: Copied from EXERCISES.asciidoc:2149, anchor SAKILA_CUSTOMER_B_01; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_01_Test.
+[[SAKILA_CUSTOMER_B_01]]
+==== SAKILA_CUSTOMER_B_01: how many customers are active, and how many are not
+
+Split the customers by the `active` flag: show each value of `active` (`0`
+or `1`) with the number of customers who have it, ordered by the value.
+
+.`customer/01_basic.sql`, SAKILA_CUSTOMER_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT active, COUNT(*) AS customers
+FROM customer
+GROUP BY active
+ORDER BY active
+----
+
+....
++--------+-----------+
+| active | customers |
++--------+-----------+
+|      0 |        15 |
+|      1 |       584 |
++--------+-----------+
+....
+====
+
+// AI: Pick SAKILA_CUSTOMER_B_02: Group customers by their store association.
+// AI: Copied from EXERCISES.asciidoc:2176, anchor SAKILA_CUSTOMER_B_02; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_02_Test.
+[[SAKILA_CUSTOMER_B_02]]
+==== SAKILA_CUSTOMER_B_02: how many customers each store has
+
+Count the customers of each store, by the customer's own `store_id`.
+Show each `store_id` with its count, ordered by the store.
+
+.`customer/01_basic.sql`, SAKILA_CUSTOMER_B_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT st.*, COUNT(*) AS customers
+FROM customer c
+         JOIN store st ON st.store_id = c.store_id
+GROUP BY st.store_id
+ORDER BY st.store_id
+----
+
+....
++----------+------------------+------------+---------------------+-----------+
+| store_id | manager_staff_id | address_id | last_update         | customers |
++----------+------------------+------------+---------------------+-----------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |       326 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |       273 |
++----------+------------------+------------+---------------------+-----------+
+....
+====
+
+// AI: Pick SAKILA_CUSTOMER_B_04: A direct predicate on the mapped active flag.
+// AI: Copied from EXERCISES.asciidoc:2231, anchor SAKILA_CUSTOMER_B_04; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER; tier=Basic; sql=src/test/sql-exercises/customer/01_basic.sql; test=Customer_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_B_04_Test.
+[[SAKILA_CUSTOMER_B_04]]
+==== SAKILA_CUSTOMER_B_04: the customers who are not active
+
+Find the customers whose `active` is `0`.
+Show their `customer_id`, `first_name`, `last_name` and `store_id`, ordered by `customer_id`.
+
+.`customer/01_basic.sql`, SAKILA_CUSTOMER_B_04
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM customer
+WHERE active = 0
+ORDER BY customer_id
+----
+
+....
++-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+
+| customer_id | store_id | first_name | last_name | email                               | address_id | active | create_date         | last_update         |
++-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+
+|          16 |        2 | SANDRA     | MARTIN    | SANDRA.MARTIN@sakilacustomer.org    |         20 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+|          64 |        2 | JUDITH     | COX       | JUDITH.COX@sakilacustomer.org       |         68 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+|         124 |        1 | SHEILA     | WELLS     | SHEILA.WELLS@sakilacustomer.org     |        128 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+|         169 |        2 | ERICA      | MATTHEWS  | ERICA.MATTHEWS@sakilacustomer.org   |        173 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+|         241 |        2 | HEIDI      | LARSON    | HEIDI.LARSON@sakilacustomer.org     |        245 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+|         271 |        1 | PENNY      | NEAL      | PENNY.NEAL@sakilacustomer.org       |        276 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
+|         315 |        2 | KENNETH    | GOODEN    | KENNETH.GOODEN@sakilacustomer.org   |        320 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         368 |        1 | HARRY      | ARCE      | HARRY.ARCE@sakilacustomer.org       |        373 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         406 |        1 | NATHAN     | RUNYON    | NATHAN.RUNYON@sakilacustomer.org    |        411 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         446 |        2 | THEODORE   | CULP      | THEODORE.CULP@sakilacustomer.org    |        451 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         482 |        1 | MAURICE    | CRAWLEY   | MAURICE.CRAWLEY@sakilacustomer.org  |        487 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         510 |        2 | BEN        | EASTER    | BEN.EASTER@sakilacustomer.org       |        515 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         534 |        1 | CHRISTIAN  | JUNG      | CHRISTIAN.JUNG@sakilacustomer.org   |        540 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         558 |        1 | JIMMIE     | EGGLESTON | JIMMIE.EGGLESTON@sakilacustomer.org |        564 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
+|         592 |        1 | TERRANCE   | ROUSH     | TERRANCE.ROUSH@sakilacustomer.org   |        598 |      0 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
++-------------+----------+------------+-----------+-------------------------------------+------------+--------+---------------------+---------------------+
+....
+====
+
+Answered by `Customer_Exercises_01_Basic_PersistenceIT`.
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 7 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_CUSTOMER_I_02, SAKILA_CUSTOMER_I_04, SAKILA_CUSTOMER_I_06, SAKILA_CUSTOMER_I_07.
+
+// AI: Pick SAKILA_CUSTOMER_I_01: SUM over payments with a deterministic top-n limit.
+// AI: Copied from EXERCISES.asciidoc:2300, anchor SAKILA_CUSTOMER_I_01; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_01_Test.
+[[SAKILA_CUSTOMER_I_01]]
+==== SAKILA_CUSTOMER_I_01: the five customers who paid the most
+
+Sum the payments of each customer.
+Show the five customers who paid the most: their `customer_id`, `first_name`, `last_name` and total, the largest first; ties are ordered by
+`customer_id`.
+
+.`customer/02_intermediate.sql`, SAKILA_CUSTOMER_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.*, SUM(p.amount) AS paid
+FROM customer c
+         JOIN payment p ON p.customer_id = c.customer_id
+GROUP BY c.customer_id
+ORDER BY paid DESC, c.customer_id
+LIMIT 5
+----
+
+....
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+| customer_id | store_id | first_name | last_name | email                             | address_id | active | create_date         | last_update         | paid   |
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+|         526 |        2 | KARL       | SEAL      | KARL.SEAL@sakilacustomer.org      |        532 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 221.55 |
+|         148 |        1 | ELEANOR    | HUNT      | ELEANOR.HUNT@sakilacustomer.org   |        152 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 216.54 |
+|         144 |        1 | CLARA      | SHAW      | CLARA.SHAW@sakilacustomer.org     |        148 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 195.58 |
+|         137 |        2 | RHONDA     | KENNEDY   | RHONDA.KENNEDY@sakilacustomer.org |        141 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 194.61 |
+|         178 |        2 | MARION     | SNYDER    | MARION.SNYDER@sakilacustomer.org  |        182 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 194.61 |
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+....
+====
+
+// AI: Pick SAKILA_CUSTOMER_I_03: HAVING over a customer's rentals.
+// AI: Copied from EXERCISES.asciidoc:2355, anchor SAKILA_CUSTOMER_I_03; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_03_Test.
+[[SAKILA_CUSTOMER_I_03]]
+==== SAKILA_CUSTOMER_I_03: the customers who rented forty times or more
+
+Count the rentals of each customer, and keep the customers with forty or more.
+Show their `customer_id`, `first_name`, `last_name` and number of rentals, the most first; ties are ordered by `customer_id`.
+The condition is on the count, so it goes in `HAVING`.
+
+.`customer/02_intermediate.sql`, SAKILA_CUSTOMER_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.*, COUNT(*) AS rentals
+FROM customer c
+         JOIN rental r ON r.customer_id = c.customer_id
+GROUP BY c.customer_id
+HAVING COUNT(*) >= 40
+ORDER BY rentals DESC, c.customer_id
+----
+
+....
++-------------+----------+------------+-----------+----------------------------------+------------+--------+---------------------+---------------------+---------+
+| customer_id | store_id | first_name | last_name | email                            | address_id | active | create_date         | last_update         | rentals |
++-------------+----------+------------+-----------+----------------------------------+------------+--------+---------------------+---------------------+---------+
+|         148 |        1 | ELEANOR    | HUNT      | ELEANOR.HUNT@sakilacustomer.org  |        152 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |      46 |
+|         526 |        2 | KARL       | SEAL      | KARL.SEAL@sakilacustomer.org     |        532 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |      45 |
+|         144 |        1 | CLARA      | SHAW      | CLARA.SHAW@sakilacustomer.org    |        148 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |      42 |
+|         236 |        1 | MARCIA     | DEAN      | MARCIA.DEAN@sakilacustomer.org   |        240 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |      42 |
+|          75 |        2 | TAMMY      | SANDERS   | TAMMY.SANDERS@sakilacustomer.org |         79 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |      41 |
+|         197 |        2 | SUE        | PETERS    | SUE.PETERS@sakilacustomer.org    |        201 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |      40 |
+|         469 |        2 | WESLEY     | BULL      | WESLEY.BULL@sakilacustomer.org   |        474 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |      40 |
++-------------+----------+------------+-----------+----------------------------------+------------+--------+---------------------+---------------------+---------+
+....
+====
+
+// AI: Pick SAKILA_CUSTOMER_I_05: A LEFT JOIN ON condition counts unreturned rentals while retaining zero.
+// AI: Copied from EXERCISES.asciidoc:2423, anchor SAKILA_CUSTOMER_I_05; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER; tier=Intermediate; sql=src/test/sql-exercises/customer/02_intermediate.sql; test=Customer_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_I_05_Test.
+[[SAKILA_CUSTOMER_I_05]]
+==== SAKILA_CUSTOMER_I_05: the first ten customers of the store 1, each with the rentals they have out, zero included
+
+For the first ten customers of the store `1` by `customer_id`, count the rentals they have not returned yet.
+Show the `customer_id`, the `first_name`, the `last_name` and the count; a customer with nothing out shows `0`.
+The join is an outer one, and the condition on `return_date` is in its `ON`; in `WHERE` it would drop the customers with nothing out.
+
+.`customer/02_intermediate.sql`, SAKILA_CUSTOMER_I_05
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.customer_id, c.first_name, c.last_name, COUNT(r.rental_id) AS rentals_out
+FROM customer c
+         LEFT JOIN rental r ON r.customer_id = c.customer_id AND r.return_date IS NULL
+WHERE c.store_id = 1
+GROUP BY c.customer_id
+ORDER BY c.customer_id
+LIMIT 10
+----
+
+....
++-------------+------------+-----------+-------------+
+| customer_id | first_name | last_name | rentals_out |
++-------------+------------+-----------+-------------+
+|           1 | MARY       | SMITH     |           0 |
+|           2 | PATRICIA   | JOHNSON   |           0 |
+|           3 | LINDA      | WILLIAMS  |           0 |
+|           5 | ELIZABETH  | BROWN     |           1 |
+|           7 | MARIA      | MILLER    |           0 |
+|          10 | DOROTHY    | TAYLOR    |           0 |
+|          12 | NANCY      | THOMAS    |           0 |
+|          15 | HELEN      | HARRIS    |           2 |
+|          17 | DONNA      | THOMPSON  |           0 |
+|          19 | RUTH       | MARTINEZ  |           0 |
++-------------+------------+-----------+-------------+
+....
+====
+
+Answered by `Customer_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 1 of 4 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_CUSTOMER_A_01, SAKILA_CUSTOMER_A_03, SAKILA_CUSTOMER_A_04.
+
+// AI: Pick SAKILA_CUSTOMER_A_02: Compare a customer total with the average for the customer's own store.
+// AI: Copied from EXERCISES.asciidoc:2560, anchor SAKILA_CUSTOMER_A_02; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER; tier=Advanced; sql=src/test/sql-exercises/customer/03_advanced.sql; test=Customer_Exercises_03_Advanced_PersistenceIT.SAKILA_CUSTOMER_A_02_Test.
+[[SAKILA_CUSTOMER_A_02]]
+==== SAKILA_CUSTOMER_A_02: how many customers of each store paid more than that store's average customer
+
+Sum the payments of each customer, then compare each customer's total with the average total of the customers of the same store.
+Show, for each store, how many of its customers paid more than the average, and the average itself rounded to two decimal places, ordered by `store_id`.
+A common table expression holds the totals, and a correlated subquery takes the average of the customer's own store.
+
+.`customer/03_advanced.sql`, SAKILA_CUSTOMER_A_02
+[%collapsible]
+====
+[source,sql]
+----
+WITH paid AS (SELECT c.customer_id, c.store_id, SUM(p.amount) AS paid
+              FROM customer c
+                       JOIN payment p ON p.customer_id = c.customer_id
+              GROUP BY c.customer_id, c.store_id)
+SELECT p1.store_id, COUNT(*) AS customers,
+       (SELECT ROUND(AVG(p2.paid), 2) FROM paid p2 WHERE p2.store_id = p1.store_id) AS average_paid
+FROM paid p1
+WHERE p1.paid > (SELECT AVG(p2.paid) FROM paid p2 WHERE p2.store_id = p1.store_id)
+GROUP BY p1.store_id
+ORDER BY p1.store_id
+----
+
+....
++----------+-----------+--------------+
+| store_id | customers | average_paid |
++----------+-----------+--------------+
+|        1 |       154 |       113.49 |
+|        2 |       126 |       111.39 |
++----------+-----------+--------------+
+....
+====
+
+== customer_list (view)
+
+The `customer_list` view, mapped by `CustomerList`.
+
+=== Basic
+
+// AI: Basic: selected 2 of 5 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_CUSTOMER_LIST_B_02, SAKILA_CUSTOMER_LIST_B_04, SAKILA_CUSTOMER_LIST_B_05.
+
+// AI: Pick SAKILA_CUSTOMER_LIST_B_01: Filter a mapped reporting view without repeating its joins.
+// AI: Copied from EXERCISES.asciidoc:2675, anchor SAKILA_CUSTOMER_LIST_B_01; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER_LIST; tier=Basic; sql=src/test/sql-exercises/customer_list/01_basic.sql; test=CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_01_Test.
+[[SAKILA_CUSTOMER_LIST_B_01]]
+==== SAKILA_CUSTOMER_LIST_B_01: the customers in Japan
+
+The `customer_list` view joins each customer with their address, city and country, and writes the name as one string.
+Show the customers who live in Japan, the whole rows of the view, ordered by `ID`.
+
+.`customer_list/01_basic.sql`, SAKILA_CUSTOMER_LIST_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM customer_list
+WHERE country = 'Japan'
+ORDER BY ID
+----
+
+....
++-----+-------------------+-----------------------------------+----------+--------------+--------------+---------+--------+-----+
+| ID  | name              | address                           | zip code | phone        | city         | country | notes  | SID |
++-----+-------------------+-----------------------------------+----------+--------------+--------------+---------+--------+-----+
+|   1 | MARY SMITH        | 1913 Hanoi Way                    | 35200    | 28303384290  | Sasebo       | Japan   | active |   1 |
+|  11 | LISA ANDERSON     | 1542 Tarlac Parkway               | 1027     | 635297277345 | Sagamihara   | Japan   | active |   2 |
+|  29 | ANGELA HERNANDEZ  | 786 Aurora Avenue                 | 65750    | 18461860151  | Shimonoseki  | Japan   | active |   2 |
+|  34 | REBECCA SCOTT     | 61 Tama Street                    | 94065    | 708403338270 | Kurashiki    | Japan   | active |   2 |
+|  53 | HEATHER MORRIS    | 17 Kabul Boulevard                | 38594    | 697760867968 | Nagareyama   | Japan   | active |   1 |
+|  54 | TERESA ROGERS     | 1964 Allappuzha (Alleppey) Street | 48980    | 920811325222 | Iwakuni      | Japan   | active |   1 |
+|  79 | RACHEL BARNES     | 586 Tete Way                      | 1079     | 18581624103  | Kamakura     | Japan   | active |   1 |
+| 141 | DEBBIE REYES      | 928 Jaffna Loop                   | 93762    | 581852137991 | Fukuyama     | Japan   | active |   1 |
+| 147 | JOANNE ROBERTSON  | 1337 Lincoln Parkway              | 99457    | 597815221267 | Urawa        | Japan   | active |   2 |
+| 163 | CATHY SPENCER     | 1287 Xi´angfan Boulevard          | 57844    | 819416131190 | Kakamigahara | Japan   | active |   1 |
+| 194 | KRISTEN CHAVEZ    | 345 Oshawa Boulevard              | 32114    | 104491201771 | Hino         | Japan   | active |   2 |
+| 240 | MARLENE WELCH     | 1148 Saarbrücken Parkway          | 1921     | 137773001988 | Iwaki        | Japan   | active |   1 |
+| 253 | TERRY CARLSON     | 752 Ondo Loop                     | 32474    | 134673576619 | Miyakonojo   | Japan   | active |   1 |
+| 264 | GWENDOLYN MAY     | 446 Kirovo-Tšepetsk Lane          | 19428    | 303967439816 | Higashiosaka | Japan   | active |   1 |
+| 285 | MIRIAM MCKINNEY   | 1336 Benin City Drive             | 46044    | 341242939532 | Otsu         | Japan   | active |   1 |
+| 299 | JAMES GANNON      | 1635 Kuwana Boulevard             | 52137    | 710603868323 | Hiroshima    | Japan   | active |   2 |
+| 337 | JERRY JORDON      | 124 al-Manama Way                 | 52368    | 647899404952 | Onomichi     | Japan   | active |   1 |
+| 355 | TERRY GRISSOM     | 619 Huánuco Avenue                | 81508    | 142596392389 | Matsue       | Japan   | active |   2 |
+| 365 | BRUCE SCHWARZ     | 1565 Tangail Manor                | 45750    | 634445428822 | Okinawa      | Japan   | active |   2 |
+| 385 | PHILLIP HOLM      | 102 Chapra Drive                  | 14073    | 776031833752 | Tama         | Japan   | active |   1 |
+| 391 | CLARENCE GAMEZ    | 767 Pyongyang Drive               | 83536    | 667736124769 | Izumisano    | Japan   | active |   1 |
+| 396 | EARL SHANKS       | 168 Cianjur Manor                 | 73824    | 679095087143 | Iwatsuki     | Japan   | active |   1 |
+| 401 | TONY CARRANZA     | 454 Patiala Lane                  | 13496    | 794553031307 | Koriyama     | Japan   | active |   2 |
+| 404 | STANLEY SCROGGINS | 1266 Laredo Parkway               | 7664     | 1483365694   | Omiya        | Japan   | active |   2 |
+| 429 | FREDERICK ISBELL  | 1404 Taguig Drive                 | 87212    | 572068624538 | Tsuyama      | Japan   | active |   2 |
+| 489 | RICARDO MEADOR    | 591 Sungai Petani Drive           | 46400    | 37247325001  | Okayama      | Japan   | active |   1 |
+| 503 | ANGEL BARCLAY     | 496 Celaya Drive                  | 90797    | 759586584889 | Ueda         | Japan   | active |   1 |
+| 519 | RON DELUCA        | 1949 Sanya Street                 | 61244    | 132100972047 | Isesaki      | Japan   | active |   2 |
+| 531 | JAMIE WAUGH       | 958 Sagamihara Lane               | 88408    | 427274926505 | Kuwana       | Japan   | active |   2 |
+| 547 | KURT EMMONS       | 1421 Quilmes Lane                 | 19151    | 135407755975 | Kanazawa     | Japan   | active |   1 |
+| 574 | JULIAN VEST       | 923 Tangail Boulevard             | 33384    | 315528269898 | Akishima     | Japan   | active |   2 |
++-----+-------------------+-----------------------------------+----------+--------------+--------------+---------+--------+-----+
+....
+====
+
+// AI: Pick SAKILA_CUSTOMER_LIST_B_03: Group a derived view attribute.
+// AI: Copied from EXERCISES.asciidoc:2761, anchor SAKILA_CUSTOMER_LIST_B_03; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER_LIST; tier=Basic; sql=src/test/sql-exercises/customer_list/01_basic.sql; test=CustomerList_Exercises_01_Basic_PersistenceIT.SAKILA_CUSTOMER_LIST_B_03_Test.
+[[SAKILA_CUSTOMER_LIST_B_03]]
+==== SAKILA_CUSTOMER_LIST_B_03: how many customers the view's notes call active
+
+The view does not show the `active` flag; its `notes` column holds `active` for an active customer and an empty string for the others.
+Show each value of `notes` with the number of its customers, ordered by `notes`.
+The counts should match those of `active` in `customer` itself.
+
+.`customer_list/01_basic.sql`, SAKILA_CUSTOMER_LIST_B_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT notes, COUNT(*) AS customers
+FROM customer_list
+GROUP BY notes
+ORDER BY notes
+----
+
+....
++--------+-----------+
+| notes  | customers |
++--------+-----------+
+|        |        15 |
+| active |       584 |
++--------+-----------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_CUSTOMER_LIST_I_01.
+
+// AI: Pick SAKILA_CUSTOMER_LIST_I_02: Group by city and country together to avoid name collisions.
+// AI: Copied from EXERCISES.asciidoc:2877, anchor SAKILA_CUSTOMER_LIST_I_02; retain the permanent ID when revising.
+// AI: Registry: section=CUSTOMER_LIST; tier=Intermediate; sql=src/test/sql-exercises/customer_list/02_intermediate.sql; test=CustomerList_Exercises_02_Intermediate_PersistenceIT.SAKILA_CUSTOMER_LIST_I_02_Test.
+[[SAKILA_CUSTOMER_LIST_I_02]]
+==== SAKILA_CUSTOMER_LIST_I_02: the cities with more than one customer
+
+Group the rows of the view by `city` and `country`, as two countries may have a city of the same name.
+Show the groups with more than one customer, with their counts, ordered by the city and then the country.
+
+.`customer_list/02_intermediate.sql`, SAKILA_CUSTOMER_LIST_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT city, country, COUNT(*) AS customers
+FROM customer_list
+GROUP BY city, country
+HAVING COUNT(*) > 1
+ORDER BY city, country
+----
+
+....
++--------+----------------+-----------+
+| city   | country        | customers |
++--------+----------------+-----------+
+| Aurora | United States  |         2 |
+| London | United Kingdom |         2 |
++--------+----------------+-----------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 1 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_CUSTOMER_LIST_A_01.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== film
+
+The `film` table, mapped by `Film`.
+
+=== Basic
+
+// AI: Basic: selected 2 of 6 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_B_02, SAKILA_FILM_B_04, SAKILA_FILM_B_06, SAKILA_FILM_B_07.
+
+// AI: Pick SAKILA_FILM_B_01: Group by the mapped rating enum.
+// AI: Copied from EXERCISES.asciidoc:2950, anchor SAKILA_FILM_B_01; retain the permanent ID when revising.
+// AI: Registry: section=FILM; tier=Basic; sql=src/test/sql-exercises/film/01_basic.sql; test=Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_01_Test.
+[[SAKILA_FILM_B_01]]
+==== SAKILA_FILM_B_01: how many films each rating has
+
+Count the films of each `rating`.
+Show each rating with its count, ordered by the rating.
+The rating is an `ENUM`, so its order is the order of the enum's values, not the alphabetical one.
+
+.`film/01_basic.sql`, SAKILA_FILM_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT rating, COUNT(*) AS films
+FROM film
+GROUP BY rating
+ORDER BY rating
+----
+
+....
++--------+-------+
+| rating | films |
++--------+-------+
+| G      |   178 |
+| PG     |   194 |
+| PG-13  |   223 |
+| R      |   195 |
+| NC-17  |   210 |
++--------+-------+
+....
+====
+
+// AI: Pick SAKILA_FILM_B_03: AVG of a monetary attribute grouped by rating.
+// AI: Copied from EXERCISES.asciidoc:3012, anchor SAKILA_FILM_B_03; retain the permanent ID when revising.
+// AI: Registry: section=FILM; tier=Basic; sql=src/test/sql-exercises/film/01_basic.sql; test=Film_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_B_03_Test.
+[[SAKILA_FILM_B_03]]
+==== SAKILA_FILM_B_03: the average rental rate of each rating
+
+Take the average `rental_rate` of the films of each rating.
+Show each rating with the average, rounded to two decimal places, ordered by the rating.
+
+.`film/01_basic.sql`, SAKILA_FILM_B_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT rating, ROUND(AVG(rental_rate), 2) AS average_rental_rate
+FROM film
+GROUP BY rating
+ORDER BY rating
+----
+
+....
++--------+---------------------+
+| rating | average_rental_rate |
++--------+---------------------+
+| G      |                2.89 |
+| PG     |                3.05 |
+| PG-13  |                3.03 |
+| R      |                2.94 |
+| NC-17  |                2.97 |
++--------+---------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 5 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_I_03, SAKILA_FILM_I_05.
+
+// AI: Pick SAKILA_FILM_I_01: NOT EXISTS identifies films with no inventory association.
+// AI: Copied from EXERCISES.asciidoc:3139, anchor SAKILA_FILM_I_01; retain the permanent ID when revising.
+// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_01_Test.
+[[SAKILA_FILM_I_01]]
+==== SAKILA_FILM_I_01: how many films have no copy in the inventory
+
+Count the films which have no copy in `inventory`.
+They cannot be rented.
+An anti-join on `inventory.film_id`.
+
+.`film/02_intermediate.sql`, SAKILA_FILM_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT COUNT(*) AS films
+FROM film f
+WHERE NOT EXISTS (SELECT 1 FROM inventory i WHERE i.film_id = f.film_id)
+----
+
+....
++-------+
+| films |
++-------+
+|    42 |
++-------+
+....
+====
+
+// AI: Pick SAKILA_FILM_I_02: Traverse copies and rentals to rank films with pagination.
+// AI: Copied from EXERCISES.asciidoc:3165, anchor SAKILA_FILM_I_02; retain the permanent ID when revising.
+// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_02_Test.
+[[SAKILA_FILM_I_02]]
+==== SAKILA_FILM_I_02: the five films rented the most
+
+Count how many times each film was rented.
+A rental refers to a copy (`inventory_id`), and a copy to a film, so the count goes through `inventory`.
+Show the five films rented the most:
+their `film_id`, `title` and number of rentals, the most first; ties are ordered by `film_id`.
+
+.`film/02_intermediate.sql`, SAKILA_FILM_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT f.*, COUNT(*) AS rentals
+FROM film f
+         JOIN inventory i ON i.film_id = f.film_id
+         JOIN rental r ON r.inventory_id = i.inventory_id
+GROUP BY f.film_id
+ORDER BY rentals DESC, f.film_id
+LIMIT 5
+----
+
+....
++---------+--------------------+--------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+
+| film_id | title              | description                                                                                                  | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                        | last_update         | rentals |
++---------+--------------------+--------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+
+|     103 | BUCKET BROTHERHOOD | A Amazing Display of a Girl And a Womanizer who must Succumb a Lumberjack in A Baloon Factory                |         2006 |           1 |                 NULL |               7 |        4.99 |    133 |            27.99 | PG     | Commentaries,Deleted Scenes             | 2006-02-15 05:03:42 |      34 |
+|     738 | ROCKETEER MOTHER   | A Awe-Inspiring Character Study of a Robot And a Sumo Wrestler who must Discover a Womanizer in A Shark Tank |         2006 |           1 |                 NULL |               3 |        0.99 |    178 |            27.99 | PG-13  | Deleted Scenes,Behind the Scenes        | 2006-02-15 05:03:42 |      33 |
+|     331 | FORWARD TEMPLE     | A Astounding Display of a Forensic Psychologist And a Mad Scientist who must Challenge a Girl in New Orleans |         2006 |           1 |                 NULL |               6 |        2.99 |     90 |            25.99 | NC-17  | Trailers,Commentaries,Behind the Scenes | 2006-02-15 05:03:42 |      32 |
+|     382 | GRIT CLOCKWORK     | A Thoughtful Display of a Dentist And a Squirrel who must Confront a Lumberjack in A Shark Tank              |         2006 |           1 |                 NULL |               3 |        0.99 |    137 |            21.99 | PG     | Trailers,Deleted Scenes                 | 2006-02-15 05:03:42 |      32 |
+|     489 | JUGGLER HARDLY     | A Epic Story of a Mad Cow And a Astronaut who must Challenge a Car in California                             |         2006 |           1 |                 NULL |               4 |        0.99 |     54 |            14.99 | PG-13  | Trailers,Commentaries                   | 2006-02-15 05:03:42 |      32 |
++---------+--------------------+--------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------+---------------------+---------+
+....
+====
+
+// AI: Pick SAKILA_FILM_I_04: Compare rating-group averages with an overall film average.
+// AI: Copied from EXERCISES.asciidoc:3235, anchor SAKILA_FILM_I_04; retain the permanent ID when revising.
+// AI: Registry: section=FILM; tier=Intermediate; sql=src/test/sql-exercises/film/02_intermediate.sql; test=Film_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_I_04_Test.
+[[SAKILA_FILM_I_04]]
+==== SAKILA_FILM_I_04: the ratings whose films are longer than the average film
+
+Take the average `length` of the films of each rating, and keep the ratings whose average is above the average of all the films.
+Show each such rating with its average, rounded to two decimal places, ordered by the rating.
+A subquery in `HAVING` gives the overall average.
+
+.`film/02_intermediate.sql`, SAKILA_FILM_I_04
+[%collapsible]
+====
+[source,sql]
+----
+SELECT rating, ROUND(AVG(length), 2) AS average_length
+FROM film
+GROUP BY rating
+HAVING AVG(length) > (SELECT AVG(length) FROM film)
+ORDER BY rating
+----
+
+....
++--------+----------------+
+| rating | average_length |
++--------+----------------+
+| PG-13  |         120.44 |
+| R      |         118.66 |
++--------+----------------+
+....
+====
+
+Answered by `Film_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_A_02.
+
+// AI: Pick SAKILA_FILM_A_01: A correlated average per rating.
+// AI: Copied from EXERCISES.asciidoc:3305, anchor SAKILA_FILM_A_01; retain the permanent ID when revising.
+// AI: Registry: section=FILM; tier=Advanced; sql=src/test/sql-exercises/film/03_advanced.sql; test=Film_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_A_01_Test.
+[[SAKILA_FILM_A_01]]
+==== SAKILA_FILM_A_01: how many films of each rating are longer than their rating's average
+
+Compare each film's `length` with the average length of the films of the same rating.
+Count, for each rating, the films longer than that average, and show each rating with its count, ordered by the rating.
+A correlated subquery: the average is taken again for the rating of each film.
+
+.`film/03_advanced.sql`, SAKILA_FILM_A_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT f1.rating, COUNT(*) AS films
+FROM film f1
+WHERE f1.length > (SELECT AVG(f2.length) FROM film f2 WHERE f2.rating = f1.rating)
+GROUP BY f1.rating
+ORDER BY f1.rating
+----
+
+....
++--------+-------+
+| rating | films |
++--------+-------+
+| G      |    83 |
+| PG     |    99 |
+| PG-13  |   118 |
+| R      |    94 |
+| NC-17  |   103 |
++--------+-------+
+....
+====
+
+Answered by `Film_Exercises_03_Advanced_PersistenceIT`.
+
+== film_actor
+
+The `film_actor` table, mapped by `FilmActor`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_ACTOR_B_02.
+
+// AI: Pick SAKILA_FILM_ACTOR_B_01: Count rows of a link entity using one side of its key.
+// AI: Copied from EXERCISES.asciidoc:3382, anchor SAKILA_FILM_ACTOR_B_01; retain the permanent ID when revising.
+// AI: Registry: section=FILM_ACTOR; tier=Basic; sql=src/test/sql-exercises/film_actor/01_basic.sql; test=FilmActor_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_ACTOR_B_01_Test.
+[[SAKILA_FILM_ACTOR_B_01]]
+==== SAKILA_FILM_ACTOR_B_01: how many films the actor 1 appears in
+
+Count the rows of `film_actor` whose `actor_id` is `1`.
+Each row is one film the actor appears in.
+
+.`film_actor/01_basic.sql`, SAKILA_FILM_ACTOR_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT COUNT(*) AS films
+FROM film_actor
+WHERE actor_id = 1
+----
+
+....
++-------+
+| films |
++-------+
+|    19 |
++-------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 2 of 4 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_ACTOR_I_02, SAKILA_FILM_ACTOR_I_04.
+
+// AI: Pick SAKILA_FILM_ACTOR_I_01: Group the link entity by its film association.
+// AI: Copied from EXERCISES.asciidoc:3435, anchor SAKILA_FILM_ACTOR_I_01; retain the permanent ID when revising.
+// AI: Registry: section=FILM_ACTOR; tier=Intermediate; sql=src/test/sql-exercises/film_actor/02_intermediate.sql; test=FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_01_Test.
+[[SAKILA_FILM_ACTOR_I_01]]
+==== SAKILA_FILM_ACTOR_I_01: the five films with the most actors
+
+Count the actors of each film through `film_actor`.
+Show the five films with the most actors: their `film_id`, `title` and number of actors, the most first; ties are ordered by
+`film_id`.
+
+.`film_actor/02_intermediate.sql`, SAKILA_FILM_ACTOR_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT f.*, COUNT(*) AS actors
+FROM film f
+         JOIN film_actor fa ON fa.film_id = f.film_id
+GROUP BY f.film_id
+ORDER BY actors DESC, f.film_id
+LIMIT 5
+----
+
+....
++---------+-------------------+-------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------+---------------------+--------+
+| film_id | title             | description                                                                                                             | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features            | last_update         | actors |
++---------+-------------------+-------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------+---------------------+--------+
+|     508 | LAMBS CINCINATTI  | A Insightful Story of a Man And a Feminist who must Fight a Composer in Australia                                       |         2006 |           1 |                 NULL |               6 |        4.99 |    144 |            18.99 | PG-13  | Trailers,Behind the Scenes  | 2006-02-15 05:03:42 |     15 |
+|      87 | BOONDOCK BALLROOM | A Fateful Panorama of a Crocodile And a Boy who must Defeat a Monkey in The Gulf of Mexico                              |         2006 |           1 |                 NULL |               7 |        0.99 |     76 |            14.99 | NC-17  | Behind the Scenes           | 2006-02-15 05:03:42 |     13 |
+|     146 | CHITTY LOCK       | A Boring Epistle of a Boat And a Database Administrator who must Kill a Sumo Wrestler in The First Manned Space Station |         2006 |           1 |                 NULL |               6 |        2.99 |    107 |            24.99 | G      | Commentaries                | 2006-02-15 05:03:42 |     13 |
+|     188 | CRAZY HOME        | A Fanciful Panorama of a Boy And a Woman who must Vanquish a Database Administrator in The Outback                      |         2006 |           1 |                 NULL |               7 |        2.99 |    136 |            24.99 | PG     | Commentaries,Deleted Scenes | 2006-02-15 05:03:42 |     13 |
+|     249 | DRACULA CRYSTAL   | A Thrilling Reflection of a Feminist And a Cat who must Find a Frisbee in An Abandoned Fun House                        |         2006 |           1 |                 NULL |               7 |        0.99 |    176 |            26.99 | G      | Commentaries                | 2006-02-15 05:03:42 |     13 |
++---------+-------------------+-------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------+---------------------+--------+
+....
+====
+
+// AI: Pick SAKILA_FILM_ACTOR_I_03: A self-join of the link entity answers a co-star question.
+// AI: Copied from EXERCISES.asciidoc:3492, anchor SAKILA_FILM_ACTOR_I_03; retain the permanent ID when revising.
+// AI: Registry: section=FILM_ACTOR; tier=Intermediate; sql=src/test/sql-exercises/film_actor/02_intermediate.sql; test=FilmActor_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_ACTOR_I_03_Test.
+[[SAKILA_FILM_ACTOR_I_03]]
+==== SAKILA_FILM_ACTOR_I_03: the five actors who appear most often with the actor 1
+
+Join `film_actor` with itself on the film, keeping the rows of the actor 1 on one side and the other actors of the same films on the other.
+Count the films each other actor shares with the actor 1, and show the five with the most: their `actor_id`, `first_name`, `last_name` and count, the most first; ties are ordered by `actor_id`.
+
+.`film_actor/02_intermediate.sql`, SAKILA_FILM_ACTOR_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a.*, COUNT(*) AS films
+FROM film_actor fa1
+         JOIN film_actor fa2 ON fa2.film_id = fa1.film_id AND fa2.actor_id <> fa1.actor_id
+         JOIN actor a ON a.actor_id = fa2.actor_id
+WHERE fa1.actor_id = 1
+GROUP BY a.actor_id
+ORDER BY films DESC, a.actor_id
+LIMIT 5
+----
+
+....
++----------+------------+-----------+---------------------+-------+
+| actor_id | first_name | last_name | last_update         | films |
++----------+------------+-----------+---------------------+-------+
+|        4 | JENNIFER   | DAVIS     | 2006-02-15 04:34:33 |     4 |
+|       20 | LUCILLE    | TRACY     | 2006-02-15 04:34:33 |     3 |
+|       64 | RAY        | JOHANSSON | 2006-02-15 04:34:33 |     3 |
+|        6 | BETTE      | NICHOLSON | 2006-02-15 04:34:33 |     2 |
+|       10 | CHRISTIAN  | GABLE     | 2006-02-15 04:34:33 |     2 |
++----------+------------+-----------+---------------------+-------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 1 of 3 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_ACTOR_A_02, SAKILA_FILM_ACTOR_A_03.
+
+// AI: Pick SAKILA_FILM_ACTOR_A_01: Pair ordering removes reversed duplicates in a link-entity self-join.
+// AI: Copied from EXERCISES.asciidoc:3570, anchor SAKILA_FILM_ACTOR_A_01; retain the permanent ID when revising.
+// AI: Registry: section=FILM_ACTOR; tier=Advanced; sql=src/test/sql-exercises/film_actor/03_advanced.sql; test=FilmActor_Exercises_03_Advanced_PersistenceIT.SAKILA_FILM_ACTOR_A_01_Test.
+[[SAKILA_FILM_ACTOR_A_01]]
+==== SAKILA_FILM_ACTOR_A_01: the three pairs of actors who appear together the most
+
+Two actors appear together when both are in the same film.
+Pair every
+`film_actor` row with every other row of the same film, keeping each pair once (the first actor's id smaller than the second's), and count the films of each pair.
+Show the three pairs who appear together the most: both actors' ids and the count, the most first; ties are ordered by the ids.
+A self-join.
+
+.`film_actor/03_advanced.sql`, SAKILA_FILM_ACTOR_A_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT a1.*, a2.*, COUNT(*) AS films
+FROM film_actor fa1
+         JOIN film_actor fa2 ON fa2.film_id = fa1.film_id AND fa2.actor_id > fa1.actor_id
+         JOIN actor a1 ON a1.actor_id = fa1.actor_id
+         JOIN actor a2 ON a2.actor_id = fa2.actor_id
+GROUP BY a1.actor_id, a2.actor_id
+ORDER BY films DESC, a1.actor_id, a2.actor_id
+LIMIT 3
+----
+
+....
++----------+------------+-----------+---------------------+----------+------------+-----------+---------------------+-------+
+| actor_id | first_name | last_name | last_update         | actor_id | first_name | last_name | last_update         | films |
++----------+------------+-----------+---------------------+----------+------------+-----------+---------------------+-------+
+|       27 | JULIA      | MCQUEEN   | 2006-02-15 04:34:33 |       60 | HENRY      | BERRY     | 2006-02-15 04:34:33 |     7 |
+|       15 | CUBA       | OLIVIER   | 2006-02-15 04:34:33 |      198 | MARY       | KEITEL    | 2006-02-15 04:34:33 |     6 |
+|       21 | KIRSTEN    | PALTROW   | 2006-02-15 04:34:33 |      108 | WARREN     | NOLTE     | 2006-02-15 04:34:33 |     6 |
++----------+------------+-----------+---------------------+----------+------------+-----------+---------------------+-------+
+....
+====
+
+== film_category
+
+The `film_category` table, mapped by `FilmCategory`.
+
+=== Basic
+
+// AI: Basic: selected 2 of 3 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_CATEGORY_B_01.
+
+// AI: Pick SAKILA_FILM_CATEGORY_B_02: Read the link entity and order by its film key.
+// AI: Copied from EXERCISES.asciidoc:3718, anchor SAKILA_FILM_CATEGORY_B_02; retain the permanent ID when revising.
+// AI: Registry: section=FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/film_category/01_basic.sql; test=FilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_CATEGORY_B_02_Test.
+[[SAKILA_FILM_CATEGORY_B_02]]
+==== SAKILA_FILM_CATEGORY_B_02: the categories of the films 1 to 10
+
+Show the rows of `film_category` for the films whose id is between `1` and `10`: the `film_id` and its `category_id`, ordered by `film_id`.
+A film has one category in the installed data, so `film_id` alone gives the order.
+
+.`film_category/01_basic.sql`, SAKILA_FILM_CATEGORY_B_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM film_category
+WHERE film_id BETWEEN 1 AND 10
+ORDER BY film_id
+----
+
+....
++---------+-------------+---------------------+
+| film_id | category_id | last_update         |
++---------+-------------+---------------------+
+|       1 |           6 | 2006-02-15 05:07:09 |
+|       2 |          11 | 2006-02-15 05:07:09 |
+|       3 |           6 | 2006-02-15 05:07:09 |
+|       4 |          11 | 2006-02-15 05:07:09 |
+|       5 |           8 | 2006-02-15 05:07:09 |
+|       6 |           9 | 2006-02-15 05:07:09 |
+|       7 |           5 | 2006-02-15 05:07:09 |
+|       8 |          11 | 2006-02-15 05:07:09 |
+|       9 |          11 | 2006-02-15 05:07:09 |
+|      10 |          15 | 2006-02-15 05:07:09 |
++---------+-------------+---------------------+
+....
+====
+
+Answered by `FilmCategory_Exercises_01_Basic_PersistenceIT`.
+
+// AI: Pick SAKILA_FILM_CATEGORY_B_03: Navigate the category and film associations of a composite-key link.
+// AI: Copied from EXERCISES.asciidoc:3755, anchor SAKILA_FILM_CATEGORY_B_03; retain the permanent ID when revising.
+// AI: Registry: section=FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/film_category/01_basic.sql; test=FilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_CATEGORY_B_03_Test.
+[[SAKILA_FILM_CATEGORY_B_03]]
+==== SAKILA_FILM_CATEGORY_B_03: the films of the Comedy category
+
+Find the films whose category is `Comedy`, through `film_category`.
+Show the films' whole rows, ordered by `title`; ties are ordered by `film_id`.
+
+.`film_category/01_basic.sql`, SAKILA_FILM_CATEGORY_B_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT f.*
+FROM film f
+         JOIN film_category fc ON fc.film_id = f.film_id
+         JOIN category c ON c.category_id = fc.category_id
+WHERE c.name = 'Comedy'
+ORDER BY f.title, f.film_id
+----
+
+....
++---------+-------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+| film_id | title                   | description                                                                                                              | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                                       | last_update         |
++---------+-------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+|       7 | AIRPLANE SIERRA         | A Touching Saga of a Hunter And a Butler who must Discover a Butler in A Jet Boat                                        |         2006 |           1 |                 NULL |               6 |        4.99 |     62 |            28.99 | PG-13  | Trailers,Deleted Scenes                                | 2006-02-15 05:03:42 |
+|      28 | ANTHEM LUKE             | A Touching Panorama of a Waitress And a Woman who must Outrace a Dog in An Abandoned Amusement Park                      |         2006 |           1 |                 NULL |               5 |        4.99 |     91 |            16.99 | PG-13  | Deleted Scenes,Behind the Scenes                       | 2006-02-15 05:03:42 |
+|      99 | BRINGING HYSTERICAL     | A Fateful Saga of a A Shark And a Technical Writer who must Find a Woman in A Jet Boat                                   |         2006 |           1 |                 NULL |               7 |        2.99 |    136 |            14.99 | PG     | Trailers                                               | 2006-02-15 05:03:42 |
+|     119 | CAPER MOTIONS           | A Fateful Saga of a Moose And a Car who must Pursue a Woman in A MySQL Convention                                        |         2006 |           1 |                 NULL |               6 |        0.99 |    176 |            22.99 | G      | Trailers,Commentaries,Deleted Scenes                   | 2006-02-15 05:03:42 |
+|     127 | CAT CONEHEADS           | A Fast-Paced Panorama of a Girl And a A Shark who must Confront a Boy in Ancient India                                   |         2006 |           1 |                 NULL |               5 |        4.99 |    112 |            14.99 | G      | Commentaries,Deleted Scenes                            | 2006-02-15 05:03:42 |
++---------+-------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+--------------------------------------------------------+---------------------+
+... 58 rows in all.
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 1 of 3 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_CATEGORY_I_01, SAKILA_FILM_CATEGORY_I_02.
+
+// AI: Pick SAKILA_FILM_CATEGORY_I_03: Outer joins and conditional aggregation count R-rated films per category.
+// AI: Copied from EXERCISES.asciidoc:3839, anchor SAKILA_FILM_CATEGORY_I_03; retain the permanent ID when revising.
+// AI: Registry: section=FILM_CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/film_category/02_intermediate.sql; test=FilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_FILM_CATEGORY_I_03_Test.
+[[SAKILA_FILM_CATEGORY_I_03]]
+==== SAKILA_FILM_CATEGORY_I_03: how many films each category has, and how many of them are rated R
+
+For each category, a category without a film included, count its films, and, in the same row, those of them whose `rating` is `R`.
+Show the category's name with both counts, ordered by the name.
+Count the R-rated films with a `CASE` inside a `SUM`, so that one pass over the rows gives both counts; the query starts from `category`, with outer joins.
+
+.`film_category/02_intermediate.sql`, SAKILA_FILM_CATEGORY_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.*,
+       COUNT(f.film_id) AS films,
+       SUM(CASE WHEN f.rating = 'R' THEN 1 ELSE 0 END) AS r_rated
+FROM category c
+         LEFT JOIN film_category fc ON fc.category_id = c.category_id
+         LEFT JOIN film f ON f.film_id = fc.film_id
+GROUP BY c.category_id
+ORDER BY c.name
+----
+
+....
++-------------+-------------+---------------------+-------+---------+
+| category_id | name        | last_update         | films | r_rated |
++-------------+-------------+---------------------+-------+---------+
+|           1 | Action      | 2006-02-15 04:46:27 |    64 |      14 |
+|           2 | Animation   | 2006-02-15 04:46:27 |    66 |       8 |
+|           3 | Children    | 2006-02-15 04:46:27 |    60 |       9 |
+|           4 | Classics    | 2006-02-15 04:46:27 |    57 |      14 |
+|           5 | Comedy      | 2006-02-15 04:46:27 |    58 |       8 |
+|           6 | Documentary | 2006-02-15 04:46:27 |    68 |      13 |
+|           7 | Drama       | 2006-02-15 04:46:27 |    62 |       6 |
+|           8 | Family      | 2006-02-15 04:46:27 |    69 |      16 |
+|           9 | Foreign     | 2006-02-15 04:46:27 |    73 |      15 |
+|          10 | Games       | 2006-02-15 04:46:27 |    61 |      15 |
+|          11 | Horror      | 2006-02-15 04:46:27 |    56 |      14 |
+|          12 | Music       | 2006-02-15 04:46:27 |    51 |      11 |
+|          13 | New         | 2006-02-15 04:46:27 |    63 |       9 |
+|          14 | Sci-Fi      | 2006-02-15 04:46:27 |    61 |      17 |
+|          15 | Sports      | 2006-02-15 04:46:27 |    74 |      16 |
+|          16 | Travel      | 2006-02-15 04:46:27 |    57 |      10 |
++-------------+-------------+---------------------+-------+---------+
+....
+====
+
+Answered by `FilmCategory_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_FILM_CATEGORY_A_01, SAKILA_FILM_CATEGORY_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== film_list (view)
+
+The `film_list` view, mapped by `FilmList`.
+
+=== Basic
+
+// AI: Basic: selected 0 of 4 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks this view SQL-only; parsing comma-delimited actor names is also fragile.
+// AI: Not selected: SAKILA_FILM_LIST_B_01, SAKILA_FILM_LIST_B_02, SAKILA_FILM_LIST_B_03, SAKILA_FILM_LIST_B_04.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Intermediate
+
+// AI: Intermediate: selected 0 of 3 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks this view SQL-only; parsing comma-delimited actor names is also fragile.
+// AI: Not selected: SAKILA_FILM_LIST_I_01, SAKILA_FILM_LIST_I_02, SAKILA_FILM_LIST_I_03.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 1 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks this view SQL-only; parsing comma-delimited actor names is also fragile.
+// AI: Not selected: SAKILA_FILM_LIST_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== film_text
+
+The `film_text` table, mapped by `FilmText`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Exclude word-chain recursion, fixed word-position story classification, and trigger-consistency audits.
+// AI: Not selected: SAKILA_FILM_TEXT_B_02.
+
+// AI: Pick SAKILA_FILM_TEXT_B_01: A portable text-search baseline using two LIKE predicates.
+// AI: Copied from EXERCISES.asciidoc:4241, anchor SAKILA_FILM_TEXT_B_01; retain the permanent ID when revising.
+// AI: Registry: section=FILM_TEXT; tier=Basic; sql=src/test/sql-exercises/film_text/01_basic.sql; test=FilmText_Exercises_01_Basic_PersistenceIT.SAKILA_FILM_TEXT_B_01_Test.
+[[SAKILA_FILM_TEXT_B_01]]
+==== SAKILA_FILM_TEXT_B_01: the films whose description has both a Crocodile and a Shark
+
+Find the films whose `description` mentions both `Crocodile` and `Shark`, with two `LIKE` conditions.
+Show their `film_id` and `title`, ordered by `film_id`.
+
+.`film_text/01_basic.sql`, SAKILA_FILM_TEXT_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM film_text
+WHERE description LIKE '%Crocodile%'
+  AND description LIKE '%Shark%'
+ORDER BY film_id
+----
+
+....
++---------+-------------------+------------------------------------------------------------------------------------------------------+
+| film_id | title             | description                                                                                          |
++---------+-------------------+------------------------------------------------------------------------------------------------------+
+|     155 | CLEOPATRA DEVIL   | A Fanciful Documentary of a Crocodile And a Technical Writer who must Fight a A Shark in A Baloon    |
+|     177 | CONNECTICUT TRAMP | A Unbelieveable Drama of a Crocodile And a Mad Cow who must Reach a Dentist in A Shark Tank          |
+|     206 | DANCING FEVER     | A Stunning Story of a Explorer And a Forensic Psychologist who must Face a Crocodile in A Shark Tank |
+|     292 | EXCITEMENT EVE    | A Brilliant Documentary of a Monkey And a Car who must Conquer a Crocodile in A Shark Tank           |
+|     429 | HONEY TIES        | A Taut Story of a Waitress And a Crocodile who must Outrace a Lumberjack in A Shark Tank             |
+|     543 | MADIGAN DORADO    | A Astounding Character Study of a A Shark And a A Shark who must Discover a Crocodile in The Outback |
+|     790 | SHOOTIST SUPERFLY | A Fast-Paced Story of a Crocodile And a A Shark who must Sink a Pioneer in Berlin                    |
+|     803 | SLACKER LIAISONS  | A Fast-Paced Tale of a A Shark And a Student who must Meet a Crocodile in Ancient China              |
+|     832 | SPLASH GUMP       | A Taut Saga of a Crocodile And a Boat who must Conquer a Hunter in A Shark Tank                      |
+|     959 | WARLOCK WEREWOLF  | A Astounding Yarn of a Pioneer And a Crocodile who must Defeat a A Shark in The Outback              |
++---------+-------------------+------------------------------------------------------------------------------------------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 0 of 7 reviewed candidates in this original scope.
+// AI: Selection boundary: Exclude word-chain recursion, fixed word-position story classification, and trigger-consistency audits.
+// AI: Not selected: SAKILA_FILM_TEXT_I_01, SAKILA_FILM_TEXT_I_02, SAKILA_FILM_TEXT_I_03, SAKILA_FILM_TEXT_I_04, SAKILA_FILM_TEXT_I_05, SAKILA_FILM_TEXT_I_06, SAKILA_FILM_TEXT_I_07.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: Exclude word-chain recursion, fixed word-position story classification, and trigger-consistency audits.
+// AI: Not selected: SAKILA_FILM_TEXT_A_01, SAKILA_FILM_TEXT_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== inventory
+
+The `inventory` table, mapped by `Inventory`.
+
+=== Basic
+
+// AI: Basic: selected 3 of 3 reviewed candidates in this original scope.
+
+// AI: Pick SAKILA_INVENTORY_B_01: Group inventory by its store association.
+// AI: Copied from EXERCISES.asciidoc:4599, anchor SAKILA_INVENTORY_B_01; retain the permanent ID when revising.
+// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_01_Test.
+[[SAKILA_INVENTORY_B_01]]
+==== SAKILA_INVENTORY_B_01: how many copies each store has
+
+Count the copies, the rows of `inventory`, that each store has.
+Show each
+`store_id` with its count, ordered by the store.
+
+.`inventory/01_basic.sql`, SAKILA_INVENTORY_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT st.*, COUNT(*) AS copies
+FROM inventory i
+         JOIN store st ON st.store_id = i.store_id
+GROUP BY st.store_id
+ORDER BY st.store_id
+----
+
+....
++----------+------------------+------------+---------------------+--------+
+| store_id | manager_staff_id | address_id | last_update         | copies |
++----------+------------------+------------+---------------------+--------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |   2270 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |   2311 |
++----------+------------------+------------+---------------------+--------+
+....
+====
+
+// AI: Pick SAKILA_INVENTORY_B_02: Select copies by their film association.
+// AI: Copied from EXERCISES.asciidoc:4628, anchor SAKILA_INVENTORY_B_02; retain the permanent ID when revising.
+// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_02_Test.
+[[SAKILA_INVENTORY_B_02]]
+==== SAKILA_INVENTORY_B_02: the copies of the film 1
+
+Find the copies of the film `1`.
+Show each copy's `inventory_id` and `store_id`, ordered by `inventory_id`.
+
+.`inventory/01_basic.sql`, SAKILA_INVENTORY_B_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM inventory
+WHERE film_id = 1
+ORDER BY inventory_id
+----
+
+....
++--------------+---------+----------+---------------------+
+| inventory_id | film_id | store_id | last_update         |
++--------------+---------+----------+---------------------+
+|            1 |       1 |        1 | 2006-02-15 05:09:17 |
+|            2 |       1 |        1 | 2006-02-15 05:09:17 |
+|            3 |       1 |        1 | 2006-02-15 05:09:17 |
+|            4 |       1 |        1 | 2006-02-15 05:09:17 |
+|            5 |       1 |        2 | 2006-02-15 05:09:17 |
+|            6 |       1 |        2 | 2006-02-15 05:09:17 |
+|            7 |       1 |        2 | 2006-02-15 05:09:17 |
+|            8 |       1 |        2 | 2006-02-15 05:09:17 |
++--------------+---------+----------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_INVENTORY_B_03: Group by two associated entities without losing the composite group.
+// AI: Copied from EXERCISES.asciidoc:4661, anchor SAKILA_INVENTORY_B_03; retain the permanent ID when revising.
+// AI: Registry: section=INVENTORY; tier=Basic; sql=src/test/sql-exercises/inventory/01_basic.sql; test=Inventory_Exercises_01_Basic_PersistenceIT.SAKILA_INVENTORY_B_03_Test.
+[[SAKILA_INVENTORY_B_03]]
+==== SAKILA_INVENTORY_B_03: how many copies of the films 1 to 5 each store has
+
+For the films whose id is between `1` and `5`, count the copies each store has of each film.
+Show the `film_id`, the `store_id` and the count, ordered by `film_id` and then by `store_id`.
+A store with no copy of a film has no row for it.
+
+.`inventory/01_basic.sql`, SAKILA_INVENTORY_B_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT f.*, st.*, COUNT(*) AS copies
+FROM inventory i
+         JOIN film f ON f.film_id = i.film_id
+         JOIN store st ON st.store_id = i.store_id
+WHERE f.film_id BETWEEN 1 AND 5
+GROUP BY f.film_id, st.store_id
+ORDER BY f.film_id, st.store_id
+----
+
+....
++---------+------------------+-----------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+----------------------------------+---------------------+----------+------------------+------------+---------------------+--------+
+| film_id | title            | description                                                                                                           | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                 | last_update         | store_id | manager_staff_id | address_id | last_update         | copies |
++---------+------------------+-----------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+----------------------------------+---------------------+----------+------------------+------------+---------------------+--------+
+|       1 | ACADEMY DINOSAUR | A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies                      |         2006 |           1 |                 NULL |               6 |        0.99 |     86 |            20.99 | PG     | Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |        1 |                1 |          1 | 2006-02-15 04:57:12 |      4 |
+|       1 | ACADEMY DINOSAUR | A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies                      |         2006 |           1 |                 NULL |               6 |        0.99 |     86 |            20.99 | PG     | Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |        2 |                2 |          2 | 2006-02-15 04:57:12 |      4 |
+|       2 | ACE GOLDFINGER   | A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China                  |         2006 |           1 |                 NULL |               3 |        4.99 |     48 |            12.99 | G      | Trailers,Deleted Scenes          | 2006-02-15 05:03:42 |        2 |                2 |          2 | 2006-02-15 04:57:12 |      3 |
+|       3 | ADAPTATION HOLES | A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory                      |         2006 |           1 |                 NULL |               7 |        2.99 |     50 |            18.99 | NC-17  | Trailers,Deleted Scenes          | 2006-02-15 05:03:42 |        2 |                2 |          2 | 2006-02-15 04:57:12 |      4 |
+|       4 | AFFAIR PREJUDICE | A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank                          |         2006 |           1 |                 NULL |               5 |        2.99 |    117 |            26.99 | G      | Commentaries,Behind the Scenes   | 2006-02-15 05:03:42 |        1 |                1 |          1 | 2006-02-15 04:57:12 |      4 |
+|       4 | AFFAIR PREJUDICE | A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank                          |         2006 |           1 |                 NULL |               5 |        2.99 |    117 |            26.99 | G      | Commentaries,Behind the Scenes   | 2006-02-15 05:03:42 |        2 |                2 |          2 | 2006-02-15 04:57:12 |      3 |
+|       5 | AFRICAN EGG      | A Fast-Paced Documentary of a Pastry Chef And a Dentist who must Pursue a Forensic Psychologist in The Gulf of Mexico |         2006 |           1 |                 NULL |               6 |        2.99 |    130 |            22.99 | G      | Deleted Scenes                   | 2006-02-15 05:03:42 |        2 |                2 |          2 | 2006-02-15 04:57:12 |      3 |
++---------+------------------+-----------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+----------------------------------+---------------------+----------+------------------+------------+---------------------+--------+
+....
+====
+
+Answered by `Inventory_Exercises_01_Basic_PersistenceIT`.
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 6 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_INVENTORY_I_02, SAKILA_INVENTORY_I_04, SAKILA_INVENTORY_I_06.
+
+// AI: Pick SAKILA_INVENTORY_I_01: A top-n count over a film's copies.
+// AI: Copied from EXERCISES.asciidoc:4701, anchor SAKILA_INVENTORY_I_01; retain the permanent ID when revising.
+// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_01_Test.
+[[SAKILA_INVENTORY_I_01]]
+==== SAKILA_INVENTORY_I_01: the five films with the most copies
+
+Count the copies of each film.
+Show the five films with the most copies: their `film_id`, `title` and number of copies, the most first; ties are ordered by `film_id`.
+
+.`inventory/02_intermediate.sql`, SAKILA_INVENTORY_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT f.*, COUNT(*) AS copies
+FROM film f
+         JOIN inventory i ON i.film_id = f.film_id
+GROUP BY f.film_id
+ORDER BY copies DESC, f.film_id
+LIMIT 5
+----
+
+....
++---------+------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+--------+
+| film_id | title            | description                                                                                                              | release_year | language_id | original_language_id | rental_duration | rental_rate | length | replacement_cost | rating | special_features                              | last_update         | copies |
++---------+------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+--------+
+|       1 | ACADEMY DINOSAUR | A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies                         |         2006 |           1 |                 NULL |               6 |        0.99 |     86 |            20.99 | PG     | Deleted Scenes,Behind the Scenes              | 2006-02-15 05:03:42 |      8 |
+|      31 | APACHE DIVINE    | A Awe-Inspiring Reflection of a Pastry Chef And a Teacher who must Overcome a Sumo Wrestler in A U-Boat                  |         2006 |           1 |                 NULL |               5 |        4.99 |     92 |            16.99 | NC-17  | Commentaries,Deleted Scenes,Behind the Scenes | 2006-02-15 05:03:42 |      8 |
+|      69 | BEVERLY OUTLAW   | A Fanciful Documentary of a Womanizer And a Boat who must Defeat a Madman in The First Manned Space Station              |         2006 |           1 |                 NULL |               3 |        2.99 |     85 |            21.99 | R      | Trailers                                      | 2006-02-15 05:03:42 |      8 |
+|      73 | BINGO TALENTED   | A Touching Tale of a Girl And a Crocodile who must Discover a Waitress in Nigeria                                        |         2006 |           1 |                 NULL |               5 |        2.99 |    150 |            22.99 | PG-13  | Trailers,Commentaries                         | 2006-02-15 05:03:42 |      8 |
+|      86 | BOOGIE AMELIE    | A Lacklusture Character Study of a Husband And a Sumo Wrestler who must Succumb a Technical Writer in The Gulf of Mexico |         2006 |           1 |                 NULL |               6 |        4.99 |    121 |            11.99 | R      | Commentaries,Behind the Scenes                | 2006-02-15 05:03:42 |      8 |
++---------+------------------+--------------------------------------------------------------------------------------------------------------------------+--------------+-------------+----------------------+-----------------+-------------+--------+------------------+--------+-----------------------------------------------+---------------------+--------+
+....
+====
+
+// AI: Pick SAKILA_INVENTORY_I_03: Join to open rentals to count copies out per store.
+// AI: Copied from EXERCISES.asciidoc:4757, anchor SAKILA_INVENTORY_I_03; retain the permanent ID when revising.
+// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_03_Test.
+[[SAKILA_INVENTORY_I_03]]
+==== SAKILA_INVENTORY_I_03: how many copies each store has out right now
+
+A copy is out while it has a rental whose `return_date` is `NULL`.
+Count, for each store, its copies which are out, and show each `store_id` with its count, ordered by the store.
+
+.`inventory/02_intermediate.sql`, SAKILA_INVENTORY_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT st.*, COUNT(*) AS copies_out
+FROM inventory i
+         JOIN store st ON st.store_id = i.store_id
+         JOIN rental r ON r.inventory_id = i.inventory_id
+WHERE r.return_date IS NULL
+GROUP BY st.store_id
+ORDER BY st.store_id
+----
+
+....
++----------+------------------+------------+---------------------+------------+
+| store_id | manager_staff_id | address_id | last_update         | copies_out |
++----------+------------------+------------+---------------------+------------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |         92 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |         91 |
++----------+------------------+------------+---------------------+------------+
+....
+====
+
+// AI: Pick SAKILA_INVENTORY_I_05: A practical availability query using correlated NOT EXISTS.
+// AI: Copied from EXERCISES.asciidoc:4824, anchor SAKILA_INVENTORY_I_05; retain the permanent ID when revising.
+// AI: Registry: section=INVENTORY; tier=Intermediate; sql=src/test/sql-exercises/inventory/02_intermediate.sql; test=Inventory_Exercises_02_Intermediate_PersistenceIT.SAKILA_INVENTORY_I_05_Test.
+[[SAKILA_INVENTORY_I_05]]
+==== SAKILA_INVENTORY_I_05: the copies of the film 1 on the shelf right now
+
+A customer asks for `ACADEMY DINOSAUR`, the film `1`.
+Find its copies which are in, that is, which have no rental without a `return_date`.
+Show the whole rows, ordered by `store_id` and then by `inventory_id`; the copy `6` is out, so it is missing.
+A `NOT EXISTS` on the copy's rentals.
+
+.`inventory/02_intermediate.sql`, SAKILA_INVENTORY_I_05
+[%collapsible]
+====
+[source,sql]
+----
+SELECT i.*
+FROM inventory i
+WHERE i.film_id = 1
+  AND NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = i.inventory_id AND r.return_date IS NULL)
+ORDER BY i.store_id, i.inventory_id
+----
+
+....
++--------------+---------+----------+---------------------+
+| inventory_id | film_id | store_id | last_update         |
++--------------+---------+----------+---------------------+
+|            1 |       1 |        1 | 2006-02-15 05:09:17 |
+|            2 |       1 |        1 | 2006-02-15 05:09:17 |
+|            3 |       1 |        1 | 2006-02-15 05:09:17 |
+|            4 |       1 |        1 | 2006-02-15 05:09:17 |
+|            5 |       1 |        2 | 2006-02-15 05:09:17 |
+|            7 |       1 |        2 | 2006-02-15 05:09:17 |
+|            8 |       1 |        2 | 2006-02-15 05:09:17 |
++--------------+---------+----------+---------------------+
+....
+====
+
+Answered by `Inventory_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 1 of 3 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_INVENTORY_A_01, SAKILA_INVENTORY_A_03.
+
+// AI: Pick SAKILA_INVENTORY_A_02: Nested NOT EXISTS expresses that every copy has been rented.
+// AI: Copied from EXERCISES.asciidoc:4927, anchor SAKILA_INVENTORY_A_02; retain the permanent ID when revising.
+// AI: Registry: section=INVENTORY; tier=Advanced; sql=src/test/sql-exercises/inventory/03_advanced.sql; test=Inventory_Exercises_03_Advanced_PersistenceIT.SAKILA_INVENTORY_A_02_Test.
+[[SAKILA_INVENTORY_A_02]]
+==== SAKILA_INVENTORY_A_02: how many films have had every one of their copies rented
+
+Count the films in the inventory, and, in the same row, the films every copy of which has been rented at least once.
+A film qualifies when none of its copies is without a rental: a `NOT EXISTS` inside a `NOT EXISTS`.
+
+.`inventory/03_advanced.sql`, SAKILA_INVENTORY_A_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT (SELECT COUNT(DISTINCT film_id) FROM inventory) AS films_in_inventory,
+       (SELECT COUNT(DISTINCT i.film_id)
+        FROM inventory i
+        WHERE NOT EXISTS (SELECT 1
+                          FROM inventory o
+                          WHERE o.film_id = i.film_id
+                            AND NOT EXISTS (SELECT 1 FROM rental r WHERE r.inventory_id = o.inventory_id))) AS every_copy_rented
+----
+
+....
++--------------------+-------------------+
+| films_in_inventory | every_copy_rented |
++--------------------+-------------------+
+|                958 |               957 |
++--------------------+-------------------+
+....
+====
+
+Answered by `Inventory_Exercises_03_Advanced_PersistenceIT`.
+
+== language
+
+The `language` table, mapped by `Language`.
+
+=== Basic
+
+// AI: Basic: selected 2 of 4 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_LANGUAGE_B_02, SAKILA_LANGUAGE_B_04.
+
+// AI: Pick SAKILA_LANGUAGE_B_01: Read a lookup entity in identifier order.
+// AI: Copied from EXERCISES.asciidoc:5000, anchor SAKILA_LANGUAGE_B_01; retain the permanent ID when revising.
+// AI: Registry: section=LANGUAGE; tier=Basic; sql=src/test/sql-exercises/language/01_basic.sql; test=Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_01_Test.
+[[SAKILA_LANGUAGE_B_01]]
+==== SAKILA_LANGUAGE_B_01: every language
+
+Show every language, the whole rows, ordered by the id.
+
+.`language/01_basic.sql`, SAKILA_LANGUAGE_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM language
+ORDER BY language_id
+----
+
+....
++-------------+----------+---------------------+
+| language_id | name     | last_update         |
++-------------+----------+---------------------+
+|           1 | English  | 2006-02-15 05:02:19 |
+|           2 | Italian  | 2006-02-15 05:02:19 |
+|           3 | Japanese | 2006-02-15 05:02:19 |
+|           4 | Mandarin | 2006-02-15 05:02:19 |
+|           5 | French   | 2006-02-15 05:02:19 |
+|           6 | German   | 2006-02-15 05:02:19 |
++-------------+----------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_LANGUAGE_B_03: IN with a collection of language names.
+// AI: Copied from EXERCISES.asciidoc:5054, anchor SAKILA_LANGUAGE_B_03; retain the permanent ID when revising.
+// AI: Registry: section=LANGUAGE; tier=Basic; sql=src/test/sql-exercises/language/01_basic.sql; test=Language_Exercises_01_Basic_PersistenceIT.SAKILA_LANGUAGE_B_03_Test.
+[[SAKILA_LANGUAGE_B_03]]
+==== SAKILA_LANGUAGE_B_03: which of four languages the table has
+
+Find which of `English`, `French`, `German` and `Spanish` are in the table, with one `IN` condition.
+Show their names, ordered by the name.
+
+.`language/01_basic.sql`, SAKILA_LANGUAGE_B_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM language
+WHERE name IN ('English', 'French', 'German', 'Spanish')
+ORDER BY name
+----
+
+....
++-------------+---------+---------------------+
+| language_id | name    | last_update         |
++-------------+---------+---------------------+
+|           1 | English | 2006-02-15 05:02:19 |
+|           5 | French  | 2006-02-15 05:02:19 |
+|           6 | German  | 2006-02-15 05:02:19 |
++-------------+---------+---------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 3 reviewed candidates in this original scope.
+
+// AI: Pick SAKILA_LANGUAGE_I_01: An outer join retains unused languages with a zero count.
+// AI: Copied from EXERCISES.asciidoc:5115, anchor SAKILA_LANGUAGE_I_01; retain the permanent ID when revising.
+// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_01_Test.
+[[SAKILA_LANGUAGE_I_01]]
+==== SAKILA_LANGUAGE_I_01: how many films each language has
+
+Count the films of each language, by `film.language_id`, and show every language, even one without a film, with its count, ordered by the language's id.
+The languages without a film must show `0`, so the join is an outer one, and the count is of the films, not of the rows.
+
+.`language/02_intermediate.sql`, SAKILA_LANGUAGE_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT l.*, COUNT(f.film_id) AS films
+FROM language l
+         LEFT JOIN film f ON f.language_id = l.language_id
+GROUP BY l.language_id
+ORDER BY l.language_id
+----
+
+....
++-------------+----------+---------------------+-------+
+| language_id | name     | last_update         | films |
++-------------+----------+---------------------+-------+
+|           1 | English  | 2006-02-15 05:02:19 |  1000 |
+|           2 | Italian  | 2006-02-15 05:02:19 |     0 |
+|           3 | Japanese | 2006-02-15 05:02:19 |     0 |
+|           4 | Mandarin | 2006-02-15 05:02:19 |     0 |
+|           5 | French   | 2006-02-15 05:02:19 |     0 |
+|           6 | German   | 2006-02-15 05:02:19 |     0 |
++-------------+----------+---------------------+-------+
+....
+====
+
+// AI: Pick SAKILA_LANGUAGE_I_02: Two foreign-key roles target the same language entity.
+// AI: Copied from EXERCISES.asciidoc:5147, anchor SAKILA_LANGUAGE_I_02; retain the permanent ID when revising.
+// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_02_Test.
+[[SAKILA_LANGUAGE_I_02]]
+==== SAKILA_LANGUAGE_I_02: the languages no film uses, either as its language or as its original language
+
+Find the languages which no film refers to, neither by `language_id` nor by `original_language_id`.
+Show their `language_id` and `name`, ordered by `language_id`.
+
+.`language/02_intermediate.sql`, SAKILA_LANGUAGE_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT l.*
+FROM language l
+WHERE NOT EXISTS (SELECT 1
+                  FROM film f
+                  WHERE f.language_id = l.language_id
+                     OR f.original_language_id = l.language_id)
+ORDER BY l.language_id
+----
+
+....
++-------------+----------+---------------------+
+| language_id | name     | last_update         |
++-------------+----------+---------------------+
+|           2 | Italian  | 2006-02-15 05:02:19 |
+|           3 | Japanese | 2006-02-15 05:02:19 |
+|           4 | Mandarin | 2006-02-15 05:02:19 |
+|           5 | French   | 2006-02-15 05:02:19 |
+|           6 | German   | 2006-02-15 05:02:19 |
++-------------+----------+---------------------+
+....
+====
+
+Answered by `Language_Exercises_02_Intermediate_PersistenceIT`.
+
+// AI: Pick SAKILA_LANGUAGE_I_03: Contrast mandatory language and optional original-language joins.
+// AI: Copied from EXERCISES.asciidoc:5182, anchor SAKILA_LANGUAGE_I_03; retain the permanent ID when revising.
+// AI: Registry: section=LANGUAGE; tier=Intermediate; sql=src/test/sql-exercises/language/02_intermediate.sql; test=Language_Exercises_02_Intermediate_PersistenceIT.SAKILA_LANGUAGE_I_03_Test.
+[[SAKILA_LANGUAGE_I_03]]
+==== SAKILA_LANGUAGE_I_03: the first five films with the names of their language and original language
+
+`film` refers to `language` twice: by `language_id`, and by `original_language_id`, which may be NULL.
+Show the first five films by `film_id`, each with the name of its language and the name of its original language, NULL where it has none.
+`language` joins twice, under two aliases, the second by an outer join so that no film drops out.
+
+.`language/02_intermediate.sql`, SAKILA_LANGUAGE_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT f.film_id, f.title, l.name AS language, ol.name AS original_language
+FROM film f
+         JOIN language l ON l.language_id = f.language_id
+         LEFT JOIN language ol ON ol.language_id = f.original_language_id
+ORDER BY f.film_id
+LIMIT 5
+----
+
+....
++---------+------------------+----------+-------------------+
+| film_id | title            | language | original_language |
++---------+------------------+----------+-------------------+
+|       1 | ACADEMY DINOSAUR | English  | NULL              |
+|       2 | ACE GOLDFINGER   | English  | NULL              |
+|       3 | ADAPTATION HOLES | English  | NULL              |
+|       4 | AFFAIR PREJUDICE | English  | NULL              |
+|       5 | AFRICAN EGG      | English  | NULL              |
++---------+------------------+----------+-------------------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 1 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_LANGUAGE_A_01.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== nicer_but_slower_film_list (view)
+
+The `nicer_but_slower_film_list` view, mapped by `NicerButSlowerFilmList`.
+
+=== Basic
+
+// AI: Basic: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks these SQL-only; parsing or comparing display-name strings adds little persistence value.
+// AI: Not selected: SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_01, SAKILA_NICER_BUT_SLOWER_FILM_LIST_B_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Intermediate
+
+// AI: Intermediate: selected 0 of 1 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks these SQL-only; parsing or comparing display-name strings adds little persistence value.
+// AI: Not selected: SAKILA_NICER_BUT_SLOWER_FILM_LIST_I_01.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks these SQL-only; parsing or comparing display-name strings adds little persistence value.
+// AI: Not selected: SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_01, SAKILA_NICER_BUT_SLOWER_FILM_LIST_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== payment
+
+The `payment` table, mapped by `Payment`.
+
+=== Basic
+
+// AI: Basic: selected 2 of 6 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_PAYMENT_B_02, SAKILA_PAYMENT_B_03, SAKILA_PAYMENT_B_04, SAKILA_PAYMENT_B_06.
+
+// AI: Pick SAKILA_PAYMENT_B_01: SUM payment amounts by the staff association.
+// AI: Copied from EXERCISES.asciidoc:5438, anchor SAKILA_PAYMENT_B_01; retain the permanent ID when revising.
+// AI: Registry: section=PAYMENT; tier=Basic; sql=src/test/sql-exercises/payment/01_basic.sql; test=Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_01_Test.
+[[SAKILA_PAYMENT_B_01]]
+==== SAKILA_PAYMENT_B_01: how much each staff member took
+
+Group the payments by the staff member who took them.
+Show each
+`staff_id` with the number of payments and their sum, ordered by `staff_id`.
+
+.`payment/01_basic.sql`, SAKILA_PAYMENT_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, COUNT(*) AS payments, SUM(p.amount) AS total -- every column but picture, a BLOB which does not print
+FROM payment p
+         JOIN staff s ON s.staff_id = p.staff_id
+GROUP BY s.staff_id
+ORDER BY s.staff_id
+----
+
+....
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+----------+----------+
+| staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | payments | total    |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+----------+----------+
+|        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |     8054 | 33482.50 |
+|        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |     7990 | 33924.06 |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+----------+----------+
+....
+====
+
+// AI: Pick SAKILA_PAYMENT_B_05: A half-open timestamp interval and a customer parameter.
+// AI: Copied from EXERCISES.asciidoc:5553, anchor SAKILA_PAYMENT_B_05; retain the permanent ID when revising.
+// AI: Registry: section=PAYMENT; tier=Basic; sql=src/test/sql-exercises/payment/01_basic.sql; test=Payment_Exercises_01_Basic_PersistenceIT.SAKILA_PAYMENT_B_05_Test.
+[[SAKILA_PAYMENT_B_05]]
+==== SAKILA_PAYMENT_B_05: the payments of the customer 1 in July 2005
+
+Show the payments of the customer `1` whose `payment_date` falls in July 2005: the `payment_id`, `amount` and `payment_date`.
+Order them by `payment_date`, then by `payment_id`.
+`payment_date` has a time, so the range runs from July 1 inclusive up to August 1 exclusive.
+
+.`payment/01_basic.sql`, SAKILA_PAYMENT_B_05
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM payment
+WHERE customer_id = 1
+  AND payment_date >= '2005-07-01'
+  AND payment_date < '2005-08-01'
+ORDER BY payment_date, payment_id
+----
+
+....
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+| payment_id | customer_id | staff_id | rental_id | amount | payment_date        | last_update         |
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+|         10 |           1 |        2 |      4526 |   5.99 | 2005-07-08 03:17:05 | 2006-02-15 22:12:30 |
+|         11 |           1 |        1 |      4611 |   5.99 | 2005-07-08 07:33:56 | 2006-02-15 22:12:30 |
+|         12 |           1 |        1 |      5244 |   4.99 | 2005-07-09 13:24:07 | 2006-02-15 22:12:30 |
+|         13 |           1 |        1 |      5326 |   4.99 | 2005-07-09 16:38:01 | 2006-02-15 22:12:30 |
+|         14 |           1 |        1 |      6163 |   7.99 | 2005-07-11 10:13:46 | 2006-02-15 22:12:30 |
+|         15 |           1 |        2 |      7273 |   2.99 | 2005-07-27 11:31:22 | 2006-02-15 22:12:30 |
+|         16 |           1 |        1 |      7841 |   4.99 | 2005-07-28 09:04:45 | 2006-02-15 22:12:30 |
+|         17 |           1 |        2 |      8033 |   4.99 | 2005-07-28 16:18:23 | 2006-02-15 22:12:30 |
+|         18 |           1 |        1 |      8074 |   0.99 | 2005-07-28 17:33:39 | 2006-02-15 22:12:30 |
+|         19 |           1 |        2 |      8116 |   0.99 | 2005-07-28 19:20:07 | 2006-02-15 22:12:30 |
+|         20 |           1 |        2 |      8326 |   2.99 | 2005-07-29 03:58:49 | 2006-02-15 22:12:30 |
+|         21 |           1 |        2 |      9571 |   2.99 | 2005-07-31 02:42:18 | 2006-02-15 22:12:30 |
++------------+-------------+----------+-----------+--------+---------------------+---------------------+
+....
+====
+
+Answered by `Payment_Exercises_01_Basic_PersistenceIT`.
+
+=== Intermediate
+
+// AI: Intermediate: selected 2 of 4 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_PAYMENT_I_01, SAKILA_PAYMENT_I_04.
+
+// AI: Pick SAKILA_PAYMENT_I_02: HAVING filters grouped monetary totals.
+// AI: Copied from EXERCISES.asciidoc:5646, anchor SAKILA_PAYMENT_I_02; retain the permanent ID when revising.
+// AI: Registry: section=PAYMENT; tier=Intermediate; sql=src/test/sql-exercises/payment/02_intermediate.sql; test=Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_02_Test.
+[[SAKILA_PAYMENT_I_02]]
+==== SAKILA_PAYMENT_I_02: the customers who paid more than 180 in all
+
+Sum the payments of each customer, and keep the customers whose sum is over `180`.
+Show the `customer_id`, the customer's `first_name` and `last_name`, and the sum, the largest first; on a tie, by `customer_id`.
+
+.`payment/02_intermediate.sql`, SAKILA_PAYMENT_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.*, SUM(p.amount) AS total
+FROM payment p
+         JOIN customer c ON c.customer_id = p.customer_id
+GROUP BY c.customer_id
+HAVING SUM(p.amount) > 180
+ORDER BY total DESC, c.customer_id
+----
+
+....
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+| customer_id | store_id | first_name | last_name | email                             | address_id | active | create_date         | last_update         | total  |
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+|         526 |        2 | KARL       | SEAL      | KARL.SEAL@sakilacustomer.org      |        532 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 221.55 |
+|         148 |        1 | ELEANOR    | HUNT      | ELEANOR.HUNT@sakilacustomer.org   |        152 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 216.54 |
+|         144 |        1 | CLARA      | SHAW      | CLARA.SHAW@sakilacustomer.org     |        148 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 195.58 |
+|         137 |        2 | RHONDA     | KENNEDY   | RHONDA.KENNEDY@sakilacustomer.org |        141 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 194.61 |
+|         178 |        2 | MARION     | SNYDER    | MARION.SNYDER@sakilacustomer.org  |        182 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 | 194.61 |
+|         459 |        1 | TOMMY      | COLLAZO   | TOMMY.COLLAZO@sakilacustomer.org  |        464 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 | 186.62 |
++-------------+----------+------------+-----------+-----------------------------------+------------+--------+---------------------+---------------------+--------+
+....
+====
+
+// AI: Pick SAKILA_PAYMENT_I_03: Compare a payment with the rental's film rate through associations.
+// AI: Copied from EXERCISES.asciidoc:5679, anchor SAKILA_PAYMENT_I_03; retain the permanent ID when revising.
+// AI: Registry: section=PAYMENT; tier=Intermediate; sql=src/test/sql-exercises/payment/02_intermediate.sql; test=Payment_Exercises_02_Intermediate_PersistenceIT.SAKILA_PAYMENT_I_03_Test.
+[[SAKILA_PAYMENT_I_03]]
+==== SAKILA_PAYMENT_I_03: how many payments were less than, equal to, or more than the film's rental rate
+
+Compare each payment's `amount` with the `rental_rate` of the film it paid for, reached through the rental and the copy.
+Name the result `less`, `the rate` or `more` with a `CASE` expression, and count the payments of each, ordered by that name.
+A payment over the rate carries a late fee.
+
+.`payment/02_intermediate.sql`, SAKILA_PAYMENT_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT CASE
+           WHEN p.amount < f.rental_rate THEN 'less'
+           WHEN p.amount = f.rental_rate THEN 'the rate'
+           ELSE 'more' END AS paid,
+       COUNT(*) AS payments
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+GROUP BY paid
+ORDER BY paid
+----
+
+....
++----------+----------+
+| paid     | payments |
++----------+----------+
+| less     |       24 |
+| more     |     7293 |
+| the rate |     8727 |
++----------+----------+
+....
+====
+
+Answered by `Payment_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_PAYMENT_A_01, SAKILA_PAYMENT_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== rental
+
+The `rental` table, mapped by `Rental`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 5 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_RENTAL_B_02, SAKILA_RENTAL_B_03, SAKILA_RENTAL_B_04, SAKILA_RENTAL_B_05.
+
+// AI: Pick SAKILA_RENTAL_B_01: IS NULL distinguishes an open rental.
+// AI: Copied from EXERCISES.asciidoc:5824, anchor SAKILA_RENTAL_B_01; retain the permanent ID when revising.
+// AI: Registry: section=RENTAL; tier=Basic; sql=src/test/sql-exercises/rental/01_basic.sql; test=Rental_Exercises_01_Basic_PersistenceIT.SAKILA_RENTAL_B_01_Test.
+[[SAKILA_RENTAL_B_01]]
+==== SAKILA_RENTAL_B_01: how many rentals are not returned yet
+
+A rental not returned yet has no `return_date`.
+Count those rentals.
+
+.`rental/01_basic.sql`, SAKILA_RENTAL_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT COUNT(*) AS rentals
+FROM rental
+WHERE return_date IS NULL
+----
+
+....
++---------+
+| rentals |
++---------+
+|     183 |
++---------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_RENTAL_I_03.
+
+// AI: Pick SAKILA_RENTAL_I_02: Combine an open-rental predicate with grouping by rental day.
+// AI: Copied from EXERCISES.asciidoc:5961, anchor SAKILA_RENTAL_I_02; retain the permanent ID when revising.
+// AI: Registry: section=RENTAL; tier=Intermediate; sql=src/test/sql-exercises/rental/02_intermediate.sql; test=Rental_Exercises_02_Intermediate_PersistenceIT.SAKILA_RENTAL_I_02_Test.
+[[SAKILA_RENTAL_I_02]]
+==== SAKILA_RENTAL_I_02: on which days the rentals not returned yet were made
+
+Group the rentals not returned yet by the day of `rental_date`, with `DATE`.
+Show each day with the number of rentals, ordered by the day.
+Almost all of them were made on the last day of the data.
+
+.`rental/02_intermediate.sql`, SAKILA_RENTAL_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT DATE(rental_date) AS day, COUNT(*) AS rentals
+FROM rental
+WHERE return_date IS NULL
+GROUP BY day
+ORDER BY day
+----
+
+....
++------------+---------+
+| day        | rentals |
++------------+---------+
+| 2005-08-21 |       1 |
+| 2006-02-14 |     182 |
++------------+---------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 3 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_RENTAL_A_01, SAKILA_RENTAL_A_02, SAKILA_RENTAL_A_03.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== sales_by_film_category (view)
+
+The `sales_by_film_category` view, mapped by `SalesByFilmCategory`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 3 reviewed candidates in this original scope.
+// AI: Selection boundary: Avoid arbitrary gaps, ranking comparisons, and ROLLUP exercises in this shortlist.
+// AI: Not selected: SAKILA_SALES_BY_FILM_CATEGORY_B_01, SAKILA_SALES_BY_FILM_CATEGORY_B_03.
+
+// AI: Pick SAKILA_SALES_BY_FILM_CATEGORY_B_02: A range filter over a reporting view's sales value.
+// AI: Copied from EXERCISES.asciidoc:6156, anchor SAKILA_SALES_BY_FILM_CATEGORY_B_02; retain the permanent ID when revising.
+// AI: Registry: section=SALES_BY_FILM_CATEGORY; tier=Basic; sql=src/test/sql-exercises/sales_by_film_category/01_basic.sql; test=SalesByFilmCategory_Exercises_01_Basic_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_B_02_Test.
+[[SAKILA_SALES_BY_FILM_CATEGORY_B_02]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_B_02: the categories which sold between 4000 and 4500
+
+Show the categories whose `total_sales` is between `4000` and `4500`, with their `total_sales`, ordered by `category`.
+
+.`sales_by_film_category/01_basic.sql`, SAKILA_SALES_BY_FILM_CATEGORY_B_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM sales_by_film_category
+WHERE total_sales BETWEEN 4000 AND 4500
+ORDER BY category
+----
+
+....
++-------------+-------------+
+| category    | total_sales |
++-------------+-------------+
+| Action      |     4375.85 |
+| Comedy      |     4383.58 |
+| Documentary |     4217.52 |
+| Family      |     4226.07 |
+| Foreign     |     4270.67 |
+| Games       |     4281.33 |
+| New         |     4351.62 |
++-------------+-------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 1 of 4 reviewed candidates in this original scope.
+// AI: Selection boundary: Avoid arbitrary gaps, ranking comparisons, and ROLLUP exercises in this shortlist.
+// AI: Not selected: SAKILA_SALES_BY_FILM_CATEGORY_I_01, SAKILA_SALES_BY_FILM_CATEGORY_I_02, SAKILA_SALES_BY_FILM_CATEGORY_I_04.
+
+// AI: Pick SAKILA_SALES_BY_FILM_CATEGORY_I_03: Combine a reporting view and mapped film/category associations.
+// AI: Copied from EXERCISES.asciidoc:6272, anchor SAKILA_SALES_BY_FILM_CATEGORY_I_03; retain the permanent ID when revising.
+// AI: Registry: section=SALES_BY_FILM_CATEGORY; tier=Intermediate; sql=src/test/sql-exercises/sales_by_film_category/02_intermediate.sql; test=SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT.SAKILA_SALES_BY_FILM_CATEGORY_I_03_Test.
+[[SAKILA_SALES_BY_FILM_CATEGORY_I_03]]
+==== SAKILA_SALES_BY_FILM_CATEGORY_I_03: the five categories which sold the most per film
+
+A category with more films may sell more only because it has more films.
+Join the view to `category` by name and to `film_category`, and count each category's films.
+Show the five categories with the largest sales per film: the `category`, `total_sales`, the number of films and the sales per film rounded to two decimal places, the largest first; on a tie, by `category`.
+
+.`sales_by_film_category/02_intermediate.sql`, SAKILA_SALES_BY_FILM_CATEGORY_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT s.*, COUNT(*) AS films, ROUND(s.total_sales / COUNT(*), 2) AS per_film
+FROM sales_by_film_category s
+         JOIN category c ON c.name = s.category
+         JOIN film_category fc ON fc.category_id = c.category_id
+GROUP BY s.category, s.total_sales
+ORDER BY per_film DESC, s.category
+LIMIT 5
+----
+
+....
++-----------+-------------+-------+----------+
+| category  | total_sales | films | per_film |
++-----------+-------------+-------+----------+
+| Sci-Fi    |     4756.98 |    61 |    77.98 |
+| Comedy    |     4383.58 |    58 |    75.58 |
+| Drama     |     4587.39 |    62 |    73.99 |
+| Sports    |     5314.21 |    74 |    71.81 |
+| Animation |     4656.30 |    66 |    70.55 |
++-----------+-------------+-------+----------+
+....
+====
+
+Answered by `SalesByFilmCategory_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 3 reviewed candidates in this original scope.
+// AI: Selection boundary: Avoid arbitrary gaps, ranking comparisons, and ROLLUP exercises in this shortlist.
+// AI: Not selected: SAKILA_SALES_BY_FILM_CATEGORY_A_02, SAKILA_SALES_BY_FILM_CATEGORY_A_03, SAKILA_SALES_BY_FILM_CATEGORY_A_04.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== sales_by_store (view)
+
+The `sales_by_store` view, mapped by `SalesByStore`.
+
+=== Basic
+
+// AI: Basic: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks the basic/intermediate cases native-only; joining a manager by a non-unique full name is fragile.
+// AI: Not selected: SAKILA_SALES_BY_STORE_B_01, SAKILA_SALES_BY_STORE_B_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Intermediate
+
+// AI: Intermediate: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks the basic/intermediate cases native-only; joining a manager by a non-unique full name is fragile.
+// AI: Not selected: SAKILA_SALES_BY_STORE_I_01, SAKILA_SALES_BY_STORE_I_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 1 reviewed candidates in this original scope.
+// AI: Selection boundary: The registry marks the basic/intermediate cases native-only; joining a manager by a non-unique full name is fragile.
+// AI: Not selected: SAKILA_SALES_BY_STORE_A_01.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== staff
+
+The `staff` table, mapped by `Staff`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_STAFF_B_02.
+
+// AI: Pick SAKILA_STAFF_B_01: Read staff while making the BLOB projection exception explicit.
+// AI: Copied from EXERCISES.asciidoc:6617, anchor SAKILA_STAFF_B_01; retain the permanent ID when revising.
+// AI: Registry: section=STAFF; tier=Basic; sql=src/test/sql-exercises/staff/01_basic.sql; test=Staff_Exercises_01_Basic_PersistenceIT.SAKILA_STAFF_B_01_Test.
+[[SAKILA_STAFF_B_01]]
+==== SAKILA_STAFF_B_01: every staff member, with their store
+
+Show every staff member: their `staff_id`, `first_name`, `last_name`, the
+`store_id` of the store they work at, and the `active` flag, ordered by `staff_id`.
+
+.`staff/01_basic.sql`, SAKILA_STAFF_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update -- every column but picture, a BLOB which does not print
+FROM staff s
+ORDER BY s.staff_id
+----
+
+....
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+
+| staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+
+|        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |
+|        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+
+....
+====
+
+=== Intermediate
+
+// AI: Intermediate: selected 2 of 3 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_STAFF_I_03.
+
+// AI: Pick SAKILA_STAFF_I_01: An outer join counts rentals and retains staff with none.
+// AI: Copied from EXERCISES.asciidoc:6673, anchor SAKILA_STAFF_I_01; retain the permanent ID when revising.
+// AI: Registry: section=STAFF; tier=Intermediate; sql=src/test/sql-exercises/staff/02_intermediate.sql; test=Staff_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_I_01_Test.
+[[SAKILA_STAFF_I_01]]
+==== SAKILA_STAFF_I_01: how many rentals each staff member handled
+
+Count the rentals each staff member handled, by `rental.staff_id`.
+Show each staff member's `staff_id` and `first_name` with the count, `0` for one who handled none, ordered by `staff_id`.
+
+.`staff/02_intermediate.sql`, SAKILA_STAFF_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, COUNT(r.rental_id) AS rentals -- every column but picture, a BLOB which does not print
+FROM staff s
+         LEFT JOIN rental r ON r.staff_id = s.staff_id
+GROUP BY s.staff_id
+ORDER BY s.staff_id
+----
+
+....
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+| staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | rentals |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+|        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |    8040 |
+|        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |    8004 |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+
+....
+====
+
+// AI: Pick SAKILA_STAFF_I_02: Distinguish the staff member's workplace from the store they manage.
+// AI: Copied from EXERCISES.asciidoc:6701, anchor SAKILA_STAFF_I_02; retain the permanent ID when revising.
+// AI: Registry: section=STAFF; tier=Intermediate; sql=src/test/sql-exercises/staff/02_intermediate.sql; test=Staff_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_I_02_Test.
+[[SAKILA_STAFF_I_02]]
+==== SAKILA_STAFF_I_02: the staff members who manage the store they work at
+
+A store names its manager (`manager_staff_id`), and a staff member names the store they work at (`store_id`).
+The two are not tied together by the schema.
+Find the staff members who manage the very store they work at: their `staff_id`, `first_name`, `last_name` and the `store_id`.
+
+.`staff/02_intermediate.sql`, SAKILA_STAFF_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, st.* -- every column but picture, a BLOB which does not print
+FROM staff s
+         JOIN store st ON st.manager_staff_id = s.staff_id
+WHERE st.store_id = s.store_id
+ORDER BY s.staff_id
+----
+
+....
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+----------+------------------+------------+---------------------+
+| staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | store_id | manager_staff_id | address_id | last_update         |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+----------+------------------+------------+---------------------+
+|        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |        1 |                1 |          1 | 2006-02-15 04:57:12 |
+|        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |        2 |                2 |          2 | 2006-02-15 04:57:12 |
++----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+----------+------------------+------------+---------------------+
+....
+====
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 1 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_STAFF_A_01.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== staff_list (view)
+
+The `staff_list` view, mapped by `StaffList`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 1 reviewed candidates in this original scope.
+
+// AI: Pick SAKILA_STAFF_LIST_B_01: Read a mapped view as a result list.
+// AI: Copied from EXERCISES.asciidoc:6805, anchor SAKILA_STAFF_LIST_B_01; retain the permanent ID when revising.
+// AI: Registry: section=STAFF_LIST; tier=Basic; sql=src/test/sql-exercises/staff_list/01_basic.sql; test=StaffList_Exercises_01_Basic_PersistenceIT.SAKILA_STAFF_LIST_B_01_Test.
+[[SAKILA_STAFF_LIST_B_01]]
+==== SAKILA_STAFF_LIST_B_01: every row of the view
+
+The `staff_list` view joins each staff member with their address, city and country.
+Show every row, ordered by `ID`.
+
+.`staff_list/01_basic.sql`, SAKILA_STAFF_LIST_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM staff_list
+ORDER BY ID
+----
+
+....
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+
+| ID | name         | address              | zip code | phone       | city       | country   | SID |
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+
+|  1 | Mike Hillyer | 23 Workhaven Lane    |          | 14033335568 | Lethbridge | Canada    |   1 |
+|  2 | Jon Stephens | 1411 Lillydale Drive |          | 6172235589  | Woodridge  | Australia |   2 |
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+
+....
+====
+
+Answered by `StaffList_Exercises_01_Basic_PersistenceIT`.
+
+=== Intermediate
+
+// AI: Intermediate: selected 1 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_STAFF_LIST_I_01.
+
+// AI: Pick SAKILA_STAFF_LIST_I_02: Navigate from a view's store key and compare home and work locations.
+// AI: Copied from EXERCISES.asciidoc:6858, anchor SAKILA_STAFF_LIST_I_02; retain the permanent ID when revising.
+// AI: Registry: section=STAFF_LIST; tier=Intermediate; sql=src/test/sql-exercises/staff_list/02_intermediate.sql; test=StaffList_Exercises_02_Intermediate_PersistenceIT.SAKILA_STAFF_LIST_I_02_Test.
+[[SAKILA_STAFF_LIST_I_02]]
+==== SAKILA_STAFF_LIST_I_02: whether each staff member lives in the city of their store
+
+The view's `city` and `country` are where the staff member lives, and `SID` is the store they work at.
+Join each row to its store, the store's address, city and country, and show the `ID`, `name`, where they live, where they work, and whether the two are the same city of the same country, ordered by `ID`.
+City names repeat across countries, so the comparison takes the country too.
+
+.`staff_list/02_intermediate.sql`, SAKILA_STAFF_LIST_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT l.*,
+       ci.city                                        AS store_city,
+       co.country                                     AS store_country,
+       (l.city = ci.city AND l.country = co.country) AS lives_in_store_city
+FROM staff_list l
+         JOIN store st ON st.store_id = l.SID
+         JOIN address a ON a.address_id = st.address_id
+         JOIN city ci ON ci.city_id = a.city_id
+         JOIN country co ON co.country_id = ci.country_id
+ORDER BY l.ID
+----
+
+....
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+| ID | name         | address              | zip code | phone       | city       | country   | SID | store_city | store_country | lives_in_store_city |
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+|  1 | Mike Hillyer | 23 Workhaven Lane    |          | 14033335568 | Lethbridge | Canada    |   1 | Lethbridge | Canada        |                   1 |
+|  2 | Jon Stephens | 1411 Lillydale Drive |          | 6172235589  | Woodridge  | Australia |   2 | Woodridge  | Australia     |                   1 |
++----+--------------+----------------------+----------+-------------+------------+-----------+-----+------------+---------------+---------------------+
+....
+====
+
+Answered by `StaffList_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 1 of 1 reviewed candidates in this original scope.
+
+// AI: Pick SAKILA_STAFF_LIST_A_01: A correlated EXISTS follows rentals to the customer's country.
+// AI: Copied from EXERCISES.asciidoc:6896, anchor SAKILA_STAFF_LIST_A_01; retain the permanent ID when revising.
+// AI: Registry: section=STAFF_LIST; tier=Advanced; sql=src/test/sql-exercises/staff_list/03_advanced.sql; test=StaffList_Exercises_03_Advanced_PersistenceIT.SAKILA_STAFF_LIST_A_01_Test.
+[[SAKILA_STAFF_LIST_A_01]]
+==== SAKILA_STAFF_LIST_A_01: the staff members who served a customer living outside their own country
+
+Find the staff members who handled at least one rental for a customer who lives in another country than the staff member does, as the view says.
+Show their `ID`, `name` and `country`, ordered by `ID`.
+A correlated `EXISTS` walks from the staff member's rentals to the customers' countries.
+
+.`staff_list/03_advanced.sql`, SAKILA_STAFF_LIST_A_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT l.ID, l.name, l.country
+FROM staff_list l
+WHERE EXISTS (SELECT 1
+              FROM rental r
+                       JOIN customer cu ON cu.customer_id = r.customer_id
+                       JOIN address a ON a.address_id = cu.address_id
+                       JOIN city ci ON ci.city_id = a.city_id
+                       JOIN country co ON co.country_id = ci.country_id
+              WHERE r.staff_id = l.ID
+                AND co.country <> l.country)
+ORDER BY l.ID
+----
+
+....
++----+--------------+-----------+
+| ID | name         | country   |
++----+--------------+-----------+
+|  1 | Mike Hillyer | Canada    |
+|  2 | Jon Stephens | Australia |
++----+--------------+-----------+
+....
+====
+
+== store
+
+The `store` table, mapped by `Store`.
+
+=== Basic
+
+// AI: Basic: selected 1 of 1 reviewed candidates in this original scope.
+
+// AI: Pick SAKILA_STORE_B_01: Introduce the store entity and its manager and address keys.
+// AI: Copied from EXERCISES.asciidoc:6937, anchor SAKILA_STORE_B_01; retain the permanent ID when revising.
+// AI: Registry: section=STORE; tier=Basic; sql=src/test/sql-exercises/store/01_basic.sql; test=Store_Exercises_01_Basic_PersistenceIT.SAKILA_STORE_B_01_Test.
+[[SAKILA_STORE_B_01]]
+==== SAKILA_STORE_B_01: every store, with its manager and address ids
+
+Show every store: its `store_id`, the `manager_staff_id` of its manager and its `address_id`, ordered by `store_id`.
+
+.`store/01_basic.sql`, SAKILA_STORE_B_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT *
+FROM store
+ORDER BY store_id
+----
+
+....
++----------+------------------+------------+---------------------+
+| store_id | manager_staff_id | address_id | last_update         |
++----------+------------------+------------+---------------------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |
++----------+------------------+------------+---------------------+
+....
+====
+
+Answered by `Store_Exercises_01_Basic_PersistenceIT`.
+
+=== Intermediate
+
+// AI: Intermediate: selected 2 of 2 reviewed candidates in this original scope.
+
+// AI: Pick SAKILA_STORE_I_01: Two association paths retrieve the manager and the store's city.
+// AI: Copied from EXERCISES.asciidoc:6966, anchor SAKILA_STORE_I_01; retain the permanent ID when revising.
+// AI: Registry: section=STORE; tier=Intermediate; sql=src/test/sql-exercises/store/02_intermediate.sql; test=Store_Exercises_02_Intermediate_PersistenceIT.SAKILA_STORE_I_01_Test.
+[[SAKILA_STORE_I_01]]
+==== SAKILA_STORE_I_01: every store, with its manager and city
+
+Show every store with the name of its manager and the city of its address: the `store_id`, the manager's `first_name` and `last_name`, and the city, ordered by `store_id`.
+The manager is a staff member, and the city is two joins away, through the address.
+
+.`store/02_intermediate.sql`, SAKILA_STORE_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT st.*, s.staff_id, s.first_name, s.last_name, s.address_id, s.email, s.store_id, s.active, s.username, s.password, s.last_update, ci.* -- every column but picture, a BLOB which does not print
+FROM store st
+         JOIN staff s ON s.staff_id = st.manager_staff_id
+         JOIN address a ON a.address_id = st.address_id
+         JOIN city ci ON ci.city_id = a.city_id
+ORDER BY st.store_id
+----
+
+....
++----------+------------------+------------+---------------------+----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+------------+------------+---------------------+
+| store_id | manager_staff_id | address_id | last_update         | staff_id | first_name | last_name | address_id | email                        | store_id | active | username | password                                 | last_update         | city_id | city       | country_id | last_update         |
++----------+------------------+------------+---------------------+----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+------------+------------+---------------------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |        1 | Mike       | Hillyer   |          3 | Mike.Hillyer@sakilastaff.com |        1 |      1 | Mike     | 8cb2237d0679ca88db6464eac60da96345513964 | 2006-02-15 03:57:16 |     300 | Lethbridge |         20 | 2006-02-15 04:45:25 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |        2 | Jon        | Stephens  |          4 | Jon.Stephens@sakilastaff.com |        2 |      1 | Jon      | NULL                                     | 2006-02-15 03:57:16 |     576 | Woodridge  |          8 | 2006-02-15 04:45:25 |
++----------+------------------+------------+---------------------+----------+------------+-----------+------------+------------------------------+----------+--------+----------+------------------------------------------+---------------------+---------+------------+------------+---------------------+
+....
+====
+
+// AI: Pick SAKILA_STORE_I_02: Independent counts avoid multiplying three to-many joins.
+// AI: Copied from EXERCISES.asciidoc:6995, anchor SAKILA_STORE_I_02; retain the permanent ID when revising.
+// AI: Registry: section=STORE; tier=Intermediate; sql=src/test/sql-exercises/store/02_intermediate.sql; test=Store_Exercises_02_Intermediate_PersistenceIT.SAKILA_STORE_I_02_Test.
+[[SAKILA_STORE_I_02]]
+==== SAKILA_STORE_I_02: how many customers, copies and staff members each store has
+
+For each store, count its customers, its copies in the inventory and its staff members, and show the three counts in one row per store, ordered by `store_id`.
+The three counts come from three different tables; joining all three at once would multiply the rows, so each is counted on its own.
+
+.`store/02_intermediate.sql`, SAKILA_STORE_I_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT st.*,
+       (SELECT COUNT(*) FROM customer c WHERE c.store_id = st.store_id)  AS customers,
+       (SELECT COUNT(*) FROM inventory i WHERE i.store_id = st.store_id) AS copies,
+       (SELECT COUNT(*) FROM staff s WHERE s.store_id = st.store_id)     AS staff
+FROM store st
+ORDER BY st.store_id
+----
+
+....
++----------+------------------+------------+---------------------+-----------+--------+-------+
+| store_id | manager_staff_id | address_id | last_update         | customers | copies | staff |
++----------+------------------+------------+---------------------+-----------+--------+-------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |       326 |   2270 |     1 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |       273 |   2311 |     1 |
++----------+------------------+------------+---------------------+-----------+--------+-------+
+....
+====
+
+Answered by `Store_Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 0 of 2 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_STORE_A_01, SAKILA_STORE_A_02.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+== The schema
+
+Exercises on the schema as a whole, not on a single table.
+
+=== Basic
+
+// AI: Basic: selected 0 of 12 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_SCHEMA_B_01, SAKILA_SCHEMA_B_02, SAKILA_SCHEMA_B_03, SAKILA_SCHEMA_B_04, SAKILA_SCHEMA_B_05, SAKILA_SCHEMA_B_06, SAKILA_SCHEMA_B_07, SAKILA_SCHEMA_B_08, SAKILA_SCHEMA_B_09, SAKILA_SCHEMA_B_10, SAKILA_SCHEMA_B_11, SAKILA_SCHEMA_B_12.
+// AI: No pick: the available exercises add peripheral SQL, fragile assumptions, audits, or repeat lessons selected elsewhere.
+
+=== Intermediate
+
+// AI: Intermediate: selected 3 of 14 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_SCHEMA_I_02, SAKILA_SCHEMA_I_04, SAKILA_SCHEMA_I_05, SAKILA_SCHEMA_I_06, SAKILA_SCHEMA_I_07, SAKILA_SCHEMA_I_08, SAKILA_SCHEMA_I_09, SAKILA_SCHEMA_I_10, SAKILA_SCHEMA_I_11, SAKILA_SCHEMA_I_12, SAKILA_SCHEMA_I_14.
+
+// AI: Pick SAKILA_SCHEMA_I_01: Follow the payment-rental-inventory-store path and aggregate by store.
+// AI: Copied from EXERCISES.asciidoc:7525, anchor SAKILA_SCHEMA_I_01; retain the permanent ID when revising.
+// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=__Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_01_Test.
+[[SAKILA_SCHEMA_I_01]]
+==== SAKILA_SCHEMA_I_01: how much each store took, through the copies it rented out
+
+Find how much each store took.
+A payment names no store; the store is that of the copy the payment's rental rented out.
+So go from `payment` through `rental` to `inventory`, and group by `inventory.store_id`.
+Show each store with the number of payments and their sum.
+
+.`__/02_intermediate.sql`, SAKILA_SCHEMA_I_01
+[%collapsible]
+====
+[source,sql]
+----
+SELECT st.*, COUNT(*) AS payments, SUM(p.amount) AS total
+FROM payment p
+         JOIN rental r ON r.rental_id = p.rental_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN store st ON st.store_id = i.store_id
+GROUP BY st.store_id
+ORDER BY st.store_id
+----
+
+....
++----------+------------------+------------+---------------------+----------+----------+
+| store_id | manager_staff_id | address_id | last_update         | payments | total    |
++----------+------------------+------------+---------------------+----------+----------+
+|        1 |                1 |          1 | 2006-02-15 04:57:12 |     7923 | 33679.79 |
+|        2 |                2 |          2 | 2006-02-15 04:57:12 |     8121 | 33726.77 |
++----------+------------------+------------+---------------------+----------+----------+
+....
+====
+
+// AI: Pick SAKILA_SCHEMA_I_03: A multi-hop association query with SUM, COUNT DISTINCT, and top-n.
+// AI: Copied from EXERCISES.asciidoc:7592, anchor SAKILA_SCHEMA_I_03; retain the permanent ID when revising.
+// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=__Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_03_Test.
+[[SAKILA_SCHEMA_I_03]]
+==== SAKILA_SCHEMA_I_03: the five countries whose customers paid the most
+
+Sum the payments by the country of the customer who paid them, through the customer, the address and the city.
+Show the five countries which paid the most, each with the number of its distinct customers who paid and the sum, the largest first; ties by `country_id`.
+
+.`__/02_intermediate.sql`, SAKILA_SCHEMA_I_03
+[%collapsible]
+====
+[source,sql]
+----
+SELECT co.*, COUNT(DISTINCT cu.customer_id) AS customers, SUM(p.amount) AS total
+FROM payment p
+         JOIN customer cu ON cu.customer_id = p.customer_id
+         JOIN address a ON a.address_id = cu.address_id
+         JOIN city ci ON ci.city_id = a.city_id
+         JOIN country co ON co.country_id = ci.country_id
+GROUP BY co.country_id
+ORDER BY total DESC, co.country_id
+LIMIT 5
+----
+
+....
++------------+---------------+---------------------+-----------+---------+
+| country_id | country       | last_update         | customers | total   |
++------------+---------------+---------------------+-----------+---------+
+|         44 | India         | 2006-02-15 04:44:00 |        60 | 6628.28 |
+|         23 | China         | 2006-02-15 04:44:00 |        53 | 5798.74 |
+|        103 | United States | 2006-02-15 04:44:00 |        36 | 4110.32 |
+|         50 | Japan         | 2006-02-15 04:44:00 |        31 | 3470.75 |
+|         60 | Mexico        | 2006-02-15 04:44:00 |        30 | 3307.04 |
++------------+---------------+---------------------+-----------+---------+
+....
+====
+
+// AI: Pick SAKILA_SCHEMA_I_13: Group by customer and film together and apply HAVING and pagination.
+// AI: Copied from EXERCISES.asciidoc:7941, anchor SAKILA_SCHEMA_I_13; retain the permanent ID when revising.
+// AI: Registry: section=SCHEMA; tier=Intermediate; sql=src/test/sql-exercises/__/02_intermediate.sql; test=__Exercises_02_Intermediate_PersistenceIT.SAKILA_SCHEMA_I_13_Test.
+[[SAKILA_SCHEMA_I_13]]
+==== SAKILA_SCHEMA_I_13: the five customer and film pairs rented the most often
+
+A customer may rent the same film again.
+Count the rentals of each pair of a customer and a film, through the copy, and keep the pairs rented more than once.
+Show the five pairs rented the most: the customer's `customer_id`, `first_name` and `last_name`, the film's `film_id` and `title`, and the count, the most first; ties are ordered by `customer_id` and then by `film_id`.
+The groups are pairs, so the query groups by two keys.
+
+.`__/02_intermediate.sql`, SAKILA_SCHEMA_I_13
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.customer_id, c.first_name, c.last_name, f.film_id, f.title, COUNT(*) AS rentals
+FROM rental r
+         JOIN customer c ON c.customer_id = r.customer_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film f ON f.film_id = i.film_id
+GROUP BY c.customer_id, f.film_id
+HAVING COUNT(*) > 1
+ORDER BY rentals DESC, c.customer_id, f.film_id
+LIMIT 5
+----
+
+....
++-------------+------------+-----------+---------+-----------------------+---------+
+| customer_id | first_name | last_name | film_id | title                 | rentals |
++-------------+------------+-----------+---------+-----------------------+---------+
+|         122 | THELMA     | MURRAY    |     233 | DISCIPLE MOTHER       |       3 |
+|         314 | GEORGE     | LINTON    |     111 | CADDYSHACK JEDI       |       3 |
+|         317 | EDWARD     | BAUGH     |     322 | FLATLINERS KILLER     |       3 |
+|         376 | RANDY      | GAITHER   |     228 | DETECTIVE VISION      |       3 |
+|           1 | MARY       | SMITH     |     317 | FIREBALL PHILADELPHIA |       2 |
++-------------+------------+-----------+---------+-----------------------+---------+
+....
+====
+
+Answered by `__Exercises_02_Intermediate_PersistenceIT`.
+
+=== Advanced
+
+// AI: Advanced: selected 2 of 9 reviewed candidates in this original scope.
+// AI: Not selected: SAKILA_SCHEMA_A_01, SAKILA_SCHEMA_A_04, SAKILA_SCHEMA_A_05, SAKILA_SCHEMA_A_06, SAKILA_SCHEMA_A_07, SAKILA_SCHEMA_A_08, SAKILA_SCHEMA_A_10.
+
+// AI: Pick SAKILA_SCHEMA_A_02: Relational division across the rental model.
+// AI: Copied from EXERCISES.asciidoc:8050, anchor SAKILA_SCHEMA_A_02; retain the permanent ID when revising.
+// AI: Registry: section=SCHEMA; tier=Advanced; sql=src/test/sql-exercises/__/03_advanced.sql; test=__Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_02_Test.
+[[SAKILA_SCHEMA_A_02]]
+==== SAKILA_SCHEMA_A_02: the customers who rented a film of every category
+
+Find the customers who have rented at least one film of each category: for each customer, count the distinct categories of the films they rented, and compare it with the number of categories.
+A relational division across five tables.
+Show the first five such customers by
+`customer_id`.
+
+.`__/03_advanced.sql`, SAKILA_SCHEMA_A_02
+[%collapsible]
+====
+[source,sql]
+----
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+         JOIN rental r ON r.customer_id = c.customer_id
+         JOIN inventory i ON i.inventory_id = r.inventory_id
+         JOIN film_category fc ON fc.film_id = i.film_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+HAVING COUNT(DISTINCT fc.category_id) = (SELECT COUNT(*) FROM category)
+ORDER BY c.customer_id
+LIMIT 5
+----
+
+....
++-------------+------------+-----------+
+| customer_id | first_name | last_name |
++-------------+------------+-----------+
+|          28 | CYNTHIA    | YOUNG     |
+|          42 | CAROLYN    | PEREZ     |
+|          75 | TAMMY      | SANDERS   |
+|         113 | CINDY      | FISHER    |
+|         144 | CLARA      | SHAW      |
++-------------+------------+-----------+
+....
+====
+
+// AI: Pick SAKILA_SCHEMA_A_09: A nested anti-existence condition over the full association graph.
+// AI: Copied from EXERCISES.asciidoc:8277, anchor SAKILA_SCHEMA_A_09; retain the permanent ID when revising.
+// AI: Registry: section=SCHEMA; tier=Advanced; sql=src/test/sql-exercises/__/03_advanced.sql; test=__Exercises_03_Advanced_PersistenceIT.SAKILA_SCHEMA_A_09_Test.
+[[SAKILA_SCHEMA_A_09]]
+==== SAKILA_SCHEMA_A_09: the countries none of whose customers rented a Music film
+
+Find the countries which have customers, none of whom has rented a film of the category `Music`.
+A `NOT EXISTS` whose subquery goes from the country's customers through their rentals, the copies and `film_category` to `category`, correlated by the country.
+Show each country with its number of customers, ordered by the country's name.
+
+.`__/03_advanced.sql`, SAKILA_SCHEMA_A_09
+[%collapsible]
+====
+[source,sql]
+----
+SELECT co.*, COUNT(*) AS customers
+FROM country co
+         JOIN city ci ON ci.country_id = co.country_id
+         JOIN address a ON a.city_id = ci.city_id
+         JOIN customer cu ON cu.address_id = a.address_id
+WHERE NOT EXISTS (SELECT 1
+                  FROM customer cu2
+                           JOIN address a2 ON a2.address_id = cu2.address_id
+                           JOIN city ci2 ON ci2.city_id = a2.city_id
+                           JOIN rental r ON r.customer_id = cu2.customer_id
+                           JOIN inventory i ON i.inventory_id = r.inventory_id
+                           JOIN film_category fc ON fc.film_id = i.film_id
+                           JOIN category c ON c.category_id = fc.category_id
+                  WHERE ci2.country_id = co.country_id
+                    AND c.name = 'Music')
+GROUP BY co.country_id
+ORDER BY co.country
+----
+
+....
++------------+------------------+---------------------+-----------+
+| country_id | country          | last_update         | customers |
++------------+------------------+---------------------+-----------+
+|          1 | Afghanistan      | 2006-02-15 04:44:00 |         1 |
+|         11 | Bahrain          | 2006-02-15 04:44:00 |         1 |
+|         33 | Finland          | 2006-02-15 04:44:00 |         1 |
+|         36 | French Polynesia | 2006-02-15 04:44:00 |         2 |
+|         47 | Iraq             | 2006-02-15 04:44:00 |         1 |
+|         55 | Liechtenstein    | 2006-02-15 04:44:00 |         1 |
+|         57 | Madagascar       | 2006-02-15 04:44:00 |         1 |
+|         68 | New Zealand      | 2006-02-15 04:44:00 |         1 |
+|         84 | Slovakia         | 2006-02-15 04:44:00 |         1 |
+|         88 | Sri Lanka        | 2006-02-15 04:44:00 |         1 |
+|         98 | Turkmenistan     | 2006-02-15 04:44:00 |         1 |
++------------+------------------+---------------------+-----------+
+....
+====
+
+Answered by `__Exercises_03_Advanced_PersistenceIT`.
+
