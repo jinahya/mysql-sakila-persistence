@@ -20,7 +20,7 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A composite primary key class for mapping the {@value FilmCategory#COLUMN_NAME_FILM_ID} column
@@ -33,8 +33,8 @@ import java.util.Objects;
  * {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute is typed as the basic
  * {@link jakarta.persistence.Id @Id} attribute is, and the
  * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute, which corresponds to an
- * {@link jakarta.persistence.Id @Id} association, is typed as the primary key of
- * {@link Category} is.
+ * {@link jakarta.persistence.Id @Id} association, is typed as the primary key of {@link Category}
+ * is.
  * <p>
  * The class is a record, which the specification permits of a primary key class (Jakarta
  * Persistence 3.2, §2.4.1); the record defines {@code equals} and {@code hashCode} over both
@@ -56,8 +56,8 @@ public record FilmCategoryId(Integer filmId, Integer category) {
     /**
      * Returns a new instance of the specified values.
      * <p>
-     * An application needs this, or the canonical constructor, to look up a {@link FilmCategory}
-     * by its primary key, as with {@link jakarta.persistence.EntityManager#find(Class, Object)}.
+     * An application needs this, or the canonical constructor, to look up a {@link FilmCategory} by
+     * its primary key, as with {@link jakarta.persistence.EntityManager#find(Class, Object)}.
      *
      * @param filmId   a value for the {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
      * @param category a value for the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute.
@@ -78,8 +78,31 @@ public record FilmCategoryId(Integer filmId, Integer category) {
      * @see #of(Integer, Integer)
      */
     public static FilmCategoryId from(final Film film, final Category category) {
-        Objects.requireNonNull(film, "film is null");
-        Objects.requireNonNull(category, "category is null");
-        return of(film.getFilmId(), category.getCategoryId());
+        return of(
+                Optional.ofNullable(film).map(Film::getFilmId).orElse(null),
+                Optional.ofNullable(category).map(Category::getCategoryId).orElse(null)
+        );
+    }
+
+    /**
+     * Returns a new instance of the identifiers of the film and the category of the specified
+     * entity.
+     * <p>
+     * The values are taken through the {@value FilmCategory#ATTRIBUTE_NAME_FILM} and the
+     * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} associations, as
+     * {@link #from(Film, Category)} takes them; a {@code null} entity, or a {@code null}
+     * association, gives a {@code null} value.
+     *
+     * @param filmCategory the entity whose {@link FilmCategory#getFilm() film} and
+     *                     {@link FilmCategory#getCategory() category} give the values; may be
+     *                     {@code null}.
+     * @return a new instance of {@code filmCategory}'s film's and category's identifiers.
+     * @see #from(Film, Category)
+     */
+    public static FilmCategoryId from(final FilmCategory filmCategory) {
+        return from(
+                Optional.ofNullable(filmCategory).map(FilmCategory::getFilm).orElse(null),
+                Optional.ofNullable(filmCategory).map(FilmCategory::getCategory).orElse(null)
+        );
     }
 }
