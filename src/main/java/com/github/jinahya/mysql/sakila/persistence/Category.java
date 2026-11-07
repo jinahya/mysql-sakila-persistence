@@ -221,12 +221,20 @@ public class Category {
     }
 
     // ------------------------------------------------------------------------------ filmCategories
-    List<FilmCategory> getFilmCategories() {
-        return filmCategories;
-    }
 
-    void setFilmCategories(final List<FilmCategory> filmCategories) {
-        this.filmCategories = filmCategories;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_CATEGORIES} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link FilmCategory#getCategory()}, mapped by
+     * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}, so a change to the list does not reach the
+     * database; a {@link FilmCategory} is linked through its own
+     * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_FILM_CATEGORIES} attribute; {@code null} for
+     *         an instance which is not read from the database.
+     */
+    public List<FilmCategory> getFilmCategories() {
+        return filmCategories;
     }
 
     // ---------------------------------------------------------------------------------------------

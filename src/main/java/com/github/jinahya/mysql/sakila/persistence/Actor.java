@@ -271,12 +271,19 @@ public class Actor {
     }
 
     // ---------------------------------------------------------------------------------- filmActors
-    List<FilmActor> getFilmActors() {
-        return filmActors;
-    }
 
-    void setFilmActors(final List<FilmActor> filmActors) {
-        this.filmActors = filmActors;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ACTORS} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link FilmActor#getActor()}, mapped by
+     * {@value FilmActor#ATTRIBUTE_NAME_ACTOR}, so a change to the list does not reach the database;
+     * a {@link FilmActor} is linked through its own {@value FilmActor#ATTRIBUTE_NAME_ACTOR}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_FILM_ACTORS} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<FilmActor> getFilmActors() {
+        return filmActors;
     }
 
     // ---------------------------------------------------------------------------------------------

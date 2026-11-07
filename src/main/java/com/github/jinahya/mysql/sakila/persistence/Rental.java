@@ -419,12 +419,19 @@ public class Rental {
     }
 
     // ------------------------------------------------------------------------------------ payments
-    List<Payment> getPayments() {
-        return payments;
-    }
 
-    void setPayments(final List<Payment> payments) {
-        this.payments = payments;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_PAYMENTS} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link Payment#getRental()}, mapped by
+     * {@value Payment#ATTRIBUTE_NAME_RENTAL}, so a change to the list does not reach the database;
+     * a {@link Payment} is linked through its own {@value Payment#ATTRIBUTE_NAME_RENTAL}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_PAYMENTS} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<Payment> getPayments() {
+        return payments;
     }
 
     // ---------------------------------------------------------------------------------------------

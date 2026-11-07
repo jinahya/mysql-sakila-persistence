@@ -985,30 +985,52 @@ public class Film {
     }
 
     // ---------------------------------------------------------------------------------- filmActors
-    List<FilmActor> getFilmActors() {
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ACTORS} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link FilmActor#getFilm()}, mapped by
+     * {@value FilmActor#ATTRIBUTE_NAME_FILM}, so a change to the list does not reach the database;
+     * a {@link FilmActor} is linked through its own {@value FilmActor#ATTRIBUTE_NAME_FILM}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_FILM_ACTORS} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<FilmActor> getFilmActors() {
         return filmActors;
     }
 
-    void setFilmActors(final List<FilmActor> filmActors) {
-        this.filmActors = filmActors;
-    }
-
     // ------------------------------------------------------------------------------ filmCategories
-    List<FilmCategory> getFilmCategories() {
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_CATEGORIES} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link FilmCategory#getFilm()}, mapped by
+     * {@value FilmCategory#ATTRIBUTE_NAME_FILM}, so a change to the list does not reach the
+     * database; a {@link FilmCategory} is linked through its own
+     * {@value FilmCategory#ATTRIBUTE_NAME_FILM}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_FILM_CATEGORIES} attribute; {@code null} for
+     *         an instance which is not read from the database.
+     */
+    public List<FilmCategory> getFilmCategories() {
         return filmCategories;
     }
 
-    void setFilmCategories(final List<FilmCategory> filmCategories) {
-        this.filmCategories = filmCategories;
-    }
-
     // --------------------------------------------------------------------------------- inventories
-    List<Inventory> getInventories() {
-        return inventories;
-    }
 
-    void setInventories(final List<Inventory> inventories) {
-        this.inventories = inventories;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_INVENTORIES} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link Inventory#getFilm()}, mapped by
+     * {@value Inventory#ATTRIBUTE_NAME_FILM}, so a change to the list does not reach the database;
+     * a {@link Inventory} is linked through its own {@value Inventory#ATTRIBUTE_NAME_FILM}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_INVENTORIES} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<Inventory> getInventories() {
+        return inventories;
     }
 
     // ---------------------------------------------------------------------------------------------

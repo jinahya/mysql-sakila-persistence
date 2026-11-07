@@ -343,10 +343,6 @@ public class Inventory {
         return rentals;
     }
 
-    void setRentals(final List<Rental> rentals) {
-        this.rentals = rentals;
-    }
-
     // ---------------------------------------------------------------------------------------------
     // no @NotNull: AUTO_INCREMENT; the value is null when the provider validates at pre-persist
     @Id

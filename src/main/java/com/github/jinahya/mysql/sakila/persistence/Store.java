@@ -291,21 +291,35 @@ public class Store {
     }
 
     // ----------------------------------------------------------------------------------- customers
-    List<Customer> getCustomers() {
+
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_CUSTOMERS} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link Customer#getStore()}, mapped by
+     * {@value Customer#ATTRIBUTE_NAME_STORE}, so a change to the list does not reach the database;
+     * a {@link Customer} is linked through its own {@value Customer#ATTRIBUTE_NAME_STORE}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_CUSTOMERS} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<Customer> getCustomers() {
         return customers;
     }
 
-    void setCustomers(final List<Customer> customers) {
-        this.customers = customers;
-    }
-
     // --------------------------------------------------------------------------------- inventories
-    List<Inventory> getInventories() {
-        return inventories;
-    }
 
-    void setInventories(final List<Inventory> inventories) {
-        this.inventories = inventories;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_INVENTORIES} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link Inventory#getStore()}, mapped by
+     * {@value Inventory#ATTRIBUTE_NAME_STORE}, so a change to the list does not reach the database;
+     * a {@link Inventory} is linked through its own {@value Inventory#ATTRIBUTE_NAME_STORE}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_INVENTORIES} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<Inventory> getInventories() {
+        return inventories;
     }
 
     // ---------------------------------------------------------------------------------------------

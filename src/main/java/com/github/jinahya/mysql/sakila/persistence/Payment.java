@@ -203,26 +203,29 @@ public class Payment {
      * Returns a new instance of the specified staff for the specified rental.
      * <p>
      * The {@value #ATTRIBUTE_NAME_CUSTOMER} of the new instance is the one of the rental. Along
-     * with {@link #of(Staff, Customer)}, this is the only way to set the
-     * {@value #ATTRIBUTE_NAME_CUSTOMER}, the {@value #ATTRIBUTE_NAME_STAFF} and the
-     * {@value #ATTRIBUTE_NAME_RENTAL} from outside the package; the {@value #ATTRIBUTE_NAME_AMOUNT}
-     * and the {@value #ATTRIBUTE_NAME_PAYMENT_DATE} are set on their own.
+     * with {@link #of(Staff, Customer, BigDecimal)}, this is the only way to set the
+     * {@value #ATTRIBUTE_NAME_CUSTOMER}, the {@value #ATTRIBUTE_NAME_STAFF}, the
+     * {@value #ATTRIBUTE_NAME_RENTAL} and the {@value #ATTRIBUTE_NAME_AMOUNT} from outside the
+     * package; a payment is a record of what happened, and none of them changes once it is made.
+     * The {@value #ATTRIBUTE_NAME_PAYMENT_DATE} is set on its own.
      *
      * @param staff  a value for the {@value #ATTRIBUTE_NAME_STAFF} attribute.
      * @param rental a value for the {@value #ATTRIBUTE_NAME_RENTAL} attribute.
-     * @return a new instance of {@code staff} for {@code rental}.
+     * @param amount a value for the {@value #ATTRIBUTE_NAME_AMOUNT} attribute.
+     * @return a new instance of {@code staff} for {@code rental}, of {@code amount}.
      * @apiNote A payment is processed some time after the rental, by whichever staff member
      *         is there; the staff of the rental is just one of them, so the staff is always given.
      *         The database also sets the {@value #COLUMN_NAME_RENTAL_ID} column to {@code NULL}
      *         when the rental is deleted.
-     * @see #of(Staff, Customer)
+     * @see #of(Staff, Customer, BigDecimal)
      */
-    public static Payment of(final Staff staff, final Rental rental) {
+    public static Payment of(final Staff staff, final Rental rental, final BigDecimal amount) {
         Objects.requireNonNull(rental, "rental is null");
         final var instance = new Payment();
         instance.setCustomer(rental.getCustomer());
         instance.setStaff(staff);
         instance.setRental(rental);
+        instance.setAmount(amount);
         return instance;
     }
 
@@ -235,13 +238,16 @@ public class Payment {
      *
      * @param staff    a value for the {@value #ATTRIBUTE_NAME_STAFF} attribute.
      * @param customer a value for the {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
-     * @return a new instance of {@code staff} for {@code customer}.
-     * @see #of(Staff, Rental)
+     * @param amount   a value for the {@value #ATTRIBUTE_NAME_AMOUNT} attribute.
+     * @return a new instance of {@code staff} for {@code customer}, of {@code amount}.
+     * @see #of(Staff, Rental, BigDecimal)
      */
-    public static Payment of(final Staff staff, final Customer customer) {
+    public static Payment of(final Staff staff, final Customer customer,
+                             final BigDecimal amount) {
         final var instance = new Payment();
         instance.setCustomer(customer);
         instance.setStaff(staff);
+        instance.setAmount(amount);
         return instance;
     }
 
@@ -327,8 +333,9 @@ public class Payment {
      * value.
      *
      * @param customer new value for {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
-     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the
-     *         customer, as the one of the rental, from outside the package.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} sets the
+     *         customer, as the one of the rental, from outside the package, and
+     *         {@link #of(Staff, Customer, BigDecimal)} sets it as given.
      */
     void setCustomer(final Customer customer) {
         this.customer = customer;
@@ -349,8 +356,8 @@ public class Payment {
      * Replaces current value of {@value #ATTRIBUTE_NAME_STAFF} attribute with the specified value.
      *
      * @param staff new value for {@value #ATTRIBUTE_NAME_STAFF} attribute.
-     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the staff
-     *         from outside the package.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} and
+     *         {@link #of(Staff, Customer, BigDecimal)} set the staff from outside the package.
      */
     void setStaff(final Staff staff) {
         this.staff = staff;
@@ -372,9 +379,9 @@ public class Payment {
      * value.
      *
      * @param rental new value for {@value #ATTRIBUTE_NAME_RENTAL} attribute.
-     * @apiNote This method is package-private; {@link #of(Staff, Rental)} sets the rental
-     *         from outside the package. The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it is; the
-     *         customer of the rental should be the customer of this payment.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} sets the
+     *         rental from outside the package. The {@value #ATTRIBUTE_NAME_CUSTOMER} is left as it
+     *         is; the customer of the rental should be the customer of this payment.
      */
     void setRental(final Rental rental) {
         this.rental = rental;
@@ -396,8 +403,10 @@ public class Payment {
      * value.
      *
      * @param amount new value for {@value #ATTRIBUTE_NAME_AMOUNT} attribute.
+     * @apiNote This method is package-private; {@link #of(Staff, Rental, BigDecimal)} and
+     *         {@link #of(Staff, Customer, BigDecimal)} set the amount from outside the package.
      */
-    public void setAmount(final BigDecimal amount) {
+    void setAmount(final BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -464,7 +473,7 @@ public class Payment {
     @DecimalMax(COLUMN_MAX_AMOUNT)
     @DecimalMin(COLUMN_MIN_AMOUNT)
     @Basic(optional = false)
-    @Column(name = COLUMN_NAME_AMOUNT, nullable = false, insertable = true, updatable = true,
+    @Column(name = COLUMN_NAME_AMOUNT, nullable = false, insertable = true, updatable = false,
             precision = COLUMN_PRECISION_AMOUNT, scale = COLUMN_SCALE_AMOUNT)
     private BigDecimal amount;
 

@@ -256,7 +256,7 @@ public class Country {
      * @see #setCountry(String)
      */
     @Transient
-    void setCountryFrom(final Locale locale) {
+    public void setCountryFrom(final Locale locale) {
         setCountryAs(locale, v -> v.getDisplayCountry(Locale.ENGLISH));
     }
 
@@ -273,12 +273,19 @@ public class Country {
     }
 
     // -------------------------------------------------------------------------------------- cities
-    List<City> getCities() {
-        return cities;
-    }
 
-    void setCities(final List<City> cities) {
-        this.cities = cities;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_CITIES} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link City#getCountry()}, mapped by
+     * {@value City#ATTRIBUTE_NAME_COUNTRY}, so a change to the list does not reach the database; a
+     * {@link City} is linked through its own {@value City#ATTRIBUTE_NAME_COUNTRY}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_CITIES} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<City> getCities() {
+        return cities;
     }
 
     // ---------------------------------------------------------------------------------------------

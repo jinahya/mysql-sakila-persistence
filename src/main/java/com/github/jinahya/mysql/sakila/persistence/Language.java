@@ -243,12 +243,19 @@ public class Language {
     }
 
     // --------------------------------------------------------------------------------------- films
-    List<Film> getFilms() {
-        return films;
-    }
 
-    void setFilms(final List<Film> films) {
-        this.films = films;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_FILMS} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link Film#getLanguage()}, mapped by
+     * {@value Film#ATTRIBUTE_NAME_LANGUAGE}, so a change to the list does not reach the database; a
+     * {@link Film} is linked through its own {@value Film#ATTRIBUTE_NAME_LANGUAGE}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_FILMS} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<Film> getFilms() {
+        return films;
     }
 
     // ---------------------------------------------------------------------------------------------

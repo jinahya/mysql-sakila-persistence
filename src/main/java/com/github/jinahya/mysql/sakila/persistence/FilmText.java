@@ -223,15 +223,6 @@ public class FilmText {
         return title;
     }
 
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_TITLE} attribute with the specified value.
-     *
-     * @param title new value for {@value #ATTRIBUTE_NAME_TITLE} attribute.
-     */
-    void setTitle(final String title) {
-        this.title = title;
-    }
-
     // --------------------------------------------------------------------------------- description
 
     /**
@@ -241,16 +232,6 @@ public class FilmText {
      */
     public String getDescription() {
         return description;
-    }
-
-    /**
-     * Replaces current value of {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute with the specified
-     * value.
-     *
-     * @param description new value for {@value #ATTRIBUTE_NAME_DESCRIPTION} attribute.
-     */
-    void setDescription(final String description) {
-        this.description = description;
     }
 
     // ---------------------------------------------------------------------------------------------

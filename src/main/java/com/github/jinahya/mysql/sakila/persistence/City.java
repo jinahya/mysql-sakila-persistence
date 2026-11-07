@@ -282,12 +282,19 @@ public class City {
     }
 
     // ----------------------------------------------------------------------------------- addresses
-    List<Address> getAddresses() {
-        return addresses;
-    }
 
-    void setAddresses(final List<Address> addresses) {
-        this.addresses = addresses;
+    /**
+     * Returns current value of {@value #ATTRIBUTE_NAME_ADDRESSES} attribute.
+     * <p>
+     * The attribute is the inverse side of {@link Address#getCity()}, mapped by
+     * {@value Address#ATTRIBUTE_NAME_CITY}, so a change to the list does not reach the database; a
+     * {@link Address} is linked through its own {@value Address#ATTRIBUTE_NAME_CITY}.
+     *
+     * @return current value of {@value #ATTRIBUTE_NAME_ADDRESSES} attribute; {@code null} for an
+     *         instance which is not read from the database.
+     */
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
     // ---------------------------------------------------------------------------------------------
