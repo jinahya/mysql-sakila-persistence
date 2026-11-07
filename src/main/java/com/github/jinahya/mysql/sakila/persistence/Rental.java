@@ -191,6 +191,31 @@ public class Rental {
      */
     public static final String ATTRIBUTE_NAME_PAYMENTS = "payments";
 
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
+
+    /**
+     * Returns a new instance of the specified inventory rented by the specified customer through
+     * the specified staff.
+     * <p>
+     * This is the only way to set the {@value #ATTRIBUTE_NAME_INVENTORY}, the
+     * {@value #ATTRIBUTE_NAME_CUSTOMER} and the {@value #ATTRIBUTE_NAME_STAFF} from outside the
+     * package. A rental is a record of what happened, and none of the three changes once it is
+     * made; only the {@value #ATTRIBUTE_NAME_RETURN_DATE} is set later. The
+     * {@value #ATTRIBUTE_NAME_RENTAL_DATE} is the database's to fill.
+     *
+     * @param inventory a value for the {@value #ATTRIBUTE_NAME_INVENTORY} attribute.
+     * @param customer  a value for the {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
+     * @param staff     a value for the {@value #ATTRIBUTE_NAME_STAFF} attribute.
+     * @return a new instance of {@code inventory}, {@code customer} and {@code staff}.
+     */
+    public static Rental of(final Inventory inventory, final Customer customer, final Staff staff) {
+        final var instance = new Rental();
+        instance.setInventory(inventory);
+        instance.setCustomer(customer);
+        instance.setStaff(staff);
+        return instance;
+    }
+
     // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -307,8 +332,10 @@ public class Rental {
      * value.
      *
      * @param inventory new value for {@value #ATTRIBUTE_NAME_INVENTORY} attribute.
+     * @apiNote This method is package-private; {@link #of(Inventory, Customer, Staff)} sets the
+     *         inventory from outside the package.
      */
-    public void setInventory(final Inventory inventory) {
+    void setInventory(final Inventory inventory) {
         this.inventory = inventory;
     }
 
@@ -328,8 +355,10 @@ public class Rental {
      * value.
      *
      * @param customer new value for {@value #ATTRIBUTE_NAME_CUSTOMER} attribute.
+     * @apiNote This method is package-private; {@link #of(Inventory, Customer, Staff)} sets the
+     *         customer from outside the package.
      */
-    public void setCustomer(final Customer customer) {
+    void setCustomer(final Customer customer) {
         this.customer = customer;
     }
 
@@ -370,8 +399,10 @@ public class Rental {
      * Replaces current value of {@value #ATTRIBUTE_NAME_STAFF} attribute with the specified value.
      *
      * @param staff new value for {@value #ATTRIBUTE_NAME_STAFF} attribute.
+     * @apiNote This method is package-private; {@link #of(Inventory, Customer, Staff)} sets the
+     *         staff from outside the package.
      */
-    public void setStaff(final Staff staff) {
+    void setStaff(final Staff staff) {
         this.staff = staff;
     }
 
@@ -415,7 +446,7 @@ public class Rental {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_INVENTORY_ID,
                 referencedColumnName = Inventory.COLUMN_NAME_INVENTORY_ID, nullable = false,
-                insertable = true, updatable = true)
+                insertable = true, updatable = false)
     private Inventory inventory;
 
     // ---------------------------------------------------------------------------------------------
@@ -424,7 +455,7 @@ public class Rental {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_CUSTOMER_ID,
                 referencedColumnName = Customer.COLUMN_NAME_CUSTOMER_ID, nullable = false,
-                insertable = true, updatable = true)
+                insertable = true, updatable = false)
     private Customer customer;
 
     // ---------------------------------------------------------------------------------------------
@@ -437,7 +468,7 @@ public class Rental {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STAFF_ID, referencedColumnName = Staff.COLUMN_NAME_STAFF_ID,
-                nullable = false, insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = false)
     private Staff staff;
 
     // ---------------------------------------------------------------------------------------------

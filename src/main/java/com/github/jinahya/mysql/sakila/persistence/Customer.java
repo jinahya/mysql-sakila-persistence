@@ -347,6 +347,9 @@ public class Customer {
 
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value.
+     * <p>
+     * The store may change, as the customer moves to another store; this is why the setter is
+     * public.
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
@@ -430,6 +433,8 @@ public class Customer {
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified
      * value.
+     * <p>
+     * The address may change, as the customer moves; this is why the setter is public.
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */

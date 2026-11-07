@@ -22,6 +22,12 @@ package com.github.jinahya.mysql.sakila.persistence;
 
 import nl.jqno.equalsverifier.Warning;
 import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * A class for testing the {@link Rental} entity class.
@@ -33,6 +39,39 @@ class Rental_Test
 
     Rental_Test() {
         super(Rental.class, Integer.class);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    /**
+     * Tests {@link Rental#of(Inventory, Customer, Staff)}.
+     */
+    @DisplayName("of(inventory, customer, staff)")
+    @Nested
+    class OfTest {
+
+        /**
+         * Verifies that {@link Rental#of(Inventory, Customer, Staff) of} returns an instance whose
+         * {@value Rental#ATTRIBUTE_NAME_INVENTORY}, {@value Rental#ATTRIBUTE_NAME_CUSTOMER} and
+         * {@value Rental#ATTRIBUTE_NAME_STAFF} are the very instances it was given, and whose
+         * {@value Rental#ATTRIBUTE_NAME_RENTAL_DATE} and {@value Rental#ATTRIBUTE_NAME_RETURN_DATE}
+         * are left {@code null}.
+         */
+        @Test
+        void __() {
+            final var inventory = mock(Inventory.class);
+            final var customer = mock(Customer.class);
+            final var staff = mock(Staff.class);
+            final var instance = Rental.of(inventory, customer, staff);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getInventory()).isSameAs(inventory);
+                assertThat(v.getCustomer()).isSameAs(customer);
+                assertThat(v.getStaff()).isSameAs(staff);
+                assertThat(v.getRentalDate()).isNull();
+                assertThat(v.getReturnDate()).isNull();
+                assertThat(v.getRentalId()).isNull();
+            });
+        }
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode

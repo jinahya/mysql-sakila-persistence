@@ -143,6 +143,23 @@ public class City {
      */
     public static final String ATTRIBUTE_NAME_ADDRESSES = "addresses";
 
+    // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
+
+    /**
+     * Returns a new instance in the specified country.
+     * <p>
+     * This is the only way to set the {@value #ATTRIBUTE_NAME_COUNTRY} from outside the package. A
+     * city does not move to another country; for one which does, persist a new instance.
+     *
+     * @param country a value for the {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
+     * @return a new instance in {@code country}.
+     */
+    public static City of(final Country country) {
+        final var instance = new City();
+        instance.setCountry(country);
+        return instance;
+    }
+
     // -------------------------------------------------------------------------------- CONSTRUCTORS
 
     /**
@@ -245,8 +262,10 @@ public class City {
      * value.
      *
      * @param country new value for {@value #ATTRIBUTE_NAME_COUNTRY} attribute.
+     * @apiNote This method is package-private; {@link #of(Country)} sets the country from
+     *         outside the package.
      */
-    public void setCountry(final Country country) {
+    void setCountry(final Country country) {
         this.country = country;
     }
 
@@ -292,7 +311,7 @@ public class City {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_COUNTRY_ID,
                 referencedColumnName = Country.COLUMN_NAME_COUNTRY_ID, nullable = false,
-                insertable = true, updatable = true)
+                insertable = true, updatable = false)
     private Country country;
 
     // ---------------------------------------------------------------------------------------------

@@ -480,6 +480,8 @@ public class Address {
 
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_CITY} attribute with the specified value.
+     * <p>
+     * The city may change, as an address is corrected; this is why the setter is public.
      *
      * @param city new value for {@value #ATTRIBUTE_NAME_CITY} attribute.
      */

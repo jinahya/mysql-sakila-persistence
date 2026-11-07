@@ -22,6 +22,12 @@ package com.github.jinahya.mysql.sakila.persistence;
 
 import nl.jqno.equalsverifier.Warning;
 import nl.jqno.equalsverifier.api.SingleTypeEqualsVerifierApi;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * A class for testing the {@link City} entity class.
@@ -33,6 +39,31 @@ class City_Test
 
     City_Test() {
         super(City.class, Integer.class);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    /**
+     * Tests {@link City#of(Country)}.
+     */
+    @DisplayName("of(country)")
+    @Nested
+    class OfTest {
+
+        /**
+         * Verifies that {@link City#of(Country) of} returns an instance whose
+         * {@value City#ATTRIBUTE_NAME_COUNTRY} is the very instance it was given.
+         */
+        @Test
+        void __() {
+            final var country = mock(Country.class);
+            final var instance = City.of(country);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getCountry()).isSameAs(country);
+                assertThat(v.getCityId()).isNull();
+                assertThat(v.getCity()).isNull();
+            });
+        }
     }
 
     // ----------------------------------------------------------------------------- equals/hashCode

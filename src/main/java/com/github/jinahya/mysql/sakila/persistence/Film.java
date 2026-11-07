@@ -809,6 +809,8 @@ public class Film {
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_LANGUAGE} attribute with the specified
      * value.
+     * <p>
+     * The language may change, as the catalog is corrected; this is why the setter is public.
      *
      * @param language new value for {@value #ATTRIBUTE_NAME_LANGUAGE} attribute.
      */
@@ -830,6 +832,9 @@ public class Film {
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute with the
      * specified value.
+     * <p>
+     * The original language may change, as it is optional and often set, or corrected, after the
+     * film is; this is why the setter is public.
      *
      * @param originalLanguage new value for {@value #ATTRIBUTE_NAME_ORIGINAL_LANGUAGE} attribute.
      */

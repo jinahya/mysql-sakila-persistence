@@ -266,6 +266,8 @@ public class Inventory {
      * along with the {@value #ATTRIBUTE_NAME_FILM_ID} attribute, which is read-only.
      *
      * @param film new value for {@value #ATTRIBUTE_NAME_FILM} attribute.
+     * @apiNote This method is package-private; {@link #of(Film, Store)} sets the film from
+     *         outside the package.
      */
     void setFilm(final Film film) {
         this.film = film;
@@ -303,6 +305,8 @@ public class Inventory {
      * along with the {@value #ATTRIBUTE_NAME_STORE_ID} attribute, which is read-only.
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
+     * @apiNote This method is package-private; {@link #of(Film, Store)} sets the store from
+     *         outside the package.
      */
     void setStore(final Store store) {
         this.store = store;
@@ -360,7 +364,7 @@ public class Inventory {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_FILM_ID, referencedColumnName = Film.COLUMN_NAME_FILM_ID,
-                nullable = false, insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = false)
     private Film film;
 
     // ---------------------------------------------------------------------------------------------
@@ -373,7 +377,7 @@ public class Inventory {
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = COLUMN_NAME_STORE_ID, referencedColumnName = Store.COLUMN_NAME_STORE_ID,
-                nullable = false, insertable = true, updatable = true)
+                nullable = false, insertable = true, updatable = false)
     private Store store;
 
     // ---------------------------------------------------------------------------------------------

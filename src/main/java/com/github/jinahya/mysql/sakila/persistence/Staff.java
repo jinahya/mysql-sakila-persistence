@@ -423,6 +423,8 @@ public class Staff {
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_ADDRESS} attribute with the specified
      * value.
+     * <p>
+     * The address may change, as the staff moves; this is why the setter is public.
      *
      * @param address new value for {@value #ATTRIBUTE_NAME_ADDRESS} attribute.
      */
@@ -484,6 +486,10 @@ public class Staff {
 
     /**
      * Replaces current value of {@value #ATTRIBUTE_NAME_STORE} attribute with the specified value.
+     * <p>
+     * The store may change, as the staff moves to another store; this is why the setter is public.
+     * A store's {@link Store#getManagerStaff() manager} works at the store, and the store has a
+     * manager, so one of the two has to be set after both are persisted.
      *
      * @param store new value for {@value #ATTRIBUTE_NAME_STORE} attribute.
      */
