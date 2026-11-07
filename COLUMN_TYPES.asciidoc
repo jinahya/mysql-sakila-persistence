@@ -1,0 +1,337 @@
+= Column Types
+:refman: https://dev.mysql.com/doc/refman/9.7/en
+:data-types: {refman}/data-types.html
+
+////
+AI: how this file is made -- as oracle-sample-schemas-persistence's COLUMN_TYPES.asciidoc says, for MySQL.
+
+* Scope: every column of every table of the Sakila sample database, `sakila`; a view adds no type of its own, and
+  is covered by the last section, Views.
+* Sections: those of the Data Types chapter of the MySQL 9.7 Reference Manual, in its order (Numeric, Date and
+  Time, String, Spatial, JSON), one subsection per page of the chapter used; each section and subsection links
+  its page.
+* Each declared type is listed as the catalog reports it (`INFORMATION_SCHEMA.COLUMNS.COLUMN_TYPE`), length,
+  `unsigned` and all, with `AUTO_INCREMENT` from `EXTRA` (`smallint unsigned AUTO_INCREMENT`); `BOOLEAN` is
+  reported as `tinyint(1)`. One row per declared type and Java type, linked to its page.
+* Columns: Declared as | Java type | Count | Columns; each column as `table.column`; the counts add up to the
+  columns stated in the introduction.
+* Java type: the type of the attribute which maps the column in the entity classes, the wrapper types, never a
+  primitive, and `java.time` for the date and time types. A foreign-key column mapped only by an association's
+  `@JoinColumn` takes the type of the key it refers to.
+* Take the types from the live database's catalog (`INFORMATION_SCHEMA.COLUMNS`), never from memory.
+* Name the types of the reference which no column uses, in the introduction.
+* End the file with two newlines.
+////
+
+Every column type the tables of `sakila` declare, grouped by the sections of link:{data-types}[Data Types] in the
+MySQL 9.7 Reference Manual. Each type is listed as the catalog (`INFORMATION_SCHEMA.COLUMNS`) reports it, and each
+column as `table.column`; 90 columns of 16 tables in all. The views are left out; see <<views>>.
+
+The Java type is the type of the attribute which maps the column in the entity classes, the wrapper types, never a
+primitive, and `java.time` for the date and time types. Sixteen foreign-key columns have no attribute of their own,
+only an association's `@JoinColumn` (see link:ATTRIBUTE_MAPPINGS.asciidoc[Attribute Mappings]); each is listed with
+the type of the key it refers to, an `Integer` in every case.
+
+No column is `BIGINT`, `BIT`, `FLOAT`, `DOUBLE`, `DATE`, `TIME`, `BINARY`, `VARBINARY`, `TINYTEXT`, `MEDIUMTEXT`, `LONGTEXT`,
+`TINYBLOB`, `MEDIUMBLOB`, `LONGBLOB`, `VECTOR`, a spatial type other than `GEOMETRY` (`POINT`, `POLYGON`, ...) or
+`JSON`.
+
+== Numeric Data Types
+
+See link:{refman}/numeric-types.html[Numeric Data Types].
+
+=== Integer Types
+
+See link:{refman}/integer-types.html[Integer Types (Exact Value) - INTEGER, INT, SMALLINT, TINYINT, MEDIUMINT, BIGINT].
+
+Every integer is an `Integer`. The tables declare their integers
+`UNSIGNED`: a `tinyint unsigned` (up to 255) exceeds a `Byte`, and a `smallint unsigned` (up to 65535) a `Short`, so
+`Integer` is the smallest wrapper which holds every value of each, and of a `mediumint unsigned` (up to 16777215).
+`payment.rental_id` and `rental.rental_id`, `int`s, are the only signed ones.
+
+`tinyint(1)` is what the catalog reports for `BOOLEAN`, a synonym (see
+link:{refman}/numeric-type-syntax.html[Numeric Data Type Syntax]); `customer.active` and `staff.active` are declared
+`BOOLEAN NOT NULL DEFAULT TRUE`. Connector/J reads it as a `Boolean`
+(`tinyInt1isBit`, `true` by default).
+
+A foreign-key column has its key's type in every case: the keys and the columns which refer to them are declared
+alike.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/integer-types.html[`tinyint(1)`]
+| `Boolean`
+| 2
+| `customer.active`, `staff.active`
+
+| link:{refman}/integer-types.html[`tinyint unsigned`]
+| `Integer`
+| 10
+| `customer.store_id`, `film.language_id`, `film.original_language_id`, `film.rental_duration`, `film_category.category_id`, `inventory.store_id`, `payment.staff_id`, `rental.staff_id`, `staff.store_id`, `store.manager_staff_id`
+
+| link:{refman}/integer-types.html[`tinyint unsigned AUTO_INCREMENT`]
+| `Integer`
+| 4
+| `category.category_id`, `language.language_id`, `staff.staff_id`, `store.store_id`
+
+| link:{refman}/integer-types.html[`smallint unsigned`]
+| `Integer`
+| 13
+| `address.city_id`, `city.country_id`, `customer.address_id`, `film.length`, `film_actor.actor_id`, `film_actor.film_id`, `film_category.film_id`, `film_text.film_id`, `inventory.film_id`, `payment.customer_id`, `rental.customer_id`, `staff.address_id`, `store.address_id`
+
+| link:{refman}/integer-types.html[`smallint unsigned AUTO_INCREMENT`]
+| `Integer`
+| 7
+| `actor.actor_id`, `address.address_id`, `city.city_id`, `country.country_id`, `customer.customer_id`, `film.film_id`, `payment.payment_id`
+
+| link:{refman}/integer-types.html[`mediumint unsigned`]
+| `Integer`
+| 1
+| `rental.inventory_id`
+
+| link:{refman}/integer-types.html[`mediumint unsigned AUTO_INCREMENT`]
+| `Integer`
+| 1
+| `inventory.inventory_id`
+
+| link:{refman}/integer-types.html[`int`]
+| `Integer`
+| 1
+| `payment.rental_id`
+
+| link:{refman}/integer-types.html[`int AUTO_INCREMENT`]
+| `Integer`
+| 1
+| `rental.rental_id`
+
+|===
+
+=== Fixed-Point Types
+
+See link:{refman}/fixed-point-types.html[Fixed-Point Types (Exact Value) - DECIMAL, NUMERIC].
+
+`decimal` is a `BigDecimal`.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/fixed-point-types.html[`decimal(4,2)`]
+| `BigDecimal`
+| 1
+| `film.rental_rate`
+
+| link:{refman}/fixed-point-types.html[`decimal(5,2)`]
+| `BigDecimal`
+| 2
+| `film.replacement_cost`, `payment.amount`
+
+|===
+
+== Date and Time Data Types
+
+See link:{refman}/date-and-time-types.html[Date and Time Data Types].
+
+=== The DATE, DATETIME, and TIMESTAMP Types
+
+See link:{refman}/datetime.html[The DATE, DATETIME, and TIMESTAMP Types].
+
+`datetime` and `timestamp` hold a date and a time to the second, and are `LocalDateTime`s. MySQL converts a
+`timestamp` from the session time zone to UTC for storage and back on read, and a `datetime` not at all. Every
+`last_update` is a `timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`, which the database sets on
+each insert and update.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/datetime.html[`datetime`]
+| `LocalDateTime`
+| 4
+| `customer.create_date`, `payment.payment_date`, `rental.rental_date`, `rental.return_date`
+
+| link:{refman}/datetime.html[`timestamp`]
+| `LocalDateTime`
+| 15
+| `actor.last_update`, `address.last_update`, `category.last_update`, `city.last_update`, `country.last_update`, `customer.last_update`, `film.last_update`, `film_actor.last_update`, `film_category.last_update`, `inventory.last_update`, `language.last_update`, `payment.last_update`, `rental.last_update`, `staff.last_update`, `store.last_update`
+
+|===
+
+=== The YEAR Type
+
+See link:{refman}/year.html[The YEAR Type].
+
+`year` holds 1901 to 2155 (and `0000`); `Film.releaseYear` is an `Integer` bounded by `@Min(1901)` and
+`@Max(2155)`.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/year.html[`year`]
+| `Integer`
+| 1
+| `film.release_year`
+
+|===
+
+== String Data Types
+
+See link:{refman}/string-types.html[String Data Types].
+
+=== The CHAR and VARCHAR Types
+
+See link:{refman}/char.html[The CHAR and VARCHAR Types].
+
+`char` is padded with spaces to its length on storage, and MySQL removes the trailing spaces on retrieval, so
+`language.name`, a `char(20)`, reads back as it was written (`English`); `varchar` is stored as written.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/char.html[`char(20)`]
+| `String`
+| 1
+| `language.name`
+
+| link:{refman}/char.html[`varchar(10)`]
+| `String`
+| 1
+| `address.postal_code`
+
+| link:{refman}/char.html[`varchar(16)`]
+| `String`
+| 1
+| `staff.username`
+
+| link:{refman}/char.html[`varchar(20)`]
+| `String`
+| 2
+| `address.district`, `address.phone`
+
+| link:{refman}/char.html[`varchar(25)`]
+| `String`
+| 1
+| `category.name`
+
+| link:{refman}/char.html[`varchar(40)`]
+| `String`
+| 1
+| `staff.password`
+
+| link:{refman}/char.html[`varchar(45)`]
+| `String`
+| 6
+| `actor.first_name`, `actor.last_name`, `customer.first_name`, `customer.last_name`, `staff.first_name`, `staff.last_name`
+
+| link:{refman}/char.html[`varchar(50)`]
+| `String`
+| 6
+| `address.address`, `address.address2`, `city.city`, `country.country`, `customer.email`, `staff.email`
+
+| link:{refman}/char.html[`varchar(128)`]
+| `String`
+| 1
+| `film.title`
+
+| link:{refman}/char.html[`varchar(255)`]
+| `String`
+| 1
+| `film_text.title`
+
+|===
+
+=== The BLOB and TEXT Types
+
+See link:{refman}/blob.html[The BLOB and TEXT Types].
+
+`text` is a `String`, and `blob` a `byte[]`; `staff.picture` is `@Lob`, and fetched lazily.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/blob.html[`blob`]
+| `byte[]`
+| 1
+| `staff.picture`
+
+| link:{refman}/blob.html[`text`]
+| `String`
+| 2
+| `film.description`, `film_text.description`
+
+|===
+
+=== The ENUM Type
+
+See link:{refman}/enum.html[The ENUM Type].
+
+`film.rating` is a `Film.Rating`, through `Film.RatingConverter`: `PG-13` and `NC-17` are not Java identifiers.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/enum.html[`enum('G','PG','PG-13','R','NC-17')`]
+| `Rating`
+| 1
+| `film.rating`
+
+|===
+
+=== The SET Type
+
+See link:{refman}/set.html[The SET Type].
+
+`film.special_features` is a `String`, its members joined by `,` as MySQL reads and writes them;
+`Film.SpecialFeature.parse(String)` and `format(Collection)` convert it from and to a set of `Film.SpecialFeature`s.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/set.html[`set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes')`]
+| `String`
+| 1
+| `film.special_features`
+
+|===
+
+== Spatial Data Types
+
+See link:{refman}/spatial-types.html[Spatial Data Types], and
+link:{refman}/spatial-type-overview.html[Spatial Data Types] in it.
+
+`address.location` is a `GEOMETRY SRID 0`, which Jakarta Persistence has no type for; it is a `byte[]`, the bytes
+MySQL stores and returns -- a four-byte `SRID` and the geometry's well-known binary (WKB) -- and accepts back.
+`Address.newLocation(int, double, double)` builds the bytes of a point.
+
+[cols="2,2,1,6",options="header"]
+|===
+| Declared as | Java type | Count | Columns
+
+| link:{refman}/spatial-type-overview.html[`geometry`]
+| `byte[]`
+| 1
+| `address.location`
+
+|===
+
+[[views]]
+== Views
+
+A view's columns take the types of the expressions which select them, so the views add no type outside the
+sections above:
+
+* `actor_info.film_info`, `film_list.actors` and `nicer_but_slower_film_list.actors` are `GROUP_CONCAT`s, `text`.
+* `customer_list.name`, `staff_list.name` and `sales_by_store.manager` (`varchar(91)`) and `sales_by_store.store`
+  (`varchar(101)`) are `CONCAT`s of `varchar` columns; `customer_list.notes`, an `IF` of two literals, is a
+  `varchar(6)`.
+* `sales_by_film_category.total_sales` and `sales_by_store.total_sales` are `SUM`s of `payment.amount`, a
+  `decimal(27,2)`.
+* Every other view column is a table column, and has its type.
+
