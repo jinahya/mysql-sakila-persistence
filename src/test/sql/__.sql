@@ -26,8 +26,10 @@
 
 
 -- ---------------------------------------------------------------------------------------- ST_SPATIAL_REFERENCE_SYSTEMS
--- the spatial reference system 4326 the server knows; 4326, EPSG, 4326.
-SELECT SRS_ID, ORGANIZATION, ORGANIZATION_COORDSYS_ID
+-- the spatial reference systems the server knows, for a few SRIDs: 0, MySQL's own unitless plane, which no
+-- organization defines; and four EPSG systems, each with its EPSG code as its SRID.
+SELECT SRS_ID, SRS_NAME, ORGANIZATION, ORGANIZATION_COORDSYS_ID
 FROM INFORMATION_SCHEMA.ST_SPATIAL_REFERENCE_SYSTEMS
-WHERE SRS_ID = 4326
+WHERE SRS_ID IN (0, 3857, 4326, 5181, 5186)
+ORDER BY SRS_ID
 ;
