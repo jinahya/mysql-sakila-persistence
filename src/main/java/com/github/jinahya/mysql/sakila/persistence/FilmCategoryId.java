@@ -30,51 +30,54 @@ import java.util.Objects;
  * <p>
  * The attributes are named as the {@link jakarta.persistence.Id @Id} attributes of
  * {@link FilmCategory} are, which is what the specification requires of an id class. The
- * {@value #ATTRIBUTE_NAME_FILM_ID} attribute is typed as the basic
- * {@link jakarta.persistence.Id @Id} attribute is, and the {@value #ATTRIBUTE_NAME_CATEGORY}
- * attribute, which corresponds to an {@link jakarta.persistence.Id @Id} association, is typed as
- * the primary key of {@link Category} is.
+ * {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute is typed as the basic
+ * {@link jakarta.persistence.Id @Id} attribute is, and the
+ * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute, which corresponds to an
+ * {@link jakarta.persistence.Id @Id} association, is typed as the primary key of
+ * {@link Category} is.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmCategory
- * @see <a
- *         href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
- *         .2#composite-primary-keys">
- *         2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2 Specification Document)
+ * @see <a href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
+ *         .2#composite-primary-keys"> 2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2
+ *         Specification Document)
  */
 public class FilmCategoryId {
-
-    /**
-     * The name of the attribute which corresponds to the
-     * {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute of {@link FilmCategory}. The value is
-     * {@value}.
-     */
-    public static final String ATTRIBUTE_NAME_FILM_ID = FilmCategory.ATTRIBUTE_NAME_FILM_ID;
-
-    /**
-     * The name of the attribute which corresponds to the
-     * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute of {@link FilmCategory}. The value is
-     * {@value}.
-     */
-    public static final String ATTRIBUTE_NAME_CATEGORY = FilmCategory.ATTRIBUTE_NAME_CATEGORY;
 
     // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
 
     /**
      * Returns a new instance of the specified values.
+     * <p>
+     * An application needs this to look up a {@link FilmCategory} by its primary key, as with
+     * {@link jakarta.persistence.EntityManager#find(Class, Object)}; the class has no other way to
+     * set the values.
      *
-     * @param filmId   a value for the {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
-     * @param category a value for the {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
+     * @param filmId   a value for the {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
+     * @param category a value for the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute.
      * @return a new instance of {@code filmId} and {@code category}.
-     * @deprecated Nothing uses this, and Jakarta Persistence does not require an id class to have
-     *         one.
      */
-    @Deprecated(forRemoval = true)
     public static FilmCategoryId of(final Integer filmId, final Integer category) {
         final var instance = new FilmCategoryId();
         instance.filmId = filmId;
         instance.category = category;
         return instance;
+    }
+
+    /**
+     * Returns a new instance of the identifiers of the specified entities.
+     *
+     * @param film     the film whose {@link Film#getFilmId() filmId} is the
+     *                 {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
+     * @param category the category whose {@link Category#getCategoryId() categoryId} is the
+     *                 {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute.
+     * @return a new instance of {@code film}'s and {@code category}'s identifiers.
+     * @see #of(Integer, Integer)
+     */
+    public static FilmCategoryId from(final Film film, final Category category) {
+        Objects.requireNonNull(film, "film is null");
+        Objects.requireNonNull(category, "category is null");
+        return of(film.getFilmId(), category.getCategoryId());
     }
 
     // -------------------------------------------------------------------------------- CONSTRUCTORS
@@ -104,8 +107,8 @@ public class FilmCategoryId {
      *
      * @param obj {@inheritDoc}
      * @return {@inheritDoc}
-     * @implSpec Equality is by both {@value #ATTRIBUTE_NAME_FILM_ID} and
-     *         {@value #ATTRIBUTE_NAME_CATEGORY}.
+     * @implSpec Equality is by both {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}.
      */
     @Override
     public final boolean equals(final Object obj) {
@@ -120,8 +123,9 @@ public class FilmCategoryId {
      * {@inheritDoc}
      *
      * @return {@inheritDoc}
-     * @implSpec The hash is over both {@value #ATTRIBUTE_NAME_FILM_ID} and
-     *         {@value #ATTRIBUTE_NAME_CATEGORY}, consistent with {@link #equals(Object)}.
+     * @implSpec The hash is over both {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and
+     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}, consistent with
+     *         {@link #equals(Object)}.
      */
     @Override
     public final int hashCode() {
@@ -131,9 +135,9 @@ public class FilmCategoryId {
     // -------------------------------------------------------------------------------------- filmId
 
     /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
+     * Returns current value of {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
+     * @return current value of {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
      */
     public Integer getFilmId() {
         return filmId;
@@ -142,10 +146,10 @@ public class FilmCategoryId {
     // ------------------------------------------------------------------------------------ category
 
     /**
-     * Returns current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute, the primary key of a
-     * {@link Category}.
+     * Returns current value of {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute, the
+     * primary key of a {@link Category}.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_CATEGORY} attribute.
+     * @return current value of {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute.
      */
     public Integer getCategory() {
         return category;

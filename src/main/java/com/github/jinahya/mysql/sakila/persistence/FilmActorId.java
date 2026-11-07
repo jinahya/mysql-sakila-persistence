@@ -33,10 +33,9 @@ import java.util.Objects;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmActor
- * @see <a
- *         href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
- *         .2#composite-primary-keys">
- *         2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2 Specification Document)
+ * @see <a href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
+ *         .2#composite-primary-keys"> 2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2
+ *         Specification Document)
  */
 @Embeddable
 public class FilmActorId {
@@ -57,19 +56,36 @@ public class FilmActorId {
 
     /**
      * Returns a new instance of the specified values.
+     * <p>
+     * An application needs this to look up a {@link FilmActor} by its primary key, as with
+     * {@link jakarta.persistence.EntityManager#find(Class, Object)}; the class has no other way to
+     * set the values.
      *
      * @param actorId a value for the {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute.
      * @param filmId  a value for the {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
      * @return a new instance of {@code actorId} and {@code filmId}.
-     * @deprecated Nothing uses this, and Jakarta Persistence does not require an embeddable
-     *         identifier to have one.
      */
-    @Deprecated(forRemoval = true)
-    static FilmActorId of(final Integer actorId, final Integer filmId) {
+    public static FilmActorId of(final Integer actorId, final Integer filmId) {
         final var instance = new FilmActorId();
-        instance.setActorId(actorId);
-        instance.setFilmId(filmId);
+        instance.actorId = actorId;
+        instance.filmId = filmId;
         return instance;
+    }
+
+    /**
+     * Returns a new instance of the identifiers of the specified entities.
+     *
+     * @param actor the actor whose {@link Actor#getActorId() actorId} is the
+     *              {@value #ATTRIBUTE_NAME_ACTOR_ID} attribute.
+     * @param film  the film whose {@link Film#getFilmId() filmId} is the
+     *              {@value #ATTRIBUTE_NAME_FILM_ID} attribute.
+     * @return a new instance of {@code actor}'s and {@code film}'s identifiers.
+     * @see #of(Integer, Integer)
+     */
+    public static FilmActorId from(final Actor actor, final Film film) {
+        Objects.requireNonNull(actor, "actor is null");
+        Objects.requireNonNull(film, "film is null");
+        return of(actor.getActorId(), film.getFilmId());
     }
 
     // -------------------------------------------------------------------------------- CONSTRUCTORS
@@ -136,10 +152,6 @@ public class FilmActorId {
         return actorId;
     }
 
-    void setActorId(final Integer actorId) {
-        this.actorId = actorId;
-    }
-
     // -------------------------------------------------------------------------------------- filmId
 
     /**
@@ -151,17 +163,11 @@ public class FilmActorId {
         return filmId;
     }
 
-    void setFilmId(final Integer filmId) {
-        this.filmId = filmId;
-    }
-
     // ---------------------------------------------------------------------------------------------
     // no @NotNull: FilmActor derives this, through @MapsId, from FilmActor.actor, which carries
-    // the constraint. When
-    // the
-    // provider derives it, relative to the PrePersist validation, is the provider's to say:
-    // Hibernate ORM derives it
-    // first, EclipseLink validates first. The column stays NOT NULL.
+    // the constraint. When the provider derives it, relative to the PrePersist validation, is
+    // the provider's to say: Hibernate ORM derives it first, EclipseLink validates first. The
+    // column stays NOT NULL.
     @Basic(optional = false)
     @Column(name = FilmActor.COLUMN_NAME_ACTOR_ID, nullable = false, insertable = true,
             updatable = false)

@@ -216,8 +216,14 @@ public class FilmActor {
 
     /**
      * Returns current value of {@value #ATTRIBUTE_NAME_ID} attribute.
+     * <p>
+     * The value is derived, through {@link MapsId @MapsId}, from the {@value #ATTRIBUTE_NAME_ACTOR}
+     * attribute and the {@value #ATTRIBUTE_NAME_FILM} attribute, by the persistence provider;
+     * when, between {@link jakarta.persistence.EntityManager#persist(Object) persist} and the
+     * flush, is the provider's to say.
      *
-     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute.
+     * @return current value of {@value #ATTRIBUTE_NAME_ID} attribute; {@code null} until the
+     *         provider derives it.
      */
     public FilmActorId getId() {
         return id;
