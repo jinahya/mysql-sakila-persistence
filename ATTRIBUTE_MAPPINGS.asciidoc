@@ -33,8 +33,8 @@ converter: 116 attributes over the 16 tables and 7 views mapped (74 of tables, 4
 link:COLUMN_TYPES.asciidoc[Column Types]. Every table and view of `sakila` is mapped, and every column of each has
 exactly one attribute but the 16 foreign-key columns of <<join-columns>>, which only an association maps.
 
-No column is `JSON`, `VECTOR`, a spatial type other than `GEOMETRY`, or a `BINARY` / `VARBINARY`; no attribute is
-`@Enumerated`.
+No column is `JSON`, `VECTOR`, a spatial type other than `GEOMETRY`, or a `BINARY` / `VARBINARY`; no attribute
+converts through a converter.
 
 Each foreign-key column which has an attribute has one of its key's type.
 
@@ -144,9 +144,9 @@ Each foreign-key column which has an attribute has one of its key's type.
 
 | link:{refman}/enum.html[`enum`]
 | `Rating`
-| `@Convert(RatingConverter)`
+| `@Enumerated(STRING)`
 | 1
-| A nested `@Converter` of `Film`; see <<enums>>.
+| By the `@EnumeratedValue` of `Film.Rating`; see <<enums>>.
 | `film.rating`
 
 | link:{refman}/set.html[`set`]
@@ -310,10 +310,13 @@ None of the others is embedded yet: each table maps the same columns as plain at
 
 | `film.rating`
 | `Film.Rating`
-| `@Convert(converter = RatingConverter.class)`
+| `@Enumerated(EnumType.STRING)`
 | `enum('G','PG','PG-13','R','NC-17')`. `PG-13` and `NC-17` are not Java identifiers, so no constant can be named
-after them, and `@Enumerated` cannot read them. Each constant has a column value, its name or the one it is given
-(`PG_13` is `PG-13`), and the converter, nested in `Film`, converts by it.
+after them. Each constant has a column value (`PG_13` is `PG-13`) in its `@EnumeratedValue` field, which the
+provider writes and reads in place of the name. The specification infers `STRING` from the `String` field, without
+`@Enumerated`; Hibernate ORM 7 does not and takes it as `ORDINAL`
+(https://hibernate.atlassian.net/browse/HHH-20410[HHH-20410]), so the attribute says `@Enumerated(EnumType.STRING)`
+for both providers.
 
 | `film_list.rating`, `nicer_but_slower_film_list.rating`
 | `Film.Rating`
@@ -331,14 +334,14 @@ MySQL reads and writes joined by `,`. The attribute keeps the text; `Film.Specia
 
 |===
 
-Neither `Film.Rating` nor `Film.SpecialFeature` is an `AttributeEnum.OfString`, and `RatingConverter` is an
-`AttributeConverter<Rating, String>` of its own, not an `AttributeEnumConverter.OfString` of
-`jinahya-persistence-more`, as `oracle-sample-schemas-persistence`'s `ShipmentStatus` and
-`postgresql-demodb-persistence`'s `FlightStatus` are.
+Neither `Film.Rating` nor `Film.SpecialFeature` is an `AttributeEnum.OfString`, and `film.rating` takes no
+`AttributeEnumConverter.OfString` of `jinahya-persistence-more`, as `oracle-sample-schemas-persistence`'s
+`ShipmentStatus` and `postgresql-demodb-persistence`'s `FlightStatus` do; `@EnumeratedValue`, of Jakarta
+Persistence 3.2, does its work.
 
 [[converters]]
 == Converters
 
-`Film.RatingConverter` is the only converter; no attribute converts through a converter of
-`jinahya-persistence-more`.
+No attribute converts through a converter, neither one of its own nor one of `jinahya-persistence-more`;
+`Film.rating` is an `@Enumerated` with an `@EnumeratedValue`, see <<enums>>.
 

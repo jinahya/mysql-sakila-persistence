@@ -270,7 +270,8 @@ See link:{refman}/blob.html[The BLOB and TEXT Types].
 
 See link:{refman}/enum.html[The ENUM Type].
 
-`film.rating` is a `Film.Rating`, through `Film.RatingConverter`: `PG-13` and `NC-17` are not Java identifiers.
+`film.rating` is a `Film.Rating`, `@Enumerated(EnumType.STRING)`: `PG-13` and `NC-17` are not Java identifiers,
+so each constant holds its column value in an `@EnumeratedValue` field (`PG_13` is `PG-13`).
 
 [cols="2,2,1,6",options="header"]
 |===

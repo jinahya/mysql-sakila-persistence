@@ -229,7 +229,7 @@ them, through `@MapsId`, as the instance is persisted, so the identifier is neve
 
 Notes on the column types Jakarta Persistence has no type for:
 
-- `film.rating` (`ENUM`) is `Film.Rating`, through `Film.RatingConverter`; `film.special_features` (`SET`) is a
+- `film.rating` (`ENUM`) is `Film.Rating`, by its `@EnumeratedValue`; `film.special_features` (`SET`) is a
   `String`, which `Film.SpecialFeature.parse` / `format` read and write.
 - `address.location` (`GEOMETRY`) is a `byte[]` in MySQL's internal format, `SRID` then `WKB`;
   `Address.newLocation(srid, x, y)` builds a point.
