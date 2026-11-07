@@ -61,9 +61,9 @@ class FilmCategory_Test
         @Test
         void __() {
             final var film = Mockito.mock(Film.class);
-            Mockito.when(film.getFilmId()).thenReturn(1);
+            Mockito.doReturn(1).when(film).getFilmId();
             final var category = Mockito.mock(Category.class);
-            Mockito.when(category.getCategoryId()).thenReturn(2);
+            Mockito.doReturn(2).when(category).getCategoryId();
             final var instance = FilmCategory.of(film, category);
             assertThat(instance).isNotNull().satisfies(v -> {
                 assertThat(v.getFilm()).isSameAs(film);

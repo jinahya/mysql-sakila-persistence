@@ -60,8 +60,17 @@ class FilmActorId_Randomizer
         return super.getPodamFactory();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     * @implNote {@link FilmActorId} has no setters to populate a new instance through, so this
+     *         goes through {@link FilmActorId#of(Integer, Integer)}.
+     */
     @Override
     public FilmActorId get() {
-        return super.get();
+        final var factory = getPodamFactory();
+        return FilmActorId.of(factory.manufacturePojo(Integer.class),
+                              factory.manufacturePojo(Integer.class));
     }
 }

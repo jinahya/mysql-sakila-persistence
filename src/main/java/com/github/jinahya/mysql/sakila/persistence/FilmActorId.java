@@ -25,6 +25,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * A composite primary key class for mapping the {@value FilmActor#COLUMN_NAME_ACTOR_ID} column and
@@ -83,9 +84,29 @@ public class FilmActorId {
      * @see #of(Integer, Integer)
      */
     public static FilmActorId from(final Actor actor, final Film film) {
-        Objects.requireNonNull(actor, "actor is null");
-        Objects.requireNonNull(film, "film is null");
-        return of(actor.getActorId(), film.getFilmId());
+        return of(
+                Optional.ofNullable(actor).map(Actor::getActorId).orElse(null),
+                Optional.ofNullable(film).map(Film::getFilmId).orElse(null)
+        );
+    }
+
+    /**
+     * Returns a new instance of the identifiers of the actor and the film of the specified entity.
+     * <p>
+     * The values are taken through the {@value FilmActor#ATTRIBUTE_NAME_ACTOR} and the
+     * {@value FilmActor#ATTRIBUTE_NAME_FILM} associations, as {@link #from(Actor, Film)} takes
+     * them; a {@code null} entity, or a {@code null} association, gives a {@code null} value.
+     *
+     * @param filmActor the entity whose {@link FilmActor#getActor() actor} and
+     *                  {@link FilmActor#getFilm() film} give the values; may be {@code null}.
+     * @return a new instance of {@code filmActor}'s actor's and film's identifiers.
+     * @see #from(Actor, Film)
+     */
+    public static FilmActorId from(final FilmActor filmActor) {
+        return from(
+                Optional.ofNullable(filmActor).map(FilmActor::getActor).orElse(null),
+                Optional.ofNullable(filmActor).map(FilmActor::getFilm).orElse(null)
+        );
     }
 
     // -------------------------------------------------------------------------------- CONSTRUCTORS

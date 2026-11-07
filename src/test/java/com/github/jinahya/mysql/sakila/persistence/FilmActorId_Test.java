@@ -20,6 +20,13 @@ package com.github.jinahya.mysql.sakila.persistence;
  * #L%
  */
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * A class for testing the {@link FilmActorId} composite primary key class.
  *
@@ -30,5 +37,133 @@ class FilmActorId_Test
 
     FilmActorId_Test() {
         super(FilmActorId.class);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    /**
+     * Tests {@link FilmActorId#of(Integer, Integer)}.
+     */
+    @DisplayName("of(actorId, filmId)")
+    @Nested
+    class OfTest {
+
+        /**
+         * Verifies that {@link FilmActorId#of(Integer, Integer) of} returns an instance of the
+         * values it was given.
+         */
+        @Test
+        void __() {
+            final var instance = FilmActorId.of(1, 2);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getActorId()).isEqualTo(1);
+                assertThat(v.getFilmId()).isEqualTo(2);
+            });
+        }
+
+        /**
+         * Verifies that {@link FilmActorId#of(Integer, Integer) of} takes {@code null} values.
+         */
+        @Test
+        void __null() {
+            final var instance = FilmActorId.of(null, null);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getActorId()).isNull();
+                assertThat(v.getFilmId()).isNull();
+            });
+        }
+    }
+
+    /**
+     * Tests {@link FilmActorId#from(Actor, Film)}.
+     */
+    @DisplayName("from(actor, film)")
+    @Nested
+    class FromActorFilmTest {
+
+        /**
+         * Verifies that {@link FilmActorId#from(Actor, Film) from} returns an instance of the
+         * identifiers of the actor and the film.
+         */
+        @Test
+        void __() {
+            final var actor = Mockito.mock(Actor.class);
+            Mockito.doReturn(1).when(actor).getActorId();
+            final var film = Mockito.mock(Film.class);
+            Mockito.doReturn(2).when(film).getFilmId();
+            final var instance = FilmActorId.from(actor, film);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getActorId()).isEqualTo(1);
+                assertThat(v.getFilmId()).isEqualTo(2);
+            });
+        }
+
+        /**
+         * Verifies that {@link FilmActorId#from(Actor, Film) from} gives {@code null} values for a
+         * {@code null} actor and a {@code null} film.
+         */
+        @Test
+        void __null() {
+            final var instance = FilmActorId.from(null, null);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getActorId()).isNull();
+                assertThat(v.getFilmId()).isNull();
+            });
+        }
+    }
+
+    /**
+     * Tests {@link FilmActorId#from(FilmActor)}.
+     */
+    @DisplayName("from(filmActor)")
+    @Nested
+    class FromFilmActorTest {
+
+        /**
+         * Verifies that {@link FilmActorId#from(FilmActor) from} returns an instance of the
+         * identifiers of the actor and the film of the entity.
+         */
+        @Test
+        void __() {
+            final var actor = Mockito.mock(Actor.class);
+            Mockito.doReturn(1).when(actor).getActorId();
+            final var film = Mockito.mock(Film.class);
+            Mockito.doReturn(2).when(film).getFilmId();
+            final var filmActor = Mockito.mock(FilmActor.class);
+            Mockito.doReturn(actor).when(filmActor).getActor();
+            Mockito.doReturn(film).when(filmActor).getFilm();
+            final var instance = FilmActorId.from(filmActor);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getActorId()).isEqualTo(1);
+                assertThat(v.getFilmId()).isEqualTo(2);
+            });
+        }
+
+        /**
+         * Verifies that {@link FilmActorId#from(FilmActor) from} gives {@code null} values for an
+         * entity whose actor and film are {@code null}.
+         */
+        @Test
+        void __nullAssociations() {
+            final var filmActor = Mockito.mock(FilmActor.class);
+            final var instance = FilmActorId.from(filmActor);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getActorId()).isNull();
+                assertThat(v.getFilmId()).isNull();
+            });
+        }
+
+        /**
+         * Verifies that {@link FilmActorId#from(FilmActor) from} gives {@code null} values for a
+         * {@code null} entity.
+         */
+        @Test
+        void __null() {
+            final var instance = FilmActorId.from((FilmActor) null);
+            assertThat(instance).isNotNull().satisfies(v -> {
+                assertThat(v.getActorId()).isNull();
+                assertThat(v.getFilmId()).isNull();
+            });
+        }
     }
 }
