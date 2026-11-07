@@ -247,7 +247,6 @@ class __Exercises_01_Basic_PersistenceIT {
                     .extracting(r -> ((Object[]) r)[0],
                                 r -> ((Number) ((Object[]) r)[1]).longValue())
                     .containsExactly(
-                            tuple("better_employment", 2L),
                             tuple("film_actor", 2L),
                             tuple("film_category", 2L));
         }
@@ -335,10 +334,6 @@ class __Exercises_01_Basic_PersistenceIT {
                                 r -> ((Number) ((Object[]) r)[2]).intValue(),
                                 r -> ((Object[]) r)[3])
                     .containsExactly(
-                            tuple("better_employment", "uk_better_employment_manager", 1,
-                                  "manager"),
-                            tuple("better_employment", "uk_better_employment_manager", 2,
-                                  "store_id"),
                             tuple("rental", "rental_date", 1, "rental_date"),
                             tuple("rental", "rental_date", 2, "inventory_id"),
                             tuple("rental", "rental_date", 3, "customer_id"),
@@ -372,7 +367,6 @@ class __Exercises_01_Basic_PersistenceIT {
                     .containsExactly(
                             tuple("address", "address2"),
                             tuple("address", "postal_code"),
-                            tuple("better_employment", "manager"),
                             tuple("customer", "email"),
                             tuple("customer", "last_update"),
                             tuple("film", "description"),

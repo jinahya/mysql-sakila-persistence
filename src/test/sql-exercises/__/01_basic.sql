@@ -34,11 +34,11 @@
 -- +----------------------------+------------+
 -- | actor                      | BASE TABLE |
 -- | address                    | BASE TABLE |
--- | better_employment          | BASE TABLE |
--- | better_staff               | BASE TABLE |
--- | better_store               | BASE TABLE |
+-- | category                   | BASE TABLE |
+-- | city                       | BASE TABLE |
+-- | country                    | BASE TABLE |
 -- +----------------------------+------------+
--- ... 26 rows in all.
+-- ... 23 rows in all.
 SELECT table_name, table_type
 FROM information_schema.tables
 WHERE table_schema = 'sakila'
@@ -88,16 +88,16 @@ ORDER BY table_name
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_03
 -- every foreign key: the column, and the column it refers to.
--- +-------------------+----------------------+-----------------------+------------------------+
--- | TABLE_NAME        | COLUMN_NAME          | REFERENCED_TABLE_NAME | REFERENCED_COLUMN_NAME |
--- +-------------------+----------------------+-----------------------+------------------------+
--- | address           | city_id              | city                  | city_id                |
--- | better_employment | staff_id             | better_staff          | id                     |
--- | better_employment | store_id             | better_store          | id                     |
--- | city              | country_id           | country               | country_id             |
--- | customer          | address_id           | address               | address_id             |
--- +-------------------+----------------------+-----------------------+------------------------+
--- ... 24 rows in all.
+-- +---------------+----------------------+-----------------------+------------------------+
+-- | TABLE_NAME    | COLUMN_NAME          | REFERENCED_TABLE_NAME | REFERENCED_COLUMN_NAME |
+-- +---------------+----------------------+-----------------------+------------------------+
+-- | address       | city_id              | city                  | city_id                |
+-- | city          | country_id           | country               | country_id             |
+-- | customer      | address_id           | address               | address_id             |
+-- | customer      | store_id             | store                 | store_id               |
+-- | film          | language_id          | language              | language_id            |
+-- +---------------+----------------------+-----------------------+------------------------+
+-- ... 22 rows in all.
 SELECT table_name, column_name, referenced_table_name, referenced_column_name
 FROM information_schema.key_column_usage
 WHERE table_schema = 'sakila'
@@ -185,13 +185,12 @@ ORDER BY table_name
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_08
 -- the tables whose primary key has more than one column.
--- +-------------------+---------+
--- | TABLE_NAME        | columns |
--- +-------------------+---------+
--- | better_employment |       2 |
--- | film_actor        |       2 |
--- | film_category     |       2 |
--- +-------------------+---------+
+-- +---------------+---------+
+-- | TABLE_NAME    | columns |
+-- +---------------+---------+
+-- | film_actor    |       2 |
+-- | film_category |       2 |
+-- +---------------+---------+
 SELECT table_name, COUNT(*) AS columns
 FROM information_schema.key_column_usage
 WHERE table_schema = 'sakila'
@@ -234,16 +233,14 @@ ORDER BY table_name, constraint_name
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_11
 -- the unique keys other than the primary keys, column by column.
--- +-------------------+------------------------------+--------------+------------------+
--- | TABLE_NAME        | INDEX_NAME                   | SEQ_IN_INDEX | COLUMN_NAME      |
--- +-------------------+------------------------------+--------------+------------------+
--- | better_employment | uk_better_employment_manager |            1 | manager          |
--- | better_employment | uk_better_employment_manager |            2 | store_id         |
--- | rental            | rental_date                  |            1 | rental_date      |
--- | rental            | rental_date                  |            2 | inventory_id     |
--- | rental            | rental_date                  |            3 | customer_id      |
--- | store             | idx_unique_manager           |            1 | manager_staff_id |
--- +-------------------+------------------------------+--------------+------------------+
+-- +------------+--------------------+--------------+------------------+
+-- | TABLE_NAME | INDEX_NAME         | SEQ_IN_INDEX | COLUMN_NAME      |
+-- +------------+--------------------+--------------+------------------+
+-- | rental     | rental_date        |            1 | rental_date      |
+-- | rental     | rental_date        |            2 | inventory_id     |
+-- | rental     | rental_date        |            3 | customer_id      |
+-- | store      | idx_unique_manager |            1 | manager_staff_id |
+-- +------------+--------------------+--------------+------------------+
 SELECT table_name, index_name, seq_in_index, column_name
 FROM information_schema.statistics
 WHERE table_schema = 'sakila'
@@ -254,28 +251,27 @@ ORDER BY table_name, index_name, seq_in_index
 
 -- -------------------------------------------------------------------------------------------------- SAKILA_SCHEMA_B_12
 -- the columns of the tables which allow NULL.
--- +-------------------+----------------------+---------------------------------------------------------------------+
--- | TABLE_NAME        | COLUMN_NAME          | COLUMN_TYPE                                                         |
--- +-------------------+----------------------+---------------------------------------------------------------------+
--- | address           | address2             | varchar(50)                                                         |
--- | address           | postal_code          | varchar(10)                                                         |
--- | better_employment | manager              | tinyint(1)                                                          |
--- | customer          | email                | varchar(50)                                                         |
--- | customer          | last_update          | timestamp                                                           |
--- | film              | description          | text                                                                |
--- | film              | release_year         | year                                                                |
--- | film              | original_language_id | tinyint unsigned                                                    |
--- | film              | length               | smallint unsigned                                                   |
--- | film              | rating               | enum('G','PG','PG-13','R','NC-17')                                  |
--- | film              | special_features     | set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') |
--- | film_text         | description          | text                                                                |
--- | payment           | rental_id            | int                                                                 |
--- | payment           | last_update          | timestamp                                                           |
--- | rental            | return_date          | datetime                                                            |
--- | staff             | picture              | blob                                                                |
--- | staff             | email                | varchar(50)                                                         |
--- | staff             | password             | varchar(40)                                                         |
--- +-------------------+----------------------+---------------------------------------------------------------------+
+-- +------------+----------------------+---------------------------------------------------------------------+
+-- | TABLE_NAME | COLUMN_NAME          | COLUMN_TYPE                                                         |
+-- +------------+----------------------+---------------------------------------------------------------------+
+-- | address    | address2             | varchar(50)                                                         |
+-- | address    | postal_code          | varchar(10)                                                         |
+-- | customer   | email                | varchar(50)                                                         |
+-- | customer   | last_update          | timestamp                                                           |
+-- | film       | description          | text                                                                |
+-- | film       | release_year         | year                                                                |
+-- | film       | original_language_id | tinyint unsigned                                                    |
+-- | film       | length               | smallint unsigned                                                   |
+-- | film       | rating               | enum('G','PG','PG-13','R','NC-17')                                  |
+-- | film       | special_features     | set('Trailers','Commentaries','Deleted Scenes','Behind the Scenes') |
+-- | film_text  | description          | text                                                                |
+-- | payment    | rental_id            | int                                                                 |
+-- | payment    | last_update          | timestamp                                                           |
+-- | rental     | return_date          | datetime                                                            |
+-- | staff      | picture              | blob                                                                |
+-- | staff      | email                | varchar(50)                                                         |
+-- | staff      | password             | varchar(40)                                                         |
+-- +------------+----------------------+---------------------------------------------------------------------+
 SELECT c.table_name, c.column_name, c.column_type
 FROM information_schema.columns c
          JOIN information_schema.tables t

@@ -1,5 +1,5 @@
-# The logical model of the MySQL Sakila sample database, from docker-entrypoint-initdb.d/01-sakila-schema.sql and
-# 88-better-employment.sql: each table's keys, each view's sources, and the logical groups.
+# The logical model of the MySQL Sakila sample database, from docker-entrypoint-initdb.d/01-sakila-schema.sql: each
+# table's keys, each view's sources, and the logical groups.
 schema = "sakila"
 title = "sakila"
 output = "docs/erd"
@@ -18,11 +18,6 @@ tables = ["store", "staff", "customer", "address", "city", "country"]
 name = "operations"
 title = "업무"
 tables = ["inventory", "rental", "payment"]
-
-[[group]]
-name = "better_stores_and_staff"
-title = "더 나은 가게와 직원"
-tables = ["better_store", "better_staff", "better_employment"]
 
 [table.actor]
 pk = ["actor_id"]
@@ -139,21 +134,6 @@ references = "staff"
 [[table.store.fk]]
 columns = ["address_id"]
 references = "address"
-
-[table.better_store]
-pk = ["id"]
-
-[table.better_staff]
-pk = ["id"]
-
-[table.better_employment]
-pk = ["store_id", "staff_id"]
-[[table.better_employment.fk]]
-columns = ["store_id"]
-references = "better_store"
-[[table.better_employment.fk]]
-columns = ["staff_id"]
-references = "better_staff"
 
 [view.actor_info]
 sources = ["actor", "film_actor", "film_category", "category", "film"]

@@ -32,10 +32,6 @@
     <class>com.github.jinahya.mysql.sakila.persistence.Actor</class>
     <class>com.github.jinahya.mysql.sakila.persistence.ActorInfo</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Address</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterStaff</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterStore</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterEmployment</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterEmploymentId</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Category</class>
     <class>com.github.jinahya.mysql.sakila.persistence.City</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Country</class>
@@ -97,10 +93,6 @@
     <class>com.github.jinahya.mysql.sakila.persistence.Actor</class>
     <class>com.github.jinahya.mysql.sakila.persistence.ActorInfo</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Address</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterStaff</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterStore</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterEmployment</class>
-    <class>com.github.jinahya.mysql.sakila.persistence.BetterEmploymentId</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Category</class>
     <class>com.github.jinahya.mysql.sakila.persistence.City</class>
     <class>com.github.jinahya.mysql.sakila.persistence.Country</class>
