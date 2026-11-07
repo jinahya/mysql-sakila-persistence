@@ -57,7 +57,9 @@ class FilmCategory_PersistenceIT
      *
      * @param instance {@inheritDoc}
      * @implNote The two basic attributes, one written and one read-only, are the
-     *         identifiers of the film and of the category, lazy associations which resolve.
+     *         identifiers of the film and of the category, lazy associations which resolve; and
+     *         the {@link FilmCategoryId} built from them, a record, is the identifier the provider
+     *         gives, and finds the same row with an entity manager of its own.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
@@ -69,5 +71,21 @@ class FilmCategory_PersistenceIT
         assertThat(instance.getCategoryId())
                 .as("category id of %s", instance)
                 .isEqualTo(instance.getCategory().getCategoryId());
+        final var id = FilmCategoryId.from(instance.getFilm(), instance.getCategory());
+        assertThat(entityManagerFactory.getPersistenceUnitUtil().getIdentifier(instance))
+                .as("identifier of %s", instance)
+                .isEqualTo(id);
+        final var other = entityManagerFactory.createEntityManager();
+        try {
+            final var found = other.find(FilmCategory.class, id);
+            assertThat(found)
+                    .as("found by %s", id)
+                    .isNotNull()
+                    .isNotSameAs(instance);
+            assertThat(found.getFilmId()).isEqualTo(id.filmId());
+            assertThat(found.getCategoryId()).isEqualTo(id.category());
+        } finally {
+            other.close();
+        }
     }
 }

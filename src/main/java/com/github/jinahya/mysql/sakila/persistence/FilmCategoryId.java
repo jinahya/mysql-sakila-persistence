@@ -35,33 +35,36 @@ import java.util.Objects;
  * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute, which corresponds to an
  * {@link jakarta.persistence.Id @Id} association, is typed as the primary key of
  * {@link Category} is.
+ * <p>
+ * The class is a record, which the specification permits of a primary key class (Jakarta
+ * Persistence 3.2, §2.4.1); the record defines {@code equals} and {@code hashCode} over both
+ * attributes, and needs no constructor with no parameters.
  *
+ * @param filmId   the value of the {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
+ * @param category the value of the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute, the
+ *                 primary key of a {@link Category}.
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmCategory
  * @see <a href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
  *         .2#composite-primary-keys"> 2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2
  *         Specification Document)
  */
-public class FilmCategoryId {
+public record FilmCategoryId(Integer filmId, Integer category) {
 
     // ---------------------------------------------------------------------- STATIC_FACTORY_METHODS
 
     /**
      * Returns a new instance of the specified values.
      * <p>
-     * An application needs this to look up a {@link FilmCategory} by its primary key, as with
-     * {@link jakarta.persistence.EntityManager#find(Class, Object)}; the class has no other way to
-     * set the values.
+     * An application needs this, or the canonical constructor, to look up a {@link FilmCategory}
+     * by its primary key, as with {@link jakarta.persistence.EntityManager#find(Class, Object)}.
      *
      * @param filmId   a value for the {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
      * @param category a value for the {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute.
      * @return a new instance of {@code filmId} and {@code category}.
      */
     public static FilmCategoryId of(final Integer filmId, final Integer category) {
-        final var instance = new FilmCategoryId();
-        instance.filmId = filmId;
-        instance.category = category;
-        return instance;
+        return new FilmCategoryId(filmId, category);
     }
 
     /**
@@ -79,84 +82,4 @@ public class FilmCategoryId {
         Objects.requireNonNull(category, "category is null");
         return of(film.getFilmId(), category.getCategoryId());
     }
-
-    // -------------------------------------------------------------------------------- CONSTRUCTORS
-
-    /**
-     * Creates a new instance.
-     * <p>
-     * The constructor is {@code public}, rather than {@code protected}, because EclipseLink
-     * instantiates an id class through {@link Class#getConstructor(Class[])}, which sees public
-     * constructors only.
-     */
-    public FilmCategoryId() {
-        super();
-    }
-
-    // ---------------------------------------------------------------------------- java.lang.Object
-    @Override
-    public final String toString() {
-        return super.toString() + '{' +
-               "filmId=" + filmId +
-               ",category=" + category +
-               '}';
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param obj {@inheritDoc}
-     * @return {@inheritDoc}
-     * @implSpec Equality is by both {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and
-     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}.
-     */
-    @Override
-    public final boolean equals(final Object obj) {
-        if (!(obj instanceof FilmCategoryId that)) {
-            return false;
-        }
-        return Objects.equals(filmId, that.filmId)
-               && Objects.equals(category, that.category);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return {@inheritDoc}
-     * @implSpec The hash is over both {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and
-     *         {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY}, consistent with
-     *         {@link #equals(Object)}.
-     */
-    @Override
-    public final int hashCode() {
-        return Objects.hash(filmId, category);
-    }
-
-    // -------------------------------------------------------------------------------------- filmId
-
-    /**
-     * Returns current value of {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
-     *
-     * @return current value of {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} attribute.
-     */
-    public Integer getFilmId() {
-        return filmId;
-    }
-
-    // ------------------------------------------------------------------------------------ category
-
-    /**
-     * Returns current value of {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute, the
-     * primary key of a {@link Category}.
-     *
-     * @return current value of {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} attribute.
-     */
-    public Integer getCategory() {
-        return category;
-    }
-
-    // ---------------------------------------------------------------------------------------------
-    private Integer filmId;
-
-    private Integer category;
 }

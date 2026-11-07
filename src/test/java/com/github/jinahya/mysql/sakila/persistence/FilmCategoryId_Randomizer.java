@@ -60,8 +60,17 @@ class FilmCategoryId_Randomizer
         return super.getPodamFactory();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     * @implNote {@link FilmCategoryId} is a record, which has no constructor with no parameters
+     *         to populate afterwards, so this goes through the canonical constructor.
+     */
     @Override
     public FilmCategoryId get() {
-        return super.get();
+        final var factory = getPodamFactory();
+        return new FilmCategoryId(factory.manufacturePojo(Integer.class),
+                                  factory.manufacturePojo(Integer.class));
     }
 }

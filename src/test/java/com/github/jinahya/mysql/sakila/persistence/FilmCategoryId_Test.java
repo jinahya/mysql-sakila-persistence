@@ -31,4 +31,16 @@ class FilmCategoryId_Test
     FilmCategoryId_Test() {
         super(FilmCategoryId.class);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@inheritDoc}
+     * @implNote The record has no constructor with no parameters, so this goes through the
+     *         canonical constructor.
+     */
+    @Override
+    public FilmCategoryId newTargetInstance() {
+        return new FilmCategoryId(null, null);
+    }
 }
