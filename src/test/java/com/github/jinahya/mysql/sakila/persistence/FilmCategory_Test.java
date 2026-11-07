@@ -54,21 +54,22 @@ class FilmCategory_Test
          * Verifies that {@link FilmCategory#of(Film, Category) of} returns an instance whose
          * {@value FilmCategory#ATTRIBUTE_NAME_FILM} and
          * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY} are the very instances it was given, and
-         * whose {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} is the identifier of the film; the
-         * read-only {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} is left {@code null}, to be
-         * read from the database.
+         * whose {@value FilmCategory#ATTRIBUTE_NAME_FILM_ID} and
+         * {@value FilmCategory#ATTRIBUTE_NAME_CATEGORY_ID} are the identifiers of the film and of
+         * the category.
          */
         @Test
         void __() {
             final var film = Mockito.mock(Film.class);
             Mockito.when(film.getFilmId()).thenReturn(1);
             final var category = Mockito.mock(Category.class);
+            Mockito.when(category.getCategoryId()).thenReturn(2);
             final var instance = FilmCategory.of(film, category);
             assertThat(instance).isNotNull().satisfies(v -> {
                 assertThat(v.getFilm()).isSameAs(film);
                 assertThat(v.getCategory()).isSameAs(category);
                 assertThat(v.getFilmId()).isEqualTo(1);
-                assertThat(v.getCategoryId()).isNull();
+                assertThat(v.getCategoryId()).isEqualTo(2);
             });
         }
     }

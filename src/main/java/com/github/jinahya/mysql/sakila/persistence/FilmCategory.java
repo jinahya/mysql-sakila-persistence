@@ -33,6 +33,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * An entity class for mapping the {@value FilmCategory#TABLE_NAME} table, whose composite primary
@@ -65,7 +66,8 @@ import java.time.LocalDateTime;
  * {@link jakarta.persistence.EmbeddedId @EmbeddedId} instead.
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
- * @see <a href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
+ * @see <a
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-tables-film_category.html">
  *         The film_category Table</a>
  * @see FilmCategoryId
  */
@@ -153,6 +155,9 @@ public class FilmCategory {
         final var instance = new FilmCategory();
         instance.setFilm(film);
         instance.setCategory(category);
+        instance.categoryId = Optional.ofNullable(instance.getCategory())
+                .map(Category::getCategoryId)
+                .orElse(null);
         return instance;
     }
 
@@ -319,8 +324,8 @@ public class FilmCategory {
     private Film film;
 
     // ---------------------------------------------------------------------------------------------
-    // no @NotNull: read-only, null until the instance is read from the database; the category
-    // carries the constraint
+    // no @NotNull: read-only, null until of(Film, Category) sets it or the instance is read from
+    // the database; the category carries the constraint
     @Column(name = COLUMN_NAME_CATEGORY_ID, nullable = false, insertable = false, updatable = false)
     private Integer categoryId;
 
