@@ -23,6 +23,7 @@ package com.github.jinahya.mysql.sakila.persistence.sakila.schema;
 import com.github.jinahya.mysql.sakila.persistence.Address_;
 import com.github.jinahya.mysql.sakila.persistence.City_;
 import com.github.jinahya.mysql.sakila.persistence.Country;
+import com.github.jinahya.mysql.sakila.persistence.Country_;
 import com.github.jinahya.mysql.sakila.persistence.Customer_;
 import com.github.jinahya.mysql.sakila.persistence.Payment;
 import com.github.jinahya.mysql.sakila.persistence.Payment_;
@@ -57,7 +58,7 @@ class SAKILA_SCHEMA_I_03_PersistenceIT {
                                                                                            JOIN a.city ci
                                                                                            JOIN ci.country co
                                                                                   GROUP BY co
-                                                                                  ORDER BY SUM(p.amount) DESC""",
+                                                                                  ORDER BY SUM(p.amount) DESC, co.countryId ASC""",
                                                                           Object[].class)
                 .setMaxResults(5)
                 .getResultList());
@@ -84,7 +85,8 @@ class SAKILA_SCHEMA_I_03_PersistenceIT {
             final var co = cu.join(Customer_.address).join(Address_.city).join(City_.country);
             cq.select(cb.array(co, cb.countDistinct(cu), cb.sum(p.get(Payment_.amount))))
                     .groupBy(co)
-                    .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))));
+                    .orderBy(cb.desc(cb.sum(p.get(Payment_.amount))),
+                             cb.asc(co.get(Country_.countryId)));
             return em.createQuery(cq)
                     .setMaxResults(5)
                     .getResultList();
