@@ -60,8 +60,7 @@ import java.math.BigDecimal;
  *
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see <a
- *         href="https://dev.mysql
- *         .com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html">
+ *         href="https://dev.mysql.com/doc/sakila/en/sakila-structure-views-sales_by_film_category.html">
  *         The sales_by_film_category View</a>
  */
 @Entity

@@ -45,8 +45,7 @@ import java.util.Optional;
  *                 primary key of a {@link Category}.
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  * @see FilmCategory
- * @see <a href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3
- *         .2#composite-primary-keys"> 2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2
+ * @see <a href="https://jakarta.ee/specifications/persistence/3.2/jakarta-persistence-spec-3.2#composite-primary-keys"> 2.4.1. Composite primary keys</a> (Jakarta Persistence 3.2
  *         Specification Document)
  */
 public record FilmCategoryId(Integer filmId, Integer category) {
