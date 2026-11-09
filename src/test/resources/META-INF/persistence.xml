@@ -116,8 +116,9 @@
     <properties>
       <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <!-- the database from compose.yaml; see _compose.sh
-           yearIsDateType=false: Connector/J reads a YEAR column as a java.sql.Date otherwise, which EclipseLink,
-           reading through getObject, cannot convert into Film.releaseYear's Integer -->
+           yearIsDateType=false: Connector/J otherwise reports a YEAR column as a DATE and reads it as a java.sql.Date
+           (January 1 of the year); with it, the column is a SMALLINT read as a Short, which is among the JDBC types
+           Jakarta Persistence requires a provider to map Film.releaseYear's java.time.Year to -->
       <property name="jakarta.persistence.jdbc.url"
                 value="jdbc:mysql://localhost:3306/sakila?characterEncoding=UTF-8&amp;yearIsDateType=false"/>
       <property name="jakarta.persistence.jdbc.user" value="root"/>

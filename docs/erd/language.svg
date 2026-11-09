@@ -5,60 +5,60 @@
  -->
 <!-- Title: erd Pages: 1 -->
 <!-- sakila.language: the table, the tables it references and the tables referencing it -->
-<svg width="270pt" height="116pt"
- viewBox="0.00 0.00 270.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 109.2)">
+<svg width="236pt" height="97pt"
+ viewBox="0.00 0.00 236.00 97.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 90.2)">
 <title>erd</title>
 <!-- language -->
 <g id="node1" class="node">
 <title>language</title>
-<polygon fill="#1f4e79" stroke="none" points="167.5,-39 167.5,-64.5 255.25,-64.5 255.25,-39 167.5,-39"/>
-<polygon fill="none" stroke="#000000" points="167.5,-39 167.5,-64.5 255.25,-64.5 255.25,-39 167.5,-39"/>
-<text xml:space="preserve" text-anchor="start" x="190.75" y="-50.95" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#ffffff">language</text>
-<polygon fill="none" stroke="#000000" points="167.5,-13.5 167.5,-39 231.25,-39 231.25,-13.5 167.5,-13.5"/>
-<text xml:space="preserve" text-anchor="start" x="173.5" y="-25.45" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">language_id</text>
-<polygon fill="none" stroke="#000000" points="231.25,-13.5 231.25,-39 255.25,-39 255.25,-13.5 231.25,-13.5"/>
-<text xml:space="preserve" text-anchor="start" x="237.25" y="-22.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
+<polygon fill="#1f4e79" stroke="none" points="149,-31.5 149,-52.25 222,-52.25 222,-31.5 149,-31.5"/>
+<polygon fill="none" stroke="#000000" points="149,-31.5 149,-52.25 222,-52.25 222,-31.5 149,-31.5"/>
+<text xml:space="preserve" text-anchor="start" x="167.88" y="-41.65" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#ffffff">language</text>
+<polygon fill="none" stroke="#000000" points="149,-10.75 149,-31.5 203.5,-31.5 203.5,-10.75 149,-10.75"/>
+<text xml:space="preserve" text-anchor="start" x="153" y="-20.9" font-family="Noto Sans KR" text-decoration="underline" font-size="8.00">language_id</text>
+<polygon fill="none" stroke="#000000" points="203.5,-10.75 203.5,-31.5 222,-31.5 222,-10.75 203.5,-10.75"/>
+<text xml:space="preserve" text-anchor="start" x="207.5" y="-17.75" font-family="Noto Sans KR" font-size="8.00" fill="#555555">PK</text>
 </g>
 <!-- film -->
 <g id="node2" class="node">
 <title>film</title>
-<polygon fill="#d9e2ec" stroke="none" points="0,-76.5 0,-102 124.5,-102 124.5,-76.5 0,-76.5"/>
-<polygon fill="none" stroke="#000000" points="0,-76.5 0,-102 124.5,-102 124.5,-76.5 0,-76.5"/>
-<text xml:space="preserve" text-anchor="start" x="53.25" y="-88.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">film</text>
-<polygon fill="none" stroke="#000000" points="0,-51 0,-76.5 100.5,-76.5 100.5,-51 0,-51"/>
-<text xml:space="preserve" text-anchor="start" x="6" y="-62.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">film_id</text>
-<polygon fill="none" stroke="#000000" points="100.5,-51 100.5,-76.5 124.5,-76.5 124.5,-51 100.5,-51"/>
-<text xml:space="preserve" text-anchor="start" x="106.5" y="-60" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
-<polygon fill="none" stroke="#000000" points="0,-25.5 0,-51 100.5,-51 100.5,-25.5 0,-25.5"/>
-<text xml:space="preserve" text-anchor="start" x="6" y="-34.5" font-family="Noto Sans KR" font-size="9.00">language_id</text>
-<polygon fill="none" stroke="#000000" points="100.5,-25.5 100.5,-51 124.5,-51 124.5,-25.5 100.5,-25.5"/>
-<text xml:space="preserve" text-anchor="start" x="106.5" y="-34.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
-<polygon fill="none" stroke="#000000" points="0,0 0,-25.5 100.5,-25.5 100.5,0 0,0"/>
-<text xml:space="preserve" text-anchor="start" x="6" y="-11.95" font-family="Noto Sans KR" font-style="italic" font-size="9.00">original_language_id</text>
-<polygon fill="none" stroke="#000000" points="100.5,0 100.5,-25.5 124.5,-25.5 124.5,0 100.5,0"/>
-<text xml:space="preserve" text-anchor="start" x="106.5" y="-9" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="#d9e2ec" stroke="none" points="0,-62.25 0,-83 106,-83 106,-62.25 0,-62.25"/>
+<polygon fill="none" stroke="#000000" points="0,-62.25 0,-83 106,-83 106,-62.25 0,-62.25"/>
+<text xml:space="preserve" text-anchor="start" x="45.5" y="-72.4" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#000000">film</text>
+<polygon fill="none" stroke="#000000" points="0,-41.5 0,-62.25 87.5,-62.25 87.5,-41.5 0,-41.5"/>
+<text xml:space="preserve" text-anchor="start" x="4" y="-51.65" font-family="Noto Sans KR" text-decoration="underline" font-size="8.00">film_id</text>
+<polygon fill="none" stroke="#000000" points="87.5,-41.5 87.5,-62.25 106,-62.25 106,-41.5 87.5,-41.5"/>
+<text xml:space="preserve" text-anchor="start" x="91.5" y="-48.5" font-family="Noto Sans KR" font-size="8.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="0,-20.75 0,-41.5 87.5,-41.5 87.5,-20.75 0,-20.75"/>
+<text xml:space="preserve" text-anchor="start" x="4" y="-27.75" font-family="Noto Sans KR" font-size="8.00">language_id</text>
+<polygon fill="none" stroke="#000000" points="87.5,-20.75 87.5,-41.5 106,-41.5 106,-20.75 87.5,-20.75"/>
+<text xml:space="preserve" text-anchor="start" x="91.5" y="-27.75" font-family="Noto Sans KR" font-size="8.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="0,0 0,-20.75 87.5,-20.75 87.5,0 0,0"/>
+<text xml:space="preserve" text-anchor="start" x="4" y="-10.15" font-family="Noto Sans KR" font-style="italic" font-size="8.00">original_language_id</text>
+<polygon fill="none" stroke="#000000" points="87.5,0 87.5,-20.75 106,-20.75 106,0 87.5,0"/>
+<text xml:space="preserve" text-anchor="start" x="91.5" y="-7" font-family="Noto Sans KR" font-size="8.00" fill="#555555">FK</text>
 </g>
 <!-- film&#45;&gt;language -->
 <g id="edge1" class="edge">
 <title>film:e&#45;&gt;language:w</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M140.15,-35.1C146.62,-32.32 151.63,-28.48 159.8,-26.94"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="132.74,-36.59 124.18,-34.64 128.42,-37.46 125.29,-38.09 125.29,-38.09 125.29,-38.09 128.42,-37.46 125.6,-41.7 132.74,-36.59"/>
-<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="137.89" cy="-35.55" rx="3.2" ry="3.2"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="166.35,-22.34 167.06,-30.31 165.46,-30.45 164.75,-22.48 166.35,-22.34"/>
-<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="167.5,-26.25 163.52,-26.6"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="162.36,-22.69 163.07,-30.66 161.48,-30.8 160.77,-22.83 162.36,-22.69"/>
-<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="163.52,-26.6 159.53,-26.96"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M121.61,-28.5C128.11,-26.18 133.22,-22.99 141.36,-21.7"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="114.28,-29.73 105.8,-27.51 109.94,-30.46 106.79,-30.99 106.79,-30.99 106.79,-30.99 109.94,-30.46 106.99,-34.61 114.28,-29.73"/>
+<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="119.47" cy="-28.86" rx="3.2" ry="3.2"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="147.9,-17.2 148.5,-25.17 146.91,-25.29 146.31,-17.32 147.9,-17.2"/>
+<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="149,-21.12 145.01,-21.42"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="143.91,-17.49 144.51,-25.47 142.92,-25.59 142.32,-17.61 143.91,-17.49"/>
+<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="145.01,-21.42 141.02,-21.72"/>
 </g>
 <!-- film&#45;&gt;language -->
 <g id="edge2" class="edge">
 <title>film:e&#45;&gt;language:w</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M140.2,-16.3C145.6,-18.92 149.94,-22.39 156.05,-24.46"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="132.69,-14.6 125.69,-9.33 128.4,-13.63 125.28,-12.93 125.28,-12.93 125.28,-12.93 128.4,-13.63 124.1,-16.35 132.69,-14.6"/>
-<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="137.83" cy="-15.76" rx="3.2" ry="3.2"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="167.33,-22.17 166.09,-30.08 164.51,-29.83 165.75,-21.93 167.33,-22.17"/>
-<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="167.5,-26.25 163.55,-25.63"/>
-<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="159.79" cy="-25.05" rx="3.2" ry="3.2"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" d="M121.62,-13.2C127.08,-15.29 131.53,-18.05 137.64,-19.7"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="114.27,-11.87 107.04,-6.9 109.94,-11.09 106.79,-10.52 106.79,-10.52 106.79,-10.52 109.94,-11.09 105.75,-13.99 114.27,-11.87"/>
+<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="119.45" cy="-12.81" rx="3.2" ry="3.2"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="148.7,-17.06 147.71,-24.99 146.12,-24.8 147.12,-16.86 148.7,-17.06"/>
+<polyline fill="none" stroke="#8a8a8a" stroke-width="1.2" points="149,-21.12 145.03,-20.63"/>
+<ellipse fill="none" stroke="#8a8a8a" stroke-width="1.2" cx="141.26" cy="-20.15" rx="3.2" ry="3.2"/>
 </g>
 </g>
 </svg>

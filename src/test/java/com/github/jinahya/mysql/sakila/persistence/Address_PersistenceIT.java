@@ -23,9 +23,6 @@ package com.github.jinahya.mysql.sakila.persistence;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.geolatte.geom.GeometryType;
-import org.geolatte.geom.Point;
-import org.geolatte.geom.codec.Wkb;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -54,11 +51,11 @@ class Address_PersistenceIT
      * @implNote Every installed location is a point of {@code SRID}
      *         {@value Address#COLUMN_SRID_LOCATION}, in the internal format
      *         {@link Address#newLocation(int, double, double)} writes, which is decoded with
-     *         {@link Wkb.Dialect#MYSQL_WKB}. The {@code SRID} is read from the first four bytes,
-     *         for the decoder takes {@code 0} for an undefined reference system, whose {@code SRID}
-     *         is {@code -1}. The coordinates are not checked: 597 of the 603 installed points are a
-     *         longitude and a latitude, but the other six have one coordinate in the hundreds of
-     *         millions.
+     *         {@link org.geolatte.geom.codec.Wkb.Dialect#MYSQL_WKB}. The {@code SRID} is read from
+     *         the first four bytes, for the decoder takes {@code 0} for an undefined reference
+     *         system, whose {@code SRID} is {@code -1}. The coordinates are not checked: 597 of the
+     *         603 installed points are a longitude and a latitude, but the other six have one
+     *         coordinate in the hundreds of millions.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
@@ -75,15 +72,17 @@ class Address_PersistenceIT
                     .as("SRID of the location of %s", entityInstance)
                     .isEqualTo(Address.COLUMN_SRID_LOCATION);
             final var geometry = entityInstance.getLocationAs(
-                    v -> Wkb.fromWkb(org.geolatte.geom.ByteBuffer.from(v), Wkb.Dialect.MYSQL_WKB)
+                    v -> org.geolatte.geom.codec.Wkb.fromWkb(
+                            org.geolatte.geom.ByteBuffer.from(v),
+                            org.geolatte.geom.codec.Wkb.Dialect.MYSQL_WKB)
             );
             log.debug("geometry: {}", geometry);
             assertThat(geometry.getGeometryType())
                     .as("geometry type of the location of %s", entityInstance)
-                    .isEqualTo(GeometryType.POINT);
+                    .isEqualTo(org.geolatte.geom.GeometryType.POINT);
             assertThat(geometry)
                     .as("location of %s", entityInstance)
-                    .isInstanceOf(Point.class)
+                    .isInstanceOf(org.geolatte.geom.Point.class)
                     .satisfies(g -> assertThat(g.isEmpty()).as("empty?").isFalse());
         }
     }

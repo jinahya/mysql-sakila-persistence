@@ -101,10 +101,11 @@ Each foreign-key column which has an attribute has one of its key's type.
 | `actor.last_update`, `address.last_update`, `category.last_update`, `city.last_update`, `country.last_update`, `customer.last_update`, `film.last_update`, `film_actor.last_update`, `film_category.last_update`, `inventory.last_update`, `language.last_update`, `payment.last_update`, `rental.last_update`, `staff.last_update`, `store.last_update`
 
 | link:{refman}/year.html[`year`]
-| `Integer`
+| `Year`
 | -
 | 1
-| Bounded by `@Min(1901)` and `@Max(2155)`.
+| No converter; bounded to 1901 through 2155 by `@AssertTrue isReleaseYearInRange()`, since `@Min` and `@Max` do
+not take a `Year`.
 | `film.release_year`
 
 | link:{refman}/char.html[`char`]

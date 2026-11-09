@@ -49,15 +49,17 @@ class SAKILA_SCHEMA_I_01_PersistenceIT {
 
     @Test
     void __QueryLanguage() {
-        final var list = __Exercises_TestUtils.apply(em -> em.createQuery("""
-                                                                                  SELECT st, COUNT(p), SUM(p.amount)
-                                                                                  FROM Payment p
-                                                                                           JOIN p.rental r
-                                                                                           JOIN r.inventory i
-                                                                                           JOIN i.store st
-                                                                                  GROUP BY st
-                                                                                  ORDER BY st.storeId""",
-                                                                          Object[].class)
+        final var list = __Exercises_TestUtils.apply(em -> em.createQuery(
+                        """
+                                SELECT st, COUNT(p), SUM(p.amount)
+                                FROM Payment p
+                                         JOIN p.rental r
+                                         JOIN r.inventory i
+                                         JOIN i.store st
+                                GROUP BY st
+                                ORDER BY st.storeId""",
+                        Object[].class
+                )
                 .getResultList());
         list.forEach(r -> log.debug("{}", Arrays.toString(r)));
         assertThat(list)
@@ -74,7 +76,8 @@ class SAKILA_SCHEMA_I_01_PersistenceIT {
             final var cb = em.getCriteriaBuilder();
             final var cq = cb.createQuery(Object[].class);
             final var p = cq.from(Payment.class);
-            final var st = p.join(Payment_.rental).join(Rental_.inventory)
+            final var st = p.join(Payment_.rental)
+                    .join(Rental_.inventory)
                     .join(Inventory_.store);
             cq.select(cb.array(st, cb.count(p), cb.sum(p.get(Payment_.amount))))
                     .groupBy(st)
@@ -84,11 +87,13 @@ class SAKILA_SCHEMA_I_01_PersistenceIT {
         });
         list.forEach(r -> log.debug("{}", Arrays.toString(r)));
         assertThat(list)
-                .extracting(r -> ((Store) r[0]).getStoreId(), r -> ((Number) r[1]).longValue(),
-                            r -> ((BigDecimal) r[2]).toPlainString())
+                .extracting(r -> ((Store) r[0]).getStoreId(),
+                            r -> ((Number) r[1]).longValue(),
+                            r -> ((BigDecimal) r[2]).toPlainString()
+                )
                 .containsExactly(
                         tuple(1, 7923L, "33679.79"),
-                        tuple(2, 8121L, "33726.77"));
+                        tuple(2, 8121L, "33726.77")
+                );
     }
-
 }

@@ -5,20 +5,20 @@
  -->
 <!-- Title: erd Pages: 1 -->
 <!-- sakila.film_text: the table, the tables it references and the tables referencing it -->
-<svg width="79pt" height="65pt"
- viewBox="0.00 0.00 79.00 65.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 58.2)">
+<svg width="67pt" height="56pt"
+ viewBox="0.00 0.00 67.00 56.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 48.7)">
 <title>erd</title>
 <!-- film_text -->
 <g id="node1" class="node">
 <title>film_text</title>
-<polygon fill="#1f4e79" stroke="none" points="0,-25.5 0,-51 64.5,-51 64.5,-25.5 0,-25.5"/>
-<polygon fill="none" stroke="#000000" points="0,-25.5 0,-51 64.5,-51 64.5,-25.5 0,-25.5"/>
-<text xml:space="preserve" text-anchor="start" x="12" y="-37.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#ffffff">film_text</text>
-<polygon fill="none" stroke="#000000" points="0,0 0,-25.5 40.5,-25.5 40.5,0 0,0"/>
-<text xml:space="preserve" text-anchor="start" x="6" y="-11.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">film_id</text>
-<polygon fill="none" stroke="#000000" points="40.5,0 40.5,-25.5 64.5,-25.5 64.5,0 40.5,0"/>
-<text xml:space="preserve" text-anchor="start" x="46.5" y="-9" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
+<polygon fill="#1f4e79" stroke="none" points="0,-20.75 0,-41.5 52.75,-41.5 52.75,-20.75 0,-20.75"/>
+<polygon fill="none" stroke="#000000" points="0,-20.75 0,-41.5 52.75,-41.5 52.75,-20.75 0,-20.75"/>
+<text xml:space="preserve" text-anchor="start" x="9.12" y="-30.9" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#ffffff">film_text</text>
+<polygon fill="none" stroke="#000000" points="0,0 0,-20.75 34.25,-20.75 34.25,0 0,0"/>
+<text xml:space="preserve" text-anchor="start" x="4" y="-10.15" font-family="Noto Sans KR" text-decoration="underline" font-size="8.00">film_id</text>
+<polygon fill="none" stroke="#000000" points="34.25,0 34.25,-20.75 52.75,-20.75 52.75,0 34.25,0"/>
+<text xml:space="preserve" text-anchor="start" x="38.25" y="-7" font-family="Noto Sans KR" font-size="8.00" fill="#555555">PK</text>
 </g>
 </g>
 </svg>

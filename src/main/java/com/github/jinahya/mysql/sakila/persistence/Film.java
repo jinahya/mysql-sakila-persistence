@@ -35,6 +35,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
@@ -45,6 +46,7 @@ import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -497,8 +499,8 @@ public class Film {
         }
 
         // -----------------------------------------------------------------------------------------
-        @EnumeratedValue
         @NotBlank
+        @EnumeratedValue
         private final String columnValue;
     }
 
@@ -676,6 +678,26 @@ public class Film {
         return Film.class.hashCode();
     }
 
+    // ----------------------------------------------------------------------------- Bean-Validation
+
+    /**
+     * Checks that the {@value #ATTRIBUTE_NAME_RELEASE_YEAR}, when there is one, is between
+     * {@value #ATTRIBUTE_MIN_RELEASE_YEAR} and {@value #ATTRIBUTE_MAX_RELEASE_YEAR}, both inclusive.
+     *
+     * @return {@code true} when the {@value #ATTRIBUTE_NAME_RELEASE_YEAR} is {@code null}, or when it
+     *         is in the range; {@code false} otherwise.
+     * @implNote {@code @Min} and {@code @Max} do not take a {@link Year}, so the range is checked
+     *         here.
+     */
+    @AssertTrue
+    protected boolean isReleaseYearInRange() {
+        if (releaseYear == null) {
+            return true;
+        }
+        final var value = releaseYear.getValue();
+        return value >= ATTRIBUTE_MIN_RELEASE_YEAR && value <= ATTRIBUTE_MAX_RELEASE_YEAR;
+    }
+
     // -------------------------------------------------------------------------------------- filmId
 
     /**
@@ -736,7 +758,7 @@ public class Film {
      *
      * @return current value of {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
      */
-    public Integer getReleaseYear() {
+    public Year getReleaseYear() {
         return releaseYear;
     }
 
@@ -746,7 +768,7 @@ public class Film {
      *
      * @param releaseYear new value for {@value #ATTRIBUTE_NAME_RELEASE_YEAR} attribute.
      */
-    public void setReleaseYear(final Integer releaseYear) {
+    public void setReleaseYear(final Year releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -1009,11 +1031,9 @@ public class Film {
     private String description;
 
     // ---------------------------------------------------------------------------------------------
-    @Max(ATTRIBUTE_MAX_RELEASE_YEAR)
-    @Min(ATTRIBUTE_MIN_RELEASE_YEAR)
     @Basic(optional = true)
     @Column(name = COLUMN_NAME_RELEASE_YEAR, nullable = true, insertable = true, updatable = true)
-    private Integer releaseYear;
+    private Year releaseYear;
 
     // ---------------------------------------------------------------------------------------------
     @Valid

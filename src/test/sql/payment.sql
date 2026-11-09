@@ -26,7 +26,7 @@
 --
 
 
--- ---------------------------------------------------------------------------------------------------------- payment_id
+-- -------------------------------------------------------------------------------------- payment_id
 -- how many rows, and the smallest and the largest payment_id; 16044 payments, 1 to 16049.
 SELECT COUNT(*), MIN(payment_id), MAX(payment_id)
 FROM payment
@@ -43,7 +43,7 @@ WHERE a.payment_id < (SELECT MAX(payment_id) FROM payment)
 ;
 
 
--- --------------------------------------------------------------------------------------------------------- customer_id
+-- ------------------------------------------------------------------------------------- customer_id
 -- a customer_id which refers to no customer; the foreign key forbids it.
 -- no rows: every customer_id refers to a customer.
 SELECT t.payment_id, t.customer_id
@@ -62,7 +62,7 @@ WHERE p.customer_id <> r.customer_id
 ;
 
 
--- ------------------------------------------------------------------------------------------------------------ staff_id
+-- ---------------------------------------------------------------------------------------- staff_id
 -- a staff_id which refers to no staff; the foreign key forbids it.
 -- no rows: every staff_id refers to a staff.
 SELECT t.payment_id, t.staff_id
@@ -89,8 +89,7 @@ GROUP BY 1
 ORDER BY 1 DESC
 ;
 
-
--- ----------------------------------------------------------------------------------------------------------- rental_id
+-- --------------------------------------------------------------------------------------- rental_id
 -- rental_id is nullable, and has no unique key.
 
 -- a rental_id which refers to no rental; the foreign key forbids it.
@@ -127,7 +126,7 @@ WHERE t.customer_id <> p.customer_id
 ;
 
 
--- -------------------------------------------------------------------------------------------------------------- amount
+-- ------------------------------------=----------------------------------------------------- amount
 -- 0.00 to 11.99, in 19 values.
 SELECT MIN(amount), MAX(amount), COUNT(DISTINCT amount)
 FROM payment
@@ -141,7 +140,7 @@ WHERE amount < 0
 ;
 
 
--- -------------------------------------------------------------------------------------------------------- payment_date
+-- ------------------------------------------------------------------------------------ payment_date
 -- 2005-05-24 22:53:30 to 2006-02-14 15:16:03.
 SELECT MIN(payment_date), MAX(payment_date)
 FROM payment
@@ -187,7 +186,7 @@ GROUP BY dates
 ;
 
 
--- --------------------------------------------------------------------------------------------------------- last_update
+-- ------------------------------------------------------------------------------------- last_update
 -- the database sets last_update on insert, and again on every update; the range the installed rows carry.
 -- 2006-02-15 22:12:30 to 22:24:13
 SELECT MIN(last_update), MAX(last_update)

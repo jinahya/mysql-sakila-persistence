@@ -163,15 +163,15 @@ each insert and update.
 
 See link:{refman}/year.html[The YEAR Type].
 
-`year` holds 1901 to 2155 (and `0000`); `Film.releaseYear` is an `Integer` bounded by `@Min(1901)` and
-`@Max(2155)`.
+`year` holds 1901 to 2155 (and `0000`); `Film.releaseYear` is a `java.time.Year`, with no converter, bounded to
+the same range by `@AssertTrue isReleaseYearInRange()`, since `@Min` and `@Max` do not take a `Year`.
 
 [cols="2,2,1,6",options="header"]
 |===
 | Declared as | Java type | Count | Columns
 
 | link:{refman}/year.html[`year`]
-| `Integer`
+| `Year`
 | 1
 | `film.release_year`
 

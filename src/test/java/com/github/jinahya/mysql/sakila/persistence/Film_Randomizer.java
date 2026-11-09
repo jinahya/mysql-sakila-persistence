@@ -26,6 +26,7 @@ import uk.co.jemos.podam.api.DataProviderStrategy;
 import uk.co.jemos.podam.api.PodamFactory;
 
 import java.math.BigDecimal;
+import java.time.Year;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -76,8 +77,8 @@ class Film_Randomizer
         final var instance = super.get();
         final var random = ThreadLocalRandom.current();
         instance.setReleaseYear(
-                random.nextInt(Film.ATTRIBUTE_MIN_RELEASE_YEAR,
-                               Film.ATTRIBUTE_MAX_RELEASE_YEAR + 1));
+                Year.of(random.nextInt(Film.ATTRIBUTE_MIN_RELEASE_YEAR,
+                                       Film.ATTRIBUTE_MAX_RELEASE_YEAR + 1)));
         instance.setRentalDuration(
                 random.nextInt(Film.ATTRIBUTE_MIN_RENTAL_DURATION,
                                Film.ATTRIBUTE_MAX_RENTAL_DURATION + 1));

@@ -165,7 +165,7 @@ table in the schema has a `last_update`, though, so its presence here may say no
 
 ## Building
 
-Two persistence providers, one profile each; `jakarta-ee-11-hibernate-orm` is active by default.
+Two persistence providers, one profile each; `jakartaee-11-hibernate-orm` is active by default.
 
 ```shell
 $ ./_mvn_jakarta_ee_11_test_hibernate_orm.sh              # unit tests, in-memory H2
@@ -233,7 +233,10 @@ Notes on the column types Jakarta Persistence has no type for:
   `String`, which `Film.SpecialFeature.parse` / `format` read and write.
 - `address.location` (`GEOMETRY`) is a `byte[]` in MySQL's internal format, `SRID` then `WKB`;
   `Address.newLocation(srid, x, y)` builds a point.
-- `release_year` (`YEAR`) is an `Integer`; the IT unit's URL carries `yearIsDateType=false` for it.
+- `release_year` (`YEAR`) is a `java.time.Year`, a basic type since Jakarta Persistence 3.2, with no converter. The
+  IT unit's URL carries `yearIsDateType=false`, so that Connector/J reports the column as a `SMALLINT` and hands back
+  a `Short`, rather than a `DATE` and a `java.sql.Date`; Jakarta Persistence requires a provider to map a `Year` to
+  `INTEGER` and `SMALLINT`, not to `DATE`.
 - every `last_update` is read-only, filled by the database; its `columnDefinition` exists only for the schema the
   unit tests generate.
 

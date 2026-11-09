@@ -5,101 +5,101 @@
  -->
 <!-- Title: erd Pages: 1 -->
 <!-- sakila.customer_list: the view and the tables it reads -->
-<svg width="219pt" height="408pt"
- viewBox="0.00 0.00 219.00 408.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 400.7)">
+<svg width="192pt" height="351pt"
+ viewBox="0.00 0.00 192.00 351.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 343.45)">
 <title>erd</title>
 <!-- customer_list -->
 <g id="node1" class="node">
 <title>customer_list</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="5,2" points="130.75,-147 130.75,-196 205,-196 205,-147 130.75,-147"/>
-<polygon fill="#1f4e79" stroke="none" stroke-dasharray="5,2" points="131.75,-171.5 131.75,-195 204,-195 204,-171.5 131.75,-171.5"/>
-<text xml:space="preserve" text-anchor="start" x="136.75" y="-182.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#ffffff">customer_list</text>
-<text xml:space="preserve" text-anchor="start" x="157" y="-156" font-family="Noto Sans KR" font-size="9.00" fill="#555555">VIEW</text>
+<polygon fill="none" stroke="#000000" stroke-dasharray="5,2" points="116,-127 116,-166.5 177.25,-166.5 177.25,-127 116,-127"/>
+<polygon fill="#1f4e79" stroke="none" stroke-dasharray="5,2" points="117,-146.75 117,-165.5 176.25,-165.5 176.25,-146.75 117,-146.75"/>
+<text xml:space="preserve" text-anchor="start" x="120" y="-155.9" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#ffffff">customer_list</text>
+<text xml:space="preserve" text-anchor="start" x="137.62" y="-134" font-family="Noto Sans KR" font-size="8.00" fill="#555555">VIEW</text>
 </g>
 <!-- customer -->
 <g id="node2" class="node">
 <title>customer</title>
-<polygon fill="#d9e2ec" stroke="none" points="0,-368 0,-393.5 87.75,-393.5 87.75,-368 0,-368"/>
-<polygon fill="none" stroke="#000000" points="0,-368 0,-393.5 87.75,-393.5 87.75,-368 0,-368"/>
-<text xml:space="preserve" text-anchor="start" x="22.5" y="-379.95" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">customer</text>
-<polygon fill="none" stroke="#000000" points="0,-342.5 0,-368 63.75,-368 63.75,-342.5 0,-342.5"/>
-<text xml:space="preserve" text-anchor="start" x="6" y="-354.45" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">customer_id</text>
-<polygon fill="none" stroke="#000000" points="63.75,-342.5 63.75,-368 87.75,-368 87.75,-342.5 63.75,-342.5"/>
-<text xml:space="preserve" text-anchor="start" x="69.75" y="-351.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
-<polygon fill="none" stroke="#000000" points="0,-317 0,-342.5 63.75,-342.5 63.75,-317 0,-317"/>
-<text xml:space="preserve" text-anchor="start" x="6" y="-326" font-family="Noto Sans KR" font-size="9.00">store_id</text>
-<polygon fill="none" stroke="#000000" points="63.75,-317 63.75,-342.5 87.75,-342.5 87.75,-317 63.75,-317"/>
-<text xml:space="preserve" text-anchor="start" x="69.75" y="-326" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
-<polygon fill="none" stroke="#000000" points="0,-291.5 0,-317 63.75,-317 63.75,-291.5 0,-291.5"/>
-<text xml:space="preserve" text-anchor="start" x="6" y="-300.5" font-family="Noto Sans KR" font-size="9.00">address_id</text>
-<polygon fill="none" stroke="#000000" points="63.75,-291.5 63.75,-317 87.75,-317 87.75,-291.5 63.75,-291.5"/>
-<text xml:space="preserve" text-anchor="start" x="69.75" y="-300.5" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="#d9e2ec" stroke="none" points="0,-315.5 0,-336.25 73,-336.25 73,-315.5 0,-315.5"/>
+<polygon fill="none" stroke="#000000" points="0,-315.5 0,-336.25 73,-336.25 73,-315.5 0,-315.5"/>
+<text xml:space="preserve" text-anchor="start" x="17.75" y="-325.65" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#000000">customer</text>
+<polygon fill="none" stroke="#000000" points="0,-294.75 0,-315.5 54.5,-315.5 54.5,-294.75 0,-294.75"/>
+<text xml:space="preserve" text-anchor="start" x="4" y="-304.9" font-family="Noto Sans KR" text-decoration="underline" font-size="8.00">customer_id</text>
+<polygon fill="none" stroke="#000000" points="54.5,-294.75 54.5,-315.5 73,-315.5 73,-294.75 54.5,-294.75"/>
+<text xml:space="preserve" text-anchor="start" x="58.5" y="-301.75" font-family="Noto Sans KR" font-size="8.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="0,-274 0,-294.75 54.5,-294.75 54.5,-274 0,-274"/>
+<text xml:space="preserve" text-anchor="start" x="4" y="-281" font-family="Noto Sans KR" font-size="8.00">store_id</text>
+<polygon fill="none" stroke="#000000" points="54.5,-274 54.5,-294.75 73,-294.75 73,-274 54.5,-274"/>
+<text xml:space="preserve" text-anchor="start" x="58.5" y="-281" font-family="Noto Sans KR" font-size="8.00" fill="#555555">FK</text>
+<polygon fill="none" stroke="#000000" points="0,-253.25 0,-274 54.5,-274 54.5,-253.25 0,-253.25"/>
+<text xml:space="preserve" text-anchor="start" x="4" y="-260.25" font-family="Noto Sans KR" font-size="8.00">address_id</text>
+<polygon fill="none" stroke="#000000" points="54.5,-253.25 54.5,-274 73,-274 73,-253.25 54.5,-253.25"/>
+<text xml:space="preserve" text-anchor="start" x="58.5" y="-260.25" font-family="Noto Sans KR" font-size="8.00" fill="#555555">FK</text>
 </g>
 <!-- customer&#45;&gt;customer_list -->
 <g id="edge1" class="edge">
 <title>customer&#45;&gt;customer_list</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M81.15,-291.66C101.56,-263.05 126.41,-228.22 144.09,-203.44"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="148.72,-196.95 147,-205.56 147.32,-199.08 144.15,-203.52 144.07,-203.47 143.99,-203.41 147.16,-198.96 141.14,-201.38 148.72,-196.95"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M67.62,-253.52C86.29,-227.97 109.73,-195.88 126.02,-173.58"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="130.6,-167.31 128.79,-175.9 129.18,-169.42 125.96,-173.83 125.88,-173.77 125.8,-173.72 129.02,-169.3 122.97,-171.65 130.6,-167.31"/>
 </g>
 <!-- address -->
 <g id="node3" class="node">
 <title>address</title>
-<polygon fill="#d9e2ec" stroke="none" points="3,-237.25 3,-262.75 84.75,-262.75 84.75,-237.25 3,-237.25"/>
-<polygon fill="none" stroke="#000000" points="3,-237.25 3,-262.75 84.75,-262.75 84.75,-237.25 3,-237.25"/>
-<text xml:space="preserve" text-anchor="start" x="26.25" y="-249.2" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">address</text>
-<polygon fill="none" stroke="#000000" points="3,-211.75 3,-237.25 60.75,-237.25 60.75,-211.75 3,-211.75"/>
-<text xml:space="preserve" text-anchor="start" x="9" y="-223.7" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">address_id</text>
-<polygon fill="none" stroke="#000000" points="60.75,-211.75 60.75,-237.25 84.75,-237.25 84.75,-211.75 60.75,-211.75"/>
-<text xml:space="preserve" text-anchor="start" x="66.75" y="-220.75" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
-<polygon fill="none" stroke="#000000" points="3,-186.25 3,-211.75 60.75,-211.75 60.75,-186.25 3,-186.25"/>
-<text xml:space="preserve" text-anchor="start" x="9" y="-195.25" font-family="Noto Sans KR" font-size="9.00">city_id</text>
-<polygon fill="none" stroke="#000000" points="60.75,-186.25 60.75,-211.75 84.75,-211.75 84.75,-186.25 60.75,-186.25"/>
-<text xml:space="preserve" text-anchor="start" x="66.75" y="-195.25" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="#d9e2ec" stroke="none" points="2.25,-203.12 2.25,-223.88 70.75,-223.88 70.75,-203.12 2.25,-203.12"/>
+<polygon fill="none" stroke="#000000" points="2.25,-203.12 2.25,-223.88 70.75,-223.88 70.75,-203.12 2.25,-203.12"/>
+<text xml:space="preserve" text-anchor="start" x="21.5" y="-213.28" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#000000">address</text>
+<polygon fill="none" stroke="#000000" points="2.25,-182.38 2.25,-203.12 52.25,-203.12 52.25,-182.38 2.25,-182.38"/>
+<text xml:space="preserve" text-anchor="start" x="6.25" y="-192.53" font-family="Noto Sans KR" text-decoration="underline" font-size="8.00">address_id</text>
+<polygon fill="none" stroke="#000000" points="52.25,-182.38 52.25,-203.12 70.75,-203.12 70.75,-182.38 52.25,-182.38"/>
+<text xml:space="preserve" text-anchor="start" x="56.25" y="-189.38" font-family="Noto Sans KR" font-size="8.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="2.25,-161.62 2.25,-182.38 52.25,-182.38 52.25,-161.62 2.25,-161.62"/>
+<text xml:space="preserve" text-anchor="start" x="6.25" y="-168.62" font-family="Noto Sans KR" font-size="8.00">city_id</text>
+<polygon fill="none" stroke="#000000" points="52.25,-161.62 52.25,-182.38 70.75,-182.38 70.75,-161.62 52.25,-161.62"/>
+<text xml:space="preserve" text-anchor="start" x="56.25" y="-168.62" font-family="Noto Sans KR" font-size="8.00" fill="#555555">FK</text>
 </g>
 <!-- address&#45;&gt;customer_list -->
 <g id="edge2" class="edge">
 <title>address&#45;&gt;customer_list</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M84.48,-207.29C96.58,-202.04 109.97,-196.22 122.37,-190.84"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="129.42,-187.77 123.52,-194.26 127.14,-188.87 122.13,-191.05 122.09,-190.96 122.05,-190.87 127.06,-188.69 120.65,-187.66 129.42,-187.77"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M70.53,-178.7C82.22,-173.72 95.47,-168.09 107.55,-162.95"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="114.76,-159.88 108.8,-166.33 112.46,-160.97 107.43,-163.11 107.39,-163.01 107.36,-162.92 112.38,-160.78 105.99,-159.7 114.76,-159.88"/>
 </g>
 <!-- city -->
 <g id="node4" class="node">
 <title>city</title>
-<polygon fill="#d9e2ec" stroke="none" points="3.38,-131.25 3.38,-156.75 84.38,-156.75 84.38,-131.25 3.38,-131.25"/>
-<polygon fill="none" stroke="#000000" points="3.38,-131.25 3.38,-156.75 84.38,-156.75 84.38,-131.25 3.38,-131.25"/>
-<text xml:space="preserve" text-anchor="start" x="35.62" y="-143.2" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">city</text>
-<polygon fill="none" stroke="#000000" points="3.38,-105.75 3.38,-131.25 60.38,-131.25 60.38,-105.75 3.38,-105.75"/>
-<text xml:space="preserve" text-anchor="start" x="9.38" y="-117.7" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">city_id</text>
-<polygon fill="none" stroke="#000000" points="60.38,-105.75 60.38,-131.25 84.38,-131.25 84.38,-105.75 60.38,-105.75"/>
-<text xml:space="preserve" text-anchor="start" x="66.38" y="-114.75" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
-<polygon fill="none" stroke="#000000" points="3.38,-80.25 3.38,-105.75 60.38,-105.75 60.38,-80.25 3.38,-80.25"/>
-<text xml:space="preserve" text-anchor="start" x="9.38" y="-89.25" font-family="Noto Sans KR" font-size="9.00">country_id</text>
-<polygon fill="none" stroke="#000000" points="60.38,-80.25 60.38,-105.75 84.38,-105.75 84.38,-80.25 60.38,-80.25"/>
-<text xml:space="preserve" text-anchor="start" x="66.38" y="-89.25" font-family="Noto Sans KR" font-size="9.00" fill="#555555">FK</text>
+<polygon fill="#d9e2ec" stroke="none" points="3,-112.12 3,-132.88 70,-132.88 70,-112.12 3,-112.12"/>
+<polygon fill="none" stroke="#000000" points="3,-112.12 3,-132.88 70,-132.88 70,-112.12 3,-112.12"/>
+<text xml:space="preserve" text-anchor="start" x="29.38" y="-122.28" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#000000">city</text>
+<polygon fill="none" stroke="#000000" points="3,-91.38 3,-112.12 51.5,-112.12 51.5,-91.38 3,-91.38"/>
+<text xml:space="preserve" text-anchor="start" x="7" y="-101.53" font-family="Noto Sans KR" text-decoration="underline" font-size="8.00">city_id</text>
+<polygon fill="none" stroke="#000000" points="51.5,-91.38 51.5,-112.12 70,-112.12 70,-91.38 51.5,-91.38"/>
+<text xml:space="preserve" text-anchor="start" x="55.5" y="-98.38" font-family="Noto Sans KR" font-size="8.00" fill="#555555">PK</text>
+<polygon fill="none" stroke="#000000" points="3,-70.62 3,-91.38 51.5,-91.38 51.5,-70.62 3,-70.62"/>
+<text xml:space="preserve" text-anchor="start" x="7" y="-77.62" font-family="Noto Sans KR" font-size="8.00">country_id</text>
+<polygon fill="none" stroke="#000000" points="51.5,-70.62 51.5,-91.38 70,-91.38 70,-70.62 51.5,-70.62"/>
+<text xml:space="preserve" text-anchor="start" x="55.5" y="-77.62" font-family="Noto Sans KR" font-size="8.00" fill="#555555">FK</text>
 </g>
 <!-- city&#45;&gt;customer_list -->
 <g id="edge3" class="edge">
 <title>city&#45;&gt;customer_list</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M84.15,-135.56C96.37,-140.87 109.94,-146.76 122.49,-152.22"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="129.64,-155.32 120.87,-155.44 127.27,-154.41 122.26,-152.23 122.3,-152.14 122.34,-152.05 127.35,-154.22 123.74,-148.84 129.64,-155.32"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M69.94,-115.25C81.75,-120.17 95.22,-125.77 107.48,-130.87"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="114.81,-133.92 106.04,-134.17 112.42,-133.04 107.38,-130.94 107.42,-130.85 107.46,-130.76 112.5,-132.86 108.8,-127.53 114.81,-133.92"/>
 </g>
 <!-- country -->
 <g id="node5" class="node">
 <title>country</title>
-<polygon fill="#d9e2ec" stroke="none" points="3.38,-25.5 3.38,-51 84.38,-51 84.38,-25.5 3.38,-25.5"/>
-<polygon fill="none" stroke="#000000" points="3.38,-25.5 3.38,-51 84.38,-51 84.38,-25.5 3.38,-25.5"/>
-<text xml:space="preserve" text-anchor="start" x="26.25" y="-37.45" font-family="Noto Sans KR" font-weight="bold" font-size="9.00" fill="#000000">country</text>
-<polygon fill="none" stroke="#000000" points="3.38,0 3.38,-25.5 60.38,-25.5 60.38,0 3.38,0"/>
-<text xml:space="preserve" text-anchor="start" x="9.38" y="-11.95" font-family="Noto Sans KR" text-decoration="underline" font-size="9.00">country_id</text>
-<polygon fill="none" stroke="#000000" points="60.38,0 60.38,-25.5 84.38,-25.5 84.38,0 60.38,0"/>
-<text xml:space="preserve" text-anchor="start" x="66.38" y="-9" font-family="Noto Sans KR" font-size="9.00" fill="#555555">PK</text>
+<polygon fill="#d9e2ec" stroke="none" points="3,-20.75 3,-41.5 70,-41.5 70,-20.75 3,-20.75"/>
+<polygon fill="none" stroke="#000000" points="3,-20.75 3,-41.5 70,-41.5 70,-20.75 3,-20.75"/>
+<text xml:space="preserve" text-anchor="start" x="21.12" y="-30.9" font-family="Noto Sans KR" font-weight="bold" font-size="8.00" fill="#000000">country</text>
+<polygon fill="none" stroke="#000000" points="3,0 3,-20.75 51.5,-20.75 51.5,0 3,0"/>
+<text xml:space="preserve" text-anchor="start" x="7" y="-10.15" font-family="Noto Sans KR" text-decoration="underline" font-size="8.00">country_id</text>
+<polygon fill="none" stroke="#000000" points="51.5,0 51.5,-20.75 70,-20.75 70,0 51.5,0"/>
+<text xml:space="preserve" text-anchor="start" x="55.5" y="-7" font-family="Noto Sans KR" font-size="8.00" fill="#555555">PK</text>
 </g>
 <!-- country&#45;&gt;customer_list -->
 <g id="edge4" class="edge">
 <title>country&#45;&gt;customer_list</title>
-<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M73.26,-50.63C78.24,-55.41 83.27,-60.5 87.75,-65.5 108.91,-89.11 130.25,-118.08 145.44,-139.76"/>
-<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="149.9,-146.2 142.38,-141.68 148.37,-144.17 145.26,-139.68 145.34,-139.63 145.42,-139.57 148.54,-144.06 148.3,-137.57 149.9,-146.2"/>
+<path fill="none" stroke="#8a8a8a" stroke-width="1.2" stroke-dasharray="5,2" d="M59.32,-41.45C63.94,-46.06 68.71,-50.99 73,-55.75 91.58,-76.39 111.13,-101.08 125.26,-119.53"/>
+<polygon fill="#8a8a8a" stroke="#8a8a8a" stroke-width="1.2" points="130.08,-125.87 122.37,-121.68 128.47,-123.91 125.16,-119.56 125.24,-119.5 125.32,-119.44 128.63,-123.79 128.1,-117.32 130.08,-125.87"/>
 </g>
 </g>
 </svg>
