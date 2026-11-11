@@ -168,12 +168,12 @@ table in the schema has a `last_update`, though, so its presence here may say no
 Two persistence providers, one profile each; `jakartaee-11-hibernate-orm` is active by default.
 
 ```shell
-$ ./_mvn_jakarta_ee_11_test_hibernate_orm.sh              # unit tests, in-memory H2
-$ ./_mvn_jakarta_ee_11_test_eclipselink.sh
-$ ./_mvn_jakarta_ee_11_verify_hibernate_orm.sh            # + integration tests, against the database above
-$ ./_mvn_jakarta_ee_11_verify_eclipselink.sh
-$ ./_mvn_jakarta_ee_11_verify_notests_hibernate_orm.sh    # no database needed
-$ ./_mvn_jakarta_ee_11_verify_notests_eclipselink.sh
+$ ./_mvn_jakartaee_11_test_hibernate_orm.sh              # unit tests, in-memory H2
+$ ./_mvn_jakartaee_11_test_eclipselink.sh
+$ ./_mvn_jakartaee_11_verify_hibernate_orm.sh            # + integration tests, against the database above
+$ ./_mvn_jakartaee_11_verify_eclipselink.sh
+$ ./_mvn_jakartaee_11_verify_notests_hibernate_orm.sh    # no database needed
+$ ./_mvn_jakartaee_11_verify_notests_eclipselink.sh
 ```
 
 ## The providers
