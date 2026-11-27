@@ -31,6 +31,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static com.github.jinahya.mysql.sakila.persistence.___PersistenceIT_Utils.applyEntityManager_;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -69,7 +72,7 @@ class Staff_PersistenceIT
      *
      * @param entityInstance {@inheritDoc}
      * @implNote Both names and the username are there, and the store, a lazy association,
-     *         resolves.
+     *         resolves. The picture, when there is one, is saved to {@code target}.
      */
     @Override
     protected void randomEntityInstanceSelected__(final EntityManagerFactory entityManagerFactory,
@@ -86,6 +89,39 @@ class Staff_PersistenceIT
                 .isNotBlank();
         assertThat(entityInstance.getStore().getLastUpdate())
                 .as("last update of the store of %s", entityInstance)
+                .isNotNull();
+        try {
+            picture(entityInstance);
+        } catch (final IOException ioe) {
+            throw new UncheckedIOException("failed to save the picture of " + entityInstance, ioe);
+        }
+    }
+
+    // saves the picture to target, as <table>_<staff_id>_<column>.<format>, the format by the
+    // picture's own content
+    private void picture(final Staff entityInstance) throws IOException {
+        final var picture = entityInstance.getPicture();
+        if (picture == null) {
+            log.debug("no picture: {}", entityInstance);
+            return;
+        }
+        final String formatName;
+        try (var input = ImageIO.createImageInputStream(new ByteArrayInputStream(picture))) {
+            final var readers = ImageIO.getImageReaders(input);
+            assertThat(readers.hasNext())
+                    .as("an image reader for the picture of %s", entityInstance)
+                    .isTrue();
+            formatName = readers.next().getFormatName().toLowerCase();
+        }
+        final var path = Path.of(
+                "target",
+                Staff.TABLE_NAME + "_" + entityInstance.getStaffId() + "_" +
+                Staff.COLUMN_NAME_PICTURE + "." + formatName
+        );
+        Files.write(path, picture);
+        log.debug("picture saved to {}", path.toAbsolutePath());
+        assertThat(ImageIO.read(path.toFile()))
+                .as("the picture saved to %s", path)
                 .isNotNull();
     }
 
